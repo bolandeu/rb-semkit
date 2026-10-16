@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-003
 title: Duplicates of 4 kinds
-status: in_review
+status: publish
 attempts: 0
 blocked: false
 blocked_reason: null
