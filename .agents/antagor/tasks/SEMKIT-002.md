@@ -79,6 +79,8 @@ Public library seam: import rb_semkit as sk, small Series in, exact Series out, 
 
 ## Basis
 
+Port the add-in's algorithms; do not invent them (ADR 0005). For each matcher and verb find its ribbon button in /Users/bolandau/Work/_sandbox/semtools/reverse/ribbon_full.txt (the `-> handler` name), read that handler in /Users/bolandau/Work/_sandbox/semtools/reverse/vba/RibbonCallbacks.vba (obfuscated names; forms in the same folder), and reproduce its behaviour: what counts as a word, a latin/cyrillic char, a position, how 'around' picks the occurrence, how the toponym list is matched and the preposition taken, how cells are filtered. Deviate from the VBA only where ADR 0005 says so (ё = е, stopwords case-insensitive, split on any whitespace, no double spaces in results, markers spelled as the list and joined by ', '). Where a verb has no VBA handler (e.g. find for word_position), derive it from the remove/extract handler of the same matcher. When the VBA and an acceptance line disagree, ask in the inbox (question) instead of choosing. Name the VBA handler in each matcher's docstring.
+
 Reuse the core task's frame, Matcher protocol, verbs, tokenizer, norm_phrase and lazy data loader; do not duplicate them. Plan §1.1, §1.2, §2 (D15 cleaning rules, preposition lists); pyahocorasick for phrases and markers; ADR 0004.
 
 ## Read first
