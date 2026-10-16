@@ -109,17 +109,17 @@ The script is re-runnable; the built files are committed (private repo). Sources
 |---|---|---|---|---|---|---|
 | D1 | wordform → lemma, POS | `reverse/data/lemms.tsv` | 845 374 | `lemmas.marisa` (`marisa_trie.BytesTrie`, value = `lemma\tpos`) | mmap | lemmatize, POS, dupes by wordforms, n-gram lemmas |
 | D2 | lemma → wordforms | same, reversed | 170 430 lemmas | `forms.marisa` (`BytesTrie`, multi-value) | mmap | all wordforms, remove/find by wordforms |
-| D3 | lemma fallback suffixes | `abc` E50:G305 `lemmSuf` | 256 | `morph.json` → dict | at import of `morph` | lemmatizer for unknown words |
-| D4 | noun endings, 12 forms | `abc` Q1:AB3331 `nounSuffixes` | 3 331 | `decline.json` | lazy | noun declension |
-| D5 | noun exclusions | `abc` Q3380:AB11089 `nounExclusions` | 7 710 | `decline.json` | lazy | noun declension |
-| D6 | adj endings, 16 forms | `abc` AD2:AS90 `adjSuffixes` | 89 | `decline.json` | lazy | adj declension, POS of unknown words |
-| D7 | adj exclusions | `abc` AD93:AS136 `adjExclusions` | 44 | `decline.json` | lazy | adj declension |
-| D8 | feminine surname suffixes | `abc` AD140:AI163 `femSurSuf` | 24 | `decline.json` | lazy | full-name declension |
-| D9 | indeclinable words | `abc` B1:B1205 `nonDecl` | 1 205 | `decline.json` | lazy | declension |
+| D3 | lemma fallback suffixes | `abc` E50:G305 `lemmSuf` | 256 | `morph.json` → dict | lazy, on first lookup | lemmatizer for unknown words |
+| D4 | noun endings, 12 forms | `abc` Q1:AB3331 `nounSuffixes` | 3 331 | not built in v1 (v2 builds its own data) | — | noun declension |
+| D5 | noun exclusions | `abc` Q3380:AB11089 `nounExclusions` | 7 710 | not built in v1 | — | noun declension |
+| D6 | adj endings, 16 forms | `abc` AD2:AS90 `adjSuffixes` | 89 | not built in v1 | — | adj declension, POS of unknown words |
+| D7 | adj exclusions | `abc` AD93:AS136 `adjExclusions` | 44 | not built in v1 | — | adj declension |
+| D8 | feminine surname suffixes | `abc` AD140:AI163 `femSurSuf` | 24 | not built in v1 | — | full-name declension |
+| D9 | indeclinable words | `abc` B1:B1205 `nonDecl` | 1 205 | not built in v1 | — | declension |
 | D10 | nouns that look like adj | `abc` J1:J417 `nounsLikeAdj` | 417 | `morph.json` | lazy | POS rule |
 | D11 | abbreviations | `abc` M1:M1016 `abbrs` | 1 016 | `lists.json` | lazy | case: BMW, RGB |
 | D12 | ЧПУ symbols | `abc` E10000:F10965 `chpuSym` | 966 | `translit.json` | lazy | ЧПУ translit |
-| D13 | stopwords | VBA `Function stopwords` (string literal) | ~700 | `lists.json` | lazy | stopwords, n-grams, bigrams |
+| D13 | stopwords | VBA `Function stopwords` (string literal) | 439 after dedupe (the VBA literal repeats words) | `lists.json` | lazy | stopwords, n-grams, bigrams |
 | D14 | words moved to phrase start (`где`, `купить`, `недорогой`, `готовый`…) | `abc` BA1:BA644 `charsPat` | 644 | `lists.json` | lazy | word order fix (`moveToBeg`) |
 | D15 | 18 marker lists | `reverse/downloads/spiski/*.xlsx` (1 column, `cars` — 6) | 59 k total, geo 36 k | `markers/<name>.txt.gz` (one phrase per line) | lazy; Aho-Corasick built on first use, cached per list | markers |
 | D16 | phonetic translit tables en→ru: whole words, suffixes (5–2 letters), prefixes (5–2), any n-grams (5–1) | VBA `InitDicts` (string literals, 14 pairs of lists) | 701 pairs (words 65) | `translit.json` | lazy | Dreamline → Дримлайн (later) |
@@ -153,7 +153,7 @@ Cleaning rules the build script applies (found in the sources):
   (B..F is a brand table: ru, en); strip, dedupe, keep case for display, match case-insensitive.
 - `abc` ranges: read by the cell addresses above from `sheet_abc.tsv`; empty cells dropped.
 
-Size estimate: D1+D2 ≈ 10 MB, the rest < 1 MB.
+Size estimate: D1+D2 ≈ 10 MB, the rest < 1 MB. JSON files are written compact, one line each; D4–D9 (declension) are built in v2.
 
 Checks after build (`tests/test_data.py`): row counts per file, 20 known lookups
 («москве → москва n», «купила → купить v»), every marker list loads and matches its own first item.
