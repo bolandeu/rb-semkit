@@ -73,6 +73,6 @@ class Phrases(WordMatcher):
 def phrases(items: Iterable[str]) -> Phrases:
     """Phrases of a list, found as whole words («угловой диван» is not in «угловойдиван»), in any case, ё as е.
 
-    Several at one place: the leftmost, then the longest. extract gives the found words as the phrase spells them.
+    Several at one place: the leftmost, then the longest (ADR 0005: VBA takes the first in list order). extract gives the found words as the phrase spells them.
     """
     return Phrases(items)

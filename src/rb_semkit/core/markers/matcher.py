@@ -60,6 +60,8 @@ def markers(
     lists: names of the bundled lists (geo, mosmetro, districts, MO, citiesRu, questions, fun, DIY, edu, game, sale,
     rent, reviews, color, material, origin, cars, names). user: your own lists, `{"name": ["phrase", …]}`.
     extract gives the markers as the list spells them («Москве»), in phrase order, joined by `sep`.
+    A word that starts several items takes the longest one (ADR 0005: VBA takes the first in list order); a tie keeps
+    the list order, and the taken words start no other item.
     with_prepositions: a toponym preposition («в», «на», «in»…) before a marker goes with it, in remove and extract.
     """
     wanted = [lists] if isinstance(lists, str) else list(lists)
