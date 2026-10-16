@@ -109,7 +109,7 @@ The script is re-runnable; the built files are committed (private repo). Sources
 |---|---|---|---|---|---|---|
 | D1 | wordform → lemma, POS | `reverse/data/lemms.tsv` | 845 374 rows → 844 971 wordforms | `lemmas.marisa` (`marisa_trie.BytesTrie`, value = `lemma\tpos`) | mmap | lemmatize, POS, dupes by wordforms, n-gram lemmas |
 | D2 | lemma → wordforms | same, reversed | 169 933 lemmas (lower case) | `forms.marisa` (`BytesTrie`, multi-value) | mmap | all wordforms, remove/find by wordforms |
-| D3 | lemma fallback suffixes | `abc` E50:G305 `lemmSuf` | 256 | `morph.json` → dict | lazy | lemmatizer for unknown words |
+| D3 | lemma fallback suffixes | `abc` E50:G305 `lemmSuf` | 256 | `morph.json` → dict | lazy, on first lookup | lemmatizer for unknown words |
 | D4 | noun endings, 12 forms | `abc` Q1:AB3331 `nounSuffixes` | 3 331 | not built in v1 (v2 builds its own data) | — | noun declension |
 | D5 | noun exclusions | `abc` Q3380:AB11089 `nounExclusions` | 7 710 | not built in v1 (v2 builds its own data) | — | noun declension |
 | D6 | adj endings, 16 forms | `abc` AD2:AS90 `adjSuffixes` | 89 | first column (endings) → `morph.json` `adjective_endings`; the 16 forms not built in v1 (v2 builds its own data) | lazy | POS of unknown words; adj declension (v2) |
@@ -156,7 +156,7 @@ Cleaning rules the build script applies (found in the sources):
 - `abc` ranges: read by the cell addresses above from `sheet_abc.tsv`; empty cells dropped.
 - JSON is written compact, on one line, keys sorted: the build is byte-reproducible and adds few diff lines.
 
-Size estimate: D1+D2 ≈ 10 MB, the rest < 1 MB.
+Size estimate: D1+D2 ≈ 10 MB, the rest < 1 MB. JSON files are written compact, one line each; D4–D9 (declension) are built in v2.
 
 Checks after build (`tests/core/test_build_data.py`): row counts per file, 20 known lookups
 («москве → москва n», «купила → купить v»); the marker build checks that every marker list loads and matches its
