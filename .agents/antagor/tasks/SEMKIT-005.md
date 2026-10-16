@@ -103,3 +103,14 @@ Option 1 (VBA, per ADR 0005): a substring as typed; Remove with the first occurr
 > Recommended: Unicode (the Python default), a deviation from the VBA for Cyrillic text; keep the test
 
 Option 2 (the Human, 2026-10-17): Unicode character classes, a deviation recorded in ADR 0005 (commit on main); name it in the docstring; keep the test.
+
+### Answer to question #3
+
+> The VBA has one NOT-match button, remove `aok·` (docs/vba/matchers.md R1, its bug fixed): it keeps only the matches, joined with no separator ('диван 120x200' with \d+ gives '120200'); the existing test test_regex_not_match_removes_whole_phrases_that_do_not_match expects remove with regex(r'\d', invert=True) on ['a1', 'abc'] to give ['a1', ''], and find and extract with invert have no VBA handler.
+> Question: What does regex(invert=True) do?
+> Options:
+> 1. VBA: the found part is all text the pattern does not match: remove keeps only the matches joined with no separator ('a1' gives '1'), extract gives the text outside the matches, find is True where such text exists; update the test
+> 2. Keep: a phrase is found as a whole when the pattern does not match it (find True, extract the phrase, remove '')
+> Recommended: VBA: the found part is all text the pattern does not match: remove keeps only the matches joined with no separator ('a1' gives '1'), extract gives the text outside the matches, find is True where such text exists; update the test
+
+Option 1 (VBA, per ADR 0005): the found part is the text the pattern does not match; remove keeps only the matches joined with no separator; extract gives the text outside the matches; find is True where such text exists. Update the test.
