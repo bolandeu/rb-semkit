@@ -161,11 +161,35 @@ Checks after build (`tests/test_data.py`): row counts per file, 20 known lookups
 ## 3. Interface with dataio
 
 semkit takes and returns `pandas.Series` / `DataFrame`; it never reads files. The CLI (later) calls dataio for
-input and output. Contract to agree with the dataio agent (`dataio-84`):
-1. Python API names: `rb_dataio.read(source, **opts) -> DataFrame`, `rb_dataio.write(df, target, **opts)`.
-2. Dependency form: semkit depends on `rb-dataio` as an optional extra `[io]` (library use needs no dataio).
-3. Column selection and dtypes: phrases always `str`, NaN → empty string on read? (who does it).
-4. CLI pipes: `dataio read x.xlsx | semkit dupes - | dataio write out.csv` — common stream format (jsonl? parquet?).
+input and output. Agreed with the dataio agent on 2026-10-16 (checked against dataio v0.1.21):
+1. **API.** `rb_dataio.read(source, *, format, sheet, table, encoding, sep, header, credentials, as_text,
+   dtypes, limit, query, source_column="_source", strict) -> DataFrame`;
+   `rb_dataio.write(frame, target, *, format, sheet, …, mode="replace", overwrite, backup, dry_run, …)`.
+   Errors: `rb_dataio.DataioError` (has `.action`) — the semkit CLI maps it to a `CliError`.
+2. **Dependency.** Optional extra `[io]`, library use needs no dataio. Pin:
+   `rb-dataio = { git = "https://github.com/bolandeu/rb-dataio.git", tag = "v0.1.21" }`.
+3. **Types.** `read` infers types by default ("5" → Int64, dates → datetime). semkit CLI reads with
+   `as_text=True` (or `dtypes={"<col>": "str"}`). Empty cells stay NaN: **semkit does `fillna("")`** itself,
+   in the library too (any Series it gets). No `columns=`; select with `query="SELECT phrase FROM data"`.
+4. **Pipes.** The dataio CLI is `dataio convert SRC DST` (no `read`/`write` commands). Stdin auto-detects
+   JSON, JSONL, CSV or txt; stdout is CSV, or JSONL with `--out-format jsonl`. semkit stream format: **JSONL**
+   on stdin/stdout. Parquet is not supported on pipes: for 1M+ rows pass a `.parquet` file path. Parquet on
+   pipes would be a new dataio idea, not requested yet.
+   Example: `dataio convert x.xlsx - --out-format jsonl | semkit dupes - | dataio convert - out.csv`.
+
+## 3a. Spelling server (optional extra, from sysadmin 2026-10-16)
+
+Typos: Levenshtein in the library; spelling check through LanguageTool on homeserver as an optional provider.
+- LanguageTool 6.8, `https://homeserver.tailee01ab.ts.net:8010`, tailnet only, no auth. Owner: sysadmin.
+  Docs: `~/Work/sysadmin/docs/services.md` «LanguageTool».
+- `POST /v2/check`, form: `language=ru-RU`, `text=<one phrase per line>`,
+  `enabledRules=MORFOLOGIK_RULE_RU_RU&enabledOnly=true`. Response `matches[]` (offset, length,
+  `replacements[].value`, `rule.id`); semkit maps offsets back to lines.
+- Started on demand: cold start ~15 s → client timeout ≥ 60 s.
+- Limits: batches of ~1000 lines, at most 2 parallel requests, retry with backoff on 5xx/timeouts
+  (`HttpProvider` does it). 1000 phrases ≈ 5 s → 1M ≈ 80+ min.
+- Do not rely on a version bump (sitegen pins it). More throughput → a ticket to sysadmin with volume and frequency.
+- Open: for 1M phrases a local dictionary check (hunspell-style) may be much faster; decide in the API design.
 
 ## 4. Work order
 
