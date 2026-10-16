@@ -58,16 +58,16 @@ The thin end-to-end path of the library. After this task `import rb_semkit as sk
 Parts:
 1. Data build script (re-runnable, sources read from the sandbox paths in docs/brief.md «Materials»): lemma tries (wordform → lemma+POS, lemma → wordforms, ё→е key added, junk rows dropped, POS nv/prt kept), lemmSuf fallback, nounsLikeAdj, declension tables (built, not used yet), lists (stopwords, three preposition lists with the junk «g», «пo» fixed, abbreviations, charsPat). Marker lists are NOT built here.
 2. Lazy, thread-safe data loading: mmap tries, loaded once.
-3. Lemmatizer protocol (lemma, pos, forms) and SemtoolsLemmatizer: dictionary, then lemmSuf fallback for unknown words, a unique-word cache; POS rules from the add-in (verb endings -тся, -ться, -ают, -уют; adjective by adjSuffixes unless in nounsLikeAdj).
+3. Lemmatizer protocol (lemma, pos, forms) and SemtoolsLemmatizer: the !SEMTools dictionary first; a word not in it goes to pymorphy3 (a regular dependency, not an extra); a word pymorphy3 does not know either gets the lemmSuf suffix fallback; lemmas are returned in lower case; a unique-word cache; POS rules from the add-in (verb endings -тся, -ться, -ают, -уют; adjective by adjSuffixes unless in nounsLikeAdj).
 4. Frame: input Series or DataFrame + column=; NaN → empty string at entry; output Series with the input index, or the DataFrame with a new column <column>_<operation> to the right, inplace replaces; wrong input raises InvalidArguments naming the argument and allowed values.
-5. Tokenizer (whitespace; ignore_punct flag) and comparison via the template's norm_phrase; output text keeps its original form.
+5. Tokenizer (split on any run of whitespace, so double spaces never produce empty words; results never contain double spaces; ignore_punct flag) and comparison via the template's norm_phrase; output text keeps its original form.
 6. Matcher protocol and the three verbs (ADR 0004); the words matcher (one word or a list; all / any; anywhere / start / end); a thin pipe(df, column) chaining verbs.
 7. README: a short library usage section.
 
 ## Acceptance
 
 - Given the built data, When sk.lemmatize(pd.Series(['москве', 'купила'])) runs, Then it returns ['москва', 'купить'] with the same index; sk.part_of_speech gives ['n', 'v']; 'москве' is in sk.wordforms('москва') [check: tests/core/test_morph.py]
-- Given a word not in the dictionary (e.g. 'зюзюкалками'), When it is lemmatized, Then the lemmSuf fallback gives a lemma and no error is raised [check: tests/core/test_morph.py]
+- Given a word not in the !SEMTools dictionary but known to pymorphy3, When it is lemmatized, Then pymorphy3's normal form is returned; a nonsense word unknown to both (e.g. 'зюзюкалками') gets the lemmSuf fallback; no error is raised; 'Москве' gives 'москва' (lower case) [check: tests/core/test_morph.py]
 - Given a fake Lemmatizer with two entries, When a lemma-dependent function gets lemmatizer=fake, Then it uses only the fake; with lemmatizer=None a lemma-optional function works on words as they are [check: tests/core/test_morph.py]
 - Given pd.Series(['купить диван', 'Диван бу', None]), When sk.find(s, sk.words(['диван'])) / sk.remove(...) / sk.extract(...) run, Then find gives [True, True, False], remove gives ['купить', 'бу', ''], extract gives ['диван', 'Диван', '']; matching is case- and ё-insensitive, output keeps the original case [check: tests/core/test_frame.py]
 - Given a DataFrame with column 'phrase', When sk.remove(df, sk.words(['бу']), column='phrase') runs, Then df gets a new column 'phrase_remove' right after 'phrase' and 'phrase' is unchanged; with inplace=True 'phrase' is replaced [check: tests/core/test_frame.py]
@@ -95,4 +95,4 @@ docs/plan.md §1, §2 (data catalog D1–D14, cleaning rules), §3; ADR 0002, 00
 ## Out of scope
 
 - Other matchers, marker lists and their build, dupes, n-grams, the benchmark (the three blocks).
-- Declension functions and pymorphy3 (v2); CLI commands and dataio (next epic).
+- Declension functions (v2; pymorphy3 here is only the lemma fallback); CLI commands and dataio (next epic).
