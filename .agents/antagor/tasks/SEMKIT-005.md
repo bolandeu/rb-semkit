@@ -114,3 +114,14 @@ Option 2 (the Human, 2026-10-17): Unicode character classes, a deviation recorde
 > Recommended: VBA: the found part is all text the pattern does not match: remove keeps only the matches joined with no separator ('a1' gives '1'), extract gives the text outside the matches, find is True where such text exists; update the test
 
 Option 1 (VBA, per ADR 0005): the found part is the text the pattern does not match; remove keeps only the matches joined with no separator; extract gives the text outside the matches; find is True where such text exists. Update the test.
+
+### Answer to question #4
+
+> The VBA buttons 'До середины' (`–·—k`) and 'Не более чем...' (`–·—o`) both call `o·—` (line 1403): they take the words from the start while the total length stays within a number of CHARACTERS (half the phrase length, or N), and always the first word; the code counts words, and tests/matchers/test_extract.py and test_remove.py expect to_middle on 'a b c d e' to give 'a b c' (VBA: 'a b') and extract with at_most=2 to give 'c d e' (VBA: 'a').
+> Question: Do word_position(to_middle) and word_position(at_most) count characters as the VBA does?
+> Options:
+> 1. VBA: extract gives the leading words within half the phrase length (to_middle) or within N characters (at_most), always the first word; remove gives the other words; find is True where remove leaves a change; update the tests
+> 2. Keep word counts: to_middle is the first half of the words, at_most is the words after the N-th
+> Recommended: VBA: extract gives the leading words within half the phrase length (to_middle) or within N characters (at_most), always the first word; remove gives the other words; find is True where remove leaves a change; update the tests
+
+Option 1 (VBA, per ADR 0005): count characters as o·— does (half the phrase length / N chars, always the first word); remove gives the other words; find True where remove changes the phrase. Update the tests.
