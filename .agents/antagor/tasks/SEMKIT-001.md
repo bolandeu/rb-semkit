@@ -28,7 +28,6 @@ owns_paths:
 - src/rb_semkit/core/text/matchers/__init__.py
 - src/rb_semkit/core/text/matchers/words.py
 - uv.lock
-- docs/plan.md
 test_paths:
 - tests/core/
 docs:
