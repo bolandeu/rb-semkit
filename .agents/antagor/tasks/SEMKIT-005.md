@@ -79,3 +79,16 @@ Reference of the VBA algorithms, traced from the handlers (the source of truth f
 
 - dupes, n-grams, bigrams, counts, lemmatizer (already ported).
 - New matchers beyond v1; the CLI.
+
+## Feedback
+
+### Answer to question #1
+
+> around() finds the pattern as whole words in any case; the VBA buttons (docs/vba/matchers.md R1 and X1, `––·a` … `–—–k`) find it as a plain substring as typed, case-insensitive only in the first-occurrence Remove buttons; SEMKIT-002 acceptance 2 (remove around('в', after=True, include=True) on '  купить  диван  в  москве ' gives 'купить диван') and tests/matchers/test_extract.py hold only with whole words: as a substring the first 'в' is inside 'диван', and the result is 'купить ди'.
+> Question: How does around() find its pattern?
+> Options:
+> 1. VBA: a substring as typed; Remove with the first occurrence ignores case, Remove with the last occurrence and every Extract match case (ё = е); update the SEMKIT-002 acceptance and the tests
+> 2. Keep whole words in any case (ё = е), named in the docstring as a deviation from the VBA
+> Recommended: VBA: a substring as typed; Remove with the first occurrence ignores case, Remove with the last occurrence and every Extract match case (ё = е); update the SEMKIT-002 acceptance and the tests
+
+Option 1 (VBA, per ADR 0005): a substring as typed; Remove with the first occurrence ignores case, Remove with the last occurrence and every Extract match case (ё = е). Update the SEMKIT-002 acceptance line and the tests to the VBA results.
