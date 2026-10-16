@@ -1,0 +1,19 @@
+# counts. VBA, RibbonCallbacks.vba (docs/vba/analysis.md §4): words –·oa (L2229) with akk (L2414) = UBound(Split(s, " ")) + 1; chars –a·k (L1933) = Len;
+# count ––k— (L1875): the rows with the same UCase(value) in column 1; number –kko (L2166): the running count of that key; share –koo (L2489, «Накопительным итогом»):
+# the running sum in row order / the total; abc ABCA (L3497): sort descending, cumulative share ≤ 0.8 A, ≤ 0.95 B, else C. «Долю от суммы» –kok (L1607) has no kind in semkit.
+case_id	function	call	input	vba	expected	rule	why
+counts-words	counts	{"what": "words"}	купить диван в москве	4	4		
+counts-words-spaces	counts	{"what": "words"}	 купить  диван 	5	2	фраза делится по любым пробелам, двойных пробелов в результатах нет	akk counts the items of a split by one space: each extra space adds a word
+counts-words-punctuation	counts	{"what": "words"}	диван , кресло	3	3		
+counts-words-column	counts	{"what": "words"}	купить диван | стол | 	2 | 1 | 0	2 | 1 | 0		
+counts-chars	counts	{"what": "chars"}	купить  диван | ёлка | 	13 | 4 | 0	13 | 4 | 0		
+counts-count	counts	{"what": "count"}	диван | стол | диван	2 | 1 | 2	2 | 1 | 2		
+counts-count-case	counts	{"what": "count"}	диван | Диван | стол	2 | 2 | 1	2 | 2 | 1		
+counts-count-yo	counts	{"what": "count"}	ёлка | елка	1 | 1	2 | 2	ё = е при сравнении	––k— keys by UCase and keeps ё
+counts-count-empty	counts	{"what": "count"}	диван |  | 	1 | 2 | 2	1 |  | 	пустые ячейки никогда не дубли	––k— counts the empty cells as one key
+counts-number	counts	{"what": "number"}	диван | стол | диван | диван	1 | 1 | 2 | 3	1 | 1 | 2 | 3		
+counts-number-case	counts	{"what": "number"}	диван | Диван	1 | 2	1 | 2		
+counts-share	counts	{"what": "share", "weight": "freq"}	диван [50] | стол [30] | стул [20]	0.5 | 0.8 | 1	0.5 | 0.8 | 1		
+counts-share-unsorted	counts	{"what": "share", "weight": "freq"}	стул [20] | диван [50] | стол [30]	0.2 | 0.7 | 1	0.2 | 0.7 | 1		
+counts-abc	counts	{"what": "abc", "weight": "freq"}	диван [50] | стол [30] | стул [15] | шкаф [5]	A | A | B | C	A | A | B | C		
+counts-abc-unsorted	counts	{"what": "abc", "weight": "freq"}	шкаф [5] | диван [50] | стул [15] | стол [30]	C | A | B | A	C | A | B | A		

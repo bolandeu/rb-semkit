@@ -1,0 +1,23 @@
+# stopwords.remove, the workbook sheet stopwords only (the matchers are SEMKIT-005). VBA: «Удалить › Из текста › Стоп-слова» a·–· (L2285) → Del1DimArr (L2284):
+# Split(cell, " "), a word dropped when the list stopwords$ (L1374–1378) holds it as written; Join, Trim.
+case_id	function	call	input	vba	expected	rule	why
+ref-stopwords-02	stopwords.remove	{}	купить диван	купить диван	купить диван		
+ref-stopwords-03	stopwords.remove	{}	Купить  диван	Купить  диван	Купить диван	фраза делится по любым пробелам, двойных пробелов в результатах нет	Del1DimArr splits by one space and joins by one, so the double space stays
+ref-stopwords-04	stopwords.remove	{}	диван купить	диван купить	диван купить		
+ref-stopwords-05	stopwords.remove	{}	купить диваны	купить диваны	купить диваны		
+ref-stopwords-06	stopwords.remove	{}	диван угловой недорого	диван угловой недорого	диван угловой недорого		
+ref-stopwords-07	stopwords.remove	{}	угловой диван недорого	угловой диван недорого	угловой диван недорого		
+ref-stopwords-08	stopwords.remove	{}	диван в москве	диван москве	диван москве		
+ref-stopwords-09	stopwords.remove	{}	москве диван	москве диван	москве диван		
+ref-stopwords-10	stopwords.remove	{}	диван у метро таганская	диван метро таганская	диван метро таганская		
+ref-stopwords-11	stopwords.remove	{}	купить iPhone 15 в Москве	купить iPhone 15 Москве	купить iPhone 15 Москве		
+ref-stopwords-12	stopwords.remove	{}	красный диван бу	красный диван бу	красный диван бу		
+ref-stopwords-13	stopwords.remove	{}	где купить диван	где купить диван	где купить диван		
+ref-stopwords-14	stopwords.remove	{}	как выбрать диван	выбрать диван	выбрать диван		
+ref-stopwords-15	stopwords.remove	{}	диван диван угловой	диван диван угловой	диван диван угловой		
+ref-stopwords-16	stopwords.remove	{}	стол столы	стол столы	стол столы		
+ref-stopwords-17	stopwords.remove	{}	диван-кровать икеа	диван-кровать икеа	диван-кровать икеа		
+ref-stopwords-18	stopwords.remove	{}	кровать для детей от 3 лет	кровать детей 3 лет	кровать детей 3 лет		
+ref-stopwords-19	stopwords.remove	{}	ремонт квартир в спб под ключ	ремонт квартир спб под ключ	ремонт квартир спб под ключ		
+ref-stopwords-20	stopwords.remove	{}					
+ref-stopwords-21	stopwords.remove	{}	диван	диван	диван		
