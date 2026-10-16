@@ -48,7 +48,8 @@ Kinds: exact (equal strings); explicit (equal after the shared normalization: ca
 - Given pd.Series(['купить диван', 'Купить  диван', 'диван купить', 'купить диваны', 'стол']), When sk.dupes with kind exact, explicit, implicit, lemmas and action mark_except_first runs, Then it gives [F,F,F,F,F], [F,T,F,F,F], [F,T,T,F,F], [F,T,T,T,F] [check: tests/dupes/test_dupes.py]
 - Given the same Series and kind implicit, When action mark_all and drop run, Then mark_all gives [T,T,T,F,F] and drop returns the rows 0, 3, 4 with their index [check: tests/dupes/test_dupes.py]
 - Given a DataFrame column 'phrase' and against=pd.Series(['диван купить']), When sk.dupes(df, kind='implicit', action='mark_all', against=..., column='phrase') runs, Then column 'phrase_dupes' marks the rows 0, 1, 2 and 'phrase' is unchanged [check: tests/dupes/test_dupes.py]
-- Given ['', None, ''], When any kind runs, Then no row is marked [check: tests/dupes/test_dupes.py]
+- Given pd.Series(['ёлка купить', 'елка купить']), When kind explicit runs, Then the second is a duplicate (ё = е) [check: tests/dupes/test_dupes.py]
+- Given ['', None, ''], When any kind runs, Then no row is marked (empty phrases are never duplicates) [check: tests/dupes/test_dupes.py]
 - Given kind='nope' or action='nope', When called, Then InvalidArguments lists the allowed kinds or actions and nothing is changed [check: tests/dupes/test_dupes.py]
 - Given a fake lemmatizer mapping 'диваны' → 'диван', When kind lemmas runs with it, Then it uses the fake only [check: tests/dupes/test_dupes.py]
 
