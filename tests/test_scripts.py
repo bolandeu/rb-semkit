@@ -186,16 +186,15 @@ def test_antagor_project_config() -> None:
     root = SCRIPTS.parent
     config = tomllib.loads((root / ".agents" / "antagor" / "antagor.toml").read_text())
     assert config["schema"] == 1
-    assert re.fullmatch(r"[A-Z]{2,4}", config["prefix"])
+    # The prefix is the Plane project identifier: the product's full name in capitals (`antagor new`).
+    assert re.fullmatch(r"[A-Z][A-Z0-9]{1,11}", config["prefix"])
     assert config["worker"] == "claude-code"
     assert config["checks"] == ["python3 scripts/check_command_docstrings.py", "uv run scripts/release.py --check"]
     assert config["review"]["required_types"] == ["feature", "bugfix"]
-    assert config["publish"] == {
-        "versioning": "semver",
-        "changelog": "CHANGELOG.md",
-        "deploy_command": "sh scripts/deploy.sh",
-    }
-    assert "mode" not in config
+    expected = {"versioning": "semver", "changelog": "CHANGELOG.md", "deploy_command": "sh scripts/deploy.sh"}
+    assert {k: config["publish"].get(k) for k in expected} == expected  # Antagor may add its own keys
+    # The Human sets the mode (`antagor mode set`, `antagor new --mode`).
+    assert config.get("mode") in (None, "strict", "default", "free", "fast")
     assert (root / ".agents" / "antagor" / ".gitignore").read_text().split() == ["state/", "receipts/"]
     assert "ANTAGOR_VERSION" in (SCRIPTS / "deploy.sh").read_text()
 
