@@ -53,7 +53,7 @@ Frequency analysis of a semantic core and the 1M-phrase benchmark.
 - Given the same Series with weights [10, 5, 1] and n=2, When sk.ngrams(df, n=2, weight='freq', column='phrase') runs, Then rows are 'диван угловой' 1 5, 'купить диван' 1 10, 'купить стол' 1 1 [check: tests/analysis/test_ngrams.py]
 - Given pd.Series(['купить диваны', 'диван купила']), When sk.ngrams(s, lemmas=True) runs, Then 'диван' 2 and 'купить' 2 [check: tests/analysis/test_ngrams.py]
 - Given pd.Series(['диван в москве', 'москве диван']), When sk.bigrams(s) runs, Then rows 'диван+москве' 2, 'в+диван' 1, 'в+москве' 1; with stopwords=False only 'диван+москве' 2 [check: tests/analysis/test_bigrams.py]
-- Given pd.Series(['диван диван угловой']), When sk.ngrams(s, n=1) runs, Then 'диван' 2, 'угловой' 1 [check: tests/analysis/test_ngrams.py] [check: tests/analysis/test_bigrams.py]
+- Given pd.Series(['диван диван угловой']), When sk.ngrams(s, n=1) runs, Then 'диван' 2, 'угловой' 1 [check: tests/analysis/test_ngrams.py]
 - Given weights [70, 20, 10], When sk.counts(..., what='abc') runs, Then classes A, B, C; what='words' on 'купить диван в москве' gives 4 [check: tests/analysis/test_counts.py]
 - Given n=0, an unknown what, or a weight column that is not numeric, When called, Then InvalidArguments names the argument and the allowed values [check: tests/analysis/test_errors.py]
 - Given a CSV with 3 phrases and --input it --rows 10 --ops ngrams, When the benchmark runs, Then it reports 10 rows built from the file's phrases and exits 0 [check: tests/analysis/test_bench.py]
