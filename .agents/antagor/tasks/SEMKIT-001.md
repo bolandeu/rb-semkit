@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-001
 title: 'Core: bundled dictionary, lemmatizer and the find/remove/extract frame'
-status: in_progress
+status: queue
 attempts: 0
-blocked: true
-blocked_reason: diff_too_large
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -101,3 +101,9 @@ docs/plan.md §1, §2 (data catalog D1–D14, cleaning rules), §3; ADR 0002, 00
 
 - Other matchers, marker lists and their build, dupes, n-grams, the benchmark (the three blocks).
 - Declension functions (v2; pymorphy3 here is only the lemma fallback); CLI commands and dataio (next epic).
+
+## Feedback
+
+### Blocked: diff_too_large (lines 162055 > 4000)
+
+diff_too_large came from generated data, not code (decline.json 158k lines, lists.json 2.2k, morph.json 0.7k). Decision: (1) do NOT build the declension tables now — remove decline.json and its build step; declension is v2 and will build its own data. (2) Write every generated JSON compact: json.dumps(..., ensure_ascii=False, separators=(',', ':'), sort_keys=True) on one line, so the data files add a few lines each; keep the build byte-reproducible. Binary .marisa files are fine as they are. Keep the rest of the work.
