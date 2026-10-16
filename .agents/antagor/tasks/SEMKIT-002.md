@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-002
 title: 'Text matchers and marker lists: every v1 find/remove/extract'
-status: in_progress
+status: queue
 attempts: 0
-blocked: true
-blocked_reason: needs_scope
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -104,3 +104,5 @@ Reuse the core task's frame, Matcher protocol, verbs, tokenizer, norm_phrase and
 > Recommended: Acceptance: word_position supports find (True where the phrase has the chosen words)
 
 Option 1: the acceptance wins. word_position supports find: True where the phrase has the chosen words (e.g. first=1 is True for any non-empty phrase, at_most=N is True where the phrase has at most N words). Update the words-by-position row of plan §1.1 to mark find ✓ (docs/plan.md is in your owns now).
+
+### Blocked: needs_scope (entries [{'n': 1, 'text': "Acceptance 1 says sk.find gives True for word_position(first=1); plan 1.1 marks find for words-by-position as '—' (remove and extract only).\nQuestion: Which point wins for find on word_position?\nOptio"}])
