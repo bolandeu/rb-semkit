@@ -5,28 +5,14 @@ from __future__ import annotations
 from collections.abc import Iterable
 from typing import TYPE_CHECKING
 
-from ...errors import InvalidArguments
 from ...normalize import norm_phrase
-from ..base import WordMatcher, split_words, word_key
+from ..base import WordMatcher, choice, word_key, word_list
 
 if TYPE_CHECKING:
     from ...morph import Lemmatizer
 
 MODES = ("any", "all")
 PLACES = ("anywhere", "start", "end")
-
-
-def _choice(argument: str, value: str, allowed: tuple[str, ...]) -> str:
-    if value not in allowed:
-        raise InvalidArguments(f"{argument}={value!r}; allowed: {', '.join(repr(item) for item in allowed)}.")
-    return value
-
-
-def _word_list(items: str | Iterable[str]) -> list[str]:
-    listed = [items] if isinstance(items, str) else list(items)
-    if not listed or not all(isinstance(item, str) and len(split_words(item)) == 1 for item in listed):
-        raise InvalidArguments(f"words: {listed!r}; allowed: one word or a non-empty list of single words.")
-    return listed
 
 
 class Words(WordMatcher):
@@ -39,9 +25,9 @@ class Words(WordMatcher):
         ignore_punct: bool = False,
         lemmatizer: Lemmatizer | None = None,
     ) -> None:
-        listed = _word_list(items)
-        self._mode = _choice("mode", mode, MODES)
-        self._where = _choice("where", where, PLACES)
+        listed = word_list("words", items)
+        self._mode = choice("mode", mode, MODES)
+        self._where = choice("where", where, PLACES)
         self._ignore_punct = ignore_punct
         self._lemmatizer = lemmatizer
         self._keys = frozenset(self._key(item) for item in listed)

@@ -1,0 +1,28 @@
+"""Stopwords: the bundled list and a user list; remove only."""
+
+from __future__ import annotations
+
+from collections.abc import Iterable
+
+from ...normalize import norm_phrase
+from ..base import Matcher, WordMatcher, bundled_list, word_key, word_list
+
+
+class Stopwords(WordMatcher):
+    find = Matcher.find
+    extract = Matcher.extract
+
+    def __init__(self, extra: Iterable[str] | None) -> None:
+        listed = bundled_list("stopwords") + (word_list("extra", extra) if extra is not None else [])
+        self._keys = frozenset(norm_phrase(word) for word in listed)
+
+    def picks(self, words: list[str]) -> list[bool]:
+        return [word_key(word, ignore_punct=True) in self._keys for word in words]
+
+
+def stopwords(extra: Iterable[str] | None = None) -> Stopwords:
+    """The function words with no search intent (prepositions, conjunctions, particles); remove only.
+
+    extra: your own words, taken together with the bundled list. Case and ё do not count.
+    """
+    return Stopwords(extra)

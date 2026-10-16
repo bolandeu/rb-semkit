@@ -12,7 +12,7 @@ byte-identical files, so the script is safe to re-run; the built files are commi
                           adjective_endings (the first column of adjSuffixes)
     lists/lists.json      stopwords, three preposition lists, abbreviations, phrase_start_words (charsPat)
 
-JSON is written compact, on one line. Marker lists and the declension tables (v2) are not built here.
+JSON is written compact, on one line. Marker lists are built by build_markers.py; the declension tables (v2) are not built.
 """
 
 from __future__ import annotations

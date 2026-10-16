@@ -7,9 +7,11 @@ Words are compared by `norm_phrase` (case, ё→е); the output keeps the words 
 from __future__ import annotations
 
 import re
+from collections.abc import Iterable
 
 import pandas as pd
 
+from .. import datastore
 from ..errors import InvalidArguments
 from ..frame import Frame, map_unique
 from ..normalize import norm_phrase
@@ -22,11 +24,54 @@ def split_words(phrase: str) -> list[str]:
     return phrase.split()
 
 
+def strip_edges(word: str) -> str:
+    """The word without punctuation at its edges: «Диван,» → «Диван»."""
+    return _EDGE_PUNCTUATION.sub("", word)
+
+
 def word_key(word: str, *, ignore_punct: bool = False) -> str:
     """A word as compared: `norm_phrase`, and with `ignore_punct` without punctuation at its edges («Диван,» → диван)."""
-    if ignore_punct:
-        word = _EDGE_PUNCTUATION.sub("", word)
-    return norm_phrase(word)
+    return norm_phrase(strip_edges(word) if ignore_punct else word)
+
+
+def bundled_list(name: str) -> list[str]:
+    """A word list of the package data by name: "stopwords", "prepositions", "toponym_prepositions_ru"…"""
+    return datastore.table("lists/lists.json")[name]
+
+
+def collapse(text: str) -> str:
+    """The text with every run of whitespace as one space, none at the edges."""
+    return " ".join(text.split())
+
+
+def choice(argument: str, value: str, allowed: tuple[str, ...]) -> str:
+    """`value` when it is one of `allowed`, else InvalidArguments naming `argument` and the allowed values."""
+    if value not in allowed:
+        raise InvalidArguments(f"{argument}={value!r}; allowed: {', '.join(repr(item) for item in allowed)}.")
+    return value
+
+
+def compiled(argument: str, pattern: str) -> re.Pattern[str]:
+    """The regular expression `pattern`, or InvalidArguments naming `argument` when it is not one."""
+    try:
+        return re.compile(pattern)
+    except (re.error, TypeError) as error:
+        raise InvalidArguments(f"{argument}={pattern!r}; allowed: a valid regular expression ({error}).") from None
+
+
+def whole_number(argument: str, value: int) -> int:
+    """`value` when it is an integer of 1 or more (N counts words or chars, from 1)."""
+    if isinstance(value, bool) or not isinstance(value, int) or value < 1:
+        raise InvalidArguments(f"{argument}={value!r}; allowed: an integer of 1 or more.")
+    return value
+
+
+def word_list(argument: str, items: str | Iterable[str]) -> list[str]:
+    """One word or a non-empty list of single words, as a list."""
+    listed = [items] if isinstance(items, str) else list(items)
+    if not listed or not all(isinstance(item, str) and len(split_words(item)) == 1 for item in listed):
+        raise InvalidArguments(f"{argument}={listed!r}; allowed: one word or a non-empty list of single words.")
+    return listed
 
 
 class Matcher:

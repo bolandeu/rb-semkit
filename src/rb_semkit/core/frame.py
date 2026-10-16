@@ -66,19 +66,32 @@ class Frame:
         return values.fillna("").astype(str)
 
     def put(self, result: pd.Series, operation: str) -> pd.Series | pd.DataFrame:
-        """A Series for a Series. A DataFrame gets the result in its own object, also with inplace=False, and is returned."""
+        """A Series for a Series. A DataFrame gets the result in its own object, also with inplace=False, and is returned.
+
+        A result with fewer rows than the input is a row filter: a DataFrame then comes back as a new table
+        without the dropped rows (its index labels must be unique).
+        """
         if isinstance(self.data, pd.Series):
             return result.rename(self.data.name)
+        data = self._kept_rows(self.data, result)
         column = str(self.column)
         if self.inplace:
-            self.data[column] = result
+            data[column] = result
         else:
             target = f"{column}_{operation}"
-            if target in self.data.columns:
-                self.data[target] = result
+            if target in data.columns:
+                data[target] = result
             else:
-                self.data.insert(self.data.columns.get_loc(column) + 1, target, result)
-        return self.data
+                data.insert(data.columns.get_loc(column) + 1, target, result)
+        return data
+
+    @staticmethod
+    def _kept_rows(data: pd.DataFrame, result: pd.Series) -> pd.DataFrame:
+        if len(result) == len(data):
+            return data
+        if not data.index.is_unique:
+            raise InvalidArguments("index: has repeated labels; allowed: a unique index to drop rows.")
+        return data.loc[result.index].copy()
 
 
 def map_unique(phrases: pd.Series, transform: Callable[[str], Any]) -> pd.Series:
