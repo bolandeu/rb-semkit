@@ -13,6 +13,9 @@ dependencies = [
     "platformdirs>=4.2",
     "tomli-w>=1.0",
     "packaging>=24.0",
+    "marisa-trie>=1.4.1",
+    "pymorphy3>=2.0.6",
+    "pandas>=3.0.6",
 ]
 
 [project.scripts]
@@ -115,6 +118,8 @@ line-length = 120
 
 [tool.ruff.lint]
 select = ["E4", "E7", "E9", "F", "I", "UP", "B", "SIM", "RUF", "S", "T20", "TID251"]
+# Russian phrases are the domain: Cyrillic letters in strings, docstrings and comments are not confusables.
+ignore = ["RUF001", "RUF002", "RUF003"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S101", "T201", "TID251"]  # assert is the point of a test; print in code strings; httpx for mocks

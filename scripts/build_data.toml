@@ -1,0 +1,6 @@
+# Sources of the bundled reference data (scripts/build_data.py, docs/brief.md «Materials»).
+# They stay outside the repo: the data belongs to the !SEMTools author (ADR 0002).
+[sources]
+lemmas = "/Users/bolandau/Work/_sandbox/semtools/reverse/data/lemms.tsv"
+sheet_abc = "/Users/bolandau/Work/_sandbox/semtools/reverse/data/sheet_abc.tsv"
+vba = "/Users/bolandau/Work/_sandbox/semtools/reverse/vba/RibbonCallbacks.vba"
