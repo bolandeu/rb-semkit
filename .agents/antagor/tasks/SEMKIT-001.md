@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-001
 title: 'Core: bundled dictionary, lemmatizer and the find/remove/extract frame'
-status: in_progress
+status: queue
 attempts: 1
 blocked: false
 blocked_reason: null
@@ -28,6 +28,7 @@ owns_paths:
 - src/rb_semkit/core/text/matchers/__init__.py
 - src/rb_semkit/core/text/matchers/words.py
 - uv.lock
+- docs/plan.md
 test_paths:
 - tests/core/
 docs:
@@ -123,3 +124,11 @@ Minor remarks of the review: optional, if they do not widen the task:
 - [minor] [extra] none beyond the task: `Pipe.find` returns a Series and ends the chain, which the task's «thin pipe(df, column) chaining verbs» allows.
 - [minor] [wrong] the adjective POS rule runs only in the suffix fallback (`_from_suffixes`); a word found in the dictionary or in pymorphy3 keeps its source POS. The task line is «POS rules from the add-in (verb endings …; adjective by adjSuffixes unless in nounsLikeAdj)». The test `test_pos_rules_of_the_add_in` only covers unknown words. Confirm that the add-in applies the adjective rule to unknown words only.
 - [minor] [missing] «Given the sandbox sources … row counts and 20 known lookups match» — `KNOWN_LEMMAS` + `KNOWN_FORMS` give 17 lookups, not 20 (the count may include the list and morph lookups at the end of `test_known_lookups`; unchecked).
+
+### Attempt 1 (not counted): main moved and conflicts with the work
+
+`main` changed since your work began, and merging it conflicts in:
+
+- `docs/plan.md`
+
+Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).
