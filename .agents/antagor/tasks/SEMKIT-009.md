@@ -15,6 +15,7 @@ type: bugfix
 owns_paths:
 - src/rb_semkit/core/analysis/counts.py
 - src/rb_semkit/core/analysis/frequency.py
+- src/rb_semkit/core/analysis/__init__.py
 - src/rb_semkit/core/morph/functions.py
 - src/rb_semkit/core/morph/lemmatizer.py
 - tests/conformance/cases/
