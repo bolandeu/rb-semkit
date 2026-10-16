@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-005
 title: Port the text matchers and markers from the add-in VBA
-status: in_progress
+status: queue
 attempts: 0
-blocked: true
-blocked_reason: needs_scope
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -136,3 +136,5 @@ Option 1 (VBA, per ADR 0005): count characters as o·— does (half the phrase l
 > Recommended: VBA: with the punctuation; update the test
 
 Option 1 (VBA, per ADR 0005): compare words with their punctuation in the plain variant. Update the test.
+
+### Blocked: needs_scope (entries [{'n': 1, 'text': 'around() finds the pattern as whole words in any case; the VBA buttons (docs/vba/matchers.md R1 and X1, `––·a` … `–—–k`) find it as a plain substring as typed, case-insensitive only in the first-occur'}, {'n': 2, 'text': "The VBA runs VBScript RegExp, where \\w, \\d, \\s and \\b are ASCII (docs/vba/matchers.md S8: port with re.ASCII); the existing test tests/matchers/test_remove.py expects sk.remove with sk.regex(r'\\bв\\b')"}, {'n': 3, 'text': "The VBA has one NOT-match button, remove `aok·` (docs/vba/matchers.md R1, its bug fixed): it keeps only the matches, joined with no separator ('диван 120x200' with \\d+ gives '120200'); the existing te"}, {'n': 4, 'text': "The VBA buttons 'До середины' (`–·—k`) and 'Не более чем...' (`–·—o`) both call `o·—` (line 1403): they take the words from the start while the total length stays within a number of CHARACTERS (half t"}, {'n': 5, 'text': "The VBA repeat buttons (`—k—–` find; `aala`, `aal1`, `aall`, `aal·`, `remrepW`, `aook` remove) compare the words with their punctuation, so 'диван, диван' has no repeat; the code strips the edge punct"}])
