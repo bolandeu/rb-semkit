@@ -1,6 +1,6 @@
 ---
 id: SEMKIT-002
-title: x
+title: 'Text matchers and marker lists: every v1 find/remove/extract'
 status: ideas
 attempts: 0
 blocked: false
@@ -13,16 +13,21 @@ approved_by: null
 worker: claude-code
 type: feature
 owns_paths:
-- x
+- src/rb_semkit/core/text/matchers/
+- src/rb_semkit/core/markers/
+- src/rb_semkit/data/markers/
+- scripts/build_markers.py
 test_paths:
-- tests/x/
+- tests/matchers/
+- tests/markers/
 docs: none
 tools: []
 worker_args: null
 class: standard
 decision: false
 visual: null
-depends_on: []
+depends_on:
+- SEMKIT-001
 budget_usd: null
 epic: E-001
 spec_refs: []
@@ -32,26 +37,47 @@ checks:
 resident: null
 tool: null
 pr: null
+translation: 'Шаблоны текста и списки маркеров: все find/remove/extract v1. На каркасе
+  ядра — все шаблоны v1 из плана §1.1 (символы, пробелы, позиции, вокруг шаблона,
+  regex, слова по содержанию, регистру, позиции, части речи, повторы, стоп-слова,
+  свой список фраз, ячейки по содержанию и вхождению) и 18 встроенных списков маркеров
+  со сборкой из xlsx песочницы, автомат Aho-Corasick при первом использовании. Неподдерживаемый
+  глагол — InvalidArguments со списком допустимых.'
 ---
+
+All v1 matchers of the text core and the 18 bundled marker lists, on the frame and the three verbs of the core task. Each matcher works with find (bool mask), remove (cleaned text) and extract (found part) where the plan (§1.1) marks the verb; a verb the matcher does not support raises InvalidArguments naming the supported ones.
+
+Matchers: chars (latin, cyrillic, digits, letters+digits, punctuation, upper, UA); spaces (all, left, right, both, extra); positions (first/last N chars); around (before/after the first/last occurrence of a pattern, incl./excl.); regex (one / all matches; match / NOT match); word_content (starts / ends / contains a pattern or list; only-latin, has-latin, only-digits, has-digits, mixed); word_case (lower, Capital, CAPS); word_position (first/last 1..N, N-th, up to the middle, at most N); pos (noun, adj, verb, adverb, through a Lemmatizer); repeats (exact: all, en, ru, adjacent, numbers; by wordforms); stopwords (bundled list + user list); phrases (user list, Aho-Corasick); cells (contains / starts / ends with a list item or a preposition; regex; empty; unique / repeated / first / last occurrence; remove filters rows); markers (lists by name, several in one pass, user lists; with_prepositions takes the toponym preposition before a marker).
+
+Marker data: a build script reads the 18 xlsx of the sandbox (the brief, «Materials»), drops the 2nd sheet of DIY, takes column A of cars, strips and dedupes, keeps the display case, and writes compressed one-phrase-per-line files. The Aho-Corasick automaton is built on first use per list, thread-safe, cached.
 
 ## Acceptance
 
-- Given a, When b, Then c [check: tests/x/t.py]
+- Given pd.Series(['Купить iPhone 15 в Москве']), When sk.extract with chars('latin'), chars('digits'), regex(r'\d+'), word_case('Capital'), word_position(first=1) run, Then they give 'iPhone', '15', '15', 'Купить Москве', 'Купить'; find gives True for each [check: tests/matchers/test_extract.py]
+- Given pd.Series(['  купить  диван  в  москве ']), When sk.remove with spaces('extra'), stopwords(), around('в', after=True, include=True) run, Then they give 'купить диван в москве', 'купить диван москве' (spaces collapsed), 'купить диван' [check: tests/matchers/test_remove.py]
+- Given pd.Series(['диван диван угловой', 'стол столы']), When find with repeats('exact') and repeats('wordforms') runs, Then exact gives [True, False] and wordforms gives [True, True] [check: tests/matchers/test_repeats.py]
+- Given pd.Series(['красный диван', 'быстро купить']), When sk.extract(s, sk.pos('adj')) runs with the bundled lemmatizer, Then it gives ['красный', '']; with a fake lemmatizer it follows the fake [check: tests/matchers/test_pos.py]
+- Given pd.Series(['диван', 'стол', 'диван', '']), When sk.find with cells('repeated'), cells('first'), cells('empty') runs, Then they give [True, False, True, False], [True, True, False, True], [False, False, False, True]; sk.remove(s, cells('empty')) drops the empty row [check: tests/matchers/test_cells.py]
+- Given pd.Series(['диван в москве у метро таганская', 'диван купить']), When sk.extract(s, sk.markers(['geo', 'mosmetro'])) runs, Then it gives ['москве, таганская', ''] (markers joined by ', ' in phrase order); remove with with_prepositions=True gives ['диван у метро', 'диван купить']; matching is case-insensitive [check: tests/markers/test_markers.py]
+- Given a user list ['угловой диван'] and an unknown list name 'nope', When markers/phrases run, Then the user list matches whole words only (not inside 'угловойдиван'); 'nope' raises InvalidArguments listing the 18 list names [check: tests/markers/test_markers.py]
+- Given a regex '(', an unsupported verb (e.g. find with spaces), or N < 1, When called, Then InvalidArguments names the argument and the allowed values [check: tests/matchers/test_errors.py]
+- Given the sandbox spiski folder, When the marker build runs twice, Then the files are byte-identical and all 18 lists load and match their own first item; a missing xlsx exits non-zero naming it [check: tests/markers/test_build_markers.py]
 
 ## How to test
 
-x
+Public library seam: import rb_semkit as sk, small Series in, exact Series out, index kept. Lemmatizer protocol with a fake for pos and repeats by wordforms. Build script on the sandbox sources (skip with a reason only when the sandbox is absent).
 
 ## Basis
 
-x
+Reuse the core task's frame, Matcher protocol, verbs, tokenizer, norm_phrase and lazy data loader; do not duplicate them. Plan §1.1, §1.2, §2 (D15 cleaning rules, preposition lists); pyahocorasick for phrases and markers; ADR 0004.
 
 ## Read first
 
-- `docs/adr/0004-matcher-and-three-verbs.md`
-- `CONTEXT.md`
-- `docs/plan.md`
+- docs/plan.md
+- CONTEXT.md
+- docs/adr/0004-matcher-and-three-verbs.md
 
 ## Out of scope
 
-- x
+- v2 patterns (domains, e-mails, phones, dates), prepositions at phrase end, prepositional complements, change functions (case, replace, insert, move).
+- Updating marker lists from the network; dupes and n-grams (other blocks); CLI.
