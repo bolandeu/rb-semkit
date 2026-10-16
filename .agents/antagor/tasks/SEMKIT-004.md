@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-004
 title: N-grams, bigrams, counts and the 1M benchmark
-status: queue
+status: publish
 attempts: 0
 blocked: false
 blocked_reason: null

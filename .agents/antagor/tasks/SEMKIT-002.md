@@ -2,7 +2,7 @@
 id: SEMKIT-002
 title: 'Text matchers and marker lists: every v1 find/remove/extract'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -18,6 +18,13 @@ owns_paths:
 - src/rb_semkit/data/markers/
 - scripts/build_markers.py
 - .gitattributes
+- docs/plan.md
+- pyproject.toml
+- scripts/build_data.py
+- scripts/build_data.toml
+- src/rb_semkit/core/frame.py
+- src/rb_semkit/core/text/base.py
+- uv.lock
 test_paths:
 - tests/matchers/
 - tests/markers/
@@ -72,6 +79,8 @@ Public library seam: import rb_semkit as sk, small Series in, exact Series out, 
 
 ## Basis
 
+Port the add-in's algorithms; do not invent them (ADR 0005). For each matcher and verb find its ribbon button in /Users/bolandau/Work/_sandbox/semtools/reverse/ribbon_full.txt (the `-> handler` name), read that handler in /Users/bolandau/Work/_sandbox/semtools/reverse/vba/RibbonCallbacks.vba (obfuscated names; forms in the same folder), and reproduce its behaviour: what counts as a word, a latin/cyrillic char, a position, how 'around' picks the occurrence, how the toponym list is matched and the preposition taken, how cells are filtered. Deviate from the VBA only where ADR 0005 says so (ё = е, stopwords case-insensitive, split on any whitespace, no double spaces in results, markers spelled as the list and joined by ', '). Where a verb has no VBA handler (e.g. find for word_position), derive it from the remove/extract handler of the same matcher. When the VBA and an acceptance line disagree, ask in the inbox (question) instead of choosing. Name the VBA handler in each matcher's docstring.
+
 Reuse the core task's frame, Matcher protocol, verbs, tokenizer, norm_phrase and lazy data loader; do not duplicate them. Plan §1.1, §1.2, §2 (D15 cleaning rules, preposition lists); pyahocorasick for phrases and markers; ADR 0004.
 
 ## Read first
@@ -84,3 +93,22 @@ Reuse the core task's frame, Matcher protocol, verbs, tokenizer, norm_phrase and
 
 - v2 patterns (domains, e-mails, phones, dates), prepositions at phrase end, prepositional complements, change functions (case, replace, insert, move).
 - Updating marker lists from the network; dupes and n-grams (other blocks); CLI.
+
+## Feedback
+
+### Answer to question #1
+
+> Acceptance 1 says sk.find gives True for word_position(first=1); plan 1.1 marks find for words-by-position as '—' (remove and extract only).
+> Question: Which point wins for find on word_position?
+> Options:
+> 1. Acceptance: word_position supports find (True where the phrase has the chosen words)
+> 2. Plan 1.1: word_position raises InvalidArguments on find
+> Recommended: Acceptance: word_position supports find (True where the phrase has the chosen words)
+
+Option 1: the acceptance wins. word_position supports find: True where the phrase has the chosen words (e.g. first=1 is True for any non-empty phrase, at_most=N is True where the phrase has at most N words). Update the words-by-position row of plan §1.1 to mark find ✓ (docs/plan.md is in your owns now).
+
+### Blocked: needs_scope (entries [{'n': 1, 'text': "Acceptance 1 says sk.find gives True for word_position(first=1); plan 1.1 marks find for words-by-position as '—' (remove and extract only).\nQuestion: Which point wins for find on word_position?\nOptio"}])
+
+### Attempt 1: file docstring
+
+- update the docstring of src/rb_semkit/core/text/base.py: +bundled_list +choice +collapse +compiled +strip_edges +whole_number +word_list
