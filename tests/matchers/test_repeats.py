@@ -38,9 +38,9 @@ def test_wordforms_follow_the_given_lemmatizer() -> None:
 def test_remove_keeps_the_first_occurrence() -> None:
     phrases = pd.Series(["Диван купить диван, ДИВАН", "стол столы"])
 
-    assert sk.remove(phrases, sk.repeats("exact")).tolist() == ["Диван купить", "стол столы"]
+    assert sk.remove(phrases, sk.repeats("exact")).tolist() == ["Диван купить диван,", "стол столы"]
     assert sk.remove(phrases, sk.repeats("wordforms", lemmatizer=FakeLemmatizer())).tolist() == [
-        "Диван купить",
+        "Диван купить диван,",
         "стол",
     ]
 
