@@ -91,3 +91,16 @@ Reuse the core task's frame, Matcher protocol, verbs, tokenizer, norm_phrase and
 
 - v2 patterns (domains, e-mails, phones, dates), prepositions at phrase end, prepositional complements, change functions (case, replace, insert, move).
 - Updating marker lists from the network; dupes and n-grams (other blocks); CLI.
+
+## Feedback
+
+### Answer to question #1
+
+> Acceptance 1 says sk.find gives True for word_position(first=1); plan 1.1 marks find for words-by-position as '—' (remove and extract only).
+> Question: Which point wins for find on word_position?
+> Options:
+> 1. Acceptance: word_position supports find (True where the phrase has the chosen words)
+> 2. Plan 1.1: word_position raises InvalidArguments on find
+> Recommended: Acceptance: word_position supports find (True where the phrase has the chosen words)
+
+Option 1: the acceptance wins. word_position supports find: True where the phrase has the chosen words (e.g. first=1 is True for any non-empty phrase, at_most=N is True where the phrase has at most N words). Update the words-by-position row of plan §1.1 to mark find ✓ (docs/plan.md is in your owns now).
