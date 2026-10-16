@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-001
 title: 'Core: bundled dictionary, lemmatizer and the find/remove/extract frame'
-status: queue
+status: in_progress
 attempts: 0
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: diff_too_large
 phase: null
 tests_hash: null
 publish_stage: null
@@ -23,6 +23,11 @@ owns_paths:
 - src/rb_semkit/data/lists/
 - scripts/build_data.py
 - README.md
+- pyproject.toml
+- scripts/build_data.toml
+- src/rb_semkit/core/text/matchers/__init__.py
+- src/rb_semkit/core/text/matchers/words.py
+- uv.lock
 test_paths:
 - tests/core/
 docs:
