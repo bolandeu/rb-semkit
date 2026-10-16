@@ -45,7 +45,7 @@ Frequency analysis of a semantic core and the 1M-phrase benchmark.
 - sk.ngrams(data, n=1, lemmas=False, stopwords=True, weight=None, column=...): every run of n words (n = 1..N) over all phrases → a DataFrame with columns ngram, count (phrases containing it), sum (of the weight column, when given), sorted by count desc then ngram. lemmas=True counts lemmas (bundled lemmatizer unless one is given); stopwords=False drops stopwords first.
 - sk.bigrams(data, lemmas=False, stopwords=False, weight=None): unordered word pairs inside a phrase («диван купить» = «купить диван»), same table shape.
 - sk.counts(data, what=...): per phrase: words, chars; per occurrence: occurrence count, occurrence number; share of sum (cumulative) and ABC class (A ≤ 80 %, B ≤ 95 %, C rest) by a weight column. Returns a Series / new column like other functions.
-- A benchmark script: generates N synthetic phrases from the bundled dictionary (fixed seed) and times dupes (all kinds), ngrams (words, lemmas), lemmatize; prints a table and exits non-zero when an operation takes over a limit (default 120 s). --rows, --ops, --limit options. An operation whose module is not present yet is reported as skipped.
+- A benchmark script: generates N synthetic phrases from the bundled dictionary (fixed seed) and times dupes (all kinds), ngrams (words, lemmas), lemmatize; prints a table and exits non-zero when an operation takes over a limit (default 120 s). --rows, --ops, --limit, --input options. With --input CSV (columns phrase, freq_msk_exact: a real core exported from Bukvarix) the phrases come from that file; when --rows is larger than the file, its phrases are repeated with a word shuffled so dupes still have work. An operation whose module is not present yet is reported as skipped.
 
 ## Acceptance
 
@@ -55,6 +55,7 @@ Frequency analysis of a semantic core and the 1M-phrase benchmark.
 - Given pd.Series(['диван в москве', 'москве диван']), When sk.bigrams(s, stopwords=False) runs, Then one row 'диван москве' count 2 [check: tests/analysis/test_bigrams.py]
 - Given weights [70, 20, 10], When sk.counts(..., what='abc') runs, Then classes A, B, C; what='words' on 'купить диван в москве' gives 4 [check: tests/analysis/test_counts.py]
 - Given n=0, an unknown what, or a weight column that is not numeric, When called, Then InvalidArguments names the argument and the allowed values [check: tests/analysis/test_errors.py]
+- Given a CSV with 3 phrases and --input it --rows 10 --ops ngrams, When the benchmark runs, Then it reports 10 rows built from the file's phrases and exits 0 [check: tests/analysis/test_bench.py]
 - Given the benchmark with --rows 1000 --ops ngrams,lemmatize, When it runs, Then it prints one line per operation with rows and seconds and exits 0; with --limit 0 it exits non-zero naming the slow operation [check: tests/analysis/test_bench.py]
 
 ## How to test
