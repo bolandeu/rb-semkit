@@ -3,6 +3,7 @@ mode = "fast"
 prefix = "SEMKIT"
 name = "semkit"
 worker = "claude-code"
+parallel = 3
 checks = ["python3 scripts/check_command_docstrings.py", "uv run scripts/release.py --check"]
 
 [review]
@@ -32,3 +33,8 @@ cancelled = "Cancelled"
 
 [daemon]
 enabled = true
+
+[limits]
+max_lines = 4000
+max_files = 150
+max_prompt_tokens = 60000
