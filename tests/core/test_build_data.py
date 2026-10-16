@@ -19,7 +19,6 @@ BUILT_FILES = (
     "morph/lemmas.marisa",
     "morph/forms.marisa",
     "morph/morph.json",
-    "morph/decline.json",
     "lists/lists.json",
 )
 SOURCES = tomllib.loads(CONFIG.read_text())["sources"]
@@ -52,6 +51,12 @@ def test_two_runs_are_byte_identical_and_match_the_package(built: Path, tmp_path
         assert (PACKAGE_DATA / name).read_bytes() == (built / name).read_bytes(), f"{name}: rebuild the package data"
 
 
+def test_json_files_are_compact_and_no_declension_tables_are_built(built: Path) -> None:
+    for name in ("morph/morph.json", "lists/lists.json"):
+        assert len((built / name).read_text().splitlines()) == 1, name
+    assert not (built / "morph/decline.json").exists()
+
+
 def test_missing_source_exits_naming_the_file(tmp_path: Path) -> None:
     missing = tmp_path / "nope" / "lemms.tsv"
     config = tmp_path / "build_data.toml"
@@ -69,7 +74,6 @@ def test_row_counts(built: Path) -> None:
     lemmas = marisa_trie.BytesTrie().mmap(str(built / "morph/lemmas.marisa"))
     forms = marisa_trie.BytesTrie().mmap(str(built / "morph/forms.marisa"))
     morph = json.loads((built / "morph/morph.json").read_text())
-    decline = json.loads((built / "morph/decline.json").read_text())
     lists = json.loads((built / "lists/lists.json").read_text())
 
     # 845 374 source rows minus 6 junk rows (a number, «од?оклассники», 4 without a POS), 397 repeated wordforms
@@ -77,12 +81,7 @@ def test_row_counts(built: Path) -> None:
     assert len(set(forms.keys())) == 169_933  # lower-cased lemmas
     assert len(morph["lemma_suffixes"]) == 256
     assert len(morph["nouns_like_adjectives"]) == 417
-    assert len(decline["noun_suffixes"]) == 3_331
-    assert len(decline["noun_exclusions"]) == 7_710
-    assert len(decline["adjective_suffixes"]) == 89
-    assert len(decline["adjective_exclusions"]) == 44
-    assert len(decline["feminine_surname_suffixes"]) == 24
-    assert len(decline["indeclinable"]) == 1_205
+    assert len(morph["adjective_endings"]) == 89  # the first column of adjSuffixes
     assert len(lists["abbreviations"]) == 1_016
     assert len(lists["phrase_start_words"]) == 644
     assert len(lists["prepositions"]) == 46  # 47 in the VBA literal, the stray latin «g» dropped
@@ -122,6 +121,7 @@ def test_known_lookups(built: Path) -> None:
         assert wordform in [v.decode() for v in forms[lemma]], lemma
     assert "0,0000001" not in lemmas
     assert morph["lemma_suffixes"]["ания"] == "ание"
+    assert "ный" in morph["adjective_endings"]
     assert "по" in lists["prepositions"]
     assert "пo" not in lists["prepositions"]  # latin «o» fixed
     assert "g" not in lists["stopwords"]

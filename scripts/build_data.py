@@ -8,11 +8,11 @@ byte-identical files, so the script is safe to re-run; the built files are commi
 
     morph/lemmas.marisa   wordform → "lemma<TAB>pos" (BytesTrie), plus a ё→е key for every wordform with ё
     morph/forms.marisa    lemma → each of its wordforms (BytesTrie, one value per wordform)
-    morph/morph.json      lemma_suffixes (lemmSuf), nouns_like_adjectives (nounsLikeAdj)
-    morph/decline.json    the declension tables of sheet `abc` (built, not used yet)
+    morph/morph.json      lemma_suffixes (lemmSuf), nouns_like_adjectives (nounsLikeAdj),
+                          adjective_endings (the first column of adjSuffixes)
     lists/lists.json      stopwords, three preposition lists, abbreviations, phrase_start_words (charsPat)
 
-Marker lists are not built here.
+JSON is written compact, on one line. Marker lists and the declension tables (v2) are not built here.
 """
 
 from __future__ import annotations
@@ -37,14 +37,7 @@ TABLES = {
     "morph": {
         "lemma_suffixes": "E50:F305",  # lemmSuf is E50:G305; G (a POS guess) is not used by the add-in
         "nouns_like_adjectives": "J1:J417",
-    },
-    "decline": {
-        "noun_suffixes": "Q1:AB3331",
-        "noun_exclusions": "Q3380:AB11089",
-        "adjective_suffixes": "AD2:AS90",
-        "adjective_exclusions": "AD93:AS136",
-        "feminine_surname_suffixes": "AD140:AI163",
-        "indeclinable": "B1:B1205",
+        "adjective_endings": "AD2:AD90",  # adjSuffixes is AD2:AS90; the other columns are declension (v2)
     },
     "lists": {"abbreviations": "M1:M1016", "phrase_start_words": "BA1:BA644"},
 }
@@ -114,15 +107,12 @@ def cell_range(sheet: list[list[str]], address: str) -> list[list[str]]:
     return [row for row in rows if any(row)]
 
 
-def sheet_table(sheet: list[list[str]], address: str) -> list[list[str]] | list[str] | dict[str, str]:
+def sheet_table(sheet: list[list[str]], address: str) -> list[str] | dict[str, str]:
     """A one-column range as a list of its non-empty cells; two columns as key → value (the last key wins)."""
     rows = cell_range(sheet, address)
-    width = len(rows[0])
-    if width == 1:
+    if len(rows[0]) == 1:
         return [row[0] for row in rows]
-    if width == 2:
-        return {key: value for key, value in rows}
-    return rows
+    return {key: value for key, value in rows}
 
 
 def vba_list(source: str, name: str) -> list[str]:
@@ -136,7 +126,9 @@ def vba_list(source: str, name: str) -> list[str]:
 
 def write_json(path: Path, data: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, ensure_ascii=False, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    path.write_text(
+        json.dumps(data, ensure_ascii=False, separators=(",", ":"), sort_keys=True) + "\n", encoding="utf-8"
+    )
 
 
 def build(sources: dict[str, Path], out: Path) -> None:
@@ -152,7 +144,6 @@ def build(sources: dict[str, Path], out: Path) -> None:
     lemma_trie(rows).save(str(out / "morph" / "lemmas.marisa"))
     forms_trie(rows).save(str(out / "morph" / "forms.marisa"))
     write_json(out / "morph" / "morph.json", tables["morph"])
-    write_json(out / "morph" / "decline.json", tables["decline"])
     write_json(out / "lists" / "lists.json", lists)
 
 

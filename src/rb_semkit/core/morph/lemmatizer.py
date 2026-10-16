@@ -15,7 +15,6 @@ from .. import datastore
 LEMMAS = "morph/lemmas.marisa"
 FORMS = "morph/forms.marisa"
 MORPH = "morph/morph.json"
-DECLINE = "morph/decline.json"
 
 # The add-in's verb rule: these endings make a verb whatever the dictionary says; «уют» itself is a noun.
 VERB_ENDINGS = ("тся", "ься", "ают", "уют")
@@ -73,8 +72,8 @@ def _from_pymorphy(word: str) -> tuple[str, str] | None:
 
 
 def _adjective_rule() -> tuple[frozenset[str], frozenset[str]]:
-    endings = frozenset(row[0] for row in datastore.table(DECLINE)["adjective_suffixes"])
-    return endings, frozenset(datastore.table(MORPH)["nouns_like_adjectives"])
+    morph = datastore.table(MORPH)
+    return frozenset(morph["adjective_endings"]), frozenset(morph["nouns_like_adjectives"])
 
 
 def _from_suffixes(word: str) -> tuple[str, str]:
