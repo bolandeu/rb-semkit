@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-002
 title: 'Text matchers and marker lists: every v1 find/remove/extract'
-status: queue
+status: in_progress
 attempts: 0
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: needs_scope
 phase: null
 tests_hash: null
 publish_stage: null
@@ -18,6 +18,13 @@ owns_paths:
 - src/rb_semkit/data/markers/
 - scripts/build_markers.py
 - .gitattributes
+- docs/plan.md
+- pyproject.toml
+- scripts/build_data.py
+- scripts/build_data.toml
+- src/rb_semkit/core/frame.py
+- src/rb_semkit/core/text/base.py
+- uv.lock
 test_paths:
 - tests/matchers/
 - tests/markers/
