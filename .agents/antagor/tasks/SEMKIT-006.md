@@ -105,3 +105,9 @@ Decided: follow the VBA with the ADR 0005 deviations; fix in SEMKIT-009 (depends
 > ngrams(n=2, stopwords=False) drops the stopwords before the runs; the VBA «Биграмм без учета стоп-слов» —k·· (L2781) → ka–a (L1005) keeps a stopword inside the bigram as a 3-word gram. Case ngrams-stopwords-2 (xfail): input 'купить диван в москве', vba 'купить диван=1 | диван в москве=1', expected 'диван в москве=1 | купить диван=1', got 'диван москве=1 | купить диван=1'. Suspected code path: src/rb_semkit/core/analysis/frequency.py _word_keys/_runs (the stopword becomes an empty key and is skipped). ka–a also keys case-sensitively and adds a second-column sum (—okk L2142).
 
 Decided: follow the VBA with the ADR 0005 deviations; fix in SEMKIT-009 (depends on 006). Keep the rows as xfail in 006.
+
+### Answer to finding #4
+
+> wordforms() gives the forms in the order forms.marisa returns them, neither alphabetical (the dictionary order ––aa L380 writes) nor by paradigm: 'диван' gives '... диванах | диванов | диваном | диване ...'. Cases (xfail): wordforms-divan, wordforms-capital, wordforms-yo; vba/expected 'диван | дивана | диванам | диванами | диванах | диване | диванов | диваном | дивану | диваны', got the same forms in trie order. Suspected code path: src/rb_semkit/core/morph/lemmatizer.py SemtoolsLemmatizer.forms (BytesTrie.get order). Fix: sort the forms, or record the order in ADR 0005.
+
+Decided: follow the VBA with the ADR 0005 deviations; fix in SEMKIT-009 (depends on 006). Keep the rows as xfail in 006.
