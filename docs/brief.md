@@ -29,6 +29,7 @@ Run the interview below with the Human, in Russian, one block at a time. Each qu
 | Lemma dictionary, TSV: wordform, lemma, pos (845k rows) | `/Users/bolandau/Work/_sandbox/semtools/reverse/data/lemms.tsv` |
 | Add-in sheet `abc`: declension tables, stopwords, abbreviations (named ranges in `/Users/bolandau/Work/_sandbox/semtools/docs/FEATURES.md` and below) | `/Users/bolandau/Work/_sandbox/semtools/reverse/data/sheet_abc.tsv` |
 | Marker lists (18 xlsx: geo, mosmetro, questions, sale…) | `/Users/bolandau/Work/_sandbox/semtools/reverse/downloads/spiski/` |
+| Test core «диван» from Bukvarix (72 035 phrases, `phrase`, `freq_msk_exact`) and the reference workbook for the add-in | `/Users/bolandau/Work/_sandbox/semtools/reference/divan_bukvarix_all.csv`, `/Users/bolandau/Work/_sandbox/semtools/reference/semkit_reference.xlsx` |
 | Original files | `/Users/bolandau/Work/_sandbox/semtools/!SEMToolsPro.xlam`, `/Users/bolandau/Work/_sandbox/semtools/reverse/downloads/lemms.xlsb` |
 
 Named ranges of sheet `abc` (rows and columns in `sheet_abc.tsv`): lemmSuf E50:G305 (fallback suffix → lemma suffix), nounSuffixes Q1:AB3331 (3-letter ending → 12 forms), nounExclusions Q3380:AB11089, adjSuffixes AD2:AS90 (16 forms), adjExclusions AD93:AS136, femSurSuf AD140:AI163, nonDecl B1:B1205, nounsLikeAdj J1:J417, abbrs M1:M1016, chpuSym E10000:F10965.
