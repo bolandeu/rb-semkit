@@ -16,6 +16,7 @@ dependencies = [
     "marisa-trie>=1.4.1",
     "pymorphy3>=2.0.6",
     "pandas>=3.0.6",
+    "pyahocorasick>=2.3.1",
 ]
 
 [project.scripts]
@@ -60,6 +61,7 @@ dev = [
     "ruff>=0.6",
     "syrupy>=4.8",
     "ty>=0.0.80",
+    "openpyxl>=3.1.5",
 ]
 
 # External (non-Python) dependencies — every CLI this tool runs (require_cli,

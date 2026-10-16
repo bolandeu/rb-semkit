@@ -21,7 +21,7 @@ The add-in groups commands by *action* (find / remove / extract / change). semki
 | whole words | 1 word, list (all / any; anywhere / start / end) | ✓ | ✓ | ✓ | v1 |
 | words by content | starts / ends / contains pattern or pattern list; only-latin, has-latin, only-digits, has-digits, mixes | ✓ | ✓ | ✓ | v1 |
 | words by case | lower, Capital, CAPS | ✓ | — | ✓ | v1 |
-| words by position | first/last 1..N, N-th, up to middle, at most N | — | ✓ | ✓ | v1 |
+| words by position | first/last 1..N, N-th, up to middle, at most N | ✓ | ✓ | ✓ | v1 |
 | words by POS | noun, adj, verb, adverb | ✓ | ✓ | ✓ | v1 (needs lemmatizer) |
 | word repeats | exact (all, en, ru, adjacent, numbers), by wordforms | ✓ | ✓ | — | v1 |
 | stopwords | built-in + user list | — | ✓ | — | v1 |
@@ -102,8 +102,8 @@ samples → dataio. XML feed. License.
 
 ## 2. Reference data
 
-All built by one script `scripts/build_data.py` from the sandbox sources into `src/rb_semkit/data/`.
-The script is re-runnable; the built files are committed (private repo). Sources stay outside the repo.
+Built by `scripts/build_data.py` (all data but D15) and `scripts/build_markers.py` (D15) from the sandbox sources into
+`src/rb_semkit/data/`. Both scripts are re-runnable; the built files are committed (private repo). Sources stay outside the repo.
 
 | # | Data | Source | Rows | Package format | Load | Used by |
 |---|---|---|---|---|---|---|
@@ -121,7 +121,7 @@ The script is re-runnable; the built files are committed (private repo). Sources
 | D12 | ЧПУ symbols | `abc` E10000:F10965 `chpuSym` | 966 | `translit.json` | lazy | ЧПУ translit |
 | D13 | stopwords | VBA `Function stopwords` (string literal) | 439 (the literal holds 440 words; the junk «g» dropped) | `lists.json` | lazy | stopwords, n-grams, bigrams |
 | D14 | words moved to phrase start (`где`, `купить`, `недорогой`, `готовый`…) | `abc` BA1:BA644 `charsPat` | 644 | `lists.json` | lazy | word order fix (`moveToBeg`) |
-| D15 | 18 marker lists | `reverse/downloads/spiski/*.xlsx` (1 column, `cars` — 6) | 59 k total, geo 36 k | `markers/<name>.txt.gz` (one phrase per line) | lazy; Aho-Corasick built on first use, cached per list | markers |
+| D15 | 18 marker lists | `reverse/downloads/spiski/*.xlsx` (1 column, `cars` — 6) | 59 069 total after dedupe, geo 36 012 (`cars`: column A only, 2 502) | `markers/<name>.txt.gz` (one phrase per line) | lazy; Aho-Corasick built on first use, cached per list | markers |
 | D16 | phonetic translit tables en→ru: whole words, suffixes (5–2 letters), prefixes (5–2), any n-grams (5–1) | VBA `InitDicts` (string literals, 14 pairs of lists) | 701 pairs (words 65) | `translit.json` | lazy | Dreamline → Дримлайн (later) |
 | D17 | surname rules `mSurn` / `fSurn` | VBA functions (code, not data) | — | code | — | full names (later) |
 
