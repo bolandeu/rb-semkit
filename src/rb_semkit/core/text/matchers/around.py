@@ -44,5 +44,16 @@ def around(pattern: str, *, after: bool = False, include: bool = False, last: bo
     The pattern is a word or words as written, found as whole words, in any case, ё as е. `include=True` adds the
     occurrence itself to the part. A phrase without the pattern has no part: remove leaves it, extract gives ''.
     Remove and extract only.
+
+    VBA (RibbonCallbacks.vba):
+        remove: before the first `––·a` (line 2125) with include, `––·—` (line 2786) without; before the last `–—kk`
+        (line 2923), `––··` (line 2389); after the first `––—–` (line 1791), `––—o` (line 2721); after the last
+        `––—a` (line 2687), `––——` (line 2250).
+        extract: before the first `–—–o` (line 2775) with include, `–—––` (line 1794) without (its bug fixed); after
+        the last `–—o·` (line 2767), `–—–k` (line 1602) (its bug fixed); before the last, after the first: no VBA
+        handler: derived from `–—–o` (line 2775) and `–—o·` (line 2767).
+        The VBA finds the pattern as a substring as typed, in any case only in the remove buttons of the first
+        occurrence; here it is found as whole words in any case.
+    ADR 0005: ё = е; no double spaces in the results, none at the edges.
     """
     return Around(pattern, after=after, include=include, last=last)

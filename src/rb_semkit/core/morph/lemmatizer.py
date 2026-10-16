@@ -73,13 +73,17 @@ def _adjective_rule() -> tuple[frozenset[str], frozenset[str]]:
     return frozenset(morph["adjective_endings"]), frozenset(morph["nouns_like_adjectives"])
 
 
+def looks_like_adjective(lemma: str) -> bool:
+    """The add-in's adjective rule: the lemma ends like an adjective (`adjSuffixes`) and is not a noun like one."""
+    endings, nouns_like_adjectives = datastore.once("adjective_rule", _adjective_rule)
+    return lemma[-3:] in endings and lemma not in nouns_like_adjectives
+
+
 def _from_suffixes(word: str) -> tuple[str, str]:
     """The add-in's fallback: the last four letters by `lemmSuf`; an adjective when the lemma ends like one."""
     suffix = word[-4:]
     lemma = word[: len(word) - len(suffix)] + datastore.table(MORPH)["lemma_suffixes"].get(suffix, suffix)
-    endings, nouns_like_adjectives = datastore.once("adjective_rule", _adjective_rule)
-    is_adjective = lemma[-3:] in endings and lemma not in nouns_like_adjectives
-    return lemma, "a" if is_adjective else ""
+    return lemma, "a" if looks_like_adjective(lemma) else ""
 
 
 def _analyse(word: str) -> tuple[str, str]:

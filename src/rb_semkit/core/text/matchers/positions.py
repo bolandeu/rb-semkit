@@ -19,5 +19,13 @@ class Positions(SpanMatcher):
 
 
 def positions(count: int, *, last: bool = False) -> Positions:
-    """The first `count` characters of a phrase, or the last ones with `last=True` (remove and extract)."""
+    """The first `count` characters of a phrase, or the last ones with `last=True` (remove and extract).
+
+    remove gives '' when the phrase has `count` characters or fewer; extract then gives the whole phrase.
+
+    VBA (RibbonCallbacks.vba):
+        remove: `ak——` (line 2702) first, `ak·k` (line 2086) last.
+        extract: `–—·–` (line 2369) first, `–ak·` (line 1687) last.
+    ADR 0005: no double spaces in the results, none at the edges.
+    """
     return Positions(count, last=last)

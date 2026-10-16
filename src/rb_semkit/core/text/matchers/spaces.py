@@ -30,6 +30,11 @@ def spaces(kind: str) -> Spaces:
     """The spaces to remove (remove only).
 
     kind: "all"; "left" and "right" (at that end only); "both" (at both ends); "extra" (runs collapsed to one
-    space, none at the ends).
+    space, none at the ends). "left", "right" and "both" keep the spaces inside.
+
+    VBA (RibbonCallbacks.vba):
+        remove: `–aal` (line 1941) extra («Лишние пробелы > Все»), `—ako` (line 2926) left, `a–o—` (line 2230) right,
+        `a–k—` (line 1878) both; all: no VBA handler: derived from `–aal` (line 1941), every space cut.
+    ADR 0005: whitespace of any kind (tab, nbsp, line break) counts as a space.
     """
     return Spaces(kind)

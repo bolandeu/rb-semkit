@@ -67,5 +67,16 @@ def words(
     where: "anywhere", "start" (the first word only) or "end" (the last word only).
     ignore_punct: punctuation at the edges of a word does not count («диван,» is «диван»).
     lemmatizer: compare lemmas («диваны» is «диван»); None compares the words as they are.
+
+    VBA (RibbonCallbacks.vba):
+        find: `–––o` (line 1927) one word, `–––k` (line 2805) all, `—k—k` (line 2218) any; start, end: no VBA
+        handler: derived from `dFWCustom` (line 2309) and `dLWCustom` (line 2308).
+        remove: `ao—a` (line 1835) one word, `aok–` (line 2733) any, `dFWCustom` (line 2309) start, `dLWCustom`
+        (line 2308) end; all: no VBA handler: derived from `–––k` (line 2805).
+        extract: `–·oo` (line 2567) one word or any of the list, as the phrase spells them; start, end, all: no VBA
+        handler: derived from `–·oo` (line 2567).
+        ignore_punct: as the «Игнорировать пунктуацию» variants (`oka`, line 2460), but only the edges of a word;
+        lemmatizer: no VBA handler: derived from `–––o` (line 1927).
+    ADR 0005: ё = е; split on any whitespace; blank list items are refused.
     """
     return Words(items, mode=mode, where=where, ignore_punct=ignore_punct, lemmatizer=lemmatizer)

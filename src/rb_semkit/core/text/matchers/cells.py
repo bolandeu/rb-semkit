@@ -25,7 +25,7 @@ def _text_test(kind: str, items: tuple[str, ...]) -> Callable[[str], bool]:
 
 def _word_test(kind: str, words: frozenset[str]) -> Callable[[str], bool]:
     def test(phrase: str) -> bool:
-        keys = [word_key(word, ignore_punct=True) for word in split_words(phrase)]
+        keys = [word_key(word) for word in split_words(phrase)]
         if not keys:
             return False
         if kind == "starts":
@@ -71,7 +71,7 @@ class Cells(Matcher):
             self._content = _pattern_test(pattern)
 
     def find(self, phrases: pd.Series) -> pd.Series:
-        blank = phrases.str.strip() == ""
+        blank = phrases == ""
         if self._kind == "empty":
             return blank
         if (content := self._content) is not None:
@@ -79,13 +79,17 @@ class Cells(Matcher):
         return self._occurrence(phrases, blank)
 
     def _occurrence(self, phrases: pd.Series, blank: pd.Series) -> pd.Series:
-        """Empty cells are never repeats of each other: each is the only one, the first and the last of its kind."""
-        shared = phrases.duplicated(keep=False) & ~blank
+        """Cells compare in any case, ё as е, spaces as they are («диван » is no «диван»).
+
+        Empty cells are never repeats of each other: each is the only one, the first and the last of its kind.
+        """
+        keys = phrases.str.lower().str.replace("ё", "е", regex=False)
+        shared = keys.duplicated(keep=False) & ~blank
         if self._kind == "repeated":
             return shared
         if self._kind == "unique":
             return ~shared
-        return ~(phrases.duplicated(keep="first" if self._kind == "first" else "last") & ~blank)
+        return ~(keys.duplicated(keep="first" if self._kind == "first" else "last") & ~blank)
 
     def remove(self, phrases: pd.Series) -> pd.Series:
         return phrases[~self.find(phrases)]
@@ -104,8 +108,24 @@ def cells(
     """A whole cell is found or not. remove drops the rows that are found; extract keeps the cell, or '' if not found.
 
     kind: "contains", "starts", "ends" (with `items`: text parts, case and ё do not count; or with
-    `prepositions=True`: the bundled prepositions, as whole words); "regex" (with `pattern`); "empty" (blank);
-    by occurrence among the cells: "unique" (once), "repeated" (more than once), "first", "last" occurrence.
+    `prepositions=True`: the first, the last or any word is a bundled preposition, as written, «для,» is none);
+    "regex" (with `pattern`); "empty" (no characters at all: a cell of spaces is not empty); by occurrence among the
+    cells, in any case and ё as е: "unique" (once), "repeated" (more than once), "first", "last" occurrence.
     Empty cells are never repeats of each other.
+
+    VBA (RibbonCallbacks.vba):
+        find: `—kk—` (line 2556) contains, `—ko·` (line 2172) starts, `—koo` (line 2822) ends, `findFFWprps`
+        (line 2304) starts with a preposition, `findFLWprps` (line 2305) ends with one, `—koa` (line 2089) regex,
+        `—kk–` (line 1872) empty, `—k—a` (line 2170) unique, `—k–—` (line 2214) repeated, `—k–k` (line 2846) first,
+        `—k––` (line 2493) last; contains a preposition: no VBA handler: derived from `findFFWprps` (line 2304).
+        remove (drops the rows): `remBlankCellsUp` (line 178) empty; the other kinds: `akok` (line 1868) contains,
+        `ak–a` (line 2613) starts, `ak–k` (line 2248) ends, `akk·` (line 2969) regex, `ao—–` (line 2074) unique,
+        `ak·a` (line 2358) repeated clear the cell instead; first, last, prepositions: no VBA handler: derived from
+        `ak·a` (line 2358) and `ak–a` (line 2613).
+        extract: `–——k` (line 2101) contains, `—·–·` (line 2935) starts, `—·––` (line 2645) ends, `–·k—` (line 2942)
+        unique, `–aoa` (line 2911) repeated; regex: no VBA handler (`—·–a` is broken): derived from `akk·`
+        (line 2969); empty, first, last, prepositions: no VBA handler: derived from their find handlers.
+    ADR 0005: ё = е; empty cells are never duplicates; the fixed preposition list («по», no «g»); blank list items are
+    refused.
     """
     return Cells(kind, items, pattern, prepositions)

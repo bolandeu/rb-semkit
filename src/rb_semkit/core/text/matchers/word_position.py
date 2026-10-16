@@ -44,6 +44,16 @@ def word_position(
     first / last: the first or last N words. nth: the N-th word. to_middle: the words up to the middle (the first
     half, the middle word of an odd count included). at_most: the words after the N-th, so remove keeps a phrase
     at N words at most.
+
+    VBA (RibbonCallbacks.vba):
+        remove: `ak—k` (line 2081), `ak—o` (line 2659), `ak—–` (line 2485), `ak—a` (line 2939) first;
+        `aka—` (line 1940), `ak·o` (line 2270) and the other «Последние» buttons last; nth, to_middle, at_most: no
+        VBA handler: derived from `k·k` (line 1851) and `o·—` (line 1403).
+        extract: `–—a—` (line 1877), `–—·—` (line 1828) first; `–ak–` (line 1778), `–aok` (line 2137) last;
+        `–—oo` (line 2847), `–a–k` (line 1850) nth (the 1st word is `–—a—`); `–·—k` (line 1599) to_middle and
+        `–·—o` (line 1612) at_most, both with `o·—` (line 1403), which counts characters, not words, here words.
+        find: no VBA handler: derived from the extract handlers.
+    ADR 0005: split on any whitespace, so empty words never count.
     """
     return WordPosition(
         {"first": first, "last": last, "nth": nth, "to_middle": to_middle, "at_most": at_most},
