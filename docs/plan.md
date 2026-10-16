@@ -119,7 +119,7 @@ The script is re-runnable; the built files are committed (private repo). Sources
 | D10 | nouns that look like adj | `abc` J1:J417 `nounsLikeAdj` | 417 | `morph.json` | lazy | POS rule |
 | D11 | abbreviations | `abc` M1:M1016 `abbrs` | 1 016 | `lists.json` | lazy | case: BMW, RGB |
 | D12 | ЧПУ symbols | `abc` E10000:F10965 `chpuSym` | 966 | `translit.json` | lazy | ЧПУ translit |
-| D13 | stopwords | VBA `Function stopwords` (string literal) | 439 after dedupe (the VBA literal repeats words) | `lists.json` | lazy | stopwords, n-grams, bigrams |
+| D13 | stopwords | VBA `Function stopwords` (string literal) | 439 (as built from the VBA literal) | `lists.json` | lazy | stopwords, n-grams, bigrams |
 | D14 | words moved to phrase start (`где`, `купить`, `недорогой`, `готовый`…) | `abc` BA1:BA644 `charsPat` | 644 | `lists.json` | lazy | word order fix (`moveToBeg`) |
 | D15 | 18 marker lists | `reverse/downloads/spiski/*.xlsx` (1 column, `cars` — 6) | 59 k total, geo 36 k | `markers/<name>.txt.gz` (one phrase per line) | lazy; Aho-Corasick built on first use, cached per list | markers |
 | D16 | phonetic translit tables en→ru: whole words, suffixes (5–2 letters), prefixes (5–2), any n-grams (5–1) | VBA `InitDicts` (string literals, 14 pairs of lists) | 701 pairs (words 65) | `translit.json` | lazy | Dreamline → Дримлайн (later) |
