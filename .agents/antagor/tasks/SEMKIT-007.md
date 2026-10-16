@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-007
 title: 'Markers and phrase lists: extract the longest match'
-status: queue
+status: in_progress
 attempts: 1
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: scope_held
 phase: null
 tests_hash: null
 publish_stage: null
@@ -15,6 +15,22 @@ type: feature
 owns_paths:
 - src/rb_semkit/core/markers/
 - src/rb_semkit/core/text/matchers/phrases.py
+- docs/plan.md
+- src/rb_semkit/core/morph/lemmatizer.py
+- src/rb_semkit/core/text/matchers/around.py
+- src/rb_semkit/core/text/matchers/cells.py
+- src/rb_semkit/core/text/matchers/chars.py
+- src/rb_semkit/core/text/matchers/classes.py
+- src/rb_semkit/core/text/matchers/pos.py
+- src/rb_semkit/core/text/matchers/positions.py
+- src/rb_semkit/core/text/matchers/regex.py
+- src/rb_semkit/core/text/matchers/repeats.py
+- src/rb_semkit/core/text/matchers/spaces.py
+- src/rb_semkit/core/text/matchers/stopwords.py
+- src/rb_semkit/core/text/matchers/word_case.py
+- src/rb_semkit/core/text/matchers/word_content.py
+- src/rb_semkit/core/text/matchers/word_position.py
+- src/rb_semkit/core/text/matchers/words.py
 test_paths:
 - tests/markers/
 - tests/matchers/
@@ -80,3 +96,15 @@ docs/vba/matchers.md S10 (la—, DeletePhrases), ADR 0005, the SEMKIT-005 code o
 no tests ran in 0.00s
 ERROR: file or directory not found: tests/matchers_vba
 ```
+
+### Answer to question #1
+
+> Branch antagor/SEMKIT-007 starts from main, which lacks the SEMKIT-005 work (status publish, not merged): no tests/matchers_vba, and markers/matcher.py is the pre-005 code, so the check cannot pass and the task would change the wrong code.
+> Question: How does SEMKIT-007 get the SEMKIT-005 code?
+> Options:
+> 1. Publish SEMKIT-005 first, then restart SEMKIT-007 from the new main (add depends_on: SEMKIT-005)
+> 2. Merge antagor/SEMKIT-005 into antagor/SEMKIT-007 now, then the worker continues
+> 3. Drop tests/matchers_vba from the checks and work on the pre-005 code
+> Recommended: Publish SEMKIT-005 first, then restart SEMKIT-007 from the new main (add depends_on: SEMKIT-005)
+
+Option 2. SEMKIT-005 is accepted (status publish) but not on main yet: its publish waits for the Human. Merge its branch into yours now: git merge --no-edit antagor/SEMKIT-005 (no rebase, no force), then continue; the code and tests of SEMKIT-005 (tests/matchers_vba, core/markers/matcher.py, matchers, lemmatizer looks_like_adjective) are the base. Do not edit the SEMKIT-005 files outside your owns.
