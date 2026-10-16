@@ -1,0 +1,17 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v1.15.0
+_src_path: gh:bolandeu/cli-generator
+antagor_prefix: SMK
+author_name: net.paradox
+cli_name: semkit
+description: 'Обработка семантического ядра: чтение и запись фраз в любом формате,
+    леммы, n-граммы, дубли'
+dist_name: rb-semkit
+dist_name_legacy: ''
+include_auth: false
+include_ci: false
+include_db: false
+include_providers: false
+package_name: rb_semkit
+project_name: semkit
+repository_url: https://github.com/bolandeu/rb-semkit

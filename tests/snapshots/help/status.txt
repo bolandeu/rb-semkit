@@ -1,0 +1,14 @@
+
+ Usage: semkit status [OPTIONS]
+
+ Show the current project's status.
+
+ Example: semkit status --json
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --json             Emit machine-readable JSON output.                                            │
+│ --quiet            Suppress non-essential output.                                                │
+│ --verbose          Emit extra diagnostic output.                                                 │
+│ --help             Show this message and exit.                                                   │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

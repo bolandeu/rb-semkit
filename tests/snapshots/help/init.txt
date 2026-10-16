@@ -1,0 +1,16 @@
+
+ Usage: semkit init [OPTIONS]
+
+ Initialize a project: creates .semkit/config.toml in the target directory.
+
+ Example: semkit init --name demo
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --name           <str>  Project name (defaults to directory name).                               │
+│ --force                 Overwrite an already-initialized project's config.                       │
+│ --json                  Emit machine-readable JSON output.                                       │
+│ --quiet                 Suppress non-essential output.                                           │
+│ --verbose               Emit extra diagnostic output.                                            │
+│ --help                  Show this message and exit.                                              │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
