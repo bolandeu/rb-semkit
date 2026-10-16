@@ -2,6 +2,41 @@
 
 Обработка семантического ядра: чтение и запись фраз в любом формате, леммы, n-граммы, дубли
 
+## Library
+
+```python
+import pandas as pd
+import rb_semkit as sk
+
+phrases = pd.Series(["купить диван", "Диван бу", None])
+sk.find(phrases, sk.words(["диван"]))  # [True, True, False]
+sk.remove(phrases, sk.words(["диван"]))  # ["купить", "бу", ""]
+sk.extract(phrases, sk.words(["диван"]))  # ["диван", "Диван", ""]
+
+sk.lemmatize(pd.Series(["купила диваны"]))  # ["купить диван"]
+sk.part_of_speech(pd.Series(["москве"]))  # ["n"]
+sk.wordforms("москва")  # [..., "москве", ...]
+
+df = pd.DataFrame({"phrase": ["купить диван бу"], "freq": [10]})
+sk.remove(df, sk.words("бу"), column="phrase")  # adds "phrase_remove" right after "phrase"
+sk.remove(df, sk.words("бу"), column="phrase", inplace=True)  # replaces "phrase"
+sk.pipe(df, "phrase").remove(sk.words("бу")).remove(sk.words("купить")).phrases
+```
+
+- Input: a Series of phrases, or a DataFrame with `column=`. NaN and None are empty strings.
+- Output: a Series with the input index, or the input DataFrame itself with the new column
+  `<column>_<operation>` (the function adds it to your object and returns that object; pass `df.copy()` to keep `df`).
+- One matcher (`sk.words(...)`), three verbs: `find` (bool mask), `remove` (cleaned text), `extract` (found part).
+  A phrase splits on any whitespace; words compare by case and ё = е; the output keeps the original text.
+- `sk.words(items, mode="any"|"all", where="anywhere"|"start"|"end", ignore_punct=False, lemmatizer=None)`.
+  With a `lemmatizer` it compares lemmas («диваны» = «диван»); without one, words as they are.
+- Lemmas: the !SEMTools dictionary, then pymorphy3, then the add-in's suffix table; any object with
+  `lemma(word)`, `pos(word)` and `forms(lemma)` works as `lemmatizer=`.
+- Wrong input raises `sk.InvalidArguments`, naming the argument and the allowed values.
+
+The bundled data (`src/rb_semkit/data/`) is built from the !SEMTools sources (paths in
+`scripts/build_data.toml`) by `uv run scripts/build_data.py`; the same sources give byte-identical files.
+
 ## Development
 
 ```bash

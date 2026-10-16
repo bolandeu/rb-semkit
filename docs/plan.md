@@ -107,19 +107,19 @@ The script is re-runnable; the built files are committed (private repo). Sources
 
 | # | Data | Source | Rows | Package format | Load | Used by |
 |---|---|---|---|---|---|---|
-| D1 | wordform → lemma, POS | `reverse/data/lemms.tsv` | 845 374 | `lemmas.marisa` (`marisa_trie.BytesTrie`, value = `lemma\tpos`) | mmap | lemmatize, POS, dupes by wordforms, n-gram lemmas |
-| D2 | lemma → wordforms | same, reversed | 170 430 lemmas | `forms.marisa` (`BytesTrie`, multi-value) | mmap | all wordforms, remove/find by wordforms |
+| D1 | wordform → lemma, POS | `reverse/data/lemms.tsv` | 845 374 rows → 844 971 wordforms | `lemmas.marisa` (`marisa_trie.BytesTrie`, value = `lemma\tpos`) | mmap | lemmatize, POS, dupes by wordforms, n-gram lemmas |
+| D2 | lemma → wordforms | same, reversed | 169 933 lemmas (lower case) | `forms.marisa` (`BytesTrie`, multi-value) | mmap | all wordforms, remove/find by wordforms |
 | D3 | lemma fallback suffixes | `abc` E50:G305 `lemmSuf` | 256 | `morph.json` → dict | lazy, on first lookup | lemmatizer for unknown words |
 | D4 | noun endings, 12 forms | `abc` Q1:AB3331 `nounSuffixes` | 3 331 | not built in v1 (v2 builds its own data) | — | noun declension |
-| D5 | noun exclusions | `abc` Q3380:AB11089 `nounExclusions` | 7 710 | not built in v1 | — | noun declension |
-| D6 | adj endings, 16 forms | `abc` AD2:AS90 `adjSuffixes` | 89 | not built in v1 | — | adj declension, POS of unknown words |
-| D7 | adj exclusions | `abc` AD93:AS136 `adjExclusions` | 44 | not built in v1 | — | adj declension |
-| D8 | feminine surname suffixes | `abc` AD140:AI163 `femSurSuf` | 24 | not built in v1 | — | full-name declension |
-| D9 | indeclinable words | `abc` B1:B1205 `nonDecl` | 1 205 | not built in v1 | — | declension |
+| D5 | noun exclusions | `abc` Q3380:AB11089 `nounExclusions` | 7 710 | not built in v1 (v2 builds its own data) | — | noun declension |
+| D6 | adj endings, 16 forms | `abc` AD2:AS90 `adjSuffixes` | 89 | first column (endings) → `morph.json` `adjective_endings`; the 16 forms not built in v1 (v2 builds its own data) | lazy | POS of unknown words; adj declension (v2) |
+| D7 | adj exclusions | `abc` AD93:AS136 `adjExclusions` | 44 | not built in v1 (v2 builds its own data) | — | adj declension |
+| D8 | feminine surname suffixes | `abc` AD140:AI163 `femSurSuf` | 24 | not built in v1 (v2 builds its own data) | — | full-name declension |
+| D9 | indeclinable words | `abc` B1:B1205 `nonDecl` | 1 205 | not built in v1 (v2 builds its own data) | — | declension |
 | D10 | nouns that look like adj | `abc` J1:J417 `nounsLikeAdj` | 417 | `morph.json` | lazy | POS rule |
 | D11 | abbreviations | `abc` M1:M1016 `abbrs` | 1 016 | `lists.json` | lazy | case: BMW, RGB |
 | D12 | ЧПУ symbols | `abc` E10000:F10965 `chpuSym` | 966 | `translit.json` | lazy | ЧПУ translit |
-| D13 | stopwords | VBA `Function stopwords` (string literal) | 439 (as built from the VBA literal) | `lists.json` | lazy | stopwords, n-grams, bigrams |
+| D13 | stopwords | VBA `Function stopwords` (string literal) | 439 (the literal holds 440 words; the junk «g» dropped) | `lists.json` | lazy | stopwords, n-grams, bigrams |
 | D14 | words moved to phrase start (`где`, `купить`, `недорогой`, `готовый`…) | `abc` BA1:BA644 `charsPat` | 644 | `lists.json` | lazy | word order fix (`moveToBeg`) |
 | D15 | 18 marker lists | `reverse/downloads/spiski/*.xlsx` (1 column, `cars` — 6) | 59 k total, geo 36 k | `markers/<name>.txt.gz` (one phrase per line) | lazy; Aho-Corasick built on first use, cached per list | markers |
 | D16 | phonetic translit tables en→ru: whole words, suffixes (5–2 letters), prefixes (5–2), any n-grams (5–1) | VBA `InitDicts` (string literals, 14 pairs of lists) | 701 pairs (words 65) | `translit.json` | lazy | Dreamline → Дримлайн (later) |
@@ -130,14 +130,14 @@ sheet `ggg` (marker cache, empty in the .xlam — the lists come from `spiski/`)
 
 Lists D11, D13, D14 and the prepositions below go to one `lists.json`, keyed by name.
 
-Prepositions are string literals in `RibbonCallbacks.vba`, two lists (→ `lists.json`):
-- `prps()` (line 1322), 52 items: prepositions plus the conjunctions «а», «и», «или», «но». Used for cells
+Prepositions are string literals in `RibbonCallbacks.vba`, three lists (→ `lists.json`):
+- `prps()` (line 1322), 47 items (46 after the fix): `prepositions`; prepositions plus the conjunctions «а», «и», «или», «но». Used for cells
   starting / ending with a preposition, removing prepositions at the end, extracting prepositions. Junk to fix:
   «g» (stray latin) and «пo» (latin «o» inside).
-- `preps` (inside the complements extractor), 17 items: «для с в из на к со о во у по под от после за над»;
-  a second copy also has «без». Used to find prepositional complements («в Москве»).
+- `preps` (inside the complements extractor), 16 items: «для с в из на к со о во у по под от после за над»;
+  both copies (`prepCollocsToEnd`, `collocs`) are the same, without «без»: `complement_prepositions`. Used to find prepositional complements («в Москве»).
 - toponym prepositions (inside «remove / extract toponyms with prepositions»): ru «в во на по из до г и»,
-  en «in at by to». The word before a toponym is removed with it when it is in this list.
+  en «in at by to»: `toponym_prepositions_ru`, `toponym_prepositions_en`. The word before a toponym is removed with it when it is in this list.
 
 `downloads/SEMToolsWordProcessor.xlsb` holds no reference data. It is the UI of «Работа с семантическим ядром»:
 sheet `semHelper` (core phrases, frequency dictionary, plus-words, lemma map), sheets `Good case` / `Bad case`.
@@ -147,16 +147,20 @@ lemmatizer=)` → good / bad / rest, plus the frequency dictionary of the rest (
 to inspect before build.
 
 Cleaning rules the build script applies (found in the sources):
-- D1: drop header and junk rows (e.g. `0,0000001  1e-07  фыва`), empty POS, rare POS `nv`, `prt` → decide (see Q-D);
-  lower-case, ё kept in source and a ё→е key added.
+- D1: drop the header and junk rows: a wordform that is not letters (maybe joined by hyphens: `0,0000001`,
+  `од?оклассники`), an empty POS. POS `nv`, `prt` kept as is. Lower-case; ё kept and a ё→е key added. A repeated
+  wordform keeps the last row (as the add-in's sorted VLOOKUP).
+- VBA lists: «пo» → «по»; the stray latin «g» dropped (it sits in `prps()` and in `stopwords`).
 - D15: drop the 2nd sheet in `DIY.xlsx` (Google Sheets formula junk); `cars.xlsx` — take column A only
   (B..F is a brand table: ru, en); strip, dedupe, keep case for display, match case-insensitive.
 - `abc` ranges: read by the cell addresses above from `sheet_abc.tsv`; empty cells dropped.
+- JSON is written compact, on one line, keys sorted: the build is byte-reproducible and adds few diff lines.
 
 Size estimate: D1+D2 ≈ 10 MB, the rest < 1 MB. JSON files are written compact, one line each; D4–D9 (declension) are built in v2.
 
-Checks after build (`tests/test_data.py`): row counts per file, 20 known lookups
-(«москве → москва n», «купила → купить v»), every marker list loads and matches its own first item.
+Checks after build (`tests/core/test_build_data.py`): row counts per file, 20 known lookups
+(«москве → москва n», «купила → купить v»); the marker build checks that every marker list loads and matches its
+own first item.
 
 ## 3. Interface with dataio
 
