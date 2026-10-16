@@ -125,3 +125,14 @@ Option 1 (VBA, per ADR 0005): the found part is the text the pattern does not ma
 > Recommended: VBA: extract gives the leading words within half the phrase length (to_middle) or within N characters (at_most), always the first word; remove gives the other words; find is True where remove leaves a change; update the tests
 
 Option 1 (VBA, per ADR 0005): count characters as o·— does (half the phrase length / N chars, always the first word); remove gives the other words; find True where remove changes the phrase. Update the tests.
+
+### Answer to question #5
+
+> The VBA repeat buttons (`—k—–` find; `aala`, `aal1`, `aall`, `aal·`, `remrepW`, `aook` remove) compare the words with their punctuation, so 'диван, диван' has no repeat; the code strips the edge punctuation, and the existing test test_remove_keeps_the_first_occurrence expects 'Диван купить диван, ДИВАН' to give 'Диван купить' (VBA: 'Диван купить диван,').
+> Question: Does repeats() compare the words with or without their edge punctuation?
+> Options:
+> 1. VBA: with the punctuation; update the test
+> 2. Keep: without the edge punctuation, named in the docstring as a deviation from the VBA
+> Recommended: VBA: with the punctuation; update the test
+
+Option 1 (VBA, per ADR 0005): compare words with their punctuation in the plain variant. Update the test.
