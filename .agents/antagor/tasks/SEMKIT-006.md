@@ -17,7 +17,6 @@ owns_paths:
 - scripts/data_manifest.py
 - scripts/bench.py
 - scripts/build_data.toml
-- docs/plan.md
 test_paths:
 - tests/conformance/
 docs: none
