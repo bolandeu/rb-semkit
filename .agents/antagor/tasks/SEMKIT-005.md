@@ -92,3 +92,14 @@ Reference of the VBA algorithms, traced from the handlers (the source of truth f
 > Recommended: VBA: a substring as typed; Remove with the first occurrence ignores case, Remove with the last occurrence and every Extract match case (ё = е); update the SEMKIT-002 acceptance and the tests
 
 Option 1 (VBA, per ADR 0005): a substring as typed; Remove with the first occurrence ignores case, Remove with the last occurrence and every Extract match case (ё = е). Update the SEMKIT-002 acceptance line and the tests to the VBA results.
+
+### Answer to question #2
+
+> The VBA runs VBScript RegExp, where \w, \d, \s and \b are ASCII (docs/vba/matchers.md S8: port with re.ASCII); the existing test tests/matchers/test_remove.py expects sk.remove with sk.regex(r'\bв\b') to cut the Cyrillic word 'в' from 'купить диван в москве', and that needs Unicode \b.
+> Question: Do sk.regex and sk.cells('regex') use ASCII or Unicode character classes?
+> Options:
+> 1. ASCII (re.ASCII), as VBScript; change the test to a pattern without \b
+> 2. Unicode (the Python default), a deviation from the VBA for Cyrillic text; keep the test
+> Recommended: Unicode (the Python default), a deviation from the VBA for Cyrillic text; keep the test
+
+Option 2 (the Human, 2026-10-17): Unicode character classes, a deviation recorded in ADR 0005 (commit on main); name it in the docstring; keep the test.
