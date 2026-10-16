@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-002
 title: 'Text matchers and marker lists: every v1 find/remove/extract'
-status: queue
+status: in_review
 attempts: 1
 blocked: false
 blocked_reason: null
