@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-005
 title: Port the text matchers and markers from the add-in VBA
-status: queue
+status: in_review
 attempts: 1
 blocked: false
 blocked_reason: null
@@ -16,6 +16,7 @@ owns_paths:
 - src/rb_semkit/core/text/matchers/
 - src/rb_semkit/core/markers/
 - src/rb_semkit/core/morph/lemmatizer.py
+- docs/plan.md
 test_paths:
 - tests/matchers_vba/
 - tests/matchers/
