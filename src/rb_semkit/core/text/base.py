@@ -2,6 +2,10 @@
 
 A phrase is split on any run of whitespace, so no word is empty and joined results never hold double spaces.
 Words are compared by `norm_phrase` (case, ё→е); the output keeps the words as the phrase spells them.
+
+Helpers shared by the matchers: `strip_edges` (a word without edge punctuation), `collapse` (single spaces, none
+at the edges), `bundled_list` (a word list of the package data), and argument checks that raise InvalidArguments
+naming the argument and the allowed values: `choice`, `whole_number` (N from 1), `word_list`, `compiled` (a regex).
 """
 
 from __future__ import annotations
