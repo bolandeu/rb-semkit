@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-006
 title: 'Conformance: analysis functions and bundled data against the add-in VBA'
-status: in_progress
+status: queue
 attempts: 0
-blocked: true
-blocked_reason: scope_held
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -83,3 +83,7 @@ docs/vba/analysis.md (handlers, quirks, worked examples), ADR 0005 (allowed devi
 
 - Changes in src/: a failing case becomes an xfail and an inbox finding.
 - The text matchers and markers (SEMKIT-005); declension, sentiment, clustering and the other v2 buttons.
+
+## Feedback
+
+### Blocked: scope_held (holders ['SEMKIT-005', 'SEMKIT-007'], paths ['docs/plan.md'])
