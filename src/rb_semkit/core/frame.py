@@ -66,6 +66,7 @@ class Frame:
         return values.fillna("").astype(str)
 
     def put(self, result: pd.Series, operation: str) -> pd.Series | pd.DataFrame:
+        """A Series for a Series. A DataFrame gets the result in its own object, also with inplace=False, and is returned."""
         if isinstance(self.data, pd.Series):
             return result.rename(self.data.name)
         column = str(self.column)

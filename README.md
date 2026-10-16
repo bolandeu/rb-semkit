@@ -24,7 +24,8 @@ sk.pipe(df, "phrase").remove(sk.words("бу")).remove(sk.words("купить")).
 ```
 
 - Input: a Series of phrases, or a DataFrame with `column=`. NaN and None are empty strings.
-- Output: a Series with the input index, or the DataFrame with the new column `<column>_<operation>`.
+- Output: a Series with the input index, or the input DataFrame itself with the new column
+  `<column>_<operation>` (the function adds it to your object and returns that object; pass `df.copy()` to keep `df`).
 - One matcher (`sk.words(...)`), three verbs: `find` (bool mask), `remove` (cleaned text), `extract` (found part).
   A phrase splits on any whitespace; words compare by case and ё = е; the output keeps the original text.
 - `sk.words(items, mode="any"|"all", where="anywhere"|"start"|"end", ignore_punct=False, lemmatizer=None)`.

@@ -11,6 +11,7 @@ from typing import Protocol
 import pymorphy3
 
 from .. import datastore
+from ..normalize import norm_phrase
 
 LEMMAS = "morph/lemmas.marisa"
 FORMS = "morph/forms.marisa"
@@ -50,13 +51,9 @@ class Lemmatizer(Protocol):
     def forms(self, lemma: str) -> list[str]: ...
 
 
-def _ye(word: str) -> str:
-    return word.replace("ё", "е")
-
-
 def _from_dictionary(word: str) -> tuple[str, str] | None:
     lemmas = datastore.trie(LEMMAS)
-    found = lemmas.get(word) or lemmas.get(_ye(word))
+    found = lemmas.get(word) or lemmas.get(norm_phrase(word))  # «ёлки» is in the dictionary as «елки»
     if not found:
         return None
     lemma, pos = found[0].decode().split("\t")
@@ -117,4 +114,4 @@ class SemtoolsLemmatizer:
 
     def forms(self, lemma: str) -> list[str]:
         """Every wordform of `lemma` in the dictionary; [] for a lemma it does not hold."""
-        return [form.decode() for form in datastore.trie(FORMS).get(_ye(lemma.lower()), [])]
+        return [form.decode() for form in datastore.trie(FORMS).get(norm_phrase(lemma), [])]

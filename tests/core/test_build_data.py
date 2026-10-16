@@ -105,8 +105,11 @@ KNOWN_LEMMAS = {
     "изобретаемый": "изобретаемый\tp",
     "абазе": "абаза\tn",  # lemma lower-cased (Абаза in the source)
     "азов": "аз\tn",  # a repeated wordform: the last row wins, as the add-in's sorted VLOOKUP
+    "купили": "купить\tv",
+    "лучший": "хороший\ta",
+    "смартфон": "смартфон\tn",
 }
-KNOWN_FORMS = {"москва": "москве", "купить": "купила", "диван": "диваны"}
+KNOWN_FORMS = {"москва": "москве", "купить": "купила", "диван": "диваны"}  # 17 + 3 = 20 known lookups
 
 
 def test_known_lookups(built: Path) -> None:
