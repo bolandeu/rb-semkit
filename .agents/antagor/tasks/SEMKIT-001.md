@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-001
 title: 'Core: bundled dictionary, lemmatizer and the find/remove/extract frame'
-status: in_review
+status: queue
 attempts: 1
 blocked: false
 blocked_reason: null
@@ -107,3 +107,19 @@ docs/plan.md §1, §2 (data catalog D1–D14, cleaning rules), §3; ADR 0002, 00
 ### Blocked: diff_too_large (lines 162055 > 4000)
 
 diff_too_large came from generated data, not code (decline.json 158k lines, lists.json 2.2k, morph.json 0.7k). Decision: (1) do NOT build the declension tables now — remove decline.json and its build step; declension is v2 and will build its own data. (2) Write every generated JSON compact: json.dumps(..., ensure_ascii=False, separators=(',', ':'), sort_keys=True) on one line, so the data files add a few lines each; keep the build byte-reproducible. Binary .marisa files are fine as they are. Keep the rest of the work.
+
+### Attempt 1: the Architect's verdict
+
+The review found blockers; close each:
+
+- [blocker] C11 docs/plan.md: the diff stops building the declension tables (feedback: "do NOT build the declension tables now — remove decline.json and its build step"), but the data catalog §2 still lists D4–D9 with package format `decline.json`, load «lazy». Nothing in `src/rb_semkit/data/` holds them. A reader of the plan expects files that do not exist. Mark D4–D9 as «not built in v1; v2 builds its own data», or move them out of the catalog table. The same table says D3 loads «at import of `morph`»; the code loads it lazily through `datastore.table` (`core/morph/lemmatizer.py`). D13 says «~700» stopwords; `lists.json` holds 439 (unchecked whether the source has more or the build dedupes; the plan or the build should say which).
+
+Minor remarks of the review: optional, if they do not widen the task:
+
+- [minor] C3 src/rb_semkit/core/morph/lemmatizer.py: `_ye()` repeats the ё→е rule of `norm_phrase` (core/normalize.py) and of `yo_to_ye` in scripts/build_data.py. A script may not import the package, so the script copy is fine; the package copy should reuse `norm_phrase` or one shared helper.
+- [minor] C7 src/rb_semkit/core/morph/lemmatizer.py: `VERB_ENDINGS`, `NOT_VERBS` and `PYMORPHY_POS` are rule lists in code. They are add-in rules, not tunable values, so this is a judgement call; the build could ship them in `morph.json` with the other add-in tables.
+- [minor] C7 scripts/build_data.toml: the source paths are absolute paths of one machine (`/Users/bolandau/...`). This is settings, as C7 asks, and the tests skip when the sandbox is absent. Allow an env var or a CLI override later if the build must run elsewhere.
+- [minor] C5 src/rb_semkit/core/frame.py: `Frame.put` changes the caller's DataFrame in place also when `inplace=False` (it adds the column to the input object). It matches the acceptance wording, but the docstring of `put`/README should say it.
+- [minor] [extra] none beyond the task: `Pipe.find` returns a Series and ends the chain, which the task's «thin pipe(df, column) chaining verbs» allows.
+- [minor] [wrong] the adjective POS rule runs only in the suffix fallback (`_from_suffixes`); a word found in the dictionary or in pymorphy3 keeps its source POS. The task line is «POS rules from the add-in (verb endings …; adjective by adjSuffixes unless in nounsLikeAdj)». The test `test_pos_rules_of_the_add_in` only covers unknown words. Confirm that the add-in applies the adjective rule to unknown words only.
+- [minor] [missing] «Given the sandbox sources … row counts and 20 known lookups match» — `KNOWN_LEMMAS` + `KNOWN_FORMS` give 17 lookups, not 20 (the count may include the list and morph lookups at the end of `test_known_lookups`; unchecked).
