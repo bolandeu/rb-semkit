@@ -52,6 +52,8 @@ Matchers: chars (latin, cyrillic, digits, letters+digits, punctuation, upper, UA
 
 Marker data: a build script reads the 18 xlsx of the sandbox (the brief, «Materials»), drops the 2nd sheet of DIY, takes column A of cars, strips and dedupes, keeps the display case, and writes compressed one-phrase-per-line files. The Aho-Corasick automaton is built on first use per list, thread-safe, cached.
 
+Add a .gitattributes at the repo root that marks all built data as generated (src/rb_semkit/data/morph/**, data/lists/**, data/markers/** with linguist-generated), with a one-line comment naming the build scripts and ADR 0002: Antagor then counts these files by number, not by lines.
+
 ## Acceptance
 
 - Given pd.Series(['Купить iPhone 15 в Москве']), When sk.extract with chars('latin'), chars('digits'), regex(r'\d+'), word_case('Capital'), word_position(first=1) run, Then they give 'iPhone', '15', '15', 'Купить Москве', 'Купить'; find gives True for each [check: tests/matchers/test_extract.py]
