@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-001
 title: 'Core: bundled dictionary, lemmatizer and the find/remove/extract frame'
-status: queue
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
