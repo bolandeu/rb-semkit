@@ -17,6 +17,7 @@ owns_paths:
 - src/rb_semkit/core/markers/
 - src/rb_semkit/data/markers/
 - scripts/build_markers.py
+- .gitattributes
 test_paths:
 - tests/matchers/
 - tests/markers/
