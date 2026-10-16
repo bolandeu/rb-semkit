@@ -2,7 +2,7 @@
 id: SEMKIT-007
 title: 'Markers and phrase lists: extract the longest match'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -69,3 +69,14 @@ docs/vba/matchers.md S10 (la—, DeletePhrases), ADR 0005, the SEMKIT-005 code o
 ## Out of scope
 
 - Other matchers; the marker lists themselves.
+
+## Feedback
+
+### Attempt 1: checks failed
+
+- `uv run pytest tests/markers tests/matchers tests/matchers_vba -q` (exit 4)
+
+```
+no tests ran in 0.00s
+ERROR: file or directory not found: tests/matchers_vba
+```
