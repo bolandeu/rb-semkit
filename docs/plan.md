@@ -21,7 +21,7 @@ The add-in groups commands by *action* (find / remove / extract / change). semki
 | whole words | 1 word, list (all / any; anywhere / start / end) | ✓ | ✓ | ✓ | v1 |
 | words by content | starts / ends / contains pattern or pattern list; only-latin, has-latin, only-digits, has-digits, mixes | ✓ | ✓ | ✓ | v1 |
 | words by case | lower, Capital, CAPS | ✓ | — | ✓ | v1 |
-| words by position | first/last 1..N, N-th, up to middle, at most N | — | ✓ | ✓ | v1 |
+| words by position | first/last 1..N, N-th, up to middle, at most N | ✓ | ✓ | ✓ | v1 |
 | words by POS | noun, adj, verb, adverb | ✓ | ✓ | ✓ | v1 (needs lemmatizer) |
 | word repeats | exact (all, en, ru, adjacent, numbers), by wordforms | ✓ | ✓ | — | v1 |
 | stopwords | built-in + user list | — | ✓ | — | v1 |
