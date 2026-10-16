@@ -99,3 +99,9 @@ Decided: follow the VBA with the ADR 0005 deviations; fix in SEMKIT-009 (depends
 > counts(what='share') is the cumulative share from the heaviest row (core/analysis/counts.py _shares); the VBA «Накопительным итогом» –koo (L2489) sums in row order. Case counts-share-unsorted (xfail): input 'стул [20] | диван [50] | стол [30]', vba '0.2 | 0.7 | 1', expected '0.2 | 0.7 | 1', got '1 | 0.5 | 0.8'. Rows already sorted by weight agree (counts-share). Also «Долю от суммы» –kok (L1607, value / SUM) has no kind in counts. Decide: an ADR 0005 entry for the sorted share, or a row-order kind.
 
 Decided: follow the VBA with the ADR 0005 deviations; fix in SEMKIT-009 (depends on 006). Keep the rows as xfail in 006.
+
+### Answer to finding #3
+
+> ngrams(n=2, stopwords=False) drops the stopwords before the runs; the VBA «Биграмм без учета стоп-слов» —k·· (L2781) → ka–a (L1005) keeps a stopword inside the bigram as a 3-word gram. Case ngrams-stopwords-2 (xfail): input 'купить диван в москве', vba 'купить диван=1 | диван в москве=1', expected 'диван в москве=1 | купить диван=1', got 'диван москве=1 | купить диван=1'. Suspected code path: src/rb_semkit/core/analysis/frequency.py _word_keys/_runs (the stopword becomes an empty key and is skipped). ka–a also keys case-sensitively and adds a second-column sum (—okk L2142).
+
+Decided: follow the VBA with the ADR 0005 deviations; fix in SEMKIT-009 (depends on 006). Keep the rows as xfail in 006.
