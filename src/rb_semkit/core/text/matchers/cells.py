@@ -125,7 +125,7 @@ def cells(
         extract: `–——k` (line 2101) contains, `—·–·` (line 2935) starts, `—·––` (line 2645) ends, `–·k—` (line 2942)
         unique, `–aoa` (line 2911) repeated; regex: no VBA handler (`—·–a` is broken): derived from `akk·`
         (line 2969); empty, first, last, prepositions: no VBA handler: derived from their find handlers.
-    ADR 0005: ё = е; empty cells are never duplicates; the fixed preposition list («по», no «g»); blank list items are
-    refused.
+    ADR 0005: ё = е; empty cells are never duplicates; regex classes understand Cyrillic (Unicode); the fixed
+    preposition list («по», no «g»); blank list items are refused.
     """
     return Cells(kind, items, pattern, prepositions)

@@ -29,7 +29,7 @@ class Repeats(WordMatcher):
         self._lemmatizer = lemmatizer or BUNDLED
 
     def _key(self, word: str) -> str:
-        surface = word_key(word, ignore_punct=True)
+        surface = word_key(word)
         if not surface or not SCOPES[self._scope](surface):
             return ""
         return self._lemmatizer.lemma(surface) if self._wordforms else surface
@@ -49,7 +49,8 @@ class Repeats(WordMatcher):
 def repeats(mode: str = "exact", *, scope: str = "all", lemmatizer: Lemmatizer | None = None) -> Repeats:
     """Words that repeat an earlier word of the phrase (find and remove; remove keeps the first one).
 
-    mode: "exact" — the same word (case, ё and punctuation at the edges do not count); "wordforms" — the same lemma.
+    mode: "exact" — the same word (case and ё do not count, punctuation does: «диван, диван» has no repeat);
+    "wordforms" — the same lemma.
     scope: "all" words; only "adjacent" repeats («диван диван»); only words with a latin ("en") or a cyrillic ("ru")
     letter («iphone13», «wi-fi-роутер»); only "numbers" («2», «1,5»).
     lemmatizer: for "wordforms"; None is the bundled one.

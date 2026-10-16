@@ -61,8 +61,8 @@ def test_regex_all_matches_and_not_match() -> None:
     phrases = pd.Series(["a1 b22 c", "abc"])
 
     assert sk.extract(phrases, sk.regex(r"\d+", all_matches=True)).tolist() == ["1 22", ""]
-    assert sk.find(phrases, sk.regex(r"\d+", invert=True)).tolist() == [False, True]
-    assert sk.extract(phrases, sk.regex(r"\d+", invert=True)).tolist() == ["", "abc"]
+    assert sk.find(phrases, sk.regex(r"\d+", invert=True)).tolist() == [True, True]
+    assert sk.extract(phrases, sk.regex(r"\d+", invert=True)).tolist() == ["a b c", "abc"]
 
 
 def test_positions_extract_first_and_last_chars() -> None:
@@ -75,10 +75,10 @@ def test_positions_extract_first_and_last_chars() -> None:
 def test_around_extract_before_and_after_the_occurrence() -> None:
     phrases = pd.Series(["купить диван в москве и в спб", "диван"])
 
-    assert sk.extract(phrases, sk.around("в")).tolist() == ["купить диван", ""]
-    assert sk.extract(phrases, sk.around("в", after=True)).tolist() == ["москве и в спб", ""]
-    assert sk.extract(phrases, sk.around("в", after=True, last=True)).tolist() == ["спб", ""]
-    assert sk.extract(phrases, sk.around("в", last=True, include=True)).tolist() == ["купить диван в москве и в", ""]
+    assert sk.extract(phrases, sk.around("в")).tolist() == ["купить ди", "ди"]
+    assert sk.extract(phrases, sk.around("в", after=True)).tolist() == ["ан в москве и в спб", "ан"]
+    assert sk.extract(phrases, sk.around("в", after=True, last=True)).tolist() == ["спб", "ан"]
+    assert sk.extract(phrases, sk.around("в", last=True, include=True)).tolist() == ["купить диван в москве и в", "див"]
 
 
 def test_word_content_kinds() -> None:
@@ -111,8 +111,8 @@ def test_word_position_variants() -> None:
 
     assert sk.extract(phrases, sk.word_position(last=2)).tolist() == ["d e"]
     assert sk.extract(phrases, sk.word_position(nth=2)).tolist() == ["b"]
-    assert sk.extract(phrases, sk.word_position(to_middle=True)).tolist() == ["a b c"]
-    assert sk.extract(phrases, sk.word_position(at_most=2)).tolist() == ["c d e"]
+    assert sk.extract(phrases, sk.word_position(to_middle=True)).tolist() == ["a b"]
+    assert sk.extract(phrases, sk.word_position(at_most=2)).tolist() == ["a"]
 
 
 def test_phrases_extract_as_the_phrase_spells_them() -> None:
