@@ -17,6 +17,7 @@ owns_paths:
 - src/rb_semkit/core/markers/
 - src/rb_semkit/data/markers/
 - scripts/build_markers.py
+- .gitattributes
 test_paths:
 - tests/matchers/
 - tests/markers/
@@ -50,6 +51,8 @@ All v1 matchers of the text core and the 18 bundled marker lists, on the frame a
 Matchers: chars (latin, cyrillic, digits, letters+digits, punctuation, upper, UA); spaces (all, left, right, both, extra); positions (first/last N chars); around (before/after the first/last occurrence of a pattern, incl./excl.); regex (one / all matches; match / NOT match); word_content (starts / ends / contains a pattern or list; only-latin, has-latin, only-digits, has-digits, mixed); word_case (lower, Capital, CAPS); word_position (first/last 1..N, N-th, up to the middle, at most N); pos (noun, adj, verb, adverb, through a Lemmatizer); repeats (exact: all, en, ru, adjacent, numbers; by wordforms); stopwords (bundled list + user list); phrases (user list, Aho-Corasick); cells (contains / starts / ends with a list item or a preposition; regex; empty; unique / repeated / first / last occurrence; remove filters rows); markers (lists by name, several in one pass, user lists; with_prepositions takes the toponym preposition before a marker).
 
 Marker data: a build script reads the 18 xlsx of the sandbox (the brief, «Materials»), drops the 2nd sheet of DIY, takes column A of cars, strips and dedupes, keeps the display case, and writes compressed one-phrase-per-line files. The Aho-Corasick automaton is built on first use per list, thread-safe, cached.
+
+Add a .gitattributes at the repo root that marks all built data as generated (src/rb_semkit/data/morph/**, data/lists/**, data/markers/** with linguist-generated), with a one-line comment naming the build scripts and ADR 0002: Antagor then counts these files by number, not by lines.
 
 ## Acceptance
 
