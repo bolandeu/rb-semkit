@@ -87,3 +87,9 @@ docs/vba/analysis.md (handlers, quirks, worked examples), ADR 0005 (allowed devi
 ## Feedback
 
 ### Blocked: scope_held (holders ['SEMKIT-005', 'SEMKIT-007'], paths ['docs/plan.md'])
+
+### Answer to finding #1
+
+> counts(what='count'/'number') keys a phrase as written; the VBA keys by UCase (––k— L1875, –kko L2166), and ADR 0005 asks ё = е and no count for empty cells. Cases (xfail): counts-count-case vba '2 | 2 | 1' expected '2 | 2 | 1' got '1 | 1 | 1' (input 'диван | Диван | стол'); counts-number-case vba '1 | 2' expected '1 | 2' got '1 | 1'; counts-count-yo vba '1 | 1' expected '2 | 2' got '1 | 1'; counts-count-empty vba '1 | 2 | 2' expected '1 |  | ' got '1 | 2 | 2'. Suspected code path: src/rb_semkit/core/analysis/counts.py _count groups by the raw value; key by norm_phrase and leave empty phrases without a count.
+
+Decided: follow the VBA with the ADR 0005 deviations; fix in SEMKIT-009 (depends on 006). Keep the rows as xfail in 006.
