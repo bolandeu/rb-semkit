@@ -35,11 +35,12 @@ def test_find_and_remove() -> None:
     assert sk.remove(PHRASES, matcher).tolist() == ["диван в у метро", "диван купить"]
 
 
-def test_remove_with_prepositions_takes_the_toponym_preposition() -> None:
+def test_with_prepositions_takes_only_the_markers_after_a_toponym_preposition() -> None:
     matcher = sk.markers(["geo", "mosmetro"], with_prepositions=True)
 
-    assert sk.remove(PHRASES, matcher).tolist() == ["диван у метро", "диван купить"]
-    assert sk.extract(PHRASES, matcher).tolist() == ["в Москве, Таганская", ""]
+    assert sk.remove(PHRASES, matcher).tolist() == ["диван у метро таганская", "диван купить"]
+    assert sk.extract(PHRASES, matcher).tolist() == ["в Москве", ""]
+    assert sk.find(PHRASES, matcher).tolist() == [True, False]
 
 
 def test_a_marker_of_several_words_is_one_marker() -> None:

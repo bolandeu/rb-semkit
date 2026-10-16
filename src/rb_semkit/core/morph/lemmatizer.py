@@ -2,6 +2,7 @@
 
 A wordform goes to the !SEMTools dictionary first; a word not in it goes to pymorphy3; a word pymorphy3 does
 not know either gets its last four letters replaced by the add-in's `lemmSuf` table. Lemmas are lower case.
+`looks_like_adjective` is the add-in's adjective rule by the lemma ending; the pos matcher uses it too.
 """
 
 from __future__ import annotations

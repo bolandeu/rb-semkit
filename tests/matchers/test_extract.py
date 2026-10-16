@@ -115,10 +115,10 @@ def test_word_position_variants() -> None:
     assert sk.extract(phrases, sk.word_position(at_most=2)).tolist() == ["a"]
 
 
-def test_phrases_extract_as_the_phrase_spells_them() -> None:
-    phrases = pd.Series(["Купить Угловой ДИВАН дёшево", "стол"])
+def test_phrases_extract_as_the_list_spells_them() -> None:
+    phrases = pd.Series(["Купить Угловой ДИВАН дёшево", "Стол"])
 
     matcher = sk.phrases(["угловой диван", "стол"])
 
-    assert sk.extract(phrases, matcher).tolist() == ["Угловой ДИВАН", "стол"]
+    assert sk.extract(phrases, matcher).tolist() == ["угловой диван", "стол"]
     assert sk.find(phrases, matcher).tolist() == [True, True]

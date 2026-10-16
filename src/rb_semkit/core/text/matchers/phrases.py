@@ -6,9 +6,11 @@ from collections.abc import Iterable
 from typing import NamedTuple
 
 import ahocorasick  # ty: ignore[unresolved-import]  # a compiled extension without type stubs
+import pandas as pd
 
 from ...errors import InvalidArguments
-from ..base import WordMatcher, collapse, word_key
+from ...frame import map_unique
+from ..base import WordMatcher, collapse, split_words, word_key
 
 
 class Hit(NamedTuple):
@@ -54,6 +56,15 @@ class PhraseList:
             hits.append(Hit(start, start + key.count(" ") + 1, self._spellings[key]))
         return hits
 
+    def starting_at(self, words: list[str], index: int) -> list[Hit]:
+        """The listed phrases that stand at word `index`, in list order."""
+        keys = [word_key(word) for word in words[index:]]
+        return [
+            Hit(index, index + len(key.split(" ")), self._spellings[key])
+            for key in self._starting.get(keys[0], ())
+            if keys[: key.count(" ") + 1] == key.split(" ")
+        ]
+
     def markers(self, words: list[str]) -> list[tuple[int, str]]:
         """The add-in's markers of the words (`la—`): (word index, the phrase as the list spells it), repeats kept.
 
@@ -89,18 +100,24 @@ class Phrases(WordMatcher):
             picked[hit.start : hit.stop] = [True] * (hit.stop - hit.start)
         return picked
 
+    def extract(self, phrases: pd.Series) -> pd.Series:
+        return map_unique(
+            phrases, lambda phrase: ", ".join(spelling for _, spelling in self._list.markers(split_words(phrase)))
+        )
+
 
 def phrases(items: Iterable[str]) -> Phrases:
     """Phrases of a list, found as whole words («угловой диван» is not in «угловойдиван» or «угловой диван,»).
 
     Words compare in any case, ё as е; punctuation glued to a word counts. remove cuts the longest phrase first,
-    left to right, and keeps the case of the other words. extract gives the found words as the phrase spells them.
+    left to right, and keeps the case of the other words. extract gives the markers as `sk.markers(user=...)` does:
+    for each word that starts a found item, the first such item in list order, as the list spells it, joined by ', '.
 
     VBA (RibbonCallbacks.vba):
         find: `—k—k` (line 2218) with `–la` (lines 645–646).
         remove: `aok–` (line 2733) with `DeletePhrases` (lines 3452–3470).
-        extract: `–a–a` (line 1736) with `la—` (lines 647–648) gives the list spelling, as `markers` does; here
-        the words that remove would cut, as the phrase spells them.
-    ADR 0005: ё = е; split on any whitespace; no double spaces; remove keeps the case (`DeletePhrases` lower-cases).
+        extract: `–a–a` (line 1736) with `la—` (lines 647–648).
+    ADR 0005: ё = е; split on any whitespace; no double spaces; remove keeps the case (`DeletePhrases` lower-cases);
+    extract joins by ', ', not "\\".
     """
     return Phrases(items)

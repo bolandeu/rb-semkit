@@ -74,8 +74,8 @@ def chars(kind: str) -> Chars:
         punctuation; letters_digits, upper: no VBA handler: derived from `aok—` (line 2404).
         extract: `–ako` (line 2441) latin, `–—–a` (line 2350) cyrillic, `–·ko` (line 2594) digits, `aok—`
         (line 2404) letters_digits; punctuation, upper: no VBA handler: derived from `aok—` (line 2404).
-        ua, every verb: no VBA handler: derived from `—·k·` (line 1786), the letters only (its `fua` test, line 1343,
-        also looks for Ukrainian endings and words).
-    ADR 0005: whitespace of any kind counts as a space; no double spaces in the results.
+        ua: find `—·k·` (line 1786) with `fua` (line 1343); remove, extract: no VBA handler: derived from `—·k·`.
+    ADR 0005: whitespace of any kind counts as a space; no double spaces in the results; ua is the letters і ї є ґ,
+    not the 31 `fua` items, whose endings catch Russian words («кровати»).
     """
     return Chars(kind)

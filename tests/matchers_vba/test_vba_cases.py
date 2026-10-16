@@ -18,6 +18,7 @@ def case(phrase: str | list[str], matcher: sk.Matcher, verb: str, expected: obje
 
 
 GEO = sk.markers("geo")
+GEO_PREPS = sk.markers("geo", with_prepositions=True)
 CITIES = sk.phrases(["Нижний Новгород", "Москва"])
 
 CASES = [
@@ -47,6 +48,9 @@ CASES = [
     case("Ўзбекистон", sk.chars("upper"), "find", True, "—·ok fix"),
     case("ціна дивана", sk.chars("ua"), "find", True, "—·k·"),
     case("купить диван", sk.chars("ua"), "find", False, "—·k·"),
+    case("купить кровати", sk.chars("ua"), "find", False, "—·k· fix"),
+    case("ґанок", sk.chars("ua"), "find", True, "—·k· fix"),
+    case("їжак, ґанок!", sk.chars("ua"), "extract", "ї ґ", "—·k·"),
     # spaces
     case("  купить   диван ", sk.spaces("extra"), "remove", "купить диван", "–aal"),
     case("  купить  диван ", sk.spaces("left"), "remove", "купить  диван ", "—ako"),
@@ -174,6 +178,15 @@ CASES = [
     case("Купить диван в Москве", sk.phrases(["купить", "в москве"]), "remove", "диван", "aok–"),
     case("Диван Москва", sk.phrases(["москве"]), "remove", "Диван Москва", "aok–"),
     case("Москва, диван москва", sk.phrases(["москва"]), "remove", "Москва, диван", "aok– fix"),
+    case("Купить Угловой ДИВАН", sk.phrases(["угловой диван"]), "extract", "угловой диван", "–a–a fix"),
+    case("доставка в нижний новгород", CITIES, "extract", "Нижний Новгород", "–a–a"),
+    case(
+        "купить диван угловой диван",
+        sk.phrases(["диван", "угловой диван", "купить диван"]),
+        "extract",
+        "купить диван, диван, угловой диван, диван",
+        "–a–a fix",
+    ),
     # cells
     case(["Купить диван", "кресло"], sk.cells("contains", items=["диван"]), "find", [True, False], "—kk—"),
     case(
@@ -201,6 +214,11 @@ CASES = [
     case(["", " "], sk.cells("empty"), "find", [True, False], "—kk– fix"),
     case(["Диван", "диван", "кресло"], sk.cells("unique"), "extract", ["", "", "кресло"], "–·k— fix"),
     case(["Диван", "диван", "кресло"], sk.cells("repeated"), "extract", ["Диван", "диван", ""], "–aoa fix"),
+    case(["Диван", "диван", "кресло"], sk.cells("repeated"), "remove", ["", "", "кресло"], "ak·a fix"),
+    case(["Диван", "диван", "кресло"], sk.cells("unique"), "remove", ["Диван", "диван", ""], "ao—– fix"),
+    case(["диванчик", "стол"], sk.cells("contains", items=["диван"]), "remove", ["", "стол"], "akok fix"),
+    case(["диван 2", "диван"], sk.cells("regex", pattern=r"\d"), "remove", ["", "диван"], "akk· fix"),
+    case(["диван", "", "стол"], sk.cells("empty"), "remove", ["диван", "стол"], "remBlankCellsUp"),
     # markers
     case("купить диван в москве недорого", GEO, "find", True, "—k——"),
     case("в москве, недорого", GEO, "find", False, "—k—— fix"),
@@ -210,6 +228,23 @@ CASES = [
     case("Где Купить диван как сделать", sk.markers("questions"), "extract", "где, как", "–a—o fix"),
     case("купить диван в москве недорого", GEO, "remove", "купить диван в недорого", "a·–a"),
     case("доставка в нижний новгород", GEO, "remove", "доставка в", "a·–a"),
+    case("купить диван в москве недорого", GEO_PREPS, "remove", "купить диван недорого", "a·—a"),
+    case("диван москва", GEO_PREPS, "remove", "диван москва", "a·—a"),
+    case("доставка в нижний новгород", GEO_PREPS, "remove", "доставка", "a·—a"),
+    case("отели в хересе де ла фронтере", GEO_PREPS, "remove", "отели", "a·—a fix"),
+    case("диван in москве", GEO_PREPS, "remove", "диван in москве", "a·—a fix"),
+    case("купить диван в москве недорого", GEO_PREPS, "extract", "в Москве", "–·kk"),
+    case("диван москва", GEO_PREPS, "extract", "", "–·kk fix"),
+    case("доставка в нижний новгород", GEO_PREPS, "extract", "в Нижний Новгород", "–·kk"),
+    case("отели в хересе де ла фронтере", GEO_PREPS, "extract", "в Хересе де Ла Фронтере", "–·kk"),
+    case("диван москва", GEO_PREPS, "find", False, "a·—a fix"),
+    case(
+        "офис на таганской у таганской",
+        sk.markers("mosmetro", with_prepositions=True),
+        "remove",
+        "офис у таганской",
+        "a·—a fix",
+    ),
 ]
 
 

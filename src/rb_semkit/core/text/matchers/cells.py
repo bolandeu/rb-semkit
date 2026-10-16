@@ -1,4 +1,4 @@
-"""Cells as units: by content, by occurrence among the cells, or empty. `remove` drops the rows, it does not edit them."""
+"""Cells as units: by content, by occurrence among the cells, or empty. `remove` clears the found cells; empty ones go."""
 
 from __future__ import annotations
 
@@ -92,7 +92,10 @@ class Cells(Matcher):
         return ~(keys.duplicated(keep="first" if self._kind == "first" else "last") & ~blank)
 
     def remove(self, phrases: pd.Series) -> pd.Series:
-        return phrases[~self.find(phrases)]
+        found = self.find(phrases)
+        if self._kind == "empty":
+            return phrases[~found]
+        return phrases.where(~found, "")
 
     def extract(self, phrases: pd.Series) -> pd.Series:
         return phrases.where(self.find(phrases), "")
@@ -105,7 +108,8 @@ def cells(
     pattern: str | None = None,
     prepositions: bool = False,
 ) -> Cells:
-    """A whole cell is found or not. remove drops the rows that are found; extract keeps the cell, or '' if not found.
+    """A whole cell is found or not. remove clears a found cell to '' ("empty" drops the rows); extract keeps the cell,
+    or '' if not found.
 
     kind: "contains", "starts", "ends" (with `items`: text parts, case and ё do not count; or with
     `prepositions=True`: the first, the last or any word is a bundled preposition, as written, «для,» is none);
@@ -118,10 +122,10 @@ def cells(
         (line 2304) starts with a preposition, `findFLWprps` (line 2305) ends with one, `—koa` (line 2089) regex,
         `—kk–` (line 1872) empty, `—k—a` (line 2170) unique, `—k–—` (line 2214) repeated, `—k–k` (line 2846) first,
         `—k––` (line 2493) last; contains a preposition: no VBA handler: derived from `findFFWprps` (line 2304).
-        remove (drops the rows): `remBlankCellsUp` (line 178) empty; the other kinds: `akok` (line 1868) contains,
-        `ak–a` (line 2613) starts, `ak–k` (line 2248) ends, `akk·` (line 2969) regex, `ao—–` (line 2074) unique,
-        `ak·a` (line 2358) repeated clear the cell instead; first, last, prepositions: no VBA handler: derived from
-        `ak·a` (line 2358) and `ak–a` (line 2613).
+        remove: `remBlankCellsUp` (line 178) empty drops the rows; `akok` (line 1868) contains, `ak–a` (line 2613)
+        starts, `ak–k` (line 2248) ends, `akk·` (line 2969) regex, `ao—–` (line 2074) unique, `ak·a` (line 2358)
+        repeated clear the cell; first, last, prepositions: no VBA handler: derived from `ak·a` (line 2358) and
+        `ak–a` (line 2613).
         extract: `–——k` (line 2101) contains, `—·–·` (line 2935) starts, `—·––` (line 2645) ends, `–·k—` (line 2942)
         unique, `–aoa` (line 2911) repeated; regex: no VBA handler (`—·–a` is broken): derived from `akk·`
         (line 2969); empty, first, last, prepositions: no VBA handler: derived from their find handlers.
