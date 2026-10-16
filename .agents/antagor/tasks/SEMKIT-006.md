@@ -111,3 +111,9 @@ Decided: follow the VBA with the ADR 0005 deviations; fix in SEMKIT-009 (depends
 > wordforms() gives the forms in the order forms.marisa returns them, neither alphabetical (the dictionary order ––aa L380 writes) nor by paradigm: 'диван' gives '... диванах | диванов | диваном | диване ...'. Cases (xfail): wordforms-divan, wordforms-capital, wordforms-yo; vba/expected 'диван | дивана | диванам | диванами | диванах | диване | диванов | диваном | дивану | диваны', got the same forms in trie order. Suspected code path: src/rb_semkit/core/morph/lemmatizer.py SemtoolsLemmatizer.forms (BytesTrie.get order). Fix: sort the forms, or record the order in ADR 0005.
 
 Decided: follow the VBA with the ADR 0005 deviations; fix in SEMKIT-009 (depends on 006). Keep the rows as xfail in 006.
+
+### Answer to finding #5
+
+> wordforms() of a word that is not a lemma gives []; the VBA ––aa (L380) takes aaa(LCase(word)) first and gives the forms of that lemma. Case wordforms-inflected (xfail): input 'диваны', vba 'диваны | диван | дивана | ... | диваны', expected 'диван | дивана | ... | диваны', got ''. Suspected code path: src/rb_semkit/core/morph/functions.py wordforms → lemmatizer.forms(lemma) without lemmatizer.lemma(word) first.
+
+Decided: follow the VBA with the ADR 0005 deviations; fix in SEMKIT-009 (depends on 006). Keep the rows as xfail in 006.
