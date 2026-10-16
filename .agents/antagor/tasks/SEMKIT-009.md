@@ -27,6 +27,7 @@ worker_args: null
 class: standard
 decision: false
 visual: null
+review: true
 depends_on:
 - SEMKIT-006
 budget_usd: null
