@@ -1,5 +1,6 @@
 schema = 1
-prefix = "SMK"
+mode = "fast"
+prefix = "SEMKIT"
 name = "semkit"
 worker = "claude-code"
 checks = ["python3 scripts/check_command_docstrings.py", "uv run scripts/release.py --check"]
@@ -11,3 +12,23 @@ required_types = ["feature", "bugfix"]  # chore and docs: the short path without
 versioning = "semver"
 changelog = "CHANGELOG.md"
 deploy_command = "sh scripts/deploy.sh"
+
+[connector]
+webhook_secret = "PLANE_WEBHOOK_SECRET_TOOLS"
+kind = "plane"
+base_url = "https://homeserver.tailee01ab.ts.net:8443"
+workspace = "tools"
+project_id = "5530ae6d-0d11-4a5c-8527-652e0bd49efd"
+humans = ["r.bolandau@gmail.com"]
+
+[connector.states]
+ideas = "Backlog"
+queue = "Todo"
+in_progress = "In Progress"
+in_review = "In Review"
+publish = "Publishing"
+done = "Done"
+cancelled = "Cancelled"
+
+[daemon]
+enabled = true
