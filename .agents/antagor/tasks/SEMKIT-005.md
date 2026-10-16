@@ -46,7 +46,7 @@ translation: 'Перенести шаблоны текста и маркеры �
 The text matchers and markers were written to the acceptance examples, not ported from the add-in. The Human requires the add-in's algorithms (ADR 0005). This task audits every matcher against its VBA handler and makes the code follow the VBA.
 
 For each matcher (chars, spaces, positions, around, regex, word_content, word_case, word_position, pos, repeats, stopwords, phrases, cells, markers) and each verb it supports:
-1. Find the ribbon button in ribbon_full.txt (the `-> handler` name) and read the handler in RibbonCallbacks.vba (obfuscated names; helper functions and forms in the same folder).
+1. Find the matcher's buttons in docs/vba/matchers.md (index table: menu path → handler → section) and read their entries: algorithm, quirks, ADR 0005 deviation, worked examples. Open RibbonCallbacks.vba only to settle a point the entry leaves open.
 2. Compare the handler with the current code on concrete phrases: what counts as a word, a latin/cyrillic/UA char, punctuation, a position, which occurrence 'around' takes and whether it includes the pattern, how word lists match (all/any, start/end), how repeats and cells are decided, how the toponym list is matched and which preposition is taken with it.
 3. Make the code follow the VBA. Deviate only where ADR 0005 says so: ё = е, stopwords case-insensitive, split on any whitespace, no double spaces in results, markers spelled as the list and joined by ', '.
 4. Put the handler name(s) and the VBA line range in each matcher's docstring, with one line on any ADR 0005 deviation.
@@ -66,10 +66,11 @@ Public library seam (import rb_semkit as sk): a table of (phrase, matcher, verb,
 
 ## Basis
 
-VBA: /Users/bolandau/Work/_sandbox/semtools/reverse/vba/RibbonCallbacks.vba; ribbon map: /Users/bolandau/Work/_sandbox/semtools/reverse/ribbon_full.txt; marker lists: /Users/bolandau/Work/_sandbox/semtools/reverse/downloads/spiski/. Prior art of a VBA-faithful port: the dupes, n-gram and bigram rules (SEMKIT-003, SEMKIT-004) traced from handlers —kka, ako—, akoa, ako·, ak—, –·ao. ADR 0005 lists the allowed deviations.
+Reference of the VBA algorithms, traced from the handlers (the source of truth for this task): docs/vba/matchers.md — 255 buttons of find/remove/extract, shared sections S1–S12, quirks and ADR 0005 deviations per button; it also lists the buttons that are broken in the add-in (no handler or a run-time error) — port those from the nearest working handler it names. Raw VBA, only for a point the reference leaves open: /Users/bolandau/Work/_sandbox/semtools/reverse/vba/RibbonCallbacks.vba; ribbon map: /Users/bolandau/Work/_sandbox/semtools/reverse/ribbon_full.txt; marker lists: /Users/bolandau/Work/_sandbox/semtools/reverse/downloads/spiski/. Prior art of a VBA-faithful port: the dupes, n-gram and bigram rules (SEMKIT-003, SEMKIT-004) traced from handlers —kka, ako—, akoa, ako·, ak—, –·ao. ADR 0005 lists the allowed deviations.
 
 ## Read first
 
+- docs/vba/matchers.md (the entries of the matcher being ported; the index first)
 - docs/adr/0005-port-vba-fix-defects.md
 - CONTEXT.md
 
