@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-006
 title: 'Conformance: analysis functions and bundled data against the add-in VBA'
-status: queue
+status: in_progress
 attempts: 0
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: scope_held
 phase: null
 tests_hash: null
 publish_stage: null
@@ -16,6 +16,8 @@ owns_paths:
 - tests/conformance/
 - scripts/data_manifest.py
 - scripts/bench.py
+- scripts/build_data.toml
+- docs/plan.md
 test_paths:
 - tests/conformance/
 docs: none
