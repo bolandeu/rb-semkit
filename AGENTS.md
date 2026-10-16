@@ -7,8 +7,3 @@
 - Правила кода для ревью: `CODING_STANDARDS.md`.
 - Тикеты и сценарии ведёт Antagor: `.agents/antagor/`.
 - Гейт перед коммитом: `uv run scripts/release.py --check`.
-
-## Выпуск
-
-- `antagor publish` Архитектор делает сам после приёмки задач; он только сливает, пишет changelog и ставит тег.
-- Push в Gitea — `sh scripts/deploy.sh` (push с тегами и уведомление), только после подтверждения Человека на каждый выпуск.

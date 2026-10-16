@@ -12,8 +12,7 @@ required_types = ["feature", "bugfix"]  # chore and docs: the short path without
 [publish]
 versioning = "semver"
 changelog = "CHANGELOG.md"
-# push is separate: `sh scripts/deploy.sh` after the Human confirms it (AGENTS.md «Выпуск»)
-deploy_command = "true"
+deploy_command = "sh scripts/deploy.sh"
 
 [connector]
 webhook_secret = "PLANE_WEBHOOK_SECRET_TOOLS"
