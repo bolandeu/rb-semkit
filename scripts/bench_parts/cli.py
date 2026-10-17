@@ -1,6 +1,7 @@
-"""The CLI pipeline: read a parquet file, run 5 cleaning steps, write a parquet file, as one `semkit` process.
+"""The CLI pipeline as one `semkit` process: `pipeline` reads a parquet file, runs 5 cleaning steps and writes a parquet
+file; `write-xlsx` reads a parquet file and writes it to xlsx with no step (the speed of dataio's xlsx writer).
 
-Its budget is the budget of every operation of the bench (--limit): the library steps plus the read and the write.
+Their budget is the budget of every operation of the bench (--limit): the library steps plus the read and the write.
 """
 
 from __future__ import annotations
@@ -22,12 +23,20 @@ STEPS = [
 ]  # fmt: skip
 
 
-def _pipeline(phrases: pd.Series) -> None:
+def _run(phrases: pd.Series, steps: list[str], target_name: str) -> None:
     with tempfile.TemporaryDirectory() as folder:
-        source, target = Path(folder) / "core.parquet", Path(folder) / "clean.parquet"
+        source, target = Path(folder) / "core.parquet", Path(folder) / target_name
         rb_dataio.write(pd.DataFrame({"phrase": phrases}), source, backup=False)
-        command = [sys.executable, "-m", "rb_semkit.cli", "read", str(source), "--quiet", *STEPS, "write", str(target)]
+        command = [sys.executable, "-m", "rb_semkit.cli", "read", str(source), "--quiet", *steps, "write", str(target)]
         subprocess.run(command, check=True)
 
 
-OPERATIONS = {"pipeline": _pipeline}
+def _pipeline(phrases: pd.Series) -> None:
+    _run(phrases, STEPS, "clean.parquet")
+
+
+def _write_xlsx(phrases: pd.Series) -> None:
+    _run(phrases, [], "core.xlsx")
+
+
+OPERATIONS = {"pipeline": _pipeline, "write-xlsx": _write_xlsx}
