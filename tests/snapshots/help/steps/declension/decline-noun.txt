@@ -1,0 +1,35 @@
+
+ Usage: semkit read {IN} decline-noun [OPTIONS] [CASE]
+
+ Each word of a phrase, a noun in the nominative singular, declined: «диван» genitive → «дивана».
+
+ case: "nominative", "genitive", "dative", "accusative", "instrumental" or "prepositional".
+ number: "singular" or "plural" (12 forms in all; the nominative singular is the word itself).
+ Every word is taken as a noun; for a phrase of mixed words use `decline`. A word with a capital
+ keeps it («Москва» → «Москвы»); an indeclinable word («кафе»), an abbreviation («МТС») and a word
+ the tables lack stay. The accusative comes from the tables only, by the word or its last three
+ letters: «парк» → «парк», but «диван» → «дивана» (as «Иван»).
+
+ The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
+
+ Example: semkit read core.csv decline-noun купить write out.csv
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   CASE      <str>  "nominative", "genitive", "dative", "accusative", "instrumental" or           │
+│                    "prepositional". The same as --case CASE.                                     │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --case          CASE   "nominative", "genitive", "dative", "accusative", "instrumental" or       │
+│                        "prepositional".                                                          │
+│ --number        <str>  "singular" or "plural" (12 forms in all; the nominative singular is the   │
+│                        word itself). Every word is taken as a noun; for a phrase of mixed words  │
+│                        use `decline`. A word with a capital keeps it («Москва» → «Москвы»); an   │
+│                        indeclinable word («кафе»), an abbreviation («МТС») and a word the tables │
+│                        lack stay. The accusative comes from the tables only, by the word or its  │
+│                        last three letters: «парк» → «парк», but «диван» → «дивана» (as «Иван»).  │
+│                        [default: singular]                                                       │
+│ --as            NAME   Write the result to a new column NAME and keep the working column as it   │
+│                        is.                                                                       │
+│ --help                 Show this message and exit.                                               │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

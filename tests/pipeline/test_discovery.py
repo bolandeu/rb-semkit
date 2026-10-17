@@ -7,10 +7,11 @@ from pathlib import Path
 
 import pytest
 
+from ..steps.areas import AREAS as OTHER_AREAS
 from .runner import semkit
 
 SNAPSHOTS = Path(__file__).resolve().parents[1] / "snapshots" / "help"
-# The steps of this task by area, written out: the matchers by the verbs each one supports.
+# The steps by area, written out: the matchers by the verbs each one supports; the other areas in tests/steps/areas.py.
 MATCHER_VERBS = {
     "words": ("find", "remove", "extract"),
     "chars": ("find", "remove", "extract"),
@@ -32,7 +33,7 @@ TEXT_STEPS = sorted(
     [f"{verb}-{matcher}" for matcher, verbs in MATCHER_VERBS.items() for verb in verbs]
     + [f"{verb}-{matcher}" for matcher, verbs in MATCHER_VERBS.items() if "find" in verbs for verb in ("keep", "drop")]
 )
-AREAS = {"text": TEXT_STEPS, "dupes": ["dupes"], "analysis": ["bigrams", "ngrams"]}
+AREAS = {"text": TEXT_STEPS, "dupes": ["dupes"], "analysis": ["bigrams", "counts", "ngrams"], **OTHER_AREAS}
 
 
 def _read_command() -> dict:

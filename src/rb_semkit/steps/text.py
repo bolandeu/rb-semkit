@@ -1,5 +1,5 @@
 """Text steps: each matcher as `<verb>-<matcher>` for the verbs it supports, and `keep-` / `drop-<matcher>` row filters
-for a matcher that can find (ADR 0004)."""
+for a matcher that can find (ADR 0004). `matcher_steps` makes them for any matcher factory; other areas reuse it."""
 
 from __future__ import annotations
 
@@ -77,10 +77,11 @@ def _filter_step(factory: MatcherFactory, action: Literal["keep", "drop"]) -> St
     return Step(name, factory, "filter", prepare, f"{name} {FILTER_NOTES[action]}")
 
 
-def _steps(factory: MatcherFactory) -> list[Step]:
+def matcher_steps(factory: MatcherFactory) -> list[Step]:
+    """The steps of a matcher: a verb step for each verb it supports, and the keep and drop filters if it can find."""
     supported = verbs(_matcher_type(factory))
     filters = [_filter_step(factory, action) for action in ("keep", "drop")] if "find" in supported else []
     return [*(_verb_step(factory, verb) for verb in supported), *filters]
 
 
-STEPS = [step for factory in MATCHERS for step in _steps(factory)]
+STEPS = [step for factory in MATCHERS for step in matcher_steps(factory)]

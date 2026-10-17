@@ -6,9 +6,10 @@ from collections.abc import Callable
 
 import pandas as pd
 
+from ..core.analysis.counts import counts
 from ..core.analysis.frequency import bigrams, ngrams
 from ..core.errors import InvalidArguments
-from . import Prepared, Report, Step
+from . import Change, Prepared, Report, Step
 
 
 def _numeric_weight(table: pd.DataFrame, weight: str | None) -> pd.DataFrame:
@@ -34,8 +35,24 @@ def _report(function: Callable[..., pd.DataFrame]) -> Callable[[dict], Prepared]
     return prepare
 
 
+def _prepare_counts(options: dict) -> Prepared:
+    def run(table, column):
+        counted = counts(_numeric_weight(table, options["weight"]), column=column, **options)
+        return Change(counted[f"{column}_{options['what']}"])
+
+    return run
+
+
 NOTE = "The step counts the working column; the table replaces the current one, its column ngram is the working one."
 STEPS = [
     Step("ngrams", ngrams, "report", _report(ngrams), NOTE),
     Step("bigrams", bigrams, "report", _report(bigrams), NOTE),
+    Step(
+        "counts",
+        counts,
+        "change",
+        _prepare_counts,
+        "The step writes the count of each phrase to a new column <column>_count.",
+        new_column="count",
+    ),
 ]

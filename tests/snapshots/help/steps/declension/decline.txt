@@ -1,0 +1,39 @@
+
+ Usage: semkit read {IN} decline [OPTIONS] [CASE]
+
+ Every word of a phrase that declines, to the case: «купить красный диван» genitive → «купить
+ красного дивана».
+
+ case: "nominative", "genitive", "dative", "accusative", "instrumental" or "prepositional".
+ number: "singular" or "plural". An adjective and a noun in its lemma decline; a verb, an adverb, a
+ preposition, a conjunction, a particle, an indeclinable word and a word already in another case
+ («на дачу») stay; a pronoun declines only as an adjective («этот» → «этого», «он» stays). A word
+ right after a preposition or a possessive pronoun that is not the first word stays («чехол для
+ телефон» → «чехла для телефон»; «мой синий стол» → «моего синего стола»). A word in «-ой» before a
+ word in another case stays too («с большой скидкой»). A word keeps its capitals.
+
+ The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
+
+ Example: semkit read core.csv decline купить write out.csv
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   CASE      <str>  "nominative", "genitive", "dative", "accusative", "instrumental" or           │
+│                    "prepositional". The same as --case CASE.                                     │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --case          CASE   "nominative", "genitive", "dative", "accusative", "instrumental" or       │
+│                        "prepositional".                                                          │
+│ --number        <str>  "singular" or "plural". An adjective and a noun in its lemma decline; a   │
+│                        verb, an adverb, a preposition, a conjunction, a particle, an             │
+│                        indeclinable word and a word already in another case («на дачу») stay; a  │
+│                        pronoun declines only as an adjective («этот» → «этого», «он» stays). A   │
+│                        word right after a preposition or a possessive pronoun that is not the    │
+│                        first word stays («чехол для телефон» → «чехла для телефон»; «мой синий   │
+│                        стол» → «моего синего стола»). A word in «-ой» before a word in another   │
+│                        case stays too («с большой скидкой»). A word keeps its capitals.          │
+│                        [default: singular]                                                       │
+│ --as            NAME   Write the result to a new column NAME and keep the working column as it   │
+│                        is.                                                                       │
+│ --help                 Show this message and exit.                                               │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

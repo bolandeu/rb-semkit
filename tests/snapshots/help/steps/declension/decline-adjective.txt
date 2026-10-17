@@ -1,0 +1,37 @@
+
+ Usage: semkit read {IN} decline-adjective [OPTIONS] [CASE]
+
+ Each word of a phrase, an adjective in the masculine nominative singular, declined: «красный» →
+ «красного».
+
+ case: "nominative", "genitive", "dative", "accusative", "instrumental" or "prepositional".
+ gender: "masculine", "feminine" or "neuter", for the singular. number: "singular" or "plural". 16
+ forms in all: «красный», «красного», «красному», «красный», «красным», «красном»; «красная»,
+ «красной», «красную»; «красное»; «красные», «красных», «красным», «красные», «красными»,
+ «красных». The masculine accusative is the inanimate one. A word with a capital keeps it; a word
+ whose ending the tables lack stays.
+
+ The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
+
+ Example: semkit read core.csv decline-adjective купить write out.csv
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   CASE      <str>  "nominative", "genitive", "dative", "accusative", "instrumental" or           │
+│                    "prepositional". The same as --case CASE.                                     │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --case          CASE   "nominative", "genitive", "dative", "accusative", "instrumental" or       │
+│                        "prepositional".                                                          │
+│ --gender        <str>  "masculine", "feminine" or "neuter", for the singular. number: "singular" │
+│                        or "plural". 16 forms in all: «красный», «красного», «красному»,          │
+│                        «красный», «красным», «красном»; «красная», «красной», «красную»;         │
+│                        «красное»; «красные», «красных», «красным», «красные», «красными»,        │
+│                        «красных». The masculine accusative is the inanimate one. A word with a   │
+│                        capital keeps it; a word whose ending the tables lack stays.              │
+│                        [default: masculine]                                                      │
+│ --number        <str>  See the description above. [default: singular]                            │
+│ --as            NAME   Write the result to a new column NAME and keep the working column as it   │
+│                        is.                                                                       │
+│ --help                 Show this message and exit.                                               │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

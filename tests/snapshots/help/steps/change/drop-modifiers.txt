@@ -1,0 +1,15 @@
+
+ Usage: semkit read {IN} drop-modifiers [OPTIONS]
+
+ The «+» or «!» of each stopword taken off, in any case: «+купить +в !москве +для дачи» → «+купить
+ в !москве для дачи». The words are joined by one space.
+
+ The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
+
+ Example: semkit read core.csv drop-modifiers write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --as          NAME  Write the result to a new column NAME and keep the working column as it is.  │
+│ --help              Show this message and exit.                                                  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

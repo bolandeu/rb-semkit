@@ -1,0 +1,20 @@
+
+ Usage: semkit read {IN} extract-complements [OPTIONS]
+
+ Prepositional complements of a phrase, joined by ", "; extract only: «диван для детей с доставкой»
+ → «для детей, с доставкой».
+
+ A complement is a preposition of the bundled list complement_prepositions («для», «с», «в» and
+ others; any case, ё as е) and the words after it up to the last noun among the next five words,
+ before the next preposition. A preposition with no noun after it gives nothing.
+
+ extract-complements keeps only what the matcher finds in the working column; an empty cell where
+ it finds nothing.
+
+ Example: semkit read core.csv extract-complements write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --as          NAME  Write the result to a new column NAME and keep the working column as it is.  │
+│ --help              Show this message and exit.                                                  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

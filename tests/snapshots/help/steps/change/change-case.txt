@@ -1,0 +1,35 @@
+
+ Usage: semkit read {IN} change-case [OPTIONS] [KIND]
+
+ The phrase in another case, by `kind`:
+
+ - "lower", "upper": the whole phrase; - "title": every word capitalised, the rest lower; a letter
+ after a digit or a sign starts a word too («иван-петров 5g» → «Иван-Петров 5G»); - "sentence",
+ "sentence_lower": the first letter of the text and of each sentence (after «.», «!», «?» and
+ spaces) upper or lower; the other letters stay; - "latin_title": a word that starts with a small
+ latin letter gets it capital («iphone» → «Iphone»); - "latin_upper": a word with a latin letter in
+ upper case whole («wi-fi-роутер» → «WI-FI-РОУТЕР»); - "list_title", "list_upper": the words of
+ `words` capitalised or upper (case and ё do not count); - "toponyms": the place names of the
+ bundled geo list as the list spells them («нижний новгород» → «Нижний Новгород»), the longest name
+ from each word; - "abbreviations": a word of 2 to 5 consonants, or 3 to 5 vowels, upper («hp»,
+ «ооо»), then each word of the bundled abbreviations as the list spells it («спб» → «СПб», «usb» →
+ «USB», «СМ» → «см»).
+
+ The word kinds split the phrase on any whitespace and join the words by one space.
+
+ The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
+
+ Example: semkit read core.csv change-case купить write out.csv
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   KIND      <str>  See the description above. The same as --kind KIND.                           │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --kind         KIND   See the description above.                                                 │
+│ --words        <str>  See the description above. Items: a comma list 'a,b', @FILE (one item per  │
+│                       line) or @NAME of a list.                                                  │
+│ --as           NAME   Write the result to a new column NAME and keep the working column as it    │
+│                       is.                                                                        │
+│ --help                Show this message and exit.                                                │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

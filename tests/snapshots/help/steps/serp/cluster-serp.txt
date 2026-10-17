@@ -1,0 +1,27 @@
+
+ Usage: semkit read {IN} cluster-serp [OPTIONS]
+
+ Cluster the phrases of `serp` (columns phrase, position, url) by common URLs of their tops.
+
+ Returns one row per phrase: phrase, cluster (1 = the largest), center (the first phrase of the
+ cluster) and common (URLs shared with the center; the center gets the size of its own top). `freq`
+ (a Series indexed by phrase, or a DataFrame with the columns phrase and freq) orders the phrases;
+ without it the phrase with the most links to the others goes first, ties by phrase.
+
+ freq: a file with the columns phrase and freq, the frequency of each phrase; the file is read like
+ `read` does.
+
+ The step reads the current table, a SERP with the columns phrase, position and url; the table of
+ the clusters replaces it, its column phrase is the working one.
+
+ Example: semkit read core.csv cluster-serp write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --method        <str>  See the description above. [default: soft]                                │
+│ --common        <int>  See the description above. [default: 3]                                   │
+│ --top           <int>  See the description above. [default: 10]                                  │
+│ --freq          <str>  a file with the columns phrase and freq, the frequency of each phrase;    │
+│                        the file is read like `read` does.                                        │
+│ --help                 Show this message and exit.                                               │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

@@ -1,0 +1,32 @@
+
+ Usage: semkit read {IN} fix-word-order [OPTIONS]
+
+ The words of the phrase in the order of a search query: «диван для гостиной раскладной кожаный» →
+ «кожаный раскладной диван для гостиной».
+
+ 1. The complements go to the end: a preposition (для, с, без, в, из, на…) with the words after it
+ up to the last noun among the next 5, stopping at the next preposition or at `main_word`. 2. The
+ adjectives that agree with the main word in `form` go first: masculine («кожаный»), feminine
+ («кожаная»), feminine_accusative («кожаную»), plural («кожаные»). 3. The words of the bundled list
+ of words that start a query (где, купить, недорогой, кожаный…, in that form) go first, in the
+ order of the list.
+
+ main_word: the object of the query, one word (case and ё do not count): a complement never takes
+ it. complements=False: only step 3. The words are joined by one space.
+
+ The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
+
+ Example: semkit read core.csv fix-word-order write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --form                               <str>  See the description above. [default: masculine]      │
+│ --main-word                          <str>  the object of the query, one word (case and ё do not │
+│                                             count): a complement never takes it.                 │
+│                                             complements=False: only step 3. The words are joined │
+│                                             by one space.                                        │
+│ --complements    --no-complements           See the description above. [default: complements]    │
+│ --as                                 NAME   Write the result to a new column NAME and keep the   │
+│                                             working column as it is.                             │
+│ --help                                      Show this message and exit.                          │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

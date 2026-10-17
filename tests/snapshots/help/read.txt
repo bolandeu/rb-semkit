@@ -37,8 +37,153 @@
 │                        docs, sum and forms.                                                      │
 │ bigrams                Pairs of words of a phrase in any order, counted: «купить диван» and      │
 │                        «диван купить» both give «диван+купить».                                  │
+│ counts                 One count per phrase, as a Series or a new column `<column>_<what>`.      │
+│ change-case            The phrase in another case, by `kind`:                                    │
+│ insert                 `before` at the start and `after` at the end of the phrase, as given; an  │
+│                        empty phrase gets them too.                                               │
+│ move-words             The words of `words` found in the phrase moved to its start or end        │
+│                        (`to`), in the order and the spelling of                                  │
+│                        `words`: «диван угловой купить» with ["купить", "угловой"] → «купить      │
+│                        угловой диван». Case and ё do not count; the first word equal to an item  │
+│                        moves.                                                                    │
+│ split-digits           `sep` between digits and the text glued to them: «iphone13pro» → «iphone  │
+│                        13 pro», with sep="|" «a1b22» → «a|1|b|22». Digits and text already apart │
+│                        stay as they are.                                                         │
+│ reverse                The phrase backwards: what="chars" — its characters («абв 12» → «21       │
+│                        вба»); "words" — its words, joined by one space («купить диван москва» →  │
+│                        «москва диван купить»).                                                   │
+│ sort-words             The words of the phrase sorted by their character codes, joined by one    │
+│                        space: digits, then latin capitals, latin small letters, cyrillic         │
+│                        capitals, cyrillic small letters; «Ё» before «А» and «ё» after «я».       │
+│ guillemets             Straight double quotes as «ёлочки», opening and closing in turn: «диван   │
+│                        "Честер" купить» → «диван «Честер» купить». A phrase with quotes loses    │
+│                        the spaces at its edges.                                                  │
+│ translit               Letters of one alphabet written in the other: to="en" — «Щука жёлтая» →   │
+│                        «Schuka zheltaya», a word in capitals stays in capitals («ЖУК» → «ZHUK»); │
+│                        to="ru" — by letter groups, «Yandex» → «Яндекс», «Jeep» → «Джееп»,        │
+│                        «ob'em» → «обэм». The other chars stay.                                   │
+│ chpu                   The phrase as a ЧПУ (a human-readable URL part): latin letters and digits │
+│                        in lower case, cyrillic in translit, accented letters as plain ones; the  │
+│                        spaces and signs between words become one «-», none at the edges:         │
+│                        «Диван-кровать 2 м!» → «divan-krovat-2-m», «Щётка  ёж» → «schetka-ezh».   │
+│ switch-layout          Text typed in the wrong keyboard layout, retyped on the same keys of the  │
+│                        other: to="ru" — «ghbdtn, vbh» → «приветб мир», «z» → «я»; to="en" —      │
+│                        «привет» → «ghbdtn», a capital on a sign key gives its shifted sign («Б»  │
+│                        → «<», «Ё» → «~»).                                                        │
+│ similar-chars          The letters that look alike in both alphabets (а a, В B, Н H, р p, с c, у │
+│                        y, х x…) in the alphabet `to`: to="en" — «Москва» → «Mockвa»; to="ru" —   │
+│                        «CTO» → «СТО». The other letters stay.                                    │
+│ match-type             The phrase with the operators of a match type, by `kind`:                 │
+│ drop-minus-words       The phrase without its minus-words: «купить диван -бесплатно -скачать» →  │
+│                        «купить диван». A lone «-» between words is a dash and stays («диван -    │
+│                        кровать»). The words are joined by one space.                             │
+│ drop-modifiers         The «+» or «!» of each stopword taken off, in any case: «+купить +в       │
+│                        !москве +для дачи» → «+купить в !москве для дачи». The words are joined   │
+│                        by one space.                                                             │
+│ extract-utm            The value of the UTM tag `tag` (source, medium, campaign, term, content)  │
+│                        of the URL, URL-decoded:                                                  │
+│                        «?utm_source=%D0%AF%D0%BD%D0%B4%D0%B5%D0%BA%D1%81» → «Яндекс», «+» as a   │
+│                        space. The name counts in any case; the first tag of that name wins; no   │
+│                        such tag gives an empty string.                                           │
+│ remove-utm             The URL without its UTM tags, the parameters whose name starts with       │
+│                        «utm_» in any case:                                                       │
+│                        «https://site.ru/?UTM_Source=ya&utm_medium=cpc&id=5#top» →                │
+│                        «https://site.ru/?id=5#top». The rest of the query stays after one «?»    │
+│                        and between single «&»; with no parameter left, the «?» goes too.         │
+│ hash-text              The hash of the text as lower-case hex, of its UTF-8 bytes: algorithm     │
+│                        "md5" or "sha256". An empty text has a hash too (md5                      │
+│                        «d41d8cd98f00b204e9800998ecf8427e»).                                      │
+│ fix-word-order         The words of the phrase in the order of a search query: «диван для        │
+│                        гостиной раскладной кожаный» → «кожаный раскладной диван для гостиной».   │
+│ phonetic               Each word read as English and written in Russian: «Dreamline» →           │
+│                        «Дримлайн», «iphone» → «айфон», «google» → «гугл». A word keeps its case: │
+│                        lower, capitalised or upper («XIAOMI» → «СЯОМИ»); a word of mixed case    │
+│                        comes out lower. The words are joined by one space.                       │
+│ replace-text           The phrase changed by `pairs`, one after the other (a later pair works on │
+│                        the result of the earlier ones):                                          │
+│ replace-words          Whole words and phrases of the phrase replaced by `pairs` (what to find → │
+│                        its replacement); case and ё do not count. Longer phrases go first:       │
+│                        {"стиральная машинка": "стиральная машина", "машинка": "машина"}. An      │
+│                        empty replacement deletes the words.                                      │
+│ compare-grams          How the grams of my text differ from the competitors' texts: a row per    │
+│                        gram met in any competitor.                                               │
+│ compare-stats          The numeric metrics of sk.text_stats, mine against the competitors: a row │
+│                        per metric.                                                               │
+│ bm25                   Okapi BM25 of each text for `query`: a Series of scores, rounded to 4     │
+│                        decimals, with the index of `texts`.                                      │
+│ linear-combinations    Every combination of one item from each column of `lists`, one column per │
+│                        list (the Cartesian product).                                             │
+│ ordered-pairs          Every ordered pair of two different items of a list: a table first,       │
+│                        second («a», «b» → a b, b a).                                             │
+│ permutations           Every order of the words of each phrase, the phrases one after another:   │
+│                        «a b c» → «a b c», «a c b», «b a c»…                                      │
+│ first-parents          The first item of `parents` that is a parent of the phrase, or "" when    │
+│                        none is. Empty items are skipped.                                         │
+│ nearest-parents        The parent from `parents` with the most words for each phrase, or "" when │
+│                        it has none.                                                              │
+│ first-children         The first item of `children` that is a child of the phrase, or "" when    │
+│                        none is; an empty phrase has none.                                        │
+│ basis-phrases          Each phrase that is a basis of the core, or "" for the others: a basis    │
+│                        holds no smaller phrase of the core.                                      │
+│ split-by-words         The core split into good, bad and rest phrases, and the frequency         │
+│                        dictionary of the rest.                                                   │
+│ cluster-by-frequency   The cluster of each phrase: its words that stand in at least `threshold`  │
+│                        phrases of the core.                                                      │
+│ synonyms               The synonyms in a search-phrase report: a table word, sure, synonyms      │
+│                        (joined by a space).                                                      │
+│ add-minus-words        Each phrase with the synonyms of its words appended as minus-words:       │
+│                        «купить диван» → «купить диван -софа».                                    │
+│ is-typo                TRUE for a phrase with a misspelt word, FALSE for the others.             │
+│ typo-correction        Each phrase with its misspelt words replaced by their most likely         │
+│                        corrections («купить диавн» → «купить диван»).                            │
+│ sentiment              The score of each phrase by the words of `scores` it holds: their mean,   │
+│                        min or max.                                                               │
+│ coverage               Every distinct core phrase checked against the texts: a table phrase,     │
+│                        count, docs, density and first.                                           │
+│ decline                Every word of a phrase that declines, to the case: «купить красный диван» │
+│                        genitive → «купить красного дивана».                                      │
+│ decline-noun           Each word of a phrase, a noun in the nominative singular, declined:       │
+│                        «диван» genitive → «дивана».                                              │
+│ decline-adjective      Each word of a phrase, an adjective in the masculine nominative singular, │
+│                        declined: «красный» → «красного».                                         │
+│ decline-full-name      A full name «Фамилия Имя Отчество» declined: «Иванов Сергей Петрович»     │
+│                        genitive → «Иванова Сергея Петровича».                                    │
+│ irrelevant-words       The candidates for minus-words around a main word: «чехол» in «чехол для  │
+│                        телефона» for «телефон».                                                  │
+│ find-ready-pattern     A ready regular expression, found anywhere in a phrase, case-sensitive.   │
+│ remove-ready-pattern   A ready regular expression, found anywhere in a phrase, case-sensitive.   │
+│ extract-ready-pattern  A ready regular expression, found anywhere in a phrase, case-sensitive.   │
+│ keep-ready-pattern     A ready regular expression, found anywhere in a phrase, case-sensitive.   │
+│ drop-ready-pattern     A ready regular expression, found anywhere in a phrase, case-sensitive.   │
+│ extract-complements    Prepositional complements of a phrase, joined by ", "; extract only:      │
+│                        «диван для детей с доставкой» → «для детей, с доставкой».                 │
+│ remove-phrase-end      The words at the end of a phrase, cut until the last word is clean;       │
+│                        remove only.                                                              │
 │ dupes                  Duplicates by `kind`: exact, explicit (case, ё→е, spaces), implicit       │
 │                        (other word order) or lemmas.                                             │
+│ compare-lists          The phrases of two lists by `op`: both (of `first` that are in `second`), │
+│                        either (`first`, then `second`), first (only in `first`), second (only in │
+│                        `second`).                                                                │
+│ find-markers           Items of marker lists found in a phrase, as whole words, in any case, ё   │
+│                        as е; all lists in one pass.                                              │
+│ remove-markers         Items of marker lists found in a phrase, as whole words, in any case, ё   │
+│                        as е; all lists in one pass.                                              │
+│ extract-markers        Items of marker lists found in a phrase, as whole words, in any case, ё   │
+│                        as е; all lists in one pass.                                              │
+│ keep-markers           Items of marker lists found in a phrase, as whole words, in any case, ё   │
+│                        as е; all lists in one pass.                                              │
+│ drop-markers           Items of marker lists found in a phrase, as whole words, in any case, ё   │
+│                        as е; all lists in one pass.                                              │
+│ lemmatize              Each word of a phrase replaced by its lemma, in lower case: «купила       │
+│                        диваны» → «купить диван».                                                 │
+│ part-of-speech         The part of speech of each word of a phrase, by space: «купить диван» →   │
+│                        «v n» (SemtoolsLemmatizer codes).                                         │
+│ wordforms              Every wordform of the lemma of `word`, alphabetical, each once: «диваны»  │
+│                        → [«диван», «дивана», ...].                                               │
+│ cluster-serp           Cluster the phrases of `serp` (columns phrase, position, url) by common   │
+│                        URLs of their tops.                                                       │
+│ split-text             Every cell cut into phrases at sentence ends and clause punctuation; one  │
+│                        row per phrase, none for an empty cell.                                   │
 │ find-words             Whole words of a phrase equal to `items`, compared by case and ё          │
 │                        (`norm_phrase`).                                                          │
 │ remove-words           Whole words of a phrase equal to `items`, compared by case and ё          │
@@ -142,6 +287,8 @@
 │                        drops the rows); extract keeps the cell, or '' if not found.              │
 │ drop-cells             A whole cell is found or not. remove clears a found cell to '' ("empty"   │
 │                        drops the rows); extract keeps the cell, or '' if not found.              │
+│ text-stats             The usual SEO metrics of each text, the same numbers each run: a table    │
+│                        with the input index, a row per text.                                     │
 │ write                  Write the current table to OUT: the last step of a pipeline.              │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

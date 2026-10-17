@@ -1,0 +1,44 @@
+
+ Usage: semkit read {IN} counts [OPTIONS] [WHAT]
+
+ One count per phrase, as a Series or a new column `<column>_<what>`.
+
+ what: "words" and "chars" — the words and the characters of the phrase; "count" — how many times
+ the same phrase stands in the core; "number" — which occurrence of it this row is (1 for the
+ first). Phrases are the same by case and ё (ADR 0005); an empty cell has no count (empty value).
+ "share" — the cumulative share of the sum of `weight` (0..1) in row order; "share_of_total" — the
+ value over the sum; both are empty when the sum is 0. "abc" — the class by the cumulative share
+ from the heaviest phrase down: "A" up to 80 %, "B" up to 95 %, "C" the rest. "share",
+ "share_of_total" and "abc" need `weight`.
+
+ The step writes the count of each phrase to a new column <column>_count.
+
+ Example: semkit read core.csv counts купить write out.csv
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   WHAT      <str>  "words" and "chars" — the words and the characters of the phrase; "count" —   │
+│                    how many times the same phrase stands in the core; "number" — which           │
+│                    occurrence of it this row is (1 for the first). Phrases are the same by case  │
+│                    and ё (ADR 0005); an empty cell has no count (empty value). "share" — the     │
+│                    cumulative share of the sum of `weight` (0..1) in row order; "share_of_total" │
+│                    — the value over the sum; both are empty when the sum is 0. "abc" — the class │
+│                    by the cumulative share from the heaviest phrase down: "A" up to 80 %, "B" up │
+│                    to 95 %, "C" the rest. "share", "share_of_total" and "abc" need `weight`. The │
+│                    same as --what WHAT.                                                          │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --what          WHAT   "words" and "chars" — the words and the characters of the phrase; "count" │
+│                        — how many times the same phrase stands in the core; "number" — which     │
+│                        occurrence of it this row is (1 for the first). Phrases are the same by   │
+│                        case and ё (ADR 0005); an empty cell has no count (empty value). "share"  │
+│                        — the cumulative share of the sum of `weight` (0..1) in row order;        │
+│                        "share_of_total" — the value over the sum; both are empty when the sum is │
+│                        0. "abc" — the class by the cumulative share from the heaviest phrase     │
+│                        down: "A" up to 80 %, "B" up to 95 %, "C" the rest. "share",              │
+│                        "share_of_total" and "abc" need `weight`.                                 │
+│ --weight        <str>  See the description above.                                                │
+│ --as            NAME   Write the result to a new column NAME and keep the working column as it   │
+│                        is.                                                                       │
+│ --help                 Show this message and exit.                                               │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

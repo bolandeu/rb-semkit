@@ -1,0 +1,33 @@
+
+ Usage: semkit read {IN} match-type [OPTIONS] [KIND]
+
+ The phrase with the operators of a match type, by `kind`:
+
+ - "broad": «A в Б», every «+», «!», «[», «]» and «"» taken out; - "plus_every_word": «+A +в +Б»;
+ "broad_modifier": «+A в +Б», the stopwords plain; - "stopword_modifier": «A +в Б», `modifier` ("+"
+ or "!") on the stopwords only; - "fixed_forms": «!A !в !Б»; "quoted_fixed_forms": «"!A !в !Б"»;
+ "quoted_fixed_order": «"[!A !в !Б]"»; - "brackets": «[A в Б]»; "quotes": «"A в Б"»; - the exact
+ match is "quotes", "quoted_fixed_forms" and "quoted_fixed_order" for Yandex, "brackets" for
+ Google; the phrase match is "brackets" for Yandex, "quotes" for Google; - "antisemantic": «[A] в
+ [Б]», each word but the stopwords in brackets.
+
+ A word that has an operator keeps it, and no other is added; the minus-words keep their place, and
+ the kinds that wrap the phrase put them after it («"купить диван" -бесплатно»). Stopwords are
+ found in any case. An empty phrase stays empty; the words are joined by one space ("broad" keeps
+ the spaces as they are).
+
+ The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
+
+ Example: semkit read core.csv match-type купить write out.csv
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   KIND      <str>  See the description above. The same as --kind KIND.                           │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --kind            KIND   See the description above.                                              │
+│ --modifier        <str>  See the description above. [default: +]                                 │
+│ --as              NAME   Write the result to a new column NAME and keep the working column as it │
+│                          is.                                                                     │
+│ --help                   Show this message and exit.                                             │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

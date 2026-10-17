@@ -1,0 +1,36 @@
+
+ Usage: semkit read {IN} compare-lists [OPTIONS] [AGAINST]
+
+ The phrases of two lists by `op`: both (of `first` that are in `second`), either (`first`, then
+ `second`), first (only in `first`), second (only in `second`).
+
+ The same phrase is the same key of `dupes` for `kind`. A phrase keeps the spelling of its first
+ occurrence and comes once; the order is the input order. Empty cells are never phrases.
+
+ against: a file with the second list, one phrase per row; the file is read like `read` does. The
+ phrases are in --second-column, by default the first text column of the file.
+
+ The step takes the working column as the first list; the phrases it finds replace the current
+ table, in a column of the same name.
+
+ Example: semkit read core.csv compare-lists купить write out.csv
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   AGAINST      <str>  a file with the second list, one phrase per row; the file is read like     │
+│                       `read` does. The phrases are in --second-column, by default the first text │
+│                       column of the file. The same as --against AGAINST.                         │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --against              AGAINST                           a file with the second list, one phrase │
+│                                                          per row; the file is read like `read`   │
+│                                                          does. The phrases are in                │
+│                                                          --second-column, by default the first   │
+│                                                          text column of the file.                │
+│ --op                   <str>                             See the description above.              │
+│                                                          [default: both]                         │
+│ --kind                 <exact|explicit|implicit|lemmas>  See the description above.              │
+│                                                          [default: exact]                        │
+│ --second-column        <str>                             See the description above.              │
+│ --help                                                   Show this message and exit.             │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

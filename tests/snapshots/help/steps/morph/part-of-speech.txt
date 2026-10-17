@@ -1,0 +1,15 @@
+
+ Usage: semkit read {IN} part-of-speech [OPTIONS]
+
+ The part of speech of each word of a phrase, by space: «купить диван» → «v n» (SemtoolsLemmatizer
+ codes).
+
+ The step writes its result to a new column <column>_pos.
+
+ Example: semkit read core.csv part-of-speech write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --as          NAME  Write the result to a new column NAME and keep the working column as it is.  │
+│ --help              Show this message and exit.                                                  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

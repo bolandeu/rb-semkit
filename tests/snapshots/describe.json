@@ -879,6 +879,2735 @@
             ]
           },
           {
+            "name": "counts",
+            "description": "One count per phrase, as a Series or a new column `<column>_<what>`.\n\nwhat: \"words\" and \"chars\" — the words and the characters of the phrase; \"count\" — how many times the same phrase stands in the core; \"number\" — which occurrence of it this row is (1 for the first). Phrases are the same by case and ё (ADR 0005); an empty cell has no count (empty value). \"share\" — the cumulative share of the sum of `weight` (0..1) in row order; \"share_of_total\" — the value over the sum; both are empty when the sum is 0. \"abc\" — the class by the cumulative share from the heaviest phrase down: \"A\" up to 80 %, \"B\" up to 95 %, \"C\" the rest. \"share\", \"share_of_total\" and \"abc\" need `weight`.\n\nThe step writes the count of each phrase to a new column <column>_count.\n\nExample: semkit read core.csv counts купить write out.csv",
+            "options": [
+              {
+                "name": "--what",
+                "arguments": [
+                  {
+                    "name": "WHAT",
+                    "required": true
+                  }
+                ],
+                "description": "\"words\" and \"chars\" — the words and the characters of the phrase; \"count\" — how many times the same phrase stands in the core; \"number\" — which occurrence of it this row is (1 for the first). Phrases are the same by case and ё (ADR 0005); an empty cell has no count (empty value). \"share\" — the cumulative share of the sum of `weight` (0..1) in row order; \"share_of_total\" — the value over the sum; both are empty when the sum is 0. \"abc\" — the class by the cumulative share from the heaviest phrase down: \"A\" up to 80 %, \"B\" up to 95 %, \"C\" the rest. \"share\", \"share_of_total\" and \"abc\" need `weight`.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--weight",
+                "arguments": [
+                  {
+                    "name": "WEIGHT",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_what",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "\"words\" and \"chars\" — the words and the characters of the phrase; \"count\" — how many times the same phrase stands in the core; \"number\" — which occurrence of it this row is (1 for the first). Phrases are the same by case and ё (ADR 0005); an empty cell has no count (empty value). \"share\" — the cumulative share of the sum of `weight` (0..1) in row order; \"share_of_total\" — the value over the sum; both are empty when the sum is 0. \"abc\" — the class by the cumulative share from the heaviest phrase down: \"A\" up to 80 %, \"B\" up to 95 %, \"C\" the rest. \"share\", \"share_of_total\" and \"abc\" need `weight`. The same as --what WHAT.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "change-case",
+            "description": "The phrase in another case, by `kind`:\n\n- \"lower\", \"upper\": the whole phrase; - \"title\": every word capitalised, the rest lower; a letter after a digit or a sign starts a word too («иван-петров 5g» → «Иван-Петров 5G»); - \"sentence\", \"sentence_lower\": the first letter of the text and of each sentence (after «.», «!», «?» and spaces) upper or lower; the other letters stay; - \"latin_title\": a word that starts with a small latin letter gets it capital («iphone» → «Iphone»); - \"latin_upper\": a word with a latin letter in upper case whole («wi-fi-роутер» → «WI-FI-РОУТЕР»); - \"list_title\", \"list_upper\": the words of `words` capitalised or upper (case and ё do not count); - \"toponyms\": the place names of the bundled geo list as the list spells them («нижний новгород» → «Нижний Новгород»), the longest name from each word; - \"abbreviations\": a word of 2 to 5 consonants, or 3 to 5 vowels, upper («hp», «ооо»), then each word of the bundled abbreviations as the list spells it («спб» → «СПб», «usb» → «USB», «СМ» → «см»).\n\nThe word kinds split the phrase on any whitespace and join the words by one space.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv change-case купить write out.csv",
+            "options": [
+              {
+                "name": "--kind",
+                "arguments": [
+                  {
+                    "name": "KIND",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--words",
+                "arguments": [
+                  {
+                    "name": "WORDS",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "insert",
+            "description": "`before` at the start and `after` at the end of the phrase, as given; an empty phrase gets them too.\n\neach_word: round each word of the phrase instead («купить диван» with after=\",\" → «купить, диван,»); the words are joined by one space and an empty phrase stays empty.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv insert write out.csv",
+            "options": [
+              {
+                "name": "--before",
+                "arguments": [
+                  {
+                    "name": "BEFORE",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "name": "--after",
+                "arguments": [
+                  {
+                    "name": "AFTER",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": ""
+                  }
+                ]
+              },
+              {
+                "name": "--each-word",
+                "description": "round each word of the phrase instead («купить диван» with after=\",\" → «купить, диван,»); the words are joined by one space and an empty phrase stays empty.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "move-words",
+            "description": "The words of `words` found in the phrase moved to its start or end (`to`), in the order and the spelling of\n`words`: «диван угловой купить» with [\"купить\", \"угловой\"] → «купить угловой диван». Case and ё do not count; the first word equal to an item moves.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv move-words купить write out.csv",
+            "options": [
+              {
+                "name": "--words",
+                "arguments": [
+                  {
+                    "name": "WORDS",
+                    "required": true
+                  }
+                ],
+                "description": "«диван угловой купить» with [\"купить\", \"угловой\"] → «купить угловой диван». Case and ё do not count; the first word equal to an item moves. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--to",
+                "arguments": [
+                  {
+                    "name": "TO",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "start"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_words",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "«диван угловой купить» with [\"купить\", \"угловой\"] → «купить угловой диван». Case and ё do not count; the first word equal to an item moves. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list. The same as --words WORDS.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "split-digits",
+            "description": "`sep` between digits and the text glued to them: «iphone13pro» → «iphone 13 pro», with sep=\"|\" «a1b22» → «a|1|b|22». Digits and text already apart stay as they are.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv split-digits write out.csv",
+            "options": [
+              {
+                "name": "--sep",
+                "arguments": [
+                  {
+                    "name": "SEP",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": " "
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "reverse",
+            "description": "The phrase backwards: what=\"chars\" — its characters («абв 12» → «21 вба»); \"words\" — its words, joined by one space («купить диван москва» → «москва диван купить»).\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv reverse write out.csv",
+            "options": [
+              {
+                "name": "--what",
+                "arguments": [
+                  {
+                    "name": "WHAT",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "chars"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "sort-words",
+            "description": "The words of the phrase sorted by their character codes, joined by one space: digits, then latin capitals, latin small letters, cyrillic capitals, cyrillic small letters; «Ё» before «А» and «ё» after «я».\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv sort-words write out.csv",
+            "options": [
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "guillemets",
+            "description": "Straight double quotes as «ёлочки», opening and closing in turn: «диван \"Честер\" купить» → «диван «Честер» купить». A phrase with quotes loses the spaces at its edges.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv guillemets write out.csv",
+            "options": [
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "translit",
+            "description": "Letters of one alphabet written in the other: to=\"en\" — «Щука жёлтая» → «Schuka zheltaya», a word in capitals stays in capitals («ЖУК» → «ZHUK»); to=\"ru\" — by letter groups, «Yandex» → «Яндекс», «Jeep» → «Джееп», «ob'em» → «обэм». The other chars stay.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv translit купить write out.csv",
+            "options": [
+              {
+                "name": "--to",
+                "arguments": [
+                  {
+                    "name": "TO",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_to",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. The same as --to TO.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "chpu",
+            "description": "The phrase as a ЧПУ (a human-readable URL part): latin letters and digits in lower case, cyrillic in translit, accented letters as plain ones; the spaces and signs between words become one «-», none at the edges: «Диван-кровать 2 м!» → «divan-krovat-2-m», «Щётка  ёж» → «schetka-ezh».\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv chpu write out.csv",
+            "options": [
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "switch-layout",
+            "description": "Text typed in the wrong keyboard layout, retyped on the same keys of the other: to=\"ru\" — «ghbdtn, vbh» → «приветб мир», «z» → «я»; to=\"en\" — «привет» → «ghbdtn», a capital on a sign key gives its shifted sign («Б» → «<», «Ё» → «~»).\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv switch-layout купить write out.csv",
+            "options": [
+              {
+                "name": "--to",
+                "arguments": [
+                  {
+                    "name": "TO",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_to",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. The same as --to TO.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "similar-chars",
+            "description": "The letters that look alike in both alphabets (а a, В B, Н H, р p, с c, у y, х x…) in the alphabet `to`: to=\"en\" — «Москва» → «Mockвa»; to=\"ru\" — «CTO» → «СТО». The other letters stay.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv similar-chars купить write out.csv",
+            "options": [
+              {
+                "name": "--to",
+                "arguments": [
+                  {
+                    "name": "TO",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_to",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. The same as --to TO.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "match-type",
+            "description": "The phrase with the operators of a match type, by `kind`:\n\n- \"broad\": «A в Б», every «+», «!», «[», «]» and «\"» taken out; - \"plus_every_word\": «+A +в +Б»; \"broad_modifier\": «+A в +Б», the stopwords plain; - \"stopword_modifier\": «A +в Б», `modifier` (\"+\" or \"!\") on the stopwords only; - \"fixed_forms\": «!A !в !Б»; \"quoted_fixed_forms\": «\"!A !в !Б\"»; \"quoted_fixed_order\": «\"[!A !в !Б]\"»; - \"brackets\": «[A в Б]»; \"quotes\": «\"A в Б\"»; - the exact match is \"quotes\", \"quoted_fixed_forms\" and \"quoted_fixed_order\" for Yandex, \"brackets\" for Google; the phrase match is \"brackets\" for Yandex, \"quotes\" for Google; - \"antisemantic\": «[A] в [Б]», each word but the stopwords in brackets.\n\nA word that has an operator keeps it, and no other is added; the minus-words keep their place, and the kinds that wrap the phrase put them after it («\"купить диван\" -бесплатно»). Stopwords are found in any case. An empty phrase stays empty; the words are joined by one space (\"broad\" keeps the spaces as they are).\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv match-type купить write out.csv",
+            "options": [
+              {
+                "name": "--kind",
+                "arguments": [
+                  {
+                    "name": "KIND",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--modifier",
+                "arguments": [
+                  {
+                    "name": "MODIFIER",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "+"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "drop-minus-words",
+            "description": "The phrase without its minus-words: «купить диван -бесплатно -скачать» → «купить диван». A lone «-» between words is a dash and stays («диван - кровать»). The words are joined by one space.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv drop-minus-words write out.csv",
+            "options": [
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "drop-modifiers",
+            "description": "The «+» or «!» of each stopword taken off, in any case: «+купить +в !москве +для дачи» → «+купить в !москве для дачи». The words are joined by one space.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv drop-modifiers write out.csv",
+            "options": [
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "extract-utm",
+            "description": "The value of the UTM tag `tag` (source, medium, campaign, term, content) of the URL, URL-decoded: «?utm_source=%D0%AF%D0%BD%D0%B4%D0%B5%D0%BA%D1%81» → «Яндекс», «+» as a space. The name counts in any case; the first tag of that name wins; no such tag gives an empty string.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv extract-utm купить write out.csv",
+            "options": [
+              {
+                "name": "--tag",
+                "arguments": [
+                  {
+                    "name": "TAG",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_tag",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. The same as --tag TAG.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "remove-utm",
+            "description": "The URL without its UTM tags, the parameters whose name starts with «utm_» in any case: «https://site.ru/?UTM_Source=ya&utm_medium=cpc&id=5#top» → «https://site.ru/?id=5#top». The rest of the query stays after one «?» and between single «&»; with no parameter left, the «?» goes too.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv remove-utm write out.csv",
+            "options": [
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "hash-text",
+            "description": "The hash of the text as lower-case hex, of its UTF-8 bytes: algorithm \"md5\" or \"sha256\". An empty text has a hash too (md5 «d41d8cd98f00b204e9800998ecf8427e»).\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv hash-text write out.csv",
+            "options": [
+              {
+                "name": "--algorithm",
+                "arguments": [
+                  {
+                    "name": "ALGORITHM",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "md5"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "fix-word-order",
+            "description": "The words of the phrase in the order of a search query: «диван для гостиной раскладной кожаный» → «кожаный раскладной диван для гостиной».\n\n1. The complements go to the end: a preposition (для, с, без, в, из, на…) with the words after it up to the last noun among the next 5, stopping at the next preposition or at `main_word`. 2. The adjectives that agree with the main word in `form` go first: masculine («кожаный»), feminine («кожаная»), feminine_accusative («кожаную»), plural («кожаные»). 3. The words of the bundled list of words that start a query (где, купить, недорогой, кожаный…, in that form) go first, in the order of the list.\n\nmain_word: the object of the query, one word (case and ё do not count): a complement never takes it. complements=False: only step 3. The words are joined by one space.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv fix-word-order write out.csv",
+            "options": [
+              {
+                "name": "--form",
+                "arguments": [
+                  {
+                    "name": "FORM",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "masculine"
+                  }
+                ]
+              },
+              {
+                "name": "--main-word",
+                "arguments": [
+                  {
+                    "name": "MAIN_WORD",
+                    "required": true
+                  }
+                ],
+                "description": "the object of the query, one word (case and ё do not count): a complement never takes it. complements=False: only step 3. The words are joined by one space.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--complements",
+                "aliases": [
+                  "--no-complements"
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": true
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "phonetic",
+            "description": "Each word read as English and written in Russian: «Dreamline» → «Дримлайн», «iphone» → «айфон», «google» → «гугл». A word keeps its case: lower, capitalised or upper («XIAOMI» → «СЯОМИ»); a word of mixed case comes out lower. The words are joined by one space.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv phonetic write out.csv",
+            "options": [
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "replace-text",
+            "description": "The phrase changed by `pairs`, one after the other (a later pair works on the result of the earlier ones):\n\n- by=\"substring\": every occurrence of the text, in any case and ё as е, becomes the replacement as given; - by=\"phrase\": a phrase equal to the text (case, ё and extra spaces do not count) becomes the replacement in the case of the phrase: lower, capitalised or upper («МОСКВА» → «САНКТ-ПЕТЕРБУРГ»); - by=\"regex\": each match of the pattern (cyrillic letters are word chars) becomes the replacement, with `\\1` and `\\g<name>` for the groups; first_only: only the first match.\n\npairs: a file of two columns, what to find and its replacement; the first row is the header, the file is read like `read` does.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv replace-text купить write out.csv",
+            "options": [
+              {
+                "name": "--pairs",
+                "arguments": [
+                  {
+                    "name": "PAIRS",
+                    "required": true
+                  }
+                ],
+                "description": "a file of two columns, what to find and its replacement; the first row is the header, the file is read like `read` does.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--by",
+                "arguments": [
+                  {
+                    "name": "BY",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "substring"
+                  }
+                ]
+              },
+              {
+                "name": "--first-only",
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_pairs",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "a file of two columns, what to find and its replacement; the first row is the header, the file is read like `read` does. The same as --pairs PAIRS.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "replace-words",
+            "description": "Whole words and phrases of the phrase replaced by `pairs` (what to find → its replacement); case and ё do not count. Longer phrases go first: {\"стиральная машинка\": \"стиральная машина\", \"машинка\": \"машина\"}. An empty replacement deletes the words.\n\ncase: \"new\" — the replacement as given; \"keep\" — in the case of the first word it replaces (lower, capitalised, upper; a word of mixed case keeps the replacement as given).\n\npairs: a file of two columns, what to find and its replacement; the first row is the header, the file is read like `read` does.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv replace-words купить write out.csv",
+            "options": [
+              {
+                "name": "--pairs",
+                "arguments": [
+                  {
+                    "name": "PAIRS",
+                    "required": true
+                  }
+                ],
+                "description": "a file of two columns, what to find and its replacement; the first row is the header, the file is read like `read` does.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--case",
+                "arguments": [
+                  {
+                    "name": "CASE",
+                    "required": true
+                  }
+                ],
+                "description": "\"new\" — the replacement as given; \"keep\" — in the case of the first word it replaces (lower, capitalised, upper; a word of mixed case keeps the replacement as given).",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "new"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_pairs",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "a file of two columns, what to find and its replacement; the first row is the header, the file is read like `read` does. The same as --pairs PAIRS.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "compare-grams",
+            "description": "How the grams of my text differ from the competitors' texts: a row per gram met in any competitor.\n\nmine: one text (a str). competitors: texts one per row (a Series, or a DataFrame with `column`). The density of a gram in a text is its count / the words of that text; a competitor without the gram counts as 0. Grams are those of sk.ngrams (`n`, `lemmas`, `stopwords`).\nColumns: ngram. docs: competitors that hold it. docs_share: docs / competitors, 0..1. median, min, max: the density in the competitors. mine: its density in my text. verdict: 'below', 'within' or 'above', mine against median x (1 ± tolerance); when the median is 0, 'within' if mine is 0, else 'above'. Densities are rounded to 4 decimals. Sorted by median, biggest first, then ngram. The only norm is the median.\n\ncompetitors: a file with the texts of the competitors, one per row, in its first text column; the file is read like `read` does.\n\nThe step takes the working column as my text (its cells, one per line); the table of the comparison replaces the current one.\n\nExample: semkit read core.csv compare-grams купить write out.csv",
+            "options": [
+              {
+                "name": "--competitors",
+                "arguments": [
+                  {
+                    "name": "COMPETITORS",
+                    "required": true
+                  }
+                ],
+                "description": "a file with the texts of the competitors, one per row, in its first text column; the file is read like `read` does.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "-n",
+                "arguments": [
+                  {
+                    "name": "N",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "int"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "name": "--lemmas",
+                "aliases": [
+                  "--no-lemmas"
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": true
+                  }
+                ]
+              },
+              {
+                "name": "--stopwords",
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--tolerance",
+                "arguments": [
+                  {
+                    "name": "TOLERANCE",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "float"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": 0.3
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_competitors",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "a file with the texts of the competitors, one per row, in its first text column; the file is read like `read` does. The same as --competitors COMPETITORS.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "compare-stats",
+            "description": "The numeric metrics of sk.text_stats, mine against the competitors: a row per metric.\n\nmine: one text (a str). competitors: texts one per row (a Series, or a DataFrame with `column`).\nColumns: metric. mine. median, min, max: the metric over the competitors. delta: mine - median.\nverdict: 'below', 'within' or 'above', mine against median x (1 ± tolerance); when the median is 0, 'within' if mine is 0, else 'above'. Numbers are rounded to 4 decimals. The only norm is the median.\n\ncompetitors: a file with the texts of the competitors, one per row, in its first text column; the file is read like `read` does.\n\nThe step takes the working column as my text (its cells, one per line); the table of the comparison replaces the current one.\n\nExample: semkit read core.csv compare-stats купить write out.csv",
+            "options": [
+              {
+                "name": "--competitors",
+                "arguments": [
+                  {
+                    "name": "COMPETITORS",
+                    "required": true
+                  }
+                ],
+                "description": "a file with the texts of the competitors, one per row, in its first text column; the file is read like `read` does.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--tolerance",
+                "arguments": [
+                  {
+                    "name": "TOLERANCE",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "float"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": 0.3
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_competitors",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "a file with the texts of the competitors, one per row, in its first text column; the file is read like `read` does. The same as --competitors COMPETITORS.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "bm25",
+            "description": "Okapi BM25 of each text for `query`: a Series of scores, rounded to 4 decimals, with the index of `texts`.\n\nTerms are the lemmas without stopwords, on both sides; a term repeated in the query counts once. The length of a text is its number of terms. idf = ln((N - df + 0.5) / (df + 0.5) + 1); N, df and the average length are taken over the given texts, so to rank my text among the competitors pass all of them together. score = sum over the terms of idf x tf x (k1 + 1) / (tf + k1 x (1 - b + b x length / average length)). A text without a term of the query scores 0.\n\nThe step takes each cell of the working column as a text and writes its score for the query to a new column <column>_bm25; to rank my text among the competitors, put all the texts in the working column.\n\nExample: semkit read core.csv bm25 купить write out.csv",
+            "options": [
+              {
+                "name": "--query",
+                "arguments": [
+                  {
+                    "name": "QUERY",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--k1",
+                "arguments": [
+                  {
+                    "name": "K1",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "float"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": 1.5
+                  }
+                ]
+              },
+              {
+                "name": "-b",
+                "arguments": [
+                  {
+                    "name": "B",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "float"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": 0.75
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_query",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. The same as --query QUERY.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "linear-combinations",
+            "description": "Every combination of one item from each column of `lists`, one column per list (the Cartesian product).\n\nThe first column changes slowest: купить, заказать × диван, стол → купить диван, купить стол, заказать диван… The empty cells of a column are skipped, so the lists may differ in length; a column with no items raises InvalidArguments. limit: the most rows the result may hold.\n\nThe step makes a table of its result; it replaces the current table, its first text column is the working one.\n\nExample: semkit read core.csv linear-combinations write out.csv",
+            "options": [
+              {
+                "name": "--limit",
+                "arguments": [
+                  {
+                    "name": "LIMIT",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "int"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": 1048576
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "ordered-pairs",
+            "description": "Every ordered pair of two different items of a list: a table first, second («a», «b» → a b, b a).\n\nEach item counts once, in the order of its first row; empty cells are no items.\nlimit: the most pairs the result may hold; a larger result raises InvalidArguments before any is made.\n\nThe step makes a table of its result; it replaces the current table, its first text column is the working one.\n\nExample: semkit read core.csv ordered-pairs write out.csv",
+            "options": [
+              {
+                "name": "--limit",
+                "arguments": [
+                  {
+                    "name": "LIMIT",
+                    "required": true
+                  }
+                ],
+                "description": "the most pairs the result may hold; a larger result raises InvalidArguments before any is made.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "int"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": 1048576
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "permutations",
+            "description": "Every order of the words of each phrase, the phrases one after another: «a b c» → «a b c», «a c b», «b a c»…\n\nA phrase of n words gives n! phrases, a repeated word too; an empty phrase gives one empty phrase.\nlimit: the most phrases the result may hold; a larger result raises InvalidArguments before any is made.\n\nThe step makes a table of its result; it replaces the current table, its first text column is the working one.\n\nExample: semkit read core.csv permutations write out.csv",
+            "options": [
+              {
+                "name": "--limit",
+                "arguments": [
+                  {
+                    "name": "LIMIT",
+                    "required": true
+                  }
+                ],
+                "description": "the most phrases the result may hold; a larger result raises InvalidArguments before any is made.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "int"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": 1048576
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "first-parents",
+            "description": "The first item of `parents` that is a parent of the phrase, or \"\" when none is. Empty items are skipped.\n\nThe step writes its result to a new column <column>_parent.\n\nExample: semkit read core.csv first-parents купить write out.csv",
+            "options": [
+              {
+                "name": "--parents",
+                "arguments": [
+                  {
+                    "name": "PARENTS",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_parents",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list. The same as --parents PARENTS.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "nearest-parents",
+            "description": "The parent from `parents` with the most words for each phrase, or \"\" when it has none.\n\nBetween parents with as many words, the one whose words stand later in the phrase wins («a b c»: «b c» before «a c»), then the first in the list. Empty items of `parents` are skipped.\n\nThe step writes its result to a new column <column>_parent.\n\nExample: semkit read core.csv nearest-parents купить write out.csv",
+            "options": [
+              {
+                "name": "--parents",
+                "arguments": [
+                  {
+                    "name": "PARENTS",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_parents",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list. The same as --parents PARENTS.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "first-children",
+            "description": "The first item of `children` that is a child of the phrase, or \"\" when none is; an empty phrase has none.\n\nThe step writes its result to a new column <column>_child.\n\nExample: semkit read core.csv first-children купить write out.csv",
+            "options": [
+              {
+                "name": "--children",
+                "arguments": [
+                  {
+                    "name": "CHILDREN",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_children",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list. The same as --children CHILDREN.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "basis-phrases",
+            "description": "Each phrase that is a basis of the core, or \"\" for the others: a basis holds no smaller phrase of the core.\n\nA phrase is a basis when it is the first with its set of words and no other phrase of the core has some of its words only: «купить диван», «диван», «диван купить» → «», «диван», «». Words are compared by case and ё.\nlemmas: compare the lemmas of the words («диваны» is «диван»), by `lemmatizer`.\nstopwords: False leaves the stopwords out of the comparison; a phrase of stopwords only keeps them.\n\nThe step writes its result to a new column <column>_basis.\n\nExample: semkit read core.csv basis-phrases write out.csv",
+            "options": [
+              {
+                "name": "--lemmas",
+                "description": "compare the lemmas of the words («диваны» is «диван»), by `lemmatizer`.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--stopwords",
+                "aliases": [
+                  "--no-stopwords"
+                ],
+                "description": "False leaves the stopwords out of the comparison; a phrase of stopwords only keeps them.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": true
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "split-by-words",
+            "description": "The core split into good, bad and rest phrases, and the frequency dictionary of the rest.\n\nbad: a phrase with any of these words is bad. good: a phrase that is not bad and has only these words is good. Every other phrase, an empty one too, is the rest. Words are compared by case and ё.\nlemmas: compare the lemmas of the words and of `good` and `bad` («диваны» is «диван»), by `lemmatizer`. The parts are the rows of the input in its order: a Series for a Series, the table for a table. `frequency` is the `ngrams` table of the rest, of lemmas with `lemmas`, to choose the next good and bad words.\n\nkeep: the part of the core to keep: the good phrases, the bad ones or the rest.\n\nThe step keeps only the rows of the part named by --keep.\n\nExample: semkit read core.csv split-by-words good write out.csv",
+            "options": [
+              {
+                "name": "--good",
+                "arguments": [
+                  {
+                    "name": "GOOD",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--bad",
+                "arguments": [
+                  {
+                    "name": "BAD",
+                    "required": true
+                  }
+                ],
+                "description": "a phrase with any of these words is bad. good: a phrase that is not bad and has only these words is good. Every other phrase, an empty one too, is the rest. Words are compared by case and ё. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--lemmas",
+                "description": "compare the lemmas of the words and of `good` and `bad` («диваны» is «диван»), by `lemmatizer`. The parts are the rows of the input in its order: a Series for a Series, the table for a table. `frequency` is the `ngrams` table of the rest, of lemmas with `lemmas`, to choose the next good and bad words.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--keep",
+                "arguments": [
+                  {
+                    "name": "KEEP",
+                    "required": true,
+                    "acceptedValues": [
+                      "good",
+                      "bad",
+                      "rest"
+                    ]
+                  }
+                ],
+                "description": "the part of the core to keep: the good phrases, the bad ones or the rest.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_keep",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "good",
+                  "bad",
+                  "rest"
+                ],
+                "description": "the part of the core to keep: the good phrases, the bad ones or the rest. The same as --keep KEEP.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "cluster-by-frequency",
+            "description": "The cluster of each phrase: its words that stand in at least `threshold` phrases of the core.\n\nA word counts once per phrase; words are compared by case and ё; stopwords are left out. The cluster lists its words in lower case, the most frequent first, then alphabetically, so «купить диван» and «диван купить» make one cluster. A phrase with no such word gets \"\".\n\nThe step writes its result to a new column <column>_cluster.\n\nExample: semkit read core.csv cluster-by-frequency 2 write out.csv",
+            "options": [
+              {
+                "name": "--threshold",
+                "arguments": [
+                  {
+                    "name": "THRESHOLD",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "int"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_threshold",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. The same as --threshold THRESHOLD.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "int"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "synonyms",
+            "description": "The synonyms in a search-phrase report: a table word, sure, synonyms (joined by a space).\n\nreport: a table with the columns phrase, condition and matched. A row whose condition and matched phrase differ in one word gives a sure synonym; a row with no matched phrase («-») compares the condition with the phrase and gives a synonym to check, unless it is a sure one already. The word is the one of the condition. Words are compared as lemmas (by `lemmatizer`), in any case and with ё = е; minus-words, operators (+ ! \" [ ]) and stopwords are left out. The sure rows come first, each part in the order of the report.\n\nThe step makes a table of its result; it replaces the current table, its first text column is the working one.\n\nExample: semkit read core.csv synonyms write out.csv"
+          },
+          {
+            "name": "add-minus-words",
+            "description": "Each phrase with the synonyms of its words appended as minus-words: «купить диван» → «купить диван -софа».\n\ntable: a table with the columns word and synonyms (separated by spaces), as `synonyms` gives. A word of the phrase matches by its lemma (by `lemmatizer`), in any case and with ё = е. A synonym that the phrase holds already, as a word or a minus-word, is not added again. A phrase in quotes is left as it is.\n\nsynonyms: a file with the columns word and synonyms, as the step `synonyms` gives; the file is read like `read` does.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv add-minus-words купить write out.csv",
+            "options": [
+              {
+                "name": "--synonyms",
+                "arguments": [
+                  {
+                    "name": "SYNONYMS",
+                    "required": true
+                  }
+                ],
+                "description": "a file with the columns word and synonyms, as the step `synonyms` gives; the file is read like `read` does.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_synonyms",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "a file with the columns word and synonyms, as the step `synonyms` gives; the file is read like `read` does. The same as --synonyms SYNONYMS.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "is-typo",
+            "description": "TRUE for a phrase with a misspelt word, FALSE for the others.\n\nprovider: what finds the misspelt words. CoreSpelling (the default) learns the words from the phrases given, so give it the whole core; sk.LanguageTool asks a spelling server.\n\nThe step writes its result to a new column <column>_typo.\n\nExample: semkit read core.csv is-typo write out.csv",
+            "options": [
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "typo-correction",
+            "description": "Each phrase with its misspelt words replaced by their most likely corrections («купить диавн» → «купить диван»).\n\nA phrase with no misspelt word, or none the provider can correct, stays as it is. provider: as for `is_typo`.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv typo-correction write out.csv",
+            "options": [
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "sentiment",
+            "description": "The score of each phrase by the words of `scores` it holds: their mean, min or max.\n\nscores: a dictionary word → number, e.g. {\"отличный\": 5, \"плохой\": -3}; words match in any case and with ё = е, and a word repeated in the phrase counts each time. what: \"mean\", \"min\" or \"max\". A phrase with no scored word gets an empty value.\n\ndictionary: a file of two columns, a word and its score; the first row is the header, the file is read like `read` does.\n\nThe step writes the scores to a new column <column>_sentiment.\n\nExample: semkit read core.csv sentiment купить write out.csv",
+            "options": [
+              {
+                "name": "--dictionary",
+                "arguments": [
+                  {
+                    "name": "DICTIONARY",
+                    "required": true
+                  }
+                ],
+                "description": "a file of two columns, a word and its score; the first row is the header, the file is read like `read` does.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--what",
+                "arguments": [
+                  {
+                    "name": "WHAT",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "mean"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_dictionary",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "a file of two columns, a word and its score; the first row is the header, the file is read like `read` does. The same as --dictionary DICTIONARY.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "coverage",
+            "description": "Every distinct core phrase checked against the texts: a table phrase, count, docs, density and first.\n\nThe rows follow the core order; a phrase that is not found stays with count 0, as the missing phrases are the point.\ncount: occurrences in all texts; one phrase does not overlap itself, and each phrase is counted on its own.\ndocs: the texts that hold the phrase at least once.\ndensity: count x words of the phrase / words of all texts, a share from 0 to 1.\nfirst: the number of the word (1-based, all words of the text counted) where the phrase first starts, in the first text that holds it; empty when count is 0.\nmode: 'exact' — the words of the phrase in a row, case and ё folded; 'lemmas' — the same by lemmas of both sides, by `lemmatizer`; 'any_order' — the lemmas of the phrase all inside one piece of text (one `split_text` phrase), in any order; a piece with them is one occurrence. core, column: the core phrases, a Series or a DataFrame with `column`. texts, text_column: the texts, one per row.\n\nagainst: a file with the texts, one per row; the file is read like `read` does. The texts are in --text-column, by default the first text column of the file.\n\nThe step takes the working column as the core; the table phrase, count, docs, density and first replaces the current one.\n\nExample: semkit read core.csv coverage купить write out.csv",
+            "options": [
+              {
+                "name": "--against",
+                "arguments": [
+                  {
+                    "name": "AGAINST",
+                    "required": true
+                  }
+                ],
+                "description": "a file with the texts, one per row; the file is read like `read` does. The texts are in --text-column, by default the first text column of the file.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--mode",
+                "arguments": [
+                  {
+                    "name": "MODE",
+                    "required": true
+                  }
+                ],
+                "description": "'exact' — the words of the phrase in a row, case and ё folded; 'lemmas' — the same by lemmas of both sides, by `lemmatizer`; 'any_order' — the lemmas of the phrase all inside one piece of text (one `split_text` phrase), in any order; a piece with them is one occurrence. core, column: the core phrases, a Series or a DataFrame with `column`. texts, text_column: the texts, one per row.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "exact"
+                  }
+                ]
+              },
+              {
+                "name": "--text-column",
+                "arguments": [
+                  {
+                    "name": "TEXT_COLUMN",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_against",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "a file with the texts, one per row; the file is read like `read` does. The texts are in --text-column, by default the first text column of the file. The same as --against AGAINST.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "decline",
+            "description": "Every word of a phrase that declines, to the case: «купить красный диван» genitive → «купить красного дивана».\n\ncase: \"nominative\", \"genitive\", \"dative\", \"accusative\", \"instrumental\" or \"prepositional\".\nnumber: \"singular\" or \"plural\". An adjective and a noun in its lemma decline; a verb, an adverb, a preposition, a conjunction, a particle, an indeclinable word and a word already in another case («на дачу») stay; a pronoun declines only as an adjective («этот» → «этого», «он» stays). A word right after a preposition or a possessive pronoun that is not the first word stays («чехол для телефон» → «чехла для телефон»; «мой синий стол» → «моего синего стола»). A word in «-ой» before a word in another case stays too («с большой скидкой»). A word keeps its capitals.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv decline купить write out.csv",
+            "options": [
+              {
+                "name": "--case",
+                "arguments": [
+                  {
+                    "name": "CASE",
+                    "required": true
+                  }
+                ],
+                "description": "\"nominative\", \"genitive\", \"dative\", \"accusative\", \"instrumental\" or \"prepositional\".",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--number",
+                "arguments": [
+                  {
+                    "name": "NUMBER",
+                    "required": true
+                  }
+                ],
+                "description": "\"singular\" or \"plural\". An adjective and a noun in its lemma decline; a verb, an adverb, a preposition, a conjunction, a particle, an indeclinable word and a word already in another case («на дачу») stay; a pronoun declines only as an adjective («этот» → «этого», «он» stays). A word right after a preposition or a possessive pronoun that is not the first word stays («чехол для телефон» → «чехла для телефон»; «мой синий стол» → «моего синего стола»). A word in «-ой» before a word in another case stays too («с большой скидкой»). A word keeps its capitals.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "singular"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_case",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "\"nominative\", \"genitive\", \"dative\", \"accusative\", \"instrumental\" or \"prepositional\". The same as --case CASE.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "decline-noun",
+            "description": "Each word of a phrase, a noun in the nominative singular, declined: «диван» genitive → «дивана».\n\ncase: \"nominative\", \"genitive\", \"dative\", \"accusative\", \"instrumental\" or \"prepositional\".\nnumber: \"singular\" or \"plural\" (12 forms in all; the nominative singular is the word itself). Every word is taken as a noun; for a phrase of mixed words use `decline`. A word with a capital keeps it («Москва» → «Москвы»); an indeclinable word («кафе»), an abbreviation («МТС») and a word the tables lack stay. The accusative comes from the tables only, by the word or its last three letters: «парк» → «парк», but «диван» → «дивана» (as «Иван»).\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv decline-noun купить write out.csv",
+            "options": [
+              {
+                "name": "--case",
+                "arguments": [
+                  {
+                    "name": "CASE",
+                    "required": true
+                  }
+                ],
+                "description": "\"nominative\", \"genitive\", \"dative\", \"accusative\", \"instrumental\" or \"prepositional\".",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--number",
+                "arguments": [
+                  {
+                    "name": "NUMBER",
+                    "required": true
+                  }
+                ],
+                "description": "\"singular\" or \"plural\" (12 forms in all; the nominative singular is the word itself). Every word is taken as a noun; for a phrase of mixed words use `decline`. A word with a capital keeps it («Москва» → «Москвы»); an indeclinable word («кафе»), an abbreviation («МТС») and a word the tables lack stay. The accusative comes from the tables only, by the word or its last three letters: «парк» → «парк», but «диван» → «дивана» (as «Иван»).",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "singular"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_case",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "\"nominative\", \"genitive\", \"dative\", \"accusative\", \"instrumental\" or \"prepositional\". The same as --case CASE.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "decline-adjective",
+            "description": "Each word of a phrase, an adjective in the masculine nominative singular, declined: «красный» → «красного».\n\ncase: \"nominative\", \"genitive\", \"dative\", \"accusative\", \"instrumental\" or \"prepositional\".\ngender: \"masculine\", \"feminine\" or \"neuter\", for the singular. number: \"singular\" or \"plural\". 16 forms in all: «красный», «красного», «красному», «красный», «красным», «красном»; «красная», «красной», «красную»; «красное»; «красные», «красных», «красным», «красные», «красными», «красных». The masculine accusative is the inanimate one. A word with a capital keeps it; a word whose ending the tables lack stays.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv decline-adjective купить write out.csv",
+            "options": [
+              {
+                "name": "--case",
+                "arguments": [
+                  {
+                    "name": "CASE",
+                    "required": true
+                  }
+                ],
+                "description": "\"nominative\", \"genitive\", \"dative\", \"accusative\", \"instrumental\" or \"prepositional\".",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--gender",
+                "arguments": [
+                  {
+                    "name": "GENDER",
+                    "required": true
+                  }
+                ],
+                "description": "\"masculine\", \"feminine\" or \"neuter\", for the singular. number: \"singular\" or \"plural\". 16 forms in all: «красный», «красного», «красному», «красный», «красным», «красном»; «красная», «красной», «красную»; «красное»; «красные», «красных», «красным», «красные», «красными», «красных». The masculine accusative is the inanimate one. A word with a capital keeps it; a word whose ending the tables lack stays.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "masculine"
+                  }
+                ]
+              },
+              {
+                "name": "--number",
+                "arguments": [
+                  {
+                    "name": "NUMBER",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "singular"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_case",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "\"nominative\", \"genitive\", \"dative\", \"accusative\", \"instrumental\" or \"prepositional\". The same as --case CASE.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "decline-full-name",
+            "description": "A full name «Фамилия Имя Отчество» declined: «Иванов Сергей Петрович» genitive → «Иванова Сергея Петровича».\n\ncase: \"genitive\", \"dative\", \"accusative\", \"instrumental\" or \"prepositional\". A full name that ends in «-на» or «-зы» is a woman's («Петрова Анна Ивановна» → «Петровой Анны Ивановны»). The surname declines by its ending («-ов», «-ин», «-ой», «-ская»…), the name and the patronymic as nouns; the result has a capital in each word. An empty cell stays empty; any other value that is not three words raises InvalidArguments.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv decline-full-name купить write out.csv",
+            "options": [
+              {
+                "name": "--case",
+                "arguments": [
+                  {
+                    "name": "CASE",
+                    "required": true
+                  }
+                ],
+                "description": "\"genitive\", \"dative\", \"accusative\", \"instrumental\" or \"prepositional\". A full name that ends in «-на» or «-зы» is a woman's («Петрова Анна Ивановна» → «Петровой Анны Ивановны»). The surname declines by its ending («-ов», «-ин», «-ой», «-ская»…), the name and the patronymic as nouns; the result has a capital in each word. An empty cell stays empty; any other value that is not three words raises InvalidArguments.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_case",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "\"genitive\", \"dative\", \"accusative\", \"instrumental\" or \"prepositional\". A full name that ends in «-на» or «-зы» is a woman's («Петрова Анна Ивановна» → «Петровой Анны Ивановны»). The surname declines by its ending («-ов», «-ин», «-ой», «-ская»…), the name and the patronymic as nouns; the result has a capital in each word. An empty cell stays empty; any other value that is not three words raises InvalidArguments. The same as --case CASE.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "irrelevant-words",
+            "description": "The candidates for minus-words around a main word: «чехол» in «чехол для телефона» for «телефон».\n\nword: the main word, a noun in the nominative singular. A candidate is a word right before a preposition (or a pronoun) and a form of the main word in the case the preposition takes («для телефона», «на телефон»), when it is no stopword. Toponyms with their prepositions and buy markers are cut first («купить чехол для телефона в москве» → «чехол для телефона»). A table with a row per candidate in the order of first use: `word` (lower case), `uses` (every phrase counts, repeats too) and `examples` (each distinct «word preposition form», joined by \", \"). The input is not changed.\n\nThe step reads the working column; the table replaces the current one, its column word is the working one.\n\nExample: semkit read core.csv irrelevant-words купить write out.csv",
+            "options": [
+              {
+                "name": "--word",
+                "arguments": [
+                  {
+                    "name": "WORD",
+                    "required": true
+                  }
+                ],
+                "description": "the main word, a noun in the nominative singular. A candidate is a word right before a preposition (or a pronoun) and a form of the main word in the case the preposition takes («для телефона», «на телефон»), when it is no stopword. Toponyms with their prepositions and buy markers are cut first («купить чехол для телефона в москве» → «чехол для телефона»). A table with a row per candidate in the order of first use: `word` (lower case), `uses` (every phrase counts, repeats too) and `examples` (each distinct «word preposition form», joined by \", \"). The input is not changed.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_word",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "the main word, a noun in the nominative singular. A candidate is a word right before a preposition (or a pronoun) and a form of the main word in the case the preposition takes («для телефона», «на телефон»), when it is no stopword. Toponyms with their prepositions and buy markers are cut first («купить чехол для телефона в москве» → «чехол для телефона»). A table with a row per candidate in the order of first use: `word` (lower case), `uses` (every phrase counts, repeats too) and `examples` (each distinct «word preposition form», joined by \", \"). The input is not changed. The same as --word WORD.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "find-ready-pattern",
+            "description": "A ready regular expression, found anywhere in a phrase, case-sensitive.\n\nkind: \"domain\" (Latin domains with subdomains: «www.example.com»; extract gives all, joined by a space), \"email\" (the first e-mail), \"phone\" (Russian numbers from +7 or 8: «8 (999) 123-45-67»; all, joined by \", \"), \"date_ddmmyyyy\" (the first date as 05.11.2023, 05-11-2023, 05/11/2023 or 05112023) or \"date_yyyymmdd\" (as 2023-11-05 … 20231105). A date has the same separator twice, or none, and is never part of a longer number; its day and month are not checked (39.19.2999 is found).\nfind: the pattern is there. remove: every match is cut out. extract: as above, '' where none.\n\nfind-ready-pattern marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-ready-pattern купить write out.csv",
+            "options": [
+              {
+                "name": "--kind",
+                "arguments": [
+                  {
+                    "name": "KIND",
+                    "required": true
+                  }
+                ],
+                "description": "\"domain\" (Latin domains with subdomains: «www.example.com»; extract gives all, joined by a space), \"email\" (the first e-mail), \"phone\" (Russian numbers from +7 or 8: «8 (999) 123-45-67»; all, joined by \", \"), \"date_ddmmyyyy\" (the first date as 05.11.2023, 05-11-2023, 05/11/2023 or 05112023) or \"date_yyyymmdd\" (as 2023-11-05 … 20231105). A date has the same separator twice, or none, and is never part of a longer number; its day and month are not checked (39.19.2999 is found).",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "\"domain\" (Latin domains with subdomains: «www.example.com»; extract gives all, joined by a space), \"email\" (the first e-mail), \"phone\" (Russian numbers from +7 or 8: «8 (999) 123-45-67»; all, joined by \", \"), \"date_ddmmyyyy\" (the first date as 05.11.2023, 05-11-2023, 05/11/2023 or 05112023) or \"date_yyyymmdd\" (as 2023-11-05 … 20231105). A date has the same separator twice, or none, and is never part of a longer number; its day and month are not checked (39.19.2999 is found). The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "remove-ready-pattern",
+            "description": "A ready regular expression, found anywhere in a phrase, case-sensitive.\n\nkind: \"domain\" (Latin domains with subdomains: «www.example.com»; extract gives all, joined by a space), \"email\" (the first e-mail), \"phone\" (Russian numbers from +7 or 8: «8 (999) 123-45-67»; all, joined by \", \"), \"date_ddmmyyyy\" (the first date as 05.11.2023, 05-11-2023, 05/11/2023 or 05112023) or \"date_yyyymmdd\" (as 2023-11-05 … 20231105). A date has the same separator twice, or none, and is never part of a longer number; its day and month are not checked (39.19.2999 is found).\nfind: the pattern is there. remove: every match is cut out. extract: as above, '' where none.\n\nremove-ready-pattern removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-ready-pattern купить write out.csv",
+            "options": [
+              {
+                "name": "--kind",
+                "arguments": [
+                  {
+                    "name": "KIND",
+                    "required": true
+                  }
+                ],
+                "description": "\"domain\" (Latin domains with subdomains: «www.example.com»; extract gives all, joined by a space), \"email\" (the first e-mail), \"phone\" (Russian numbers from +7 or 8: «8 (999) 123-45-67»; all, joined by \", \"), \"date_ddmmyyyy\" (the first date as 05.11.2023, 05-11-2023, 05/11/2023 or 05112023) or \"date_yyyymmdd\" (as 2023-11-05 … 20231105). A date has the same separator twice, or none, and is never part of a longer number; its day and month are not checked (39.19.2999 is found).",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "\"domain\" (Latin domains with subdomains: «www.example.com»; extract gives all, joined by a space), \"email\" (the first e-mail), \"phone\" (Russian numbers from +7 or 8: «8 (999) 123-45-67»; all, joined by \", \"), \"date_ddmmyyyy\" (the first date as 05.11.2023, 05-11-2023, 05/11/2023 or 05112023) or \"date_yyyymmdd\" (as 2023-11-05 … 20231105). A date has the same separator twice, or none, and is never part of a longer number; its day and month are not checked (39.19.2999 is found). The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "extract-ready-pattern",
+            "description": "A ready regular expression, found anywhere in a phrase, case-sensitive.\n\nkind: \"domain\" (Latin domains with subdomains: «www.example.com»; extract gives all, joined by a space), \"email\" (the first e-mail), \"phone\" (Russian numbers from +7 or 8: «8 (999) 123-45-67»; all, joined by \", \"), \"date_ddmmyyyy\" (the first date as 05.11.2023, 05-11-2023, 05/11/2023 or 05112023) or \"date_yyyymmdd\" (as 2023-11-05 … 20231105). A date has the same separator twice, or none, and is never part of a longer number; its day and month are not checked (39.19.2999 is found).\nfind: the pattern is there. remove: every match is cut out. extract: as above, '' where none.\n\nextract-ready-pattern keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-ready-pattern купить write out.csv",
+            "options": [
+              {
+                "name": "--kind",
+                "arguments": [
+                  {
+                    "name": "KIND",
+                    "required": true
+                  }
+                ],
+                "description": "\"domain\" (Latin domains with subdomains: «www.example.com»; extract gives all, joined by a space), \"email\" (the first e-mail), \"phone\" (Russian numbers from +7 or 8: «8 (999) 123-45-67»; all, joined by \", \"), \"date_ddmmyyyy\" (the first date as 05.11.2023, 05-11-2023, 05/11/2023 or 05112023) or \"date_yyyymmdd\" (as 2023-11-05 … 20231105). A date has the same separator twice, or none, and is never part of a longer number; its day and month are not checked (39.19.2999 is found).",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "\"domain\" (Latin domains with subdomains: «www.example.com»; extract gives all, joined by a space), \"email\" (the first e-mail), \"phone\" (Russian numbers from +7 or 8: «8 (999) 123-45-67»; all, joined by \", \"), \"date_ddmmyyyy\" (the first date as 05.11.2023, 05-11-2023, 05/11/2023 or 05112023) or \"date_yyyymmdd\" (as 2023-11-05 … 20231105). A date has the same separator twice, or none, and is never part of a longer number; its day and month are not checked (39.19.2999 is found). The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "keep-ready-pattern",
+            "description": "A ready regular expression, found anywhere in a phrase, case-sensitive.\n\nkind: \"domain\" (Latin domains with subdomains: «www.example.com»; extract gives all, joined by a space), \"email\" (the first e-mail), \"phone\" (Russian numbers from +7 or 8: «8 (999) 123-45-67»; all, joined by \", \"), \"date_ddmmyyyy\" (the first date as 05.11.2023, 05-11-2023, 05/11/2023 or 05112023) or \"date_yyyymmdd\" (as 2023-11-05 … 20231105). A date has the same separator twice, or none, and is never part of a longer number; its day and month are not checked (39.19.2999 is found).\nfind: the pattern is there. remove: every match is cut out. extract: as above, '' where none.\n\nkeep-ready-pattern keeps only the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv keep-ready-pattern купить write out.csv",
+            "options": [
+              {
+                "name": "--kind",
+                "arguments": [
+                  {
+                    "name": "KIND",
+                    "required": true
+                  }
+                ],
+                "description": "\"domain\" (Latin domains with subdomains: «www.example.com»; extract gives all, joined by a space), \"email\" (the first e-mail), \"phone\" (Russian numbers from +7 or 8: «8 (999) 123-45-67»; all, joined by \", \"), \"date_ddmmyyyy\" (the first date as 05.11.2023, 05-11-2023, 05/11/2023 or 05112023) or \"date_yyyymmdd\" (as 2023-11-05 … 20231105). A date has the same separator twice, or none, and is never part of a longer number; its day and month are not checked (39.19.2999 is found).",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "\"domain\" (Latin domains with subdomains: «www.example.com»; extract gives all, joined by a space), \"email\" (the first e-mail), \"phone\" (Russian numbers from +7 or 8: «8 (999) 123-45-67»; all, joined by \", \"), \"date_ddmmyyyy\" (the first date as 05.11.2023, 05-11-2023, 05/11/2023 or 05112023) or \"date_yyyymmdd\" (as 2023-11-05 … 20231105). A date has the same separator twice, or none, and is never part of a longer number; its day and month are not checked (39.19.2999 is found). The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "drop-ready-pattern",
+            "description": "A ready regular expression, found anywhere in a phrase, case-sensitive.\n\nkind: \"domain\" (Latin domains with subdomains: «www.example.com»; extract gives all, joined by a space), \"email\" (the first e-mail), \"phone\" (Russian numbers from +7 or 8: «8 (999) 123-45-67»; all, joined by \", \"), \"date_ddmmyyyy\" (the first date as 05.11.2023, 05-11-2023, 05/11/2023 or 05112023) or \"date_yyyymmdd\" (as 2023-11-05 … 20231105). A date has the same separator twice, or none, and is never part of a longer number; its day and month are not checked (39.19.2999 is found).\nfind: the pattern is there. remove: every match is cut out. extract: as above, '' where none.\n\ndrop-ready-pattern drops the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv drop-ready-pattern купить write out.csv",
+            "options": [
+              {
+                "name": "--kind",
+                "arguments": [
+                  {
+                    "name": "KIND",
+                    "required": true
+                  }
+                ],
+                "description": "\"domain\" (Latin domains with subdomains: «www.example.com»; extract gives all, joined by a space), \"email\" (the first e-mail), \"phone\" (Russian numbers from +7 or 8: «8 (999) 123-45-67»; all, joined by \", \"), \"date_ddmmyyyy\" (the first date as 05.11.2023, 05-11-2023, 05/11/2023 or 05112023) or \"date_yyyymmdd\" (as 2023-11-05 … 20231105). A date has the same separator twice, or none, and is never part of a longer number; its day and month are not checked (39.19.2999 is found).",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "\"domain\" (Latin domains with subdomains: «www.example.com»; extract gives all, joined by a space), \"email\" (the first e-mail), \"phone\" (Russian numbers from +7 or 8: «8 (999) 123-45-67»; all, joined by \", \"), \"date_ddmmyyyy\" (the first date as 05.11.2023, 05-11-2023, 05/11/2023 or 05112023) or \"date_yyyymmdd\" (as 2023-11-05 … 20231105). A date has the same separator twice, or none, and is never part of a longer number; its day and month are not checked (39.19.2999 is found). The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "extract-complements",
+            "description": "Prepositional complements of a phrase, joined by \", \"; extract only: «диван для детей с доставкой» → «для детей, с доставкой».\n\nA complement is a preposition of the bundled list complement_prepositions («для», «с», «в» and others; any case, ё as е) and the words after it up to the last noun among the next five words, before the next preposition. A preposition with no noun after it gives nothing.\n\nextract-complements keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-complements write out.csv",
+            "options": [
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "remove-phrase-end",
+            "description": "The words at the end of a phrase, cut until the last word is clean; remove only.\n\nkind: \"prepositions\" (prepositions and the other function words of the stopword list: «диван в и» → «диван») or \"buy_markers\" (the words of the bundled list «sale», whole phrases of it too: «диван купить недорого» → «диван»). Words compare in any case, ё as е, as written («для,» with its comma stays). A phrase of such words only becomes ''.\n\nremove-phrase-end removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-phrase-end купить write out.csv",
+            "options": [
+              {
+                "name": "--kind",
+                "arguments": [
+                  {
+                    "name": "KIND",
+                    "required": true
+                  }
+                ],
+                "description": "\"prepositions\" (prepositions and the other function words of the stopword list: «диван в и» → «диван») or \"buy_markers\" (the words of the bundled list «sale», whole phrases of it too: «диван купить недорого» → «диван»). Words compare in any case, ё as е, as written («для,» with its comma stays). A phrase of such words only becomes ''.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "\"prepositions\" (prepositions and the other function words of the stopword list: «диван в и» → «диван») or \"buy_markers\" (the words of the bundled list «sale», whole phrases of it too: «диван купить недорого» → «диван»). Words compare in any case, ё as е, as written («для,» with its comma stays). A phrase of such words only becomes ''. The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "name": "dupes",
             "description": "Duplicates by `kind`: exact, explicit (case, ё→е, spaces), implicit (other word order) or lemmas.\n\n`action`: mark_except_first (a bool, the first of a group is False), mark_all (every member of a group of 2+), drop (keep the first, drop the rest). With `against` a phrase is a duplicate when its key is in that Series.\n\nThe step marks the duplicates of the working column in a new column <column>_dupes; with --action drop it keeps only the first row of each group.\n\nExample: semkit read core.csv dupes exact --action mark_except_first write out.csv",
             "options": [
@@ -966,6 +3695,620 @@
                 ]
               }
             ]
+          },
+          {
+            "name": "compare-lists",
+            "description": "The phrases of two lists by `op`: both (of `first` that are in `second`), either (`first`, then `second`), first (only in `first`), second (only in `second`).\n\nThe same phrase is the same key of `dupes` for `kind`. A phrase keeps the spelling of its first occurrence and comes once; the order is the input order. Empty cells are never phrases.\n\nagainst: a file with the second list, one phrase per row; the file is read like `read` does. The phrases are in --second-column, by default the first text column of the file.\n\nThe step takes the working column as the first list; the phrases it finds replace the current table, in a column of the same name.\n\nExample: semkit read core.csv compare-lists купить write out.csv",
+            "options": [
+              {
+                "name": "--against",
+                "arguments": [
+                  {
+                    "name": "AGAINST",
+                    "required": true
+                  }
+                ],
+                "description": "a file with the second list, one phrase per row; the file is read like `read` does. The phrases are in --second-column, by default the first text column of the file.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--op",
+                "arguments": [
+                  {
+                    "name": "OP",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "both"
+                  }
+                ]
+              },
+              {
+                "name": "--kind",
+                "arguments": [
+                  {
+                    "name": "KIND",
+                    "required": true,
+                    "acceptedValues": [
+                      "exact",
+                      "explicit",
+                      "implicit",
+                      "lemmas"
+                    ]
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "exact"
+                  }
+                ]
+              },
+              {
+                "name": "--second-column",
+                "arguments": [
+                  {
+                    "name": "SECOND_COLUMN",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_against",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "a file with the second list, one phrase per row; the file is read like `read` does. The phrases are in --second-column, by default the first text column of the file. The same as --against AGAINST.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "find-markers",
+            "description": "Items of marker lists found in a phrase, as whole words, in any case, ё as е; all lists in one pass.\n\nlists: names of the bundled lists (geo, mosmetro, districts, MO, citiesRu, questions, fun, DIY, edu, game, sale, rent, reviews, color, material, origin, cars, names). user: your own lists, `{\"name\": [\"phrase\", …]}`. A word glued to punctuation is not matched («москве,»). find, remove and extract take the same markers: left to right, for each word the longest item that starts there (in words, then in characters; a tie keeps the list order: the lists in the given order, user lists last), and the words of a taken item start no other («Нижний Новгород», not «Нижний Новгород, Новгород»). extract gives them as the list spells them («Москве»; «как сделать», not «как»), in word order, joined by `sep`. remove keeps the case of the other words.\nwith_prepositions: only the markers right after a toponym preposition («в», «во», «на», «по», «из», «до», «г», «и»; as written, «в,» is none) count, and the preposition goes with them; a marker without one stays. A preposition takes the longest item right after it, as above. remove cuts the pair, extract gives it («в Москве»), find is True where such a pair stands.\n\nfind-markers marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-markers write out.csv",
+            "options": [
+              {
+                "name": "--lists",
+                "arguments": [
+                  {
+                    "name": "LISTS",
+                    "required": true
+                  }
+                ],
+                "description": "names of the bundled lists (geo, mosmetro, districts, MO, citiesRu, questions, fun, DIY, edu, game, sale, rent, reviews, color, material, origin, cars, names). user: your own lists, `{\"name\": [\"phrase\", …]}`. A word glued to punctuation is not matched («москве,»). find, remove and extract take the same markers: left to right, for each word the longest item that starts there (in words, then in characters; a tie keeps the list order: the lists in the given order, user lists last), and the words of a taken item start no other («Нижний Новгород», not «Нижний Новгород, Новгород»). extract gives them as the list spells them («Москве»; «как сделать», not «как»), in word order, joined by `sep`. remove keeps the case of the other words. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--with-prepositions",
+                "description": "only the markers right after a toponym preposition («в», «во», «на», «по», «из», «до», «г», «и»; as written, «в,» is none) count, and the preposition goes with them; a marker without one stays. A preposition takes the longest item right after it, as above. remove cuts the pair, extract gives it («в Москве»), find is True where such a pair stands.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--sep",
+                "arguments": [
+                  {
+                    "name": "SEP",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": ", "
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "remove-markers",
+            "description": "Items of marker lists found in a phrase, as whole words, in any case, ё as е; all lists in one pass.\n\nlists: names of the bundled lists (geo, mosmetro, districts, MO, citiesRu, questions, fun, DIY, edu, game, sale, rent, reviews, color, material, origin, cars, names). user: your own lists, `{\"name\": [\"phrase\", …]}`. A word glued to punctuation is not matched («москве,»). find, remove and extract take the same markers: left to right, for each word the longest item that starts there (in words, then in characters; a tie keeps the list order: the lists in the given order, user lists last), and the words of a taken item start no other («Нижний Новгород», not «Нижний Новгород, Новгород»). extract gives them as the list spells them («Москве»; «как сделать», not «как»), in word order, joined by `sep`. remove keeps the case of the other words.\nwith_prepositions: only the markers right after a toponym preposition («в», «во», «на», «по», «из», «до», «г», «и»; as written, «в,» is none) count, and the preposition goes with them; a marker without one stays. A preposition takes the longest item right after it, as above. remove cuts the pair, extract gives it («в Москве»), find is True where such a pair stands.\n\nremove-markers removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-markers write out.csv",
+            "options": [
+              {
+                "name": "--lists",
+                "arguments": [
+                  {
+                    "name": "LISTS",
+                    "required": true
+                  }
+                ],
+                "description": "names of the bundled lists (geo, mosmetro, districts, MO, citiesRu, questions, fun, DIY, edu, game, sale, rent, reviews, color, material, origin, cars, names). user: your own lists, `{\"name\": [\"phrase\", …]}`. A word glued to punctuation is not matched («москве,»). find, remove and extract take the same markers: left to right, for each word the longest item that starts there (in words, then in characters; a tie keeps the list order: the lists in the given order, user lists last), and the words of a taken item start no other («Нижний Новгород», not «Нижний Новгород, Новгород»). extract gives them as the list spells them («Москве»; «как сделать», not «как»), in word order, joined by `sep`. remove keeps the case of the other words. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--with-prepositions",
+                "description": "only the markers right after a toponym preposition («в», «во», «на», «по», «из», «до», «г», «и»; as written, «в,» is none) count, and the preposition goes with them; a marker without one stays. A preposition takes the longest item right after it, as above. remove cuts the pair, extract gives it («в Москве»), find is True where such a pair stands.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--sep",
+                "arguments": [
+                  {
+                    "name": "SEP",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": ", "
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "extract-markers",
+            "description": "Items of marker lists found in a phrase, as whole words, in any case, ё as е; all lists in one pass.\n\nlists: names of the bundled lists (geo, mosmetro, districts, MO, citiesRu, questions, fun, DIY, edu, game, sale, rent, reviews, color, material, origin, cars, names). user: your own lists, `{\"name\": [\"phrase\", …]}`. A word glued to punctuation is not matched («москве,»). find, remove and extract take the same markers: left to right, for each word the longest item that starts there (in words, then in characters; a tie keeps the list order: the lists in the given order, user lists last), and the words of a taken item start no other («Нижний Новгород», not «Нижний Новгород, Новгород»). extract gives them as the list spells them («Москве»; «как сделать», not «как»), in word order, joined by `sep`. remove keeps the case of the other words.\nwith_prepositions: only the markers right after a toponym preposition («в», «во», «на», «по», «из», «до», «г», «и»; as written, «в,» is none) count, and the preposition goes with them; a marker without one stays. A preposition takes the longest item right after it, as above. remove cuts the pair, extract gives it («в Москве»), find is True where such a pair stands.\n\nextract-markers keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-markers write out.csv",
+            "options": [
+              {
+                "name": "--lists",
+                "arguments": [
+                  {
+                    "name": "LISTS",
+                    "required": true
+                  }
+                ],
+                "description": "names of the bundled lists (geo, mosmetro, districts, MO, citiesRu, questions, fun, DIY, edu, game, sale, rent, reviews, color, material, origin, cars, names). user: your own lists, `{\"name\": [\"phrase\", …]}`. A word glued to punctuation is not matched («москве,»). find, remove and extract take the same markers: left to right, for each word the longest item that starts there (in words, then in characters; a tie keeps the list order: the lists in the given order, user lists last), and the words of a taken item start no other («Нижний Новгород», not «Нижний Новгород, Новгород»). extract gives them as the list spells them («Москве»; «как сделать», not «как»), in word order, joined by `sep`. remove keeps the case of the other words. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--with-prepositions",
+                "description": "only the markers right after a toponym preposition («в», «во», «на», «по», «из», «до», «г», «и»; as written, «в,» is none) count, and the preposition goes with them; a marker without one stays. A preposition takes the longest item right after it, as above. remove cuts the pair, extract gives it («в Москве»), find is True where such a pair stands.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--sep",
+                "arguments": [
+                  {
+                    "name": "SEP",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": ", "
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "keep-markers",
+            "description": "Items of marker lists found in a phrase, as whole words, in any case, ё as е; all lists in one pass.\n\nlists: names of the bundled lists (geo, mosmetro, districts, MO, citiesRu, questions, fun, DIY, edu, game, sale, rent, reviews, color, material, origin, cars, names). user: your own lists, `{\"name\": [\"phrase\", …]}`. A word glued to punctuation is not matched («москве,»). find, remove and extract take the same markers: left to right, for each word the longest item that starts there (in words, then in characters; a tie keeps the list order: the lists in the given order, user lists last), and the words of a taken item start no other («Нижний Новгород», not «Нижний Новгород, Новгород»). extract gives them as the list spells them («Москве»; «как сделать», not «как»), in word order, joined by `sep`. remove keeps the case of the other words.\nwith_prepositions: only the markers right after a toponym preposition («в», «во», «на», «по», «из», «до», «г», «и»; as written, «в,» is none) count, and the preposition goes with them; a marker without one stays. A preposition takes the longest item right after it, as above. remove cuts the pair, extract gives it («в Москве»), find is True where such a pair stands.\n\nkeep-markers keeps only the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv keep-markers write out.csv",
+            "options": [
+              {
+                "name": "--lists",
+                "arguments": [
+                  {
+                    "name": "LISTS",
+                    "required": true
+                  }
+                ],
+                "description": "names of the bundled lists (geo, mosmetro, districts, MO, citiesRu, questions, fun, DIY, edu, game, sale, rent, reviews, color, material, origin, cars, names). user: your own lists, `{\"name\": [\"phrase\", …]}`. A word glued to punctuation is not matched («москве,»). find, remove and extract take the same markers: left to right, for each word the longest item that starts there (in words, then in characters; a tie keeps the list order: the lists in the given order, user lists last), and the words of a taken item start no other («Нижний Новгород», not «Нижний Новгород, Новгород»). extract gives them as the list spells them («Москве»; «как сделать», not «как»), in word order, joined by `sep`. remove keeps the case of the other words. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--with-prepositions",
+                "description": "only the markers right after a toponym preposition («в», «во», «на», «по», «из», «до», «г», «и»; as written, «в,» is none) count, and the preposition goes with them; a marker without one stays. A preposition takes the longest item right after it, as above. remove cuts the pair, extract gives it («в Москве»), find is True where such a pair stands.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--sep",
+                "arguments": [
+                  {
+                    "name": "SEP",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": ", "
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "drop-markers",
+            "description": "Items of marker lists found in a phrase, as whole words, in any case, ё as е; all lists in one pass.\n\nlists: names of the bundled lists (geo, mosmetro, districts, MO, citiesRu, questions, fun, DIY, edu, game, sale, rent, reviews, color, material, origin, cars, names). user: your own lists, `{\"name\": [\"phrase\", …]}`. A word glued to punctuation is not matched («москве,»). find, remove and extract take the same markers: left to right, for each word the longest item that starts there (in words, then in characters; a tie keeps the list order: the lists in the given order, user lists last), and the words of a taken item start no other («Нижний Новгород», not «Нижний Новгород, Новгород»). extract gives them as the list spells them («Москве»; «как сделать», not «как»), in word order, joined by `sep`. remove keeps the case of the other words.\nwith_prepositions: only the markers right after a toponym preposition («в», «во», «на», «по», «из», «до», «г», «и»; as written, «в,» is none) count, and the preposition goes with them; a marker without one stays. A preposition takes the longest item right after it, as above. remove cuts the pair, extract gives it («в Москве»), find is True where such a pair stands.\n\ndrop-markers drops the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv drop-markers write out.csv",
+            "options": [
+              {
+                "name": "--lists",
+                "arguments": [
+                  {
+                    "name": "LISTS",
+                    "required": true
+                  }
+                ],
+                "description": "names of the bundled lists (geo, mosmetro, districts, MO, citiesRu, questions, fun, DIY, edu, game, sale, rent, reviews, color, material, origin, cars, names). user: your own lists, `{\"name\": [\"phrase\", …]}`. A word glued to punctuation is not matched («москве,»). find, remove and extract take the same markers: left to right, for each word the longest item that starts there (in words, then in characters; a tie keeps the list order: the lists in the given order, user lists last), and the words of a taken item start no other («Нижний Новгород», not «Нижний Новгород, Новгород»). extract gives them as the list spells them («Москве»; «как сделать», not «как»), in word order, joined by `sep`. remove keeps the case of the other words. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--with-prepositions",
+                "description": "only the markers right after a toponym preposition («в», «во», «на», «по», «из», «до», «г», «и»; as written, «в,» is none) count, and the preposition goes with them; a marker without one stays. A preposition takes the longest item right after it, as above. remove cuts the pair, extract gives it («в Москве»), find is True where such a pair stands.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--sep",
+                "arguments": [
+                  {
+                    "name": "SEP",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": ", "
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "lemmatize",
+            "description": "Each word of a phrase replaced by its lemma, in lower case: «купила диваны» → «купить диван».\n\nfallback: None — a word missing from the bundled dictionary goes to pymorphy3 if its dictionary knows the word, else to the suffix rule, and often stays as it is («тиктокерами»); \"pymorphy\" — such a word takes the best guess of pymorphy3 («тиктокерами» → «тиктокер»). The fallback is for the bundled lemmatizer.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv lemmatize write out.csv",
+            "options": [
+              {
+                "name": "--fallback",
+                "arguments": [
+                  {
+                    "name": "FALLBACK",
+                    "required": true
+                  }
+                ],
+                "description": "None — a word missing from the bundled dictionary goes to pymorphy3 if its dictionary knows the word, else to the suffix rule, and often stays as it is («тиктокерами»); \"pymorphy\" — such a word takes the best guess of pymorphy3 («тиктокерами» → «тиктокер»). The fallback is for the bundled lemmatizer.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "part-of-speech",
+            "description": "The part of speech of each word of a phrase, by space: «купить диван» → «v n» (SemtoolsLemmatizer codes).\n\nThe step writes its result to a new column <column>_pos.\n\nExample: semkit read core.csv part-of-speech write out.csv",
+            "options": [
+              {
+                "name": "--as",
+                "arguments": [
+                  {
+                    "name": "NAME",
+                    "required": true
+                  }
+                ],
+                "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "wordforms",
+            "description": "Every wordform of the lemma of `word`, alphabetical, each once: «диваны» → [«диван», «дивана», ...].\n\nAs «Генерация всех словоформ»: the forms of the lemma of the word in lower case; the input word is not repeated (ADR 0005).\n\nThe step ignores the current table: the table of the wordforms replaces it, its column wordform is the working one.\n\nExample: semkit read core.csv wordforms купить write out.csv",
+            "options": [
+              {
+                "name": "--word",
+                "arguments": [
+                  {
+                    "name": "WORD",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_word",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. The same as --word WORD.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "cluster-serp",
+            "description": "Cluster the phrases of `serp` (columns phrase, position, url) by common URLs of their tops.\n\nReturns one row per phrase: phrase, cluster (1 = the largest), center (the first phrase of the cluster) and common (URLs shared with the center; the center gets the size of its own top). `freq` (a Series indexed by phrase, or a DataFrame with the columns phrase and freq) orders the phrases; without it the phrase with the most links to the others goes first, ties by phrase.\n\nfreq: a file with the columns phrase and freq, the frequency of each phrase; the file is read like `read` does.\n\nThe step reads the current table, a SERP with the columns phrase, position and url; the table of the clusters replaces it, its column phrase is the working one.\n\nExample: semkit read core.csv cluster-serp write out.csv",
+            "options": [
+              {
+                "name": "--method",
+                "arguments": [
+                  {
+                    "name": "METHOD",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "soft"
+                  }
+                ]
+              },
+              {
+                "name": "--common",
+                "arguments": [
+                  {
+                    "name": "COMMON",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "int"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": 3
+                  }
+                ]
+              },
+              {
+                "name": "--top",
+                "arguments": [
+                  {
+                    "name": "TOP",
+                    "required": true
+                  }
+                ],
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "int"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": 10
+                  }
+                ]
+              },
+              {
+                "name": "--freq",
+                "arguments": [
+                  {
+                    "name": "FREQ",
+                    "required": true
+                  }
+                ],
+                "description": "a file with the columns phrase and freq, the frequency of each phrase; the file is read like `read` does.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "split-text",
+            "description": "Every cell cut into phrases at sentence ends and clause punctuation; one row per phrase, none for an empty cell.\n\nThe punctuation is dropped, whitespace collapsed, case kept. A hyphen or apostrophe inside a word and a point or comma between digits stay. A Series gives a Series; a DataFrame with `column` gives a DataFrame whose rows are the\nphrases: `column` holds the phrase, the other columns repeat the source row. Each row keeps the index of its source.\n\nThe step cuts each cell of the working column; the table of the phrases replaces the current one, each row keeps the other columns of its source row, and the working column stays.\n\nExample: semkit read core.csv split-text write out.csv"
           },
           {
             "name": "find-words",
@@ -5249,6 +8592,10 @@
                 ]
               }
             ]
+          },
+          {
+            "name": "text-stats",
+            "description": "The usual SEO metrics of each text, the same numbers each run: a table with the input index, a row per text.\n\nA cell is a text; an empty cell (None, NaN, \"\") gives zeros and an empty `top`. With a DataFrame and `column=` the metric columns are added right after `column` to your table, which is returned.\n\nWords: the punctuation of sk.chars('punctuation') is dropped (a hyphen between two word characters stays, «кресло-кровать» is one word), the rest splits on whitespace, case and ё are folded. Stopwords are the bundled list of the n-grams. Lemmas are the words that are no stopwords, by `lemmatizer`. A unit without a meaning (руб, рублей, шт, см, мм, мл, кг, кв, стр, ул) is a word but no lemma for top, nausea, ttr, mtld and zipf. Columns, in this order:\nchars: all characters of the text. chars_no_spaces: the same without whitespace.\nwords: the words of the text, stopwords and units included.\nunique: distinct lemmas of the words that are no stopwords (units included).\nwater: stopwords / words, 0..1.\nnausea_classic: the square root of the count of the most frequent lemma (the top), 2 decimals.\nnausea_academic: that count / words, 0..1.\ntop: that lemma; on a tie, the first in the text.\nttr: distinct lemmas / lemmas, 0..1 (lemmas as above: no stopwords, no units).\nmtld: Measure of Textual Lexical Diversity (McCarthy and Jarvis 2010), threshold 0.72. Read the lemmas forward: each time the running type/token ratio falls to 0.72 or below, count a factor and restart; the last partial run adds (1 - ttr) / (1 - 0.72). Do it backward too; mtld = lemmas / mean of the two factor counts, 2 decimals; 0 for under 2 lemmas.\nzipf: R² x 100, 1 decimal, of the linear regression of log count on log rank over the lemma counts (rank 1 is the biggest count), so f(r) = C / r^s fits; 0 for under 5 distinct lemmas. No norms and no verdicts: the caller sets them.\n\nThe step reads the working column; the metric columns are added right after it in the current table.\n\nExample: semkit read core.csv text-stats write out.csv"
           },
           {
             "name": "write",

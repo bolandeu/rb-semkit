@@ -43,6 +43,38 @@ sk.pipe(df, "phrase").remove(sk.words("бу")).remove(sk.words("купить")).
 The bundled data (`src/rb_semkit/data/`) is built from the !SEMTools sources (paths in
 `scripts/build_data.toml`) by `uv run scripts/build_data.py`; the same sources give byte-identical files.
 
+## CLI
+
+One command is a pipeline: `semkit read IN STEP… write OUT`. Every function of the library is a step with its own
+`--help` (`semkit read IN STEP --help`); `semkit --ai` prints the guide for agents and the list of steps. A step
+works on the working column (`--column`, by default the first text column), a second input is a file option
+(`--against`, `--competitors`, `--freq`, `--dictionary`), and a list is `@name`, `@file` or `a,b`. Typical pipelines
+(`src/rb_semkit/data/SKILL.md` shows their output; the tests run them):
+
+```bash
+# clean a core: drop minus-words, remove punctuation and extra spaces, drop duplicates by lemmas
+semkit read core.csv drop-words --items @minus.txt remove-chars punctuation remove-spaces extra \
+  dupes --kind lemmas --action drop write clean.csv
+
+# the frequency dictionary of an article
+semkit read --whole article.txt split-text ngrams -n 1 --lemmas write words.csv
+
+# my text against the texts of the competitors
+semkit read --whole mine.txt compare-grams --competitors competitors.csv write verdicts.csv
+
+# which core phrases stand in the texts
+semkit read core.csv coverage --against texts.csv write coverage.csv
+
+# SERP clusters (the table has phrase, position, url)
+semkit read serp.csv cluster-serp --method hard --common 3 write clusters.csv
+
+# the phrases only the second list has
+semkit read first.csv compare-lists --against second.csv --op second write only-second.csv
+```
+
+`--dry-run` runs the steps and writes nothing, `--trace FILE` records every cell a step changed, `write OUT
+--overwrite` replaces an existing file.
+
 ## Development
 
 ```bash

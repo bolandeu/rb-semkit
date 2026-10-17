@@ -1,0 +1,33 @@
+
+ Usage: semkit read {IN} replace-words [OPTIONS] [PAIRS]
+
+ Whole words and phrases of the phrase replaced by `pairs` (what to find → its replacement); case
+ and ё do not count. Longer phrases go first: {"стиральная машинка": "стиральная машина",
+ "машинка": "машина"}. An empty replacement deletes the words.
+
+ case: "new" — the replacement as given; "keep" — in the case of the first word it replaces (lower,
+ capitalised, upper; a word of mixed case keeps the replacement as given).
+
+ pairs: a file of two columns, what to find and its replacement; the first row is the header, the
+ file is read like `read` does.
+
+ The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
+
+ Example: semkit read core.csv replace-words купить write out.csv
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   PAIRS      <str>  a file of two columns, what to find and its replacement; the first row is    │
+│                     the header, the file is read like `read` does. The same as --pairs PAIRS.    │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --pairs        PAIRS  a file of two columns, what to find and its replacement; the first row is  │
+│                       the header, the file is read like `read` does.                             │
+│ --case         <str>  "new" — the replacement as given; "keep" — in the case of the first word   │
+│                       it replaces (lower, capitalised, upper; a word of mixed case keeps the     │
+│                       replacement as given).                                                     │
+│                       [default: new]                                                             │
+│ --as           NAME   Write the result to a new column NAME and keep the working column as it    │
+│                       is.                                                                        │
+│ --help                Show this message and exit.                                                │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

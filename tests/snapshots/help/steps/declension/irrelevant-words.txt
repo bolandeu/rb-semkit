@@ -1,0 +1,40 @@
+
+ Usage: semkit read {IN} irrelevant-words [OPTIONS] [WORD]
+
+ The candidates for minus-words around a main word: «чехол» in «чехол для телефона» for «телефон».
+
+ word: the main word, a noun in the nominative singular. A candidate is a word right before a
+ preposition (or a pronoun) and a form of the main word in the case the preposition takes («для
+ телефона», «на телефон»), when it is no stopword. Toponyms with their prepositions and buy markers
+ are cut first («купить чехол для телефона в москве» → «чехол для телефона»). A table with a row
+ per candidate in the order of first use: `word` (lower case), `uses` (every phrase counts, repeats
+ too) and `examples` (each distinct «word preposition form», joined by ", "). The input is not
+ changed.
+
+ The step reads the working column; the table replaces the current one, its column word is the
+ working one.
+
+ Example: semkit read core.csv irrelevant-words купить write out.csv
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   WORD      <str>  the main word, a noun in the nominative singular. A candidate is a word right │
+│                    before a preposition (or a pronoun) and a form of the main word in the case   │
+│                    the preposition takes («для телефона», «на телефон»), when it is no stopword. │
+│                    Toponyms with their prepositions and buy markers are cut first («купить чехол │
+│                    для телефона в москве» → «чехол для телефона»). A table with a row per        │
+│                    candidate in the order of first use: `word` (lower case), `uses` (every       │
+│                    phrase counts, repeats too) and `examples` (each distinct «word preposition   │
+│                    form», joined by ", "). The input is not changed. The same as --word WORD.    │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --word        WORD  the main word, a noun in the nominative singular. A candidate is a word      │
+│                     right before a preposition (or a pronoun) and a form of the main word in the │
+│                     case the preposition takes («для телефона», «на телефон»), when it is no     │
+│                     stopword. Toponyms with their prepositions and buy markers are cut first     │
+│                     («купить чехол для телефона в москве» → «чехол для телефона»). A table with  │
+│                     a row per candidate in the order of first use: `word` (lower case), `uses`   │
+│                     (every phrase counts, repeats too) and `examples` (each distinct «word       │
+│                     preposition form», joined by ", "). The input is not changed.                │
+│ --help              Show this message and exit.                                                  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
