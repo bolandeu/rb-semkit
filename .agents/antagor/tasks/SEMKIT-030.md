@@ -2,7 +2,7 @@
 id: SEMKIT-030
 title: 'Morphology on a real core: correct lemmas, the accusative, plurals, compounds,
   adjectives, full names, word forms'
-status: in_review
+status: queue
 attempts: 2
 blocked: false
 blocked_reason: null
@@ -144,3 +144,17 @@ Correct ADR 0003 to the code: tables decline, pymorphy3 for animacy and hyphenat
 > Declension tables (sheet abc, adjective_exceptions) have more defects of the kind SEMKIT-030 fixed for «третий», not taken (out of the task): «второй» feminine nominative «вторые» and animate accusatives «второго» / «вторых»; «голубой» and «рябой» dative «голубого» / «рябого» and plural genitive «голубыъ» / «рябыъ». A fix is a line each in scripts/build_parts/declension.toml.
 
 Taken into this task: one line each, acceptance added.
+
+### Attempt 2: the Architect's verdict
+
+The review found blockers; close each:
+
+- [blocker] C11 docs/brief.md:101: the line «11. Склонение: режим `auto` по умолчанию … Явные режимы `table` и `pymorphy`» still states the modes that ADR 0003 now says do not exist. This task removed them from ADR 0003 only. Fix the line to the rule of ADR 0003 (tables decline; pymorphy3 gives animacy and hyphenated nouns; no modes), or mark it as replaced by ADR 0003.
+- [blocker] [wrong] The same stale line in docs/brief.md:101 leaves a documented contradiction with the corrected ADR 0003 — «ADR 0003: the declension has no modes auto / table / pymorphy in the code. Correct the ADR to the rule as it is after this task».
+
+Minor remarks of the review: optional, if they do not widen the task:
+
+- [minor] C3 src/rb_semkit/core/declension/forms.py: `is_animate` and `_accusative` both parse `noun_parse(...)` and test `"anim" in parse.tag`. `_accusative` can call `is_animate`'s test once. `NOUN = "n"` is now written in `phrase.py` and `complements.py` as well.
+- [minor] C5 src/rb_semkit/core/declension/forms.py `_compound_form`: `PYMORPHY_CASES[place % 6]` and `place // 6` decode the form index by arithmetic. A short comment or a named mapping would keep a later change of the index order from breaking it silently.
+- [minor] C5 src/rb_semkit/core/declension/forms.py `_accusative`: `None` means both «take the table» and «no form». Callers rely on `or`; a clearer name or return would help.
+- [minor] [extra] `decline_full_name` also keeps surnames in -ых/-их and changes the man's accusative for names and patronymics. The task asks for both («Белых и Черных stay», «accusative Абрамовича Романа Аркадьевича»), so this is in scope.
