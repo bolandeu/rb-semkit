@@ -3,7 +3,7 @@ id: SEMKIT-023
 title: 'CLI pipeline core: read, chained steps, write; the step table and its generator;
   the text, dupes and n-gram steps'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -33,8 +33,26 @@ owns_paths:
 - tests/snapshots/help/steps/text/
 - tests/snapshots/help/steps/dupes/
 - tests/snapshots/help/steps/analysis/
+- docs/plan.md
+- src/rb_semkit/commands/read.py
+- src/rb_semkit/core/dupes/functions.py
+- src/rb_semkit/core/errors.py
+- src/rb_semkit/core/frame.py
+- src/rb_semkit/core/lists/functions.py
+- src/rb_semkit/core/markers/lists.py
+- src/rb_semkit/core/text/base.py
+- src/rb_semkit/core/text/matchers/cells.py
+- src/rb_semkit/core/text/matchers/chars.py
+- src/rb_semkit/core/text/matchers/pos.py
+- src/rb_semkit/core/text/matchers/repeats.py
+- src/rb_semkit/core/text/matchers/spaces.py
+- src/rb_semkit/core/text/matchers/word_case.py
+- src/rb_semkit/core/text/matchers/word_content.py
+- src/rb_semkit/core/text/matchers/words.py
 test_paths:
 - tests/pipeline/
+- tests/snapshots/describe.json
+- tests/snapshots/help/read-write.txt
 docs: none
 tools: []
 worker_args: null
@@ -108,3 +126,54 @@ Follow the cli-builder frame that is already here (output.guard, --json envelope
 - Steps of the other areas (change, declension, morph, corpus, coverage, textstats, compare, serp, split, markers, list tools): the steps task.
 - User list folders, the list manifest, the Bukvarix lists, semkit lists: the word-list task.
 - The text of SKILL.md and README: the steps task.
+
+## Feedback
+
+### Answer to question #1
+
+> SEMKIT-023 acceptance asks the --json error envelope to carry code, message and hint; the project envelope (output.emit_error, SKILL.md 'Errors') carries code, message and action, and SKILL.md is out of this task.
+> Question: Which key carries the recovery text of a pipeline usage error?
+> Options:
+> 1. Keep action, as every other command; read 'hint' in the acceptance as action
+> 2. Add a hint key next to action for pipeline errors only
+> 3. Rename action to hint everywhere (breaking change of the envelope)
+> Recommended: Keep action, as every other command; read 'hint' in the acceptance as action
+
+Option 1: keep action, as every other command; read 'hint' in the acceptance as action.
+
+### Answer to question #2
+
+> The E-003 goal writes 'drop-words @minus/universal remove-chars punctuation' (required arguments positional); SEMKIT-023 acceptance writes 'remove-words --items купить' and 'drop-words --items @stop.txt' (options). I implement options now (the task).
+> Question: How does a step take a required argument of the library function?
+> Options:
+> 1. Both: as the option --NAME, or positional when it is the first required argument
+> 2. Option only (--items, --kind), as the task acceptance
+> 3. Positional only, as the epic goal
+> Recommended: Both: as the option --NAME, or positional when it is the first required argument
+
+Option 1: both. The first required argument is positional and also accepted as --NAME; the rest are options. The epic goal line is the target form (drop-words @minus/universal, remove-chars punctuation).
+
+### Answer to finding #3
+
+> ADR 0001 says rb_dataio comes as the extra [io]; SEMKIT-023 made it a required dependency (task Basis), pinned to the homeserver repo https://homeserver.tailee01ab.ts.net:3000/bolandeu/dataio.git (the GitHub URL in docs/plan.md §3 does not exist). docs/plan.md §3.2 is updated; the ADR wording is the Architect's.
+
+Accepted: required dependency, the homeserver URL. ADR 0001 is updated on main.
+
+### Answer to finding #4
+
+> Typer 0.27 ships its own Click without chained groups; src/rb_semkit/pipeline/group.py chains the steps itself and imports typer._click (Command, Context, UsageError) and typer.core.TyperGroup, which are Typer internals. A Typer upgrade can break the pipeline group; tests/pipeline catches it.
+
+Accepted with a guard: bound typer to the current minor in pyproject (>=0.27,<0.28) so an upgrade is a deliberate change; keep the pipeline tests as the tripwire.
+
+### Blocked: needs_scope (entries [{'n': 1, 'text': "SEMKIT-023 acceptance asks the --json error envelope to carry code, message and hint; the project envelope (output.emit_error, SKILL.md 'Errors') carries code, message and action, and SKILL.md is out "}, {'n': 2, 'text': "The E-003 goal writes 'drop-words @minus/universal remove-chars punctuation' (required arguments positional); SEMKIT-023 acceptance writes 'remove-words --items купить' and 'drop-words --items @stop.t"}])
+
+Answers in inbox #1-#4: keep action; both positional first argument and --NAME; dataio required (ADR 0001 updated); pin typer to the current minor.
+
+### Attempt 1: file docstring
+
+- add a docstring to src/rb_semkit/cli.py: what it holds and why
+- add a docstring to src/rb_semkit/commands/read.py: what it holds and why
+- add a docstring to src/rb_semkit/core/errors.py: what it holds and why
+- update the docstring of src/rb_semkit/core/frame.py: +text_columns
+- update the docstring of src/rb_semkit/core/markers/lists.py: +phrases
+- update the docstring of src/rb_semkit/core/text/base.py: +verbs
