@@ -3,7 +3,7 @@ id: SEMKIT-032
 title: 'Change functions on real phrases: match types with operators, a reversible
   translit, toponyms, phonetic, replace-words, UTM'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -18,9 +18,12 @@ owns_paths:
 - src/rb_semkit/data/change
 - scripts/build_parts/change.py
 - docs/vba/deviations/change.md
+- docs/vba/conformance.md
+- docs/vba/conformance/change.md
 test_paths:
 - tests/change
 - tests/conformance/cases/change
+- tests/conformance/data_manifest/change.json
 docs:
 - docs/vba/deviations/change.md
 tools: []
@@ -92,3 +95,9 @@ ADR 0005: follow the add-in, fix explicit defects, record each deviation in docs
 
 - The step help, its snapshots, the docstrings and the guide: SEMKIT-033
 - Other areas' functions
+
+## Feedback
+
+### Attempt 1: file docstring
+
+- update the docstring of src/rb_semkit/core/change/common.py: +split_edges
