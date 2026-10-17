@@ -2,10 +2,10 @@
 id: SEMKIT-031
 title: 'Text rules on a real page: one word splitter, split-text at sentences not
   dashes, no false typos, abbreviations no lemmas'
-status: queue
+status: in_progress
 attempts: 0
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: needs_scope
 phase: null
 tests_hash: null
 publish_stage: null
@@ -27,6 +27,11 @@ owns_paths:
 - docs/vba/deviations/corpus.md
 - docs/vba/deviations/text.md
 - docs/vba/deviations/analysis.md
+- docs/vba/conformance.md
+- docs/vba/conformance/analysis.md
+- docs/vba/conformance/corpus.md
+- docs/vba/conformance/text.md
+- src/rb_semkit/core/morph/lemmatizer.py
 test_paths:
 - tests/split
 - tests/textstats
@@ -38,6 +43,8 @@ test_paths:
 - tests/conformance/cases/text
 - tests/conformance/cases/corpus
 - tests/conformance/cases/analysis
+- tests/snapshots/describe.json
+- tests/snapshots/help/steps/corpus/add-minus-words.txt
 docs:
 - docs/vba/deviations/corpus.md
 tools: []
