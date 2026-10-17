@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-005
 title: Port the text matchers and markers from the add-in VBA
-status: publish
+status: done
 attempts: 1
 blocked: false
 blocked_reason: null

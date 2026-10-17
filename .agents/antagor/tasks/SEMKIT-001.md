@@ -132,3 +132,9 @@ Minor remarks of the review: optional, if they do not widen the task:
 - `docs/plan.md`
 
 Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).
+
+### Answer to finding #1
+
+> docs/plan.md §2 has wrong counts for the VBA preposition lists: prps() holds 47 words (46 after the junk «g» is dropped), not 52; the complement list preps holds 16 words, and neither copy holds «без». Stopwords hold 439 words, not ~700; the same stray «g» sits in the stopwords literal and the build drops it there too. Source: RibbonCallbacks.vba lines 1322, 1374, 1426, 1428.
+
+docs/plan.md already holds the right counts (prps 47/46, stopwords 439, preps 16 without «без»).
