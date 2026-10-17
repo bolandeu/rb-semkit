@@ -4,8 +4,8 @@ title: 'Change block: every text change of the add-in (case, insert, replace, tr
   ЧПУ, match types, UTM, hashes, word order, phonetic)'
 status: in_progress
 attempts: 0
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: scope_held
 phase: null
 tests_hash: null
 publish_stage: null
@@ -21,8 +21,12 @@ owns_paths:
 - tests/conformance/cases/change/
 - tests/conformance/areas/change.py
 - tests/conformance/data_manifest/change.json
+- .gitattributes
+- docs/plan.md
 test_paths:
 - tests/change/
+- tests/markers/test_build_markers.py
+- tests/core/test_build_data.py
 docs:
 - docs/vba/deviations/change.md
 - docs/vba/conformance/change.md
