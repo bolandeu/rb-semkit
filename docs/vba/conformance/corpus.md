@@ -10,7 +10,6 @@ edit it. The terms and the other areas: [the summary](../conformance.md).
 | [add_minus_words](#add_minus_words) | 6 | 4 | 2 | 0 |
 | [basis_phrases](#basis_phrases) | 7 | 6 | 1 | 0 |
 | [cluster_by_frequency](#cluster_by_frequency) | 6 | 4 | 2 | 0 |
-| [cluster_by_serp](#cluster_by_serp) | 6 | 0 | 6 | 0 |
 | [first_children](#first_children) | 5 | 2 | 3 | 0 |
 | [first_parents](#first_parents) | 6 | 3 | 3 | 0 |
 | [is_typo](#is_typo) | 6 | 0 | 6 | 0 |
@@ -23,7 +22,7 @@ edit it. The terms and the other areas: [the summary](../conformance.md).
 | [split_by_words](#split_by_words) | 6 | 4 | 2 | 0 |
 | [synonyms](#synonyms) | 7 | 3 | 4 | 0 |
 | [typo_correction](#typo_correction) | 5 | 0 | 5 | 0 |
-| **All** | **99** | **47** | **52** | **0** |
+| **All** | **93** | **47** | **46** | **0** |
 
 ## add_minus_words
 
@@ -76,29 +75,6 @@ cluster_by_frequency. VBA (docs/vba/analysis.md §8): «По частотном�
 |---|---|---|---|---|---|
 | cf-order | `"купить диван \| диван купить недорого \| диван угловой \| купить стол"` | `"купить диван \| диван купить \| диван \| купить"` | `"диван купить \| диван купить \| диван \| купить"` | Кластер по частотному словарю — набор слов, а не их порядок | the words keep the order of the phrase: «купить диван» and «диван купить» make two clusters |
 | cf-case | `"Диван угловой \| диван"` | `" \| "` | `"диван \| диван"` | Слова сравниваются без учёта регистра | the counts have binary keys: «Диван» and «диван» are counted apart |
-
-### xfail
-
-None.
-
-## cluster_by_serp
-
-cluster_by_serp. VBA (docs/vba/analysis.md §8): «По топ-10 выдачи» SERPClustering (L182) → Clustering.frm → calculateScore (L3261–3278) with simScore (L3260): each url i of x: i > 4 and in y adds bonus10; i ≤ 4 and in y at its last j adds bonus10 and sb[max(i, j)] when that is ≤ 4 (sb 15 10 6 3 1 with the defaults 5 4 3 2 1, bonus10 1); a link at the threshold (24) or more; components by BFS from the lowest row; clusters sorted ascending by size, a keyword printed already dropped; one cluster per row, joined by «, »; the same keyword twice in a component is error 457. Input: each item «phrase: url url …», the urls in position order from 1; vba renders a cluster row, semkit a table row as phrase=cluster.
-
-| Function | Cases | As the VBA | Deviations | xfail |
-|---|---|---|---|---|
-| `cluster_by_serp` | 6 | 0 | 6 | 0 |
-
-### Deviations
-
-| Case | Input | VBA | semkit | Rule | Why |
-|---|---|---|---|---|---|
-| serp-28 | `"x: a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 \| y: a1 a2 b3 b4 b5 b6 b7 a8 b9 b10"` | `"x, y"` | `"x=1 \| y=1"` | Таблица результата — по колонке на каждое значение | the add-in writes a cluster as one text joined by «, » |
-| serp-45 | `"x: a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 \| y: a1 a2 a3 a4 a5 a6 a7 a8 a9 a10"` | `"x \| y"` | `"x=1 \| y=2"` | Таблица результата — по колонке на каждое значение | the add-in writes a cluster as one text joined by «, » |
-| serp-none | `"x: u1 u2 \| y: v1 v2"` | `"x \| y"` | `"x=1 \| y=2"` | Таблица результата — по колонке на каждое значение | the add-in writes a cluster as one text joined by «, » |
-| serp-bonuses | `"x: u1 u2 \| y: u1 u3"` | `"x, y"` | `"x=1 \| y=1"` | Таблица результата — по колонке на каждое значение | the add-in writes a cluster as one text joined by «, » |
-| serp-order | `"alone: z1 z2 z3 \| a: a1 a2 a3 a4 a5 \| b: a1 a2 a3 a4 b5 \| c: c1 a2 a3 a4 b5"` | `"alone \| a, b, c"` | `"a=1 \| b=1 \| c=1 \| alone=2"` | Таблица результата — по колонке на каждое значение; Кластеры по выдаче идут от большего к меньшему | the clusters are sorted ascending by size: the largest comes last |
-| serp-twice | `"x: u1 u2 u3 u4 u5 \| x: u1 u2 u3 u4 u5 \| y: u1 u2 u3 u4 u5"` | `"#ERROR"` | `"x=1 \| y=1"` | Таблица результата — по колонке на каждое значение; Фраза дважды в выдаче не ломает кластеризацию | two rows of one keyword fall into one component: adding it twice is error 457 and the macro stops |
 
 ### xfail
 
