@@ -59,9 +59,9 @@ extension of coverage, not a new step:
   a comma or a dash inside a sentence) becomes this stricter exact; what it matched across punctuation is direct now:
   a change of behaviour, named in the release notes;
 - `--kinds`: which kinds count; a column per kind, so the Human sees what made the count;
-- the target per phrase: a number column or parsed from the phrase template («фраза (3)», «[4]», «- 2*», «,6*»);
-  columns found, need, missing;
 - the three groups of Miratext (exact and others, diluted and others, any) are three runs with different `--kinds`;
+- no target per phrase and no brief templates: the copywriter brief is a complex scenario, not done (the Human,
+  2026-10-18);
 - leaving out a list of words; leaving out noindex comes with the HTML input.
 
 ## HTML libraries: measured (2026-10-18)
@@ -83,3 +83,5 @@ test page), Python 3.12, mean of 3 runs per page.
 Chosen: selectolax for the zones, meta tags, headings and noindex (the fastest, CSS selectors, its all-text word count
 matches Miratext within 0.3 % on a page without JavaScript); trafilatura with favor_recall for main. A page built by
 JavaScript (di-project: 6 words) has no text in its HTML: the Human gives the rendered HTML.
+
+The Human, 2026-10-18: the copywriter brief (gap 5, templates, targets) is not done: a complex scenario.
