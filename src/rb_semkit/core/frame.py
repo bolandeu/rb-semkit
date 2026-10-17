@@ -30,6 +30,7 @@ class Frame:
     data: pd.Series | pd.DataFrame
     column: str | None = None
     inplace: bool = False
+    argument: str = "column"  # the name the errors give to `column`
 
     def __post_init__(self) -> None:
         if isinstance(self.data, pd.DataFrame):
@@ -45,15 +46,17 @@ class Frame:
         text_columns = [name for name in data.columns if _is_text(data[name])]
         if self.column not in data.columns:
             given = "not given" if self.column is None else f"{self.column!r} is not in the table"
-            raise InvalidArguments(f"column: {given}; allowed: {_listed(list(data.columns))}.")
+            raise InvalidArguments(f"{self.argument}: {given}; allowed: {_listed(list(data.columns))}.")
         if self.column not in text_columns:
             raise InvalidArguments(
-                f"column {self.column!r} holds {data[self.column].dtype}, not text; allowed: {_listed(text_columns)}."
+                f"{self.argument} {self.column!r} holds {data[self.column].dtype}, not text; allowed: {_listed(text_columns)}."
             )
 
     def _check_series(self, data: pd.Series) -> None:
         if self.column is not None:
-            raise InvalidArguments("column is only for a DataFrame; allowed: column=None with a Series.")
+            raise InvalidArguments(
+                f"{self.argument} is only for a DataFrame; allowed: {self.argument}=None with a Series."
+            )
         if self.inplace:
             raise InvalidArguments("inplace is only for a DataFrame; allowed: inplace=False with a Series.")
         if not _is_text(data):

@@ -24,7 +24,8 @@ NOT_CASED = {
     *VERBS,
     "pipe",
     "split_text",
-}  # the verbs and the pipe run in the cases of every matcher; split_text is not from the add-in
+    "coverage",
+}  # the verbs and the pipe run in the cases of every matcher; split_text and coverage are not from the add-in
 CASES = all_cases()
 
 
