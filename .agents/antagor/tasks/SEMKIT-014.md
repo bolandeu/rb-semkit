@@ -2,7 +2,7 @@
 id: SEMKIT-014
 title: 'Text to phrases: split each cell at sentence and clause punctuation into phrase
   rows'
-status: queue
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -17,6 +17,7 @@ owns_paths:
 - src/rb_semkit/core/split/
 test_paths:
 - tests/split/
+- tests/conformance/test_cases.py
 docs: none
 tools: []
 worker_args: null
@@ -40,7 +41,6 @@ translation: '**Текст → фразы.** Текст — это таблиц�
   биграммы, стоп-слова и леммы работают на обычном тексте (статья, отзывы) без склеек
   через точку. Wi-Fi, 2,5 и подобное не режутся. Чтение файла — в эпике CLI.'
 ---
-
 
 A text is a table of one cell. Add sk.split_text(data, column=None): each cell is cut into phrases at sentence ends (. ! ? …) and at clause punctuation (, ; : dashes as separators, brackets, quotes « » " ' ), the punctuation is dropped, whitespace is collapsed, empty pieces are dropped; one input row becomes as many rows as it has phrases. Then every existing step works on prose: sk.ngrams(sk.split_text(text), 2, stopwords=False) is a bigram dictionary of an article without grams across a sentence end. Series in -> Series out, each phrase keeps the index of its source row (pandas explode). DataFrame with column= -> a DataFrame whose rows are the phrases: the column holds the phrase, the other columns repeat the source row, the index repeats the source index. Keep the case of the text. Keep inside a word: a hyphen (Wi-Fi, кто-то), an apostrophe, a decimal point or comma between digits (2.5, 2,5), a dot inside a number or an abbreviation is a separator only where a sentence ends (decide simply and document: 'т.д.' may split, that is acceptable). The function is not from the add-in: no conformance case, no VBA reference.
 
