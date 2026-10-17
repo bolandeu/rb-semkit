@@ -1,0 +1,13 @@
+# phrase_end. VBA, RibbonCallbacks.vba (docs/vba/matchers.md W1): «Предлоги в конце фраз» remLWprps (L2306): dLW (L2301) four times with
+# stopwords (L1374–1378), prps (L1322), stopwords, prps: the last word (eLW L2432, UCase) in the list is dropped (–·a L2319). «Маркеры
+# покупки в конце фраз» remLWsales (L2307): one pass of dLWrng (L2302) with markyerypokupki (spiski/sale). Remove only.
+case_id	function	call	input	vba	expected	rule	why	xfail
+end-preposition-and-stopword	phrase_end.remove	{"kind": "prepositions"}	диван в и	диван	диван			
+end-five-words	phrase_end.remove	{"kind": "prepositions"}	диван для и в на по	диван для	диван	Предлоги в конце фразы удаляются, пока последнее слово не станет чистым	remLWprps makes four passes, so it drops four words at most	
+end-only-preposition	phrase_end.remove	{"kind": "prepositions"}	в					
+end-capital	phrase_end.remove	{"kind": "prepositions"}	Диван ДЛЯ	Диван	Диван			
+end-inside-kept	phrase_end.remove	{"kind": "prepositions"}	диван с подъемным механизмом для	диван с подъемным механизмом	диван с подъемным механизмом			
+end-buy-one	phrase_end.remove	{"kind": "buy_markers"}	диван угловой купить	диван угловой	диван угловой			
+end-buy-two	phrase_end.remove	{"kind": "buy_markers"}	диван купить недорого	диван купить	диван	Маркеры покупки в конце фразы удаляются, пока последнее слово не станет чистым, и маркер из нескольких слов тоже	remLWsales makes one pass: «купить» stays	
+end-buy-phrase	phrase_end.remove	{"kind": "buy_markers"}	диван по низкой цене	диван по низкой	диван	Маркеры покупки в конце фразы удаляются, пока последнее слово не станет чистым, и маркер из нескольких слов тоже	dLWrng compares the last word only, so a marker of several words never matches	
+end-buy-start-kept	phrase_end.remove	{"kind": "buy_markers"}	купить диван	купить диван	купить диван			

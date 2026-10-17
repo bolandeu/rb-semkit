@@ -1,0 +1,24 @@
+# ready_pattern. VBA, RibbonCallbacks.vba (docs/vba/matchers.md X1): «Готовые паттерны» extract: domain a·k– (L2863) every match joined by
+# " "; date_ddmmyyyy –a—a (L2960), date_yyyymmdd –aa– (L1765), email –a—· (L2845) the first match (–—o L2517); phone –aak (L2714) "\" and
+# every match joined by "|" (l–a L1330). RegExExtract (L2970), VBScript.RegExp, ASCII classes. find and remove have no handler: derived
+# from the regex find —koa (L2089, RegExMatch L1646) and remove aoka (L2363, RegExReplace L2080, no trim) with the same pattern; vba is the
+# derived value.
+case_id	function	call	input	vba	expected	rule	why	xfail
+ready-find-email	ready_pattern.find	{"kind": "email"}	пишите на info@site.ru до 01022024	TRUE	TRUE			
+ready-find-date-plain	ready_pattern.find	{"kind": "date_ddmmyyyy"}	пишите на info@site.ru до 01022024	FALSE	TRUE	Дата находится и без разделителей, но не внутри длинного числа	the VBA pattern needs a separator	
+ready-find-date-in-number	ready_pattern.find	{"kind": "date_ddmmyyyy"}	артикул 101.02.20245	TRUE	FALSE	Дата находится и без разделителей, но не внутри длинного числа	the VBA pattern finds the date inside the longer number	
+ready-find-domain-none	ready_pattern.find	{"kind": "domain"}	купить диван	FALSE	FALSE			
+ready-find-phone	ready_pattern.find	{"kind": "phone"}	звоните +7 999 111 22 33	TRUE	TRUE			
+ready-remove-email	ready_pattern.remove	{"kind": "email"}	пишите на info@site.ru	пишите на 	пишите на	фраза делится по любым пробелам, двойных пробелов в результатах нет	RegExReplace does not trim: the trailing space stays	
+ready-remove-phone	ready_pattern.remove	{"kind": "phone"}	звоните 8 (999) 123-45-67 или +7 999 111 22 33	звоните  или 	звоните или	фраза делится по любым пробелам, двойных пробелов в результатах нет	RegExReplace does not trim: a double space and a trailing space stay	
+ready-remove-date-plain	ready_pattern.remove	{"kind": "date_yyyymmdd"}	заказ 20231105	заказ 20231105	заказ	Дата находится и без разделителей, но не внутри длинного числа	the VBA pattern needs a separator, so the date stays	
+ready-remove-none	ready_pattern.remove	{"kind": "domain"}	диван	диван	диван			
+ready-remove-domain	ready_pattern.remove	{"kind": "domain"}	сайт mail.ru	сайт 	сайт	фраза делится по любым пробелам, двойных пробелов в результатах нет	RegExReplace does not trim: the trailing space stays	
+ready-extract-email	ready_pattern.extract	{"kind": "email"}	пишите на info@site.ru до 01022024	info@site.ru	info@site.ru			
+ready-extract-date-plain	ready_pattern.extract	{"kind": "date_ddmmyyyy"}	пишите на info@site.ru до 01022024		01022024	Дата находится и без разделителей, но не внутри длинного числа	the VBA pattern needs a separator	
+ready-extract-date-dots	ready_pattern.extract	{"kind": "date_ddmmyyyy"}	заказ от 05.11.2023	05.11.2023	05.11.2023			
+ready-extract-ymd	ready_pattern.extract	{"kind": "date_yyyymmdd"}	2023-11-05 заказ	2023-11-05	2023-11-05			
+ready-extract-domain	ready_pattern.extract	{"kind": "domain"}	сайт www.example.com и mail.ru	www.example.com mail.ru	www.example.com mail.ru			
+ready-extract-phone	ready_pattern.extract	{"kind": "phone"}	звоните 8 (999) 123-45-67	\8 (999) 123-45-67	8 (999) 123-45-67	Телефоны — без обратной косой черты, через «, »	–aak puts a backslash before the numbers	
+ready-extract-phone-none	ready_pattern.extract	{"kind": "phone"}	нет телефона	\		Телефоны — без обратной косой черты, через «, »	–aak writes the backslash into a cell without a number	
+ready-extract-email-long	ready_pattern.extract	{"kind": "email"}	hello@site.travel	hello@site.trav	hello@site.travel	E-mail — латинские буквы, домен верхнего уровня любой длины	[A-z]{2,4} cuts the domain to four letters	
