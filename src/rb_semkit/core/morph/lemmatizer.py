@@ -1,6 +1,6 @@
 """The Lemmatizer protocol and the bundled SemtoolsLemmatizer (ADR 0003, ADR 0005).
 
-A wordform goes to the !SEMTools dictionary first; a word not in it goes to pymorphy3; a word pymorphy3 does
+A wordform goes to the bundled dictionary first; a word not in it goes to pymorphy3; a word pymorphy3 does
 not know either gets its last four letters replaced by the add-in's `lemmSuf` table. With the fallback "pymorphy",
 every word not in the dictionary takes the best guess of pymorphy3 instead. Lemmas are lower case.
 `looks_like_adjective` is the add-in's adjective rule by the lemma ending; the pos matcher uses it too.
@@ -128,7 +128,7 @@ def _analyse(word: str, fallback: str | None) -> tuple[str, str]:
 
 
 class SemtoolsLemmatizer:
-    """The default Lemmatizer: the !SEMTools dictionary, then pymorphy3, then the `lemmSuf` fallback.
+    """The default Lemmatizer: the bundled dictionary, then pymorphy3, then the `lemmSuf` fallback.
 
     fallback: None as above; "pymorphy" gives every word not in the dictionary the best guess of pymorphy3, also a
     word its own dictionary lacks («тиктокерами» → «тиктокер»).

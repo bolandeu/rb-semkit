@@ -1,7 +1,7 @@
-"""No docstring of the package names the add-in's VBA (ADR 0006): docstrings describe the behaviour in user terms.
+"""No docstring of the package names the add-in or its VBA (ADR 0006): docstrings describe the behaviour in user terms.
 
-A docstring of a module, a class or a function under src/rb_semkit must not hold the word VBA, the VBA module name, an
-obfuscated handler name (latin a, k, o mixed with «·», «—», «–», as `—k—k` or `a·–·`) or a line reference («L1194»,
+A docstring of a module, a class or a function under src/rb_semkit must not hold the word VBA, the add-in name «SEMTools»
+(also «!SEMTools»), the VBA module name, an obfuscated handler name (latin a, k, o mixed with «·», «—», «–», as `—k—k` or `a·–·`) or a line reference («L1194»,
 «line 2218»). The VBA references stand in the notes of the conformance case files.
 """
 
@@ -14,7 +14,9 @@ from pathlib import Path
 import pytest
 
 PACKAGE = Path(__file__).resolve().parents[2] / "src" / "rb_semkit"
-VBA_NAMED = re.compile(r"\bVBA\b|RibbonCallbacks|\bL\d+\b|\blines? \d+|[ako·—–]*(?:[ako][·—–]|[·—–][ako]|·)[ako·—–]*")
+VBA_NAMED = re.compile(
+    r"\bVBA\b|SEMTools|RibbonCallbacks|\bL\d+\b|\blines? \d+|[ako·—–]*(?:[ako][·—–]|[·—–][ako]|·)[ako·—–]*"
+)
 CASE_HEADERS = Path(__file__).resolve().parents[1] / "conformance" / "cases"
 DOCUMENTED = (ast.Module, ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef)
 
@@ -37,7 +39,15 @@ def test_no_docstring_names_the_vba(path: Path) -> None:
 
 
 def test_the_pattern_finds_each_kind_of_vba_reference() -> None:
-    examples = ["as the VBA does", "RibbonCallbacks.vba", "`—k—k` (line 2218)", "a·–·", "ka–a L1005", "lines 2877–2878"]
+    examples = [
+        "as the VBA does",
+        "RibbonCallbacks.vba",
+        "`—k—k` (line 2218)",
+        "a·–·",
+        "ka–a L1005",
+        "lines 2877–2878",
+        "the !SEMTools dictionary",
+    ]
 
     assert [bool(VBA_NAMED.search(text)) for text in examples] == [True] * len(examples)
     assert not VBA_NAMED.search("words — at the start, 1–3 of them, ё = е, «Wi-Fi»")
