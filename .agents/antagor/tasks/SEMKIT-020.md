@@ -3,7 +3,7 @@ id: SEMKIT-020
 title: 'List tools: compare two lists (both, either, only first, only second) by a
   duplicate kind; strip characters at word edges'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -16,6 +16,7 @@ type: feature
 owns_paths:
 - src/rb_semkit/core/lists/
 - src/rb_semkit/core/text/matchers/edges.py
+- src/rb_semkit/core/dupes/functions.py
 test_paths:
 - tests/lists/
 docs: none
@@ -69,3 +70,9 @@ Comparison reuses the keys of sk.dupes (kinds exact, explicit, implicit, lemmas;
 
 - Lower case, ё → е in the text, empty rows, duplicates, combinations: other steps already do them (the change block, sk.cells('empty'), sk.dupes, the combinations of SEMKIT-013).
 - More than two lists at once: chain the calls.
+
+## Feedback
+
+### Attempt 1: file docstring
+
+- update the docstring of src/rb_semkit/core/dupes/functions.py: +key_function
