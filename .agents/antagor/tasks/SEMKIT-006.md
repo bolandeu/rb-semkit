@@ -2,7 +2,7 @@
 id: SEMKIT-006
 title: 'Conformance: analysis functions and bundled data against the add-in VBA'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -117,3 +117,36 @@ Decided: follow the VBA with the ADR 0005 deviations; fix in SEMKIT-009 (depends
 > wordforms() of a word that is not a lemma gives []; the VBA ––aa (L380) takes aaa(LCase(word)) first and gives the forms of that lemma. Case wordforms-inflected (xfail): input 'диваны', vba 'диваны | диван | дивана | ... | диваны', expected 'диван | дивана | ... | диваны', got ''. Suspected code path: src/rb_semkit/core/morph/functions.py wordforms → lemmatizer.forms(lemma) without lemmatizer.lemma(word) first.
 
 Decided: follow the VBA with the ADR 0005 deviations; fix in SEMKIT-009 (depends on 006). Keep the rows as xfail in 006.
+
+### Attempt 1: checks failed
+
+- `uv run pytest tests/conformance -q` (exit 1)
+
+```
+84     28    67%   33, 54, 60-63, 68-70, 75-78, 89, 92, 95, 98-99, 106, 109, 115, 124, 139, 160, 163, 166, 169, 174
+src/rb_semkit/core/text/matchers/around.py             39     39     0%   3-76
+src/rb_semkit/core/text/matchers/cells.py              73     73     0%   3-135
+src/rb_semkit/core/text/matchers/chars.py              30     30     0%   3-81
+src/rb_semkit/core/text/matchers/classes.py            46     46     0%   8-92
+src/rb_semkit/core/text/matchers/phrases.py            68     21    69%   37, 52-57, 61-62, 86-90, 95, 98-101, 104, 123
+src/rb_semkit/core/text/matchers/pos.py                24     24     0%   3-58
+src/rb_semkit/core/text/matchers/positions.py          13     13     0%   3-31
+src/rb_semkit/core/text/matchers/regex.py              30     30     0%   3-61
+src/rb_semkit/core/text/matchers/repeats.py            31     31     0%   3-66
+src/rb_semkit/core/text/matchers/spaces.py             13     13     0%   3-40
+src/rb_semkit/core/text/matchers/spans.py              22     22     0%   3-39
+src/rb_semkit/core/text/matchers/word_case.py          13     13     0%   3-39
+src/rb_semkit/core/text/matchers/word_content.py       21     21     0%   3-65
+src/rb_semkit/core/text/matchers/word_position.py      25     25     0%   3-74
+src/rb_semkit/core/text/matchers/words.py              34     34     0%   3-82
+src/rb_semkit/core/version.py                          40     18    55%   20-22, 32-35, 52-53, 57, 62-65, 75-78
+src/rb_semkit/output/__init__.py                       94     94     0%   1-224
+src/rb_semkit/output/human.py                          18     18     0%   1-32
+src/rb_semkit/output/json.py                            5      5     0%   1-9
+---------------------------------------------------------------------------------
+TOTAL                                                1774   1224    31%
+
+15 files skipped due to complete coverage.
+FAIL Required test coverage of 90.0% not reached. Total coverage: 31.00%
+677 passed, 10 xfailed in 4.45s
+```
