@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-007
 title: 'Markers and phrase lists: extract the longest match'
-status: queue
-attempts: 2
-blocked: false
-blocked_reason: null
+status: in_progress
+attempts: 3
+blocked: true
+blocked_reason: attempts
 phase: null
 tests_hash: null
 publish_stage: null
@@ -114,3 +114,38 @@ Option 2. SEMKIT-005 is accepted (status publish) but not on main yet: its publi
 ### Attempt 2: file docstring
 
 - update the docstring of src/rb_semkit/core/text/matchers/phrases.py: +longest
+
+### Attempt 3: checks failed
+
+- `uv run pytest tests/markers tests/matchers tests/matchers_vba -q` (exit 1)
+
+```
+7
+src/rb_semkit/core/data_files.py                 8      8     0%   8-20
+src/rb_semkit/core/deps.py                      88     88     0%   14-166
+src/rb_semkit/core/dupes/__init__.py             2      2     0%   3-5
+src/rb_semkit/core/dupes/functions.py           43     43     0%   6-81
+src/rb_semkit/core/errors.py                    73     33    55%   44-47, 52, 62, 72-73, 98-109, 124, 141-148, 151-155, 160, 170, 181, 193, 208
+src/rb_semkit/core/frame.py                     61     11    82%   25, 40, 47-48, 50, 56, 58, 60, 79, 83, 93
+src/rb_semkit/core/models.py                    14     14     0%   1-23
+src/rb_semkit/core/morph/functions.py           19      8    58%   23-27, 40, 51, 56
+src/rb_semkit/core/morph/lemmatizer.py          55      4    93%   68-69, 93, 122
+src/rb_semkit/core/normalize.py                 20     11    45%   34-40, 49-52
+src/rb_semkit/core/opencli.py                  141    141     0%   18-256
+src/rb_semkit/core/services.py                  44     44     0%   1-78
+src/rb_semkit/core/text/base.py                 84      8    90%   33, 106, 124, 160, 163, 166, 169, 174
+src/rb_semkit/core/text/matchers/around.py      39      1    97%   26
+src/rb_semkit/core/text/matchers/cells.py       73      2    97%   30, 43
+src/rb_semkit/core/text/matchers/spans.py       22      2    91%   19, 22
+src/rb_semkit/core/text/matchers/words.py       34      1    97%   39
+src/rb_semkit/core/version.py                   40     18    55%   20-22, 32-35, 52-53, 57, 62-65, 75-78
+src/rb_semkit/output/__init__.py                94     94     0%   1-224
+src/rb_semkit/output/human.py                   18     18     0%   1-32
+src/rb_semkit/output/json.py                     5      5     0%   1-9
+--------------------------------------------------------------------------
+TOTAL                                         1758    906    48%
+
+23 files skipped due to complete coverage.
+FAIL Required test coverage of 90.0% not reached. Total coverage: 48.46%
+318 passed in 3.16s
+```
