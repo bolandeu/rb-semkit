@@ -1,0 +1,11 @@
+# cluster_by_frequency. VBA (docs/vba/analysis.md §8): «По частотному словарю» ––o· (L2374) → O–—– (L1201): the
+# stopwords removed (o–·o, L2588, exact); the words of each phrase sorted (srt), a repeated word dropped (a·o, L1649),
+# counted with binary keys; the InputBox asks the threshold; in each phrase the words counted below it are dropped,
+# the word order kept.
+case_id	function	call	input	vba	expected	rule	why	xfail
+cf-order	cluster_by_frequency	{"threshold": 2}	купить диван | диван купить недорого | диван угловой | купить стол	купить диван | диван купить | диван | купить	диван купить | диван купить | диван | купить	Кластер по частотному словарю — набор слов, а не их порядок	the words keep the order of the phrase: «купить диван» and «диван купить» make two clusters	
+cf-same	cluster_by_frequency	{"threshold": 2}	диван угловой | диван | стол	диван | диван | 	диван | диван | 			
+cf-stopwords	cluster_by_frequency	{"threshold": 2}	диван в москве | диван на заказ | стол в москве	диван москве | диван | москве	диван москве | диван | москве			
+cf-case	cluster_by_frequency	{"threshold": 2}	Диван угловой | диван	 | 	диван | диван	Слова сравниваются без учёта регистра	the counts have binary keys: «Диван» and «диван» are counted apart	
+cf-repeat	cluster_by_frequency	{"threshold": 2}	диван диван | стол	 | 	 | 			
+cf-threshold	cluster_by_frequency	{"threshold": 3}	купить диван | диван | диван угловой | купить	диван | диван | диван | 	диван | диван | диван | 			

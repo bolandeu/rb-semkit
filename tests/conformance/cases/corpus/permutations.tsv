@@ -1,0 +1,11 @@
+# permutations. VBA, RibbonCallbacks.vba (docs/vba/analysis.md §5): «Все перестановки слов» —·—– (L2282) → oa–k
+# (L1405): the sum of Permut(akk, akk) over the cells above 1 048 576 stops with a message; kaa— (L1406): a rest of
+# fewer than 2 words (akk, L2414, a split by one space) writes prefix & rest, else each word g in turn (о·k, L1402)
+# goes to the prefix with a space and the rest loses it (–··, L1404, Trim). Output: column A of a new sheet output.
+case_id	function	call	input	vba	expected	rule	why	xfail
+perm-three	permutations		a b c	a b c | a c b | b a c | b c a | c a b | c b a	a b c | a c b | b a c | b c a | c a b | c b a			
+perm-cells	permutations		купить диван | стол	купить диван | диван купить | стол	купить диван | диван купить | стол			
+perm-repeated	permutations		диван диван	диван диван | диван диван	диван диван | диван диван			
+perm-one	permutations		диван	диван	диван			
+perm-empty	permutations		стол | 	стол | 	стол | 			
+perm-spaces	permutations		a  b	a b |  a b |  b a | b a	a b | b a	фраза делится по любым пробелам, двойных пробелов в результатах нет	akk splits by one space: the empty word between the two spaces is permuted too, and Trim leaves a leading space	

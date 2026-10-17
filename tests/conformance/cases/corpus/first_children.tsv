@@ -1,0 +1,8 @@
+# first_children. VBA (docs/vba/analysis.md §6): «Первые вложенные фразы» –—·k (L2388) with firstChild (L1367): the
+# first list item c with isChild(phrase, c) (L1366); an empty phrase is a parent of every item.
+case_id	function	call	input	vba	expected	rule	why	xfail
+fc-basic	first_children	{"children": ["стол", "купить стол недорого", "купить стол"]}	стол | диван	купить стол недорого | 	купить стол недорого | 			
+fc-first	first_children	{"children": ["диван угловой", "купить диван"]}	диван	диван угловой	диван угловой			
+fc-order	first_children	{"children": ["купить стол", "купить стол недорого"]}	стол купить	купить стол	купить стол недорого	Фраза никогда не родитель самой себе	isChild compares the whole strings: the same words in another order make a child	
+fc-empty	first_children	{"children": ["купить диван", "стол угловой"]}	диван |  | стол	купить диван | купить диван | стол угловой	купить диван |  | стол угловой	У пустой фразы нет родителя и ребёнка	an empty phrase has no word to miss, so the first item is its child	
+fc-case	first_children	{"children": ["купить стол"]}	Стол		купить стол	Слова сравниваются без учёта регистра	InStr is binary: «Стол» is not «стол»	

@@ -1,0 +1,67 @@
+"""The good / bad split of a semantic core by words: the phrases to keep, to drop, and the rest still to decide."""
+
+from __future__ import annotations
+
+from collections.abc import Iterable
+from typing import NamedTuple
+
+import pandas as pd
+
+from ..analysis.frequency import _word_keys, ngrams
+from ..frame import Frame
+from ..morph import Lemmatizer
+from ..morph.functions import BUNDLED
+from ..text.base import split_words, word_list
+
+__all__ = ["split_by_words"]
+
+
+class Split(NamedTuple):
+    """The parts of a split core: the rows of the input (a Series or the table), and the dictionary of the rest."""
+
+    good: pd.Series | pd.DataFrame
+    bad: pd.Series | pd.DataFrame
+    rest: pd.Series | pd.DataFrame
+    frequency: pd.DataFrame
+
+
+def _keys(argument: str, words: str | Iterable[str], lemmatizer: Lemmatizer | None) -> frozenset[str]:
+    listed = [words] if isinstance(words, str) else list(words)
+    if not listed:
+        return frozenset()
+    found = _word_keys(pd.Series(word_list(argument, listed)), lemmatizer=lemmatizer, stopwords=True)
+    return frozenset(key for key, _ in found.values())
+
+
+def split_by_words(
+    data: pd.Series | pd.DataFrame,
+    *,
+    good: str | Iterable[str] = (),
+    bad: str | Iterable[str] = (),
+    lemmas: bool = False,
+    lemmatizer: Lemmatizer = BUNDLED,
+    column: str | None = None,
+) -> Split:
+    """The core split into good, bad and rest phrases, and the frequency dictionary of the rest.
+
+    bad: a phrase with any of these words is bad. good: a phrase that is not bad and has only these words is good.
+    Every other phrase, an empty one too, is the rest. Words are compared by case and ё.
+    lemmas: compare the lemmas of the words and of `good` and `bad` («диваны» is «диван»), by `lemmatizer`.
+    The parts are the rows of the input in its order: a Series for a Series, the table for a table. `frequency` is
+    the `ngrams` table of the rest (ngram, count), of lemmas with `lemmas`, to choose the next good and bad words.
+    """
+    frame = Frame(data, column)
+    phrases = frame.phrases
+    by = lemmatizer if lemmas else None
+    good_keys, bad_keys = _keys("good", good, by), _keys("bad", bad, by)
+    keys = _word_keys(phrases, lemmatizer=by, stopwords=True)
+
+    def part(phrase: str) -> str:
+        words = {keys[word][0] for word in split_words(phrase)}
+        if words & bad_keys:
+            return "bad"
+        return "good" if words and words <= good_keys else "rest"
+
+    parts = phrases.map({phrase: part(phrase) for phrase in phrases.unique()}).to_numpy()
+    good_rows, bad_rows, rest = (frame.data[parts == name] for name in ("good", "bad", "rest"))
+    return Split(good_rows, bad_rows, rest, ngrams(rest, lemmas=lemmas, lemmatizer=lemmatizer, column=column))

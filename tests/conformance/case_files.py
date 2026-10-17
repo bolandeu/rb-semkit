@@ -9,8 +9,9 @@ becomes a Series. An area whose functions take another input has a hook module `
 reason the library does not give `expected` yet (reported to the Architect as a finding).
 
 A result renders by its type as text: the items of a Series or a list joined by « | », a table as «first=last» per row
-(an n-gram and its count or sum), a bool as TRUE / FALSE (as Excel writes it), an empty value as "", a number as
-written. A per-row function given a table adds its column to it: that column is the result.
+(an n-gram and its count or sum), a bool as TRUE / FALSE (as Excel writes it), an empty value as "", a number (a
+single result too) as written, the parts of a tuple (a named tuple) each by its type, joined by « || ». A per-row function given a table adds
+its column to it: that column is the result.
 
 A case that differs from the VBA quotes its rules from ADR 0005 or from its area's deviations document
 (`docs/vba/deviations/<area>.md`).
@@ -38,6 +39,7 @@ DEVIATIONS_DIR = ROOT / "docs" / "vba" / "deviations"
 ADR_FILE = ROOT / "docs" / "adr" / "0005-port-vba-fix-defects.md"
 CASE_COLUMNS = ("case_id", "function", "call", "input", "vba", "expected", "rule", "why", "xfail")
 SEP = " | "
+PART_SEP = " || "
 RULE_SEP = "; "
 
 
@@ -111,6 +113,10 @@ def render_value(value: Any) -> str:
 
 
 def render(result: Any) -> str:
+    if isinstance(result, tuple):
+        return PART_SEP.join(render(part) for part in result)
+    if isinstance(result, str | int | float):
+        return render_value(result)
     if isinstance(result, pd.DataFrame):
         return SEP.join(f"{row.iloc[0]}={render_value(row.iloc[-1])}" for _, row in result.iterrows())
     values = result.tolist() if isinstance(result, pd.Series) else list(result)

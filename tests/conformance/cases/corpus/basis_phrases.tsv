@@ -1,0 +1,12 @@
+# basis_phrases. VBA (docs/vba/analysis.md §6): «Найти базисы» semBasis (L3399–3450): two prompts (by lemmas, without
+# stopwords); the key of a row is srt of its unique tokens of LCase(a·(cell)) split by one space, lemmatized by aaa on
+# request, without the stopwords on request (all its tokens when none is left); the first row owns a key; a row stays
+# when it owns its key and no smaller key has only words of it; the other rows are cleared.
+case_id	function	call	input	vba	expected	rule	why	xfail
+basis-core	basis_phrases		купить диван | диван | купить диван недорого | стол | диван купить	 | диван |  | стол | 	 | диван |  | стол | 			
+basis-lemmas	basis_phrases	{"lemmas": true}	купить диваны | диван	 | диван	 | диван			
+basis-stopwords	basis_phrases	{"stopwords": false}	диван в москве | диван москве	диван в москве | 	диван в москве | 			
+basis-only-stopwords	basis_phrases	{"stopwords": false}	в | в на	в | 	в | 			
+basis-spaces	basis_phrases		диван  угловой | диван	 | диван	 | диван			
+basis-empty	basis_phrases		диван |  | стол	диван |  | стол	диван |  | стол			
+basis-yo	basis_phrases		ёлка | елка купить	ёлка | елка купить	ёлка | 	ё = е при сравнении	LCase keeps ё: «ёлка» is not «елка»	

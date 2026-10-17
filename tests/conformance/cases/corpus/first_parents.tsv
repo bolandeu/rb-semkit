@@ -1,0 +1,10 @@
+# first_parents. VBA (docs/vba/analysis.md §6): «Первых родителей» –—·a (L2124) with firstParent (L1369): the first
+# list item p with isChild (L1366): p <> phrase (binary) and each word of p, split by one space, stands in « phrase »
+# as « word » (InStr, binary); an empty item is a parent of every phrase and gives "".
+case_id	function	call	input	vba	expected	rule	why	xfail
+fp-basic	first_parents	{"parents": ["купить стол", "стол"]}	купить стол недорого | стул	купить стол | 	купить стол | 			
+fp-first	first_parents	{"parents": ["диван", "купить диван"]}	купить диван недорого	диван	диван			
+fp-self	first_parents	{"parents": ["стол"]}	стол					
+fp-order	first_parents	{"parents": ["купить стол", "стол"]}	стол купить	купить стол	стол	Фраза никогда не родитель самой себе	isChild compares the whole strings: the same words in another order make a parent	
+fp-empty-item	first_parents	{"parents": ["", "стол"]}	купить стол		стол	Пустые ячейки списка пропускаются	an empty item has no word to miss, so it is the first parent of every phrase and gives ""	
+fp-case	first_parents	{"parents": ["стол"]}	Купить Стол		стол	Слова сравниваются без учёта регистра	InStr is binary: «Стол» is not «стол»	

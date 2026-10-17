@@ -1,0 +1,12 @@
+# nearest_parents. VBA (docs/vba/analysis.md §6): «Ближайших родителей» –—·o (L3451): CreateAndPopulateNGramDicts
+# (L3396) files each non-empty parent of up to 6 words by its sorted words (the first wins); GenNGrams (L3395) and
+# GenerateCombinations (L3394) make the sorted combinations of the child's words of 1…min(n, 6), by size, then by
+# positions; FindParentInDicts (L3398) takes the last one found. Binary compare: case and ё count.
+case_id	function	call	input	vba	expected	rule	why	xfail
+near-basic	nearest_parents	{"parents": ["стол", "купить стол"]}	купить стол недорого | стол	купить стол | стол	купить стол | 	Фраза никогда не родитель самой себе	the combinations of the child hold the child itself, so a child that is in the list is its own parent	
+near-order	nearest_parents	{"parents": ["купить стол", "стол"]}	стол купить	купить стол	стол	Фраза никогда не родитель самой себе	the child's words sorted are the parent's words sorted: the same phrase in another order is its parent	
+near-none	nearest_parents	{"parents": ["стол"]}	диван угловой					
+near-case	nearest_parents	{"parents": ["стол"]}	Купить Стол		стол	Слова сравниваются без учёта регистра	the dictionary keys are binary: «Стол» is not «стол»	
+near-yo	nearest_parents	{"parents": ["елка"]}	ёлка искусственная		елка	ё = е при сравнении	the dictionary keys are binary: «ёлка» is not «елка»	
+near-long	nearest_parents	{"parents": ["a b c d e f g", "a"]}	a b c d e f g h	a	a b c d e f g	Родитель длиннее шести слов тоже находится	parents of more than 6 words are not filed, and the combinations stop at 6 words	
+near-tie	nearest_parents	{"parents": ["a b", "b c", "a c"]}	a b c	b c	b c			

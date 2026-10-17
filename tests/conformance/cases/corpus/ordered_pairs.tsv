@@ -1,0 +1,10 @@
+# ordered_pairs. VBA (docs/vba/analysis.md §5): «Комбинации по 2 элемента» a––· (L1862) → oa·k (L2361): for each row g
+# and each row a ≠ g the key value_g\value_a, once; the writer —·a (L451) puts the keys in column A and FALSE in
+# column B of a new sheet. vba renders a row as A=B.
+case_id	function	call	input	vba	expected	rule	why	xfail
+pairs-three	ordered_pairs		a | b | c	a\b=FALSE | a\c=FALSE | b\a=FALSE | b\c=FALSE | c\a=FALSE | c\b=FALSE	a=b | a=c | b=a | b=c | c=a | c=b	Таблица результата — по колонке на каждое значение	the add-in writes a pair as one text a\b and a column of FALSE	
+pairs-two	ordered_pairs		диван | стол	диван\стол=FALSE | стол\диван=FALSE	диван=стол | стол=диван	Таблица результата — по колонке на каждое значение	the add-in writes a pair as one text a\b and a column of FALSE	
+pairs-case	ordered_pairs		Диван | диван	Диван\диван=FALSE | диван\Диван=FALSE	Диван=диван | диван=Диван	Таблица результата — по колонке на каждое значение	the add-in writes a pair as one text a\b and a column of FALSE	
+pairs-repeated	ordered_pairs		a | a | b	a\a=FALSE | a\b=FALSE | b\a=FALSE	a=b | b=a	Таблица результата — по колонке на каждое значение; Пары — из разных элементов списка	two equal rows make the pair a\a: an item with itself	
+pairs-empty	ordered_pairs		a |  | b	a\=FALSE | a\b=FALSE | \a=FALSE | \b=FALSE | b\a=FALSE | b\=FALSE	a=b | b=a	Таблица результата — по колонке на каждое значение; Пустые ячейки списка пропускаются	an empty cell is paired as an item ""	
+pairs-one	ordered_pairs		диван					
