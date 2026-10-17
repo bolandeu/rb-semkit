@@ -18,8 +18,8 @@ SYNTAX = "Items: a comma list 'a,b', @FILE (one item per line, or the first colu
 TEXT_SUFFIXES = ("", ".txt", ".text", ".lst")
 
 
-def items(value: str) -> list[str]:
-    """The items `value` names, blank ones dropped."""
+def items(value: str, start: Path) -> list[str]:
+    """The items `value` names, blank ones dropped; a name is looked up in the project at or above `start`."""
     if not value.startswith("@"):
         return _cleaned(value.split(","))
     reference = value.removeprefix("@")
@@ -28,7 +28,7 @@ def items(value: str) -> list[str]:
         return _cleaned(_file_items(path))
     if path.suffix or reference.startswith((".", "/", "~")):
         raise InvalidArguments(f"@{reference}: the file does not exist.", action="Name a file that exists after @.")
-    return wordlists.resolve(reference)
+    return wordlists.resolve(reference, start)
 
 
 def _file_items(path: Path) -> list[str]:
