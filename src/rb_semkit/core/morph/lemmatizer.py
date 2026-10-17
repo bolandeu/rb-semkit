@@ -2,6 +2,7 @@
 
 A wordform goes to the !SEMTools dictionary first; a word not in it goes to pymorphy3; a word pymorphy3 does
 not know either gets its last four letters replaced by the add-in's `lemmSuf` table. Lemmas are lower case.
+`looks_like_adjective` is the add-in's adjective rule by the lemma ending; the pos matcher uses it too.
 """
 
 from __future__ import annotations
@@ -73,13 +74,17 @@ def _adjective_rule() -> tuple[frozenset[str], frozenset[str]]:
     return frozenset(morph["adjective_endings"]), frozenset(morph["nouns_like_adjectives"])
 
 
+def looks_like_adjective(lemma: str) -> bool:
+    """The add-in's adjective rule: the lemma ends like an adjective (`adjSuffixes`) and is not a noun like one."""
+    endings, nouns_like_adjectives = datastore.once("adjective_rule", _adjective_rule)
+    return lemma[-3:] in endings and lemma not in nouns_like_adjectives
+
+
 def _from_suffixes(word: str) -> tuple[str, str]:
     """The add-in's fallback: the last four letters by `lemmSuf`; an adjective when the lemma ends like one."""
     suffix = word[-4:]
     lemma = word[: len(word) - len(suffix)] + datastore.table(MORPH)["lemma_suffixes"].get(suffix, suffix)
-    endings, nouns_like_adjectives = datastore.once("adjective_rule", _adjective_rule)
-    is_adjective = lemma[-3:] in endings and lemma not in nouns_like_adjectives
-    return lemma, "a" if is_adjective else ""
+    return lemma, "a" if looks_like_adjective(lemma) else ""
 
 
 def _analyse(word: str) -> tuple[str, str]:

@@ -2,20 +2,21 @@
 
 from __future__ import annotations
 
-import re
 from collections.abc import Callable
 
 from ...morph import Lemmatizer
 from ...morph.functions import BUNDLED
 from ..base import Matcher, WordMatcher, choice, word_key
+from . import classes
 
 MODES = ("exact", "wordforms")
+# Which words can repeat: the VBA tests the earlier word of a pair, which equals the later one.
 SCOPES: dict[str, Callable[[str], object]] = {
     "all": bool,
     "adjacent": bool,
-    "en": re.compile("[a-z]+").fullmatch,
-    "ru": re.compile("[а-я]+").fullmatch,
-    "numbers": re.compile("[0-9]+").fullmatch,
+    "en": classes.has_latin,
+    "ru": classes.has_cyrillic,
+    "numbers": classes.is_numeric,
 }
 
 
@@ -28,7 +29,7 @@ class Repeats(WordMatcher):
         self._lemmatizer = lemmatizer or BUNDLED
 
     def _key(self, word: str) -> str:
-        surface = word_key(word, ignore_punct=True)
+        surface = word_key(word)
         if not surface or not SCOPES[self._scope](surface):
             return ""
         return self._lemmatizer.lemma(surface) if self._wordforms else surface
@@ -48,9 +49,18 @@ class Repeats(WordMatcher):
 def repeats(mode: str = "exact", *, scope: str = "all", lemmatizer: Lemmatizer | None = None) -> Repeats:
     """Words that repeat an earlier word of the phrase (find and remove; remove keeps the first one).
 
-    mode: "exact" — the same word (case, ё and punctuation at the edges do not count); "wordforms" — the same lemma.
-    scope: "all" words; only "adjacent" repeats («диван диван»); only latin ("en") or cyrillic ("ru") words;
-    only "numbers".
+    mode: "exact" — the same word (case and ё do not count, punctuation does: «диван, диван» has no repeat);
+    "wordforms" — the same lemma.
+    scope: "all" words; only "adjacent" repeats («диван диван»); only words with a latin ("en") or a cyrillic ("ru")
+    letter («iphone13», «wi-fi-роутер»); only "numbers" («2», «1,5»).
     lemmatizer: for "wordforms"; None is the bundled one.
+
+    VBA (RibbonCallbacks.vba):
+        find: `—k—–` (line 1731) exact; the other modes and scopes: no VBA handler: derived from their remove
+        handlers.
+        remove: `aala` (line 2514) all, `aal1` (line 2257) en, `aall` (line 2703) ru, `remrepW` (line 1697) adjacent,
+        `aal·` (line 2569) numbers, `aook` (line 2371) wordforms; wordforms with a scope: no VBA handler: derived
+        from `aook` (line 2371).
+    ADR 0005: ё = е; split on any whitespace; lemmas in lower case.
     """
     return Repeats(mode, scope, lemmatizer)

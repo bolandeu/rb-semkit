@@ -17,12 +17,18 @@ class Stopwords(WordMatcher):
         self._keys = frozenset(norm_phrase(word) for word in listed)
 
     def picks(self, words: list[str]) -> list[bool]:
-        return [word_key(word, ignore_punct=True) in self._keys for word in words]
+        return [word_key(word) in self._keys for word in words]
 
 
 def stopwords(extra: Iterable[str] | None = None) -> Stopwords:
     """The function words with no search intent (prepositions, conjunctions, particles); remove only.
 
-    extra: your own words, taken together with the bundled list. Case and ё do not count.
+    A word is compared as written: «и,» with its comma is no stopword. Case and ё do not count.
+    extra: your own words, taken together with the bundled list.
+
+    VBA (RibbonCallbacks.vba):
+        remove: `a·–·` (line 2285) with `Del1DimArr` (line 2284) and the list `stopwords` (lines 1374–1378); extra:
+        no VBA handler: derived from `a·–·` (line 2285).
+    ADR 0005: stopwords in any case; ё = е; split on any whitespace; no double spaces; the junk word «g» dropped.
     """
     return Stopwords(extra)

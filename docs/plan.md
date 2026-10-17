@@ -28,7 +28,7 @@ The add-in groups commands by *action* (find / remove / extract / change). semki
 | prepositions at phrase end, buy-markers at end | — | — | ✓ | — | v2 |
 | phrases | user list (Aho-Corasick) | ✓ | ✓ | ✓ | v1 |
 | prepositional complements («в Москве», «для детей») | — | — | — | ✓ | v2 |
-| cells by content | contains / starts / ends with list item or preposition; regex; empty | ✓ | ✓ (row filter) | ✓ | v1 |
+| cells by content | contains / starts / ends with list item or preposition; regex; empty | ✓ | ✓ (clears the cell; empty: row filter) | ✓ | v1 |
 | cells by occurrence | unique, repeated, first, last | ✓ | ✓ | ✓ | v1 |
 
 ### 1.2. Markers (`rb_semkit.markers`) — v1
@@ -137,7 +137,7 @@ Prepositions are string literals in `RibbonCallbacks.vba`, three lists (→ `lis
 - `preps` (inside the complements extractor), 16 items: «для с в из на к со о во у по под от после за над»;
   both copies (`prepCollocsToEnd`, `collocs`) are the same, without «без»: `complement_prepositions`. Used to find prepositional complements («в Москве»).
 - toponym prepositions (inside «remove / extract toponyms with prepositions»): ru «в во на по из до г и»,
-  en «in at by to»: `toponym_prepositions_ru`, `toponym_prepositions_en`. The word before a toponym is removed with it when it is in this list.
+  en «in at by to»: `toponym_prepositions_ru`, `toponym_prepositions_en`. With prepositions, only a marker right after a ru preposition counts, and the preposition goes with it; the en list is never used (as in the VBA).
 
 `downloads/SEMToolsWordProcessor.xlsb` holds no reference data. It is the UI of «Работа с семантическим ядром»:
 sheet `semHelper` (core phrases, frequency dictionary, plus-words, lemma map), sheets `Good case` / `Bad case`.
