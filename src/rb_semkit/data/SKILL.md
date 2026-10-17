@@ -40,8 +40,8 @@ Replace `vX.Y.Z` with the latest release tag (install from a tag, never a branch
   it to see what a step did. An existing trace FILE is refused unless `write OUT --overwrite`.
 - `--json`, `--quiet` and `--dry-run` go before the steps (`semkit --json read …`). With `--json` and a file OUT,
   stdout is one envelope `{"ok": true, "output", "rows", "written", "steps"}` (`steps`: one `{"step", "rows_before",
-  "rows_after", "cells_changed"}` per step); with `write -` stdout is the JSONL of the rows. `--quiet` hides the lines
-  on stderr, never the result.
+  "rows_after", "cells_changed"}` per step, and `"note"` after them when the step tells more, as `index: exact`); with
+  `write -` stdout is the JSONL of the rows. `--quiet` hides the lines on stderr, never the result.
 
 ## Step kinds
 
@@ -192,8 +192,8 @@ $ semkit read phrases.csv compare-lists --against second.csv --op second write -
 The steps by meaning (`cluster-meaning`) compare phrases by their phrase vectors: phrases of close meaning get close
 vectors. They need the optional extra `vectors` and an encoder pulled once; a step never downloads one.
 
-1. Install semkit with the extra: `uv tool install "rb-semkit[vectors] @ git+https://github.com/bolandeu/rb-semkit.git@vX.Y.Z"`
-   (over an installed semkit, uv must reinstall it: the error `VECTORS_NOT_INSTALLED` gives the exact command).
+1. Install semkit with the extra: the command of «Install» above with `rb-semkit[vectors]` in place of `rb-semkit`
+   and `--force` (uv must reinstall an installed semkit). The error `VECTORS_NOT_INSTALLED` gives the exact command.
 2. Pull an encoder once: `semkit models pull e5-small` (the default; `bge-m3` is better and 7 times slower, for small
    cores; `potion` is 20 times faster, for very large ones; `hf:<id>` is any model of the Hugging Face hub with an ONNX
    export or a model2vec model). The files are checked against pinned checksums; a failed pull keeps nothing (exit 5,
