@@ -2,7 +2,7 @@
 id: SEMKIT-025
 title: 'Word lists: bundled Bukvarix and add-in lists with a manifest, the Human''s
   folders by any path, semkit lists, sk.word_list'
-status: queue
+status: in_review
 attempts: 1
 blocked: false
 blocked_reason: null
