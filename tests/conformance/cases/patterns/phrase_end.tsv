@@ -7,6 +7,8 @@ end-five-words	phrase_end.remove	{"kind": "prepositions"}	диван для и �
 end-only-preposition	phrase_end.remove	{"kind": "prepositions"}	в					
 end-capital	phrase_end.remove	{"kind": "prepositions"}	Диван ДЛЯ	Диван	Диван			
 end-inside-kept	phrase_end.remove	{"kind": "prepositions"}	диван с подъемным механизмом для	диван с подъемным механизмом	диван с подъемным механизмом			
+end-preposition-po	phrase_end.remove	{"kind": "prepositions"}	диван по	диван по	диван	Список предлогов чистый: «по» удаляется, латинская «g» — нет	prps holds «пo» with a latin «o», so «по» is never found	
+end-junk-g-kept	phrase_end.remove	{"kind": "prepositions"}	диван g	диван	диван g	Список предлогов чистый: «по» удаляется, латинская «g» — нет	prps holds the junk latin «g», so it is dropped as a preposition	
 end-buy-one	phrase_end.remove	{"kind": "buy_markers"}	диван угловой купить	диван угловой	диван угловой			
 end-buy-two	phrase_end.remove	{"kind": "buy_markers"}	диван купить недорого	диван купить	диван	Маркеры покупки в конце фразы удаляются, пока последнее слово не станет чистым, и маркер из нескольких слов тоже	remLWsales makes one pass: «купить» stays	
 end-buy-phrase	phrase_end.remove	{"kind": "buy_markers"}	диван по низкой цене	диван по низкой	диван	Маркеры покупки в конце фразы удаляются, пока последнее слово не станет чистым, и маркер из нескольких слов тоже	dLWrng compares the last word only, so a marker of several words never matches	

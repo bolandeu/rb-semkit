@@ -56,8 +56,7 @@ def complements() -> Complements:
     """Prepositional complements of a phrase, joined by ", "; extract only: «диван для детей с доставкой» →
     «для детей, с доставкой».
 
-    A complement is a preposition («для», «с», «в», «из», «на», «к», «со», «о», «во», «у», «по», «под», «от», «после»,
-    «за», «над»; any case, ё as е) and the words after it up to the last noun among the next five words, before the
-    next preposition. A preposition with no noun after it gives nothing.
+    A complement is a preposition of the bundled list complement_prepositions («для», «с», «в» and others; any case,
+    ё as е) and the words after it up to the last noun among the next five words, before the next preposition. A preposition with no noun after it gives nothing.
     """
     return Complements()

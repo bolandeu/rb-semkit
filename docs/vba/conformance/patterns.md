@@ -8,9 +8,9 @@ edit it. The terms and the other areas: [the summary](../conformance.md).
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
 | [complements](#complements) | 6 | 5 | 1 | 0 |
-| [phrase_end](#phrase_end) | 9 | 6 | 3 | 0 |
+| [phrase_end](#phrase_end) | 11 | 6 | 5 | 0 |
 | [ready_pattern](#ready_pattern) | 18 | 8 | 10 | 0 |
-| **All** | **33** | **19** | **14** | **0** |
+| **All** | **35** | **19** | **16** | **0** |
 
 ## complements
 
@@ -36,13 +36,15 @@ phrase_end. VBA, RibbonCallbacks.vba (docs/vba/matchers.md W1): «Предлог
 
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
-| `phrase_end.remove` | 9 | 6 | 3 | 0 |
+| `phrase_end.remove` | 11 | 6 | 5 | 0 |
 
 ### Deviations
 
 | Case | Input | VBA | semkit | Rule | Why |
 |---|---|---|---|---|---|
 | end-five-words | `"диван для и в на по"` | `"диван для"` | `"диван"` | Предлоги в конце фразы удаляются, пока последнее слово не станет чистым | remLWprps makes four passes, so it drops four words at most |
+| end-preposition-po | `"диван по"` | `"диван по"` | `"диван"` | Список предлогов чистый: «по» удаляется, латинская «g» — нет | prps holds «пo» with a latin «o», so «по» is never found |
+| end-junk-g-kept | `"диван g"` | `"диван"` | `"диван g"` | Список предлогов чистый: «по» удаляется, латинская «g» — нет | prps holds the junk latin «g», so it is dropped as a preposition |
 | end-buy-two | `"диван купить недорого"` | `"диван купить"` | `"диван"` | Маркеры покупки в конце фразы удаляются, пока последнее слово не станет чистым, и маркер из нескольких слов тоже | remLWsales makes one pass: «купить» stays |
 | end-buy-phrase | `"диван по низкой цене"` | `"диван по низкой"` | `"диван"` | Маркеры покупки в конце фразы удаляются, пока последнее слово не станет чистым, и маркер из нескольких слов тоже | dLWrng compares the last word only, so a marker of several words never matches |
 
