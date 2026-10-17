@@ -30,10 +30,10 @@ def test_share_is_cumulative_and_abc_classes_follow_it() -> None:
     assert sk.counts(df, what="abc", weight="freq", column="phrase")["phrase_abc"].tolist() == ["A", "B", "C"]
 
 
-def test_share_runs_from_the_heaviest_row_and_lands_on_the_input_order() -> None:
+def test_abc_runs_from_the_heaviest_row_and_lands_on_the_input_order() -> None:
     df = pd.DataFrame({"phrase": ["a", "b", "c"], "freq": [10, 70, 20]})
 
-    assert sk.counts(df, what="share", weight="freq", column="phrase")["phrase_share"].tolist() == [1.0, 0.7, 0.9]
+    assert sk.counts(df, what="abc", weight="freq", column="phrase")["phrase_abc"].tolist() == ["C", "A", "B"]
 
 
 def test_a_dataframe_gets_a_new_column_after_the_phrases() -> None:

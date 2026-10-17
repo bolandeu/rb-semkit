@@ -51,6 +51,9 @@ def part_of_speech(
     return _word_by_word(data, lemmatizer.pos, "part_of_speech", column, inplace)
 
 
-def wordforms(lemma: str, *, lemmatizer: Lemmatizer = BUNDLED) -> list[str]:
-    """Every wordform of `lemma`: «москва» → [..., «москве», ...]."""
-    return lemmatizer.forms(lemma)
+def wordforms(word: str, *, lemmatizer: Lemmatizer = BUNDLED) -> list[str]:
+    """Every wordform of the lemma of `word`, alphabetical, each once: «диваны» → [«диван», «дивана», ...].
+
+    As «Генерация всех словоформ» (––aa L380, with aaa(LCase(word))); the input word is not repeated (ADR 0005).
+    """
+    return sorted(set(lemmatizer.forms(lemmatizer.lemma(word))))

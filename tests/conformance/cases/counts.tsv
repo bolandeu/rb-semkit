@@ -1,6 +1,6 @@
 # counts. VBA, RibbonCallbacks.vba (docs/vba/analysis.md §4): words –·oa (L2229) with akk (L2414) = UBound(Split(s, " ")) + 1; chars –a·k (L1933) = Len;
 # count ––k— (L1875): the rows with the same UCase(value) in column 1; number –kko (L2166): the running count of that key; share –koo (L2489, «Накопительным итогом»):
-# the running sum in row order / the total; abc ABCA (L3497): sort descending, cumulative share ≤ 0.8 A, ≤ 0.95 B, else C. «Долю от суммы» –kok (L1607) has no kind in semkit.
+# the running sum in row order / the total; abc ABCA (L3497): sort descending, cumulative share ≤ 0.8 A, ≤ 0.95 B, else C. «Долю от суммы» –kok (L1607) is the kind share_of_total.
 case_id	function	call	input	vba	expected	rule	why
 counts-words	counts	{"what": "words"}	купить диван в москве	4	4		
 counts-words-spaces	counts	{"what": "words"}	 купить  диван 	5	2	фраза делится по любым пробелам, двойных пробелов в результатах нет	akk counts the items of a split by one space: each extra space adds a word
