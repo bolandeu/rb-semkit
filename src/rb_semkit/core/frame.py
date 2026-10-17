@@ -21,6 +21,11 @@ def _is_text(values: pd.Series) -> bool:
     return types.is_object_dtype(values) or types.is_string_dtype(values)
 
 
+def text_columns(data: pd.DataFrame) -> list[str]:
+    """The columns of the table that hold text, in table order."""
+    return [name for name in data.columns if _is_text(data[name])]
+
+
 def _listed(names: list) -> str:
     return ", ".join(repr(name) for name in names) or "none"
 
@@ -43,13 +48,13 @@ class Frame:
             )
 
     def _check_column(self, data: pd.DataFrame) -> None:
-        text_columns = [name for name in data.columns if _is_text(data[name])]
+        texts = text_columns(data)
         if self.column not in data.columns:
             given = "not given" if self.column is None else f"{self.column!r} is not in the table"
             raise InvalidArguments(f"{self.argument}: {given}; allowed: {_listed(list(data.columns))}.")
-        if self.column not in text_columns:
+        if self.column not in texts:
             raise InvalidArguments(
-                f"{self.argument} {self.column!r} holds {data[self.column].dtype}, not text; allowed: {_listed(text_columns)}."
+                f"{self.argument} {self.column!r} holds {data[self.column].dtype}, not text; allowed: {_listed(texts)}."
             )
 
     def _check_series(self, data: pd.Series) -> None:

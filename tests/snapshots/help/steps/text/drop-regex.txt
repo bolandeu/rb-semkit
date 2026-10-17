@@ -1,0 +1,25 @@
+
+ Usage: semkit read {IN} drop-regex [OPTIONS]
+
+ What the regular expression `pattern` matches in a phrase, case-sensitive, searched anywhere.
+
+ find: the pattern matches. remove: every match is cut out. extract: the first match, or with
+ `all_matches=True` every match, joined by a space.
+ invert: the found part is the text the pattern does NOT match: remove keeps only the matches,
+ joined with nothing between («диван 120x200» with \d+ → «120200»); extract gives the text outside
+ the matches («диван x»); find is True where such text is left.
+
+ drop-regex drops the rows where the matcher finds something in the working column.
+
+ Example: semkit read core.csv drop-regex --pattern купить write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ *  --pattern            <str>  See the description above. [required]                             │
+│    --all-matches               See the description above.                                        │
+│    --invert                    the found part is the text the pattern does NOT match: remove     │
+│                                keeps only the matches, joined with nothing between («диван       │
+│                                120x200» with \d+ → «120200»); extract gives the text outside the │
+│                                matches («диван x»); find is True where such text is left.        │
+│    --help                      Show this message and exit.                                       │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

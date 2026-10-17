@@ -1,0 +1,23 @@
+
+ Usage: semkit read {IN} keep-word-position [OPTIONS]
+
+ Words by their place in the phrase; give exactly one argument, N counts from 1.
+
+ first / last: the first or last N words. nth: the N-th word. to_middle / at_most: the leading
+ words while they hold half the characters of the phrase at most, or N characters at most, and
+ always the first word («купить диван недорого» with at_most=12 → «купить диван»). remove gives the
+ other words.
+
+ keep-word-position keeps only the rows where the matcher finds something in the working column.
+
+ Example: semkit read core.csv keep-word-position write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --first            <int>  See the description above.                                             │
+│ --last             <int>  See the description above.                                             │
+│ --nth              <int>  See the description above.                                             │
+│ --to-middle               See the description above.                                             │
+│ --at-most          <int>  See the description above.                                             │
+│ --help                    Show this message and exit.                                            │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

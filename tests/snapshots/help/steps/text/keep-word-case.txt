@@ -1,0 +1,21 @@
+
+ Usage: semkit read {IN} keep-word-case [OPTIONS]
+
+ Words by the case of their letters (find and extract only); digits and punctuation do not count.
+
+ kind: "lower" (no capital letter: «x5»); "Capital" (each run of letters starts with a capital, the
+ rest small: «Москве», not «iPhone» or «Из-за»); "CAPS" (no small letter: «BMW», «В»).
+
+ keep-word-case keeps only the rows where the matcher finds something in the working column.
+
+ Example: semkit read core.csv keep-word-case --kind lower write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ *  --kind        <lower|Capital|CAPS>  "lower" (no capital letter: «x5»); "Capital" (each run of │
+│                                        letters starts with a capital, the rest small: «Москве»,  │
+│                                        not «iPhone» or «Из-за»); "CAPS" (no small letter: «BMW», │
+│                                        «В»).                                                     │
+│                                        [required]                                                │
+│    --help                              Show this message and exit.                               │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

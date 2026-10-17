@@ -1,0 +1,45 @@
+
+ Usage: semkit read {IN} find-cells [OPTIONS]
+
+ A whole cell is found or not. remove clears a found cell to '' ("empty" drops the rows); extract
+ keeps the cell, or '' if not found.
+
+ kind: "contains", "starts", "ends" (with `items`: text parts, case and ё do not count; or with
+ `prepositions=True`: the first, the last or any word is a bundled preposition, as written, «для,»
+ is none); "regex" (with `pattern`); "empty" (no characters at all: a cell of spaces is not empty);
+ by occurrence among the cells, in any case and ё as е: "unique" (once), "repeated" (more than
+ once), "first", "last" occurrence. Empty cells are never repeats of each other.
+
+ find-cells marks the rows where the matcher finds something, in a new column <column>_find of true
+ and false.
+
+ Example: semkit read core.csv find-cells --kind contains write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ *  --kind                <contains|starts|ends|regex|empty|  "contains", "starts", "ends" (with  │
+│                          unique|repeated|first|last>         `items`: text parts, case and ё do  │
+│                                                              not count; or with                  │
+│                                                              `prepositions=True`: the first, the │
+│                                                              last or any word is a bundled       │
+│                                                              preposition, as written, «для,» is  │
+│                                                              none); "regex" (with `pattern`);    │
+│                                                              "empty" (no characters at all: a    │
+│                                                              cell of spaces is not empty); by    │
+│                                                              occurrence among the cells, in any  │
+│                                                              case and ё as е: "unique" (once),   │
+│                                                              "repeated" (more than once),        │
+│                                                              "first", "last" occurrence. Empty   │
+│                                                              cells are never repeats of each     │
+│                                                              other.                              │
+│                                                              [required]                          │
+│    --items               <str>                               See the description above. Items: a │
+│                                                              comma list 'a,b', @FILE (one item   │
+│                                                              per line) or @NAME of a list.       │
+│    --pattern             <str>                               See the description above.          │
+│    --prepositions                                            See the description above.          │
+│    --as                  NAME                                Write the result to a new column    │
+│                                                              NAME and keep the working column as │
+│                                                              it is.                              │
+│    --help                                                    Show this message and exit.         │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

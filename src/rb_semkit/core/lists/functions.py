@@ -9,7 +9,7 @@ from collections.abc import Callable
 
 import pandas as pd
 
-from ..dupes.functions import key_function
+from ..dupes.functions import DupeKind, key_function
 from ..errors import InvalidArguments
 from ..frame import Frame, map_unique
 from ..morph.lemmatizer import Lemmatizer
@@ -29,7 +29,7 @@ def compare_lists(
     second: pd.Series | pd.DataFrame,
     *,
     op: str = "both",
-    kind: str = "exact",
+    kind: DupeKind = "exact",
     lemmatizer: Lemmatizer | None = None,
     column: str | None = None,
     second_column: str | None = None,

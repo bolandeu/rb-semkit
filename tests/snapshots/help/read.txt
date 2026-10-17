@@ -1,0 +1,147 @@
+
+ Usage: semkit read [OPTIONS] {IN} COMMAND [ARGS]...
+
+ Read a table, run the steps in the order written, write the result: one pipeline.
+
+ Each step works on the current table. A change step rewrites the working column
+ (with --as NAME it writes a new column), a filter keeps or drops rows, a report
+ (n-grams) makes its table the current one and its first text column the working one.
+ After each step one line goes to stderr: the step, the rows before and after it,
+ the cells it changed. Every step and option is checked before the input is read.
+
+ Every column is read as text; an empty cell is an empty string. An option that
+ takes items takes a comma list 'a,b', @FILE (one item per line) or @NAME of a list
+ (@stopwords, the marker lists). `semkit read IN STEP --help` shows a step.
+
+ Example: semkit read core.csv remove-words --items купить dupes --kind lemmas --action drop write
+ out.csv
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│ *    IN      <str>  The table to read: a file of any format dataio reads, or '-' for JSONL on    │
+│                     stdin.                                                                       │
+│                     [required]                                                                   │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --column         <str>  The working column the steps read and change; by default the first text  │
+│                         column.                                                                  │
+│ --whole                 Read a text file as one cell of the column text (an article).            │
+│ --trace          FILE   Write every cell a step changes and every row it drops to FILE as JSONL: │
+│                         row, step, column, before, after.                                        │
+│ --json                  Emit machine-readable JSON output.                                       │
+│ --quiet                 Suppress non-essential output.                                           │
+│ --dry-run               Read and run every step, print the summary, write nothing.               │
+│ --help                  Show this message and exit.                                              │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Commands ───────────────────────────────────────────────────────────────────────────────────────╮
+│ ngrams                 Every run of `n` words over all phrases, counted: a table ngram, count,   │
+│                        docs, sum and forms.                                                      │
+│ bigrams                Pairs of words of a phrase in any order, counted: «купить диван» and      │
+│                        «диван купить» both give «диван+купить».                                  │
+│ dupes                  Duplicates by `kind`: exact, explicit (case, ё→е, spaces), implicit       │
+│                        (other word order) or lemmas.                                             │
+│ find-words             Whole words of a phrase equal to `items`, compared by case and ё          │
+│                        (`norm_phrase`).                                                          │
+│ remove-words           Whole words of a phrase equal to `items`, compared by case and ё          │
+│                        (`norm_phrase`).                                                          │
+│ extract-words          Whole words of a phrase equal to `items`, compared by case and ё          │
+│                        (`norm_phrase`).                                                          │
+│ keep-words             Whole words of a phrase equal to `items`, compared by case and ё          │
+│                        (`norm_phrase`).                                                          │
+│ drop-words             Whole words of a phrase equal to `items`, compared by case and ё          │
+│                        (`norm_phrase`).                                                          │
+│ find-phrases           Phrases of a list, found as whole words («угловой диван» is not in        │
+│                        «угловойдиван» or «угловой диван,»).                                      │
+│ remove-phrases         Phrases of a list, found as whole words («угловой диван» is not in        │
+│                        «угловойдиван» or «угловой диван,»).                                      │
+│ extract-phrases        Phrases of a list, found as whole words («угловой диван» is not in        │
+│                        «угловойдиван» or «угловой диван,»).                                      │
+│ keep-phrases           Phrases of a list, found as whole words («угловой диван» is not in        │
+│                        «угловойдиван» or «угловой диван,»).                                      │
+│ drop-phrases           Phrases of a list, found as whole words («угловой диван» is not in        │
+│                        «угловойдиван» or «угловой диван,»).                                      │
+│ remove-stopwords       The function words with no search intent (prepositions, conjunctions,     │
+│                        particles); remove only.                                                  │
+│ find-chars             The characters of one type.                                               │
+│ remove-chars           The characters of one type.                                               │
+│ extract-chars          The characters of one type.                                               │
+│ keep-chars             The characters of one type.                                               │
+│ drop-chars             The characters of one type.                                               │
+│ remove-spaces          The spaces to remove (remove only).                                       │
+│ find-regex             What the regular expression `pattern` matches in a phrase,                │
+│                        case-sensitive, searched anywhere.                                        │
+│ remove-regex           What the regular expression `pattern` matches in a phrase,                │
+│                        case-sensitive, searched anywhere.                                        │
+│ extract-regex          What the regular expression `pattern` matches in a phrase,                │
+│                        case-sensitive, searched anywhere.                                        │
+│ keep-regex             What the regular expression `pattern` matches in a phrase,                │
+│                        case-sensitive, searched anywhere.                                        │
+│ drop-regex             What the regular expression `pattern` matches in a phrase,                │
+│                        case-sensitive, searched anywhere.                                        │
+│ remove-around          The part of the phrase before (`after=False`) or after the first          │
+│                        (`last=False`) or last occurrence of `pattern`.                           │
+│ extract-around         The part of the phrase before (`after=False`) or after the first          │
+│                        (`last=False`) or last occurrence of `pattern`.                           │
+│ remove-edges           The characters to cut from the edges of each word (remove only).          │
+│ remove-positions       The first `count` characters of a phrase, or the last ones with           │
+│                        `last=True` (remove and extract).                                         │
+│ extract-positions      The first `count` characters of a phrase, or the last ones with           │
+│                        `last=True` (remove and extract).                                         │
+│ find-word-case         Words by the case of their letters (find and extract only); digits and    │
+│                        punctuation do not count.                                                 │
+│ extract-word-case      Words by the case of their letters (find and extract only); digits and    │
+│                        punctuation do not count.                                                 │
+│ keep-word-case         Words by the case of their letters (find and extract only); digits and    │
+│                        punctuation do not count.                                                 │
+│ drop-word-case         Words by the case of their letters (find and extract only); digits and    │
+│                        punctuation do not count.                                                 │
+│ find-word-content      Words by what they hold; a word is tested as written, with its            │
+│                        punctuation («красный,» does not end in «ный»).                           │
+│ remove-word-content    Words by what they hold; a word is tested as written, with its            │
+│                        punctuation («красный,» does not end in «ный»).                           │
+│ extract-word-content   Words by what they hold; a word is tested as written, with its            │
+│                        punctuation («красный,» does not end in «ный»).                           │
+│ keep-word-content      Words by what they hold; a word is tested as written, with its            │
+│                        punctuation («красный,» does not end in «ный»).                           │
+│ drop-word-content      Words by what they hold; a word is tested as written, with its            │
+│                        punctuation («красный,» does not end in «ный»).                           │
+│ find-word-position     Words by their place in the phrase; give exactly one argument, N counts   │
+│                        from 1.                                                                   │
+│ remove-word-position   Words by their place in the phrase; give exactly one argument, N counts   │
+│                        from 1.                                                                   │
+│ extract-word-position  Words by their place in the phrase; give exactly one argument, N counts   │
+│                        from 1.                                                                   │
+│ keep-word-position     Words by their place in the phrase; give exactly one argument, N counts   │
+│                        from 1.                                                                   │
+│ drop-word-position     Words by their place in the phrase; give exactly one argument, N counts   │
+│                        from 1.                                                                   │
+│ find-pos               Words of one part of speech: "noun", "adj", "verb" or "adverb" (a         │
+│                        participle is none of them).                                              │
+│ remove-pos             Words of one part of speech: "noun", "adj", "verb" or "adverb" (a         │
+│                        participle is none of them).                                              │
+│ extract-pos            Words of one part of speech: "noun", "adj", "verb" or "adverb" (a         │
+│                        participle is none of them).                                              │
+│ keep-pos               Words of one part of speech: "noun", "adj", "verb" or "adverb" (a         │
+│                        participle is none of them).                                              │
+│ drop-pos               Words of one part of speech: "noun", "adj", "verb" or "adverb" (a         │
+│                        participle is none of them).                                              │
+│ find-repeats           Words that repeat an earlier word of the phrase (find and remove; remove  │
+│                        keeps the first one).                                                     │
+│ remove-repeats         Words that repeat an earlier word of the phrase (find and remove; remove  │
+│                        keeps the first one).                                                     │
+│ keep-repeats           Words that repeat an earlier word of the phrase (find and remove; remove  │
+│                        keeps the first one).                                                     │
+│ drop-repeats           Words that repeat an earlier word of the phrase (find and remove; remove  │
+│                        keeps the first one).                                                     │
+│ find-cells             A whole cell is found or not. remove clears a found cell to '' ("empty"   │
+│                        drops the rows); extract keeps the cell, or '' if not found.              │
+│ remove-cells           A whole cell is found or not. remove clears a found cell to '' ("empty"   │
+│                        drops the rows); extract keeps the cell, or '' if not found.              │
+│ extract-cells          A whole cell is found or not. remove clears a found cell to '' ("empty"   │
+│                        drops the rows); extract keeps the cell, or '' if not found.              │
+│ keep-cells             A whole cell is found or not. remove clears a found cell to '' ("empty"   │
+│                        drops the rows); extract keeps the cell, or '' if not found.              │
+│ drop-cells             A whole cell is found or not. remove clears a found cell to '' ("empty"   │
+│                        drops the rows); extract keeps the cell, or '' if not found.              │
+│ write                  Write the current table to OUT: the last step of a pipeline.              │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

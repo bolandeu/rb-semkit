@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+import importlib
+import pkgutil
 from importlib import resources
+from types import ModuleType
 
 import typer
 
-from . import output
-from .commands import auth, describe, doctor, init, run, skill, status
-from .commands import config as config_cmd
+from . import commands, output
 from .core.version import DEV_VERSION, cli_name, installed_version, package_summary
 
 _PACKAGE_NAME = __name__.split(".")[0]
@@ -19,15 +20,23 @@ app = typer.Typer(
     help=f"{cli_name()} {installed_version() or DEV_VERSION} — {package_summary() or 'project-aware automation CLI'}"
 )
 
-app.add_typer(config_cmd.app, name="config")
-app.add_typer(auth.app, name="auth")  # `auth status` in every CLI; login/logout only with credentials
-app.add_typer(skill.app, name="skill")
 
-app.command(name="init")(init.init)
-app.command(name="status")(status.status)
-app.command(name="doctor")(doctor.doctor)
-app.command(name="run")(run.run)
-app.command(name="describe")(describe.describe)
+def _command_modules() -> list[ModuleType]:
+    """Every module of the commands package, by name: a new command module needs no edit here."""
+    names = sorted(info.name for info in pkgutil.iter_modules(commands.__path__))
+    return [importlib.import_module(f"{commands.__name__}.{name}") for name in names]
+
+
+COMMAND_MODULES = _command_modules()
+
+# A module is a command group when it exposes a Typer `app` (`auth status` in every CLI), else a command when it has
+# a function of its own name (`init.init`).
+for module in COMMAND_MODULES:
+    name = module.__name__.rsplit(".", 1)[-1]
+    if isinstance(getattr(module, "app", None), typer.Typer):
+        app.add_typer(module.app, name=name)
+    elif callable(getattr(module, name, None)):
+        app.command(name=name)(getattr(module, name))
 
 
 def _version_callback(value: bool) -> None:
@@ -38,7 +47,7 @@ def _version_callback(value: bool) -> None:
 
 
 def _ai_callback(value: bool) -> None:
-    """Print the bundled agent skill doc to stdout.
+    """Print the bundled agent skill doc to stdout, then the section each command module gives by `ai_section()`.
 
     For agents that can execute this CLI but cannot read files from disk
     (e.g. a sandboxed shell with no access to a SKILL.md on the filesystem),
@@ -47,7 +56,8 @@ def _ai_callback(value: bool) -> None:
     if not value:
         return
     content = resources.files(f"{_PACKAGE_NAME}.data").joinpath("SKILL.md").read_text()
-    typer.echo(content)
+    sections = [module.ai_section() for module in COMMAND_MODULES if hasattr(module, "ai_section")]
+    typer.echo("\n".join([content, *sections]))
     raise typer.Exit()
 
 

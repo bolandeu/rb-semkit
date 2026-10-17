@@ -1,0 +1,23 @@
+
+ Usage: semkit read {IN} keep-phrases [OPTIONS]
+
+ Phrases of a list, found as whole words («угловой диван» is not in «угловойдиван» or «угловой
+ диван,»).
+
+ Words compare in any case, ё as е; punctuation glued to a word counts. find, remove and extract
+ take the same phrases, as `sk.markers(user=...)` does: left to right, for each word the longest
+ phrase that starts there (in words, then in characters; a tie keeps the list order), and the words
+ of a taken phrase start no other. remove keeps the case of the other words; extract gives the
+ phrases as the list spells them, joined by ', '.
+
+ keep-phrases keeps only the rows where the matcher finds something in the working column.
+
+ Example: semkit read core.csv keep-phrases --items купить write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ *  --items        <str>  See the description above. Items: a comma list 'a,b', @FILE (one item   │
+│                          per line) or @NAME of a list.                                           │
+│                          [required]                                                              │
+│    --help                Show this message and exit.                                             │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

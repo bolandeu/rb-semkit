@@ -1,0 +1,31 @@
+
+ Usage: semkit read {IN} find-repeats [OPTIONS]
+
+ Words that repeat an earlier word of the phrase (find and remove; remove keeps the first one).
+
+ mode: "exact" — the same word (case and ё do not count, punctuation does: «диван, диван» has no
+ repeat); "wordforms" — the same lemma.
+ scope: "all" words; only "adjacent" repeats («диван диван»); only words with a latin ("en") or a
+ cyrillic ("ru") letter («iphone13», «wi-fi-роутер»); only "numbers" («2», «1,5»).
+ lemmatizer: for "wordforms"; None is the bundled one.
+
+ find-repeats marks the rows where the matcher finds something, in a new column <column>_find of
+ true and false.
+
+ Example: semkit read core.csv find-repeats write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --mode         <exact|wordforms>             "exact" — the same word (case and ё do not count,   │
+│                                              punctuation does: «диван, диван» has no repeat);    │
+│                                              "wordforms" — the same lemma.                       │
+│                                              [default: exact]                                    │
+│ --scope        <all|adjacent|en|ru|numbers>  "all" words; only "adjacent" repeats («диван        │
+│                                              диван»); only words with a latin ("en") or a        │
+│                                              cyrillic ("ru") letter («iphone13»,                 │
+│                                              «wi-fi-роутер»); only "numbers" («2», «1,5»).       │
+│                                              [default: all]                                      │
+│ --as           NAME                          Write the result to a new column NAME and keep the  │
+│                                              working column as it is.                            │
+│ --help                                       Show this message and exit.                         │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

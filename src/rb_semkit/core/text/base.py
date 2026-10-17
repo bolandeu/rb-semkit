@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import re
 from collections.abc import Iterable
+from typing import TypeVar
 
 import pandas as pd
 
@@ -21,6 +22,7 @@ from ..frame import Frame, map_unique
 from ..normalize import norm_phrase
 
 VERBS = ("find", "remove", "extract")
+_Value = TypeVar("_Value", bound=str)
 _EDGE_PUNCTUATION = re.compile(r"^[\W_]+|[\W_]+$")
 
 
@@ -48,7 +50,7 @@ def collapse(text: str) -> str:
     return " ".join(text.split())
 
 
-def choice(argument: str, value: str, allowed: tuple[str, ...]) -> str:
+def choice(argument: str, value: _Value, allowed: tuple[str, ...]) -> _Value:
     """`value` when it is one of `allowed`, else InvalidArguments naming `argument` and the allowed values."""
     if value not in allowed:
         raise InvalidArguments(f"{argument}={value!r}; allowed: {', '.join(repr(item) for item in allowed)}.")
@@ -95,8 +97,13 @@ class Matcher:
         raise self._unsupported("extract")
 
     def _unsupported(self, verb: str) -> InvalidArguments:
-        supported = [name for name in VERBS if getattr(type(self), name) is not getattr(Matcher, name)]
-        return InvalidArguments(f"{verb}: {type(self).__name__} does not support it; allowed: {', '.join(supported)}.")
+        allowed = ", ".join(verbs(type(self)))
+        return InvalidArguments(f"{verb}: {type(self).__name__} does not support it; allowed: {allowed}.")
+
+
+def verbs(matcher_type: type[Matcher]) -> tuple[str, ...]:
+    """The verbs a kind of matcher supports: those it overrides."""
+    return tuple(name for name in VERBS if getattr(matcher_type, name) is not getattr(Matcher, name))
 
 
 class WordMatcher(Matcher):

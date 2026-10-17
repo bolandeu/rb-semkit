@@ -175,8 +175,9 @@ input and output. Agreed with the dataio agent on 2026-10-16 (checked against da
    dtypes, limit, query, source_column="_source", strict) -> DataFrame`;
    `rb_dataio.write(frame, target, *, format, sheet, …, mode="replace", overwrite, backup, dry_run, …)`.
    Errors: `rb_dataio.DataioError` (has `.action`) — the semkit CLI maps it to a `CliError`.
-2. **Dependency.** Optional extra `[io]`, library use needs no dataio. Pin:
-   `rb-dataio = { git = "https://github.com/bolandeu/rb-dataio.git", tag = "v0.1.21" }`.
+2. **Dependency.** A required dependency of the package since the CLI pipeline (E-003); the library itself never
+   imports it. Pin: `rb-dataio = { git = "https://homeserver.tailee01ab.ts.net:3000/bolandeu/dataio.git", tag = "v0.1.21" }`
+   (the GitHub address of the first draft does not exist).
 3. **Types.** `read` infers types by default ("5" → Int64, dates → datetime). semkit CLI reads with
    `as_text=True` (or `dtypes={"<col>": "str"}`). Empty cells stay NaN: **semkit does `fillna("")`** itself,
    in the library too (any Series it gets). No `columns=`; select with `query="SELECT phrase FROM data"`.

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from typing import Literal, get_args
 
 import pandas as pd
 
@@ -11,7 +12,8 @@ from ..base import Matcher, choice, collapse
 
 __all__ = ["spaces"]
 
-CLEANERS: dict[str, Callable[[str], str]] = {
+SpaceKind = Literal["all", "left", "right", "both", "extra"]
+CLEANERS: dict[SpaceKind, Callable[[str], str]] = {
     "all": lambda text: "".join(text.split()),
     "left": str.lstrip,
     "right": str.rstrip,
@@ -21,14 +23,14 @@ CLEANERS: dict[str, Callable[[str], str]] = {
 
 
 class Spaces(Matcher):
-    def __init__(self, kind: str) -> None:
-        self._clean = CLEANERS[choice("kind", kind, tuple(CLEANERS))]
+    def __init__(self, kind: SpaceKind) -> None:
+        self._clean = CLEANERS[choice("kind", kind, get_args(SpaceKind))]
 
     def remove(self, phrases: pd.Series) -> pd.Series:
         return map_unique(phrases, self._clean)
 
 
-def spaces(kind: str) -> Spaces:
+def spaces(kind: SpaceKind) -> Spaces:
     """The spaces to remove (remove only).
 
     kind: "all"; "left" and "right" (at that end only); "both" (at both ends); "extra" (runs collapsed to one

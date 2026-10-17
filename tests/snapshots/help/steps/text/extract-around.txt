@@ -1,0 +1,26 @@
+
+ Usage: semkit read {IN} extract-around [OPTIONS]
+
+ The part of the phrase before (`after=False`) or after the first (`last=False`) or last occurrence
+ of `pattern`.
+
+ The pattern is text as typed, found anywhere, also inside a word («в» is found in «диван»). remove
+ finds the first occurrence in any case and the last one in the case written; extract matches the
+ case written. ё = е. `include=True` adds the occurrence itself to the part. A phrase without the
+ pattern has no part: remove leaves it, extract gives ''. Remove and extract only.
+
+ extract-around keeps only what the matcher finds in the working column; an empty cell where it
+ finds nothing.
+
+ Example: semkit read core.csv extract-around --pattern купить write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ *  --pattern        <str>  See the description above. [required]                                 │
+│    --after                 See the description above.                                            │
+│    --include               See the description above.                                            │
+│    --last                  See the description above.                                            │
+│    --as             NAME   Write the result to a new column NAME and keep the working column as  │
+│                            it is.                                                                │
+│    --help                  Show this message and exit.                                           │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

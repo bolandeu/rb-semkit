@@ -23,8 +23,9 @@ def names() -> tuple[str, ...]:
 
 def bundled(name: str) -> PhraseList:
     """The bundled list `name`; `name` is one of `names()`."""
-    return datastore.once(f"marker_list/{name}", lambda: PhraseList(name, _read(name)))
+    return datastore.once(f"marker_list/{name}", lambda: PhraseList(name, phrases(name)))
 
 
-def _read(name: str) -> list[str]:
+def phrases(name: str) -> list[str]:
+    """The phrases of the bundled list `name` as written, one per line of the file; `name` is one of `names()`."""
     return gzip.decompress((MARKERS_DIR / f"{name}{SUFFIX}").read_bytes()).decode("utf-8").splitlines()

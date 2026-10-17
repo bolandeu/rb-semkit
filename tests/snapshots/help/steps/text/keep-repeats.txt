@@ -1,0 +1,28 @@
+
+ Usage: semkit read {IN} keep-repeats [OPTIONS]
+
+ Words that repeat an earlier word of the phrase (find and remove; remove keeps the first one).
+
+ mode: "exact" — the same word (case and ё do not count, punctuation does: «диван, диван» has no
+ repeat); "wordforms" — the same lemma.
+ scope: "all" words; only "adjacent" repeats («диван диван»); only words with a latin ("en") or a
+ cyrillic ("ru") letter («iphone13», «wi-fi-роутер»); only "numbers" («2», «1,5»).
+ lemmatizer: for "wordforms"; None is the bundled one.
+
+ keep-repeats keeps only the rows where the matcher finds something in the working column.
+
+ Example: semkit read core.csv keep-repeats write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --mode         <exact|wordforms>             "exact" — the same word (case and ё do not count,   │
+│                                              punctuation does: «диван, диван» has no repeat);    │
+│                                              "wordforms" — the same lemma.                       │
+│                                              [default: exact]                                    │
+│ --scope        <all|adjacent|en|ru|numbers>  "all" words; only "adjacent" repeats («диван        │
+│                                              диван»); only words with a latin ("en") or a        │
+│                                              cyrillic ("ru") letter («iphone13»,                 │
+│                                              «wi-fi-роутер»); only "numbers" («2», «1,5»).       │
+│                                              [default: all]                                      │
+│ --help                                       Show this message and exit.                         │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

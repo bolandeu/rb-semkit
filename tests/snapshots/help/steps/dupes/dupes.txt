@@ -1,0 +1,27 @@
+
+ Usage: semkit read {IN} dupes [OPTIONS]
+
+ Duplicates by `kind`: exact, explicit (case, ё→е, spaces), implicit (other word order) or lemmas.
+
+ `action`: mark_except_first (a bool, the first of a group is False), mark_all (every member of a
+ group of 2+), drop (keep the first, drop the rest). With `against` a phrase is a duplicate when
+ its key is in that Series.
+
+ The step marks the duplicates of the working column in a new column <column>_dupes; with --action
+ drop it keeps only the first row of each group.
+
+ Example: semkit read core.csv dupes --kind exact --action mark_except_first write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ *  --kind          <exact|explicit|implicit|lemmas>   See the description above. [required]      │
+│ *  --action        <mark_except_first|mark_all|drop>  mark_except_first (a bool, the first of a  │
+│                                                       group is False), mark_all (every member of │
+│                                                       a group of 2+), drop (keep the first, drop │
+│                                                       the rest). With `against` a phrase is a    │
+│                                                       duplicate when its key is in that Series.  │
+│                                                       [required]                                 │
+│    --as            NAME                               Write the result to a new column NAME and  │
+│                                                       keep the working column as it is.          │
+│    --help                                             Show this message and exit.                │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

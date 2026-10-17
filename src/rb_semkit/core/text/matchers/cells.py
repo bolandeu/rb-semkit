@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable, Iterable
+from typing import Literal, get_args
 
 import pandas as pd
 
@@ -14,7 +15,8 @@ from ..base import Matcher, bundled_list, choice, compiled, split_words, word_ke
 __all__ = ["cells"]
 
 CONTENT = ("contains", "starts", "ends")
-KINDS = (*CONTENT, "regex", "empty", "unique", "repeated", "first", "last")
+CellKind = Literal["contains", "starts", "ends", "regex", "empty", "unique", "repeated", "first", "last"]
+KINDS = get_args(CellKind)
 
 
 def _text_test(kind: str, items: tuple[str, ...]) -> Callable[[str], bool]:
@@ -64,7 +66,9 @@ def _pattern_test(pattern: str | None) -> Callable[[str], object]:
 
 
 class Cells(Matcher):
-    def __init__(self, kind: str, items: str | Iterable[str] | None, pattern: str | None, prepositions: bool) -> None:
+    def __init__(
+        self, kind: CellKind, items: str | Iterable[str] | None, pattern: str | None, prepositions: bool
+    ) -> None:
         self._kind = choice("kind", kind, KINDS)
         self._content: Callable[[str], object] | None = None
         if kind in CONTENT:
@@ -104,7 +108,7 @@ class Cells(Matcher):
 
 
 def cells(
-    kind: str,
+    kind: CellKind,
     *,
     items: str | Iterable[str] | None = None,
     pattern: str | None = None,

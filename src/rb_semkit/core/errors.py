@@ -115,8 +115,8 @@ class DependencyTooOld(CliError):
 
 
 class InvalidArguments(CliError):
-    def __init__(self, message: str) -> None:
-        super().__init__("INVALID_ARGUMENTS", message, exit_code=2)
+    def __init__(self, message: str, *, action: str | None = None) -> None:
+        super().__init__("INVALID_ARGUMENTS", message, action=action, exit_code=2)
 
 
 class CredentialStoreUnavailable(CliError):
