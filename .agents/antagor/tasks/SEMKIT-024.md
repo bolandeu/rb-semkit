@@ -2,7 +2,7 @@
 id: SEMKIT-024
 title: CLI steps for every other area of the library; the agent guide (--ai) and README
   with typical pipelines
-status: publish
+status: done
 attempts: 1
 blocked: false
 blocked_reason: null

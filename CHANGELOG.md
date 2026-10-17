@@ -5,6 +5,16 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.17 — 2026-10-17
+
+### E-003 — semkit CLI: one command line is a pipeline of steps over the whole library; named word lists
+
+semkit read core.xlsx drop-words @minus/universal remove-chars punctuation dupes --kind lemmas --action drop ngrams -n 2 write out.csv works; every library function is a step with its own --help; semkit lists shows every list (bundled, the Human's folders, the project) and a step that takes a list shows them in its help; an agent gets the same through --json, describe and --ai.
+Time: 1h since the epic was approved
+
+- CLI steps for every other area of the library; the agent guide (--ai) and README with typical pipelines (SEMKIT-024)
+- Word lists: bundled Bukvarix and add-in lists with a manifest, the Human's folders by any path, semkit lists, sk.word_list (SEMKIT-025)
+
 ## v0.1.16 — 2026-10-17
 
 ### E-003 — semkit CLI: one command line is a pipeline of steps over the whole library; named word lists
