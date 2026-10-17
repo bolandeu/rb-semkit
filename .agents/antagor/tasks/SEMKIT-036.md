@@ -2,7 +2,7 @@
 id: SEMKIT-036
 title: 'off-topic, classify-queries, assign-pages: phrases against the core, a query
   report and the site pages by meaning'
-status: in_review
+status: publish
 attempts: 0
 blocked: false
 blocked_reason: null
