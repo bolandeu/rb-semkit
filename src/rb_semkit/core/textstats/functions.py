@@ -9,7 +9,7 @@ from collections.abc import Iterable
 import pandas as pd
 
 from ..analysis.frequency import bundled_stopwords
-from ..frame import Frame, map_unique
+from ..frame import Frame, map_unique, put_columns
 from ..morph import Lemmatizer
 from ..morph.functions import BUNDLED
 from ..normalize import norm_phrase
@@ -103,11 +103,4 @@ def text_stats(
     lemma_of = {word: lemmatizer.lemma(word) for word in words - stopwords}
     rows = map_unique(texts, lambda text: _metrics(text, lemma_of, stopwords, skip))
     table = pd.DataFrame(rows.tolist(), columns=COLUMNS, index=texts.index)
-    if isinstance(data, pd.Series):
-        return table
-    for position, name in enumerate(COLUMNS, data.columns.get_loc(column) + 1):
-        if name in data.columns:
-            data[name] = table[name]
-        else:
-            data.insert(position, name, table[name])
-    return data
+    return put_columns(data, table, column)

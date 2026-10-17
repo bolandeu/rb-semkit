@@ -51,11 +51,12 @@ Replace `vX.Y.Z` with the latest release tag (install from a tag, never a branch
   result to a new column NAME (refused when the table has it), keeps the working column, and makes NAME the working
   column of the next steps. Steps that give a value other than a phrase (`dupes`, `find-…`, `counts`, `is-typo`,
   `sentiment`, `bm25`, `first-parents`) write a new column `<column>_<suffix>` (a second one gets `_2`).
-  `text-stats` adds its metric columns after the working column.
+  `text-stats` and `parse-html` (a column of HTML → text, links, all, main, title, description, h1) add their columns
+  after the working column; a text step takes one of them with `semkit read IN --column all`.
 - **filter** — keeps or drops rows (`keep-…`, `drop-…`, `dupes --action drop`, `split-by-words --keep`,
   `remove-cells empty`).
 - **report** — makes a new table the current one, and its first text column the working one (`ngrams`, `split-text`,
-  `coverage`, `compare-grams`, `cluster-serp`, `compare-lists`, `permutations`, `summary`).
+  `headings`, `coverage`, `compare-grams`, `cluster-serp`, `compare-lists`, `permutations`, `summary`).
 
 The matchers (`words`, `phrases`, `stopwords`, `chars`, `spaces`, `regex`, `around`, `edges`, `positions`,
 `word-case`, `word-content`, `word-position`, `pos`, `repeats`, `cells`, `markers`, `ready-pattern`, `complements`,
