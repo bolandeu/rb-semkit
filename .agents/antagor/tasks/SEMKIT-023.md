@@ -2,10 +2,10 @@
 id: SEMKIT-023
 title: 'CLI pipeline core: read, chained steps, write; the step table and its generator;
   the text, dupes and n-gram steps'
-status: in_progress
+status: queue
 attempts: 0
-blocked: true
-blocked_reason: needs_scope
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -164,3 +164,7 @@ Accepted: required dependency, the homeserver URL. ADR 0001 is updated on main.
 > Typer 0.27 ships its own Click without chained groups; src/rb_semkit/pipeline/group.py chains the steps itself and imports typer._click (Command, Context, UsageError) and typer.core.TyperGroup, which are Typer internals. A Typer upgrade can break the pipeline group; tests/pipeline catches it.
 
 Accepted with a guard: bound typer to the current minor in pyproject (>=0.27,<0.28) so an upgrade is a deliberate change; keep the pipeline tests as the tripwire.
+
+### Blocked: needs_scope (entries [{'n': 1, 'text': "SEMKIT-023 acceptance asks the --json error envelope to carry code, message and hint; the project envelope (output.emit_error, SKILL.md 'Errors') carries code, message and action, and SKILL.md is out "}, {'n': 2, 'text': "The E-003 goal writes 'drop-words @minus/universal remove-chars punctuation' (required arguments positional); SEMKIT-023 acceptance writes 'remove-words --items купить' and 'drop-words --items @stop.t"}])
+
+Answers in inbox #1-#4: keep action; both positional first argument and --NAME; dataio required (ADR 0001 updated); pin typer to the current minor.
