@@ -3,7 +3,7 @@ id: SEMKIT-027
 title: 'Step help quality: real examples per step, each option''s own help, bullet
   lists kept; the agent guide uses the bundled lists'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -23,6 +23,7 @@ test_paths:
 - tests/pipeline/
 - tests/steps/
 - tests/test_help.py
+- tests/snapshots/describe.json
 docs: none
 tools: []
 worker_args: null
@@ -77,3 +78,9 @@ Fix it in the generator (pipeline package) and, where a step needs it, by an exp
 ## Out of scope
 
 - New steps or options; changes of the library behaviour.
+
+## Feedback
+
+### Attempt 1: file docstring
+
+- update the docstring of src/rb_semkit/steps/__init__.py: +argument_names +doc_lines +parameter_names
