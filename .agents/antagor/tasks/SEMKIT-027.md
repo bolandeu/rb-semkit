@@ -2,7 +2,7 @@
 id: SEMKIT-027
 title: 'Step help quality: real examples per step, each option''s own help, bullet
   lists kept; the agent guide uses the bundled lists'
-status: publish
+status: done
 attempts: 1
 blocked: false
 blocked_reason: null
