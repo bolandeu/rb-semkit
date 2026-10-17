@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-007
 title: 'Markers and phrase lists: extract the longest match'
-status: in_progress
+status: queue
 attempts: 3
-blocked: true
-blocked_reason: attempts
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -149,3 +149,5 @@ TOTAL                                         1758    906    48%
 FAIL Required test coverage of 90.0% not reached. Total coverage: 48.46%
 318 passed in 3.16s
 ```
+
+### Blocked: attempts (max_attempts 3)
