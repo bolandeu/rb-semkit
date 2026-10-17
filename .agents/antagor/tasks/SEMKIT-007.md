@@ -47,7 +47,7 @@ budget_usd: null
 epic: E-001
 spec_refs: []
 checks:
-- uv run pytest tests/markers tests/matchers tests/matchers_vba -q
+- uv run pytest tests/markers tests/matchers tests/matchers_vba -q --no-cov
 resident: null
 tool: null
 pr: null
