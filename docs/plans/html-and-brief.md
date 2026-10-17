@@ -40,3 +40,22 @@ Proposed (round 1, waiting for the Human):
 - One page against the average of a list (the Human): compare-stats and compare-grams already compare mine with the
   median; both get a mean column and `--norm mean|median` for the verdict (default median, as now).
 - Words in meta tags: no step; compare-grams on the title or description column (a scenario).
+
+## The recommended number of occurrences (the Human, 2026-10-18)
+
+Taken from the measure over several URLs: per gram, the mean (or median, `--norm`) density over the list of pages x the
+size in words (my page by default, `--words N` for a target size), rounded: the column «need»; beside it «have» and
+«add/remove». Columns of compare-grams, no new step.
+
+## Keyword occurrence check (the Human, 2026-10-18)
+
+The check of a text against lists of phrases with target counts (Miratext «Проверка вхождения ключевых слов») is an
+extension of coverage, not a new step:
+- nine kinds of occurrence: exact, clean, direct, diluted, morphological, morphological diluted, reversed, reversed
+  diluted, complex (coverage now has exact, lemmas, any_order); the exact definitions of clean and direct are to be
+  checked against the source;
+- `--kinds`: which kinds count; a column per kind, so the Human sees what made the count;
+- the target per phrase: a number column or parsed from the phrase template («фраза (3)», «[4]», «- 2*», «,6*»);
+  columns found, need, missing;
+- the three groups of Miratext (exact and others, diluted and others, any) are three runs with different `--kinds`;
+- leaving out a list of words; leaving out noindex comes with the HTML input.
