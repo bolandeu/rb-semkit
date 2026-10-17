@@ -33,7 +33,7 @@ budget_usd: null
 epic: E-001
 spec_refs: []
 checks:
-- uv run pytest tests/conformance -q
+- uv run pytest tests/conformance -q --no-cov
 resident: null
 tool: null
 pr: null
