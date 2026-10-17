@@ -31,7 +31,7 @@ budget_usd: null
 epic: E-001
 spec_refs: []
 checks:
-- uv run pytest tests/conformance -q
+- uv run pytest tests/conformance -q --no-cov
 - uv run scripts/release.py --check
 resident: null
 tool: null
@@ -60,10 +60,10 @@ tests/conformance/cases/<function>.tsv, one row per case, columns: case_id, func
 
 ## Acceptance
 
-- Given the analysis functions dupes, ngrams, bigrams, counts, lemmatize, wordforms, part_of_speech, When tests/conformance/cases is listed, Then each has a case file with at least 5 rows, every row with vba, expected and, where they differ, rule and why [check: uv run pytest tests/conformance -q]
-- Given the 7 sheets of the reference workbook, When the case files are read, Then every workbook row is a case with vba equal to the workbook value [check: uv run pytest tests/conformance -q]
-- Given the bundled data files, When test_data runs, Then each file matches the manifest built from its VBA source and every dropped item has a reason [check: uv run pytest tests/conformance -q]
-- Given 10 000 phrases, When each data-backed function runs, Then it finishes within its budget [check: uv run pytest tests/conformance -q]
+- Given the analysis functions dupes, ngrams, bigrams, counts, lemmatize, wordforms, part_of_speech, When tests/conformance/cases is listed, Then each has a case file with at least 5 rows, every row with vba, expected and, where they differ, rule and why [check: uv run pytest tests/conformance -q --no-cov]
+- Given the 7 sheets of the reference workbook, When the case files are read, Then every workbook row is a case with vba equal to the workbook value [check: uv run pytest tests/conformance -q --no-cov]
+- Given the bundled data files, When test_data runs, Then each file matches the manifest built from its VBA source and every dropped item has a reason [check: uv run pytest tests/conformance -q --no-cov]
+- Given 10 000 phrases, When each data-backed function runs, Then it finishes within its budget [check: uv run pytest tests/conformance -q --no-cov]
 
 ## How to test
 
