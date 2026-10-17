@@ -93,3 +93,16 @@ docs/vba/analysis.md §5–§11 (handlers, quirks, worked examples); the v1 fram
 - Irrelevant words (the morphology block).
 - Typo check through Yandex Suggest.
 - A real network call in the tests.
+
+## Feedback
+
+### Answer to question #1
+
+> SEMKIT-013 asks for sk.cluster_by_serp over a given SERP table (offline), but docs/plan.md §3b (the Human, 2026-10-17) says clustering by search results is another tool.
+> Question: Does semkit keep the offline SERP-table clustering of SEMKIT-013?
+> Options:
+> 1. Keep it: it ports an add-in menu function over a given table, no network; I implement it as the task says
+> 2. Drop it from SEMKIT-013 and leave SERP clustering to the other tool
+> Recommended: Keep it: it ports an add-in menu function over a given table, no network; I implement it as the task says
+
+Drop sk.cluster_by_serp: the Human decided (2026-10-17) that clustering by search results belongs to the other tool, even over a given table. Do not implement it; list it as out of scope in the task result.
