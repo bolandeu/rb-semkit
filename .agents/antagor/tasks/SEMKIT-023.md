@@ -2,7 +2,7 @@
 id: SEMKIT-023
 title: 'CLI pipeline core: read, chained steps, write; the step table and its generator;
   the text, dupes and n-gram steps'
-status: in_review
+status: publish
 attempts: 2
 blocked: false
 blocked_reason: null
