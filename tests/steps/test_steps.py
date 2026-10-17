@@ -84,6 +84,13 @@ def test_split_text_then_ngrams_of_lemmas_counts_with_docs_and_forms() -> None:
     assert list(top) == ["ngram", "count", "docs", "forms"]
 
 
+def test_wordforms_of_an_unknown_word_is_an_empty_table() -> None:
+    result = run("phrases.csv", "wordforms", "тиктокер", "write", "-")
+
+    assert result.exit_code == 0, result.output
+    assert result.rows == []
+
+
 def test_compare_grams_gives_the_table_of_the_verdicts() -> None:
     result = run("--whole", "mine.txt", "compare-grams", "--competitors", "competitors.csv", "write", "-")
 

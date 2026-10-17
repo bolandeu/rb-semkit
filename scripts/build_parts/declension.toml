@@ -1,0 +1,15 @@
+# Corrections of the declension tables of sheet `abc` (scripts/build_parts/declension.py): each row replaces the row
+# of its key in its table, or is added when the table lacks the key. forms: the 11 forms of a noun or the 15 of an
+# adjective, in the order of the table. why: what the add-in's row gives.
+
+corrections = [
+  { table = "adjective_endings", key = "ний", forms = ["него", "нему", "ний", "ним", "нем", "ние", "них", "ним", "ние", "ними", "них", "няя", "ней", "нюю", "нее"], why = "adjSuffixes: the neuter «ное» (синое)" },
+  { table = "adjective_endings", key = "сий", forms = ["сьего", "сьему", "сий", "сьим", "сьем", "сьи", "сьих", "сьим", "сьи", "сьими", "сьих", "сья", "сьей", "сью", "сье"], why = "adjSuffixes: the plural «сие» (лисие)" },
+  { table = "adjective_exceptions", key = "третий", forms = ["третьего", "третьему", "третий", "третьим", "третьем", "третьи", "третьих", "третьим", "третьи", "третьими", "третьих", "третья", "третьей", "третью", "третье"], why = "adjExclusions2: the feminine «третьи», the animate accusatives «третьего», «третьих»" },
+  { table = "adjective_exceptions", key = "второй", forms = ["второго", "второму", "второй", "вторым", "втором", "вторые", "вторых", "вторым", "вторые", "вторыми", "вторых", "вторая", "второй", "вторую", "второе"], why = "adjExclusions2: the feminine «вторые», the animate accusatives «второго», «вторых»" },
+  { table = "adjective_exceptions", key = "голубой", forms = ["голубого", "голубому", "голубой", "голубым", "голубом", "голубые", "голубых", "голубым", "голубые", "голубыми", "голубых", "голубая", "голубой", "голубую", "голубое"], why = "adjExclusions2: the dative «голубого», the plural genitive «голубыъ»" },
+  { table = "adjective_exceptions", key = "рябой", forms = ["рябого", "рябому", "рябой", "рябым", "рябом", "рябые", "рябых", "рябым", "рябые", "рябыми", "рябых", "рябая", "рябой", "рябую", "рябое"], why = "adjExclusions2: the dative «рябого», the plural genitive «рябыъ»" },
+  { table = "noun_exceptions", key = "стул", forms = ["стула", "стулу", "стул", "стулом", "стуле", "стулья", "стульев", "стульям", "стулья", "стульями", "стульях"], why = "nounExclusions: missing; the endings give the plural «стулы»" },
+  { table = "noun_exceptions", key = "человек", forms = ["человека", "человеку", "человека", "человеком", "человеке", "люди", "людей", "людям", "людей", "людьми", "людях"], why = "nounExclusions: missing; the endings give the plural «человеки»" },
+  { table = "noun_exceptions", key = "мебель", forms = ["мебели", "мебели", "мебель", "мебелью", "мебели", "мебель", "мебели", "мебели", "мебель", "мебелью", "мебели"], why = "nounExclusions2: a plural (мебелей), which мебель has not" },
+]

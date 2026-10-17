@@ -9,7 +9,7 @@ from . import Prepared, Report, Step, change_step
 
 
 def _prepare_wordforms(options: dict) -> Prepared:
-    return lambda table, column: Report(pd.DataFrame({"wordform": wordforms(**options)}))
+    return lambda table, column: Report(pd.DataFrame({"wordform": pd.Series(wordforms(**options), dtype=object)}))
 
 
 STEPS = [

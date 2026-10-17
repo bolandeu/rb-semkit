@@ -34,3 +34,25 @@ def test_a_pronoun_declines_by_the_adjective_tables_only() -> None:
 
 def test_a_possessive_pronoun_as_the_first_word_does_not_govern() -> None:
     assert _declined(["мой синий стол"], "instrumental") == ["моим синим столом"]
+
+
+def test_the_accusative_of_an_inanimate_noun_is_its_nominative_and_the_adjective_agrees() -> None:
+    assert _declined(["купить кожаный диван", "угловой диван", "купить кота"], "accusative") == [
+        "купить кожаный диван",
+        "угловой диван",
+        "купить кота",
+    ]
+
+
+def test_a_plural_phrase_declines_in_the_plural() -> None:
+    assert _declined(["угловые диваны", "дизайнерские диваны"], "instrumental") == [
+        "угловыми диванами",
+        "дизайнерскими диванами",
+    ]
+
+
+def test_a_compound_a_feminine_adjective_and_an_adjective_in_ne() -> None:
+    phrases = ["диван-кровать угловой", "большая скидка", "нераскладной диван"]
+
+    assert _declined(phrases, "genitive") == ["дивана-кровати углового", "большой скидки", "нераскладного дивана"]
+    assert _declined(phrases, "prepositional") == ["диване-кровати угловом", "большой скидке", "нераскладном диване"]

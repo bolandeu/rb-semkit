@@ -10,12 +10,14 @@ The 11 forms are the genitive, dative, accusative, instrumental and prepositiona
 plural; the 15 of an adjective are the 11 of its own gender, then the feminine nominative, the feminine genitive
 (also the dative, instrumental and prepositional), the feminine accusative and the neuter nominative. Keys and
 words are lower case with ё as е. Sources: `sheet_abc` (sheet `abc` of the add-in as TSV), `vba`
-(RibbonCallbacks.vba) and `find_irrelevant` (findIrr.frm), whose string literals hold the word lists.
+(RibbonCallbacks.vba) and `find_irrelevant` (findIrr.frm), whose string literals hold the word lists. The corrections
+of the tables are declension.toml next to this part: a row there replaces the row of its key, or is added.
 """
 
 from __future__ import annotations
 
 import re
+import tomllib
 from pathlib import Path
 
 from build_parts import Entry, SourceMissing, cell_range, read_lines, read_sheet, write_json
@@ -33,6 +35,8 @@ HEADER_ROWS = {"noun_endings": 1}
 HEADER = "the column titles, not an ending"
 REPEATED_KEY = "a later row of the same key wins (ё as е)"
 REPEATED_WORD = "a repeat of an earlier item (ё as е)"
+CORRECTIONS = Path(__file__).with_suffix(".toml")
+CORRECTED = "a corrected row: its line of declension.toml replaces it"
 # Array literals of the VBA sources, by list name: (source key, the array variable).
 WORD_LISTS = {
     "governing": ("vba", "arrPron"),
@@ -53,8 +57,14 @@ def _rows(sheet: list[list[str]], name: str) -> list[list[str]]:
     return cell_range(sheet, TABLES[name])[HEADER_ROWS.get(name, 0) :]
 
 
+def corrections(name: str, path: Path = CORRECTIONS) -> list[dict]:
+    """The lines of declension.toml for the table `name`."""
+    return [line for line in tomllib.loads(path.read_text(encoding="utf-8"))["corrections"] if line["table"] == name]
+
+
 def _forms(sheet: list[list[str]], name: str) -> dict[str, list[str]]:
-    return {table_key(row[0]): row[1:] for row in _rows(sheet, name)}
+    forms = {table_key(row[0]): row[1:] for row in _rows(sheet, name)}
+    return forms | {line["key"]: line["forms"] for line in corrections(name)}
 
 
 def _table_entry(sheet: list[list[str]], name: str) -> Entry:
@@ -68,6 +78,10 @@ def _table_entry(sheet: list[list[str]], name: str) -> Entry:
     for index, row in enumerate(kept):
         if last_row[table_key(row[0])] != index:
             entry.drop("\t".join(row), REPEATED_KEY)
+    for line in corrections(name):
+        if line["key"] in last_row:
+            entry.drop("\t".join(kept[last_row[line["key"]]]), CORRECTED)
+        entry.add("\t".join([line["key"], *line["forms"]]), line["why"])
     return entry
 
 

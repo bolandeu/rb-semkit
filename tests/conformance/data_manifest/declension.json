@@ -3,15 +3,67 @@
   "source": "sheet abc AD2:AS90 (adjective_endings)",
   "source_items": 89,
   "bundled_items": 89,
-  "dropped": [],
-  "added": []
+  "dropped": [
+   {
+    "item": "ний\tнего\tнему\tний\tним\tнем\tние\tних\tним\tние\tними\tних\tняя\tней\tнюю\tное",
+    "reason": "a corrected row: its line of declension.toml replaces it"
+   },
+   {
+    "item": "сий\tсьего\tсьему\tсий\tсьим\tсьем\tсие\tсьих\tсьим\tсие\tсьими\tсьих\tсья\tсьей\tсью\tсье",
+    "reason": "a corrected row: its line of declension.toml replaces it"
+   }
+  ],
+  "added": [
+   {
+    "item": "ний\tнего\tнему\tний\tним\tнем\tние\tних\tним\tние\tними\tних\tняя\tней\tнюю\tнее",
+    "reason": "adjSuffixes: the neuter «ное» (синое)"
+   },
+   {
+    "item": "сий\tсьего\tсьему\tсий\tсьим\tсьем\tсьи\tсьих\tсьим\tсьи\tсьими\tсьих\tсья\tсьей\tсью\tсье",
+    "reason": "adjSuffixes: the plural «сие» (лисие)"
+   }
+  ]
  },
  "declension/tables.json:adjective_exceptions": {
   "source": "sheet abc AD93:AS136 (adjective_exceptions)",
   "source_items": 44,
   "bundled_items": 44,
-  "dropped": [],
-  "added": []
+  "dropped": [
+   {
+    "item": "третий\tтретьего\tтретьему\tтретьего\tтретьим\tтретьем\tтретьи\tтретьих\tтретьим\tтретьих\tтретьими\tтретьих\tтретьи\tтретьей\tтретью\tтретье",
+    "reason": "a corrected row: its line of declension.toml replaces it"
+   },
+   {
+    "item": "второй\tвторого\tвторому\tвторого\tвторым\tвтором\tвторые\tвторых\tвторым\tвторых\tвторыми\tвторых\tвторые\tвторой\tвторую\tвторое",
+    "reason": "a corrected row: its line of declension.toml replaces it"
+   },
+   {
+    "item": "голубой\tголубого\tголубого\tголубой\tголубым\tголубом\tголубые\tголубыъ\tголубым\tголубые\tголубыми\tголубых\tголубая\tголубой\tголубую\tголубое",
+    "reason": "a corrected row: its line of declension.toml replaces it"
+   },
+   {
+    "item": "рябой\tрябого\tрябого\tрябой\tрябым\tрябом\tрябые\tрябыъ\tрябым\tрябые\tрябыми\tрябых\tрябая\tрябой\tрябую\tрябое",
+    "reason": "a corrected row: its line of declension.toml replaces it"
+   }
+  ],
+  "added": [
+   {
+    "item": "третий\tтретьего\tтретьему\tтретий\tтретьим\tтретьем\tтретьи\tтретьих\tтретьим\tтретьи\tтретьими\tтретьих\tтретья\tтретьей\tтретью\tтретье",
+    "reason": "adjExclusions2: the feminine «третьи», the animate accusatives «третьего», «третьих»"
+   },
+   {
+    "item": "второй\tвторого\tвторому\tвторой\tвторым\tвтором\tвторые\tвторых\tвторым\tвторые\tвторыми\tвторых\tвторая\tвторой\tвторую\tвторое",
+    "reason": "adjExclusions2: the feminine «вторые», the animate accusatives «второго», «вторых»"
+   },
+   {
+    "item": "голубой\tголубого\tголубому\tголубой\tголубым\tголубом\tголубые\tголубых\tголубым\tголубые\tголубыми\tголубых\tголубая\tголубой\tголубую\tголубое",
+    "reason": "adjExclusions2: the dative «голубого», the plural genitive «голубыъ»"
+   },
+   {
+    "item": "рябой\tрябого\tрябому\tрябой\tрябым\tрябом\tрябые\tрябых\tрябым\tрябые\tрябыми\tрябых\tрябая\tрябой\tрябую\tрябое",
+    "reason": "adjExclusions2: the dative «рябого», the plural genitive «рябыъ»"
+   }
+  ]
  },
  "declension/tables.json:governing": {
   "source": "RibbonCallbacks.vba L1526: the literal of arrPron",
@@ -63,7 +115,7 @@
  "declension/tables.json:noun_exceptions": {
   "source": "sheet abc Q3380:AB11089 (noun_exceptions)",
   "source_items": 7710,
-  "bundled_items": 7625,
+  "bundled_items": 7627,
   "dropped": [
    {
     "item": "адиль\tадиль\tадиль\tадиль\tадиль\tадиль\tадиль\tадиль\tадиль\tадиль\tадиль\tадиль",
@@ -404,9 +456,26 @@
    {
     "item": "эпителий\tэпителия\tэпителию\tэпителий\tэпителием\tэпителии\tэпителии\tэпителиев\tэпителиям\tэпителии\tэпителиями\tэпителиях",
     "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "мебель\tмебели\tмебели\tмебель\tмебелью\tмебели\tмебели\tмебелей\tмебелям\tмебели\tмебелями\tмебелях",
+    "reason": "a corrected row: its line of declension.toml replaces it"
    }
   ],
-  "added": []
+  "added": [
+   {
+    "item": "стул\tстула\tстулу\tстул\tстулом\tстуле\tстулья\tстульев\tстульям\tстулья\tстульями\tстульях",
+    "reason": "nounExclusions: missing; the endings give the plural «стулы»"
+   },
+   {
+    "item": "человек\tчеловека\tчеловеку\tчеловека\tчеловеком\tчеловеке\tлюди\tлюдей\tлюдям\tлюдей\tлюдьми\tлюдях",
+    "reason": "nounExclusions: missing; the endings give the plural «человеки»"
+   },
+   {
+    "item": "мебель\tмебели\tмебели\tмебель\tмебелью\tмебели\tмебель\tмебели\tмебели\tмебель\tмебелью\tмебели",
+    "reason": "nounExclusions2: a plural (мебелей), which мебель has not"
+   }
+  ]
  },
  "declension/tables.json:takes_accusative": {
   "source": "findIrr.frm L25: the literal of arrVinit",

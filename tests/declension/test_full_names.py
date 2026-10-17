@@ -40,11 +40,28 @@ def test_an_empty_cell_stays_empty() -> None:
     assert _declined(["", None], "genitive") == ["", ""]
 
 
-def test_a_value_that_is_not_three_words_names_the_argument() -> None:
-    with pytest.raises(InvalidArguments, match=r"^data: 'Иванов Сергей' is not three words"):
-        _declined(["Иванов Сергей Петрович", "Иванов Сергей"], "genitive")
-    with pytest.raises(InvalidArguments, match=r"^column 'fio': 'Иванов' is not three words"):
-        sk.decline_full_name(pd.DataFrame({"fio": ["Иванов"]}), "genitive", column="fio")
+def test_a_value_that_is_not_three_words_stays_and_the_others_decline() -> None:
+    names = ["Мамедов Эльчин Гусейн оглы", "Иванов Сергей", "Иванов Сергей Петрович"]
+
+    assert _declined(names, "genitive") == ["Мамедов Эльчин Гусейн оглы", "Иванов Сергей", "Иванова Сергея Петровича"]
+
+
+def test_a_surname_in_ykh_stays_and_one_in_a_declines() -> None:
+    assert _declined(["Белых Никита Юрьевич", "Глинка Михаил Иванович"], "genitive") == [
+        "Белых Никиты Юрьевича",
+        "Глинки Михаила Ивановича",
+    ]
+
+
+def test_a_surname_with_yo_declines_and_keeps_it() -> None:
+    assert _declined(["Королёва Наталья Кузьминична"], "genitive") == ["Королёвой Натальи Кузьминичны"]
+
+
+def test_the_accusative_and_the_instrumental_of_a_man() -> None:
+    name = ["Абрамович Роман Аркадьевич"]
+
+    assert _declined(name, "accusative") == ["Абрамовича Романа Аркадьевича"]
+    assert _declined(name, "instrumental") == ["Абрамовичем Романом Аркадьевичем"]
 
 
 def test_the_nominative_is_no_case_of_a_full_name() -> None:
