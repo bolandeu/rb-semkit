@@ -1,0 +1,2895 @@
+{
+ "markers/DIY.txt.gz": {
+  "source": "DIY.xlsx: column A of the first sheet",
+  "source_items": 212,
+  "bundled_items": 206,
+  "dropped": [
+   {
+    "item": "инн",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "оквэд",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "buy cat new york",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "=IFERROR(__xludf.DUMMYFUNCTION(\"JOIN(\"\",\"\",arrayformula(IFERROR(REGEXEXTRACT(A1,\"\"^\\s*\"\" & REPT(\"\"(?:\\S+\\s+)\"\", SEQUENCE(COUNTA(SPLIT(A1,\"\" \"\")))-1) & \"\"(\\S+)\"\") &\"\" \"\"& REGEXEXTRACT(A1,\"\"^\\s*\"\" & REPT(\"\"(?:\\S+\\s+)\"\", SEQUENCE(COUNTA(SPLIT(A1,\"\" \"\"))-1)) & \"\"(\\S+)\"\"),\"\"\"\")))\"),\"buy cat,cat new,new york,\")",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "i love excel so much",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "=IFERROR(__xludf.DUMMYFUNCTION(\"JOIN(\"\",\"\",arrayformula(IFERROR(REGEXEXTRACT(A2,\"\"^\\s*\"\" & REPT(\"\"(?:\\S+\\s+)\"\", SEQUENCE(COUNTA(SPLIT(A2,\"\" \"\")))-1) & \"\"(\\S+)\"\") &\"\" \"\"& REGEXEXTRACT(A2,\"\"^\\s*\"\" & REPT(\"\"(?:\\S+\\s+)\"\", SEQUENCE(COUNTA(SPLIT(A2,\"\" \"\"))-1)) & \"\"(\\S+)\"\"),\"\"\"\")))\"),\"i love,love excel,excel so,so much,\")",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   }
+  ],
+  "added": []
+ },
+ "markers/MO.txt.gz": {
+  "source": "MO.xlsx: column A of the first sheet",
+  "source_items": 435,
+  "bundled_items": 435,
+  "dropped": [],
+  "added": []
+ },
+ "markers/cars.txt.gz": {
+  "source": "cars.xlsx: column A of the first sheet",
+  "source_items": 3150,
+  "bundled_items": 2502,
+  "dropped": [
+   {
+    "item": "Тип",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "RU",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "En",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Ауди",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Audi",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Бентли",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Bentley",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Бенц",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Benz",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "БМВ",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "BMW",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "ВАЗ",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "VAZ",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Вольво",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Volvo",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Генезис",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Genesis",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Грейт Вол",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Great Wall",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Датсун",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Datsun",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Джили",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Geely",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Джили",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Geely",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Джип",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Jeep",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Дэу",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Daewoo",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Ивеко",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Iveco",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Инфинити",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Infiniti",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Кадиллак",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Cadillac",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "КИА",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "KIA",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Крайслер",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Chrysler",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Лада",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Lada",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Ладе",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Lada",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Ладу",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Lada",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Лады",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Lada",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Ланд Ровер",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Land Rover",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Лексус",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Lexus",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Ленд Ровер",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Land Rover",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Лифан",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Lifan",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Мазда",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Mazda",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Мазде",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Mazda",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Мазду",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Mazda",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Мазды",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Mazda",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Мазерати",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Maserati",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Мерседес",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Mercedes",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Мини Купер",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Mini Cooper",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Митсубиси",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Mitsubishi",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Мицубиси",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Mitsubishi",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Ниссан",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Nissan",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Опель",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Opel",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Пежо",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Peugeot",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Рено",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Renault",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Санг Йонг",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Ssangyong",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Ситроен",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Citroen",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Ссанг Йонг",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Ssang Yong",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Ссанг Янг",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Ssang Young",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Субару",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Subaru",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Сузуки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Suzuki",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Тесла",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Tesla",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Тойота",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Toyota",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Тойоте",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Toyota",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Тойоту",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Toyota",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Тойоты",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Toyota",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Фиат",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Fiat",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Фольксваген",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Volkswagen",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Форд",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Ford",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Хавал",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Haval",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Хендай",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Hyundai",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Хонда",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Honda",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Хонде",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Honda",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Хонду",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Honda",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Хонды",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Honda",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Чери",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Chery",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Шевроле",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Chevrolet",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Шкода",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Skoda",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Шкода",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Skoda",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Шкоде",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Skoda",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Шкоду",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Skoda",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Шкоды",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Skoda",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Ягуар",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Jaguar",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Марки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Фольксвагена",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "VW",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Авенсис",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Avensis",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Авео",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Aveo",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Аиркросс",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Aircross",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Аккорд",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Accord",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Актион",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Actyon",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Акцент",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Accent",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Амарок",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Amarok",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Антара",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Antara",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Астра",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Astra",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "АСХ",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "ASX",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "АТС",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "ATS",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Аурис",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Auris",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Аутлендер",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Outlander",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Берлинго",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Berlingo",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Боксер",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Boxer",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Вектра",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Vectra",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Венга",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Venga",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Виваро",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Vivaro",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Вито",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Vito",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Вольт",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Volt",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Галакси",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Galaxy",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Галант",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Galant",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Гетц",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Getz",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Гольф",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Golf",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Дастер",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Duster",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Дефендер",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Defender",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Джаз",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Jazz",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Джампер",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Jumper",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Джампи",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Jumpy",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Джетта",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Jetta",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Джимни",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Jimny",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Джук",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Juke",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Дискавери",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Discovery",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Жук",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Beetle",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Жук",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Juke",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Импреза",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Impreza",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Инсигния",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Insignia",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Йети",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Yeti",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Кабрио",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Cabrio",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Кайрон",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Kyron",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Камаро",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Camaro",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Камри",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Camry",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Каптива",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Captiva",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Каравелла",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Caravelle",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Кашкай",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Qashqai",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Кворис",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Quoris",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Кобальт",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Cobalt",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Кодьяк",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Kodiaq",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Колеос",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Koleos",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Кольт",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Colt",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Компас",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Compass",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Корвет",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Corvette",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Королла",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Corolla",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Корса",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Corsa",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Крафтер",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Crafter",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Крета",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Creta",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Круз",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Cruze",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Куга",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Kuga",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Лагуна",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Laguna",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Лансер",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Lancer",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Легаси",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Legacy",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Легенд",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Legend",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Лиана",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Liana",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Логан",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Logan",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Маверик",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Maverick",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Максима",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Maxima",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Меган",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Megane",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Микра",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Micra",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Микро",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Micra",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Мовано",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Movano",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Мокка",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Mokka",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Мондео",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Mondeo",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Мохаве",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Mohave",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Мультивен",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Multivan",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Мурано",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Murano",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Мустанг",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Mustang",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Ноте",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Note",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Ноут",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Note",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Октавия",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Octavia",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Оптима",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Optima",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Орландо",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Orlando",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Паджеро",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Pajero",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Партнер",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Partner",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Пассат",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Passat",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Патриот",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Patriot",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Патрол",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Patrol",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Патфайндер",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Pathfinder",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Пиканто",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Picanto",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Пикассо",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Picasso",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Пилот",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Pilot",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Поло",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Polo",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Прада",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Prado",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Прадо",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Prado",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Прайм",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Prime",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Приус",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Prius",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Просид",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Proceed",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Рапид",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Rapid",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Реззо",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Rezzo",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Рекстон",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Rexton",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Рио",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Rio",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Родстер",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Roadster",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Сандеро",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Sandero",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Свифт",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Swift",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Серато",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Cerato",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Серена",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Serena",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Сид",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Ceed",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Симбол",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Symbol",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Сирена",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Serena",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Солярис",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Solaris",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Соната",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Sonata",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Соренто",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Sorento",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Соул",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Soul",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Спарк",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Spark",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Стингер",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Stinger",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Стс",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Cadillac sts",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Суперб",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Superb",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Сценик",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Scenic",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Тахо",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Tahoe",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Теана",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Teana",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Тигуан",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Tiguan",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Тиида",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Tiida",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Титан",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Titan",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Транзит",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Transit",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Транспортер",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Transporter",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Трафик",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Trafic",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Туарег",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Touareg",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Фабия",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Fabia",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Фаэтон",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Phaeton",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Фиеста",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Fiesta",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Фокус",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Focus",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Форестер",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Forester",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Фрилендер",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Freelander",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Фьюжен",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Fusion",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Фьюжн",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Fusion",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Церато",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Cerato",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Цивик",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Civic",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "ЦРВ",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "CR V",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Чероки",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Cherokee",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Шаран",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Sharan",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Эксперт",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Expert",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Эксплорер",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Explorer",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Элантра",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Elantra",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Эпика",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Epica",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Эскалейд",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Escalade",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Эскейп",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Escape",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Эскейп",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Espace",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Модели",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Ярис",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   },
+   {
+    "item": "Yaris",
+    "reason": "not in column A of the first sheet, which is the list the add-in reads"
+   }
+  ],
+  "added": []
+ },
+ "markers/citiesRu.txt.gz": {
+  "source": "citiesRu.xlsx: column A of the first sheet",
+  "source_items": 5766,
+  "bundled_items": 5763,
+  "dropped": [
+   {
+    "item": "Усть Илимск",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Усть Илимск",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Йошкар Оле",
+    "reason": "a repeat of an earlier item"
+   }
+  ],
+  "added": []
+ },
+ "markers/color.txt.gz": {
+  "source": "color.xlsx: column A of the first sheet",
+  "source_items": 432,
+  "bundled_items": 432,
+  "dropped": [],
+  "added": []
+ },
+ "markers/districts.txt.gz": {
+  "source": "districts.xlsx: column A of the first sheet",
+  "source_items": 214,
+  "bundled_items": 211,
+  "dropped": [
+   {
+    "item": "Жулебино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ново Переделкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сабурово",
+    "reason": "a repeat of an earlier item"
+   }
+  ],
+  "added": []
+ },
+ "markers/edu.txt.gz": {
+  "source": "edu.xlsx: column A of the first sheet",
+  "source_items": 403,
+  "bundled_items": 399,
+  "dropped": [
+   {
+    "item": "видео курс",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "видео урок",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "для начинающих",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "для чайников",
+    "reason": "a repeat of an earlier item"
+   }
+  ],
+  "added": []
+ },
+ "markers/fun.txt.gz": {
+  "source": "fun.xlsx: column A of the first sheet",
+  "source_items": 154,
+  "bundled_items": 152,
+  "dropped": [
+   {
+    "item": "комедия",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "триллер",
+    "reason": "a repeat of an earlier item"
+   }
+  ],
+  "added": []
+ },
+ "markers/game.txt.gz": {
+  "source": "game.xlsx: column A of the first sheet",
+  "source_items": 1417,
+  "bundled_items": 1417,
+  "dropped": [],
+  "added": []
+ },
+ "markers/geo.txt.gz": {
+  "source": "geo.xlsx: column A of the first sheet",
+  "source_items": 36013,
+  "bundled_items": 36012,
+  "dropped": [
+   {
+    "item": "Burning Man",
+    "reason": "a repeat of an earlier item"
+   }
+  ],
+  "added": []
+ },
+ "markers/material.txt.gz": {
+  "source": "material.xlsx: column A of the first sheet",
+  "source_items": 1001,
+  "bundled_items": 1001,
+  "dropped": [],
+  "added": []
+ },
+ "markers/mosmetro.txt.gz": {
+  "source": "mosmetro.xlsx: column A of the first sheet",
+  "source_items": 647,
+  "bundled_items": 647,
+  "dropped": [],
+  "added": []
+ },
+ "markers/names.txt.gz": {
+  "source": "names.xlsx: column A of the first sheet",
+  "source_items": 7996,
+  "bundled_items": 7988,
+  "dropped": [
+   {
+    "item": "Арон",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Порфирий",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Самуил",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сидор",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сильвестр",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Суан",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Тамаз",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Фоат",
+    "reason": "a repeat of an earlier item"
+   }
+  ],
+  "added": []
+ },
+ "markers/origin.txt.gz": {
+  "source": "origin.xlsx: column A of the first sheet",
+  "source_items": 982,
+  "bundled_items": 982,
+  "dropped": [],
+  "added": []
+ },
+ "markers/questions.txt.gz": {
+  "source": "questions.xlsx: column A of the first sheet",
+  "source_items": 611,
+  "bundled_items": 602,
+  "dropped": [
+   {
+    "item": "кратко",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "морфологический",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "на английском",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "получения",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "получить",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "пропорциях",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "минимальный",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "максимальный",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "оптимальный",
+    "reason": "a repeat of an earlier item"
+   }
+  ],
+  "added": []
+ },
+ "markers/rent.txt.gz": {
+  "source": "rent.xlsx: column A of the first sheet",
+  "source_items": 12,
+  "bundled_items": 12,
+  "dropped": [],
+  "added": []
+ },
+ "markers/reviews.txt.gz": {
+  "source": "reviews.xlsx: column A of the first sheet",
+  "source_items": 109,
+  "bundled_items": 105,
+  "dropped": [
+   {
+    "item": "качественных",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "качественные",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "плюсы",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "минусы",
+    "reason": "a repeat of an earlier item"
+   }
+  ],
+  "added": []
+ },
+ "markers/sale.txt.gz": {
+  "source": "sale.xlsx: column A of the first sheet",
+  "source_items": 204,
+  "bundled_items": 203,
+  "dropped": [
+   {
+    "item": "и цены",
+    "reason": "a repeat of an earlier item"
+   }
+  ],
+  "added": []
+ }
+}

@@ -1,7 +1,11 @@
 # chars. VBA, RibbonCallbacks.vba (docs/vba/matchers.md F1, R1, X1). find: —·k— (L1824) latin, —·k– (L2088) cyrillic, —·ka (L1652) digits,
 # —kko (L2874) letters_digits, —·ok (L2756) upper, —·k· (L1786) ua with fua (L1343). remove: ak·— (L1856) latin, ak–· (L1867) cyrillic, aokk (L1924)
 # digits, aok— (L2404) punctuation. extract: –ako (L2441) latin, –—–a (L2350) cyrillic, –·ko (L2594) digits, aok— (L2404) letters_digits. A kind and verb
-# with no handler (ua extract) is derived from the kind's find: vba is the derived value.
+# with no handler (ua extract) is derived from the kind's find: vba is the derived value. No handler, derived from aok— (L2404): find punctuation;
+# remove letters_digits, upper; extract punctuation, upper. ua remove and extract: derived from —·k·. The classes (docs/vba/matchers.md S4): VBA
+# compares with Option Compare Binary, so [A-Za-z] and [0-9] are ASCII; a letter is cased when UCase(c) <> LCase(c); VBA strings are UTF-16, so only
+# the BMP counts. upper ooa (L2655), has_latin a–— (L2153), has_digit ·kk (L1619), has_cyrillic —–o (L2147), only_latin ala (L1770), a number
+# ··— (L2360) by IsNumeric.
 case_id	function	call	input	vba	expected	rule	why	xfail
 chars-find-latin	chars.find	{"kind": "latin"}	диван IKEA	TRUE	TRUE			
 chars-find-latin-none	chars.find	{"kind": "latin"}	диван	FALSE	FALSE			

@@ -2,6 +2,7 @@
 # before the last –—kk (L2923), ––·· (L2389); after the first ––—– (L1791), ––—o (L2721); after the last ––—a (L2687), ––—— (L2250). The first occurrence
 # is found by InStr vbTextCompare, the last by InStrRev binary; no pattern: the cell stays. extract: before the first –—–o (L2775) with include,
 # –—–– (L1794) without (bug: always ""); after the last –—o· (L2767) with include, –—–k (L1602) without (bug: always ""); binary search, no pattern: "".
+# extract before the last and after the first have no handler: derived from –—–o (L2775) and –—o· (L2767); vba is the derived value.
 case_id	function	call	input	vba	expected	rule	why	xfail
 around-remove-before-first	around.remove	{"pattern": "диван"}	купить диван синий	диван синий	диван синий			
 around-remove-before-first-case	around.remove	{"pattern": "диван"}	купить Диван синий	Диван синий	Диван синий			

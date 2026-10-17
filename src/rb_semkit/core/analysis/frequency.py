@@ -18,17 +18,14 @@ from ..frame import Frame, map_unique
 from ..morph import Lemmatizer
 from ..morph.functions import BUNDLED
 from ..normalize import norm_phrase
-from ..text.base import split_words
+from ..text.base import bundled_list, split_words
 from .weights import weights_of
 
-LISTS = "lists/lists.json"
 COLUMNS = ["ngram", "count"]
 
 
 def _stopwords() -> frozenset[str]:
-    return datastore.once(
-        "analysis_stopwords", lambda: frozenset(norm_phrase(w) for w in datastore.table(LISTS)["stopwords"])
-    )
+    return datastore.once("analysis_stopwords", lambda: frozenset(norm_phrase(w) for w in bundled_list("stopwords")))
 
 
 def _checked_n(n: int) -> int:
@@ -52,7 +49,7 @@ def _word_keys(phrases: pd.Series, *, lemmatizer: Lemmatizer | None, stopwords: 
 
 
 def _runs(n: int) -> Callable[[list[Token]], list[str]]:
-    """Runs of `n` counting words; the dropped stopwords between them stay inside the gram (ka–a L1005)."""
+    """Runs of `n` counting words; the dropped stopwords between them stay inside the gram."""
 
     def shape(tokens: list[Token]) -> list[str]:
         counting = [i for i, (_, counts) in enumerate(tokens) if counts]
@@ -107,8 +104,8 @@ def ngrams(
     Sorted by count, biggest first, then by ngram. Words are compared by case and ё.
     lemmas: count lemmas of the words («диваны» is «диван»), by `lemmatizer`.
     stopwords: False makes the runs of words that are no stopwords; a stopword between two of them stays inside the
-    gram («купить диван в москве» gives «купить диван» and «диван в москве»), as «Биграмм без учета стоп-слов»
-    (—k·· L2781 → ka–a L1005); stopwords are found in any case (ADR 0005).
+    gram («купить диван в москве» gives «купить диван» and «диван в москве»), as «Биграмм без учета стоп-слов»;
+    stopwords are found in any case (ADR 0005).
     weight: a numeric column of the table; `sum` adds its value once per occurrence.
     """
     return _tally(

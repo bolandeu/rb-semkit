@@ -2,14 +2,14 @@
 """Time the heavy operations of the library on a big semantic core (default 1M phrases).
 
     uv run scripts/bench.py [--rows 1000000] [--ops dupes,ngrams,lemmatize,...] [--limit 120] [--load-limit 0.5]
-                            [--input core.csv]
+                            [--input core.csv] [--parts scripts/bench_parts]
 
-The phrases are synthetic (words of the bundled dictionary, a fixed seed) or, with --input, the `phrase` column of a
-CSV (a real core exported from Bukvarix). When --rows is larger than the file, its phrases are repeated with the
-words shuffled, so the duplicate search still has work. The data-backed operations (each marker list, stopwords, pos,
-part_of_speech, lemmatize, wordforms) first run on one phrase: that run loads their data and is timed as `load`.
-Prints one line per operation and exits 1 when one takes longer than --limit seconds, or its load longer than
---load-limit. An operation whose module is not in the library yet is skipped.
+The operations come from the benchmark parts, one per area (`<area>.py` of the parts folder, the contract in
+scripts/bench_parts/__init__.py). The phrases are synthetic (words of the bundled dictionary, a fixed seed) or, with
+--input, the `phrase` column of a CSV (a real core exported from Bukvarix). When --rows is larger than the file, its
+phrases are repeated with the words shuffled, so the duplicate search still has work. The data-backed operations first
+run on one phrase: that run loads their data and is timed as `load`. Prints one line per operation and exits 1 when
+one takes longer than --limit seconds, or its load longer than --load-limit.
 """
 
 from __future__ import annotations
@@ -21,12 +21,15 @@ import time
 from collections.abc import Callable
 from itertools import accumulate
 from pathlib import Path
+from typing import NamedTuple
 
 import pandas as pd
 
-import rb_semkit as sk
 from rb_semkit.core import datastore
-from rb_semkit.core.markers import lists
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from area_parts import load_parts
 
 SEED = 20261016
 VOCABULARY = 5000  # distinct words of the synthetic core; the draw is skewed so common words repeat
@@ -34,11 +37,21 @@ MAX_WORDS = 5
 DEFAULT_ROWS = 1_000_000
 DEFAULT_LIMIT = 120.0
 DEFAULT_LOAD_LIMIT = 0.5
-DUPE_KINDS = ("exact", "explicit", "implicit", "lemmas")
+DEFAULT_PARTS = Path(__file__).resolve().parent / "bench_parts"
 
 
-class ModuleMissing(Exception):
-    """The operation needs a library module that is not there yet."""
+class Operation(NamedTuple):
+    run: Callable[[pd.Series], object]
+    data_backed: bool
+
+
+def operations(folder: Path) -> dict[str, Operation]:
+    """The operations of every benchmark part of `folder`, by name."""
+    found = {}
+    for part in load_parts(folder).values():
+        found |= {name: Operation(run, False) for name, run in getattr(part, "OPERATIONS", {}).items()}
+        found |= {name: Operation(run, True) for name, run in getattr(part, "DATA_OPERATIONS", {}).items()}
+    return found
 
 
 def synthetic_phrases(rows: int, rng: random.Random) -> list[str]:
@@ -66,74 +79,35 @@ def build_phrases(rows: int, source: Path | None) -> list[str]:
     return synthetic_phrases(rows, rng) if source is None else file_phrases(rows, source, rng)
 
 
-def _dupes(phrases: pd.Series) -> None:
-    try:
-        dupes = sk.dupes
-    except AttributeError as error:
-        raise ModuleMissing from error
-    for kind in DUPE_KINDS:
-        dupes(phrases, kind=kind, action="mark_except_first")
-
-
-def _markers(name: str) -> Callable[[pd.Series], object]:
-    return lambda phrases: sk.find(phrases, sk.markers(name))
-
-
-def _wordforms(phrases: pd.Series) -> None:
-    lemmatizer = sk.SemtoolsLemmatizer()
-    for word in {word for phrase in phrases for word in phrase.split()}:
-        sk.wordforms(word, lemmatizer=lemmatizer)
-
-
-DATA_OPERATIONS: dict[str, Callable[[pd.Series], object]] = {
-    **{f"markers_{name}": _markers(name) for name in lists.names()},
-    "stopwords": lambda phrases: sk.remove(phrases, sk.stopwords()),
-    "pos": lambda phrases: sk.find(phrases, sk.pos("adj", lemmatizer=sk.SemtoolsLemmatizer())),
-    "part_of_speech": lambda phrases: sk.part_of_speech(phrases, lemmatizer=sk.SemtoolsLemmatizer()),
-    "lemmatize": lambda phrases: sk.lemmatize(phrases, lemmatizer=sk.SemtoolsLemmatizer()),
-    "wordforms": _wordforms,
-}
-OPERATIONS: dict[str, Callable[[pd.Series], object]] = {
-    "dupes": _dupes,
-    "ngrams": lambda phrases: sk.ngrams(phrases),
-    "ngrams_lemmas": lambda phrases: sk.ngrams(phrases, lemmas=True, lemmatizer=sk.SemtoolsLemmatizer()),
-    **DATA_OPERATIONS,
-}
-
-
-def _operation_list(text: str) -> list[str]:
-    names = [name.strip() for name in text.split(",") if name.strip()]
-    unknown = [name for name in names if name not in OPERATIONS]
-    if unknown or not names:
-        raise argparse.ArgumentTypeError(f"{unknown or text!r}; allowed: {', '.join(OPERATIONS)}")
-    return names
-
-
 def _arguments(argv: list[str] | None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--rows", type=int, default=DEFAULT_ROWS, help="number of phrases")
-    parser.add_argument("--ops", type=_operation_list, default=list(OPERATIONS), help="comma-separated operations")
+    parser.add_argument("--ops", default="", help="comma-separated operations (default: all)")
     parser.add_argument("--limit", type=float, default=DEFAULT_LIMIT, help="seconds an operation may take")
     parser.add_argument(
         "--load-limit", type=float, default=DEFAULT_LOAD_LIMIT, help="seconds the first load of its data may take"
     )
     parser.add_argument("--input", type=Path, default=None, help="CSV with the column 'phrase' instead of synthetic")
-    return parser.parse_args(argv)
+    parser.add_argument("--parts", type=Path, default=DEFAULT_PARTS, help="the benchmark parts directory")
+    args = parser.parse_args(argv)
+    args.operations = operations(args.parts)
+    args.ops = [name.strip() for name in args.ops.split(",") if name.strip()] or list(args.operations)
+    unknown = [name for name in args.ops if name not in args.operations]
+    if unknown:
+        parser.error(f"--ops: {unknown!r}; allowed: {', '.join(args.operations)}")
+    return args
 
 
-def _seconds(name: str, phrases: pd.Series) -> float:
+def _seconds(run: Callable[[pd.Series], object], phrases: pd.Series) -> float:
     started = time.perf_counter()
-    OPERATIONS[name](phrases)
+    run(phrases)
     return time.perf_counter() - started
 
 
-def _time(name: str, phrases: pd.Series) -> tuple[float, float] | None:
-    """Seconds of the first run on one phrase (the load of the data) and of the run; None when its module is missing."""
-    try:
-        load = _seconds(name, phrases.iloc[:1]) if name in DATA_OPERATIONS else 0.0
-        return load, _seconds(name, phrases)
-    except ModuleMissing:
-        return None
+def _time(operation: Operation, phrases: pd.Series) -> tuple[float, float]:
+    """Seconds of the first run on one phrase (the load of the data) and of the run."""
+    load = _seconds(operation.run, phrases.iloc[:1]) if operation.data_backed else 0.0
+    return load, _seconds(operation.run, phrases)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -142,11 +116,7 @@ def main(argv: list[str] | None = None) -> int:
     slow = []
     print(f"{'operation':<20}{'rows':>10}{'load':>10}{'seconds':>10}  status")
     for name in args.ops:
-        timed = _time(name, phrases)
-        if timed is None:
-            print(f"{name:<20}{len(phrases):>10}{'-':>10}{'-':>10}  skipped (module not present yet)")
-            continue
-        load, seconds = timed
+        load, seconds = _time(args.operations[name], phrases)
         too_slow = seconds > args.limit or load > args.load_limit
         print(f"{name:<20}{len(phrases):>10}{load:>10.3f}{seconds:>10.2f}  {'SLOW' if too_slow else 'ok'}")
         if too_slow:

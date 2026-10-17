@@ -55,10 +55,10 @@ def counts(
 
     what: "words" and "chars" — the words and the characters of the phrase; "count" — how many times the same
     phrase stands in the core; "number" — which occurrence of it this row is (1 for the first).
-    Phrases are the same by case and ё (––k— L1875, –kko L2166, ADR 0005); an empty cell has no count (empty value).
-    "share" — the cumulative share of the sum of `weight` (0..1) in row order (–koo L2489); "share_of_total" — the
-    value over the sum (–kok L1607); both are empty when the sum is 0.
-    "abc" — the class by the cumulative share from the heaviest phrase down (ABCA L3497): "A" up to 80 %, "B" up to
+    Phrases are the same by case and ё (ADR 0005); an empty cell has no count (empty value).
+    "share" — the cumulative share of the sum of `weight` (0..1) in row order; "share_of_total" — the
+    value over the sum; both are empty when the sum is 0.
+    "abc" — the class by the cumulative share from the heaviest phrase down: "A" up to 80 %, "B" up to
     95 %, "C" the rest. "share", "share_of_total" and "abc" need `weight`.
     """
     if what not in WHAT:

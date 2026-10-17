@@ -2,6 +2,8 @@
 # RegExMatch (L1646); remove aoka (L2363) RegExReplace (L2080), no trim; invert aok· (L1820) (bug: the pattern is an undeclared variable, ""); extract
 # –a—– (L2712) the first match, –a—— (L2877–2878) every match joined by the separator the user types (here « »). invert find and extract have no
 # handler: derived from aok· as intended (the matches kept); vba is the derived value.
+# The library joins all_matches by a space (the VBA asks for the separator); invert remove aok· (L1820) has its bug fixed (it takes an
+# empty pattern).
 case_id	function	call	input	vba	expected	rule	why	xfail
 regex-find-plain	regex.find	{"pattern": "^купить"}	купить диван	TRUE	TRUE			
 regex-find-case	regex.find	{"pattern": "^купить"}	Купить диван	FALSE	FALSE			

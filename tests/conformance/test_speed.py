@@ -27,7 +27,8 @@ def _load() -> ModuleType:
     return module
 
 
-OPERATIONS = list(_load().DATA_OPERATIONS)
+bench = _load()
+OPERATIONS = [name for name, operation in bench.operations(bench.DEFAULT_PARTS).items() if operation.data_backed]
 
 
 @pytest.fixture(scope="module")

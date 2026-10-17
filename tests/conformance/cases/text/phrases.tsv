@@ -1,6 +1,7 @@
 # phrases. VBA, RibbonCallbacks.vba (docs/vba/matchers.md S10, F3, R3, X3): find —k—k (L2218) with –la (L645–646), remove aok– (L2733)
 # with DeletePhrases (L3452–3470), extract –a–a (L1736) with la— (L647–648). A token is a key by UCase of its first word; a token glued to punctuation is
-# no key.
+# no key. la— takes the first item in list order found anywhere in the phrase and gives a word inside a found phrase its own marker too;
+# DeletePhrases lower-cases the whole cell.
 case_id	function	call	input	vba	expected	rule	why	xfail
 phrases-find-cities	phrases.find	{"items": ["Нижний Новгород", "Москва"]}	доставка в нижний новгород	TRUE	TRUE			
 phrases-find-cities-other	phrases.find	{"items": ["Нижний Новгород", "Москва"]}	нижний тагил	FALSE	FALSE			

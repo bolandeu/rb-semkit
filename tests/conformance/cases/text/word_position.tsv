@@ -2,6 +2,10 @@
 # aka— (L1940) last; "" when the cell has N words or fewer. extract: –—·— (L1828) first; –ak— (L1711) last; –—o– (L2133), –a–k (L1850) nth with k·k
 # (L1851); –·—k (L1599) to_middle and –·—o (L1612) at_most with o·— (L1403). Split(s, " "): an empty token of a double space is a word. remove with
 # at_most and every find have no handler: derived from the extract handlers (find is TRUE where extract gives words); vba is the derived value.
+# More handlers. remove: ak—o (L2659) first; ak·o (L2270) and the other «Последние» buttons last; nth and to_middle have no handler:
+# derived from k·k (L1851) and o·— (L1403), the words extract would not give. extract: –—a— (L1877) first; –ak– (L1778), –aok
+# (L2137) last; –—oo (L2847) nth (the 1st word is –—a—). o·— (L1403): the leading words while the phrase so far has the limit of
+# characters at most; the first always.
 case_id	function	call	input	vba	expected	rule	why	xfail
 word_position-remove-first-1	word_position.remove	{"first": 1}	купить диван в москве	диван в москве	диван в москве			
 word_position-remove-first-3	word_position.remove	{"first": 3}	купить диван в москве	москве	москве			

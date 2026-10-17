@@ -5,6 +5,8 @@ from __future__ import annotations
 from ..base import Matcher, whole_number
 from .spans import SpanMatcher
 
+__all__ = ["positions"]
+
 
 class Positions(SpanMatcher):
     find = Matcher.find
@@ -23,9 +25,6 @@ def positions(count: int, *, last: bool = False) -> Positions:
 
     remove gives '' when the phrase has `count` characters or fewer; extract then gives the whole phrase.
 
-    VBA (RibbonCallbacks.vba):
-        remove: `ak——` (line 2702) first, `ak·k` (line 2086) last.
-        extract: `–—·–` (line 2369) first, `–ak·` (line 1687) last.
     ADR 0005: no double spaces in the results, none at the edges.
     """
     return Positions(count, last=last)

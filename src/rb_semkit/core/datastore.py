@@ -37,7 +37,7 @@ def trie(name: str) -> marisa_trie.BytesTrie:
 
 
 def table(name: str) -> dict[str, Any]:
-    """A JSON table of the package data by its path under `data/` (`"lists/lists.json"`)."""
+    """A JSON table of the package data by its path under `data/` (`"text/lists.json"`)."""
     return once(name, lambda: json.loads((DATA_DIR / name).read_text(encoding="utf-8")))
 
 

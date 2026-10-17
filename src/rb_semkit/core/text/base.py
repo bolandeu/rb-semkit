@@ -40,7 +40,7 @@ def word_key(word: str, *, ignore_punct: bool = False) -> str:
 
 def bundled_list(name: str) -> list[str]:
     """A word list of the package data by name: "stopwords", "prepositions", "toponym_prepositions_ru"…"""
-    return datastore.table("lists/lists.json")[name]
+    return datastore.table("text/lists.json")[name]
 
 
 def collapse(text: str) -> str:

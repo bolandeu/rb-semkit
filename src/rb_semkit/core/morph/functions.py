@@ -54,6 +54,7 @@ def part_of_speech(
 def wordforms(word: str, *, lemmatizer: Lemmatizer = BUNDLED) -> list[str]:
     """Every wordform of the lemma of `word`, alphabetical, each once: «диваны» → [«диван», «дивана», ...].
 
-    As «Генерация всех словоформ» (––aa L380, with aaa(LCase(word))); the input word is not repeated (ADR 0005).
+    As «Генерация всех словоформ»: the forms of the lemma of the word in lower case; the input word is not repeated
+    (ADR 0005).
     """
     return sorted(set(lemmatizer.forms(lemmatizer.lemma(word))))

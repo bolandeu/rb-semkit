@@ -1,6 +1,10 @@
 # words. VBA, RibbonCallbacks.vba (docs/vba/matchers.md F2, R2, X2). find: –––o (L1927) one word = ·a– (L2573), –––k (L2805) all; remove:
 # ao—a (L1835) one word, dFWCustom (L2309) start, dLWCustom (L2308) end; extract: –·oo (L2567). UCase on both sides, ё ≠ е, Split(s, " "); ignore_punct
 # is the «Игнорировать пунктуацию» variant (oka, L2460). extract with where has no handler: derived from –·oo; vba is the derived value.
+# More handlers. find: —k—k (L2218) any; start and end have no handler: derived from dFWCustom (L2309) and dLWCustom (L2308).
+# remove: aok– (L2733) any; all has no handler: derived from –––k (L2805). extract: one word or any of the list as the phrase spells
+# them; start, end and all have no handler: derived from –·oo (L2567). ignore_punct takes only the edges of a word; lemmatizer has no
+# handler: derived from –––o (L1927).
 case_id	function	call	input	vba	expected	rule	why	xfail
 words-find-one	words.find	{"items": "диван"}	Купить Диван	TRUE	TRUE			
 words-find-one-hyphen	words.find	{"items": "диван"}	диван-кровать	FALSE	FALSE			

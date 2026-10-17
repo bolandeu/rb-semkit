@@ -12,6 +12,8 @@ from ...frame import map_unique
 from ..base import Matcher, choice, collapse
 from . import classes
 
+__all__ = ["chars"]
+
 
 class Kind(NamedTuple):
     """A class of characters and what the verbs do with it.
@@ -67,15 +69,7 @@ def chars(kind: str) -> Chars:
     extract keeps latin, cyrillic and digits with the whitespace between them («120x200» → «120200»); for the other
     kinds it gives the runs joined by a space.
 
-    VBA (RibbonCallbacks.vba):
-        find: `—·k—` (line 1824) latin, `—·k–` (line 2088) cyrillic, `—·ka` (line 1652) digits, `—kko` (line 2874)
-        letters_digits, `—·ok` (line 2756) upper; punctuation: no VBA handler: derived from `aok—` (line 2404).
-        remove: `ak·—` (line 1856) latin, `ak–·` (line 1867) cyrillic, `aokk` (line 1924) digits, `aok—` (line 2404)
-        punctuation; letters_digits, upper: no VBA handler: derived from `aok—` (line 2404).
-        extract: `–ako` (line 2441) latin, `–—–a` (line 2350) cyrillic, `–·ko` (line 2594) digits, `aok—`
-        (line 2404) letters_digits; punctuation, upper: no VBA handler: derived from `aok—` (line 2404).
-        ua: find `—·k·` (line 1786) with `fua` (line 1343); remove, extract: no VBA handler: derived from `—·k·`.
     ADR 0005: whitespace of any kind counts as a space; no double spaces in the results; ua is the letters і ї є ґ,
-    not the 31 `fua` items, whose endings catch Russian words («кровати»).
+    not the add-in's 31-item list, whose endings catch Russian words («кровати»).
     """
     return Chars(kind)

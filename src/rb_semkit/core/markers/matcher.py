@@ -20,7 +20,7 @@ class Markers(Matcher):
         self._sep = sep
 
     def _pairs(self, words: list[str]) -> list[Hit]:
-        """Each toponym preposition with the longest list item right after it (`udalit…`, `k—––`)."""
+        """Each toponym preposition with the longest list item right after it."""
         pairs: list[Hit] = []
         for index, word in enumerate(words[:-1]):
             if (pairs and index < pairs[-1].stop) or word_key(word) not in self._prepositions:
@@ -75,28 +75,11 @@ def markers(
     preposition takes the longest item right after it, as above. remove cuts the pair, extract gives it («в Москве»),
     find is True where such a pair stands.
 
-    VBA (RibbonCallbacks.vba):
-        find: `—k——` (line 2520) geo, `—k—6` (line 2047) mosmetro, `—k—7` (line 2048) districts, `—k—8` (line 2049)
-        MO, `—k—9` (line 2050) citiesRu, `—k—o` (line 2040) questions, `—k—3` (line 2044) fun, `—k—4` (line 2045)
-        DIY, `—k—01` (line 2052) edu, `—k—02` (line 2053) game, `—k—l` (line 2042) sale, `—k—00` (line 2041) rent,
-        `—k—2` (line 2043) reviews, `—k—0` (line 2051) color, `—k—03` (line 2054) material, `—k—04` (line 2055)
-        origin, `—k—5` (line 2046) cars, `—k—05` (line 2056) names, `RbnFind` (line 3172) several lists; each with
-        `–la` (lines 645–646).
-        remove: `a·–a` (line 2204) geo, `a·a6` (line 2030) and the other `a·a*` buttons, `RbnDelete` (line 3173)
-        several lists; each with `DeletePhrases` (lines 3452–3470); geo with prepositions `a·—a` (line 2967) with
-        `udalit_toponimy_s_pryedlogami` (lines 1194–1197), its one-item quirk fixed.
-        extract: `–a·a` (line 2823) geo, `——aa4` (line 2014) and the other `——aa*` buttons, `–a—o` (line 2409)
-        questions (its later steps, which cut word repeats and sale phrases and lower-case the result, are not
-        taken), `RbnExtract` (line 3174) several lists; each with `la—` (lines 647–648); geo with prepositions `–·kk`
-        (line 2674) with `k—––` (lines 1198–1199).
-        user lists: no VBA handler: derived from `—k—k` (line 2218), `aok–` (line 2733) and `–a–a` (line 1736).
-        prepositions on lists other than geo, and find with prepositions: no VBA handler: derived from
-        `udalit_toponimy_s_pryedlogami` (lines 1194–1197).
     ADR 0005: ё = е; split on any whitespace; no double spaces; markers as the list spells them, joined by ', ';
-    remove keeps the case (`DeletePhrases` lower-cases); with prepositions, a key of one list item cuts that whole
-    item, not only the next word («отели в хересе де ла фронтере» → «отели», VBA: «отели де ла фронтере»); extract
-    takes the longest item from a word, `la—` and `k—––` the first in list order («как», not «как сделать»), and `la—`
-    also finds an item anywhere in the phrase, so a word inside a found item gives its own marker («Новгород»).
+    remove keeps the case of the phrase; with prepositions, the preposition and one list item go as a whole, not only
+    the next word («отели в хересе де ла фронтере» → «отели»); extract takes the longest item from a word («как
+    сделать», not «как») and only items that start at a word, so a word inside a found item gives no marker of its
+    own («Нижний Новгород», not «Новгород» too).
     """
     wanted = [lists] if isinstance(lists, str) else list(lists)
     chosen = [bundled(choice("lists", name, names())) for name in wanted]

@@ -7,9 +7,11 @@ from collections.abc import Callable
 from ...errors import InvalidArguments
 from ..base import WordMatcher, whole_number
 
+__all__ = ["word_position"]
+
 
 def _within(words: list[str], limit: int) -> list[bool]:
-    """`o·—` (line 1403): the leading words while the phrase so far has `limit` characters at most; the first always."""
+    """The leading words while the phrase so far has `limit` characters at most; the first always."""
     picked: list[bool] = []
     length = -1
     for word in words:
@@ -61,14 +63,6 @@ def word_position(
     hold half the characters of the phrase at most, or N characters at most, and always the first word
     («купить диван недорого» with at_most=12 → «купить диван»). remove gives the other words.
 
-    VBA (RibbonCallbacks.vba):
-        remove: `ak—k` (line 2081), `ak—o` (line 2659), `ak—–` (line 2485), `ak—a` (line 2939) first;
-        `aka—` (line 1940), `ak·o` (line 2270) and the other «Последние» buttons last; nth, to_middle, at_most: no
-        VBA handler: derived from `k·k` (line 1851) and `o·—` (line 1403), the words extract would not give.
-        extract: `–—a—` (line 1877), `–—·—` (line 1828) first; `–ak–` (line 1778), `–aok` (line 2137) last;
-        `–—oo` (line 2847), `–a–k` (line 1850) nth (the 1st word is `–—a—`); `–·—k` (line 1599) to_middle and
-        `–·—o` (line 1612) at_most, both with `o·—` (line 1403).
-        find: no VBA handler: derived from the extract handlers.
     ADR 0005: split on any whitespace, so empty words never count.
     """
     return WordPosition(
