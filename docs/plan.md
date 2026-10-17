@@ -2,6 +2,8 @@
 
 Draft. Built from `docs/brief.md`, `FEATURES.md`, `ribbon_menu.txt` (257 menu items) and the VBA.
 Status of each line: **v1** = first version, **v2** = next, **later** = after the API settles, **out** = not ported.
+Done (2026-10-17): every v1, v2 and later line is in the library (E-001, E-002) and in the CLI (E-003); the phase
+column below is the history of the order. Open: the conversion link matrix (needs a spec from the Human).
 
 ## 1. Function tree
 
@@ -169,7 +171,7 @@ own first item.
 
 ## 3. Interface with dataio
 
-semkit takes and returns `pandas.Series` / `DataFrame`; it never reads files. The CLI (later) calls dataio for
+semkit takes and returns `pandas.Series` / `DataFrame`; it never reads files. The CLI (E-003) calls dataio for
 input and output. Agreed with the dataio agent on 2026-10-16 (checked against dataio v0.1.21):
 1. **API.** `rb_dataio.read(source, *, format, sheet, table, encoding, sep, header, credentials, as_text,
    dtypes, limit, query, source_column="_source", strict) -> DataFrame`;
