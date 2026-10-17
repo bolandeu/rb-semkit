@@ -1,4 +1,5 @@
-"""Phrases from a list, found as whole words by an Aho-Corasick automaton; the engine of `markers` too."""
+"""Phrases from a list, found as whole words by an Aho-Corasick automaton, the longest from each word; the engine of
+`markers` too."""
 
 from __future__ import annotations
 
@@ -43,15 +44,11 @@ class PhraseList:
             self._automaton.add_word(f" {key} ", key)
         self._automaton.make_automaton()
 
-    def _found(self, words: list[str]) -> tuple[str, list[tuple[int, str]]]:
-        text = f" {' '.join(word_key(word) for word in words)} "
-        return text, list(self._automaton.iter(text))
-
     def hits(self, words: list[str]) -> list[Hit]:
         """Every listed phrase in the words, overlapping ones too."""
-        text, found = self._found(words)
+        text = f" {' '.join(word_key(word) for word in words)} "
         hits = []
-        for end, key in found:
+        for end, key in self._automaton.iter(text):
             start = text.count(" ", 0, end - len(key) - 1)  # the spaces before the leading space of the match
             hits.append(Hit(start, start + key.count(" ") + 1, self._spellings[key]))
         return hits
@@ -65,28 +62,21 @@ class PhraseList:
             if keys[: key.count(" ") + 1] == key.split(" ")
         ]
 
-    def markers(self, words: list[str]) -> list[tuple[int, str]]:
-        """The add-in's markers of the words (`la—`): (word index, the phrase as the list spells it), repeats kept.
 
-        For each word, the first phrase in list order that starts with it and stands anywhere in the words; so a
-        word inside a found phrase gives its own marker too («Нижний Новгород», «Новгород»).
-        """
-        _, found = self._found(words)
-        present = {key for _, key in found}
-        markers = []
-        for index, word in enumerate(words):
-            key = next((key for key in self._starting.get(word_key(word), ()) if key in present), None)
-            if key is not None:
-                markers.append((index, self._spellings[key]))
-        return markers
+def longest(hits: Iterable[Hit]) -> Hit:
+    """The hit of the most words, then of the most characters; the first of equals (list order)."""
+    return max(hits, key=lambda hit: (hit.stop - hit.start, len(hit.spelling)))
 
 
 def choose(hits: Iterable[Hit]) -> list[Hit]:
-    """From overlapping hits, the leftmost, and of those the longest; the others are dropped."""
+    """For each word, the `longest` hit that starts there, left to right; the words of a chosen hit start no other."""
+    starting: dict[int, list[Hit]] = {}
+    for hit in hits:
+        starting.setdefault(hit.start, []).append(hit)
     chosen: list[Hit] = []
-    for hit in sorted(hits, key=lambda hit: (hit.start, hit.start - hit.stop)):
-        if not chosen or hit.start >= chosen[-1].stop:
-            chosen.append(hit)
+    for start in sorted(starting):
+        if not chosen or start >= chosen[-1].stop:
+            chosen.append(longest(starting[start]))
     return chosen
 
 
@@ -102,22 +92,24 @@ class Phrases(WordMatcher):
 
     def extract(self, phrases: pd.Series) -> pd.Series:
         return map_unique(
-            phrases, lambda phrase: ", ".join(spelling for _, spelling in self._list.markers(split_words(phrase)))
+            phrases, lambda phrase: ", ".join(hit.spelling for hit in choose(self._list.hits(split_words(phrase))))
         )
 
 
 def phrases(items: Iterable[str]) -> Phrases:
     """Phrases of a list, found as whole words («угловой диван» is not in «угловойдиван» or «угловой диван,»).
 
-    Words compare in any case, ё as е; punctuation glued to a word counts. remove cuts the longest phrase first,
-    left to right, and keeps the case of the other words. extract gives the markers as `sk.markers(user=...)` does:
-    for each word that starts a found item, the first such item in list order, as the list spells it, joined by ', '.
+    Words compare in any case, ё as е; punctuation glued to a word counts. find, remove and extract take the same
+    phrases, as `sk.markers(user=...)` does: left to right, for each word the longest phrase that starts there (in
+    words, then in characters; a tie keeps the list order), and the words of a taken phrase start no other. remove
+    keeps the case of the other words; extract gives the phrases as the list spells them, joined by ', '.
 
     VBA (RibbonCallbacks.vba):
         find: `—k—k` (line 2218) with `–la` (lines 645–646).
         remove: `aok–` (line 2733) with `DeletePhrases` (lines 3452–3470).
         extract: `–a–a` (line 1736) with `la—` (lines 647–648).
     ADR 0005: ё = е; split on any whitespace; no double spaces; remove keeps the case (`DeletePhrases` lower-cases);
-    extract joins by ', ', not "\\".
+    extract joins by ', ', not "\\"; extract takes the longest phrase («нижний новгород»), `la—` the first in list
+    order found anywhere in the phrase («нижний»), and gives a word inside a found phrase its own marker too.
     """
     return Phrases(items)
