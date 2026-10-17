@@ -195,7 +195,8 @@ def test_antagor_project_config() -> None:
     assert {k: config["publish"].get(k) for k in expected} == expected  # Antagor may add its own keys
     # The Human sets the mode (`antagor mode set`, `antagor new --mode`).
     assert config.get("mode") in (None, "strict", "default", "free", "fast")
-    assert (root / ".agents" / "antagor" / ".gitignore").read_text().split() == ["state/", "receipts/"]
+    ignored = (root / ".agents" / "antagor" / ".gitignore").read_text().split()
+    assert {"state/", "receipts/"} <= set(ignored)  # Antagor may add its own lines
     assert "ANTAGOR_VERSION" in (SCRIPTS / "deploy.sh").read_text()
 
 
