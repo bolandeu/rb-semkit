@@ -21,8 +21,12 @@ owns_paths:
 - tests/conformance/cases/change/
 - tests/conformance/areas/change.py
 - tests/conformance/data_manifest/change.json
+- .gitattributes
+- docs/plan.md
 test_paths:
 - tests/change/
+- tests/markers/test_build_markers.py
+- tests/core/test_build_data.py
 docs:
 - docs/vba/deviations/change.md
 - docs/vba/conformance/change.md
@@ -100,3 +104,7 @@ docs/vba/change.md (every button: handler, algorithm, quirks, examples); the v1 
 
 - Declension, analysis and text matchers (other area tasks).
 - Excel-only actions (colours, bold).
+
+## Feedback
+
+### Blocked: scope_held (holders ['SEMKIT-012'], paths ['tests/core/test_build_data.py'])

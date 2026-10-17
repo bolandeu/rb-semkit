@@ -20,7 +20,12 @@ from .case_files import CASE_COLUMNS, CASES_DIR, Case, all_cases, case_files, re
 
 MIN_CASES = 5
 VERBS = ("find", "remove", "extract")
-NOT_CASED = {*VERBS, "pipe"}  # the verbs and the pipe run in the cases of every matcher
+NOT_CASED = {
+    *VERBS,
+    "pipe",
+    "split_text",
+    "coverage",
+}  # the verbs and the pipe run in the cases of every matcher; split_text and coverage are not from the add-in
 CASES = all_cases()
 
 

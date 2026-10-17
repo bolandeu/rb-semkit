@@ -5,6 +5,35 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.9 — 2026-10-17
+
+### E-002 — semkit: the rest of the library — change, declension, analysis and the later functions
+
+import rb_semkit gives every function of the add-in's menus except Mystem: each follows the VBA algorithm, the broken ones work as intended, and the conformance report lists for each function where it follows the VBA, where it differs and why.
+Time: 1h since the epic was approved
+
+- Core phrases in a text: count, texts and density of each core phrase, exact, by lemmas or in any word order (SEMKIT-016)
+
+## v0.1.8 — 2026-10-17
+
+### E-002 — semkit: the rest of the library — change, declension, analysis and the later functions
+
+import rb_semkit gives every function of the add-in's menus except Mystem: each follows the VBA algorithm, the broken ones work as intended, and the conformance report lists for each function where it follows the VBA, where it differs and why.
+Time: 1h since the epic was approved
+
+- Morphology block: declension of nouns, adjectives and full names, irrelevant words, the pymorphy fallback, ready patterns and prepositional complements (SEMKIT-012)
+- Text to phrases: split each cell at sentence and clause punctuation into phrase rows (SEMKIT-014)
+- N-grams and bigrams: a docs column, the number of texts (cells) that hold the gram (SEMKIT-015)
+
+## v0.1.7 — 2026-10-17
+
+### E-002 — semkit: the rest of the library — change, declension, analysis and the later functions
+
+import rb_semkit gives every function of the add-in's menus except Mystem: each follows the VBA algorithm, the broken ones work as intended, and the conformance report lists for each function where it follows the VBA, where it differs and why.
+Time: 0.5h since the epic was approved
+
+- Frame for parallel areas: discovered public names, data build parts, per-area conformance and benchmark; product text without the VBA (SEMKIT-010)
+
 ## v0.1.6 — 2026-10-17
 
 ### E-001 — semkit v1: phrase-processing library
