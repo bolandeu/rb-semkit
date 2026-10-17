@@ -2,7 +2,7 @@
 id: SEMKIT-035
 title: 'dupes --kind meaning: duplicates by meaning with non-refining words, synonyms
   and the home city'
-status: publish
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
