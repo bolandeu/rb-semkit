@@ -2,7 +2,7 @@
 id: SEMKIT-011
 title: 'Change block: every text change of the add-in (case, insert, replace, translit,
   ЧПУ, match types, UTM, hashes, word order, phonetic)'
-status: in_review
+status: queue
 attempts: 1
 blocked: false
 blocked_reason: null
@@ -108,3 +108,20 @@ docs/vba/change.md (every button: handler, algorithm, quirks, examples); the v1 
 ## Feedback
 
 ### Blocked: scope_held (holders ['SEMKIT-012'], paths ['tests/core/test_build_data.py'])
+
+### Attempt 1: the Architect's verdict
+
+The review found blockers; close each:
+
+- [blocker] C11 tests/core/test_build_data.py: `BUILT_FILES` (line ~19) lists the built files of morph, text and declension, but not `change/translit.json` and `change/word_order.json`. The byte-identity test (`test_two_runs_are_byte_identical_and_match_the_package`) therefore never checks the change data against a rebuild. The file is in the owned paths, but the diff left it as it was (the feedback says the edit was blocked by `scope_held`, holder SEMKIT-012). The Architect must release the scope or add the two lines.
+- [blocker] C11 tests/markers/test_build_markers.py:120: the task rewrote `test_gitattributes_marks_all_built_data_as_generated` to compare `.gitattributes` with every `scripts/build_parts/*.py`. After the merge of main, `build_parts/declension.py` exists and `.gitattributes` has no `src/rb_semkit/data/declension/**` line. I ran `uv run pytest -q`: 1 failed, 2554 passed; the failed test is this one («Extra items in the right set: 'src/rb_semkit/data/declension/**'»). The suite is red at the merge commit. Fix: add the declension line to `.gitattributes` (SEMKIT-012 data; needs the scope), or keep the old fixed set plus `change`.
+- [blocker] [wrong] The built data of the area is not under the byte-identity check of the build, so «the area's data manifest» can drift from the files without a red test — «The tables these functions use (…) are built into the package data of the area in a fast format, with the area's data manifest.» (same cause as the first Standards blocker.)
+
+Minor remarks of the review: optional, if they do not widen the task:
+
+- [minor] C3 src/rb_semkit/core/change/replace.py: `_class_case` repeats the idea of `common.adjusted` (text in the case class of another text). The two differ only a little (upper first, capitalised only by the first letter). One helper with a flag would be enough.
+- [minor] C7 src/rb_semkit/core/change/word_order.py: `COMPLEMENT_WORDS = 5`, `FORMS` endings and `NOT_ADJECTIVES` are literals in code. `COMPLEMENT_WORDS` is a limit a user may want to change. It is documented in the docstring, so the Architect may accept it.
+- [minor] .gitattributes (joined outside the slice): the `change/**` line is needed. The build part writes `data/change/`, so `linguist-generated` is right. The line changes only how files are counted, not the behaviour.
+- [minor] docs/plan.md (joined outside the slice): the edit is needed (D12/D16 now built in the area, "later" removed). The new line is longer than the neighbours; style only.
+- [minor] [extra] `change_case` has `sentence_lower`; `fix_word_order` has `lemmatizer=` and `complements=`; `insert` has `each_word`. The task names none of them. They come from the add-in or from ADR 0003/0005, and the deviations document explains them — «insert text before / after each word, at the start / end of the phrase». Accept.
+- [minor] [wrong] The task lists the match type «exact». `match_type` has no kind of that name (`kind='exact'` is refused in `tests/change/test_errors.py`). The nearest are "fixed_forms" («!A») and "quoted_fixed_order" («"[!A]"»). The docstring should say which kind is the exact match — «match types: broad «+A», «!A», phrase «[A]» and «"A"», exact, anti-semantic».
