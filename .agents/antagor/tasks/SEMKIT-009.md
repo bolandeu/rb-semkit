@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-009
 title: 'Analysis functions: follow the VBA where the conformance cases differ'
-status: publish
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null

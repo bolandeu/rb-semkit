@@ -5,6 +5,15 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.5 — 2026-10-17
+
+### E-001 — semkit v1: phrase-processing library
+
+import rb_semkit gives Python functions over a pandas Series or table column: find/remove/extract by matchers (chars, words, regex, phrases, markers, stopwords, POS), duplicates of 4 kinds, n-grams and bigrams with counts, lemmas, POS and wordforms on the bundled !SEMTools dictionary. 1M phrases are processed in minutes. The comparison with the add-in on reference examples is a separate task after this epic.
+Time: 12.3h since the epic was approved
+
+- Analysis functions: follow the VBA where the conformance cases differ (SEMKIT-009)
+
 ## v0.1.4 — 2026-10-17
 
 ### E-001 — semkit v1: phrase-processing library
