@@ -2,7 +2,7 @@
 id: SEMKIT-045
 title: Pipeline steps use the project of the CLI, not the current folder
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -84,3 +84,7 @@ How the commands take the project from the CLI context (models, lists, config); 
 ### Blocked: scope_held (holders ['SEMKIT-043'], paths ['src/rb_semkit/steps/__init__.py'])
 
 SEMKIT-043 finished; your kept work on src/rb_semkit/steps/__init__.py is back in the worktree; main is merged into your branch where it merges clean
+
+### Attempt 1: file docstring
+
+- update the docstring of src/rb_semkit/steps/__init__.py: +prepared_for +project_start
