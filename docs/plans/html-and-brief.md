@@ -34,4 +34,7 @@ Proposed (round 1, waiting for the Human):
   them out; scripts, styles and hidden elements are always left out.
 - A ready library under a thin wrapper (selectolax or lxml for zones and headings, trafilatura for main), chosen by a
   comparison on real pages before the card.
+- The average over a list of pages (the Human): `summary`, a report over any table: per numeric column the mean,
+  median, min, max and count (parse-html → text-stats → summary gives the table «all URLs: mean, median» of
+  Miratext); compare-grams gets the mean density beside the median.
 - Words in meta tags: no step; compare-grams on the title or description column (a scenario).
