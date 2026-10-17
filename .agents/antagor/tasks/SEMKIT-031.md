@@ -2,7 +2,7 @@
 id: SEMKIT-031
 title: 'Text rules on a real page: one word splitter, split-text at sentences not
   dashes, no false typos, abbreviations no lemmas'
-status: ideas
+status: queue
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -10,7 +10,7 @@ phase: null
 tests_hash: null
 publish_stage: null
 created_by: architect
-approved_by: null
+approved_by: human
 worker: claude-code
 type: bugfix
 owns_paths:
@@ -63,7 +63,6 @@ translation: '**Текстовые правила на реальной стра
   add_minus_words — только уверенные синонимы; округление 4 знака; find-pos без двойных
   частей речи; remove-chars punctuation не рвёт 2.5 и 140х200.'
 ---
-
 
 The end-to-end check (docs/plans/e2e-quality.md, items 12-19, 22, 26) on a real page (a customs warehouse site) and a real sofa core found the text functions split and count words differently, cut phrases where a sentence does not end, and the typo check rewrites correct phrases. Fix the library behaviour; Do not change the public docstrings: SEMKIT-033 updates them and the help snapshots after this task; when your fix changes a rule a docstring states, report it as an inbox finding (the function and the new rule). Behaviour only.
 
