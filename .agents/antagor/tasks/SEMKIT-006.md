@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-006
 title: 'Conformance: analysis functions and bundled data against the add-in VBA'
-status: in_progress
+status: queue
 attempts: 1
-blocked: true
-blocked_reason: no_progress
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -156,3 +156,7 @@ FAIL Required test coverage of 90.0% not reached. Total coverage: 31.00%
 > Task check 'uv run pytest tests/conformance -q' always exits 1: pyproject addopts --cov with fail_under=90 fails on a subset run (31%). A task check on a test subset needs --no-cov, or the project needs a rule for it.
 
 Checks now run the subset with --no-cov; the full gate (release.py --check) keeps the coverage floor.
+
+### Blocked: no_progress (head 2ee0f22e60f70766379b56f78844a683a2616732)
+
+checks fixed (--no-cov); the same head passes them
