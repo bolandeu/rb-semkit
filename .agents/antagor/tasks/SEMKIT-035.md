@@ -82,6 +82,7 @@ The Human runs dupes --kind meaning on a core and gets duplicates by meaning (CO
 - Given --neutral naming a list that does not exist, When the step runs, Then it is refused with exit 2 naming the flag and the list; given --threshold -0.1, Then exit 2 names the step and the flag [check: tests/dupes/test_dupes_meaning.py]
 - Given dupes --kind lemmas and the other existing kinds, When they run as before, Then their output does not change [check: tests/dupes/test_dupes.py]
 - Given the bundled lists, When semkit lists shows them, Then @meaning/neutral is there with its Russian description [check: tests/wordlists/test_resolve.py]
+- Given the bundled list stop/semtools, When semkit lists or describe --json shows it, Then its description does not name the add-in (ADR 0006): «Стоп-слова: предлоги, союзы, частицы»; the list name stays [check: tests/wordlists/test_resolve.py]
 
 ## How to test
 
