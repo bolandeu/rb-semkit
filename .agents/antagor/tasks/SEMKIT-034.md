@@ -2,8 +2,8 @@
 id: SEMKIT-034
 title: 'Vectors base: models pull/list/remove, the encoder, the index and cluster-meaning
   end to end'
-status: queue
-attempts: 1
+status: done
+attempts: 2
 blocked: false
 blocked_reason: null
 phase: null
@@ -134,3 +134,25 @@ The step table (the steps package: Step and STEPS of an area module); the comman
 
 - update the docstring of src/rb_semkit/core/errors.py: +ModelNotPulled +PullFailed +VectorsNotInstalled
 - add a docstring to src/rb_semkit/core/version.py: what it holds and why
+
+### Attempt 2: the Architect's verdict
+
+The review found blockers; close each:
+
+- [blocker] C11 src/rb_semkit/data/SKILL.md:42: The `--json` envelope changed. A step summary now has an optional `note` (`state.Summary.to_dict`, `Columns.note`). Line 42 still says `steps` holds one `{"step", "rows_before", "rows_after", "cells_changed"}` per step. README.md lines 82-84 (`"steps"` in the envelope) were also not checked. The new section further down in SKILL.md names `note`, so the file now states the shape in two places and the two differ. Update the old line to show the optional `note`.
+
+Minor remarks of the review: optional, if they do not widen the task:
+
+- [minor] C3 src/rb_semkit/data/SKILL.md: The install command hard-codes the repository URL `https://github.com/bolandeu/rb-semkit.git`. `core/version.py` (`repository_url`) says that no module repeats a value that pyproject.toml holds. The URL is now in two places.
+- [minor] C5 src/rb_semkit/steps/vectors.py: `by_meaning` opens the encoder with `Path.cwd()`. The pipeline context already has the project path (`commands/models.py` uses `ctx.obj["project"]`). A step run with `-C` or a project option may look for `models.dir` in the wrong folder.
+- [minor] C5 src/rb_semkit/core/vectors/cache.py (`_place`): In the stale-copy branch, `folder.rename(stale)` followed by `temporary.rename(folder)` is not atomic. A third pull in that window can fail with an OS error, which becomes `PullFailed`. The two-pull acceptance case passes, so this is only a rare edge.
+- [minor] C6 tests/vectors/fixtures/word_pairs.tsv: No test reads this file (grep over src, tests and docs). The task asks for the 100 word pairs "as a fixture", so it is not wrong. It is unused data until the word-synonym task.
+- [minor] [missing] The task report (not the diff) must hold the ONNX-versus-torch cos result and the sample of sofa-core clusters. I did not find them in the diff, only the claims in `models.toml` comments ("cos above 0.999", "checked on the clusters of the sofa core"). The Architect should confirm they are in the worker's report — «Use ONNX runtime instead of torch when its vectors match torch (cos above 0.999 on the sofa core of the e2e fixtures): measure and state the result in the task report.» and «put a sample of its clusters in the task report for the Human.»
+- [minor] [extra] `models remove --dry-run` and the `hf:<id>` listing of hub models were not named as acceptance points. `--dry-run` follows the project rule for irreversible actions and `hf:<id>` is in the task text, so I do not count them as scope creep.
+- [minor] [wrong] `similarity` column and `attrs["index"]` of the cluster table are not in the task («every phrase gets a cluster and a cluster name»). The extra column is documented in the help, the guide and the tests, so it is small and visible — «every phrase gets a cluster and a cluster name».
+
+### Answer to finding #1
+
+> Steps get no project path: steps/vectors.py by_meaning and core/wordlists/folders.py both start from Path.cwd(), so a pipeline run with the project option may read models.dir or the project's lists from the wrong folder. A fix passes ctx.obj['project'] to the steps (pipeline change, outside SEMKIT-034).
+
+A task of its own: Pipeline steps use the project of the CLI (created after v0.1.25)

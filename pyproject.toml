@@ -26,6 +26,15 @@ semkit = "rb_semkit.cli:main"
 [project.urls]
 Repository = "https://github.com/bolandeu/rb-semkit"
 
+[project.optional-dependencies]
+vectors = [
+    "faiss-cpu>=1.15",
+    "huggingface-hub>=1.33",
+    "model2vec>=0.10",
+    "onnxruntime>=1.31",
+    "tokenizers>=0.23",
+]
+
 [build-system]
 requires = ["hatchling", "uv-dynamic-versioning"]
 build-backend = "hatchling.build"
@@ -88,7 +97,7 @@ dev = [
 # looks for commands: a glob or a list of globs, relative to the repo root.
 commands = ["src/rb_semkit/commands/*.py"]
 # scripts/release.py: extras to install before ruff/ty/pytest in the gate.
-# gate_extras = ["browser"]
+gate_extras = ["vectors"]
 
 [tool.pytest.ini_options]
 # Only tests/: mutmut leaves a copy of the tree in mutants/.
@@ -98,7 +107,10 @@ addopts = "--cov --cov-report=term-missing:skip-covered"
 # (standard §7), not in syrupy's own `__snapshots__/<test file>/` layout, so
 # syrupy warns it "can not relate" each file to its test. It can — by name.
 filterwarnings = ["ignore:(?s).*Can not relate snapshot:UserWarning"]
-markers = ["speed: a timed run over a big input, within the budget of the benchmark"]
+markers = [
+    "speed: a timed run over a big input, within the budget of the benchmark",
+    "real_encoder: the encoders as semkit opens them (the vectors extra, the cache), not the test encoder",
+]
 
 [tool.mutmut]
 source_paths = ["src/rb_semkit"]

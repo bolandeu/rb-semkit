@@ -1,0 +1,66 @@
+# The encoders `semkit models pull NAME` knows (ADR 0009, docs/plans/vectors.md), the default one, and the settings of
+# the vector index and of the encoding. A model is pinned: its Hugging Face repo, a revision, the files the encoder
+# reads with the sha256 of each. hf:<id> takes any other model of the hub at its latest revision, unpinned.
+#
+# runtime: "onnx" (an ONNX export run by onnxruntime, its tokenizer.json) or "static" (a model2vec model).
+# pooling: how the token vectors of an ONNX model make the phrase vector: "mean" or "cls" (the first token).
+# prefix: the text the model needs in front of each phrase; max_tokens: the tokens of a phrase it reads, the rest cut.
+# threshold: the default similarity of two phrases of one intent: the best F1 on the 200 labelled phrase pairs
+# (tests/vectors/fixtures/phrase_pairs.tsv), rounded; for e5-small checked on the clusters of the sofa core.
+default = "e5-small"
+
+[models.e5-small]
+repo = "intfloat/multilingual-e5-small"
+revision = "614241f622f53c4eeff9890bdc4f31cfecc418b3"
+runtime = "onnx"
+pooling = "mean"
+prefix = "query: "
+max_tokens = 512
+threshold = 0.97
+
+[models.e5-small.files]
+"onnx/model.onnx" = "ca456c06b3a9505ddfd9131408916dd79290368331e7d76bb621f1cba6bc8665"
+"onnx/tokenizer.json" = "0b44a9d7b51c3c62626640cda0e2c2f70fdacdc25bbbd68038369d14ebdf4c39"
+
+# deepvk/USER-bge-m3 exported to ONNX: its vectors match the torch model (cos above 0.999 on the sofa core).
+[models.bge-m3]
+repo = "minicx/USER-bge-m3-ONNIX"
+revision = "ace1fdec2500a7aa1b36eb44bf01699b54a35c3f"
+runtime = "onnx"
+pooling = "cls"
+prefix = ""
+max_tokens = 512
+threshold = 0.885
+
+[models.bge-m3.files]
+"onnx/model.onnx" = "ac1c15f94fc871893dcce3ab5a51fa486ac892b0d5c1f55223d62ef45fc8d5d6"
+"tokenizer.json" = "3e657ddc9bb3a7425f881e701aedfee5911936be4d6f4efde8a2bc557eb34844"
+
+[models.potion]
+repo = "minishlab/potion-multilingual-128M"
+revision = "73908c3438cf03b6a01bcb9611d62b23d0726f08"
+runtime = "static"
+pooling = "mean"
+prefix = ""
+max_tokens = 512
+threshold = 0.9
+
+[models.potion.files]
+"config.json" = "595e4cab2093732efd5dbe084fd5c1826b5eea693b73b4c1fd971672867d2e54"
+"model.safetensors" = "14b5eb39cb4ce5666da8ad1f3dc6be4346e9b2d601c073302fa0a31bf7943397"
+"tokenizer.json" = "19f1909063da3cfe3bd83a782381f040dccea475f4816de11116444a73e1b6a1"
+
+# The vector index: exact search up to `exact_limit` phrases, HNSW above (faiss; built on one thread, so the same
+# phrases give the same index). `neighbours`: the nearest phrases looked up for each phrase.
+# `hnsw_links`, `hnsw_build`, `hnsw_search`: the links of a node, and the candidates kept while building and searching.
+[index]
+exact_limit = 300000
+neighbours = 100
+hnsw_links = 32
+hnsw_build = 200
+hnsw_search = 256
+
+# Phrases encoded at once, and the tokens of a phrase a hub model (hf:<id>) reads.
+[encoder]
+batch = 64
+max_tokens = 512

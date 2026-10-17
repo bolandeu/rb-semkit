@@ -1,5 +1,6 @@
-"""The project config as a model (`.rb_semkit/config.toml`): the name, the provider, the output, the CLI version it needs
-and `lists`, the folders of the Human's word lists. A field has a default, so an old config still loads.
+"""The project config as a model (`.rb_semkit/config.toml`): the name, the provider, the output, the CLI version it needs,
+`lists`, the folders of the Human's word lists, and `models.dir`, the folder of the encoders. A field has a default, so
+an old config still loads.
 
 A field's description is the format `config set` accepts for it; `value` and `with_value` read and set a dotted key.
 """
@@ -31,6 +32,14 @@ def _version(text: str) -> str:
     return text
 
 
+class ModelsConfig(BaseModel):
+    dir: str = Field(
+        "",
+        description="the folder of the encoders, as /abs/models or ~/models; a relative one is from the project; empty:"
+        " the system cache",
+    )
+
+
 class CliCompat(BaseModel):
     min_version: Annotated[str, AfterValidator(_version)] = Field("0.1.0", description="a version, as 0.2.0")
 
@@ -44,6 +53,7 @@ class ProjectConfig(BaseModel):
     )
     provider: ProviderConfig = Field(default_factory=ProviderConfig)
     output: OutputConfig = Field(default_factory=OutputConfig)
+    models: ModelsConfig = Field(default_factory=ModelsConfig)
     cli: CliCompat = Field(default_factory=CliCompat)
 
 

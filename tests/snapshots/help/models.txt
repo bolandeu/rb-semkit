@@ -1,0 +1,17 @@
+
+ Usage: semkit models [OPTIONS] COMMAND [ARGS]...
+
+ Encoders of the steps by meaning: pull one once into the cache, list them, remove one. The cache
+ is the system cache, or the folder of the config key models.dir.
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --help          Show this message and exit.                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Commands ───────────────────────────────────────────────────────────────────────────────────────╮
+│ pull    Download an encoder once into the cache, at its pinned revision, and check the checksum  │
+│         of each file.                                                                            │
+│ list    Every encoder semkit knows and every hub model pulled: its repo, revision, whether it is │
+│         pulled, its size in bytes, its default threshold and its folder.                         │
+│ remove  Remove an encoder from the cache.                                                        │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
