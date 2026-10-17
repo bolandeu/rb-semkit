@@ -1,0 +1,26 @@
+# around. VBA, RibbonCallbacks.vba (docs/vba/matchers.md R1, X1). remove: before the first ––·a (L2125) with include, ––·— (L2786) without;
+# before the last –—kk (L2923), ––·· (L2389); after the first ––—– (L1791), ––—o (L2721); after the last ––—a (L2687), ––—— (L2250). The first occurrence
+# is found by InStr vbTextCompare, the last by InStrRev binary; no pattern: the cell stays. extract: before the first –—–o (L2775) with include,
+# –—–– (L1794) without (bug: always ""); after the last –—o· (L2767) with include, –—–k (L1602) without (bug: always ""); binary search, no pattern: "".
+case_id	function	call	input	vba	expected	rule	why	xfail
+around-remove-before-first	around.remove	{"pattern": "диван"}	купить диван синий	диван синий	диван синий			
+around-remove-before-first-case	around.remove	{"pattern": "диван"}	купить Диван синий	Диван синий	Диван синий			
+around-remove-before-first-none	around.remove	{"pattern": "стол"}	диван	диван	диван			
+around-remove-before-first-include	around.remove	{"pattern": ":", "include": true}	Товар: диван: синий	 диван: синий	диван: синий	фраза делится по любым пробелам, двойных пробелов в результатах нет	––·a gives Mid(s, pos + Len(p)) as is: the space after the colon stays at the start	
+around-remove-before-last-include	around.remove	{"pattern": "москва", "include": true, "last": true}	москва диван москва кресло	 кресло	кресло	фраза делится по любым пробелам, двойных пробелов в результатах нет	–—kk gives the text after the last «москва» as is, with its leading space	
+around-remove-before-last-include-slash	around.remove	{"pattern": "/", "include": true, "last": true}	a/b/c	c	c			
+around-remove-before-last-case	around.remove	{"pattern": "b", "last": true}	a/b/B	b/B	b/B			
+around-remove-after-first	around.remove	{"pattern": "диван", "after": true}	купить диван синий	купить диван	купить диван			
+around-remove-after-first-include	around.remove	{"pattern": " - ", "after": true, "include": true}	диван - синий - большой	диван	диван			
+around-remove-after-first-include-spaces	around.remove	{"pattern": "в", "after": true, "include": true}	  купить  диван  в  москве 	  купить  ди	купить ди	фраза делится по любым пробелам, двойных пробелов в результатах нет	––—– gives Left(s, pos − 1) as is: the leading and the double spaces stay («в» is found inside «диван»)	
+around-remove-after-last-include	around.remove	{"pattern": "/", "after": true, "include": true, "last": true}	a/b/c	a/b	a/b			
+around-remove-after-last	around.remove	{"pattern": "/", "after": true, "last": true}	a/b/c	a/b/	a/b/			
+around-extract-before-first-include	around.extract	{"pattern": "и", "include": true}	стол и кресло и шкаф	стол и	стол и			
+around-extract-before-first-include-comma	around.extract	{"pattern": ",", "include": true}	диван, кресло, стол	диван,	диван,			
+around-extract-before-first-include-case	around.extract	{"pattern": "купить", "include": true}	Купить купить	Купить купить	Купить купить			
+around-extract-before-first-include-yo	around.extract	{"pattern": "елка", "include": true}	ёлка Елка		ёлка	ё = е при сравнении	–—–o searches «елка» binary: «ёлка» has ё and «Елка» a capital, so it finds nothing and gives ''	
+around-extract-before-first-none	around.extract	{"pattern": "стол"}	диван					
+around-extract-before-first	around.extract	{"pattern": ","}	диван, кресло		диван	явные дефекты исправляем	–—–– runs its search only when the pattern is longer than the text, so it always gives ''	
+around-extract-after-last-include	around.extract	{"pattern": "/", "after": true, "last": true, "include": true}	a/b/c	/c	/c			
+around-extract-after-last	around.extract	{"pattern": "/", "after": true, "last": true}	a/b/c		c	явные дефекты исправляем	–—–k runs its search only when the pattern is longer than the text, so it always gives ''	
+around-extract-after-last-words	around.extract	{"pattern": "и", "after": true, "last": true}	стол и кресло и шкаф		шкаф	явные дефекты исправляем	–—–k runs its search only when the pattern is longer than the text, so it always gives ''	

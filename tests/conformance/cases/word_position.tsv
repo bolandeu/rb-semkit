@@ -1,0 +1,28 @@
+# word_position. VBA, RibbonCallbacks.vba (docs/vba/matchers.md R2, X2). remove: ak—k (L2081), ak—– (L2485), ak—a (L2939) first;
+# aka— (L1940) last; "" when the cell has N words or fewer. extract: –—·— (L1828) first; –ak— (L1711) last; –—o– (L2133), –a–k (L1850) nth with k·k
+# (L1851); –·—k (L1599) to_middle and –·—o (L1612) at_most with o·— (L1403). Split(s, " "): an empty token of a double space is a word. remove with
+# at_most and every find have no handler: derived from the extract handlers (find is TRUE where extract gives words); vba is the derived value.
+case_id	function	call	input	vba	expected	rule	why	xfail
+word_position-remove-first-1	word_position.remove	{"first": 1}	купить диван в москве	диван в москве	диван в москве			
+word_position-remove-first-3	word_position.remove	{"first": 3}	купить диван в москве	москве	москве			
+word_position-remove-first-all	word_position.remove	{"first": 2}	купить диван					
+word_position-remove-first-double-space	word_position.remove	{"first": 2}	a  b c	b c	c	фраза делится по любым пробелам, двойных пробелов в результатах нет	Split on one space makes the double space an empty word, and it counts as the second word	
+word_position-remove-last-1	word_position.remove	{"last": 1}	купить диван в москве	купить диван в	купить диван в			
+word_position-remove-at_most	word_position.remove	{"at_most": 12}	купить диван недорого	недорого	недорого			
+word_position-extract-first-2	word_position.extract	{"first": 2}	купить диван в москве	купить диван	купить диван			
+word_position-extract-first-short	word_position.extract	{"first": 2}	диван	диван	диван			
+word_position-extract-last-2	word_position.extract	{"last": 2}	купить диван в москве	в москве	в москве			
+word_position-extract-nth-3	word_position.extract	{"nth": 3}	купить диван в москве	в	в			
+word_position-extract-nth-missing	word_position.extract	{"nth": 3}	купить диван					
+word_position-extract-nth-double-space	word_position.extract	{"nth": 2}	купить  диван		диван	фраза делится по любым пробелам, двойных пробелов в результатах нет	k·k splits on one space: the second word of «купить  диван» is the empty word	
+word_position-extract-to_middle	word_position.extract	{"to_middle": true}	купить диван недорого москва	купить диван	купить диван			
+word_position-extract-to_middle-short	word_position.extract	{"to_middle": true}	a b c d e	a b	a b			
+word_position-extract-to_middle-first	word_position.extract	{"to_middle": true}	диван-кровать недорого	диван-кровать	диван-кровать			
+word_position-extract-at_most	word_position.extract	{"at_most": 12}	купить диван недорого	купить диван	купить диван			
+word_position-extract-at_most-first	word_position.extract	{"at_most": 3}	купить диван	купить	купить			
+word_position-find-nth	word_position.find	{"nth": 3}	купить диван в	TRUE	TRUE			
+word_position-find-nth-missing	word_position.find	{"nth": 3}	купить диван	FALSE	FALSE			
+word_position-find-first	word_position.find	{"first": 1}	диван	TRUE	TRUE			
+word_position-find-first-empty	word_position.find	{"first": 1}		FALSE	FALSE			
+word_position-find-last	word_position.find	{"last": 2}	диван	TRUE	TRUE			
+word_position-find-to_middle	word_position.find	{"to_middle": true}	купить диван	TRUE	TRUE			

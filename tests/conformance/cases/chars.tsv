@@ -1,0 +1,37 @@
+# chars. VBA, RibbonCallbacks.vba (docs/vba/matchers.md F1, R1, X1). find: —·k— (L1824) latin, —·k– (L2088) cyrillic, —·ka (L1652) digits,
+# —kko (L2874) letters_digits, —·ok (L2756) upper, —·k· (L1786) ua with fua (L1343). remove: ak·— (L1856) latin, ak–· (L1867) cyrillic, aokk (L1924)
+# digits, aok— (L2404) punctuation. extract: –ako (L2441) latin, –—–a (L2350) cyrillic, –·ko (L2594) digits, aok— (L2404) letters_digits. A kind and verb
+# with no handler (ua extract) is derived from the kind's find: vba is the derived value.
+case_id	function	call	input	vba	expected	rule	why	xfail
+chars-find-latin	chars.find	{"kind": "latin"}	диван IKEA	TRUE	TRUE			
+chars-find-latin-none	chars.find	{"kind": "latin"}	диван	FALSE	FALSE			
+chars-find-cyrillic	chars.find	{"kind": "cyrillic"}	IKEA Эктроп	TRUE	TRUE			
+chars-find-cyrillic-capital-ye	chars.find	{"kind": "cyrillic"}	IKEA Є	FALSE	FALSE			
+chars-find-digits	chars.find	{"kind": "digits"}	диван 2 места	TRUE	TRUE			
+chars-find-letters_digits	chars.find	{"kind": "letters_digits"}	диван	TRUE	TRUE			
+chars-find-letters_digits-punct	chars.find	{"kind": "letters_digits"}	!!! ---	FALSE	FALSE			
+chars-find-letters_digits-number	chars.find	{"kind": "letters_digits"}	2024	TRUE	TRUE			
+chars-find-letters_digits-cjk	chars.find	{"kind": "letters_digits"}	中文	FALSE	FALSE			
+chars-find-upper	chars.find	{"kind": "upper"}	купить Диван	TRUE	TRUE			
+chars-find-upper-none	chars.find	{"kind": "upper"}	диван	FALSE	FALSE			
+chars-find-upper-uzbek	chars.find	{"kind": "upper"}	Ўзбекистон	TRUE	TRUE			
+chars-find-ua	chars.find	{"kind": "ua"}	ціна дивана	TRUE	TRUE			
+chars-find-ua-russian	chars.find	{"kind": "ua"}	купить диван	FALSE	FALSE			
+chars-find-ua-russian-ending	chars.find	{"kind": "ua"}	купить кровати	TRUE	FALSE	Украинский текст (chars('ua')) — по буквам і ї є ґ, а не по 31 элементу `fua`	fua finds its item «ати » in «кровати »; semkit tests the letters і ї є ґ only	
+chars-find-ua-ge	chars.find	{"kind": "ua"}	ґанок	FALSE	TRUE	Украинский текст (chars('ua')) — по буквам і ї є ґ, а не по 31 элементу `fua`	ґ is none of the 31 fua items; semkit counts it as a Ukrainian letter	
+chars-extract-latin	chars.extract	{"kind": "latin"}	Диван IKEA Ektorp 3-местный	IKEA Ektorp	IKEA Ektorp			
+chars-extract-latin-hyphen	chars.extract	{"kind": "latin"}	Wi-Fi роутер	WiFi	WiFi			
+chars-extract-latin-none	chars.extract	{"kind": "latin"}	диван					
+chars-extract-cyrillic	chars.extract	{"kind": "cyrillic"}	Диван-кровать IKEA 3-местный	Диванкровать местный	Диванкровать местный			
+chars-extract-digits	chars.extract	{"kind": "digits"}	тел 8 (999) 123-45	8 999 12345	8 999 12345			
+chars-extract-digits-glued	chars.extract	{"kind": "digits"}	120x200	120200	120200			
+chars-extract-letters_digits	chars.extract	{"kind": "letters_digits"}	Диван-кровать, 2 шт.!	Диван кровать 2 шт	Диван кровать 2 шт			
+chars-extract-ua	chars.extract	{"kind": "ua"}	їжак, ґанок!	ї ґ	ї ґ			
+chars-remove-latin	chars.remove	{"kind": "latin"}	Диван IKEA Ektorp	Диван  	Диван	фраза делится по любым пробелам, двойных пробелов в результатах нет	ak·— cuts [a-zA-Z] and does not trim: two spaces stay at the end	
+chars-remove-cyrillic	chars.remove	{"kind": "cyrillic"}	Диван IKEA	 IKEA	IKEA	фраза делится по любым пробелам, двойных пробелов в результатах нет	ak–· cuts the Cyrillic letters and does not trim: the space before «IKEA» stays	
+chars-remove-cyrillic-capital-ye	chars.remove	{"kind": "cyrillic"}	IKEA Є	IKEA Є	IKEA Є			
+chars-remove-digits	chars.remove	{"kind": "digits"}	120x200	x	x			
+chars-remove-digits-word	chars.remove	{"kind": "digits"}	диван 2 местный	диван  местный	диван местный	фраза делится по любым пробелам, двойных пробелов в результатах нет	aokk cuts [0-9] and does not trim: a word of digits leaves a double space	
+chars-remove-punctuation	chars.remove	{"kind": "punctuation"}	Диван-кровать, 2 шт.!	Диван кровать 2 шт	Диван кровать 2 шт			
+chars-remove-punctuation-quotes	chars.remove	{"kind": "punctuation"}	«ИКЕА»	ИКЕА	ИКЕА			
+chars-remove-punctuation-cjk	chars.remove	{"kind": "punctuation"}	диван 中文	диван	диван			

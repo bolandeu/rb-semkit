@@ -1,0 +1,31 @@
+# cells. VBA, RibbonCallbacks.vba (docs/vba/matchers.md F4, R4, X4). find: —kk— (L2556) contains, —ko· (L2172) starts, —koo (L2822) ends,
+# findFFWprps (L2304) and findFLWprps (L2305) with prps (L1322), —koa (L2089) regex, —kk– (L1872) empty, —k—a (L2170) unique, —k–— (L2214)
+# repeated, —k–k (L2846) first, —k–– (L2493) last (o—— L381–434, koo· L2929: key UCase, empty cells counted). remove: remBlankCellsUp (L178) empty,
+# akok (L1868) contains, akk· (L2969) regex, ao—– (L2074) unique, ak·a (L2358) repeated. extract: –——k (L2101) contains, —·–· (L2935) starts,
+# —·–– (L2645) ends, –·k— (L2942) unique, –aoa (L2911) repeated.
+case_id	function	call	input	vba	expected	rule	why	xfail
+cells-find-contains	cells.find	{"kind": "contains", "items": ["диван"]}	Купить диван | кресло	TRUE | FALSE	TRUE | FALSE			
+cells-find-starts	cells.find	{"kind": "starts", "items": ["купить"]}	купить диван | купитьдиван | диван купить	TRUE | TRUE | FALSE	TRUE | TRUE | FALSE			
+cells-find-ends	cells.find	{"kind": "ends", "items": ["москва"]}	диван москва | диван москвы	TRUE | FALSE	TRUE | FALSE			
+cells-find-starts-prepositions	cells.find	{"kind": "starts", "prepositions": true}	для дома диван | диван для дома | для, дома	TRUE | FALSE | FALSE	TRUE | FALSE | FALSE			
+cells-find-starts-prepositions-po	cells.find	{"kind": "starts", "prepositions": true}	по низкой цене | диван	FALSE | FALSE	TRUE | FALSE	Список предлогов исправлен	prps holds «пo» with a latin «o», so «по» is never found	
+cells-find-ends-prepositions	cells.find	{"kind": "ends", "prepositions": true}	диван для | диван для,	TRUE | FALSE	TRUE | FALSE			
+cells-find-regex	cells.find	{"kind": "regex", "pattern": "^купить"}	купить диван | Купить диван	TRUE | FALSE	TRUE | FALSE			
+cells-find-unique	cells.find	{"kind": "unique"}	Диван | диван | кресло	FALSE | FALSE | TRUE	FALSE | FALSE | TRUE			
+cells-find-unique-empty	cells.find	{"kind": "unique"}	диван |  | 	TRUE | FALSE | FALSE	TRUE | TRUE | TRUE	пустые ячейки никогда не дубли	o—— counts the empty cells too: two of them are a repeated value	
+cells-find-repeated	cells.find	{"kind": "repeated"}	Диван | диван | кресло	TRUE | TRUE | FALSE	TRUE | TRUE | FALSE			
+cells-find-repeated-yo	cells.find	{"kind": "repeated"}	ёлка | елка	FALSE | FALSE	TRUE | TRUE	ё = е при сравнении	o—— keys by UCase: «ЁЛКА» and «ЕЛКА» are two values	
+cells-find-first	cells.find	{"kind": "first"}	Диван | диван | кресло | диван	TRUE | FALSE | TRUE | FALSE	TRUE | FALSE | TRUE | FALSE			
+cells-find-last	cells.find	{"kind": "last"}	Диван | диван | кресло | диван	FALSE | FALSE | TRUE | TRUE	FALSE | FALSE | TRUE | TRUE			
+cells-find-empty	cells.find	{"kind": "empty"}	 |  	TRUE | FALSE	TRUE | FALSE			
+cells-extract-unique	cells.extract	{"kind": "unique"}	Диван | диван | кресло	 |  | кресло	 |  | кресло			
+cells-extract-repeated	cells.extract	{"kind": "repeated"}	Диван | диван | кресло	Диван | диван | 	Диван | диван | 			
+cells-extract-contains	cells.extract	{"kind": "contains", "items": ["диван"]}	диванчик | кресло	диванчик | 	диванчик | 			
+cells-extract-starts	cells.extract	{"kind": "starts", "items": ["куп"]}	купить диван | диван	купить диван | 	купить диван | 			
+cells-extract-ends	cells.extract	{"kind": "ends", "items": ["москва"]}	диван москва | диван москвы	диван москва | 	диван москва | 			
+cells-extract-contains-yo	cells.extract	{"kind": "contains", "items": ["елк"]}	Ёлка | стол	 | 	Ёлка | 	ё = е при сравнении	–——k compares UCase: «ЁЛКА» does not contain «ЕЛК»	
+cells-remove-repeated	cells.remove	{"kind": "repeated"}	Диван | диван | кресло	 |  | кресло	 |  | кресло			
+cells-remove-unique	cells.remove	{"kind": "unique"}	Диван | диван | кресло	Диван | диван | 	Диван | диван | 			
+cells-remove-contains	cells.remove	{"kind": "contains", "items": ["диван"]}	диванчик | стол	 | стол	 | стол			
+cells-remove-regex	cells.remove	{"kind": "regex", "pattern": "\\d"}	диван 2 | диван	 | диван	 | диван			
+cells-remove-empty	cells.remove	{"kind": "empty"}	диван |  | стол	диван | стол	диван | стол			

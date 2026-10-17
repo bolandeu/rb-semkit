@@ -1,0 +1,21 @@
+# regex. VBA, RibbonCallbacks.vba (docs/vba/matchers.md S8, F4, R1, X1): VBScript.RegExp, IgnoreCase False, ASCII \w \b \d. find —koa (L2089)
+# RegExMatch (L1646); remove aoka (L2363) RegExReplace (L2080), no trim; invert aok· (L1820) (bug: the pattern is an undeclared variable, ""); extract
+# –a—– (L2712) the first match, –a—— (L2877–2878) every match joined by the separator the user types (here « »). invert find and extract have no
+# handler: derived from aok· as intended (the matches kept); vba is the derived value.
+case_id	function	call	input	vba	expected	rule	why	xfail
+regex-find-plain	regex.find	{"pattern": "^купить"}	купить диван	TRUE	TRUE			
+regex-find-case	regex.find	{"pattern": "^купить"}	Купить диван	FALSE	FALSE			
+regex-find-cyrillic-boundary	regex.find	{"pattern": "\\bв\\b"}	диван в москве	FALSE	TRUE	Регулярные выражения понимают кириллицу: классы \w, \b, \d в режиме Unicode, а не ASCII, как в VBScript	VBScript \b is ASCII: «в» and the spaces round it are all non-word characters, so there is no boundary	
+regex-find-cyrillic-word	regex.find	{"pattern": "^\\w+$"}	диван	FALSE	TRUE	Регулярные выражения понимают кириллицу: классы \w, \b, \d в режиме Unicode, а не ASCII, как в VBScript	VBScript \w is [A-Za-z0-9_]: a Cyrillic word does not match	
+regex-find-invert	regex.find	{"pattern": "\\d+", "invert": true}	диван 120	TRUE	TRUE			
+regex-find-invert-none	regex.find	{"pattern": "\\d+", "invert": true}	120	FALSE	FALSE			
+regex-remove-plain	regex.remove	{"pattern": "\\d+"}	диван 2 места 3	диван  места 	диван места	фраза делится по любым пробелам, двойных пробелов в результатах нет	aoka replaces the matches by nothing and does not trim: a double space and a trailing space stay	
+regex-remove-case	regex.remove	{"pattern": "диван"}	Диван	Диван	Диван			
+regex-remove-none	regex.remove	{"pattern": "\\d"}	диван	диван	диван			
+regex-remove-cyrillic-boundary	regex.remove	{"pattern": "\\bв\\b"}	купить диван в москве	купить диван в москве	купить диван москве	Регулярные выражения понимают кириллицу: классы \w, \b, \d в режиме Unicode, а не ASCII, как в VBScript; фраза делится по любым пробелам, двойных пробелов в результатах нет	VBScript \b is ASCII and finds no boundary round «в», so aoka leaves the phrase; semkit cuts «в» and the double space	
+regex-remove-invert	regex.remove	{"pattern": "\\d+", "invert": true}	диван 120x200		120200	явные дефекты исправляем	aok· passes the undeclared variable o— as the pattern: the pattern is '' and every cell becomes ''	
+regex-extract-first	regex.extract	{"pattern": "\\d+"}	диван 120x200	120	120			
+regex-extract-all	regex.extract	{"pattern": "\\d+", "all_matches": true}	диван 120x200	120 200	120 200			
+regex-extract-case	regex.extract	{"pattern": "купить"}	Купить диван					
+regex-extract-cyrillic-word	regex.extract	{"pattern": "\\w+"}	диван-кровать		диван	Регулярные выражения понимают кириллицу: классы \w, \b, \d в режиме Unicode, а не ASCII, как в VBScript	VBScript \w is ASCII: no Cyrillic letter matches, so –a—– gives ''	
+regex-extract-invert	regex.extract	{"pattern": "\\d+", "invert": true}	диван 120x200	диван x	диван x			

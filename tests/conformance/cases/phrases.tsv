@@ -1,0 +1,20 @@
+# phrases. VBA, RibbonCallbacks.vba (docs/vba/matchers.md S10, F3, R3, X3): find —k—k (L2218) with –la (L645–646), remove aok– (L2733)
+# with DeletePhrases (L3452–3470), extract –a–a (L1736) with la— (L647–648). A token is a key by UCase of its first word; a token glued to punctuation is
+# no key.
+case_id	function	call	input	vba	expected	rule	why	xfail
+phrases-find-cities	phrases.find	{"items": ["Нижний Новгород", "Москва"]}	доставка в нижний новгород	TRUE	TRUE			
+phrases-find-cities-other	phrases.find	{"items": ["Нижний Новгород", "Москва"]}	нижний тагил	FALSE	FALSE			
+phrases-find-cities-punct	phrases.find	{"items": ["Нижний Новгород", "Москва"]}	в москва,	FALSE	FALSE			
+phrases-find-cities-start	phrases.find	{"items": ["Нижний Новгород", "Москва"]}	Москва диван	TRUE	TRUE			
+phrases-find-glued	phrases.find	{"items": ["угловой диван"]}	угловойдиван	FALSE	FALSE			
+phrases-find-yo	phrases.find	{"items": ["ёлка"]}	елка искусственная	FALSE	TRUE	ё = е при сравнении	–la keys «ёлка» by UCase «ЁЛКА»: the word «елка» is no key	
+phrases-remove-list	phrases.remove	{"items": ["купить", "в москве"]}	Купить диван в Москве	диван	диван			
+phrases-remove-case	phrases.remove	{"items": ["москве"]}	Диван Москва	диван москва	Диван Москва	Удаление по списку фраз и маркеров сохраняет регистр	DeletePhrases lower-cases the whole cell, also when it removes nothing	
+phrases-remove-case-punct	phrases.remove	{"items": ["москва"]}	Москва, диван москва	москва, диван	Москва, диван	Удаление по списку фраз и маркеров сохраняет регистр	DeletePhrases lower-cases the cell; «москва,» with its comma is no phrase of the list	
+phrases-remove-longest	phrases.remove	{"items": ["купить диван", "диван"]}	купить диван недорого	недорого	недорого			
+phrases-remove-double-space	phrases.remove	{"items": ["диван"]}	купить  диван	купить 	купить	фраза делится по любым пробелам, двойных пробелов в результатах нет	DeletePhrases splits on one space: the empty word of the double space stays and leaves a space at the end	
+phrases-extract-one-item	phrases.extract	{"items": ["угловой диван"]}	Купить Угловой ДИВАН	угловой диван	угловой диван			
+phrases-extract-cities	phrases.extract	{"items": ["Нижний Новгород", "Москва"]}	доставка в нижний новгород	Нижний Новгород	Нижний Новгород			
+phrases-extract-cities-two	phrases.extract	{"items": ["Нижний Новгород", "Москва"]}	доставка нижний новгород москва	Нижний Новгород\Москва	Нижний Новгород, Москва	маркеры — в написании списка, через «, »	la— joins the found phrases by a backslash	
+phrases-extract-inner	phrases.extract	{"items": ["диван", "угловой диван", "купить диван"]}	купить диван угловой диван	купить диван\диван\угловой диван\диван	купить диван, угловой диван	маркеры — в написании списка, через «, »; Извлечение маркеров берёт самое длинное совпадение	la— gives each word that is a key its own slot, joined by a backslash: the «диван» inside both phrases comes out again	
+phrases-extract-none	phrases.extract	{"items": ["москва"]}	диван					

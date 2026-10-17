@@ -1,0 +1,17 @@
+# word_case. VBA, RibbonCallbacks.vba (docs/vba/matchers.md F2): find aakL (L1665) isLcase (L3387), aakP (L1666) isProper (L3388,
+# Excel PROPER), aakC (L1667) isCaps (L3389); a token of digits or punctuation only is no case. extract has no handler: derived from the find tests
+# (the tokens they pass); vba is the derived value.
+case_id	function	call	input	vba	expected	rule	why	xfail
+word_case-find-lower	word_case.find	{"kind": "lower"}	диван IKEA	TRUE	TRUE			
+word_case-find-lower-none	word_case.find	{"kind": "lower"}	Диван IKEA	FALSE	FALSE			
+word_case-find-lower-digit	word_case.find	{"kind": "lower"}	3d	TRUE	TRUE			
+word_case-find-capital	word_case.find	{"kind": "Capital"}	купить Диван	TRUE	TRUE			
+word_case-find-capital-inner	word_case.find	{"kind": "Capital"}	iPhone	FALSE	FALSE			
+word_case-find-capital-hyphen	word_case.find	{"kind": "Capital"}	Ростов-на-Дону	FALSE	FALSE			
+word_case-find-caps	word_case.find	{"kind": "CAPS"}	диван IKEA	TRUE	TRUE			
+word_case-find-caps-digits	word_case.find	{"kind": "CAPS"}	2024	FALSE	FALSE			
+word_case-extract-lower	word_case.extract	{"kind": "lower"}	Диван IKEA x5	x5	x5			
+word_case-extract-capital	word_case.extract	{"kind": "Capital"}	купить Диван IKEA	Диван	Диван			
+word_case-extract-capital-hyphen	word_case.extract	{"kind": "Capital"}	Из-за Москвы	Москвы	Москвы			
+word_case-extract-caps	word_case.extract	{"kind": "CAPS"}	диван IKEA Ektorp	IKEA	IKEA			
+word_case-extract-caps-one-letter	word_case.extract	{"kind": "CAPS"}	В Москве	В	В			

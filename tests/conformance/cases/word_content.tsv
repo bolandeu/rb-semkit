@@ -1,0 +1,26 @@
+# word_content. VBA, RibbonCallbacks.vba (docs/vba/matchers.md F2, R2, X2). find: —ka— (L2082) starts, —kaa (L2225) starts a list,
+# —kao (L2670) ends; remove: aoaa (L2653) starts, aoak (L2901) contains, a·—– (L2456) only_latin, a·a– (L2336) has_latin, a·—— (L2780) only_digits
+# (IsNumeric, ru locale), a·a— (L1864) has_digits; extract: –·–a (L1903) starts, ——·– (L2107) only_latin, –—k— (L2442) has_latin, ——·— (L2127)
+# only_digits, a·o– (L2916) mixed. A token is tested with its punctuation, UCase, ё ≠ е. find by a kind of characters has no handler: derived from its
+# remove and extract handlers; vba is the derived value.
+case_id	function	call	input	vba	expected	rule	why	xfail
+word_content-find-starts	word_content.find	{"kind": "starts", "pattern": "диван"}	купить диванчик	TRUE	TRUE			
+word_content-find-starts-list	word_content.find	{"kind": "starts", "pattern": ["див", "крес"]}	стол	FALSE	FALSE			
+word_content-find-starts-yo	word_content.find	{"kind": "starts", "pattern": "ёлк"}	елки	FALSE	TRUE	ё = е при сравнении	—·– compares UCase: «ЕЛК» is not «ЁЛК»	
+word_content-find-ends	word_content.find	{"kind": "ends", "pattern": "ный"}	красный диван	TRUE	TRUE			
+word_content-find-ends-none	word_content.find	{"kind": "ends", "pattern": "ный"}	красная кровать	FALSE	FALSE			
+word_content-find-ends-punct	word_content.find	{"kind": "ends", "pattern": "ный"}	красный, синий	FALSE	FALSE			
+word_content-find-mixed-cjk	word_content.find	{"kind": "mixed"}	第1	FALSE	FALSE			
+word_content-extract-starts	word_content.extract	{"kind": "starts", "pattern": "див"}	купить диван и диванчик	диван диванчик	диван диванчик			
+word_content-extract-starts-quote	word_content.extract	{"kind": "starts", "pattern": "див"}	«диван» кресло					
+word_content-extract-only_latin	word_content.extract	{"kind": "only_latin"}	Wi-Fi роутер	Wi-Fi	Wi-Fi			
+word_content-extract-has_latin	word_content.extract	{"kind": "has_latin"}	диван IKEA 3d	IKEA 3d	IKEA 3d			
+word_content-extract-only_digits	word_content.extract	{"kind": "only_digits"}	диван 2 1,5 120x200	2 1,5	2 1,5			
+word_content-extract-mixed	word_content.extract	{"kind": "mixed"}	диван 2 120x200 3d	120x200 3d	120x200 3d			
+word_content-remove-starts	word_content.remove	{"kind": "starts", "pattern": "див"}	купить диван и диванчик	купить и	купить и			
+word_content-remove-contains	word_content.remove	{"kind": "contains", "pattern": "диван"}	диван диванчик кресло	кресло	кресло			
+word_content-remove-only_latin	word_content.remove	{"kind": "only_latin"}	диван IKEA 3d Ektorp	диван 3d	диван 3d			
+word_content-remove-has_latin	word_content.remove	{"kind": "has_latin"}	диван IKEA 3d Ektorp	диван	диван			
+word_content-remove-only_digits	word_content.remove	{"kind": "only_digits"}	диван 2 120x200 1,5	диван 120x200	диван 120x200			
+word_content-remove-only_digits-isnumeric	word_content.remove	{"kind": "only_digits"}	диван (5) $5 1e3 -5 &H10	диван	диван			
+word_content-remove-has_digits	word_content.remove	{"kind": "has_digits"}	диван 2 120x200 3d	диван	диван			
