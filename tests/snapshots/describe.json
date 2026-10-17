@@ -4722,7 +4722,7 @@
           },
           {
             "name": "dupes",
-            "description": "Duplicates of the phrases, by kind.\n\nkind: exact (the same text), explicit (the same in any case, with ё as е and any spaces), implicit (the same words in another order) or lemmas (the same lemmas in any order).\naction: mark_except_first (true for each duplicate, false for the first of its group), mark_all (true for every member of a group of 2 or more), drop (keep the first, drop the rest).\n\nThe step marks the duplicates of the working column in a new column <column>_dupes; with --action drop it keeps only the first row of each group.\n\nExample: semkit read core.csv dupes lemmas --action mark_except_first write out.csv",
+            "description": "Duplicates of the phrases, by kind.\n\naction: mark_except_first (true for each duplicate, false for the first of its group), mark_all (true for every member of a group of 2 or more), drop (keep the first, drop the rest).\n\nkind: exact (the same text), explicit (the same in any case, with ё as е and any spaces), implicit (the same words in another order), lemmas (the same lemmas in any order) or meaning (close phrase vectors, and the words that differ are only non-refining words, synonyms or the home city).\nneutral: the Human's non-refining words for --kind meaning, as @FILE or @NAME of a list; they add to the bundled list @meaning/neutral. Words are compared by lemma.\nsynonyms: a file with the columns word and synonyms, as the step `synonyms` gives, for --kind meaning; a word and its synonyms are the same word. The file is read like `read` does.\nhome: the name of the home city for --kind meaning; its word is non-refining, another city's is not.\nthreshold: the similarity from 0 to 1 two phrases need to be one intent, for --kind meaning. Without it the threshold of the model.\nmodel: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.\n\nThe step marks the duplicates of the working column in a new column <column>_dupes; with --action drop it keeps only the first row of each group. With --kind meaning it also adds the columns dupe_of (the first row of the group, the phrase kept) and similarity (the cosine to it) next to it.\n\nExample: semkit read core.csv dupes lemmas --action mark_except_first write out.csv",
             "options": [
               {
                 "name": "--kind",
@@ -4734,11 +4734,12 @@
                       "exact",
                       "explicit",
                       "implicit",
-                      "lemmas"
+                      "lemmas",
+                      "meaning"
                     ]
                   }
                 ],
-                "description": "exact (the same text), explicit (the same in any case, with ё as е and any spaces), implicit (the same words in another order) or lemmas (the same lemmas in any order).",
+                "description": "exact (the same text), explicit (the same in any case, with ё as е and any spaces), implicit (the same words in another order), lemmas (the same lemmas in any order) or meaning (close phrase vectors, and the words that differ are only non-refining words, synonyms or the home city).",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -4765,6 +4766,90 @@
                   {
                     "name": "x-rb-type",
                     "value": "choice"
+                  }
+                ]
+              },
+              {
+                "name": "--threshold",
+                "arguments": [
+                  {
+                    "name": "THRESHOLD",
+                    "required": true
+                  }
+                ],
+                "description": "the similarity from 0 to 1 two phrases need to be one intent, for --kind meaning. Without it the threshold of the model.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "float"
+                  }
+                ]
+              },
+              {
+                "name": "--model",
+                "arguments": [
+                  {
+                    "name": "MODEL",
+                    "required": true
+                  }
+                ],
+                "description": "the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "e5-small"
+                  }
+                ]
+              },
+              {
+                "name": "--neutral",
+                "arguments": [
+                  {
+                    "name": "NEUTRAL",
+                    "required": true
+                  }
+                ],
+                "description": "the Human's non-refining words for --kind meaning, as @FILE or @NAME of a list; they add to the bundled list @meaning/neutral. Words are compared by lemma. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--synonyms",
+                "arguments": [
+                  {
+                    "name": "SYNONYMS",
+                    "required": true
+                  }
+                ],
+                "description": "a file with the columns word and synonyms, as the step `synonyms` gives, for --kind meaning; a word and its synonyms are the same word. The file is read like `read` does.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--home",
+                "arguments": [
+                  {
+                    "name": "HOME",
+                    "required": true
+                  }
+                ],
+                "description": "the name of the home city for --kind meaning; its word is non-refining, another city's is not.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
                   }
                 ]
               },
@@ -4797,9 +4882,10 @@
                   "exact",
                   "explicit",
                   "implicit",
-                  "lemmas"
+                  "lemmas",
+                  "meaning"
                 ],
-                "description": "exact (the same text), explicit (the same in any case, with ё as е and any spaces), implicit (the same words in another order) or lemmas (the same lemmas in any order). The same as --kind KIND.",
+                "description": "exact (the same text), explicit (the same in any case, with ё as е and any spaces), implicit (the same words in another order), lemmas (the same lemmas in any order) or meaning (close phrase vectors, and the words that differ are only non-refining words, synonyms or the home city). The same as --kind KIND.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -11030,6 +11116,12 @@
             "description": "Слова про продажу и покупку: купить, цена, недорого"
           },
           {
+            "name": "meaning/neutral",
+            "source": "bundled",
+            "lines": 32,
+            "description": "Неуточняющие слова: недорого, распродажа, от производителя, с доставкой, цены"
+          },
+          {
             "name": "minus/abusive",
             "source": "bundled",
             "lines": 363,
@@ -11129,7 +11221,7 @@
             "name": "stop/semtools",
             "source": "bundled",
             "lines": 439,
-            "description": "Стоп-слова надстройки !SEMTools: предлоги, союзы, частицы"
+            "description": "Стоп-слова: предлоги, союзы, частицы"
           },
           {
             "name": "stop/wordstat",

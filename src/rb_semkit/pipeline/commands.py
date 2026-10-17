@@ -89,7 +89,12 @@ class StepOption:
     def value(self, values: dict[str, Any]) -> Any:
         """The value the function takes for what the command line gave, as the option or positionally."""
         given = self._given(values)
-        return items(given) if self.takes_items and given is not None else given
+        if not self.takes_items or given is None:
+            return given
+        try:
+            return items(given)
+        except InvalidArguments as error:
+            raise InvalidArguments(f"{self.flag()}: {error.message}", action=error.action) from None
 
     def _given(self, values: dict[str, Any]) -> Any:
         option = values[self.name]
