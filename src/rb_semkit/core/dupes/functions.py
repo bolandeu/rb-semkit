@@ -1,6 +1,8 @@
 """`dupes`: each distinct phrase gets a key by its kind once; the keys are compared and the result is mapped back.
 
 An empty phrase (no words) has no key, so it is never a duplicate of anything.
+
+`key_function` gives the key of a kind; other tools (`compare_lists`) reuse it as the one notion of «the same phrase».
 """
 
 from __future__ import annotations
@@ -38,7 +40,7 @@ def _lemma_key(lemmatizer: Lemmatizer) -> Callable[[str], str]:
     return key
 
 
-def _key_function(kind: str, lemmatizer: Lemmatizer | None) -> Callable[[str], str]:
+def key_function(kind: str, lemmatizer: Lemmatizer | None) -> Callable[[str], str]:
     simple = {"exact": _exact, "explicit": _explicit, "implicit": _implicit}
     if kind in simple:
         return simple[kind]
@@ -70,7 +72,7 @@ def dupes(
     `action`: mark_except_first (a bool, the first of a group is False), mark_all (every member of a group of 2+),
     drop (keep the first, drop the rest). With `against` a phrase is a duplicate when its key is in that Series.
     """
-    key_of = _key_function(kind, lemmatizer)
+    key_of = key_function(kind, lemmatizer)
     if action not in ACTIONS:
         raise InvalidArguments(f"action: {action!r} is not an action; allowed: {', '.join(ACTIONS)}.")
     frame = Frame(data, column)
