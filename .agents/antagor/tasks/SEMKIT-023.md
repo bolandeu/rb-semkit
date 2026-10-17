@@ -140,3 +140,15 @@ Follow the cli-builder frame that is already here (output.guard, --json envelope
 > Recommended: Keep action, as every other command; read 'hint' in the acceptance as action
 
 Option 1: keep action, as every other command; read 'hint' in the acceptance as action.
+
+### Answer to question #2
+
+> The E-003 goal writes 'drop-words @minus/universal remove-chars punctuation' (required arguments positional); SEMKIT-023 acceptance writes 'remove-words --items купить' and 'drop-words --items @stop.txt' (options). I implement options now (the task).
+> Question: How does a step take a required argument of the library function?
+> Options:
+> 1. Both: as the option --NAME, or positional when it is the first required argument
+> 2. Option only (--items, --kind), as the task acceptance
+> 3. Positional only, as the epic goal
+> Recommended: Both: as the option --NAME, or positional when it is the first required argument
+
+Option 1: both. The first required argument is positional and also accepted as --NAME; the rest are options. The epic goal line is the target form (drop-words @minus/universal, remove-chars punctuation).
