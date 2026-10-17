@@ -26,8 +26,11 @@ import importlib
 import inspect
 import pkgutil
 import re
-from collections.abc import Callable, Collection, Mapping
+from collections.abc import Callable, Collection, Iterator, Mapping
+from contextlib import contextmanager
+from contextvars import ContextVar
 from dataclasses import dataclass
+from pathlib import Path
 from types import FunctionType
 from typing import Any, Literal
 
@@ -39,6 +42,8 @@ from ..core.frame import Frame, text_columns
 from ..pipeline.tables import STDIO, Source, exists
 
 Kind = Literal["change", "filter", "report"]
+# The folder the project of the CLI is looked up from while a step is prepared: the --project option, else the current folder.
+_PROJECT_START: ContextVar[Path | None] = ContextVar("project_start", default=None)
 # A docstring line that explains arguments of the function: «mode: …», «`action`: …», «core, column: …», «first / last: …».
 ARGUMENT_NAMES = r"`?\w+`?(?:(?:, | / )`?\w+`?)*"
 ARGUMENT_LINE = re.compile(rf"^(?P<names>{ARGUMENT_NAMES}): ")
@@ -46,6 +51,21 @@ ARGUMENT_LINE = re.compile(rf"^(?P<names>{ARGUMENT_NAMES}): ")
 INLINE_ARGUMENT = re.compile(rf"(?<=[.;]) (?P<names>{ARGUMENT_NAMES}): ")
 LIST_ITEM = re.compile(r"^(?:[-*]|\d+[.)]) ")
 DIGIT_GROUPS = r"(?<=\d)[ \u00a0\u202f](?=\d{3}\b)"  # the spaces between groups of digits: «1 000»
+
+
+@contextmanager
+def project_start(start: Path) -> Iterator[None]:
+    """Prepare the steps inside it for the project at or above `start`."""
+    token = _PROJECT_START.set(start)
+    try:
+        yield
+    finally:
+        _PROJECT_START.reset(token)
+
+
+def prepared_for() -> Path:
+    """The folder the project of the step being prepared is looked up from."""
+    return _PROJECT_START.get() or Path.cwd()
 
 
 @dataclass(frozen=True)
