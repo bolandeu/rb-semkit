@@ -13,6 +13,10 @@ names it, `changing` checks its options on no phrases at all); `Adapted` shows a
 with other arguments (`option` makes the parameter), for a table or a file in place of an argument; a file option is
 read by `table_of` and turned into the argument by `as_table`, `pairs_of`, `scores_of` or `texts_of` (`first_text`
 names the column of the texts); `joined` gives the working column as one text.
+
+The help of a step is made from the docstring: `doc_lines` joins the lines of a paragraph but keeps the items of a list
+and the explanations of arguments as lines of their own, `argument_names` gives the arguments such an explanation is
+for, and `parameter_names` the arguments of a function (and of the function an `Adapted` one wraps).
 """
 
 from __future__ import annotations
