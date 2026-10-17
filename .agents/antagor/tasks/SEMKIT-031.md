@@ -2,7 +2,7 @@
 id: SEMKIT-031
 title: 'Text rules on a real page: one word splitter, split-text at sentences not
   dashes, no false typos, abbreviations no lemmas'
-status: publish
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null

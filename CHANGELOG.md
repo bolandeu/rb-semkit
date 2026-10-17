@@ -5,6 +5,16 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.21 — 2026-10-17
+
+### E-004 — semkit on a real core: correct morphology and text rules, a CLI that tells the truth
+
+Every finding of docs/plans/e2e-quality.md is fixed, decided in an ADR or the help, or recorded as not taken; a checked-in end-to-end run on a real core and a real text recounts the results independently and is part of the gate.
+Time: 0.9h since the epic was approved
+
+- Morphology on a real core: correct lemmas, the accusative, plurals, compounds, adjectives, full names, word forms (SEMKIT-030)
+- Text rules on a real page: one word splitter, split-text at sentences not dashes, no false typos, abbreviations no lemmas (SEMKIT-031)
+
 ## v0.1.20 — 2026-10-17
 
 ### Outside epics
