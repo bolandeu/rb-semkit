@@ -48,7 +48,6 @@ translation: '**Функции изменения на реальных фраз
   #фрагмент; switch_layout туда-обратно; split_digits не рвёт 140х200.'
 ---
 
-
 The end-to-end check (docs/plans/e2e-quality.md, items 23-26) found the change functions give wrong results on real phrases. Fix the library behaviour. Do not change the docstrings of the public sk functions (the step help is made from them): SEMKIT-033 updates them and the help snapshots after this task; when your fix changes a rule a docstring states, report it as an inbox finding (the function and the new rule). Module (file) docstrings are not frozen: keep each one naming what its file holds, new helpers too (the project's file docstring check).
 
 match_type: a phrase that already has quotes, brackets or operators is not wrapped again and no operator is glued to a quote or a bracket: «"купить диван" -бесплатно» plus_every_word → «"+купить +диван" -бесплатно»; «[диван в икеа] -бу» brackets → «[диван в икеа] -бу»; quotes of a quoted phrase stay one pair; fixed_forms gives «"!купить !диван"», «[!диван !в !икеа] -бу». The result is valid Yandex Direct syntax.
@@ -102,3 +101,9 @@ ADR 0005: follow the add-in, fix explicit defects, record each deviation in docs
 ### Attempt 1: file docstring
 
 - update the docstring of src/rb_semkit/core/change/common.py: +split_edges
+
+### Answer to finding #1
+
+> SEMKIT-033 docstrings, rules changed by SEMKIT-032: (1) match_type: a phrase with quotes/brackets is not wrapped again; operator goes inside the existing quote/bracket pair; brackets/quotes/quoted_* replace the old wrap; antisemantic drops the old wrap. (2) translit to='ru': a word in capitals reads by small-letter groups and stays in capitals (ZHUK→ЖУК); new groups shch, ts, yy; 'y' after a/u before no vowel is й; ь and ъ (and е/ё) cannot reverse. (3) change_case toponyms: punctuation at word edges is ignored and kept; a hyphen splits a word so «ростов-на-дону»→«Ростов-на-Дону». (4) phonetic: whole-word table has 'ikea'→'икеа'. (5) replace_words: punctuation at the edges of the found words is kept around the replacement; an empty replacement removes the words with that punctuation. (6) extract_utm: only the part before '#' is searched. (7) split_digits: a size NxM (x latin/cyrillic, any case) stays whole. (8) switch_layout: signs of the Russian layout map to English keys and back: . = /, ',' = ?, : = ^, ; = $, ? = &, " = @, № = #, / = |.
+
+Goes into SEMKIT-033's body (the docstring rules changed by 032) before 033 starts.
