@@ -3,7 +3,7 @@ id: SEMKIT-034
 title: 'Vectors base: models pull/list/remove, the encoder, the index and cluster-meaning
   end to end'
 status: in_review
-attempts: 1
+attempts: 2
 blocked: false
 blocked_reason: null
 phase: null
