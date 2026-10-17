@@ -140,9 +140,10 @@ hash-text, chpu, the csv / xlsx / parquet / jsonl round trip of text, --dry-run,
 
 ## dataio (another tool)
 
-51. Writing xlsx is quadratic: 10k rows 3.8 s, 100k rows 326 s, 1M rows did not end; a killed write leaves its temp
-    folder. Reading the same file takes 1.3 s. This is rb_dataio's writer: an idea for dataio, and semkit's benchmark
-    of a write to xlsx guards it.
+51. Writing xlsx is quadratic: 10k rows 3.8 s, 100k rows 326 s, 1M rows did not end. Reading the same file takes
+    1.3 s. This is rb_dataio's writer (openpyxl max_row per row): DATAIO-024; the int column with gaps of item 28 is
+    DATAIO-025. The temp folder a killed write leaves is semkit's own (the write goes through a temporary folder
+    next to the target); after SIGKILL no cleanup can run, so it is not taken.
 
 ## Not taken
 
