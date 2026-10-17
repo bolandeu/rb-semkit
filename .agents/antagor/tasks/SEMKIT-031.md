@@ -64,13 +64,14 @@ translation: '**Текстовые правила на реальной стра
   частей речи; remove-chars punctuation не рвёт 2.5 и 140х200.'
 ---
 
-The end-to-end check (docs/plans/e2e-quality.md, items 12-19, 22, 26) on a real page (a customs warehouse site) and a real sofa core found the text functions split and count words differently, cut phrases where a sentence does not end, and the typo check rewrites correct phrases. Fix the library behaviour; keep the public docstrings as they are unless a rule they state changes (the step help and its snapshots are the CLI task's); behaviour only.
+
+The end-to-end check (docs/plans/e2e-quality.md, items 12-19, 22, 26) on a real page (a customs warehouse site) and a real sofa core found the text functions split and count words differently, cut phrases where a sentence does not end, and the typo check rewrites correct phrases. Fix the library behaviour; Do not change the public docstrings: SEMKIT-033 updates them and the help snapshots after this task; when your fix changes a rule a docstring states, report it as an inbox finding (the function and the new rule). Behaviour only.
 
 One word splitter: split_text, text_stats, coverage, compare_grams, compare_stats, ngrams and bm25 count the words of a text the same way: a number with inner points, commas or hyphens (31.03.2026, 541,67, 275-30-85, 2.5) is one word, a hyphenated word is one word. text_stats words and compare_grams / coverage densities of one text use the same word count.
 
 split_text: a dash between words (Склад временного хранения — это место) does not cut a phrase; an abbreviation point (г. Краснознаменск, ул. Березовая, т. е.) does not end a sentence; a phone, a date, a decimal stay whole.
 
-Coverage exact: an occurrence may cross a dash or a comma inside a sentence (хранения — это matches the phrase склад временного хранения это), not a sentence end; the rule is stated in the docstring.
+Coverage exact: an occurrence may cross a dash or a comma inside a sentence (хранения — это matches the phrase склад временного хранения это), not a sentence end.
 
 Lemmas of the text metrics: single-letter words and the abbreviations г, м, п, д, т, ул, руб (with or without a point) are words but no lemmas for top, nausea, ttr, mtld, zipf and compare_grams.
 
@@ -116,5 +117,5 @@ ADR 0005 for ported functions; semkit's own functions (split_text, text_stats, c
 ## Out of scope
 
 - Morphology (lemmas, declension): SEMKIT-030
-- The step help, its snapshots and the guide: the CLI task
+- The step help, its snapshots, the docstrings and the guide: SEMKIT-033
 - A new spelling service
