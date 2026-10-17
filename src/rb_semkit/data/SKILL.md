@@ -220,6 +220,11 @@ searched (`index: exact`, or `index: hnsw` above about 300 000 phrases; both giv
 `--json` it is the `note` of the step's summary. A model not pulled is `MODEL_NOT_PULLED` (exit 1, the action is the
 pull command); an unknown `--model` or a `--threshold` out of 0–1 is exit 2.
 
+`ad-groups` gives every phrase an `ad_group` number and an `ad_group_name`: phrases that are duplicates by meaning of
+each other (the rule of `dupes --kind meaning`, with its `--neutral`, `--synonyms`, `--home`) share a group, taken
+transitively. `--max-size N` (1 or more) splits a larger group by vector, the nearest phrases together; the name is the
+most frequent phrase with `--freq COLUMN`, else the first one.
+
 `dupes --kind meaning` marks a phrase as a duplicate of an earlier one when their vectors are close and the words that
 differ are only non-refining words (the bundled list `@meaning/neutral`, plus your own `--neutral @FILE`), synonyms
 (`--synonyms FILE` of word and synonyms, as the step `synonyms` gives), another form or order of a word, or the home

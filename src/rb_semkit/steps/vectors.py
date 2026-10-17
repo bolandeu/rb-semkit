@@ -38,7 +38,7 @@ def by_meaning(options: dict) -> tuple[Encoder, float]:
     return encoder.encoder_for(model, prepared_for()), threshold
 
 
-def _frequencies(table: pd.DataFrame, name: str) -> pd.Series:
+def frequencies_of(table: pd.DataFrame, name: str) -> pd.Series:
     if name not in table.columns:
         raise InvalidArguments(
             f"--freq {name}: the table has no such column.",
@@ -51,7 +51,7 @@ def _prepare(options: dict) -> Prepared:
     found_encoder, threshold = by_meaning(options)
 
     def run(table: pd.DataFrame, column: str) -> Columns:
-        freq = None if options["freq"] is None else _frequencies(table, options["freq"])
+        freq = None if options["freq"] is None else frequencies_of(table, options["freq"])
         found = cluster_meaning(Frame(table, column).phrases, encoder=found_encoder, threshold=threshold, freq=freq)
         return Columns(found, note=f"index: {found.attrs['index']}")
 

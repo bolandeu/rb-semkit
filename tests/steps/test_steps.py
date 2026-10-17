@@ -282,6 +282,7 @@ COMMANDS = {
     "wordforms": ["phrases.csv", "wordforms", "диван"],
     "cluster-serp": ["serp.csv", "cluster-serp"],
     "cluster-meaning": ["core.csv", "cluster-meaning"],
+    "ad-groups": ["core.csv", "ad-groups"],
 }
 
 

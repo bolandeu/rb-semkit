@@ -29,4 +29,5 @@ AREAS = {
     "summary": ["summary"],
     "textstats": ["text-stats"],
     "vectors": ["cluster-meaning"],
+    "adgroups": ["ad-groups"],
 }  # fmt: skip
