@@ -21,17 +21,21 @@ owns_paths:
 - src/rb_semkit/steps/dupes.py
 - src/rb_semkit/steps/analysis.py
 - src/rb_semkit/core/opencli.py
+- src/rb_semkit/commands/describe.py
 - pyproject.toml
 - scripts/bench_parts/cli.py
 - tests/test_help.py
+- tests/test_cli.py
+- tests/test_contracts.py
+- tests/test_describe.py
+- tests/contracts/
 - tests/snapshots/help/read.txt
 - tests/snapshots/help/steps/text/
 - tests/snapshots/help/steps/dupes/
 - tests/snapshots/help/steps/analysis/
 test_paths:
 - tests/pipeline/
-docs:
-- docs/adr/0008-cli-pipeline-of-chained-steps.md
+docs: none
 tools: []
 worker_args: null
 class: hard
