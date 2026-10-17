@@ -2,7 +2,7 @@
 id: SEMKIT-021
 title: 'Conformance: no cases for semkit''s own functions; drop the text_stats cases
   that copy expected into vba'
-status: ideas
+status: queue
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -10,7 +10,7 @@ phase: null
 tests_hash: null
 publish_stage: null
 created_by: architect
-approved_by: null
+approved_by: human
 worker: claude-code
 type: chore
 owns_paths:
