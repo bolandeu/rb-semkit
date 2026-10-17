@@ -2,7 +2,7 @@
 id: SEMKIT-019
 title: 'Compare a text with competitor texts: gram density against the competitors''
   median, metrics against their median, BM25'
-status: publish
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
