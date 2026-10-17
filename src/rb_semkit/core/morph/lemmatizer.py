@@ -28,11 +28,12 @@ FALLBACKS = ("pymorphy",)
 VERB_ENDINGS = ("тся", "ься", "ают", "уют")
 NOT_VERBS = frozenset({"уют"})
 NEGATION = "не"  # a noun of the dictionary in «не-» whose rest is an adjective there is an adjective («нераскладной»)
+NOUN = "n"  # the code of a noun
 UNKNOWN = "unkn"  # the code of a word no rule gives a part of speech: «кляк», «15», «диван,»
 # pymorphy3 parts of speech as the dictionary's codes; one with no code there gives UNKNOWN.
 PYMORPHY_POS = {
-    "NOUN": "n",
-    "NUMR": "n",
+    "NOUN": NOUN,
+    "NUMR": NOUN,
     "ADJF": "a",
     "ADJS": "a",
     "COMP": "a",
@@ -112,7 +113,7 @@ def _from_suffixes(word: str) -> tuple[str, str]:
 
 def _is_negated_adjective(word: str, pos: str) -> bool:
     rest = _from_dictionary(word.removeprefix(NEGATION)) if word.startswith(NEGATION) else None
-    return pos == "n" and rest is not None and rest[1] == "a"
+    return pos == NOUN and rest is not None and rest[1] == "a"
 
 
 def _analyse(word: str, fallback: str | None) -> tuple[str, str]:

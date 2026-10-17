@@ -12,14 +12,13 @@ import pandas as pd
 
 from ..frame import map_unique
 from ..morph.functions import BUNDLED
-from ..morph.lemmatizer import Lemmatizer
+from ..morph.lemmatizer import NOUN, Lemmatizer
 from ..normalize import norm_phrase
 from ..text.base import Matcher, bundled_list, split_words, word_key
 
 __all__ = ["complements"]
 
 WINDOW = 5  # a complement holds the preposition and at most this many words after it
-NOUN = "n"
 DECLINED = frozenset({NOUN, "a", "p"})  # a noun, an adjective, a participle
 _LETTERS = re.compile(r"[^\W_]+")
 

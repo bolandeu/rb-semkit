@@ -6,6 +6,7 @@ import pandas as pd
 
 from ..frame import Frame, map_unique
 from ..morph.functions import BUNDLED
+from ..morph.lemmatizer import NOUN
 from ..normalize import norm_phrase
 from ..text.base import split_words
 from .forms import (
@@ -25,7 +26,6 @@ __all__ = ["decline"]
 
 # The parts of speech that do not decline: verb, adverb, preposition, conjunction, particle.
 NOT_DECLINED = frozenset({"v", "advb", "prep", "conj", "prt"})
-NOUN = "n"
 NOMINATIVE_PLURAL = form_index("nominative", "plural")
 # The nominatives of an adjective other than its lemma, the masculine singular.
 OTHER_NOMINATIVES = (("feminine", "singular"), ("neuter", "singular"), ("masculine", "plural"))

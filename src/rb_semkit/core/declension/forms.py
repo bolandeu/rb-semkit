@@ -109,25 +109,29 @@ def _from_tables(word: str, index: int, exceptions: str, endings: str) -> str | 
 
 def is_animate(noun: str) -> bool:
     """pymorphy3 takes the noun as animate: «кот», «человек», but not «диван»."""
+    return _has_tag(noun, "anim")
+
+
+def _has_tag(noun: str, grammeme: str) -> bool:
     parse = noun_parse(noun.lower())
-    return parse is not None and "anim" in parse.tag
+    return parse is not None and grammeme in parse.tag
 
 
 def _compound_form(word: str, index: int) -> str | None:
     """The form pymorphy3 gives a hyphenated noun; None when it gives none."""
     parse = noun_parse(word.lower())
-    place = index + 1
-    found = None if parse is None else parse.inflect({PYMORPHY_CASES[place % 6], PYMORPHY_NUMBERS[place // 6]})
+    place = index + 1  # the place among case × number, as form_index counts it before it drops the nominative
+    case, number = PYMORPHY_CASES[place % len(CASES)], PYMORPHY_NUMBERS[place // len(CASES)]
+    found = None if parse is None else parse.inflect({case, number})
     return None if found is None else found.word
 
 
-def _accusative(word: str, index: int) -> str | None:
-    """The accusative by animacy; None when it comes from the tables (a singular in «-а», «-я»)."""
+def _accusative_by_animacy(word: str, index: int) -> str | None:
+    """The accusative by animacy; None for a singular in «-а», «-я», whose accusative the tables give."""
     singular = index == min(ACCUSATIVES)
     if singular and word.lower().endswith(("а", "я")):
         return None
-    parse = noun_parse(word.lower())
-    if parse is not None and "anim" in parse.tag and not (singular and "femn" in parse.tag):
+    if is_animate(word) and not (singular and _has_tag(word, "femn")):
         return noun_form(word, GENITIVE_OF[index])
     return noun_form(word, NOMINATIVE_OF[index])
 
@@ -135,7 +139,7 @@ def _accusative(word: str, index: int) -> str | None:
 def _table_form(word: str, index: int) -> str | None:
     """The form from the tables, or the usual ending of the consonant group; None when neither gives one."""
     if index in ACCUSATIVES and table_key(word) not in _tables()["noun_exceptions"]:
-        return _accusative(word, index) or _from_tables(word, index, "noun_exceptions", "noun_endings")
+        return _accusative_by_animacy(word, index) or _from_tables(word, index, "noun_exceptions", "noun_endings")
     form = _from_tables(word, index, "noun_exceptions", "noun_endings")
     usual = USUAL_ENDINGS.get(word[-1:].lower())
     if form is None and usual is not None:
