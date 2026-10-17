@@ -150,3 +150,9 @@ Minor remarks of the review: optional, if they do not widen the task:
 - [minor] [missing] The task report (not the diff) must hold the ONNX-versus-torch cos result and the sample of sofa-core clusters. I did not find them in the diff, only the claims in `models.toml` comments ("cos above 0.999", "checked on the clusters of the sofa core"). The Architect should confirm they are in the worker's report — «Use ONNX runtime instead of torch when its vectors match torch (cos above 0.999 on the sofa core of the e2e fixtures): measure and state the result in the task report.» and «put a sample of its clusters in the task report for the Human.»
 - [minor] [extra] `models remove --dry-run` and the `hf:<id>` listing of hub models were not named as acceptance points. `--dry-run` follows the project rule for irreversible actions and `hf:<id>` is in the task text, so I do not count them as scope creep.
 - [minor] [wrong] `similarity` column and `attrs["index"]` of the cluster table are not in the task («every phrase gets a cluster and a cluster name»). The extra column is documented in the help, the guide and the tests, so it is small and visible — «every phrase gets a cluster and a cluster name».
+
+### Answer to finding #1
+
+> Steps get no project path: steps/vectors.py by_meaning and core/wordlists/folders.py both start from Path.cwd(), so a pipeline run with the project option may read models.dir or the project's lists from the wrong folder. A fix passes ctx.obj['project'] to the steps (pipeline change, outside SEMKIT-034).
+
+A task of its own: Pipeline steps use the project of the CLI (created after v0.1.25)
