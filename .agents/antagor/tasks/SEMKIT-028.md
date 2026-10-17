@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-028
 title: CLI read keeps numeric columns numeric; only the text columns are text
-status: queue
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -15,8 +15,13 @@ type: bugfix
 owns_paths:
 - src/rb_semkit/pipeline/tables.py
 - src/rb_semkit/pipeline/state.py
+- docs/plan.md
+- src/rb_semkit/data/SKILL.md
+- src/rb_semkit/steps/__init__.py
+- src/rb_semkit/steps/analysis.py
 test_paths:
 - tests/pipeline/
+- tests/steps/test_steps.py
 docs: none
 tools: []
 worker_args: null
