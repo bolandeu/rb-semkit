@@ -4660,6 +4660,56 @@
             ]
           },
           {
+            "name": "parse-html",
+            "description": "The pages of the column as columns: text, links, all, main, title, description, h1. One row per page.\n\nA cell is the HTML of one page. A cell that is empty or has no tag (a plain text) gets empty columns. The columns are added right after the column of the pages.\n\nThe page must hold its text in its HTML: a page built by JavaScript has none, so give the rendered HTML. Scripts, styles, noscript, templates and hidden elements are never counted.\n\n- text: the visible text without the text of links;\n- links: the text of links;\n- all: the text with the text of links;\n- main: the main content, without menus, header and footer;\n- title: the title of the page; description: its meta description; h1: its first H1.\n\ndrop_noindex: leave out the text of <noindex> (the tag and the <!--noindex--> comments); by default it counts.\ndrop_attributes: leave out the alt and title attributes; by default their text counts.\n\nThe step reads the working column of HTML and adds the columns right after it; the rows stay.\n\nExample: semkit read --column html pages.csv parse-html write out.csv",
+            "options": [
+              {
+                "name": "--drop-noindex",
+                "description": "leave out the text of <noindex> (the tag and the <!--noindex--> comments); by default it counts.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--drop-attributes",
+                "description": "leave out the alt and title attributes; by default their text counts.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              }
+            ],
+            "metadata": [
+              {
+                "name": "x-rb-kind",
+                "value": "change"
+              }
+            ]
+          },
+          {
+            "name": "headings",
+            "description": "The headings of the pages, one row per heading in page order: url, order, level (H1-H6), text.\n\nA cell is the HTML of one page. The url comes from the column url, when the table has it and it is no column of the pages. The order starts at 1 for each page. A cell that is empty or has no tag gives no rows.\n\nThe page must hold its text in its HTML: a page built by JavaScript has none, so give the rendered HTML.\n\nThe step reads the working column of HTML; the table of the headings replaces the current one.\n\nExample: semkit read --column html pages.csv headings write out.csv",
+            "metadata": [
+              {
+                "name": "x-rb-kind",
+                "value": "report"
+              }
+            ]
+          },
+          {
             "name": "compare-lists",
             "description": "The phrases of two lists, by an operation.\n\nop: both (the phrases of the first list that are in the second), either (the first list, then the second), first (only in the first list), second (only in the second).\nkind: when two phrases are the same, as for dupes: exact, explicit, implicit or lemmas.\nsecond_column: the column of the phrases of the second list.\n\nA phrase keeps the spelling of its first occurrence and comes once; the order is the input order. Empty cells are never phrases.\n\nagainst: a file with the second list, one phrase per row; the file is read like `read` does. The phrases are in --second-column, by default the first text column of the file.\n\nThe step takes the working column as the first list; the phrases it finds replace the current table, in a column of the same name.\n\nExample: semkit read phrases.csv compare-lists --against second.csv write out.csv",
             "options": [
