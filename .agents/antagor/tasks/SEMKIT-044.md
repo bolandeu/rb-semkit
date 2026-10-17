@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-044
 title: 'coverage --gap: phrases with inserted words'
-status: queue
+status: in_progress
 attempts: 0
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: scope_held
 phase: null
 tests_hash: null
 publish_stage: null
@@ -17,6 +17,8 @@ owns_paths:
 - src/rb_semkit/steps/coverage.py
 test_paths:
 - tests/coverage/
+- tests/snapshots/help/steps/coverage/coverage.txt
+- tests/snapshots/describe.json
 docs: none
 tools: []
 worker_args: null
