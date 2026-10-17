@@ -1,0 +1,8 @@
+# drop_minus_words. VBA, RibbonCallbacks.vba (docs/vba/change.md 7.9): a·ao (L1783) by –k– (L2355): the cell up to the first « -».
+case_id	function	call	input	vba	expected	rule	why	xfail
+drop-minus	drop_minus_words		купить диван -бесплатно -скачать	купить диван	купить диван			
+drop-minus-dash	drop_minus_words		диван - кровать	диван	диван - кровать	Минус-слово — слово, которое начинается с «-» и не равно ему	« - » cuts the cell like a minus-word	
+drop-minus-start	drop_minus_words		-бесплатно	-бесплатно		Минус-слово — слово, которое начинается с «-» и не равно ему	no space stands before «-бесплатно»: InStrB finds only the appended « -» and keeps the cell	
+drop-minus-trailing	drop_minus_words		a  -b	a 	a	Минус-слово — слово, которое начинается с «-» и не равно ему	the cut keeps the space before « -b»	
+drop-minus-hyphen-word	drop_minus_words		диван-кровать -бу	диван-кровать	диван-кровать			
+drop-minus-none	drop_minus_words		купить диван	купить диван	купить диван			

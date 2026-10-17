@@ -1,0 +1,26 @@
+# change_case. VBA, RibbonCallbacks.vba (docs/vba/change.md 1.1–1.10): lower a––a (L2597); upper a––– (L2242); title a––— (L2098) by a·a (L1721); sentence a––o (L1909) by ooo­ (L1328); sentence_lower a·o· (L2915) by o·a– (L1329); latin_title a–o· (L2314); latin_upper a–oa (L2177); list_title ––kk (L2096) and list_upper ––ko (L1749) by kko (L2860), the user list in place of the selected range; toponyms ———k (L2623) with the geo list (GEO_Toponyms); abbreviations a––k (L1894): TransformWordsCase (L1012–1014), then ChangeCase1ColumnRange (L1011) with abbrs.
+case_id	function	call	input	vba	expected	rule	why	xfail
+case-lower	change_case	{"kind": "lower"}	Купить ДИВАН в СПб	купить диван в спб	купить диван в спб			
+case-upper	change_case	{"kind": "upper"}	купить диван ёлка	КУПИТЬ ДИВАН ЁЛКА	КУПИТЬ ДИВАН ЁЛКА			
+case-title	change_case	{"kind": "title"}	купить ДИВАН-кровать в спб	Купить Диван-Кровать В Спб	Купить Диван-Кровать В Спб			
+case-title-digits	change_case	{"kind": "title"}	iphone12pro o'neil 5g	Iphone12Pro O'Neil 5G	Iphone12Pro O'Neil 5G			
+case-title-spaces	change_case	{"kind": "title"}	диван  угловой	Диван  Угловой	Диван  Угловой			
+case-sentence-glued	change_case	{"kind": "sentence"}	ул.ленина	Ул.Ленина	Ул.Ленина			
+case-sentence-after-space	change_case	{"kind": "sentence"}	привет. как дела?да	Привет. как дела?Да	Привет. Как дела?Да	Предложение начинается после «.», «!» или «?» и пробелов за ними	ooo­ splits right after «.» and upper-cases the space before «как»	
+case-sentence-backslash	change_case	{"kind": "sentence"}	a\b	AB	A\b	Предложение начинается после «.», «!» или «?» и пробелов за ними	the backslash is a split point of ooo­ and is lost; each part gets its first char upper	
+case-sentence-lower	change_case	{"kind": "sentence_lower"}	Привет. Как Дела	привет. как Дела	привет. как Дела			
+case-sentence-lower-glued	change_case	{"kind": "sentence_lower"}	Да.ДА	да.да	да.дА	Строчное начало предложения меняет одну первую букву	o·a– lowers the first two chars of each part: «ДА» → «да»	
+case-latin-title	change_case	{"kind": "latin_title"}	чехол iphone 13 для samsung	чехол Iphone 13 для Samsung	чехол Iphone 13 для Samsung			
+case-latin-title-mixed	change_case	{"kind": "latin_title"}	iPhone (iphone Iphone	IPhone (iphone Iphone	IPhone (iphone Iphone			
+case-latin-upper	change_case	{"kind": "latin_upper"}	купить wi-fi-роутер tp-link	купить WI-FI-РОУТЕР TP-LINK	купить WI-FI-РОУТЕР TP-LINK			
+case-latin-upper-spaces	change_case	{"kind": "latin_upper"}	роутер  asus	роутер ASUS	роутер ASUS			
+case-list-title	change_case	{"kind": "list_title", "words": ["москва", "спб"]}	квартира москва спб	квартира Москва Спб	квартира Москва Спб			
+case-list-upper	change_case	{"kind": "list_upper", "words": ["москва", "спб"]}	квартира москва спб	квартира МОСКВА СПБ	квартира МОСКВА СПБ			
+case-list-title-hyphen	change_case	{"kind": "list_title", "words": ["москва-сити"]}	офис москва-сити	офис Москва-Сити	офис Москва-Сити			
+case-list-yo	change_case	{"kind": "list_upper", "words": ["ёлка"]}	искусственная елка	искусственная елка	искусственная ЕЛКА	ё = е при сравнении	kko compares UCase as typed: «ЕЛКА» is not «ЁЛКА»	
+case-toponyms	change_case	{"kind": "toponyms"}	квартира нижний новгород	квартира Нижний Новгород	квартира Нижний Новгород			
+case-toponyms-moscow	change_case	{"kind": "toponyms"}	доставка москва  и санкт-петербург	доставка Москва и санкт-петербург	доставка Москва и санкт-петербург			
+case-toponyms-yo	change_case	{"kind": "toponyms"}	отели в орел	отели в Орел	отели в Орёл	ё = е при сравнении	the geo list holds «Орёл» before «Орел»; semkit takes both as one name and its first spelling	
+case-abbreviations	change_case	{"kind": "abbreviations"}	купить мфу hp в спб 200 см ооо usb	купить мфу HP в СПб 200 см ООО USB	купить мфу HP в СПб 200 см ООО USB			
+case-abbreviations-punct	change_case	{"kind": "abbreviations"}	доставка спб, 2шт	доставка СПБ, 2ШТ	доставка СПБ, 2ШТ			
+case-abbreviations-pollution	change_case	{"kind": "abbreviations"}	2шт ао2	2ШТ ао2	2ШТ АО2	Признак аббревиатуры не зависит от соседних слов	the first char «2» of «2шт» enters the class dictionary with no class, and inside «ао2» it makes the vowel word mixed	

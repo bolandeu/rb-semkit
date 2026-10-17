@@ -1,0 +1,9 @@
+# phonetic. VBA, RibbonCallbacks.vba (docs/vba/change.md 6.4): SEM_rT (L2426) by revtranslit (L3392), revTrans (L174–176) and the tables of InitDicts (L52–61), CheckCase (L3390), AdjustCase (L3391).
+case_id	function	call	input	vba	expected	rule	why	xfail
+phonetic-dreamline	phonetic		Dreamline	Дримлайн	Дримлайн			
+phonetic-iphone	phonetic		iphone	айфон	айфон			
+phonetic-apple-google	phonetic		apple google galaxy	эпл гугл галакси	эпл гугл галакси			
+phonetic-caps	phonetic		XIAOMI	СЯОМИ	СЯОМИ			
+phonetic-mixed	phonetic		DreamLine	дримлайн	дримлайн			
+phonetic-latin-c	phonetic		pictures	пикчерк	пикчерс	В фонетических таблицах латинская «c» в русских значениях заменена на «с»	s5 maps «tures» to «черc» with a latin «c», which a1 turns into «к»	
+phonetic-spaces	phonetic		apple  iphone	эпл  айфон	эпл айфон	фраза делится по любым пробелам, двойных пробелов в результатах нет	Split(s & " ") keeps the empty token: the two spaces stay	

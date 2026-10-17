@@ -104,7 +104,8 @@ samples → dataio. XML feed. License.
 
 Built by `scripts/build_data.py` from the sandbox sources: it runs one build part per area (`scripts/build_parts/<area>.py`),
 which writes into the area's folder `src/rb_semkit/data/<area>/` (morph: D1–D3, D6, D10; text: D11, D13, D14 and the prepositions;
-markers: D15). The script is re-runnable; the built files are committed (private repo). Sources stay outside the repo.
+markers: D15; change: D12, D16, the translit, layout and similar-chars literals of the VBA, D14 declined by D6–D7 and the
+word order prepositions, in `translit.json` and `word_order.json`). The script is re-runnable; the built files are committed (private repo). Sources stay outside the repo.
 Each part also records, per built file, its source, the item counts and every dropped item with the reason, in the area's
 data manifest (`tests/conformance/data_manifest/<area>.json`); `tests/conformance/test_data.py` checks the built files
 against the manifests.
@@ -126,7 +127,7 @@ against the manifests.
 | D13 | stopwords | VBA `Function stopwords` (string literal) | 439 (the literal holds 440 words; the junk «g» dropped) | `lists.json` | lazy | stopwords, n-grams, bigrams |
 | D14 | words moved to phrase start (`где`, `купить`, `недорогой`, `готовый`…) | `abc` BA1:BA644 `charsPat` | 644 | `lists.json` | lazy | word order fix (`moveToBeg`) |
 | D15 | 18 marker lists | `reverse/downloads/spiski/*.xlsx` (1 column, `cars` — 6) | 59 069 total after dedupe, geo 36 012 (`cars`: column A only, 2 502) | `markers/<name>.txt.gz` (one phrase per line) | lazy; Aho-Corasick built on first use, cached per list | markers |
-| D16 | phonetic translit tables en→ru: whole words, suffixes (5–2 letters), prefixes (5–2), any n-grams (5–1) | VBA `InitDicts` (string literals, 14 pairs of lists) | 701 pairs (words 65) | `translit.json` | lazy | Dreamline → Дримлайн (later) |
+| D16 | phonetic translit tables en→ru: whole words, suffixes (5–2 letters), prefixes (5–2), any n-grams (5–1) | VBA `InitDicts` (string literals, 14 pairs of lists) | 701 pairs (words 65) | `translit.json` | lazy | Dreamline → Дримлайн |
 | D17 | surname rules `mSurn` / `fSurn` | VBA functions (code, not data) | — | code | — | full names (later) |
 
 Named ranges come from `xl/workbook.xml` of `!SEMToolsPro.xlam` (32 names). Not data: `BSR` (abc K1:K54) and

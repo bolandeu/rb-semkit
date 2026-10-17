@@ -5,6 +5,16 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.12 — 2026-10-17
+
+### E-002 — semkit: the rest of the library — change, declension, analysis and the later functions
+
+import rb_semkit gives every function of the add-in's menus except Mystem: each follows the VBA algorithm, the broken ones work as intended, and the conformance report lists for each function where it follows the VBA, where it differs and why.
+Time: 1.3h since the epic was approved
+
+- Change block: every text change of the add-in (case, insert, replace, translit, ЧПУ, match types, UTM, hashes, word order, phonetic) (SEMKIT-011)
+- List tools: compare two lists (both, either, only first, only second) by a duplicate kind; strip characters at word edges (SEMKIT-020)
+
 ## v0.1.11 — 2026-10-17
 
 ### E-002 — semkit: the rest of the library — change, declension, analysis and the later functions

@@ -1,0 +1,8 @@
+# insert. VBA, RibbonCallbacks.vba (docs/vba/change.md 2.1–2.3): before each word ——ak (L1717) and after each word ———a (L2616) by ——k (L2379); at the end –o—a (L2340), at the start –o—· (L2867), at both ends the same text ———· (L2722), different texts SEM_AddBnA (L329). The text comes from an InputBox or a form; here from before and after.
+case_id	function	call	input	vba	expected	rule	why	xfail
+insert-before-each	insert	{"before": "+", "each_word": true}	купить  диван	+купить +диван	+купить +диван			
+insert-after-each	insert	{"after": ",", "each_word": true}	купить диван	купить, диван,	купить, диван,			
+insert-each-empty	insert	{"after": ",", "each_word": true}						
+insert-start	insert	{"before": "купить "}	диван | 	купить диван | купить 	купить диван | купить 			
+insert-end	insert	{"after": " москва"}	диван	диван москва	диван москва			
+insert-both	insert	{"before": "[", "after": "]"}	купить диван	[купить диван]	[купить диван]			

@@ -1,0 +1,7 @@
+# drop_modifiers. VBA, RibbonCallbacks.vba (docs/vba/change.md 7.8): a·ak (L2680) by oo·— (L2279), with a–l (L1008) and ka—· (L1681) that never cut the minus-words (the Select Case bug).
+case_id	function	call	input	vba	expected	rule	why	xfail
+drop-modifiers	drop_modifiers		+купить +в !москве +для дачи	+купить в !москве для дачи	+купить в !москве для дачи			
+drop-modifiers-case	drop_modifiers		+купить +В москве	+купить +В москве	+купить В москве	стоп-слова без учёта регистра	the set of oo·— holds «+в», in lower case only	
+drop-modifiers-bang	drop_modifiers		!на !даче	на !даче	на !даче			
+drop-modifiers-minus	drop_modifiers		+в москве -бесплатно -+в	в москве -бесплатно -+в	в москве -бесплатно -+в			
+drop-modifiers-spaces	drop_modifiers		диван  +и стол	диван и стол	диван и стол			
