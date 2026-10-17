@@ -115,7 +115,31 @@ def test_whole_reads_a_text_file_as_one_cell(tmp_path: Path) -> None:
     result = semkit("read", "--whole", str(article), "write", str(out))
 
     assert result.exit_code == 0, result.output
-    assert jsonl(out.read_text(encoding="utf-8")) == [{"text": "Диваны в Москве.\nКупить диван недорого."}]
+    assert jsonl(out.read_text(encoding="utf-8")) == [{"text": "Диваны в Москве.\nКупить диван недорого.\n"}]
+
+
+def test_whole_keeps_the_blank_lines_of_the_text(tmp_path: Path) -> None:
+    article, out = tmp_path / "article.txt", tmp_path / "out.jsonl"
+    article.write_bytes("\ufeffa\r\n\r\nb\r\n".encode())
+
+    result = semkit("read", "--whole", str(article), "write", str(out))
+
+    assert result.exit_code == 0, result.output
+    assert jsonl(out.read_text(encoding="utf-8")) == [{"text": "a\n\nb\n"}]
+
+
+def test_whole_reads_the_text_of_stdin(tmp_path: Path) -> None:
+    result = semkit_process("read", "--whole", "-", "write", "-", input="a\n\nb\n")
+
+    assert result.returncode == 0, result.stderr
+    assert jsonl(result.stdout) == [{"text": "a\n\nb\n"}]
+
+
+def test_whole_refuses_a_file_that_does_not_exist(tmp_path: Path) -> None:
+    result = semkit("read", "--whole", str(tmp_path / "nope.txt"), "write", "-")
+
+    assert result.exit_code == 2
+    assert "nope.txt" in result.stderr
 
 
 def test_parquet_in_and_out(tmp_path: Path) -> None:

@@ -32,9 +32,10 @@ def run(ctx: typer.Context, source: Source, planned: list[Planned | Target]) -> 
             typer.echo(summaries[-1].line(), err=True)
     written = not output.is_dry_run(ctx)
     if written:
-        target.write(state.table)
+        # The trace first: when it fails, OUT stays as it was.
         if source.trace is not None and state.journal is not None:
             write_records(state.journal, source.trace)
+        target.write(state.table)
     if target.address != STDIO:
         payload = {
             "output": target.address,
