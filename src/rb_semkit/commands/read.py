@@ -1,3 +1,9 @@
+"""The pipeline command `read IN STEP … write OUT` (ADR 0008): read, a command for each step of the step table, write.
+
+read opens the pipeline and write closes it; the steps between come from `steps.areas()`. `ai_section()` gives the
+steps to `--ai`.
+"""
+
 from __future__ import annotations
 
 from pathlib import Path

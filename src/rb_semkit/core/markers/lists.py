@@ -1,6 +1,7 @@
 """The bundled marker lists (`data/markers/<name>.txt.gz`, one phrase per line, built by scripts/build_parts/markers.py).
 
 The automaton of a list is built on the first use of the list: once per process, safe when many threads ask at once.
+`phrases` gives the phrases of a list as written, for a list argument `@name` of the pipeline.
 """
 
 from __future__ import annotations

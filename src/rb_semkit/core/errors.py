@@ -1,3 +1,9 @@
+"""The expected failures of the CLI as CliError classes, and the exit codes they use.
+
+Each error carries a stable code, a message, an optional action (how to recover) and an exit code; `output.guard`
+turns it into a stderr line or, with --json, the error envelope. InvalidArguments is a usage error (exit 2).
+"""
+
 from __future__ import annotations
 
 from .._distribution import DIST_NAME

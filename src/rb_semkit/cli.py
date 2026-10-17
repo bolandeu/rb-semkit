@@ -1,3 +1,9 @@
+"""The root command: the global options, --version, --ai, and every module of the commands package as a command.
+
+A module of the commands package is registered by its name, so a new command needs no edit here. --ai prints the
+bundled SKILL.md and then the section each command module gives by `ai_section()` (the pipeline steps).
+"""
+
 from __future__ import annotations
 
 import importlib

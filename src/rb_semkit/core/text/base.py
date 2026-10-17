@@ -6,6 +6,7 @@ Words are compared by `norm_phrase` (case, ё→е); the output keeps the words 
 Helpers shared by the matchers: `strip_edges` (a word without edge punctuation), `collapse` (single spaces, none
 at the edges), `bundled_list` (a word list of the package data), and argument checks that raise InvalidArguments
 naming the argument and the allowed values: `choice`, `whole_number` (N from 1), `word_list`, `compiled` (a regex).
+`verbs` names the verbs a kind of matcher supports (the steps of the pipeline are made from them).
 """
 
 from __future__ import annotations

@@ -2,7 +2,8 @@
 
 In: NaN and None become empty strings. Out: a Series with the input index, or the input DataFrame with the
 result in a new column `<column>_<operation>` right after `column` (`inplace=True` replaces `column`).
-Wrong input raises InvalidArguments before anything changes.
+Wrong input raises InvalidArguments before anything changes. `text_columns` names the columns of a table that hold
+text.
 """
 
 from __future__ import annotations
