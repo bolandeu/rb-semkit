@@ -2,7 +2,7 @@
 id: SEMKIT-022
 title: Public word-keys helper of the analysis area; dir(rb_semkit) lists only the
   public names
-status: ideas
+status: queue
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -10,7 +10,7 @@ phase: null
 tests_hash: null
 publish_stage: null
 created_by: architect
-approved_by: null
+approved_by: human
 worker: claude-code
 type: chore
 owns_paths:
