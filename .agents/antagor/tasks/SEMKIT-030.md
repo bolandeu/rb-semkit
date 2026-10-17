@@ -2,7 +2,7 @@
 id: SEMKIT-030
 title: 'Morphology on a real core: correct lemmas, the accusative, plurals, compounds,
   adjectives, full names, word forms'
-status: queue
+status: in_review
 attempts: 2
 blocked: false
 blocked_reason: null
@@ -73,7 +73,6 @@ translation: '**Морфология на реальном ядре.** Испр�
   слова, дополнения без лишних слов. Каждое слово — кейс сверки; правило лемм — в
   ADR 0003. Справку и снимки не трогать.'
 ---
-
 
 The end-to-end check (docs/plans/e2e-quality.md, items 1-11) found the morphology gives wrong Russian on a real sofa core and a customs core. Fix the library behaviour so the words below come out right; each fixed word is a conformance case of its area (expected = the correct form, the add-in's value in vba, the rule and why per ADR 0005). Do not change the docstrings of the public sk functions (the step help is made from them): SEMKIT-033 updates them and the help snapshots after this task; when your fix changes a rule a docstring states, report it as an inbox finding (the function and the new rule). Module (file) docstrings are not frozen: keep each one naming what its file holds, new helpers too (the project's file docstring check). Behaviour only.
 
