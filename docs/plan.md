@@ -206,7 +206,7 @@ Typos: Levenshtein in the library; spelling check through LanguageTool on homese
 4. `markers`, `dupes`.
 5. `analysis`: n-grams, bigrams, counts.
 6. Reference examples from the add-in for key functions; compare.
-7. v2 block; then CLI.
+7. The rest of the library (E-002: the change block, the v2 and later functions); then one CLI over the whole library (the Human, 2026-10-17: the CLI is designed once for every function).
 
 ## 5. Open questions (interview)
 Block A answered by this plan (order above) — confirm. Blocks B–F of the brief are still open.
