@@ -72,64 +72,31 @@ Second epic, built on the same base (not to be forgotten):
 10. The 200 labelled phrase pairs go into the repository as a quality test of the gate; it takes models from the
     cache and is skipped, with a message, when they are not there.
 
-## The next epics, decided by the Architect (2026-10-18, for the approval of the Human)
+## The next epic: primitives by meaning (the Human, 2026-10-18)
 
-All three build on the base of E-005 (registry, encoder, index, `--model`, `--threshold`, the test encoder) and start
-when E-005 is closed. They do not share files, so up to three of their tasks run at once. Every step gives columns or a
-report; none drops rows. Defaults of the new thresholds are tuned by the worker on the e2e fixtures (sofa core, the svh
-core and text) and shown to the Human before release; there are no labelled pairs for pages and paragraphs.
+semkit takes only what a script cannot do well: models, vectors, the index, the rules of language. Aggregations over
+ready columns (core gaps, competing pages, internal links, ad fit, competitor topics, off-topic paragraphs) are
+recipes in the guide: a pipeline plus a few lines of pandas. A recipe used again and again on live projects becomes a
+step later. One epic instead of three: about half the code, the same possibilities.
 
-### E-006 SEO by meaning: the site pages against the core
+Steps of the epic (each gives columns or a report, none drops rows; it starts when E-005 is closed):
+- `nearest`: for each row of the working table, the top `--top` rows of `--against` (a table read as `read` reads it)
+  with their similarity, in a long report (row, match, rank, similarity). Long texts get a page vector: the text is cut
+  into pieces the model takes whole, the piece vectors are averaged, title and h1 columns (when present) weigh more.
+  `assign-pages` moves to the same page vector.
+- `split-paragraphs`: texts (a file, or a table of url and text) into paragraphs: blocks between empty lines, a
+  heading line is a paragraph of its own; a report (url, number, paragraph) that `nearest` and `coverage-meaning` take.
+- `coverage-meaning`: per core phrase, the best paragraph of a text, its similarity and covered yes/no; with a cluster
+  column, also per cluster. It complements the word `coverage`.
+- `ad-groups`: small groups of one intent by the rule of `dupes --kind meaning`; `--max-size` splits a large group by
+  vector; the group name is its most frequent phrase.
+- `synonym-candidates`: per word of the core, candidates from RuWordNet and word vectors (navec) with the source and a
+  score; RuWordNet and navec are pulled by `semkit models pull` (ADR 0009); the 100 labelled word pairs are its
+  quality test.
+- Recipes in the guide: core gaps with H1 and title candidates, competing pages, internal links with anchors, ad fit,
+  competitor topics, off-topic paragraphs.
 
-Input: the core and `--pages` (url, text; optional title, h1), as `assign-pages` takes it.
+Tasks: T1 `nearest` + page vector + `split-paragraphs` (the frame) → T4 `coverage-meaning` + the recipes; T2
+`ad-groups` and T3 `synonym-candidates` beside T1.
 
-- Page vector: the text is cut into pieces the model takes whole, the piece vectors are averaged, title and h1 weigh
-  more; without title and h1, the text alone. `assign-pages` moves to this page vector. A short summary is enough for
-  the Human: a page is judged by its whole text, its headings count more.
-- `competing-pages` (cannibalization): a report of page pairs that compete: the page vectors are close, or many core
-  phrases are nearly as close to both (best minus second below `--margin`); columns: the two urls, their similarity,
-  the number and total frequency of the disputed phrases, examples; sorted by the frequency.
-- `core-gaps`: takes the cluster column of `cluster-meaning` in the same pipeline (the threshold of clusters is set in
-  one place) and `--pages`; a report per cluster: its name, total frequency, the best page and its similarity, a gap
-  flag by threshold, and two heading candidates (H1: the most frequent phrase; title: the phrase that holds the most
-  words of the cluster); sorted by frequency. A separate H1 step is not needed: the candidates are columns here.
-- `link-pages`: page pairs related but not competing (similarity between `--link-threshold` and the competing
-  threshold), both ways, at most `--per-page` (default 5) links from a page; columns: from, to, similarity, the anchor
-  candidate (the most frequent core phrase whose best page is the target).
-
-Tasks: T1 page vector + `competing-pages` (the frame) → T2 `core-gaps` with heading candidates, T3 `link-pages`.
-
-### E-007 Copywriting by meaning: a text against the core and the competitors
-
-Input: the text (a file, as `coverage` takes it), the core; competitor texts as a table (url, text).
-
-- Paragraph: a block between empty lines; a heading line is a paragraph of its own. The same unit everywhere.
-- `coverage-meaning`: per core phrase, the best paragraph, its similarity and covered yes/no; with a cluster column,
-  also per cluster (covered when any phrase is). It complements the word `coverage`, it does not replace it.
-- `off-topic-paragraphs`: per paragraph, its distance from the centre of the core (weighted by frequency) and a flag.
-- `compare-texts-meaning`: competitor paragraphs grouped by meaning across competitors; a report of the groups my text
-  has no close paragraph for: an example paragraph, the number of competitors that have it, my nearest paragraph and
-  its similarity; sorted by the number of competitors. This is «what the others write about and I do not».
-
-Tasks: T1 paragraph unit + `coverage-meaning` (the frame) → T2 `off-topic-paragraphs`, T3 `compare-texts-meaning`.
-
-### E-008 Ads and synonyms
-
-- `ad-groups`: small groups of one intent: phrases that are duplicates by meaning of each other (the rule of
-  `dupes --kind meaning`: close vectors, only non-refining words, synonyms, forms, order, the home city differ) make
-  one group; `--max-size` splits a large group by vector; the group name is its most frequent phrase.
-- `ad-fit`: a table of ads (group, title, text) against the phrases of each group: per phrase, the similarity to its
-  ad and a weak-fit flag. The landing page per phrase is `assign-pages`: nothing new.
-- `synonym-candidates`: per word of the core, candidates from RuWordNet and word vectors (navec), with the source and
-  a score; only words that occur in the core, or all with `--all`. RuWordNet and navec are pulled with
-  `semkit models pull` like the encoders (ADR 0009). The 100 labelled word pairs become its quality test (measured
-  precision 0.32 / 0.18: candidates only, as decided).
-- Coverage of a text by meaning (the old item of this list) is `coverage-meaning` of E-007.
-
-Tasks: T1 `ad-groups`, T2 `ad-fit`, T3 `synonym-candidates`, side by side.
-
-### Order
-
-Now: IDEA-235 (the help of is-typo) as a task outside the epics, beside E-005.
-After E-005: E-006 and E-007 (their frames first, then their blocks), then E-008. Each epic is approved by the Human with
-its tasks; with three slots, E-008 may start as soon as a slot is free.
+Order: now IDEA-235 (the help of is-typo) as a task outside the epics, beside E-005; the epic after E-005.
