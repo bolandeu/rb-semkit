@@ -1,0 +1,38 @@
+
+ Usage: semkit read {IN} assign-pages [OPTIONS] [PAGES]
+
+ The best two pages of the site for each phrase of the core, by meaning.
+
+ The columns: best_page, best_similarity, second_page and second_similarity (4 places); the second
+ page and its similarity are empty when the table has one page; an empty cell gets none. No row is
+ dropped.
+
+ pages: a file with the pages of the site; the file is read like `read` does. Its columns: url, and
+ text (the text of the page: its title, H1 and body). A text longer than the input of the model is
+ cut by the encoder.
+ model: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or
+ hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of
+ the model; a hub model has none.
+
+ The step adds the columns best_page, best_similarity, second_page and second_similarity right
+ after the working column; the rows stay.
+
+ Example: semkit read core.csv assign-pages --pages pages.csv write out.csv
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   PAGES      <str>  a file with the pages of the site; the file is read like `read` does. Its    │
+│                     columns: url, and text (the text of the page: its title, H1 and body). A     │
+│                     text longer than the input of the model is cut by the encoder. The same as   │
+│                     --pages PAGES.                                                               │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --pages        PAGES  a file with the pages of the site; the file is read like `read` does. Its  │
+│                       columns: url, and text (the text of the page: its title, H1 and body). A   │
+│                       text longer than the input of the model is cut by the encoder.             │
+│ --model        <str>  the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, │
+│                       potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold │
+│                       the step takes the threshold of the model; a hub model has none.           │
+│                       [default: e5-small]                                                        │
+│ --help                Show this message and exit.                                                │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
