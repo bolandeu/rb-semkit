@@ -12,7 +12,7 @@
  extract-word-content keeps only what the matcher finds in the working column; an empty cell where
  it finds nothing.
 
- Example: semkit read core.csv extract-word-content starts write out.csv
+ Example: semkit read core.csv extract-word-content starts --pattern куп write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <starts|ends|contains|only_latin|has_lat  "starts", "ends", "contains" (with         │

@@ -6,7 +6,7 @@
 
  The step writes its result to a new column <column>_child.
 
- Example: semkit read core.csv first-children купить write out.csv
+ Example: semkit read core.csv first-children @minus/universal write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   CHILDREN      <str>  See the description above. Items: a comma list 'a,b', @FILE (one item per │

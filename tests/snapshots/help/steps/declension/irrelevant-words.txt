@@ -14,7 +14,7 @@
  The step reads the working column; the table replaces the current one, its column word is the
  working one.
 
- Example: semkit read core.csv irrelevant-words купить write out.csv
+ Example: semkit read core.csv irrelevant-words диван write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   WORD      <str>  the main word, a noun in the nominative singular. A candidate is a word right │

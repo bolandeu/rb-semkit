@@ -13,7 +13,7 @@
  extract-phrases keeps only what the matcher finds in the working column; an empty cell where it
  finds nothing.
 
- Example: semkit read core.csv extract-phrases купить write out.csv
+ Example: semkit read core.csv extract-phrases @minus/universal write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   ITEMS      <str>  See the description above. Items: a comma list 'a,b', @FILE (one item per    │

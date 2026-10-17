@@ -13,7 +13,7 @@
 
  The step writes the count of each phrase to a new column <column>_count.
 
- Example: semkit read core.csv counts купить write out.csv
+ Example: semkit read core.csv counts words write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   WHAT      <str>  "words" and "chars" — the words and the characters of the phrase; "count" —   │

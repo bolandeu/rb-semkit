@@ -12,7 +12,7 @@
  extract-around keeps only what the matcher finds in the working column; an empty cell where it
  finds nothing.
 
- Example: semkit read core.csv extract-around купить write out.csv
+ Example: semkit read core.csv extract-around '\d+' write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   PATTERN      <str>  See the description above. The same as --pattern PATTERN.                  │

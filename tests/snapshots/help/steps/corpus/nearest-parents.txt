@@ -8,7 +8,7 @@
 
  The step writes its result to a new column <column>_parent.
 
- Example: semkit read core.csv nearest-parents купить write out.csv
+ Example: semkit read core.csv nearest-parents @minus/universal write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   PARENTS      <str>  See the description above. Items: a comma list 'a,b', @FILE (one item per  │

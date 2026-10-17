@@ -94,7 +94,7 @@ STEPS = [
         "The step keeps only the rows of the part named by --keep.",
     ),
     change_step(cluster_by_frequency, new_column="cluster"),
-    Step("synonyms", Adapted(synonyms, {"report": None}), "report", _prepare_synonyms, TABLE_NOTE),
+    Step("synonyms", Adapted(synonyms, {"report": None}), "report", _prepare_synonyms, TABLE_NOTE, source="report.csv"),
     Step(
         "add-minus-words",
         Adapted(add_minus_words, {"table": option("synonyms")}, SYNONYMS_DOC),

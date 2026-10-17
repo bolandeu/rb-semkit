@@ -24,9 +24,17 @@ def _replace_step(function) -> Step:
     return Step(slug(function), pairs, "change", changing(function, pairs=("pairs", pairs_of)), CHANGE_NOTE)
 
 
+# The text after the step name in the example of the help (where the generator cannot fill the option), the file it reads.
+EXAMPLES = {
+    insert: "--after ' в москве'",
+    move_words: "@stop/wordstat",
+    change_case: "lower",
+    match_type: "quotes",
+}
+SOURCES = {extract_utm: "urls.csv", remove_utm: "urls.csv"}
 STEPS = [
     *(
-        change_step(function)
+        change_step(function, source=SOURCES.get(function, "core.csv"), example=EXAMPLES.get(function))
         for function in (
             change_case, insert, move_words, split_digits, reverse, sort_words, guillemets, translit, chpu,
             switch_layout, similar_chars, match_type, drop_minus_words, drop_modifiers, extract_utm, remove_utm,

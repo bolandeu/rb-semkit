@@ -13,7 +13,7 @@
  extract-cells keeps only what the matcher finds in the working column; an empty cell where it
  finds nothing.
 
- Example: semkit read core.csv extract-cells contains write out.csv
+ Example: semkit read core.csv extract-cells contains --items @minus/universal write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <contains|starts|ends|regex|empty|unique|  "contains", "starts", "ends" (with        │

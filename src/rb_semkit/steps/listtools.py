@@ -28,5 +28,7 @@ STEPS = [
         _prepare,
         "The step takes the working column as the first list; the phrases it finds replace the current table, in a"
         " column of the same name.",
+        source="phrases.csv",
+        example="--against second.csv",
     )
 ]

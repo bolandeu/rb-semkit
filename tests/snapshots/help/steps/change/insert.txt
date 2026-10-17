@@ -9,7 +9,7 @@
 
  The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
- Example: semkit read core.csv insert write out.csv
+ Example: semkit read core.csv insert --after ' в москве' write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --before           <str>  See the description above.                                             │

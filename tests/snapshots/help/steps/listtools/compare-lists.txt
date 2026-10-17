@@ -13,7 +13,7 @@
  The step takes the working column as the first list; the phrases it finds replace the current
  table, in a column of the same name.
 
- Example: semkit read core.csv compare-lists купить write out.csv
+ Example: semkit read phrases.csv compare-lists --against second.csv write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   AGAINST      <str>  a file with the second list, one phrase per row; the file is read like     │

@@ -14,7 +14,7 @@
  The step reads the current table, a SERP with the columns phrase, position and url; the table of
  the clusters replaces it, its column phrase is the working one.
 
- Example: semkit read core.csv cluster-serp write out.csv
+ Example: semkit read serp.csv cluster-serp --freq freq.csv write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --method        <str>  See the description above. [default: soft]                                │

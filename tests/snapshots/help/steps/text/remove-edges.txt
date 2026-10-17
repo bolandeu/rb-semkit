@@ -3,19 +3,19 @@
 
  The characters to cut from the edges of each word (remove only).
 
- start: characters cut from the start of a word, any run of them; end: the same at its end.
- Characters inside a word stay («wi-fi»); a word of only those characters disappears. The result
- has single spaces, none at the edges.
+ start: characters cut from the start of a word, any run of them;
+ end: the same at its end. Characters inside a word stay («wi-fi»); a word of only those characters
+ disappears. The result has single spaces, none at the edges.
 
  remove-edges removes what the matcher finds from the working column.
 
  Example: semkit read core.csv remove-edges write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --start        <str>  characters cut from the start of a word, any run of them; end: the same at │
-│                       its end. Characters inside a word stay («wi-fi»); a word of only those     │
-│                       characters disappears. The result has single spaces, none at the edges.    │
-│ --end          <str>  See the description above.                                                 │
+│ --start        <str>  characters cut from the start of a word, any run of them;                  │
+│ --end          <str>  the same at its end. Characters inside a word stay («wi-fi»); a word of    │
+│                       only those characters disappears. The result has single spaces, none at    │
+│                       the edges.                                                                 │
 │ --as           NAME   Write the result to a new column NAME and keep the working column as it    │
 │                       is.                                                                        │
 │ --help                Show this message and exit.                                                │

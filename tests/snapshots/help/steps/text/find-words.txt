@@ -11,7 +11,7 @@
  find-words marks the rows where the matcher finds something, in a new column <column>_find of true
  and false.
 
- Example: semkit read core.csv find-words купить write out.csv
+ Example: semkit read core.csv find-words @stop/wordstat write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   ITEMS      <str>  See the description above. Items: a comma list 'a,b', @FILE (one item per    │

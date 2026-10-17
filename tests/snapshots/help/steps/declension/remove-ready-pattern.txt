@@ -13,7 +13,7 @@
 
  remove-ready-pattern removes what the matcher finds from the working column.
 
- Example: semkit read core.csv remove-ready-pattern купить write out.csv
+ Example: semkit read core.csv remove-ready-pattern domain write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <str>  "domain" (Latin domains with subdomains: «www.example.com»; extract gives     │

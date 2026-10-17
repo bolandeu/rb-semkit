@@ -13,7 +13,7 @@
  The step makes a table of its result; it replaces the current table, its first text column is the
  working one.
 
- Example: semkit read core.csv synonyms write out.csv
+ Example: semkit read report.csv synonyms write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --help          Show this message and exit.                                                      │

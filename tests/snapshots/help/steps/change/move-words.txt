@@ -7,7 +7,7 @@
 
  The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
- Example: semkit read core.csv move-words купить write out.csv
+ Example: semkit read core.csv move-words @stop/wordstat write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   WORDS      <str>  «диван угловой купить» with ["купить", "угловой"] → «купить угловой диван».  │

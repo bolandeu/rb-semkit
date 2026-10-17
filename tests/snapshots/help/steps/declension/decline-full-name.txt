@@ -12,7 +12,7 @@
 
  The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
- Example: semkit read core.csv decline-full-name купить write out.csv
+ Example: semkit read names.csv decline-full-name genitive write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   CASE      <str>  "genitive", "dative", "accusative", "instrumental" or "prepositional". A full │

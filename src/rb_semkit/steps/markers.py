@@ -5,4 +5,4 @@ from __future__ import annotations
 from ..core.markers.matcher import markers
 from .text import matcher_steps
 
-STEPS = matcher_steps(markers)
+STEPS = matcher_steps(markers, "--lists geo")
