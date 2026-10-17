@@ -9,8 +9,10 @@ from itertools import combinations
 
 import pandas as pd
 
+from ..analysis.frequency import bundled_stopwords
 from ..errors import InvalidArguments
 from ..frame import Frame
+from ..morph.lemmatizer import is_known
 from ..normalize import norm_phrase
 from ..text.base import whole_number
 from .spelling import Misspelling, SpellingProvider
@@ -32,6 +34,11 @@ def levenshtein(first: str, second: str) -> int:
             current.append(min(previous[column] + 1, current[-1] + 1, previous[column - 1] + (char != other)))
         previous = current
     return previous[-1]
+
+
+def _known(key: str) -> bool:
+    """A stopword, or a wordform the lemmatizer's dictionaries hold («москве», «угловые», «пружинном»)."""
+    return key in bundled_stopwords() or is_known(key)
 
 
 def _deletes(word: str, distance: int) -> Iterator[str]:
@@ -80,7 +87,7 @@ class CoreSpelling:
         found = {}
         for key, count in frequency.items():
             allowed = self._allowed(key)
-            if allowed and count * self.ratio <= most:
+            if allowed and count * self.ratio <= most and not _known(key):
                 near = {other for variant in set(_deletes(key, allowed)) for other in by_delete.get(variant, ())}
                 correction = self._nearest(key, near, frequency, allowed)
                 if correction is not None:
@@ -88,12 +95,15 @@ class CoreSpelling:
         return found
 
     def _nearest(self, key: str, near: set[str], frequency: Counter[str], allowed: int) -> str | None:
-        """The nearest of the frequent words `near` the word, then the most frequent, then the first alphabetically."""
+        """The nearest of the frequent words `near` the word, then the most frequent, then the first alphabetically.
+
+        A correction starts with the letter of the word: a typo seldom hits the first letter, an abbreviation does not
+        become another one («нпб» is not «спб»)."""
         least = frequency[key] * self.ratio
         ranked = [
             (edits, -frequency[other], other)
             for other in near
-            if frequency[other] >= least and (edits := levenshtein(key, other)) <= allowed
+            if other[0] == key[0] and frequency[other] >= least and (edits := levenshtein(key, other)) <= allowed
         ]
         return min(ranked)[2] if ranked else None
 

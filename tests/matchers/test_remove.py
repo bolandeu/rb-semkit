@@ -33,6 +33,17 @@ def test_chars_remove_leaves_single_spaces() -> None:
     assert sk.remove(phrases, sk.chars("cyrillic")).tolist() == ["iPhone 15"]
 
 
+def test_punctuation_remove_keeps_a_decimal_and_a_size_whole() -> None:
+    phrases = pd.Series(["диван 2.5 м, 140х200!", "цена 541,67 руб.", "Диван-кровать, 2 шт."])
+
+    assert sk.remove(phrases, sk.chars("punctuation")).tolist() == [
+        "диван 2.5 м 140х200",
+        "цена 541,67 руб",
+        "Диван кровать 2 шт",
+    ]
+    assert sk.find(pd.Series(["2.5", "2. 5"]), sk.chars("punctuation")).tolist() == [False, True]
+
+
 def test_positions_around_and_regex_remove() -> None:
     phrases = pd.Series(["купить диван в москве"])
 

@@ -12,7 +12,7 @@ edit it. The terms and the other areas: [the summary](../conformance.md).
 | [cluster_by_frequency](#cluster_by_frequency) | 6 | 4 | 2 | 0 |
 | [first_children](#first_children) | 5 | 2 | 3 | 0 |
 | [first_parents](#first_parents) | 6 | 3 | 3 | 0 |
-| [is_typo](#is_typo) | 6 | 0 | 6 | 0 |
+| [is_typo](#is_typo) | 7 | 0 | 7 | 0 |
 | [levenshtein](#levenshtein) | 7 | 5 | 2 | 0 |
 | [linear_combinations](#linear_combinations) | 5 | 4 | 1 | 0 |
 | [nearest_parents](#nearest_parents) | 7 | 2 | 5 | 0 |
@@ -21,8 +21,8 @@ edit it. The terms and the other areas: [the summary](../conformance.md).
 | [sentiment](#sentiment) | 8 | 4 | 4 | 0 |
 | [split_by_words](#split_by_words) | 6 | 4 | 2 | 0 |
 | [synonyms](#synonyms) | 7 | 3 | 4 | 0 |
-| [typo_correction](#typo_correction) | 5 | 0 | 5 | 0 |
-| **All** | **93** | **47** | **46** | **0** |
+| [typo_correction](#typo_correction) | 6 | 0 | 6 | 0 |
+| **All** | **95** | **47** | **48** | **0** |
 
 ## add_minus_words
 
@@ -126,18 +126,19 @@ is_typo. VBA (docs/vba/analysis.md §10): «Является ли опечатк
 
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
-| `is_typo` | 6 | 0 | 6 | 0 |
+| `is_typo` | 7 | 0 | 7 | 0 |
 
 ### Deviations
 
 | Case | Input | VBA | semkit | Rule | Why |
 |---|---|---|---|---|---|
 | typo-core | `"диван \| диван угловой \| купить диавн"` | `"#ERROR"` | `"FALSE \| FALSE \| TRUE"` | Опечатки ищутся без сети, по частотному словарю самого ядра | the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops |
-| typo-ratio | `"стол \| стол купить \| стул"` | `"#ERROR"` | `"FALSE \| FALSE \| FALSE"` | Опечатки ищутся без сети, по частотному словарю самого ядра | the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops |
-| typo-ratio-2 | `"стол \| стол купить \| стул"` | `"#ERROR"` | `"FALSE \| FALSE \| TRUE"` | Опечатки ищутся без сети, по частотному словарю самого ядра | the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops |
-| typo-short | `"кот \| кот черный \| кит \| кто"` | `"#ERROR"` | `"FALSE \| FALSE \| TRUE \| FALSE"` | Опечатки ищутся без сети, по частотному словарю самого ядра | the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops |
+| typo-ratio | `"стол \| стол купить \| стлл"` | `"#ERROR"` | `"FALSE \| FALSE \| FALSE"` | Опечатки ищутся без сети, по частотному словарю самого ядра | the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops |
+| typo-ratio-2 | `"стол \| стол купить \| стлл"` | `"#ERROR"` | `"FALSE \| FALSE \| TRUE"` | Опечатки ищутся без сети, по частотному словарю самого ядра | the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops |
+| typo-short | `"кот \| кот черный \| кйт \| кто"` | `"#ERROR"` | `"FALSE \| FALSE \| TRUE \| FALSE"` | Опечатки ищутся без сети, по частотному словарю самого ядра | the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops |
 | typo-digit | `"диван \| диван угловой \| диван2"` | `"#ERROR"` | `"FALSE \| FALSE \| FALSE"` | Опечатки ищутся без сети, по частотному словарю самого ядра | the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops |
 | typo-case | `"диван \| диван угловой \| купить Диавн"` | `"#ERROR"` | `"FALSE \| FALSE \| TRUE"` | Опечатки ищутся без сети, по частотному словарю самого ядра | the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops |
+| typo-known-form | `"диван в москве \| диван в москве угловой \| диван москва \| купить диавн в мосвке"` | `"#ERROR"` | `"FALSE \| FALSE \| FALSE \| TRUE"` | Опечатки ищутся без сети, по частотному словарю самого ядра; Известная словоформа — не опечатка | the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops |
 
 ### xfail
 
@@ -309,17 +310,18 @@ typo_correction. VBA (docs/vba/analysis.md §10): «Наиболее вероя�
 
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
-| `typo_correction` | 5 | 0 | 5 | 0 |
+| `typo_correction` | 6 | 0 | 6 | 0 |
 
 ### Deviations
 
 | Case | Input | VBA | semkit | Rule | Why |
 |---|---|---|---|---|---|
 | fix-core | `"диван \| диван угловой \| купить диавн"` | `"#ERROR"` | `"диван \| диван угловой \| купить диван"` | Опечатки ищутся без сети, по частотному словарю самого ядра | the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops |
-| fix-none | `"стол \| стол купить \| стул"` | `"#ERROR"` | `"стол \| стол купить \| стул"` | Опечатки ищутся без сети, по частотному словарю самого ядра | the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops |
-| fix-ratio-2 | `"стол \| стол купить \| стул"` | `"#ERROR"` | `"стол \| стол купить \| стол"` | Опечатки ищутся без сети, по частотному словарю самого ядра | the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops |
-| fix-short | `"кот \| кот черный \| кит"` | `"#ERROR"` | `"кот \| кот черный \| кот"` | Опечатки ищутся без сети, по частотному словарю самого ядра | the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops |
+| fix-none | `"стол \| стол купить \| стлл"` | `"#ERROR"` | `"стол \| стол купить \| стлл"` | Опечатки ищутся без сети, по частотному словарю самого ядра | the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops |
+| fix-ratio-2 | `"стол \| стол купить \| стлл"` | `"#ERROR"` | `"стол \| стол купить \| стол"` | Опечатки ищутся без сети, по частотному словарю самого ядра | the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops |
+| fix-short | `"кот \| кот черный \| кйт"` | `"#ERROR"` | `"кот \| кот черный \| кот"` | Опечатки ищутся без сети, по частотному словарю самого ядра | the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops |
 | fix-case | `"Диван \| диван угловой \| купить ДИАВН"` | `"#ERROR"` | `"Диван \| диван угловой \| купить диван"` | Опечатки ищутся без сети, по частотному словарю самого ядра | the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops |
+| fix-known-form | `"диван в москве \| диван в москве угловой \| диван москва \| купить диавн в мосвке"` | `"#ERROR"` | `"диван в москве \| диван в москве угловой \| диван москва \| купить диван в москве"` | Опечатки ищутся без сети, по частотному словарю самого ядра; Известная словоформа — не опечатка | the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops |
 
 ### xfail
 

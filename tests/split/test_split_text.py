@@ -57,10 +57,39 @@ def test_a_dot_at_a_sentence_end_after_a_number_splits() -> None:
     assert sk.split_text(pd.Series(["Цена 5. Скидка 10"])).tolist() == ["Цена 5", "Скидка 10"]
 
 
-def test_dashes_and_quotes_and_brackets_separate() -> None:
+def test_quotes_and_brackets_separate_and_a_dash_between_words_does_not() -> None:
     result = sk.split_text(pd.Series(["диван — это «мебель» (мягкая) - да"]))
 
-    assert result.tolist() == ["диван", "это", "мебель", "мягкая", "да"]
+    assert result.tolist() == ["диван это", "мебель", "мягкая", "да"]
+
+
+PAGE = "Склад временного хранения — это место. Адрес: г. Краснознаменск, тел. 275-30-85, 31.03.2026."
+
+
+def test_a_page_splits_at_sentences_not_at_a_dash_an_abbreviation_a_phone_or_a_date() -> None:
+    result = sk.split_text(pd.Series([PAGE]))
+
+    assert result.tolist() == [
+        "Склад временного хранения это место",
+        "Адрес",
+        "г Краснознаменск",
+        "тел 275-30-85",
+        "31.03.2026",
+    ]
+
+
+@pytest.mark.parametrize(
+    ("text", "phrases"),
+    [
+        ("ул. Березовая, д. 5", ["ул Березовая", "д 5"]),
+        ("то есть т. е. склад", ["то есть т е склад"]),
+        ("цена 541,67 руб. за 2.5 м", ["цена 541,67 руб за 2.5 м"]),
+        ("Москва – Петербург", ["Москва Петербург"]),
+        ("место. Это склад", ["место", "Это склад"]),
+    ],
+)
+def test_abbreviation_points_dashes_and_numbers_keep_a_phrase(text: str, phrases: list[str]) -> None:
+    assert sk.split_text(pd.Series([text])).tolist() == phrases
 
 
 def test_whitespace_is_collapsed_and_case_is_kept() -> None:

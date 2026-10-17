@@ -46,3 +46,20 @@ def test_a_fake_lemmatizer_decides() -> None:
 
     assert sk.extract(phrases, sk.pos("adj", lemmatizer=FakeLemmatizer())).tolist() == ["диван", ""]
     assert sk.extract(phrases, sk.pos("adverb", lemmatizer=FakeLemmatizer())).tolist() == ["", "купить"]
+
+
+def test_a_capitalised_word_is_one_part_of_speech() -> None:
+    phrases = pd.Series(["диван раскладной Быстро в Москве"])
+
+    adjectives = sk.extract(phrases, sk.pos("adj")).iloc[0].split()
+    adverbs = sk.extract(phrases, sk.pos("adverb")).iloc[0].split()
+
+    assert ("Быстро" in adjectives) != ("Быстро" in adverbs)
+    assert "Москве" in sk.extract(phrases, sk.pos("noun")).iloc[0].split()
+
+
+def test_a_capitalised_word_is_looked_up_like_its_lower_case() -> None:
+    phrases = pd.Series(["Красный Диван", "красный диван"])
+
+    assert sk.extract(phrases, sk.pos("adj")).tolist() == ["Красный", "красный"]
+    assert sk.extract(phrases, sk.pos("noun")).tolist() == ["Диван", "диван"]

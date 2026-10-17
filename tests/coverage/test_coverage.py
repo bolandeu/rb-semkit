@@ -20,14 +20,41 @@ def test_first_is_the_number_of_the_word_where_the_phrase_starts() -> None:
     assert table["first"].tolist() == [3]
 
 
-def test_lemmas_follow_the_word_order_and_stop_at_punctuation() -> None:
-    core = pd.Series(["купить диван", "диван кровать", "кресло"])
+def test_lemmas_follow_the_word_order_cross_a_comma_and_stop_at_a_sentence_end() -> None:
+    core = pd.Series(["купить диван", "москва диван", "диван кровать", "кресло"])
 
     table = sk.coverage(core, pd.Series([TEXT]), mode="lemmas")
 
     assert table["phrase"].tolist() == core.tolist()
-    assert table["count"].tolist() == [1, 0, 0]
-    assert table["first"].isna().tolist() == [False, True, True]
+    assert table["count"].tolist() == [1, 0, 1, 0]
+    assert table["first"].isna().tolist() == [False, True, False, True]
+
+
+@pytest.mark.parametrize(
+    ("text", "count"),
+    [
+        ("Склад временного хранения — это место", 1),
+        ("склад временного хранения, это место", 1),
+        ("склад временного хранения. Это место", 0),
+        ("склад временного хранения! Это место", 0),
+    ],
+)
+def test_an_exact_occurrence_crosses_a_dash_or_a_comma_not_a_sentence_end(text: str, count: int) -> None:
+    table = sk.coverage(pd.Series(["склад временного хранения это"]), pd.Series([text]))
+
+    assert table["count"].tolist() == [count]
+
+
+def test_an_abbreviation_point_is_no_sentence_end() -> None:
+    table = sk.coverage(pd.Series(["склад в г краснознаменск"]), pd.Series(["Склад в г. Краснознаменск."]))
+
+    assert table["count"].tolist() == [1]
+
+
+def test_density_has_at_most_four_decimals() -> None:
+    table = sk.coverage(pd.Series(["диван"]), pd.Series(["диван кровать стол"]))
+
+    assert table["density"].tolist() == [0.3333]
 
 
 def test_any_order_finds_the_lemmas_inside_one_piece_and_exact_does_not() -> None:
@@ -84,3 +111,13 @@ def test_a_missing_column_names_the_argument() -> None:
         sk.coverage(pd.DataFrame({"q": ["а"]}), pd.Series(["а"]))
     with pytest.raises(sk.InvalidArguments, match="text_column"):
         sk.coverage(pd.Series(["а"]), pd.DataFrame({"body": ["а"]}))
+
+
+def test_counts_shares_have_at_most_four_decimals() -> None:
+    df = pd.DataFrame({"phrase": ["диван", "стол", "стул"], "freq": [1, 1, 1]})
+
+    share = sk.counts(df, what="share", weight="freq", column="phrase")["phrase_share"]
+    of_total = sk.counts(df, what="share_of_total", weight="freq", column="phrase")["phrase_share_of_total"]
+
+    assert share.tolist() == [0.3333, 0.6667, 1.0]
+    assert of_total.tolist() == [0.3333, 0.3333, 0.3333]

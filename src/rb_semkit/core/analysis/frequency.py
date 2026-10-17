@@ -1,7 +1,8 @@
 """N-grams and bigrams with counts, as the add-in counts them: one occurrence of a gram is one count.
 
-A phrase becomes its words (case and ё folded, stopwords dropped on request, then lemmas on request); a shape turns
-the words into grams; the grams of all phrases are counted, and summed by the weight of their phrase.
+A phrase becomes its words (those of `text.words`: no punctuation at the edges of a word; case and ё folded, stopwords
+dropped on request, then lemmas on request); a shape turns the words into grams; the grams of all phrases are counted,
+and summed by the weight of their phrase.
 
 `bundled_stopwords` gives the stopword list of these steps to other areas (text_stats uses it for water and nausea);
 `word_keys` gives them the word -> key step (the corpus area uses it).
@@ -22,6 +23,7 @@ from ..morph import Lemmatizer
 from ..morph.functions import BUNDLED
 from ..normalize import norm_phrase
 from ..text.base import bundled_list, split_words
+from ..text.words import text_words
 from .weights import weights_of
 
 MAX_FORMS = 5  # the spellings of a gram longer than one word
@@ -101,7 +103,7 @@ def _tally(
 ) -> pd.DataFrame:
     frame = Frame(data, column)
     weights = weights_of(frame, weight)
-    phrases = frame.phrases
+    phrases = map_unique(frame.phrases, lambda phrase: " ".join(text_words(phrase)))
     keys = word_keys(phrases, lemmatizer=lemmatizer, stopwords=stopwords)
     grams = map_unique(phrases, lambda phrase: shape([keys[word] for word in split_words(phrase)])).tolist()
     lengths = [len(row) for row in grams]

@@ -136,3 +136,19 @@ class _Collapse:
 
     def forms(self, lemma: str) -> list[str]:
         return []
+
+
+def test_punctuation_at_the_edges_of_a_word_of_a_raw_text_is_no_part_of_a_gram() -> None:
+    table = sk.ngrams(pd.Series(["цена 100 руб. и 200 руб, ★ отзывы"]))
+
+    counts = dict(zip(table["ngram"], table["count"], strict=True))
+    assert counts["руб"] == 2
+    assert "руб." not in counts
+    assert "★" not in counts
+    assert set(counts) == {"цена", "100", "руб", "и", "200", "отзывы"}
+
+
+def test_a_number_and_a_hyphenated_word_are_one_gram() -> None:
+    table = sk.ngrams(pd.Series(["тел. 275-30-85, 31.03.2026, диван-кровать за 541,67"]))
+
+    assert set(table["ngram"]) == {"тел", "275-30-85", "31.03.2026", "диван-кровать", "за", "541,67"}

@@ -127,3 +127,35 @@ def test_thousand_texts_of_two_thousand_words_run_fast() -> None:
     sk.text_stats(texts)
 
     assert time.perf_counter() - start < 30
+
+
+ONE_PAGE = "Склад — это место. Дата: 31.03.2026, тел. 275-30-85, склад."
+
+
+def test_text_stats_coverage_and_compare_grams_count_the_same_eight_words() -> None:
+    # Склад это место Дата 31.03.2026 тел 275-30-85 склад: 8 words; «склад» stands twice, 2 / 8 = 0.25
+    covered = sk.coverage(pd.Series(["склад"]), pd.Series([ONE_PAGE])).iloc[0]
+    grams = sk.compare_grams(ONE_PAGE, [ONE_PAGE]).set_index("ngram")
+
+    assert one(ONE_PAGE)["words"] == 8
+    assert covered["density"] == 0.25
+    assert grams.loc["склад", "mine"] == 0.25
+
+
+def test_single_letter_abbreviations_are_words_but_no_lemmas() -> None:
+    row = one("таможенный " * 10 + "г. " * 50)
+
+    assert row["words"] == 60
+    assert row["top"] == "таможенный"
+    assert row["nausea_classic"] == round(math.sqrt(10), 2)
+    assert row["nausea_academic"] == pytest.approx(10 / 60)
+    assert row["ttr"] == 0.1
+
+
+def test_compare_grams_lists_no_gram_of_an_abbreviation() -> None:
+    text = "г. Москва, м. Тушинская, п. Внуково, ул. Березовая, д. 5, 100 руб."
+
+    grams = set(sk.compare_grams(text, [text])["ngram"])
+
+    assert grams.isdisjoint({"г", "м", "п", "ул", "д", "далее", "руб"})  # the lemma of «д» is «далее»
+    assert "москва" in grams

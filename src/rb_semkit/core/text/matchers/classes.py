@@ -17,6 +17,8 @@ DIGITS = "0-9"
 CYRILLIC = "А-ӿЁ"
 # `[А-Яа-я]` of the Like masks (`ala`, line 1770): Ё and ё are not in it
 RU_LETTERS = "А-я"
+# A point or a comma inside a number, as a regex: the point of «2.5», the comma of «541,67»
+NUMBER_MARK = rf"(?<=[{DIGITS}])[.,](?=[{DIGITS}])"
 _LAST_BMP = 0xFFFF
 _SURROGATES = range(0xD800, 0xE000)
 

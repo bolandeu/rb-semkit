@@ -16,6 +16,7 @@ NEEDS_WEIGHT = ("share", "share_of_total", "abc")
 # ABC classes: the upper bound of the cumulative share, and the class below it.
 ABC_BOUNDS = ((0.8, "A"), (0.95, "B"))
 ABC_REST = "C"
+DECIMALS = 4  # of a share, as the densities of sk.compare_grams and sk.coverage
 
 
 def _abc(share: float) -> str:
@@ -36,9 +37,9 @@ def _weight_count(what: str, weights: pd.Series) -> pd.Series:
     if total == 0:
         return pd.Series(np.nan, index=weights.index)
     if what == "share":
-        return weights.cumsum() / total
+        return (weights.cumsum() / total).round(DECIMALS)
     if what == "share_of_total":
-        return weights / total
+        return (weights / total).round(DECIMALS)
     shares = _heaviest_first_shares(weights)
     return shares.map(_abc)
 
