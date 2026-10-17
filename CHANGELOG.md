@@ -5,6 +5,15 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.26 — 2026-10-18
+
+### E-007 — HTML input and page measures: parse-html, headings, summary, the mean, recommended occurrences
+
+semkit read pages.jsonl parse-html gives each page its zones (text, links, all, main), title, description and h1 as columns that every text step takes; headings gives the H1-H6 structure; summary gives the mean, median, min and max of any table; compare-stats and compare-grams compare a page with the mean or the median of a list and give the recommended occurrences for a text size; coverage finds phrases with inserted words; numbers and a word list can be left out of the measures.
+Time: 0.5h since the epic was approved
+
+- summary, the mean in the comparisons, recommended occurrences, --no-digits and --exclude (SEMKIT-043)
+
 ## v0.1.25 — 2026-10-18
 
 ### E-005 — Vectors: the base and the steps by meaning

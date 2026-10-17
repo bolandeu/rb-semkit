@@ -2739,7 +2739,7 @@
           },
           {
             "name": "compare-grams",
-            "description": "How the grams of my text differ from the competitors' texts: a row per gram met in any competitor.\n\nThe density of a gram in a text is its count / the words of that text; a competitor without the gram counts as 0. Grams are those of ngrams. With lemmas, a word without a lemma (a single letter, an abbreviation or a unit: «г», «руб», «см») is in no gram, but counts in the words of a text.\nn: how many words in a gram.\nlemmas: compare lemmas of the words («диваны» is «диван»).\nstopwords: on, every word makes grams; off (the default), only the words that are no stopwords.\ntolerance: how far from the median a density is still within, a share of the median (0.3 is ±30 %).\n\nThe columns: ngram; docs, the competitors that hold it; docs_share, docs / competitors, 0..1; median, min, max, the density in the competitors; mine, its density in my text; verdict, «below», «within» or «above», mine against median x (1 ± tolerance), and when the median is 0, «within» if mine is 0, else «above». Densities are rounded to 4 decimals. Sorted by median, biggest first, then ngram. The only norm is the median.\n\ncompetitors: a file with the texts of the competitors, one per row, in its first text column; the file is read like `read` does.\n\nThe step takes the working column as my text (its cells, one per line); the table of the comparison replaces the current one.\n\nExample: semkit read --whole mine.txt compare-grams --competitors competitors.csv write out.csv",
+            "description": "How the grams of my text differ from the competitors' texts: a row per gram met in any competitor.\n\nThe density of a gram in a text is its count / the words of that text; a competitor without the gram counts as 0. Grams are those of ngrams. With lemmas, a word without a lemma (a single letter, an abbreviation or a unit: «г», «руб», «см») is in no gram, but counts in the words of a text.\nn: how many words in a gram.\nlemmas: compare lemmas of the words («диваны» is «диван»).\nstopwords: on, every word makes grams; off (the default), only the words that are no stopwords.\ntolerance: how far from the norm a density is still within, a share of the norm (0.3 is ±30 %).\nnorm: «median» (the default) or «mean»: the density the verdict and the recommended occurrences go by.\nwords: the size of the text to recommend occurrences for, in words; by default the words of my text.\nper_text: add a density column per competitor text, named by its url column when the table of the competitors has one, else text_1, text_2…\nno_digits: leave out the words with a digit of every count, the words total included, as text-stats does.\nexclude: words to leave out of every count the same way, as written, with case and ё folded, not by lemma.\n\nThe columns: ngram; docs, the competitors that hold it; docs_share, docs / competitors, 0..1; median, mean, min, max, the density in the competitors; mine, its density in my text; verdict, «below», «within» or «above», mine against norm x (1 ± tolerance), and when the norm is 0, «within» if mine is 0, else «above»; need, the norm x `words`, rounded to a whole number of occurrences; have, the occurrences in my text; add, need - have (negative: remove); med_count, the median number of occurrences in the competitors. Densities are rounded to 4 decimals. Sorted by median, biggest first, then ngram. With per_text, the density columns come last.\n\ncompetitors: a file with the texts of the competitors, one per row, in its first text column; the file is read like `read` does. A url column, if the file has one, names the columns of --per-text.\n\nThe step takes the working column as my text (its cells, one per line); the table of the comparison replaces the current one.\n\nExample: semkit read --whole mine.txt compare-grams --competitors competitors.csv write out.csv",
             "options": [
               {
                 "name": "--competitors",
@@ -2749,7 +2749,7 @@
                     "required": true
                   }
                 ],
-                "description": "a file with the texts of the competitors, one per row, in its first text column; the file is read like `read` does.",
+                "description": "a file with the texts of the competitors, one per row, in its first text column; the file is read like `read` does. A url column, if the file has one, names the columns of --per-text.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -2816,7 +2816,7 @@
                     "required": true
                   }
                 ],
-                "description": "how far from the median a density is still within, a share of the median (0.3 is ±30 %).",
+                "description": "how far from the norm a density is still within, a share of the norm (0.3 is ±30 %).",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -2825,6 +2825,90 @@
                   {
                     "name": "x-rb-default",
                     "value": 0.3
+                  }
+                ]
+              },
+              {
+                "name": "--norm",
+                "arguments": [
+                  {
+                    "name": "NORM",
+                    "required": true,
+                    "acceptedValues": [
+                      "mean",
+                      "median"
+                    ]
+                  }
+                ],
+                "description": "«median» (the default) or «mean»: the density the verdict and the recommended occurrences go by.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "median"
+                  }
+                ]
+              },
+              {
+                "name": "--words",
+                "arguments": [
+                  {
+                    "name": "WORDS",
+                    "required": true
+                  }
+                ],
+                "description": "the size of the text to recommend occurrences for, in words; by default the words of my text.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "int"
+                  }
+                ]
+              },
+              {
+                "name": "--per-text",
+                "description": "add a density column per competitor text, named by its url column when the table of the competitors has one, else text_1, text_2…",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--no-digits",
+                "description": "leave out the words with a digit of every count, the words total included, as text-stats does.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--exclude",
+                "arguments": [
+                  {
+                    "name": "EXCLUDE",
+                    "required": true
+                  }
+                ],
+                "description": "words to leave out of every count the same way, as written, with case and ё folded, not by lemma. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
                   }
                 ]
               }
@@ -2837,7 +2921,7 @@
                   "minimum": 0,
                   "maximum": 1
                 },
-                "description": "a file with the texts of the competitors, one per row, in its first text column; the file is read like `read` does. The same as --competitors COMPETITORS.",
+                "description": "a file with the texts of the competitors, one per row, in its first text column; the file is read like `read` does. A url column, if the file has one, names the columns of --per-text. The same as --competitors COMPETITORS.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -2855,7 +2939,7 @@
           },
           {
             "name": "compare-stats",
-            "description": "The metrics of text-stats, mine against the competitors: a row per metric.\n\ntolerance: how far from the median a metric is still within, a share of the median (0.3 is ±30 %).\n\nThe columns: metric; mine; median, min, max, the metric over the competitors; delta, mine - median; verdict, «below», «within» or «above», mine against median x (1 ± tolerance), and when the median is 0, «within» if mine is 0, else «above». Numbers are rounded to 4 decimals; the counts (chars, chars_no_spaces, words, unique) stay whole numbers where they are whole. The only norm is the median.\n\ncompetitors: a file with the texts of the competitors, one per row, in its first text column; the file is read like `read` does.\n\nThe step takes the working column as my text (its cells, one per line); the table of the comparison replaces the current one.\n\nExample: semkit read --whole mine.txt compare-stats --competitors competitors.csv write out.csv",
+            "description": "The metrics of text-stats, mine against the competitors: a row per metric.\n\ntolerance: how far from the norm a metric is still within, a share of the norm (0.3 is ±30 %).\nnorm: «median» (the default) or «mean»: what delta and the verdict are against.\nno_digits: leave out the words with a digit of every count, as text-stats does.\nexclude: words to leave out of every count, as text-stats does.\n\nThe columns: metric; mine; median, mean, min, max, the metric over the competitors; delta, mine - the norm; verdict, «below», «within» or «above», mine against norm x (1 ± tolerance), and when the norm is 0, «within» if mine is 0, else «above». Numbers are rounded to 4 decimals; the counts (chars, chars_no_spaces, words, unique) stay whole numbers where they are whole.\n\ncompetitors: a file with the texts of the competitors, one per row, in its first text column; the file is read like `read` does. A url column, if the file has one, names the columns of --per-text.\n\nThe step takes the working column as my text (its cells, one per line); the table of the comparison replaces the current one.\n\nExample: semkit read --whole mine.txt compare-stats --competitors competitors.csv write out.csv",
             "options": [
               {
                 "name": "--competitors",
@@ -2865,7 +2949,7 @@
                     "required": true
                   }
                 ],
-                "description": "a file with the texts of the competitors, one per row, in its first text column; the file is read like `read` does.",
+                "description": "a file with the texts of the competitors, one per row, in its first text column; the file is read like `read` does. A url column, if the file has one, names the columns of --per-text.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -2881,7 +2965,7 @@
                     "required": true
                   }
                 ],
-                "description": "how far from the median a metric is still within, a share of the median (0.3 is ±30 %).",
+                "description": "how far from the norm a metric is still within, a share of the norm (0.3 is ±30 %).",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -2890,6 +2974,60 @@
                   {
                     "name": "x-rb-default",
                     "value": 0.3
+                  }
+                ]
+              },
+              {
+                "name": "--norm",
+                "arguments": [
+                  {
+                    "name": "NORM",
+                    "required": true,
+                    "acceptedValues": [
+                      "mean",
+                      "median"
+                    ]
+                  }
+                ],
+                "description": "«median» (the default) or «mean»: what delta and the verdict are against.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "median"
+                  }
+                ]
+              },
+              {
+                "name": "--no-digits",
+                "description": "leave out the words with a digit of every count, as text-stats does.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--exclude",
+                "arguments": [
+                  {
+                    "name": "EXCLUDE",
+                    "required": true
+                  }
+                ],
+                "description": "words to leave out of every count, as text-stats does. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
                   }
                 ]
               }
@@ -2902,7 +3040,7 @@
                   "minimum": 0,
                   "maximum": 1
                 },
-                "description": "a file with the texts of the competitors, one per row, in its first text column; the file is read like `read` does. The same as --competitors COMPETITORS.",
+                "description": "a file with the texts of the competitors, one per row, in its first text column; the file is read like `read` does. A url column, if the file has one, names the columns of --per-text. The same as --competitors COMPETITORS.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -5622,6 +5760,16 @@
           {
             "name": "split-text",
             "description": "Every cell cut into phrases at sentence ends and clause punctuation; one row per phrase, none for an empty cell.\n\nThe punctuation is dropped, whitespace collapsed, case kept. A dash between words (— – -) and the point of an abbreviation of the bundled word rules («г.», «ул.», «т. е.», «тел.», «руб.») do not cut a phrase and are dropped too: «Склад временного хранения — это место» is one phrase, «г. Краснознаменск» is «г Краснознаменск». A hyphen or an apostrophe inside a word and a point or a comma inside a number stay («31.03.2026», «2,5»). The rows of the phrases repeat the other columns of their source row and keep its index.\n\nThe step cuts each cell of the working column; the table of the phrases replaces the current one, each row keeps the other columns of its source row, and the working column stays.\n\nExample: semkit read core.csv split-text write out.csv",
+            "metadata": [
+              {
+                "name": "x-rb-kind",
+                "value": "report"
+              }
+            ]
+          },
+          {
+            "name": "summary",
+            "description": "The count, mean, median, min and max of each numeric column of a table: a row per column.\n\nThe columns: column, the name; count, the cells with a number; mean, median, min, max. Numbers are rounded to 4 decimals, as the comparisons round; a column of whole numbers gives whole numbers where they are whole. A column of text and a column of true / false are left out. A table without a numeric column is refused. parse-html, then text-stats, then summary gives the table «all pages: mean, median».\n\nThe step reports on the whole current table, whatever the working column is; its table replaces the current one.\n\nExample: semkit read core.csv summary write out.csv",
             "metadata": [
               {
                 "name": "x-rb-kind",
@@ -10384,7 +10532,39 @@
           },
           {
             "name": "text-stats",
-            "description": "The usual SEO metrics of each text, the same numbers each run: a metric column per metric, a row per text.\n\nA cell is a text; an empty cell gives zeros and an empty top. The metric columns are added right after the column of the texts.\n\nThe words are those of split-text: punctuation at the edges of a word is dropped, a hyphen or an apostrophe inside a word stays («кресло-кровать» is one word), a number with inner points, commas or hyphens is one word («31.03.2026»); case and ё are folded. Stopwords are the bundled list of the n-grams. Lemmas are the words that are no stopwords. A single-letter word, an abbreviation (г, ул, руб, шт, кв, стр…) and a unit (рублей, см, мм, мл, кг) of the bundled word rules are words but no lemmas for top, nausea, ttr, mtld and zipf.\n\nThe columns, in this order:\n- chars: all characters of the text; chars_no_spaces: the same without whitespace;\n- words: the words of the text, stopwords, abbreviations and units included;\n- unique: distinct lemmas;\n- water: stopwords / words, 0..1;\n- nausea_classic: the square root of the count of the most frequent lemma (the top), 2 decimals;\n- nausea_academic: that count / words, 0..1;\n- top: that lemma; on a tie, the first in the text;\n- ttr: distinct lemmas / lemmas, 0..1;\n- mtld: Measure of Textual Lexical Diversity (McCarthy and Jarvis 2010), threshold 0.72: read the lemmas forward, each time the running type/token ratio falls to 0.72 or below, count a factor and restart; the last partial run adds (1 - ttr) / (1 - 0.72); do it backward too; mtld = lemmas / mean of the two factor counts, 2 decimals; 0 for under 2 lemmas;\n- zipf: R² x 100, 1 decimal, of the linear regression of log count on log rank over the lemma counts (rank 1 is the biggest count), so f(r) = C / r^s fits; 0 for under 5 distinct lemmas.\n\nNo norms and no verdicts: the caller sets them.\n\nThe step reads the working column and adds the metric columns right after it; the rows stay.\n\nExample: semkit read core.csv text-stats write out.csv",
+            "description": "The usual SEO metrics of each text, the same numbers each run: a metric column per metric, a row per text.\n\nA cell is a text; an empty cell gives zeros and an empty top. The metric columns are added right after the column of the texts.\n\nThe words are those of split-text: punctuation at the edges of a word is dropped, a hyphen or an apostrophe inside a word stays («кресло-кровать» is one word), a number with inner points, commas or hyphens is one word («31.03.2026»); case and ё are folded. Stopwords are the bundled list of the n-grams. Lemmas are the words that are no stopwords. A single-letter word, an abbreviation (г, ул, руб, шт, кв, стр…) and a unit (рублей, см, мм, мл, кг) of the bundled word rules are words but no lemmas for top, nausea, ttr, mtld and zipf.\nno_digits: leave out the words with a digit («2026», «15000», «A4») of every count, the words total included, as if the text did not hold them; chars and chars_no_spaces stay those of the text as given.\nexclude: words to leave out the same way, as written, with case and ё folded, not by lemma («года» does not leave out «год»).\n\nThe columns, in this order:\n- chars: all characters of the text; chars_no_spaces: the same without whitespace;\n- words: the words of the text, stopwords, abbreviations and units included;\n- unique: distinct lemmas;\n- water: stopwords / words, 0..1;\n- nausea_classic: the square root of the count of the most frequent lemma (the top), 2 decimals;\n- nausea_academic: that count / words, 0..1;\n- top: that lemma; on a tie, the first in the text;\n- ttr: distinct lemmas / lemmas, 0..1;\n- mtld: Measure of Textual Lexical Diversity (McCarthy and Jarvis 2010), threshold 0.72: read the lemmas forward, each time the running type/token ratio falls to 0.72 or below, count a factor and restart; the last partial run adds (1 - ttr) / (1 - 0.72); do it backward too; mtld = lemmas / mean of the two factor counts, 2 decimals; 0 for under 2 lemmas;\n- zipf: R² x 100, 1 decimal, of the linear regression of log count on log rank over the lemma counts (rank 1 is the biggest count), so f(r) = C / r^s fits; 0 for under 5 distinct lemmas.\n\nNo norms and no verdicts: the caller sets them.\n\nThe step reads the working column and adds the metric columns right after it; the rows stay.\n\nExample: semkit read core.csv text-stats write out.csv",
+            "options": [
+              {
+                "name": "--no-digits",
+                "description": "leave out the words with a digit («2026», «15000», «A4») of every count, the words total included, as if the text did not hold them; chars and chars_no_spaces stay those of the text as given.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--exclude",
+                "arguments": [
+                  {
+                    "name": "EXCLUDE",
+                    "required": true
+                  }
+                ],
+                "description": "words to leave out the same way, as written, with case and ё folded, not by lemma («года» does not leave out «год»). Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
             "metadata": [
               {
                 "name": "x-rb-kind",

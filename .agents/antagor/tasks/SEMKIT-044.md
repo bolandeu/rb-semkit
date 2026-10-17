@@ -17,6 +17,8 @@ owns_paths:
 - src/rb_semkit/steps/coverage.py
 test_paths:
 - tests/coverage/
+- tests/snapshots/help/steps/coverage/coverage.txt
+- tests/snapshots/describe.json
 docs: none
 tools: []
 worker_args: null
@@ -77,3 +79,7 @@ The word index of coverage: a text is scanned once, phrases are looked up by the
 
 - named kinds of occurrence, a column per kind, a stricter exact
 - target counts per phrase
+
+## Feedback
+
+### Blocked: scope_held (holders ['SEMKIT-042'], paths ['tests/snapshots/describe.json'])
