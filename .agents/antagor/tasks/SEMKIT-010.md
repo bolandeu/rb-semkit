@@ -109,3 +109,11 @@ The v1 package root (lazy name map), the data build and manifest scripts, the co
 
 - New functions of any area: the area tasks add them.
 - Changing behaviour of v1 functions or the values of existing cases.
+
+## Feedback
+
+### Answer to finding #1
+
+> SEMKIT-010: the conformance summary docs/vba/conformance.md is now checked only by 'uv run scripts/conformance_report.py --check'. E-002 checks (.agents/antagor/epics/E-002.md) do not run it yet. Add it to the epic checks, so the summary is checked at the epic close.
+
+Added 'uv run scripts/conformance_report.py --check' to E-002 checks.
