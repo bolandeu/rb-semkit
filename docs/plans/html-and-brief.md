@@ -21,4 +21,17 @@ input first.
 
 ## HTML input: clarification
 
-(rounds below)
+The Human, 2026-10-18: the input is pages (first of all the pages of the Human's own site), given as HTML by the
+Human; fetching stays outside semkit. Competitors are one scenario of the same commands, not the purpose.
+
+Proposed (round 1, waiting for the Human):
+- `parse-html`: a change step on a column of HTML (one page: `read page.html --whole`; many: a table url, html); adds
+  url (when known), text (visible text without links), links (link text), all, main (the main content without menus,
+  header and footer), title, description, h1. The columns match the `--pages` table of the vector steps (url, text,
+  title, h1), so parsed pages go straight to assign-pages, nearest, coverage, coverage-meaning, text-stats.
+- `headings`: a report, one row per heading (url, order, level H1-H6, text).
+- Defaults count noindex text and alt and title attributes, as Miratext; `--drop-noindex`, `--drop-attributes` leave
+  them out; scripts, styles and hidden elements are always left out.
+- A ready library under a thin wrapper (selectolax or lxml for zones and headings, trafilatura for main), chosen by a
+  comparison on real pages before the card.
+- Words in meta tags: no step; compare-grams on the title or description column (a scenario).
