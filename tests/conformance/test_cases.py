@@ -20,14 +20,21 @@ from .case_files import CASE_COLUMNS, CASES_DIR, Case, all_cases, case_files, re
 
 MIN_CASES = 5
 VERBS = ("find", "remove", "extract")
+# A function that is not from the add-in has no conformance case: the report compares semkit with the add-in, and a case
+# without a VBA column to compare would count as «the VBA». Such a function is tested in its own area tests.
 NOT_CASED = {
-    *VERBS,
+    *VERBS,  # the verbs and the pipe run in the cases of every matcher
     "pipe",
     "split_text",
     "coverage",
-    "cluster_serp",
-}  # the verbs and the pipe run in the cases of every matcher; split_text and coverage are not from the add-in;
-# cluster_serp takes a SERP table and replaces the add-in's method (ADR 0005)
+    "cluster_serp",  # takes a SERP table and replaces the add-in's method (ADR 0005)
+    "text_stats",
+    "compare_grams",
+    "compare_stats",
+    "bm25",
+    "compare_lists",
+    "edges",
+}
 CASES = all_cases()
 
 
