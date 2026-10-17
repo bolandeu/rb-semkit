@@ -52,7 +52,7 @@ def pos(kind: PartOfSpeech, *, lemmatizer: Lemmatizer | None = None) -> Pos:
     A word is looked up as written, with its punctuation («диван,» is not a noun). An adjective is a word coded «a»,
     or a word with no code, a pronoun or a particle whose lemma ends like an adjective («какой»); a word with a
     capital is looked up in lower case («Быстро» is an adverb, not an adjective).
-    lemmatizer: what gives the part of speech and the lemma of a word; not given, the bundled !SEMTools dictionary.
+    lemmatizer: what gives the part of speech and the lemma of a word; not given, the bundled dictionary.
 
     ADR 0005: split on any whitespace; ё = е in the lookup.
     """
