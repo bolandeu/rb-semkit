@@ -63,3 +63,23 @@ extension of coverage, not a new step:
   columns found, need, missing;
 - the three groups of Miratext (exact and others, diluted and others, any) are three runs with different `--kinds`;
 - leaving out a list of words; leaving out noindex comes with the HTML input.
+
+## HTML libraries: measured (2026-10-18)
+
+Seven real pages (the five competitors of the Miratext analysis, two ost-term pages; the import page is the Human's
+test page), Python 3.12, mean of 3 runs per page.
+
+| library | role | words p3 (Miratext 1683) | time per page | main of the test page |
+|---|---|---|---|---|
+| selectolax 1.0 (lexbor) | zones, title, description, H1-H6, noindex | 1688 | ~1 ms | — |
+| lxml 6.1 | the same | 1688 | 1-5 ms | — |
+| html-text 0.7 | visible text | 1697 | 3-7 ms | — |
+| BeautifulSoup 4.15 | visible text | 1697 | 8-23 ms | — |
+| inscriptis 2.7 | visible text by layout | 1706 | 5-13 ms | — |
+| trafilatura 2.3 (favor_recall) | main content | — | 9-29 ms | 13 of 14 sections, no menu or footer |
+| justext 3.0 | main content | — | 8-24 ms | 8 of 14 sections |
+| readability-lxml 0.9 | main content | — | 10-107 ms | 0 of 14 (took a wrong block) |
+
+Chosen: selectolax for the zones, meta tags, headings and noindex (the fastest, CSS selectors, its all-text word count
+matches Miratext within 0.3 % on a page without JavaScript); trafilatura with favor_recall for main. A page built by
+JavaScript (di-project: 6 words) has no text in its HTML: the Human gives the rendered HTML.
