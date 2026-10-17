@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-009
 title: 'Analysis functions: follow the VBA where the conformance cases differ'
-status: queue
+status: in_progress
 attempts: 0
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: scope_held
 phase: null
 tests_hash: null
 publish_stage: null
@@ -19,9 +19,11 @@ owns_paths:
 - src/rb_semkit/core/morph/functions.py
 - src/rb_semkit/core/morph/lemmatizer.py
 - tests/conformance/cases/
+- docs/plan.md
 test_paths:
 - tests/analysis/
 - tests/core/
+- tests/conformance/test_cases.py
 docs: none
 tools: []
 worker_args: null
