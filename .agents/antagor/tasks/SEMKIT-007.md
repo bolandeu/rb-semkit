@@ -15,22 +15,6 @@ type: feature
 owns_paths:
 - src/rb_semkit/core/markers/
 - src/rb_semkit/core/text/matchers/phrases.py
-- docs/plan.md
-- src/rb_semkit/core/morph/lemmatizer.py
-- src/rb_semkit/core/text/matchers/around.py
-- src/rb_semkit/core/text/matchers/cells.py
-- src/rb_semkit/core/text/matchers/chars.py
-- src/rb_semkit/core/text/matchers/classes.py
-- src/rb_semkit/core/text/matchers/pos.py
-- src/rb_semkit/core/text/matchers/positions.py
-- src/rb_semkit/core/text/matchers/regex.py
-- src/rb_semkit/core/text/matchers/repeats.py
-- src/rb_semkit/core/text/matchers/spaces.py
-- src/rb_semkit/core/text/matchers/stopwords.py
-- src/rb_semkit/core/text/matchers/word_case.py
-- src/rb_semkit/core/text/matchers/word_content.py
-- src/rb_semkit/core/text/matchers/word_position.py
-- src/rb_semkit/core/text/matchers/words.py
 test_paths:
 - tests/markers/
 - tests/matchers/
