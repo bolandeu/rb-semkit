@@ -61,7 +61,8 @@ translation: '**Морфология на реальном ядре.** Испр�
 ---
 
 
-The end-to-end check (docs/plans/e2e-quality.md, items 1-11) found the morphology gives wrong Russian on a real sofa core and a customs core. Fix the library behaviour so the words below come out right; each fixed word is a conformance case of its area (expected = the correct form, the add-in's value in vba, the rule and why per ADR 0005). Keep the public docstrings as they are (the step help and its snapshots are SEMKIT-034's); behaviour only.
+
+The end-to-end check (docs/plans/e2e-quality.md, items 1-11) found the morphology gives wrong Russian on a real sofa core and a customs core. Fix the library behaviour so the words below come out right; each fixed word is a conformance case of its area (expected = the correct form, the add-in's value in vba, the rule and why per ADR 0005). Do not change the public docstrings: SEMKIT-033 updates them and the help snapshots after this task; when your fix changes a rule a docstring states, report it as an inbox finding (the function and the new rule). Behaviour only.
 
 Lemmatizer: the bundled dictionary answers first and gives wrong lemmas that pymorphy3 gets right. Correct them (a correction of the dictionary data or a rule for when pymorphy3 wins; record the rule in ADR 0003): кафе, купе, мини, ширина, шириной, спину, экокожа, подростка, аскона, ножках, петушках, донецке, вещей, временного (склад временного хранения), рус; раскладывающийся / раскладывается keep their own lemmas; a lemma has no ё where the word has none (вперед).
 
@@ -100,4 +101,4 @@ ADR 0003 (dictionary, pymorphy3, tables), ADR 0005 (follow the add-in, fix expli
 ## Out of scope
 
 - A new morphology engine (mystem, a model)
-- The step help, its snapshots and the guide (SEMKIT-034)
+- The step help, its snapshots, the docstrings and the guide: SEMKIT-033
