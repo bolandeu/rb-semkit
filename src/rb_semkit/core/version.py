@@ -1,3 +1,11 @@
+"""What this package knows of its own install: the version, the command name, the summary and the repository URL.
+
+All of it comes from the installed distribution's metadata (pyproject.toml as installed), so no other module
+repeats a value that pyproject.toml holds: error actions and help name the command by `cli_name`, `describe` and
+`doctor` read the version, and the vectors extra builds its install command from `repository_url`.
+`module_exists` probes an optional module of the CLI without importing it.
+"""
+
 from __future__ import annotations
 
 import functools
@@ -76,3 +84,14 @@ def installed_version() -> str | None:
         return _distribution().version
     except PackageNotFoundError:
         return None
+
+
+def repository_url() -> str | None:
+    """The `Repository` URL of `[project.urls]` in pyproject.toml, as installed; None when it has none."""
+    try:
+        urls = _distribution().metadata.get_all("Project-URL") or []
+    except PackageNotFoundError:
+        return None
+    return next(
+        (url.strip() for label, _, url in (entry.partition(",") for entry in urls) if label == "Repository"), None
+    )

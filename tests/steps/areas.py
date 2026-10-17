@@ -27,4 +27,5 @@ AREAS = {
     "serp": ["cluster-serp"],
     "split": ["split-text"],
     "textstats": ["text-stats"],
+    "vectors": ["cluster-meaning"],
 }  # fmt: skip

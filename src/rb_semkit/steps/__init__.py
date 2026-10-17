@@ -57,10 +57,11 @@ class Change:
 
 @dataclass(frozen=True)
 class Columns:
-    """New columns, with the index of the table, to add right after the working column; `note` goes to the summary."""
+    """New columns, with the index of the table, to add right after the working column; `note` goes to the summary of
+    the step (the index a step by meaning searched)."""
 
     table: pd.DataFrame
-    note: str = ""
+    note: str | None = None
 
 
 @dataclass(frozen=True)

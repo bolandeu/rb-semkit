@@ -13,7 +13,7 @@ from . import Columns, Prepared, Report, Step
 def _prepare_parse(options: dict) -> Prepared:
     def run(table: pd.DataFrame, column: str) -> Columns:
         missing = without_html(Frame(table, column).phrases)
-        note = f"{missing} rows without HTML" if missing else ""
+        note = f"{missing} rows without HTML" if missing else None
         return Columns(parse_html(Frame(table, column).phrases, **options), note)
 
     return run

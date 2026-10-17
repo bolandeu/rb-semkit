@@ -40,8 +40,8 @@ Replace `vX.Y.Z` with the latest release tag (install from a tag, never a branch
   it to see what a step did. An existing trace FILE is refused unless `write OUT --overwrite`.
 - `--json`, `--quiet` and `--dry-run` go before the steps (`semkit --json read …`). With `--json` and a file OUT,
   stdout is one envelope `{"ok": true, "output", "rows", "written", "steps"}` (`steps`: one `{"step", "rows_before",
-  "rows_after", "cells_changed"}` per step); with `write -` stdout is the JSONL of the rows. `--quiet` hides the lines
-  on stderr, never the result.
+  "rows_after", "cells_changed"}` per step, and `"note"` after them when the step tells more, as `index: exact`); with
+  `write -` stdout is the JSONL of the rows. `--quiet` hides the lines on stderr, never the result.
 
 ## Step kinds
 
@@ -187,6 +187,34 @@ Compare two lists: the phrases only the second list has (`--op` is `both`, `eith
 $ semkit read phrases.csv compare-lists --against second.csv --op second write -
 {"phrase": "диван купить"}
 ```
+
+## Steps by meaning
+
+The steps by meaning (`cluster-meaning`) compare phrases by their phrase vectors: phrases of close meaning get close
+vectors. They need the optional extra `vectors` and an encoder pulled once; a step never downloads one.
+
+1. Install semkit with the extra: the command of «Install» above with `rb-semkit[vectors]` in place of `rb-semkit`
+   and `--force` (uv must reinstall an installed semkit). The error `VECTORS_NOT_INSTALLED` gives the exact command.
+2. Pull an encoder once: `semkit models pull e5-small` (the default; `bge-m3` is better and 7 times slower, for small
+   cores; `potion` is 20 times faster, for very large ones; `hf:<id>` is any model of the Hugging Face hub with an ONNX
+   export or a model2vec model). The files are checked against pinned checksums; a failed pull keeps nothing (exit 5,
+   run it again). `semkit models list` shows each encoder, pulled or not, with its size and default threshold;
+   `semkit models remove NAME` takes one out. The cache is the system cache (`~/Library/Caches/semkit/models` on macOS,
+   `~/.cache/semkit/models` on Linux) or the folder of the config key `models.dir`.
+3. Run a step by meaning in a pipeline:
+
+```bash
+semkit read core.csv cluster-meaning --freq freq write clusters.csv
+```
+
+`--model NAME` names the encoder (default `e5-small`); `--threshold` is the similarity from 0 to 1 of one intent, by
+default the threshold of the model (a hub model has none: give it). The steps add columns and drop no row: their
+columns are candidates, the user decides. `cluster-meaning` gives every phrase a `cluster`, a `cluster_name` (its most
+frequent phrase with `--freq COLUMN`, else the phrase nearest its centre) and the `similarity` of the phrase to that
+name; a phrase without close phrases is a cluster of one. The summary line of the step names the vector index it
+searched (`index: exact`, or `index: hnsw` above about 300 000 phrases; both give the same result every run); with
+`--json` it is the `note` of the step's summary. A model not pulled is `MODEL_NOT_PULLED` (exit 1, the action is the
+pull command); an unknown `--model` or a `--threshold` out of 0–1 is exit 2.
 
 ## Errors
 

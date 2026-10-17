@@ -957,6 +957,162 @@
         ]
       },
       {
+        "name": "models",
+        "description": "Encoders of the steps by meaning: pull one once into the cache, list them, remove one. The cache is the system cache, or the folder of the config key models.dir.",
+        "commands": [
+          {
+            "name": "pull",
+            "description": "Download an encoder once into the cache, at its pinned revision, and check the checksum of each file.\n\nA model already in the cache is not downloaded again.\nA pull that fails keeps nothing of the model and exits 5; run it again.\nA hub model (hf:<id>) is fetched at its latest revision: an ONNX export with tokenizer.json, or a model2vec model.\n\nExample: semkit models pull e5-small",
+            "options": [
+              {
+                "name": "--json",
+                "description": "Emit machine-readable JSON output.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--quiet",
+                "description": "Suppress non-essential output.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "name",
+                "required": true,
+                "arity": {
+                  "minimum": 1,
+                  "maximum": 1
+                },
+                "description": "The encoder: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "list",
+            "description": "Every encoder semkit knows and every hub model pulled: its repo, revision, whether it is pulled, its size in bytes, its default threshold and its folder.\n\nExample: semkit models list --json",
+            "options": [
+              {
+                "name": "--json",
+                "description": "Emit machine-readable JSON output.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--quiet",
+                "description": "Suppress non-essential output.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "remove",
+            "description": "Remove an encoder from the cache.\n\nA model that is not pulled is refused with exit 2 and the pulled ones.\nWith --dry-run nothing is removed: it says which folder it would remove.\n\nExample: semkit models remove e5-small",
+            "options": [
+              {
+                "name": "--json",
+                "description": "Emit machine-readable JSON output.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--quiet",
+                "description": "Suppress non-essential output.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--dry-run",
+                "description": "Show what would happen without making changes.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "name",
+                "required": true,
+                "arity": {
+                  "minimum": 1,
+                  "maximum": 1
+                },
+                "description": "The pulled encoder to remove, as `models list` names it.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
         "name": "read",
         "description": "Read a table, run the steps in the order written, write the result: one pipeline.\n\nEach step works on the current table. A change step rewrites the working column (with --as NAME it writes a new column NAME, which the next steps work on), a filter keeps or drops rows, a report (n-grams) makes its table the current one and its first text column the working one. After each step one line goes to stderr: the step, the rows before and after it, the cells it changed; the last line says how many rows went where. Every step and option is checked before the input is read.\n\nColumns are read with the types of the file: numbers stay numbers, a text column is text and its empty cell an empty text. A column of numbers with spaces around a cell is numbers too. A column of numbers picked as the working column is text for the step and is written back as numbers. An option that takes items takes a comma list 'a,b', @FILE (one item per line, or the first column of a table without its header) or @NAME of a list (@stop/semtools, @minus/cheap…; `semkit lists` shows them all). `semkit read IN STEP --help` shows a step.\n\nExample: semkit read core.csv remove-words --items купить dupes --kind lemmas --action drop write out.csv",
         "options": [
@@ -10259,6 +10415,70 @@
           {
             "name": "text-stats",
             "description": "The usual SEO metrics of each text, the same numbers each run: a metric column per metric, a row per text.\n\nA cell is a text; an empty cell gives zeros and an empty top. The metric columns are added right after the column of the texts.\n\nThe words are those of split-text: punctuation at the edges of a word is dropped, a hyphen or an apostrophe inside a word stays («кресло-кровать» is one word), a number with inner points, commas or hyphens is one word («31.03.2026»); case and ё are folded. Stopwords are the bundled list of the n-grams. Lemmas are the words that are no stopwords. A single-letter word, an abbreviation (г, ул, руб, шт, кв, стр…) and a unit (рублей, см, мм, мл, кг) of the bundled word rules are words but no lemmas for top, nausea, ttr, mtld and zipf.\n\nThe columns, in this order:\n- chars: all characters of the text; chars_no_spaces: the same without whitespace;\n- words: the words of the text, stopwords, abbreviations and units included;\n- unique: distinct lemmas;\n- water: stopwords / words, 0..1;\n- nausea_classic: the square root of the count of the most frequent lemma (the top), 2 decimals;\n- nausea_academic: that count / words, 0..1;\n- top: that lemma; on a tie, the first in the text;\n- ttr: distinct lemmas / lemmas, 0..1;\n- mtld: Measure of Textual Lexical Diversity (McCarthy and Jarvis 2010), threshold 0.72: read the lemmas forward, each time the running type/token ratio falls to 0.72 or below, count a factor and restart; the last partial run adds (1 - ttr) / (1 - 0.72); do it backward too; mtld = lemmas / mean of the two factor counts, 2 decimals; 0 for under 2 lemmas;\n- zipf: R² x 100, 1 decimal, of the linear regression of log count on log rank over the lemma counts (rank 1 is the biggest count), so f(r) = C / r^s fits; 0 for under 5 distinct lemmas.\n\nNo norms and no verdicts: the caller sets them.\n\nThe step reads the working column and adds the metric columns right after it; the rows stay.\n\nExample: semkit read core.csv text-stats write out.csv",
+            "metadata": [
+              {
+                "name": "x-rb-kind",
+                "value": "change"
+              }
+            ]
+          },
+          {
+            "name": "cluster-meaning",
+            "description": "Clusters of phrases by meaning: phrases of close vectors share a cluster; every phrase gets one.\n\nthreshold: the similarity from 0 to 1 a phrase needs to the phrase that starts a cluster to join it.\n\nThe phrase with the most neighbours (phrases at the threshold or above) starts the first cluster and takes its neighbours; of the phrases left, the one with the most neighbours starts the next, and so on; a tie goes to the first row. A phrase without neighbours is a cluster of one. Equal phrases are one phrase. The clusters are numbered in the order of their first rows. The columns: cluster, cluster_name and similarity (of the phrase to the name of its cluster, 4 places); an empty cell gets none. The table tells the index it searched in `attrs[\"index\"]`.\n\nmodel: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.\nfreq: the column of the frequencies of the phrases in the current table; the cluster is named after its most frequent phrase. Without it, after the phrase nearest the centre of the cluster (the mean of its vectors).\n\nThe step adds the columns cluster, cluster_name and similarity right after the working column; the rows stay. Its summary names the index it searched: exact, or hnsw above about 300 000 phrases.\n\nExample: semkit read core.csv cluster-meaning --freq freq write out.csv",
+            "options": [
+              {
+                "name": "--threshold",
+                "arguments": [
+                  {
+                    "name": "THRESHOLD",
+                    "required": true
+                  }
+                ],
+                "description": "the similarity from 0 to 1 a phrase needs to the phrase that starts a cluster to join it.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "float"
+                  }
+                ]
+              },
+              {
+                "name": "--freq",
+                "arguments": [
+                  {
+                    "name": "FREQ",
+                    "required": true
+                  }
+                ],
+                "description": "the column of the frequencies of the phrases in the current table; the cluster is named after its most frequent phrase. Without it, after the phrase nearest the centre of the cluster (the mean of its vectors).",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--model",
+                "arguments": [
+                  {
+                    "name": "MODEL",
+                    "required": true
+                  }
+                ],
+                "description": "the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "e5-small"
+                  }
+                ]
+              }
+            ],
             "metadata": [
               {
                 "name": "x-rb-kind",

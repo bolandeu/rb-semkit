@@ -1,0 +1,14 @@
+
+ Usage: semkit models list [OPTIONS]
+
+ Every encoder semkit knows and every hub model pulled: its repo, revision, whether it is pulled,
+ its size in bytes, its default threshold and its folder.
+
+ Example: semkit models list --json
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --json           Emit machine-readable JSON output.                                              │
+│ --quiet          Suppress non-essential output.                                                  │
+│ --help           Show this message and exit.                                                     │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

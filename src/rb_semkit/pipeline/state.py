@@ -31,20 +31,21 @@ class Planned:
 
 @dataclass(frozen=True)
 class Summary:
-    """One step: the rows before and after it and the cells it changed."""
+    """One step: the rows before and after it, the cells it changed, and what else the step tells (`note`)."""
 
     step: str
     rows_before: int
     rows_after: int
     cells_changed: int
-    note: str = ""
+    note: str | None = None
 
     def line(self) -> str:
         line = f"{self.step}: {self.rows_before} → {self.rows_after} rows, {self.cells_changed} cells changed"
-        return f"{line}; {self.note}" if self.note else line
+        return line if self.note is None else f"{line}; {self.note}"
 
     def to_dict(self) -> dict:
-        return {key: value for key, value in asdict(self).items() if value != "" or key != "note"}
+        """The summary as --json gives it; `note` only when the step tells one."""
+        return {name: value for name, value in asdict(self).items() if name != "note" or value is not None}
 
 
 def _working_column(table: pd.DataFrame) -> str:
@@ -109,7 +110,8 @@ class State:
 
     def apply(self, planned: Planned) -> Summary:
         before = len(self.table)
-        changed, note = 0, ""
+        changed = 0
+        note = None
         match planned.run(self._as_steps_see_it(), self.column):
             case Change(values):
                 if len(values) < len(self.table):  # a change that also drops rows: remove-cells empty
