@@ -74,6 +74,7 @@ translation: '**Морфология на реальном ядре.** Испр�
   ADR 0003. Справку и снимки не трогать.'
 ---
 
+
 The end-to-end check (docs/plans/e2e-quality.md, items 1-11) found the morphology gives wrong Russian on a real sofa core and a customs core. Fix the library behaviour so the words below come out right; each fixed word is a conformance case of its area (expected = the correct form, the add-in's value in vba, the rule and why per ADR 0005). Do not change the docstrings of the public sk functions (the step help is made from them): SEMKIT-033 updates them and the help snapshots after this task; when your fix changes a rule a docstring states, report it as an inbox finding (the function and the new rule). Module (file) docstrings are not frozen: keep each one naming what its file holds, new helpers too (the project's file docstring check). Behaviour only.
 
 Lemmatizer: the bundled dictionary answers first and gives wrong lemmas that pymorphy3 gets right. Correct them (a correction of the dictionary data or a rule for when pymorphy3 wins; record the rule in ADR 0003): кафе, купе, мини, ширина, шириной, спину, экокожа, подростка, аскона, ножках, петушках, донецке, вещей, временного (склад временного хранения), рус; раскладывающийся / раскладывается keep their own lemmas; a lemma has no ё where the word has none (вперед).
@@ -149,7 +150,7 @@ Taken into this task: one line each, acceptance added.
 
 The review found blockers; close each:
 
-- [blocker] C11 docs/brief.md:101: the line «11. Склонение: режим `auto` по умолчанию … Явные режимы `table` и `pymorphy`» still states the modes that ADR 0003 now says do not exist. This task removed them from ADR 0003 only. Fix the line to the rule of ADR 0003 (tables decline; pymorphy3 gives animacy and hyphenated nouns; no modes), or mark it as replaced by ADR 0003.
+- [blocker, fixed by the Architect on main in ba0f370: merge main, do not edit docs/brief.md] C11 docs/brief.md:101: the line «11. Склонение: режим `auto` по умолчанию … Явные режимы `table` и `pymorphy`» still states the modes that ADR 0003 now says do not exist. This task removed them from ADR 0003 only. Fix the line to the rule of ADR 0003 (tables decline; pymorphy3 gives animacy and hyphenated nouns; no modes), or mark it as replaced by ADR 0003.
 - [blocker] [wrong] The same stale line in docs/brief.md:101 leaves a documented contradiction with the corrected ADR 0003 — «ADR 0003: the declension has no modes auto / table / pymorphy in the code. Correct the ADR to the rule as it is after this task».
 
 Minor remarks of the review: optional, if they do not widen the task:
