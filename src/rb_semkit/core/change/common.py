@@ -1,4 +1,5 @@
-"""What the change functions share: the run over a column, the bundled tables, the word case classes and checks."""
+"""What the change functions share: the run over a column, the bundled tables, the word case classes and checks,
+the split of a word into its edge punctuation and its core."""
 
 from __future__ import annotations
 
