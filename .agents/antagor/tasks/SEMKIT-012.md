@@ -2,8 +2,8 @@
 id: SEMKIT-012
 title: 'Morphology block: declension of nouns, adjectives and full names, irrelevant
   words, the pymorphy fallback, ready patterns and prepositional complements'
-status: in_progress
-attempts: 0
+status: queue
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -25,9 +25,13 @@ owns_paths:
 - tests/conformance/cases/patterns/
 - tests/conformance/areas/declension.py
 - tests/conformance/data_manifest/declension.json
+- README.md
+- scripts/build_data.toml
+- scripts/build_parts/morph.py
 test_paths:
 - tests/declension/
 - tests/patterns/
+- tests/core/test_build_data.py
 docs:
 - docs/vba/deviations/declension.md
 - docs/vba/deviations/patterns.md
@@ -97,3 +101,15 @@ docs/vba/analysis.md §1.5, §2, §3, §9, §12 and docs/vba/matchers.md (phrase
 
 - The change block and the analysis block (other area tasks).
 - Changing the bundled lemma dictionary.
+
+## Feedback
+
+### Answer to finding #1
+
+> SEMKIT-012, lemmatize fallback: the epic E-002 says «by default the word stays as it is, as in the add-in», but the v1 default (ADR 0003) already asks pymorphy3 for a word its dictionary knows («лайфхаками» → «лайфхак», case lemmatize-unknown-pymorphy). The task says «by default nothing changes», so I kept the v1 default; fallback='pymorphy' adds the pymorphy3 guess for a word unknown to both dictionaries («тиктокерами» → «тиктокер»). If the default must be the add-in's (the word as it is), that is a change of ADR 0003 and of the morph cases: a separate task.
+
+Keep the v1 default (ADR 0003: pymorphy3 for a word the bundled dictionary does not know) — better lemmas than the add-in's word-as-is; fallback='pymorphy' as you did. The epic line «the word stays as it is» is outdated by ADR 0003; no separate task.
+
+### Attempt 1: file docstring
+
+- update the docstring of src/rb_semkit/core/morph/functions.py: +word_by_word
