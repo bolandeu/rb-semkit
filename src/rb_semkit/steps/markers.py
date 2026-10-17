@@ -12,7 +12,7 @@ from ..core.errors import InvalidArguments
 from ..core.markers.lists import names
 from ..core.markers.matcher import markers
 from ..pipeline.items import items
-from . import Adapted, option
+from . import Adapted, option, prepared_for
 from .text import matcher_steps
 
 BUNDLED_PREFIX = "markers/"
@@ -37,7 +37,7 @@ def marker_lists(value: str) -> tuple[list[str], dict[str, list[str]]]:
         if (name := _bundled_name(entry)) is not None:
             bundled.append(name)
         elif entry.startswith("@"):
-            own[entry] = items(entry)
+            own[entry] = items(entry, prepared_for())
         else:
             raise InvalidArguments(
                 f"--lists: {entry} is no bundled marker list.",
