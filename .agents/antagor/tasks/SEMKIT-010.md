@@ -2,7 +2,7 @@
 id: SEMKIT-010
 title: 'Frame for parallel areas: discovered public names, data build parts, per-area
   conformance and benchmark; product text without the VBA'
-status: in_progress
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -29,6 +29,11 @@ owns_paths:
 - tests/markers/test_build_markers.py
 - docs/vba/conformance/
 - docs/vba/deviations/
+- .gitattributes
+- docs/plan.md
+- scripts/area_parts.py
+- src/rb_semkit/data/lists/lists.json
+- src/rb_semkit/data/text/lists.json
 test_paths:
 - tests/core/
 - tests/conformance/
