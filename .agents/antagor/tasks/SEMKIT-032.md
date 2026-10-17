@@ -2,7 +2,7 @@
 id: SEMKIT-032
 title: 'Change functions on real phrases: match types with operators, a reversible
   translit, toponyms, phonetic, replace-words, UTM'
-status: ideas
+status: queue
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -10,7 +10,7 @@ phase: null
 tests_hash: null
 publish_stage: null
 created_by: architect
-approved_by: null
+approved_by: human
 worker: claude-code
 type: bugfix
 owns_paths:
@@ -44,7 +44,6 @@ translation: '**Функции изменения на реальных фраз
   → ИКЕА; replace_words с пунктуацией у слова; extract_utm/remove_utm одинаково понимают
   #фрагмент; switch_layout туда-обратно; split_digits не рвёт 140х200.'
 ---
-
 
 The end-to-end check (docs/plans/e2e-quality.md, items 23-26) found the change functions give wrong results on real phrases. Fix the library behaviour. Do not change the public docstrings: SEMKIT-033 updates them and the help snapshots after this task; when your fix changes a rule a docstring states, report it as an inbox finding (the function and the new rule).
 
