@@ -26,7 +26,7 @@ def test_overwrite_replaces_an_existing_out(core_csv: Path, tmp_path: Path) -> N
     result = semkit("read", str(core_csv), "keep-words", "--items", "угловые", "write", str(out), "--overwrite")
 
     assert result.exit_code == 0, result.output
-    assert jsonl(out.read_text(encoding="utf-8")) == [{"phrase": "угловые диваны", "freq": "2"}]
+    assert jsonl(out.read_text(encoding="utf-8")) == [{"phrase": "угловые диваны", "freq": 2}]
     assert sorted(path.name for path in tmp_path.iterdir()) == ["core.csv", "out.jsonl"]
 
 

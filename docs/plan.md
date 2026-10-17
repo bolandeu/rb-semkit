@@ -181,7 +181,8 @@ input and output. Agreed with the dataio agent on 2026-10-16 (checked against da
    imports it. Pin: `rb-dataio = { git = "https://homeserver.tailee01ab.ts.net:3000/bolandeu/dataio.git", tag = "v0.1.21" }`
    (the GitHub address of the first draft does not exist).
 3. **Types.** `read` infers types by default ("5" → Int64, dates → datetime). semkit CLI reads with
-   `as_text=True` (or `dtypes={"<col>": "str"}`). Empty cells stay NaN: **semkit does `fillna("")`** itself,
+   the inferred types; the working column and the other text columns become text (`str`, NaN as ''), so a phrase
+   '2024' stays '2024' and `freq` stays a number. Empty cells stay NaN: **semkit does `fillna("")`** itself,
    in the library too (any Series it gets). No `columns=`; select with `query="SELECT phrase FROM data"`.
 4. **Pipes.** The dataio CLI is `dataio convert SRC DST` (no `read`/`write` commands). Stdin auto-detects
    JSON, JSONL, CSV or txt; stdout is CSV, or JSONL with `--out-format jsonl`. semkit stream format: **JSONL**

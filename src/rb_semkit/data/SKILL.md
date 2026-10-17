@@ -82,8 +82,8 @@ punctuation and extra spaces, drop the duplicates by lemmas.
 
 ```console
 $ semkit read core.csv drop-phrases @minus/universal remove-chars punctuation remove-spaces extra dupes --kind lemmas --action drop write -
-{"phrase": "Диван кровать 2 м", "freq": "5"}
-{"phrase": "углы", "freq": "1"}
+{"phrase": "Диван кровать 2 м", "freq": 5}
+{"phrase": "углы", "freq": 1}
 ```
 
 The same with a list of your own: a folder `lists/` with the file `lists/niche/minus.txt` (single words, one per line)
@@ -91,10 +91,10 @@ is `@niche/minus` once `SEMKIT_LISTS=lists` is set. Single words go to `drop-wor
 
 ```console
 $ SEMKIT_LISTS=lists semkit read core.csv drop-words @niche/minus remove-chars punctuation remove-spaces extra dupes --kind lemmas --action drop write -
-{"phrase": "Диван кровать 2 м", "freq": "5"}
-{"phrase": "купить диван", "freq": "4"}
-{"phrase": "купить диван в москве", "freq": "2"}
-{"phrase": "углы", "freq": "1"}
+{"phrase": "Диван кровать 2 м", "freq": 5}
+{"phrase": "купить диван", "freq": 4}
+{"phrase": "купить диван в москве", "freq": 2}
+{"phrase": "углы", "freq": 1}
 ```
 
 The frequency dictionary of an article: read it whole, cut it into phrases, count the lemmas (`docs` counts the cells

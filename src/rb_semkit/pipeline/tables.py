@@ -1,4 +1,5 @@
-"""Reading and writing through dataio (ADR 0001, docs/plan.md §3): every column as text, '-' is JSONL on stdin/stdout.
+"""Reading and writing through dataio (ADR 0001, docs/plan.md §3): types as dataio infers them, but the working
+column and the other text columns are text with NaN as ''; '-' is JSONL on stdin/stdout.
 
 A file is written to a temporary file next to it and renamed over it: OUT holds the whole result or stays as it was.
 """
@@ -17,6 +18,7 @@ import pandas as pd
 import rb_dataio
 
 from ..core.errors import CliError, InvalidArguments
+from ..core.frame import text_columns
 
 STDIO = "-"
 STREAM_FORMAT = "jsonl"
@@ -48,7 +50,21 @@ class Source:
             return pd.DataFrame({WHOLE_COLUMN: [self._text()]})
         stream = STREAM_FORMAT if self.address == STDIO else None
         with _dataio():
-            return rb_dataio.read(self.address, format=stream, as_text=True).fillna("")
+            table = rb_dataio.read(self.address, format=stream)
+        return self._as_text(table)
+
+    def _as_text(self, table: pd.DataFrame) -> pd.DataFrame:
+        """The text columns and the working column as `str`, NaN as ''; the other columns keep their types.
+
+        The working column is `column`, else the first text column, else the first column ('2024' is a phrase).
+        """
+        if table.empty and not len(table.columns):
+            return table
+        texts = text_columns(table)
+        working = self.column if self.column in table.columns else (texts or list(table.columns))[0]
+        for name in dict.fromkeys([*texts, working]):
+            table[name] = table[name].astype(object).where(table[name].notna(), "").astype(str)
+        return table
 
     def _text(self) -> str:
         """The text of the input as written, blank lines too, without a BOM; line ends become '\\n'.

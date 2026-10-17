@@ -174,7 +174,7 @@ def slug(function: FunctionType) -> str:
 
 
 def table_of(path: str, option_name: str) -> pd.DataFrame:
-    """The table in the file `path`, read as `read` does (every column text); '-' is the pipeline's input, so refused."""
+    """The table in the file `path`, read as `read` does (types inferred, text columns text); '-' is the pipeline's input, so refused."""
     if path == STDIO:
         raise InvalidArguments(f"{option_name}: '-' is not allowed here; allowed: a file.")
     return Source(path).read()
