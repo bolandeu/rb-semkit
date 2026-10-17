@@ -1,6 +1,8 @@
 """`dupes`: each distinct phrase gets a key by its kind once; the keys are compared and the result is mapped back.
 
 An empty phrase (no words) has no key, so it is never a duplicate of anything.
+
+`key_function` gives the key of a kind; other tools (`compare_lists`) reuse it as the one notion of «the same phrase».
 """
 
 from __future__ import annotations
