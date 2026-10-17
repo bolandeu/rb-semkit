@@ -20,6 +20,7 @@ MIN_CASES = 5
 ANALYSIS_FUNCTIONS = ("dupes", "ngrams", "bigrams", "counts", "lemmatize", "wordforms", "part_of_speech")
 _COUNT_KEY = "counts() keys a phrase as written (core/analysis/counts.py `_count`); ––k— and –kko key by UCase"
 _FORMS_ORDER = "wordforms() gives the forms in the order of forms.marisa; ––aa in dictionary (alphabetical) order"
+# Findings #1–#5 of SEMKIT-006; SEMKIT-009 fixes them in src and removes these entries.
 XFAIL = {
     "counts-count-case": _COUNT_KEY,
     "counts-number-case": _COUNT_KEY,
