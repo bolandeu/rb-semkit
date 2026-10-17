@@ -2,7 +2,7 @@
 id: SEMKIT-036
 title: 'off-topic, classify-queries, assign-pages: phrases against the core, a query
   report and the site pages by meaning'
-status: ideas
+status: queue
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -10,7 +10,7 @@ phase: null
 tests_hash: null
 publish_stage: null
 created_by: architect
-approved_by: null
+approved_by: human
 worker: claude-code
 type: feature
 owns_paths:
