@@ -37,4 +37,6 @@ Proposed (round 1, waiting for the Human):
 - The average over a list of pages (the Human): `summary`, a report over any table: per numeric column the mean,
   median, min, max and count (parse-html → text-stats → summary gives the table «all URLs: mean, median» of
   Miratext); compare-grams gets the mean density beside the median.
+- One page against the average of a list (the Human): compare-stats and compare-grams already compare mine with the
+  median; both get a mean column and `--norm mean|median` for the verdict (default median, as now).
 - Words in meta tags: no step; compare-grams on the title or description column (a scenario).
