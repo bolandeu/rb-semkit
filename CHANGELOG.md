@@ -5,6 +5,15 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.23 — 2026-10-17
+
+### E-004 — semkit on a real core: correct morphology and text rules, a CLI that tells the truth
+
+Every finding of docs/plans/e2e-quality.md is fixed, decided in an ADR or the help, or recorded as not taken; a checked-in end-to-end run on a real core and a real text recounts the results independently and is part of the gate.
+Time: 2.8h since the epic was approved
+
+- CLI that tells the truth: --as, errors, lemma matching of lists, help and guide in CLI terms, top-level commands; the e2e run on a real core in the gate (SEMKIT-033)
+
 ## v0.1.22 — 2026-10-17
 
 ### E-004 — semkit on a real core: correct morphology and text rules, a CLI that tells the truth
