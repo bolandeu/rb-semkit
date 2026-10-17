@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-006
 title: 'Conformance: analysis functions and bundled data against the add-in VBA'
-status: in_review
+status: publish
 attempts: 1
 blocked: false
 blocked_reason: null
