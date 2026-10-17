@@ -2,7 +2,7 @@
 id: SEMKIT-013
 title: 'Analysis block: combinations, parents and basis phrases, good/bad split, clustering,
   synonyms to minus-words, typos, sentiment'
-status: queue
+status: in_review
 attempts: 1
 blocked: false
 blocked_reason: null
@@ -19,6 +19,7 @@ owns_paths:
 - tests/conformance/cases/corpus/
 - tests/conformance/areas/corpus.py
 - src/rb_semkit/data/corpus/languagetool.toml
+- docs/vba/conformance.md
 test_paths:
 - tests/corpus/
 - tests/conformance/case_files.py
