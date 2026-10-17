@@ -1,0 +1,17 @@
+
+ Usage: semkit read {IN} hash-text [OPTIONS]
+
+ The hash of the text as lower-case hex, of its UTF-8 bytes: algorithm "md5" or "sha256". An empty
+ text has a hash too (md5 «d41d8cd98f00b204e9800998ecf8427e»).
+
+ The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
+
+ Example: semkit read core.csv hash-text write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --algorithm        <str>  See the description above. [default: md5]                              │
+│ --as               NAME   Write the result to a new column NAME and keep the working column as   │
+│                           it is.                                                                 │
+│ --help                    Show this message and exit.                                            │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

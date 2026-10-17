@@ -1,0 +1,20 @@
+
+ Usage: semkit read {IN} translit [OPTIONS] [TO]
+
+ Letters of one alphabet written in the other: to="en" — «Щука жёлтая» → «Schuka zheltaya», a word
+ in capitals stays in capitals («ЖУК» → «ZHUK»); to="ru" — by letter groups, «Yandex» → «Яндекс»,
+ «Jeep» → «Джееп», «ob'em» → «обэм». The other chars stay.
+
+ The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
+
+ Example: semkit read core.csv translit купить write out.csv
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   TO      <str>  See the description above. The same as --to TO.                                 │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --to          TO    See the description above.                                                   │
+│ --as          NAME  Write the result to a new column NAME and keep the working column as it is.  │
+│ --help              Show this message and exit.                                                  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

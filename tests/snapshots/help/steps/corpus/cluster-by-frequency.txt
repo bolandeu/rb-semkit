@@ -1,0 +1,23 @@
+
+ Usage: semkit read {IN} cluster-by-frequency [OPTIONS] [THRESHOLD]
+
+ The cluster of each phrase: its words that stand in at least `threshold` phrases of the core.
+
+ A word counts once per phrase; words are compared by case and ё; stopwords are left out. The
+ cluster lists its words in lower case, the most frequent first, then alphabetically, so «купить
+ диван» and «диван купить» make one cluster. A phrase with no such word gets "".
+
+ The step writes its result to a new column <column>_cluster.
+
+ Example: semkit read core.csv cluster-by-frequency 2 write out.csv
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   THRESHOLD      <int>  See the description above. The same as --threshold THRESHOLD.            │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --threshold        THRESHOLD  See the description above.                                         │
+│ --as               NAME       Write the result to a new column NAME and keep the working column  │
+│                               as it is.                                                          │
+│ --help                        Show this message and exit.                                        │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

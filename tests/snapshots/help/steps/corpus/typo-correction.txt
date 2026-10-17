@@ -1,0 +1,18 @@
+
+ Usage: semkit read {IN} typo-correction [OPTIONS]
+
+ Each phrase with its misspelt words replaced by their most likely corrections («купить диавн» →
+ «купить диван»).
+
+ A phrase with no misspelt word, or none the provider can correct, stays as it is. provider: as for
+ `is_typo`.
+
+ The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
+
+ Example: semkit read core.csv typo-correction write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --as          NAME  Write the result to a new column NAME and keep the working column as it is.  │
+│ --help              Show this message and exit.                                                  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

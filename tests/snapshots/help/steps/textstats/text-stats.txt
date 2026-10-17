@@ -1,0 +1,39 @@
+
+ Usage: semkit read {IN} text-stats [OPTIONS]
+
+ The usual SEO metrics of each text, the same numbers each run: a table with the input index, a row
+ per text.
+
+ A cell is a text; an empty cell (None, NaN, "") gives zeros and an empty `top`. With a DataFrame
+ and `column=` the metric columns are added right after `column` to your table, which is returned.
+
+ Words: the punctuation of sk.chars('punctuation') is dropped (a hyphen between two word characters
+ stays, «кресло-кровать» is one word), the rest splits on whitespace, case and ё are folded.
+ Stopwords are the bundled list of the n-grams. Lemmas are the words that are no stopwords, by
+ `lemmatizer`. A unit without a meaning (руб, рублей, шт, см, мм, мл, кг, кв, стр, ул) is a word
+ but no lemma for top, nausea, ttr, mtld and zipf. Columns, in this order:
+ chars: all characters of the text. chars_no_spaces: the same without whitespace.
+ words: the words of the text, stopwords and units included.
+ unique: distinct lemmas of the words that are no stopwords (units included).
+ water: stopwords / words, 0..1.
+ nausea_classic: the square root of the count of the most frequent lemma (the top), 2 decimals.
+ nausea_academic: that count / words, 0..1.
+ top: that lemma; on a tie, the first in the text.
+ ttr: distinct lemmas / lemmas, 0..1 (lemmas as above: no stopwords, no units).
+ mtld: Measure of Textual Lexical Diversity (McCarthy and Jarvis 2010), threshold 0.72. Read the
+ lemmas forward: each time the running type/token ratio falls to 0.72 or below, count a factor and
+ restart; the last partial run adds (1 - ttr) / (1 - 0.72). Do it backward too; mtld = lemmas /
+ mean of the two factor counts, 2 decimals; 0 for under 2 lemmas.
+ zipf: R² x 100, 1 decimal, of the linear regression of log count on log rank over the lemma counts
+ (rank 1 is the biggest count), so f(r) = C / r^s fits; 0 for under 5 distinct lemmas. No norms and
+ no verdicts: the caller sets them.
+
+ The step reads the working column; the metric columns are added right after it in the current
+ table.
+
+ Example: semkit read core.csv text-stats write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --help          Show this message and exit.                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

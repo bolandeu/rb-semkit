@@ -1,0 +1,39 @@
+
+ Usage: semkit read {IN} split-by-words [OPTIONS] [KEEP]
+
+ The core split into good, bad and rest phrases, and the frequency dictionary of the rest.
+
+ bad: a phrase with any of these words is bad. good: a phrase that is not bad and has only these
+ words is good. Every other phrase, an empty one too, is the rest. Words are compared by case and
+ ё.
+ lemmas: compare the lemmas of the words and of `good` and `bad` («диваны» is «диван»), by
+ `lemmatizer`. The parts are the rows of the input in its order: a Series for a Series, the table
+ for a table. `frequency` is the `ngrams` table of the rest, of lemmas with `lemmas`, to choose the
+ next good and bad words.
+
+ keep: the part of the core to keep: the good phrases, the bad ones or the rest.
+
+ The step keeps only the rows of the part named by --keep.
+
+ Example: semkit read core.csv split-by-words good write out.csv
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   KEEP      <good|bad|rest>  the part of the core to keep: the good phrases, the bad ones or the │
+│                              rest. The same as --keep KEEP.                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --good          <str>  See the description above. Items: a comma list 'a,b', @FILE (one item per │
+│                        line) or @NAME of a list.                                                 │
+│ --bad           <str>  a phrase with any of these words is bad. good: a phrase that is not bad   │
+│                        and has only these words is good. Every other phrase, an empty one too,   │
+│                        is the rest. Words are compared by case and ё. Items: a comma list 'a,b', │
+│                        @FILE (one item per line) or @NAME of a list.                             │
+│ --lemmas               compare the lemmas of the words and of `good` and `bad` («диваны» is      │
+│                        «диван»), by `lemmatizer`. The parts are the rows of the input in its     │
+│                        order: a Series for a Series, the table for a table. `frequency` is the   │
+│                        `ngrams` table of the rest, of lemmas with `lemmas`, to choose the next   │
+│                        good and bad words.                                                       │
+│ --keep          KEEP   the part of the core to keep: the good phrases, the bad ones or the rest. │
+│ --help                 Show this message and exit.                                               │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

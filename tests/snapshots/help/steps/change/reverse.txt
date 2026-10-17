@@ -1,0 +1,16 @@
+
+ Usage: semkit read {IN} reverse [OPTIONS]
+
+ The phrase backwards: what="chars" — its characters («абв 12» → «21 вба»); "words" — its words,
+ joined by one space («купить диван москва» → «москва диван купить»).
+
+ The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
+
+ Example: semkit read core.csv reverse write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --what        <str>  See the description above. [default: chars]                                 │
+│ --as          NAME   Write the result to a new column NAME and keep the working column as it is. │
+│ --help               Show this message and exit.                                                 │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

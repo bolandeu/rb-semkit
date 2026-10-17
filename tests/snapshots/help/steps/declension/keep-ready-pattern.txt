@@ -1,0 +1,37 @@
+
+ Usage: semkit read {IN} keep-ready-pattern [OPTIONS] [KIND]
+
+ A ready regular expression, found anywhere in a phrase, case-sensitive.
+
+ kind: "domain" (Latin domains with subdomains: «www.example.com»; extract gives all, joined by a
+ space), "email" (the first e-mail), "phone" (Russian numbers from +7 or 8: «8 (999) 123-45-67»;
+ all, joined by ", "), "date_ddmmyyyy" (the first date as 05.11.2023, 05-11-2023, 05/11/2023 or
+ 05112023) or "date_yyyymmdd" (as 2023-11-05 … 20231105). A date has the same separator twice, or
+ none, and is never part of a longer number; its day and month are not checked (39.19.2999 is
+ found).
+ find: the pattern is there. remove: every match is cut out. extract: as above, '' where none.
+
+ keep-ready-pattern keeps only the rows where the matcher finds something in the working column.
+
+ Example: semkit read core.csv keep-ready-pattern купить write out.csv
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   KIND      <str>  "domain" (Latin domains with subdomains: «www.example.com»; extract gives     │
+│                    all, joined by a space), "email" (the first e-mail), "phone" (Russian numbers │
+│                    from +7 or 8: «8 (999) 123-45-67»; all, joined by ", "), "date_ddmmyyyy" (the │
+│                    first date as 05.11.2023, 05-11-2023, 05/11/2023 or 05112023) or              │
+│                    "date_yyyymmdd" (as 2023-11-05 … 20231105). A date has the same separator     │
+│                    twice, or none, and is never part of a longer number; its day and month are   │
+│                    not checked (39.19.2999 is found). The same as --kind KIND.                   │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --kind        KIND  "domain" (Latin domains with subdomains: «www.example.com»; extract gives    │
+│                     all, joined by a space), "email" (the first e-mail), "phone" (Russian        │
+│                     numbers from +7 or 8: «8 (999) 123-45-67»; all, joined by ", "),             │
+│                     "date_ddmmyyyy" (the first date as 05.11.2023, 05-11-2023, 05/11/2023 or     │
+│                     05112023) or "date_yyyymmdd" (as 2023-11-05 … 20231105). A date has the same │
+│                     separator twice, or none, and is never part of a longer number; its day and  │
+│                     month are not checked (39.19.2999 is found).                                 │
+│ --help              Show this message and exit.                                                  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

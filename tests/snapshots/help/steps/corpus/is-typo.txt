@@ -1,0 +1,17 @@
+
+ Usage: semkit read {IN} is-typo [OPTIONS]
+
+ TRUE for a phrase with a misspelt word, FALSE for the others.
+
+ provider: what finds the misspelt words. CoreSpelling (the default) learns the words from the
+ phrases given, so give it the whole core; sk.LanguageTool asks a spelling server.
+
+ The step writes its result to a new column <column>_typo.
+
+ Example: semkit read core.csv is-typo write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --as          NAME  Write the result to a new column NAME and keep the working column as it is.  │
+│ --help              Show this message and exit.                                                  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

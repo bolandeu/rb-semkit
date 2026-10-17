@@ -1,0 +1,22 @@
+
+ Usage: semkit read {IN} wordforms [OPTIONS] [WORD]
+
+ Every wordform of the lemma of `word`, alphabetical, each once: «диваны» → [«диван», «дивана»,
+ ...].
+
+ As «Генерация всех словоформ»: the forms of the lemma of the word in lower case; the input word is
+ not repeated (ADR 0005).
+
+ The step ignores the current table: the table of the wordforms replaces it, its column wordform is
+ the working one.
+
+ Example: semkit read core.csv wordforms купить write out.csv
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   WORD      <str>  See the description above. The same as --word WORD.                           │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --word        WORD  See the description above.                                                   │
+│ --help              Show this message and exit.                                                  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

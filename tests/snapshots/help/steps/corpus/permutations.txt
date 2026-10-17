@@ -1,0 +1,22 @@
+
+ Usage: semkit read {IN} permutations [OPTIONS]
+
+ Every order of the words of each phrase, the phrases one after another: «a b c» → «a b c», «a c
+ b», «b a c»…
+
+ A phrase of n words gives n! phrases, a repeated word too; an empty phrase gives one empty phrase.
+ limit: the most phrases the result may hold; a larger result raises InvalidArguments before any is
+ made.
+
+ The step makes a table of its result; it replaces the current table, its first text column is the
+ working one.
+
+ Example: semkit read core.csv permutations write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --limit        <int>  the most phrases the result may hold; a larger result raises               │
+│                       InvalidArguments before any is made.                                       │
+│                       [default: 1048576]                                                         │
+│ --help                Show this message and exit.                                                │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

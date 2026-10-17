@@ -16,11 +16,16 @@ import importlib
 import inspect
 import pkgutil
 import re
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass
+from types import FunctionType
 from typing import Any, Literal
 
 import pandas as pd
+
+from ..core.errors import InvalidArguments
+from ..core.frame import Frame, text_columns
+from ..pipeline.tables import STDIO, Source
 
 Kind = Literal["change", "filter", "report"]
 # A docstring line that explains an argument of the function: «mode: …», «`action`: …».
@@ -88,6 +93,112 @@ def _reflowed(paragraph: str) -> str:
         else:
             lines.append(line.strip())
     return "\n".join(lines)
+
+
+class Adapted:
+    """A library function as the step table sees it, when its arguments have no command-line form of their own.
+
+    `parameters` changes the signature: a name mapped to None is taken off (the step fills it from the current table),
+    one mapped to a Parameter is replaced by it (a file option instead of a table), a name that is new is added at the
+    end. `docs` are lines on the new arguments («name: text»), added to the docstring for the help of their options.
+    """
+
+    def __init__(self, function: FunctionType, parameters: Mapping[str, inspect.Parameter | None], *docs: str) -> None:
+        signature = inspect.signature(function)
+        kept = [parameters.get(name, parameter) for name, parameter in signature.parameters.items()]
+        added = [parameter for name, parameter in parameters.items() if parameter and name not in signature.parameters]
+        self.__wrapped__ = function
+        self.__globals__ = getattr(function, "__globals__", {})  # the names the annotations are resolved in
+        self.__name__ = function.__name__
+        self.__module__ = function.__module__
+        self.__doc__ = "\n\n".join([inspect.cleandoc(function.__doc__ or ""), "\n".join(docs)])
+        self.__signature__ = signature.replace(parameters=[*(p for p in kept if p), *added])
+
+    def __call__(self, *args: Any, **kwargs: Any) -> Any:
+        return self.__wrapped__(*args, **kwargs)
+
+
+def option(name: str, annotation: Any = str, default: Any = inspect.Parameter.empty) -> inspect.Parameter:
+    """A keyword-only parameter for `Adapted`."""
+    return inspect.Parameter(name, inspect.Parameter.KEYWORD_ONLY, default=default, annotation=annotation)
+
+
+def slug(function: FunctionType) -> str:
+    """The name of the step of a function: its name with hyphens."""
+    return function.__name__.replace("_", "-")
+
+
+def table_of(path: str, option_name: str) -> pd.DataFrame:
+    """The table in the file `path`, read as `read` does (every column text); '-' is the pipeline's input, so refused."""
+    if path == STDIO:
+        raise InvalidArguments(f"{option_name}: '-' is not allowed here; allowed: a file.")
+    return Source(path).read()
+
+
+def first_text(table: pd.DataFrame, option_name: str) -> str:
+    """The first text column of a table read from a file."""
+    found = text_columns(table)
+    if not found:
+        raise InvalidArguments(f"{option_name}: the file has no text column; allowed: a file with one.")
+    return found[0]
+
+
+def texts_of(table: pd.DataFrame, option_name: str) -> pd.Series:
+    """The first text column of a table read from a file, as the texts."""
+    return table[first_text(table, option_name)]
+
+
+def as_table(table: pd.DataFrame, option_name: str) -> pd.DataFrame:
+    """The table read from a file as it is."""
+    return table
+
+
+def pairs_of(table: pd.DataFrame, option_name: str) -> dict[str, str]:
+    """The first column of a table read from a file mapped to its second."""
+    if len(table.columns) < 2:
+        raise InvalidArguments(f"{option_name}: the file has {len(table.columns)} column; allowed: two columns.")
+    return dict(zip(table.iloc[:, 0], table.iloc[:, 1], strict=True))
+
+
+def scores_of(table: pd.DataFrame, option_name: str) -> dict[str, float]:
+    """The first column of a table read from a file mapped to the numbers of its second."""
+    try:
+        return {word: float(score) for word, score in pairs_of(table, option_name).items()}
+    except ValueError:
+        raise InvalidArguments(f"{option_name}: the second column holds text that is not a number.") from None
+
+
+def joined(table: pd.DataFrame, column: str) -> str:
+    """The cells of the working column as one text, one per line: «my text» for a step that compares texts."""
+    return "\n".join(Frame(table, column).phrases)
+
+
+def changing(
+    function: Callable[..., Any], **files: tuple[str, Callable[[pd.DataFrame, str], Any]]
+) -> Callable[[dict], Prepared]:
+    """The `prepare` of a function that gives the new values of the working column.
+
+    `files` names the arguments that the step takes from a file: the option that holds the file, and the callable that
+    turns the table in it into the argument. The options are checked as the function checks them, on no phrases at all.
+    """
+
+    def prepare(options: dict) -> Prepared:
+        given = {name: value for name, value in options.items() if name not in dict(files.values())}
+        for argument, (name, read) in files.items():
+            given[argument] = read(table_of(options[name], name), name)
+        function(pd.Series([], dtype=object), **given)
+        return lambda table, column: Change(function(Frame(table, column).phrases, **given))
+
+    return prepare
+
+
+CHANGE_NOTE = "The step rewrites the working column; with --as NAME it writes the result to a new column NAME."
+
+
+def change_step(function: FunctionType, *, new_column: str | None = None) -> Step:
+    """The change step of a function that takes phrases and gives phrases (or one value per phrase)."""
+    note = CHANGE_NOTE if new_column is None else f"The step writes its result to a new column <column>_{new_column}."
+    return Step(slug(function), function, "change", changing(function), note, new_column)
 
 
 @functools.cache

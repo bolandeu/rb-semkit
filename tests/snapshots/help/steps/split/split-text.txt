@@ -1,0 +1,21 @@
+
+ Usage: semkit read {IN} split-text [OPTIONS]
+
+ Every cell cut into phrases at sentence ends and clause punctuation; one row per phrase, none for
+ an empty cell.
+
+ The punctuation is dropped, whitespace collapsed, case kept. A hyphen or apostrophe inside a word
+ and a point or comma between digits stay. A Series gives a Series; a DataFrame with `column` gives
+ a DataFrame whose rows are the
+ phrases: `column` holds the phrase, the other columns repeat the source row. Each row keeps the
+ index of its source.
+
+ The step cuts each cell of the working column; the table of the phrases replaces the current one,
+ each row keeps the other columns of its source row, and the working column stays.
+
+ Example: semkit read core.csv split-text write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --help          Show this message and exit.                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

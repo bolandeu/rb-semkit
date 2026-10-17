@@ -1,0 +1,16 @@
+
+ Usage: semkit read {IN} split-digits [OPTIONS]
+
+ `sep` between digits and the text glued to them: «iphone13pro» → «iphone 13 pro», with sep="|"
+ «a1b22» → «a|1|b|22». Digits and text already apart stay as they are.
+
+ The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
+
+ Example: semkit read core.csv split-digits write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --sep         <str>  See the description above. [default:  ]                                     │
+│ --as          NAME   Write the result to a new column NAME and keep the working column as it is. │
+│ --help               Show this message and exit.                                                 │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
