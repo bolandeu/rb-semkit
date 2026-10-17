@@ -86,6 +86,8 @@ def match_type(
     - "stopword_modifier": «A +в Б», `modifier` ("+" or "!") on the stopwords only;
     - "fixed_forms": «!A !в !Б»; "quoted_fixed_forms": «"!A !в !Б"»; "quoted_fixed_order": «"[!A !в !Б]"»;
     - "brackets": «[A в Б]»; "quotes": «"A в Б"»;
+    - the exact match is "quotes", "quoted_fixed_forms" and "quoted_fixed_order" for Yandex, "brackets" for
+      Google; the phrase match is "brackets" for Yandex, "quotes" for Google;
     - "antisemantic": «[A] в [Б]», each word but the stopwords in brackets.
 
     A word that has an operator keeps it, and no other is added; the minus-words keep their place, and the kinds that
