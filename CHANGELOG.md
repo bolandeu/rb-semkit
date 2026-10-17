@@ -5,6 +5,15 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.14 — 2026-10-17
+
+### E-002 — semkit: the rest of the library — change, declension, analysis and the later functions
+
+import rb_semkit gives every function of the add-in's menus except Mystem: each follows the VBA algorithm, the broken ones work as intended, and the conformance report lists for each function where it follows the VBA, where it differs and why.
+Time: 1.4h since the epic was approved
+
+- Conformance: no cases for semkit's own functions; drop the text_stats cases that copy expected into vba (SEMKIT-021)
+
 ## v0.1.13 — 2026-10-17
 
 ### E-002 — semkit: the rest of the library — change, declension, analysis and the later functions
