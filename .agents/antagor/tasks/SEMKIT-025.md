@@ -20,6 +20,7 @@ owns_paths:
 - scripts/build_parts/wordlists.py
 - scripts/build_data.toml
 - src/rb_semkit/core/services.py
+- tests/test_services.py
 - tests/core/test_build_data.py
 - tests/conformance/test_cases.py
 - .gitattributes
