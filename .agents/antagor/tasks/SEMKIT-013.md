@@ -2,7 +2,7 @@
 id: SEMKIT-013
 title: 'Analysis block: combinations, parents and basis phrases, good/bad split, clustering,
   synonyms to minus-words, typos, sentiment'
-status: in_review
+status: publish
 attempts: 1
 blocked: false
 blocked_reason: null
