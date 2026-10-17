@@ -126,3 +126,17 @@ Follow the cli-builder frame that is already here (output.guard, --json envelope
 - Steps of the other areas (change, declension, morph, corpus, coverage, textstats, compare, serp, split, markers, list tools): the steps task.
 - User list folders, the list manifest, the Bukvarix lists, semkit lists: the word-list task.
 - The text of SKILL.md and README: the steps task.
+
+## Feedback
+
+### Answer to question #1
+
+> SEMKIT-023 acceptance asks the --json error envelope to carry code, message and hint; the project envelope (output.emit_error, SKILL.md 'Errors') carries code, message and action, and SKILL.md is out of this task.
+> Question: Which key carries the recovery text of a pipeline usage error?
+> Options:
+> 1. Keep action, as every other command; read 'hint' in the acceptance as action
+> 2. Add a hint key next to action for pipeline errors only
+> 3. Rename action to hint everywhere (breaking change of the envelope)
+> Recommended: Keep action, as every other command; read 'hint' in the acceptance as action
+
+Option 1: keep action, as every other command; read 'hint' in the acceptance as action.
