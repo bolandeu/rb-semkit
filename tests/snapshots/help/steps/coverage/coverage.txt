@@ -4,19 +4,22 @@
  Every distinct core phrase checked against the texts: a table phrase, count, docs, density and
  first.
 
- The rows follow the core order; a phrase that is not found stays with count 0, as the missing
- phrases are the point.
- count: occurrences in all texts; one phrase does not overlap itself, and each phrase is counted on
- its own.
- docs: the texts that hold the phrase at least once.
- density: count x words of the phrase / words of all texts, a share from 0 to 1.
- first: the number of the word (1-based, all words of the text counted) where the phrase first
- starts, in the first text that holds it; empty when count is 0.
  mode: 'exact' — the words of the phrase in a row, case and ё folded; 'lemmas' — the same by lemmas
- of both sides, by `lemmatizer`; 'any_order' — the lemmas of the phrase all inside one piece of
- text (one `split_text` phrase), in any order; a piece with them is one occurrence.
- core, column: the core phrases, a Series or a DataFrame with `column`.
- texts, text_column: the texts, one per row.
+ of both sides; 'any_order' — the lemmas of the phrase all inside one piece of text (one phrase of
+ split-text), in any order; a piece with them is one occurrence.
+ text_column: the column of the texts.
+
+ exact and lemmas cross any punctuation inside a sentence («хранения — это» is «хранения это», a
+ comma too), never a sentence end (. ! ? …; the point of an abbreviation such as «г.» is none). The
+ rows follow the core order; a phrase that is not found stays with count 0, as the missing phrases
+ are the point. The columns:
+ - count: occurrences in all texts; one phrase does not overlap itself, and each phrase is counted
+ on its own;
+ - docs: the texts that hold the phrase at least once;
+ - density: count x words of the phrase / words of all texts, a share from 0 to 1, rounded to 4
+ decimals;
+ - first: the number of the word (1-based, all words of the text counted) where the phrase first
+ starts, in the first text that holds it; empty when count is 0.
 
  against: a file with the texts, one per row; the file is read like `read` does. The texts are in
  --text-column, by default the first text column of the file.
@@ -32,16 +35,18 @@
 │                       The same as --against AGAINST.                                             │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --against            AGAINST  a file with the texts, one per row; the file is read like `read`   │
-│                               does. The texts are in --text-column, by default the first text    │
-│                               column of the file.                                                │
-│ --mode               <str>    'exact' — the words of the phrase in a row, case and ё folded;     │
-│                               'lemmas' — the same by lemmas of both sides, by `lemmatizer`;      │
-│                               'any_order' — the lemmas of the phrase all inside one piece of     │
-│                               text (one `split_text` phrase), in any order; a piece with them is │
-│                               one occurrence.                                                    │
-│                               [default: exact]                                                   │
-│ --text-column        <str>    the texts, one per row.                                            │
-│ --help                        Show this message and exit.                                        │
+│ --against            AGAINST                   a file with the texts, one per row; the file is   │
+│                                                read like `read` does. The texts are in           │
+│                                                --text-column, by default the first text column   │
+│                                                of the file.                                      │
+│ --mode               <exact|lemmas|any_order>  'exact' — the words of the phrase in a row, case  │
+│                                                and ё folded; 'lemmas' — the same by lemmas of    │
+│                                                both sides; 'any_order' — the lemmas of the       │
+│                                                phrase all inside one piece of text (one phrase   │
+│                                                of split-text), in any order; a piece with them   │
+│                                                is one occurrence.                                │
+│                                                [default: exact]                                  │
+│ --text-column        <str>                     the column of the texts.                          │
+│ --help                                         Show this message and exit.                       │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

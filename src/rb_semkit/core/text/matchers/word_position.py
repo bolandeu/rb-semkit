@@ -57,11 +57,14 @@ def word_position(
     to_middle: bool = False,
     at_most: int | None = None,
 ) -> WordPosition:
-    """Words by their place in the phrase; give exactly one argument, N counts from 1.
+    """Words by their place in the phrase; exactly one way to pick them is given, N counts from 1.
 
-    first / last: the first or last N words. nth: the N-th word. to_middle / at_most: the leading words while they
-    hold half the characters of the phrase at most, or N characters at most, and always the first word
-    («купить диван недорого» with at_most=12 → «купить диван»). remove gives the other words.
+    first / last: the first or last N words.
+    nth: the N-th word.
+    to_middle / at_most: the leading words while they hold half the characters of the phrase at most, or N
+    characters at most, and always the first word («купить диван недорого», 12 characters at most → «купить диван»).
+
+    remove gives the other words.
 
     ADR 0005: split on any whitespace, so empty words never count.
     """

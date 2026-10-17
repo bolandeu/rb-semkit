@@ -9,7 +9,7 @@ from pathlib import Path
 import tomli_w
 from packaging.version import Version
 
-from .errors import CliTooOld, ProjectNotInitialized
+from .errors import CliTooOld, ConfigInvalid, ProjectNotInitialized
 from .models import ProjectConfig
 from .version import installed_version
 
@@ -62,17 +62,23 @@ def check_cli_compat(config: ProjectConfig) -> None:
         raise CliTooOld(installed, config.cli.min_version)
 
 
-def load_config(project_root: Path, *, check_compat: bool = True) -> ProjectConfig:
-    """Load and validate the project config, enforcing `cli.min_version` by default.
+def check_project_compat(start: Path) -> None:
+    """Raise CliTooOld when the project at or above `start` needs a newer CLI; outside a project there is no check."""
+    root = find_project_root(start)
+    if root is not None:
+        check_cli_compat(load_config(root))
 
-    Only `doctor` passes `check_compat=False` — it reports the mismatch as
-    one of its checks instead of failing on it.
+
+def load_config(project_root: Path) -> ProjectConfig:
+    """Load and validate the project config; a file that is not a config raises ConfigInvalid.
+
+    The CLI version the config needs is checked once per command line, by `output.guard` (check_project_compat).
     """
-    data = tomllib.loads(config_path(project_root).read_text())
-    config = ProjectConfig.model_validate(data)
-    if check_compat:
-        check_cli_compat(config)
-    return config
+    path = config_path(project_root)
+    try:
+        return ProjectConfig.model_validate(tomllib.loads(path.read_text()))
+    except (OSError, ValueError) as exc:  # TOMLDecodeError and ValidationError are ValueError
+        raise ConfigInvalid(str(path), str(exc)) from exc
 
 
 def save_config(project_root: Path, config: ProjectConfig) -> None:
@@ -81,7 +87,9 @@ def save_config(project_root: Path, config: ProjectConfig) -> None:
     path.write_text(tomli_w.dumps(config.model_dump()))
 
 
-def init_project(project_root: Path, name: str) -> ProjectConfig:
+def init_project(project_root: Path, name: str, *, dry_run: bool = False) -> ProjectConfig:
+    """The config of a new project; written to `project_root` unless `dry_run`."""
     config = ProjectConfig(name=name)
-    save_config(project_root, config)
+    if not dry_run:
+        save_config(project_root, config)
     return config

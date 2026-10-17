@@ -2,20 +2,22 @@
 
 from __future__ import annotations
 
+from ..core.frame import Frame
 from ..core.textstats.functions import text_stats
-from . import Prepared, Report, Step
+from . import Columns, Prepared, Step
 
 
 def _prepare(options: dict) -> Prepared:
-    return lambda table, column: Report(text_stats(table, column=column, **options))
+    return lambda table, column: Columns(text_stats(Frame(table, column).phrases, **options))
 
 
 STEPS = [
     Step(
         "text-stats",
         text_stats,
-        "report",
+        "change",
         _prepare,
-        "The step reads the working column; the metric columns are added right after it in the current table.",
+        "The step reads the working column and adds the metric columns right after it; the rows stay.",
+        columns=True,
     )
 ]

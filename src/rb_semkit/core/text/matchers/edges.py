@@ -33,7 +33,10 @@ class Edges(Matcher):
 def edges(start: str = "", end: str = "") -> Edges:
     """The characters to cut from the edges of each word (remove only).
 
-    start: characters cut from the start of a word, any run of them; end: the same at its end. Characters inside a
-    word stay («wi-fi»); a word of only those characters disappears. The result has single spaces, none at the edges.
+    start: characters cut from the start of a word, any run of them.
+    end: characters cut from the end of a word, any run of them.
+
+    Characters inside a word stay («wi-fi»); a word of only those characters disappears. The result has single spaces,
+    none at the edges.
     """
     return Edges(start, end)

@@ -3,10 +3,13 @@
 
  Show the items of a word list, one per line.
 
- Example: semkit lists show minus/cheap
+ An unknown name exits 2 with the closest names.
+
+ Example: semkit lists show @minus/cheap
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
-│ *    name      <str>  The name of the list, as niche/mebel (see `lists`). [required]             │
+│ *    name      <str>  The name of the list, as niche/mebel or @niche/mebel (see `lists`).        │
+│                       [required]                                                                 │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --json           Emit machine-readable JSON output.                                              │

@@ -1,27 +1,34 @@
 
  Usage: semkit read {IN} extract-around [OPTIONS] [PATTERN]
 
- The part of the phrase before (`after=False`) or after the first (`last=False`) or last occurrence
- of `pattern`.
+ The part of the phrase before or after the first or the last occurrence of a text. Remove and
+ extract only.
 
- The pattern is text as typed, found anywhere, also inside a word («в» is found in «диван»). remove
- finds the first occurrence in any case and the last one in the case written; extract matches the
- case written. ё = е. `include=True` adds the occurrence itself to the part. A phrase without the
- pattern has no part: remove leaves it, extract gives ''. Remove and extract only.
+ pattern: the text as typed, found anywhere, also inside a word («в» is found in «диван»); not a
+ regular expression.
+ after: the part after the occurrence; by default the part before it.
+ last: the last occurrence; by default the first.
+ include: the occurrence itself belongs to the part.
+
+ remove finds the first occurrence in any case and the last one in the case written; extract
+ matches the case written; ё = е. A phrase without the text has no part: remove leaves it, extract
+ gives an empty cell.
 
  extract-around keeps only what the matcher finds in the working column; an empty cell where it
  finds nothing.
 
- Example: semkit read core.csv extract-around '\d+' write out.csv
+ Example: semkit read core.csv extract-around ' в ' --after --include write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
-│   PATTERN      <str>  See the description above. The same as --pattern PATTERN.                  │
+│   PATTERN      <str>  the text as typed, found anywhere, also inside a word («в» is found in     │
+│                       «диван»); not a regular expression. The same as --pattern PATTERN.         │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --pattern        PATTERN  See the description above.                                             │
-│ --after                   See the description above.                                             │
-│ --include                 See the description above.                                             │
-│ --last                    See the description above.                                             │
+│ --pattern        PATTERN  the text as typed, found anywhere, also inside a word («в» is found in │
+│                           «диван»); not a regular expression.                                    │
+│ --after                   the part after the occurrence; by default the part before it.          │
+│ --include                 the occurrence itself belongs to the part.                             │
+│ --last                    the last occurrence; by default the first.                             │
 │ --as             NAME     Write the result to a new column NAME and keep the working column as   │
 │                           it is.                                                                 │
 │ --help                    Show this message and exit.                                            │

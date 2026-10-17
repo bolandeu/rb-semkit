@@ -63,7 +63,7 @@ def names(start: Path | None = None) -> tuple[WordList, ...]:
 
 
 def resolve(name: str, start: Path | None = None) -> list[str]:
-    """The items of the list `name`: the first match in the project's folder, the config's, SEMKIT_LISTS, the bundled."""
+    """The items of the list `name`: the first match in the project's folder, SEMKIT_LISTS, the config's, the bundled."""
     return _get(name, start)[1]
 
 
@@ -75,7 +75,7 @@ def describe(name: str, start: Path | None = None) -> WordList:
 def word_list(name: str) -> pd.Series:
     """The items of the word list `name` as a Series; an unknown name raises InvalidArguments with the close names.
 
-    A name is a relative path without .txt (`minus/cheap`, `niche/mebel`); the project's lists, the folders of the
-    config key `lists`, the folders of SEMKIT_LISTS and the bundled lists are searched in that order.
+    A name is a relative path without .txt (`minus/cheap`, `niche/mebel`); the project's lists, the folders of
+    SEMKIT_LISTS, the folders of the config key `lists` and the bundled lists are searched in that order.
     """
     return pd.Series(resolve(name), dtype=object)

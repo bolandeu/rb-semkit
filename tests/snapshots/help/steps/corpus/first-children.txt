@@ -1,20 +1,27 @@
 
  Usage: semkit read {IN} first-children [OPTIONS] [CHILDREN]
 
- The first item of `children` that is a child of the phrase, or "" when none is; an empty phrase
- has none.
+ The first item of a list that is a child of the phrase, or an empty cell when none is; an empty
+ phrase has none.
+
+ children: the phrases that may be children, in the order to try; a child is a phrase that holds
+ every word of the phrase.
 
  The step writes its result to a new column <column>_child.
 
- Example: semkit read core.csv first-children @minus/universal write out.csv
+ Example: semkit read core.csv first-children 'купить диван в москве,угловой диван' write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
-│   CHILDREN      <str>  See the description above. Items: a comma list 'a,b', @FILE (one item per │
-│                        line) or @NAME of a list. The same as --children CHILDREN.                │
+│   CHILDREN      <str>  the phrases that may be children, in the order to try; a child is a       │
+│                        phrase that holds every word of the phrase. Items: a comma list 'a,b',    │
+│                        @FILE (one item per line, or the first column of a table) or @NAME of a   │
+│                        list. The same as --children CHILDREN.                                    │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --children        CHILDREN  See the description above. Items: a comma list 'a,b', @FILE (one     │
-│                             item per line) or @NAME of a list.                                   │
+│ --children        CHILDREN  the phrases that may be children, in the order to try; a child is a  │
+│                             phrase that holds every word of the phrase. Items: a comma list      │
+│                             'a,b', @FILE (one item per line, or the first column of a table) or  │
+│                             @NAME of a list.                                                     │
 │ --as              NAME      Write the result to a new column NAME and keep the working column as │
 │                             it is.                                                               │
 │ --help                      Show this message and exit.                                          │

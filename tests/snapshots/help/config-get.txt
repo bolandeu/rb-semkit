@@ -1,7 +1,7 @@
 
  Usage: semkit config get [OPTIONS] {key}
 
- Get a single configuration value.
+ Get a single configuration value, or a whole section (cli).
 
  Example: semkit config get cli.min_version
 

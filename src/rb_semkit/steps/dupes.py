@@ -31,5 +31,6 @@ STEPS = [
         "The step marks the duplicates of the working column in a new column <column>_dupes; with --action drop it"
         " keeps only the first row of each group.",
         new_column="dupes",
+        example="lemmas --action mark_except_first",
     )
 ]

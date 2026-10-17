@@ -29,7 +29,10 @@ TABLE = pd.DataFrame({"phrase": ["Купить диван"], "count": [5]})
         (lambda: sk.extract_utm(TABLE, "id", column="phrase"), r"tag='id'; allowed: 'source', 'medium'"),
         (lambda: sk.hash_text(TABLE, algorithm="sha1", column="phrase"), r"algorithm='sha1'; allowed: 'md5', 'sha256'"),
         (lambda: sk.translit(TABLE, to="de", column="phrase"), r"to='de'; allowed: 'en', 'ru'"),
-        (lambda: sk.move_words(TABLE, [], column="phrase"), r"words: an empty list; allowed: one word or a list of single words"),
+        (
+            lambda: sk.move_words(TABLE, [], column="phrase"),
+            r"words: an empty list; allowed: one word or a list of single words",
+        ),
         (lambda: sk.insert(TABLE, column="phrase"), r"before, after: neither given; allowed: a text"),
         (lambda: sk.fix_word_order(TABLE, form="neuter", column="phrase"), r"form='neuter'; allowed: 'masculine'"),
         (lambda: sk.fix_word_order(TABLE, main_word="два слова", column="phrase"), r"main_word='два слова'; allowed"),

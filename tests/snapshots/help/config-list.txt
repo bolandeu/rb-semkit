@@ -1,7 +1,7 @@
 
  Usage: semkit config list [OPTIONS]
 
- List all configuration values.
+ List all configuration values, one key per line as `config get` and `config set` name it.
 
  Example: semkit config list --json
 

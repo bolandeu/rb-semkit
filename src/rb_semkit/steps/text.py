@@ -61,8 +61,11 @@ MATCHERS: tuple[MatcherFactory, ...] = (
 EXAMPLES = {
     "words": "@stop/wordstat",
     "word_content": "starts --pattern куп",
-    "word_position": "--first 1",
-    "cells": "contains --items @minus/universal",
+    "word_position": "--nth 3",
+    "word_case": "Capital",
+    "around": "' в ' --after --include",
+    "edges": "--end '!'",
+    "cells": "contains --items бесплатно,скачать",
 }
 VERB_NOTES = {
     "find": "marks the rows where the matcher finds something, in a new column <column>_find of true and false.",

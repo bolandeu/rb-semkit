@@ -1,18 +1,20 @@
 
  Usage: semkit read {IN} find-word-position [OPTIONS]
 
- Words by their place in the phrase; give exactly one argument, N counts from 1.
+ Words by their place in the phrase; exactly one way to pick them is given, N counts from 1.
 
  first / last: the first or last N words.
  nth: the N-th word.
  to_middle / at_most: the leading words while they hold half the characters of the phrase at most,
- or N characters at most, and always the first word («купить диван недорого» with at_most=12 →
- «купить диван»). remove gives the other words.
+ or N characters at most, and always the first word («купить диван недорого», 12 characters at most
+ → «купить диван»).
+
+ remove gives the other words.
 
  find-word-position marks the rows where the matcher finds something, in a new column <column>_find
  of true and false.
 
- Example: semkit read core.csv find-word-position --first 1 write out.csv
+ Example: semkit read core.csv find-word-position --nth 3 write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --first            <int>  the first or last N words.                                             │
@@ -20,12 +22,10 @@
 │ --nth              <int>  the N-th word.                                                         │
 │ --to-middle               the leading words while they hold half the characters of the phrase at │
 │                           most, or N characters at most, and always the first word («купить      │
-│                           диван недорого» with at_most=12 → «купить диван»). remove gives the    │
-│                           other words.                                                           │
+│                           диван недорого», 12 characters at most → «купить диван»).              │
 │ --at-most          <int>  the leading words while they hold half the characters of the phrase at │
 │                           most, or N characters at most, and always the first word («купить      │
-│                           диван недорого» with at_most=12 → «купить диван»). remove gives the    │
-│                           other words.                                                           │
+│                           диван недорого», 12 characters at most → «купить диван»).              │
 │ --as               NAME   Write the result to a new column NAME and keep the working column as   │
 │                           it is.                                                                 │
 │ --help                    Show this message and exit.                                            │

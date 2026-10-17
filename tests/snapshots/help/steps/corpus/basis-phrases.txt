@@ -1,25 +1,25 @@
 
  Usage: semkit read {IN} basis-phrases [OPTIONS]
 
- Each phrase that is a basis of the core, or "" for the others: a basis holds no smaller phrase of
- the core.
+ Each phrase that is a basis of the core, or an empty cell for the others: a basis holds no smaller
+ phrase of the core.
 
  A phrase is a basis when it is the first with its set of words and no other phrase of the core has
  some of its words only: «купить диван», «диван», «диван купить» → «», «диван», «». Words are
- compared by case and ё.
- lemmas: compare the lemmas of the words («диваны» is «диван»), by `lemmatizer`.
- stopwords: False leaves the stopwords out of the comparison; a phrase of stopwords only keeps
- them.
+ compared in any case and with ё as е.
+ lemmas: compare the lemmas of the words («диваны» is «диван»).
+ stopwords: on, the stopwords count; off (--no-stopwords), they are left out of the comparison, and
+ a phrase of stopwords only keeps them.
 
  The step writes its result to a new column <column>_basis.
 
  Example: semkit read core.csv basis-phrases write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --lemmas                               compare the lemmas of the words («диваны» is «диван»), by │
-│                                        `lemmatizer`.                                             │
-│ --stopwords    --no-stopwords          False leaves the stopwords out of the comparison; a       │
-│                                        phrase of stopwords only keeps them.                      │
+│ --lemmas                               compare the lemmas of the words («диваны» is «диван»).    │
+│ --stopwords    --no-stopwords          on, the stopwords count; off (--no-stopwords), they are   │
+│                                        left out of the comparison, and a phrase of stopwords     │
+│                                        only keeps them.                                          │
 │                                        [default: stopwords]                                      │
 │ --as                             NAME  Write the result to a new column NAME and keep the        │
 │                                        working column as it is.                                  │

@@ -1,19 +1,30 @@
 
  Usage: semkit read {IN} switch-layout [OPTIONS] [TO]
 
- Text typed in the wrong keyboard layout, retyped on the same keys of the other: to="ru" — «ghbdtn,
- vbh» → «приветб мир», «z» → «я»; to="en" — «привет» → «ghbdtn», a capital on a sign key gives its
- shifted sign («Б» → «<», «Ё» → «~»).
+ Text typed in the wrong keyboard layout, retyped on the same keys of the other.
+
+ to: "ru" — «ghbdtn, vbh» → «приветб мир», «z» → «я»; "en" — «привет» → «ghbdtn», a capital on a
+ sign key gives its shifted sign («Б» → «<», «Ё» → «~»). The signs of the Russian layout go to the
+ English keys and back: «.» is «/», «,» is «?», «:» is «^», «;» is «$», «?» is «&», «"» is «@», «№»
+ is «#», «/» is «|».
 
  The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
  Example: semkit read core.csv switch-layout en write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
-│   TO      <str>  See the description above. The same as --to TO.                                 │
+│   TO      <en|ru>  "ru" — «ghbdtn, vbh» → «приветб мир», «z» → «я»; "en" — «привет» → «ghbdtn»,  │
+│                    a capital on a sign key gives its shifted sign («Б» → «<», «Ё» → «~»). The    │
+│                    signs of the Russian layout go to the English keys and back: «.» is «/», «,»  │
+│                    is «?», «:» is «^», «;» is «$», «?» is «&», «"» is «@», «№» is «#», «/» is    │
+│                    «|». The same as --to TO.                                                     │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --to          TO    See the description above.                                                   │
+│ --to          TO    "ru" — «ghbdtn, vbh» → «приветб мир», «z» → «я»; "en" — «привет» → «ghbdtn», │
+│                     a capital on a sign key gives its shifted sign («Б» → «<», «Ё» → «~»). The   │
+│                     signs of the Russian layout go to the English keys and back: «.» is «/», «,» │
+│                     is «?», «:» is «^», «;» is «$», «?» is «&», «"» is «@», «№» is «#», «/» is   │
+│                     «|».                                                                         │
 │ --as          NAME  Write the result to a new column NAME and keep the working column as it is.  │
 │ --help              Show this message and exit.                                                  │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯

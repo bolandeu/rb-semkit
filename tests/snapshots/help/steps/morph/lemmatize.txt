@@ -3,23 +3,22 @@
 
  Each word of a phrase replaced by its lemma, in lower case: «купила диваны» → «купить диван».
 
- fallback: None — a word missing from the bundled dictionary goes to pymorphy3 if its dictionary
- knows the word, else to the suffix rule, and often stays as it is («тиктокерами»); "pymorphy" —
- such a word takes the best guess of pymorphy3 («тиктокерами» → «тиктокер»). The fallback is for
- the bundled lemmatizer.
+ fallback: for a word missing from the bundled dictionary. Not given: the word goes to pymorphy3 if
+ its dictionary knows the word, else to the suffix rule, and often stays as it is («тиктокерами»);
+ "pymorphy": such a word takes the best guess of pymorphy3 («тиктокерами» → «тиктокер»).
 
  The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
  Example: semkit read core.csv lemmatize write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --fallback        <str>  None — a word missing from the bundled dictionary goes to pymorphy3 if  │
-│                          its dictionary knows the word, else to the suffix rule, and often stays │
-│                          as it is («тиктокерами»); "pymorphy" — such a word takes the best guess │
-│                          of pymorphy3 («тиктокерами» → «тиктокер»). The fallback is for the      │
-│                          bundled lemmatizer.                                                     │
-│ --as              NAME   Write the result to a new column NAME and keep the working column as it │
-│                          is.                                                                     │
-│ --help                   Show this message and exit.                                             │
+│ --fallback        <pymorphy>  for a word missing from the bundled dictionary. Not given: the     │
+│                               word goes to pymorphy3 if its dictionary knows the word, else to   │
+│                               the suffix rule, and often stays as it is («тиктокерами»);         │
+│                               "pymorphy": such a word takes the best guess of pymorphy3          │
+│                               («тиктокерами» → «тиктокер»).                                      │
+│ --as              NAME        Write the result to a new column NAME and keep the working column  │
+│                               as it is.                                                          │
+│ --help                        Show this message and exit.                                        │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

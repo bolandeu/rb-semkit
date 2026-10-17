@@ -3,18 +3,18 @@
 
  Every ordered pair of two different items of a list: a table first, second («a», «b» → a b, b a).
 
- Each item counts once, in the order of its first row; empty cells are no items.
- limit: the most pairs the result may hold; a larger result raises InvalidArguments before any is
- made.
+ Each item counts once, in the order of its first row; empty cells are no items. n items give n x
+ (n - 1) pairs.
+ limit: the most pairs the result may hold; a larger result is refused before any is made.
 
  The step makes a table of its result; it replaces the current table, its first text column is the
  working one.
 
- Example: semkit read core.csv ordered-pairs write out.csv
+ Example: semkit read core.csv ordered-pairs --limit 1000 write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --limit        <int>  the most pairs the result may hold; a larger result raises                 │
-│                       InvalidArguments before any is made.                                       │
+│ --limit        <int>  the most pairs the result may hold; a larger result is refused before any  │
+│                       is made.                                                                   │
 │                       [default: 1048576]                                                         │
 │ --help                Show this message and exit.                                                │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯

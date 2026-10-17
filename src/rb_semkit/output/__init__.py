@@ -8,10 +8,13 @@ import os
 import sys
 import weakref
 from collections.abc import Callable
+from pathlib import Path
 
 import typer
 from rich.markup import escape
+from typer._click.core import Context as ClickContext
 
+from ..core import services
 from ..core.errors import Aborted, CliError, InvalidArguments
 from ..core.version import cli_name
 from . import human
@@ -25,6 +28,7 @@ __all__ = [
     "QuietOption",
     "VerboseOption",
     "configure_logging",
+    "done",
     "emit_error",
     "emit_report",
     "emit_success",
@@ -36,10 +40,14 @@ __all__ = [
     "is_guarded",
     "require_confirmation",
     "vecho",
+    "warn",
 ]
 
 _CLI_NAME = cli_name()
 _GUARDED: weakref.WeakSet[Callable] = weakref.WeakSet()
+# The commands the CLI version gate lets through: they read or repair the project config itself (`config set
+# cli.min_version` lowers the version, `init --force` rewrites the config), or report the mismatch (`doctor`).
+UNGATED = frozenset({"config", "doctor", "init"})
 
 # Reusable local options: attach to any command so `<cli> <command> --json`
 # works, on top of the global `<cli> --json <command>` handled by guard().
@@ -152,6 +160,16 @@ def is_dry_run(ctx: typer.Context) -> bool:
     return bool(ctx.obj.get("dry_run"))
 
 
+def done(ctx: typer.Context, past: str, planned: str) -> str:
+    """The verb of a line that reports a change: `past` ("Added"), or `planned` ("Would add") under --dry-run."""
+    return planned if is_dry_run(ctx) else past
+
+
+def warn(message: str) -> None:
+    """A warning on stderr: the command still succeeds, but the Human should know (shown under --quiet and --json)."""
+    human.err_console.print(f"[yellow]Warning:[/yellow] {escape(message)}")
+
+
 def vecho(ctx: typer.Context, message: str) -> None:
     """Print a progress line for a human, only under --verbose and only in human mode.
 
@@ -189,6 +207,22 @@ def _quiet_stdout() -> None:
         os.dup2(os.open(os.devnull, os.O_WRONLY), sys.stdout.fileno())
 
 
+def _command_name(ctx: typer.Context) -> str | None:
+    """The command right under the root (`config` for `config set`, `read` for a step of the pipeline)."""
+    node: ClickContext = ctx
+    while node.parent is not None and node.parent.parent is not None:
+        node = node.parent
+    return node.info_name
+
+
+def _check_version(ctx: typer.Context) -> None:
+    """The CLI version gate, once per command line: a project that needs a newer CLI refuses every command but UNGATED."""
+    if ctx.obj.get("version_checked") or _command_name(ctx) in UNGATED:
+        return
+    ctx.obj["version_checked"] = True
+    services.check_project_compat(Path(ctx.obj.get("project") or Path.cwd()))
+
+
 def guard(func: Callable) -> Callable:
     """Route any error raised by a command through emit_error.
 
@@ -198,7 +232,8 @@ def guard(func: Callable) -> Callable:
     gets a parseable envelope; the traceback goes to stderr under
     --verbose. Also merges any command-local --json/--quiet/--verbose/
     --non-interactive option into ctx.obj, so both `<cli> --json status`
-    and `<cli> status --json` work the same way.
+    and `<cli> status --json` work the same way, and applies the CLI
+    version gate of the project (`cli.min_version`) to every command.
     """
 
     @functools.wraps(func)
@@ -207,6 +242,7 @@ def guard(func: Callable) -> Callable:
             if kwargs.get(flag_name):
                 ctx.obj[obj_key] = True
         try:
+            _check_version(ctx)
             return func(ctx, *args, **kwargs)
         except CliError as exc:
             emit_error(ctx, exc)

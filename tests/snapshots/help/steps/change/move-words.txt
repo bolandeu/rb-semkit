@@ -1,28 +1,28 @@
 
  Usage: semkit read {IN} move-words [OPTIONS] [WORDS]
 
- The words of `words` found in the phrase moved to its start or end (`to`), in the order and the
- spelling of `words`: «диван угловой купить» with ["купить", "угловой"] → «купить угловой диван».
- Case and ё do not count; the first word equal to an item moves.
+ Words found in the phrase moved to its start or end, in the order and the spelling of the list:
+ «диван угловой купить» with купить,угловой → «купить угловой диван». Case and ё do not count; the
+ first word equal to an item moves.
+
+ words: the words to move.
+ to: where they go: "start" or "end".
 
  The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
  Example: semkit read core.csv move-words @stop/wordstat write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
-│   WORDS      <str>  «диван угловой купить» with ["купить", "угловой"] → «купить угловой диван».  │
-│                     Case and ё do not count; the first word equal to an item moves. Items: a     │
-│                     comma list 'a,b', @FILE (one item per line) or @NAME of a list. The same as  │
-│                     --words WORDS.                                                               │
+│   WORDS      <str>  the words to move. Items: a comma list 'a,b', @FILE (one item per line, or   │
+│                     the first column of a table) or @NAME of a list. The same as --words WORDS.  │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --words        WORDS  «диван угловой купить» with ["купить", "угловой"] → «купить угловой        │
-│                       диван». Case and ё do not count; the first word equal to an item moves.    │
-│                       Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list.   │
-│ --to           <str>  See the description above. [default: start]                                │
-│ --as           NAME   Write the result to a new column NAME and keep the working column as it    │
-│                       is.                                                                        │
-│ --help                Show this message and exit.                                                │
+│ --words        WORDS        the words to move. Items: a comma list 'a,b', @FILE (one item per    │
+│                             line, or the first column of a table) or @NAME of a list.            │
+│ --to           <start|end>  where they go: "start" or "end". [default: start]                    │
+│ --as           NAME         Write the result to a new column NAME and keep the working column as │
+│                             it is.                                                               │
+│ --help                      Show this message and exit.                                          │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 
  Lists for @NAME: @combine/kiev-region-towns, @combine/leningrad-region-villages,

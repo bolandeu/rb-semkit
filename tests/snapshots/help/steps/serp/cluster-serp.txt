@@ -1,15 +1,22 @@
 
  Usage: semkit read {IN} cluster-serp [OPTIONS]
 
- Cluster the phrases of `serp` (columns phrase, position, url) by common URLs of their tops.
+ Cluster the phrases of a SERP table (columns phrase, position, url) by the common URLs of their
+ tops.
 
- Returns one row per phrase: phrase, cluster (1 = the largest), center (the first phrase of the
- cluster) and common (URLs shared with the center; the center gets the size of its own top). `freq`
- (a Series indexed by phrase, or a DataFrame with the columns phrase and freq) orders the phrases;
- without it the phrase with the most links to the others goes first, ties by phrase.
+ method: "soft" grows a cluster around its center: a phrase joins when it shares enough URLs with
+ the center; "hard" lets a phrase join only when it shares enough URLs with every member of the
+ cluster.
+ common: how many URLs two phrases must share.
+ top: how many first positions of each phrase count.
 
- freq: a file with the columns phrase and freq, the frequency of each phrase; the file is read like
- `read` does.
+ One row per phrase: phrase, cluster (1 = the largest), center (the first phrase of the cluster)
+ and common (URLs shared with the center; the center gets the size of its own top).
+
+ freq: a file with the phrases in its first text column and their frequencies in --freq-column; the
+ file is read like `read` does.
+ freq_column: the column of the frequencies in the --freq file; by default the first column of
+ numbers.
 
  The step reads the current table, a SERP with the columns phrase, position and url; the table of
  the clusters replaces it, its column phrase is the working one.
@@ -17,11 +24,18 @@
  Example: semkit read serp.csv cluster-serp --freq freq.csv write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --method        <str>  See the description above. [default: soft]                                │
-│ --common        <int>  See the description above. [default: 3]                                   │
-│ --top           <int>  See the description above. [default: 10]                                  │
-│ --freq          <str>  a file with the columns phrase and freq, the frequency of each phrase;    │
-│                        the file is read like `read` does.                                        │
-│ --help                 Show this message and exit.                                               │
+│ --method             <soft|hard>  "soft" grows a cluster around its center: a phrase joins when  │
+│                                   it shares enough URLs with the center; "hard" lets a phrase    │
+│                                   join only when it shares enough URLs with every member of the  │
+│                                   cluster.                                                       │
+│                                   [default: soft]                                                │
+│ --common             <int>        how many URLs two phrases must share. [default: 3]             │
+│ --top                <int>        how many first positions of each phrase count. [default: 10]   │
+│ --freq               <str>        a file with the phrases in its first text column and their     │
+│                                   frequencies in --freq-column; the file is read like `read`     │
+│                                   does.                                                          │
+│ --freq-column        <str>        the column of the frequencies in the --freq file; by default   │
+│                                   the first column of numbers.                                   │
+│ --help                            Show this message and exit.                                    │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

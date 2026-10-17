@@ -9,7 +9,7 @@
  find-word-case marks the rows where the matcher finds something, in a new column <column>_find of
  true and false.
 
- Example: semkit read core.csv find-word-case lower write out.csv
+ Example: semkit read core.csv find-word-case Capital write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <lower|Capital|CAPS>  "lower" (no capital letter: «x5»); "Capital" (each run of      │

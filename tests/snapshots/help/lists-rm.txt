@@ -3,7 +3,7 @@
 
  Remove a word list from a folder of lists. A bundled list is never removed.
 
- With --dry-run nothing is removed.
+ With --dry-run nothing is removed: it says which file it would remove.
 
  Example: semkit lists rm niche/mebel --from project
 

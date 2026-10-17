@@ -1,10 +1,11 @@
 
  Usage: semkit read {IN} insert [OPTIONS]
 
- `before` at the start and `after` at the end of the phrase, as given; an empty phrase gets them
- too.
+ Text at the start and at the end of the phrase, as given; an empty phrase gets them too.
 
- each_word: round each word of the phrase instead («купить диван» with after="," → «купить,
+ before: the text at the start («купить » gives «купить диван»).
+ after: the text at the end («диван» with « в москве» gives «диван в москве»).
+ each_word: round each word of the phrase instead («купить диван» with after "," → «купить,
  диван,»); the words are joined by one space and an empty phrase stays empty.
 
  The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
@@ -12,9 +13,9 @@
  Example: semkit read core.csv insert --after ' в москве' write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --before           <str>  See the description above.                                             │
-│ --after            <str>  See the description above.                                             │
-│ --each-word               round each word of the phrase instead («купить диван» with after="," → │
+│ --before           <str>  the text at the start («купить » gives «купить диван»).                │
+│ --after            <str>  the text at the end («диван» with « в москве» gives «диван в москве»). │
+│ --each-word               round each word of the phrase instead («купить диван» with after "," → │
 │                           «купить, диван,»); the words are joined by one space and an empty      │
 │                           phrase stays empty.                                                    │
 │ --as               NAME   Write the result to a new column NAME and keep the working column as   │

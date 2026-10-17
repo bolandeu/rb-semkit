@@ -1,67 +1,50 @@
 
- Usage: semkit read {IN} extract-markers [OPTIONS]
+ Usage: semkit read {IN} extract-markers [OPTIONS] [LISTS]
 
  Items of marker lists found in a phrase, as whole words, in any case, ё as е; all lists in one
  pass.
 
- lists: names of the bundled lists (geo, mosmetro, districts, MO, citiesRu, questions, fun, DIY,
- edu, game, sale, rent, reviews, color, material, origin, cars, names).
- user: your own lists, `{"name": ["phrase", …]}`. A word glued to punctuation is not matched
- («москве,»). find, remove and extract take the same markers: left to right, for each word the
- longest item that starts there (in words, then in characters; a tie keeps the list order: the
- lists in the given order, user lists last), and the words of a taken item start no other («Нижний
- Новгород», not «Нижний Новгород, Новгород»). extract gives them as the list spells them («Москве»;
- «как сделать», not «как»), in word order, joined by `sep`. remove keeps the case of the other
- words.
  with_prepositions: only the markers right after a toponym preposition («в», «во», «на», «по»,
  «из», «до», «г», «и»; as written, «в,» is none) count, and the preposition goes with them; a
- marker without one stays. A preposition takes the longest item right after it, as above. remove
- cuts the pair, extract gives it («в Москве»), find is True where such a pair stands.
+ marker without one stays. A preposition takes the longest item right after it. remove cuts the
+ pair, extract gives it («в Москве»), find marks the phrases where such a pair stands.
+ sep: what joins the markers extract gives.
+
+ A word glued to punctuation is not matched («москве,»). find, remove and extract take the same
+ markers: left to right, for each word the longest item that starts there (in words, then in
+ characters; a tie keeps the list order: the lists in the given order, your own lists last), and
+ the words of a taken item start no other («Нижний Новгород», not «Нижний Новгород, Новгород»).
+ extract gives them as the list spells them («Москве»; «как сделать», not «как»), in word order.
+ remove keeps the case of the other words.
+
+ lists: the marker lists, comma-separated: a bundled one by its name (geo) or as @markers/geo, or a
+ list of your own as @FILE (one phrase per line, or the first column of a table) or @NAME of a word
+ list.
 
  extract-markers keeps only what the matcher finds in the working column; an empty cell where it
  finds nothing.
 
  Example: semkit read core.csv extract-markers --lists geo write out.csv
 
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   LISTS      <str>  the marker lists, comma-separated: a bundled one by its name (geo) or as     │
+│                     @markers/geo, or a list of your own as @FILE (one phrase per line, or the    │
+│                     first column of a table) or @NAME of a word list. The same as --lists LISTS. │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --lists                    <str>  names of the bundled lists (geo, mosmetro, districts, MO,      │
-│                                   citiesRu, questions, fun, DIY, edu, game, sale, rent, reviews, │
-│                                   color, material, origin, cars, names). Items: a comma list     │
-│                                   'a,b', @FILE (one item per line) or @NAME of a list.           │
+│ --lists                    LISTS  the marker lists, comma-separated: a bundled one by its name   │
+│                                   (geo) or as @markers/geo, or a list of your own as @FILE (one  │
+│                                   phrase per line, or the first column of a table) or @NAME of a │
+│                                   word list.                                                     │
 │ --with-prepositions               only the markers right after a toponym preposition («в», «во», │
 │                                   «на», «по», «из», «до», «г», «и»; as written, «в,» is none)    │
 │                                   count, and the preposition goes with them; a marker without    │
 │                                   one stays. A preposition takes the longest item right after    │
-│                                   it, as above. remove cuts the pair, extract gives it («в       │
-│                                   Москве»), find is True where such a pair stands.               │
-│ --sep                      <str>  See the description above. [default: , ]                       │
+│                                   it. remove cuts the pair, extract gives it («в Москве»), find  │
+│                                   marks the phrases where such a pair stands.                    │
+│ --sep                      <str>  what joins the markers extract gives. [default: , ]            │
 │ --as                       NAME   Write the result to a new column NAME and keep the working     │
 │                                   column as it is.                                               │
 │ --help                            Show this message and exit.                                    │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
-
- Lists for @NAME: @combine/kiev-region-towns, @combine/leningrad-region-villages,
- @combine/moscow-hotels, @combine/moscow-metro, @combine/moscow-region-villages,
- @combine/realty-object, @combine/realty-service, @combine/review, @combine/russia-cities-100k,
- @combine/russia-cities-250k, @combine/russia-cities-500k, @combine/shop, @combine/spb-hotels,
- @combine/spb-metro, @combine/tourism, @combine/tourism/austria, @combine/tourism/baltic,
- @combine/tourism/benelux, @combine/tourism/bulgaria, @combine/tourism/canada,
- @combine/tourism/caribbean, @combine/tourism/china, @combine/tourism/croatia,
- @combine/tourism/cyprus, @combine/tourism/czech, @combine/tourism/egypt, @combine/tourism/france,
- @combine/tourism/germany, @combine/tourism/greece, @combine/tourism/hungary,
- @combine/tourism/india, @combine/tourism/indonesia, @combine/tourism/israel,
- @combine/tourism/italy, @combine/tourism/malaysia, @combine/tourism/mexico,
- @combine/tourism/montenegro, @combine/tourism/poland, @combine/tourism/portugal,
- @combine/tourism/scandinavia, @combine/tourism/spain, @combine/tourism/switzerland,
- @combine/tourism/thailand, @combine/tourism/turkey, @combine/tourism/uae, @combine/tourism/uk,
- @combine/tourism/usa, @combine/ukraine-cities-100k, @combine/ukraine-cities-250k, @markers/DIY,
- @markers/MO, @markers/cars, @markers/citiesRu, @markers/color, @markers/districts, @markers/edu,
- @markers/fun, @markers/game, @markers/geo, @markers/material, @markers/mosmetro, @markers/names,
- @markers/origin, @markers/questions, @markers/rent, @markers/reviews, @markers/sale,
- @minus/abusive, @minus/adult-hard, @minus/adult-soft, @minus/belarus-cities, @minus/cheap,
- @minus/computer, @minus/countries, @minus/ex-ussr-cities, @minus/free, @minus/handmade,
- @minus/kazakhstan-cities, @minus/moscow-region-cities, @minus/russia-cities,
- @minus/ukraine-cities, @minus/universal, @minus/world-cities, @stop/semtools, @stop/wordstat. Run
- 'semkit lists' for their sources and descriptions.
-
 

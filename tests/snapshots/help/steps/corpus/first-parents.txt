@@ -1,20 +1,26 @@
 
  Usage: semkit read {IN} first-parents [OPTIONS] [PARENTS]
 
- The first item of `parents` that is a parent of the phrase, or "" when none is. Empty items are
- skipped.
+ The first item of a list that is a parent of the phrase, or an empty cell when none is.
+
+ parents: the phrases that may be parents, in the order to try; a parent is a phrase whose words
+ all stand in the phrase. Empty items are skipped.
 
  The step writes its result to a new column <column>_parent.
 
- Example: semkit read core.csv first-parents @minus/universal write out.csv
+ Example: semkit read core.csv first-parents 'диван,купить диван' write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
-│   PARENTS      <str>  See the description above. Items: a comma list 'a,b', @FILE (one item per  │
-│                       line) or @NAME of a list. The same as --parents PARENTS.                   │
+│   PARENTS      <str>  the phrases that may be parents, in the order to try; a parent is a phrase │
+│                       whose words all stand in the phrase. Empty items are skipped. Items: a     │
+│                       comma list 'a,b', @FILE (one item per line, or the first column of a       │
+│                       table) or @NAME of a list. The same as --parents PARENTS.                  │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --parents        PARENTS  See the description above. Items: a comma list 'a,b', @FILE (one item  │
-│                           per line) or @NAME of a list.                                          │
+│ --parents        PARENTS  the phrases that may be parents, in the order to try; a parent is a    │
+│                           phrase whose words all stand in the phrase. Empty items are skipped.   │
+│                           Items: a comma list 'a,b', @FILE (one item per line, or the first      │
+│                           column of a table) or @NAME of a list.                                 │
 │ --as             NAME     Write the result to a new column NAME and keep the working column as   │
 │                           it is.                                                                 │
 │ --help                    Show this message and exit.                                            │

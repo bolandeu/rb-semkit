@@ -8,6 +8,14 @@ from .. import output
 from ..core import services
 
 
+def _render(ctx: typer.Context, data: dict) -> None:
+    if data["already_initialized"]:
+        output.human.echo(f"Already initialized in {data['path']} (use --force to reset).")
+        return
+    title = f"{output.done(ctx, 'Initialized', 'Would initialize')} project in {data['path']}"
+    output.human.key_values(title, {"name": data["project"]})
+
+
 @output.guard
 def init(
     ctx: typer.Context,
@@ -16,31 +24,29 @@ def init(
     json_output: bool = output.JsonOption,
     quiet: bool = output.QuietOption,
     verbose: bool = output.VerboseOption,
+    dry_run: bool = output.DryRunOption,
 ) -> None:
-    """Initialize a project: creates .{cli}/config.toml in the target directory.
+    """Initialize a project: creates .rb_semkit/config.toml in the target directory.
+
+    An initialized project is left as it is without --force.
+    With --dry-run nothing is written.
 
     Example: {cli} init --name demo
     """
     target = Path(ctx.obj.get("project") or Path.cwd()).resolve()
-
-    if not force and services.find_project_root(target) == target:
+    existing = not force and services.find_project_root(target) == target
+    if existing:
         output.vecho(ctx, f"Found existing config at {services.config_path(target)}")
         config = services.load_config(target)
-        output.emit_success(
-            ctx,
-            {"project": config.name, "path": str(target), "already_initialized": True},
-            render_human=lambda data: output.human.echo(
-                f"Already initialized in {data['path']} (use --force to reset)."
-            ),
-        )
-        return
-
-    project_name = name or target.name
-    config = services.init_project(target, project_name)
+    else:
+        config = services.init_project(target, name or target.name, dry_run=output.is_dry_run(ctx))
     output.emit_success(
         ctx,
-        {"project": config.name, "path": str(target), "already_initialized": False},
-        render_human=lambda data: output.human.key_values(
-            f"Initialized project in {data['path']}", {"name": data["project"]}
-        ),
+        {
+            "project": config.name,
+            "path": str(target),
+            "already_initialized": existing,
+            "dry_run": output.is_dry_run(ctx),
+        },
+        lambda data: _render(ctx, data),
     )

@@ -3,7 +3,10 @@
 
  Copy a file into a folder of word lists under a name.
 
- An existing list is refused without --replace. With --dry-run the file is not copied.
+ An existing list is refused without --replace.
+ A folder that is not searched for lists gets a warning: @NAME finds the list only once the folder
+ is in SEMKIT_LISTS or the config key lists.
+ With --dry-run the file is not copied.
 
  Example: semkit lists add niche/mebel mebel.txt --to project
 

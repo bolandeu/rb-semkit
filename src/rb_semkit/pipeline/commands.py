@@ -4,7 +4,8 @@ An argument of the function becomes an option `--name` (`-n` for a one-letter na
 the choices, a bool a flag (`--name/--no-name` when it is on by default), an argument that takes items (an
 `Iterable[str]`) a list in the form `items` reads. The arguments of the table itself (data, column, inplace) and the
 ones with no command-line form (a lemmatizer, a Series) are left out. The first required argument is also taken
-positionally (`remove-chars punctuation` is `remove-chars --kind punctuation`). A change step also takes `--as NAME`.
+positionally (`remove-chars punctuation` is `remove-chars --kind punctuation`). A change step that writes one column also
+takes `--as NAME`.
 
 A step that takes items gets `ListsHelp`: its help ends with the names of the word lists (`takes_items` finds such a step).
 
@@ -264,7 +265,7 @@ def _option_parameters(option: StepOption) -> list[inspect.Parameter]:
 def _parameters(step: Step, options: list[StepOption]) -> list[inspect.Parameter]:
     context = inspect.Parameter("ctx", inspect.Parameter.POSITIONAL_OR_KEYWORD, annotation=typer.Context)
     found = [parameter for option in options for parameter in _option_parameters(option)]
-    if step.kind == "change":
+    if step.kind == "change" and not step.columns:
         found.append(
             inspect.Parameter(
                 "as_column",

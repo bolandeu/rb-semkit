@@ -5,31 +5,31 @@
 
  case: "nominative", "genitive", "dative", "accusative", "instrumental" or "prepositional".
  number: "singular" or "plural" (12 forms in all; the nominative singular is the word itself).
- Every word is taken as a noun; for a phrase of mixed words use `decline`. A word with a capital
+
+ Every word is taken as a noun; for a phrase of mixed words use decline. A word with a capital
  keeps it («Москва» → «Москвы»); an indeclinable word («кафе»), an abbreviation («МТС») and a word
- the tables lack stay. The accusative comes from the tables only, by the word or its last three
- letters: «парк» → «парк», but «диван» → «дивана» (as «Иван»).
+ the tables lack stay. The accusative goes by animacy: an inanimate noun takes its nominative
+ («диван» → «диван»), an animate one its genitive («кот» → «кота»), a singular in «-а» or «-я» the
+ form of the tables («книга» → «книгу»). A hyphenated noun declines whole («диван-кровать»
+ instrumental → «диваном-кроватью»).
 
  The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
- Example: semkit read core.csv decline-noun genitive write out.csv
+ Example: semkit read core.csv decline-noun nominative write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
-│   CASE      <str>  "nominative", "genitive", "dative", "accusative", "instrumental" or           │
-│                    "prepositional". The same as --case CASE.                                     │
+│   CASE      <nominative|genitive|dative|accusative|i  "nominative", "genitive", "dative",        │
+│             nstrumental|prepositional>                "accusative", "instrumental" or            │
+│                                                       "prepositional". The same as --case CASE.  │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --case          CASE   "nominative", "genitive", "dative", "accusative", "instrumental" or       │
-│                        "prepositional".                                                          │
-│ --number        <str>  "singular" or "plural" (12 forms in all; the nominative singular is the   │
-│                        word itself). Every word is taken as a noun; for a phrase of mixed words  │
-│                        use `decline`. A word with a capital keeps it («Москва» → «Москвы»); an   │
-│                        indeclinable word («кафе»), an abbreviation («МТС») and a word the tables │
-│                        lack stay. The accusative comes from the tables only, by the word or its  │
-│                        last three letters: «парк» → «парк», but «диван» → «дивана» (as «Иван»).  │
-│                        [default: singular]                                                       │
-│ --as            NAME   Write the result to a new column NAME and keep the working column as it   │
-│                        is.                                                                       │
-│ --help                 Show this message and exit.                                               │
+│ --case          CASE               "nominative", "genitive", "dative", "accusative",             │
+│                                    "instrumental" or "prepositional".                            │
+│ --number        <singular|plural>  "singular" or "plural" (12 forms in all; the nominative       │
+│                                    singular is the word itself).                                 │
+│                                    [default: singular]                                           │
+│ --as            NAME               Write the result to a new column NAME and keep the working    │
+│                                    column as it is.                                              │
+│ --help                             Show this message and exit.                                   │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

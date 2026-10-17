@@ -1,7 +1,15 @@
 
  Usage: semkit lists [OPTIONS] COMMAND [ARGS]...
 
- Word lists: the bundled ones and the Human's own (list, show, add, rm).
+ Word lists: without a command, every list with its source, lines and description.
+
+ A step takes a list as @NAME in an option that takes items.
+ A name is looked up in this order: the project's lists, then the folders of the variable
+ SEMKIT_LISTS, then the folders of the config key lists, then the bundled lists.
+ SEMKIT_LISTS holds folders separated as in PATH; a relative one is from the current folder.
+ The config key lists holds a JSON list of folders; a relative one is from the project.
+
+ Example: semkit lists --json
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --json           Emit machine-readable JSON output.                                              │

@@ -12,7 +12,8 @@
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --extra        <str>  your own words, taken together with the bundled list. Items: a comma list  │
-│                       'a,b', @FILE (one item per line) or @NAME of a list.                       │
+│                       'a,b', @FILE (one item per line, or the first column of a table) or @NAME  │
+│                       of a list.                                                                 │
 │ --as           NAME   Write the result to a new column NAME and keep the working column as it    │
 │                       is.                                                                        │
 │ --help                Show this message and exit.                                                │

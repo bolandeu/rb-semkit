@@ -9,7 +9,7 @@
  extract-word-case keeps only what the matcher finds in the working column; an empty cell where it
  finds nothing.
 
- Example: semkit read core.csv extract-word-case lower write out.csv
+ Example: semkit read core.csv extract-word-case Capital write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <lower|Capital|CAPS>  "lower" (no capital letter: «x5»); "Capital" (each run of      │

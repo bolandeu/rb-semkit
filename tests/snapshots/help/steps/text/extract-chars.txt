@@ -5,10 +5,13 @@
 
  kind: "latin" (A-Z a-z), "cyrillic" (А..ӿ and Ё: not the capitals Є І Ї), "digits" (0-9),
  "letters_digits" (letters that have a case, and 0-9), "punctuation" (every other character but
- whitespace: also «-», «№» and letters without a case), "upper" (upper-case letters), "ua" (the
- Ukrainian letters і ї є ґ). remove cuts the characters out; a punctuation character leaves a space
- («Диван-кровать» → «Диван кровать»). extract keeps latin, cyrillic and digits with the whitespace
- between them («120x200» → «120200»); for the other kinds it gives the runs joined by a space.
+ whitespace: also «-», «№» and letters without a case; a point or a comma between two digits is
+ none, so «2.5» and «541,67» stay), "upper" (upper-case letters), "ua" (the Ukrainian letters і ї є
+ ґ).
+
+ remove cuts the characters out; a punctuation character leaves a space («Диван-кровать» → «Диван
+ кровать»). extract keeps latin, cyrillic and digits with the whitespace between them («120x200» →
+ «120200»); for the other kinds it gives the runs joined by a space.
 
  extract-chars keeps only what the matcher finds in the working column; an empty cell where it
  finds nothing.
@@ -21,26 +24,19 @@
 │                                                        (0-9), "letters_digits" (letters that     │
 │                                                        have a case, and 0-9), "punctuation"      │
 │                                                        (every other character but whitespace:    │
-│                                                        also «-», «№» and letters without a       │
-│                                                        case), "upper" (upper-case letters), "ua" │
-│                                                        (the Ukrainian letters і ї є ґ). remove   │
-│                                                        cuts the characters out; a punctuation    │
-│                                                        character leaves a space («Диван-кровать» │
-│                                                        → «Диван кровать»). extract keeps latin,  │
-│                                                        cyrillic and digits with the whitespace   │
-│                                                        between them («120x200» → «120200»); for  │
-│                                                        the other kinds it gives the runs joined  │
-│                                                        by a space. The same as --kind KIND.      │
+│                                                        also «-», «№» and letters without a case; │
+│                                                        a point or a comma between two digits is  │
+│                                                        none, so «2.5» and «541,67» stay),        │
+│                                                        "upper" (upper-case letters), "ua" (the   │
+│                                                        Ukrainian letters і ї є ґ). The same as   │
+│                                                        --kind KIND.                              │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --kind        KIND  "latin" (A-Z a-z), "cyrillic" (А..ӿ and Ё: not the capitals Є І Ї), "digits" │
 │                     (0-9), "letters_digits" (letters that have a case, and 0-9), "punctuation"   │
 │                     (every other character but whitespace: also «-», «№» and letters without a   │
-│                     case), "upper" (upper-case letters), "ua" (the Ukrainian letters і ї є ґ).   │
-│                     remove cuts the characters out; a punctuation character leaves a space       │
-│                     («Диван-кровать» → «Диван кровать»). extract keeps latin, cyrillic and       │
-│                     digits with the whitespace between them («120x200» → «120200»); for the      │
-│                     other kinds it gives the runs joined by a space.                             │
+│                     case; a point or a comma between two digits is none, so «2.5» and «541,67»   │
+│                     stay), "upper" (upper-case letters), "ua" (the Ukrainian letters і ї є ґ).   │
 │ --as          NAME  Write the result to a new column NAME and keep the working column as it is.  │
 │ --help              Show this message and exit.                                                  │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯

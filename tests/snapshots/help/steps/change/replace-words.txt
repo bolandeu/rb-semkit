@@ -1,9 +1,11 @@
 
  Usage: semkit read {IN} replace-words [OPTIONS] [PAIRS]
 
- Whole words and phrases of the phrase replaced by `pairs` (what to find → its replacement); case
- and ё do not count. Longer phrases go first: {"стиральная машинка": "стиральная машина",
- "машинка": "машина"}. An empty replacement deletes the words.
+ Whole words and phrases of the phrase replaced by pairs (what to find → its replacement); case and
+ ё do not count. Longer phrases go first: «стиральная машинка» → «стиральная машина» before
+ «машинка» → «машина». Punctuation at the edges of the found words stays around the replacement
+ («диван,» → «софа,»); an empty replacement deletes the words with that punctuation («купить диван,
+ недорого» → «купить недорого»).
 
  case: "new" — the replacement as given; "keep" — in the case of the first word it replaces (lower,
  capitalised, upper; a word of mixed case keeps the replacement as given).
@@ -20,14 +22,14 @@
 │                     the header, the file is read like `read` does. The same as --pairs PAIRS.    │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --pairs        PAIRS  a file of two columns, what to find and its replacement; the first row is  │
-│                       the header, the file is read like `read` does.                             │
-│ --case         <str>  "new" — the replacement as given; "keep" — in the case of the first word   │
-│                       it replaces (lower, capitalised, upper; a word of mixed case keeps the     │
-│                       replacement as given).                                                     │
-│                       [default: new]                                                             │
-│ --as           NAME   Write the result to a new column NAME and keep the working column as it    │
-│                       is.                                                                        │
-│ --help                Show this message and exit.                                                │
+│ --pairs        PAIRS       a file of two columns, what to find and its replacement; the first    │
+│                            row is the header, the file is read like `read` does.                 │
+│ --case         <new|keep>  "new" — the replacement as given; "keep" — in the case of the first   │
+│                            word it replaces (lower, capitalised, upper; a word of mixed case     │
+│                            keeps the replacement as given).                                      │
+│                            [default: new]                                                        │
+│ --as           NAME        Write the result to a new column NAME and keep the working column as  │
+│                            it is.                                                                │
+│ --help                     Show this message and exit.                                           │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

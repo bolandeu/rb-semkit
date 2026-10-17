@@ -16,7 +16,7 @@ from pandas.api import types
 
 from ..core.errors import InvalidArguments
 from ..core.frame import text_columns
-from ..steps import Change, Keep, Prepared, Report, Step
+from ..steps import Change, Columns, Keep, Prepared, Report, Step
 from .tables import as_text, numbers
 
 
@@ -113,6 +113,8 @@ class State:
                 if len(values) < len(self.table):  # a change that also drops rows: remove-cells empty
                     self._keep(planned.step.name, self.table.index.isin(values.index))
                 changed = self._change(planned, values)
+            case Columns(table):
+                changed = sum(self._add(planned.step.name, str(name), values) for name, values in table.items())
             case Keep(rows):
                 self._keep(planned.step.name, rows.to_numpy())
             case Report(table):
@@ -144,17 +146,29 @@ class State:
         old = self.table[self.column]
         changed = _cells_changed(values, as_text(old) if target == self.column else None)
         self._note(planned.step.name, target, old[changed], values[changed])
-        table = self.table.copy(deep=False)
         if target == self.column:
-            table[target] = numbers(values) if types.is_numeric_dtype(old) else values
+            self.table = self.table.assign(**{target: numbers(values) if types.is_numeric_dtype(old) else values})
         else:
-            after = self._last_added.get(self.column, self.column)
-            table.insert(table.columns.get_loc(after if after in table.columns else self.column) + 1, target, values)
-            self._last_added[self.column] = target
-        self.table = table
+            self._insert(target, values)
         if planned.as_column is not None:
             self.column = target
         return int(changed.sum())
+
+    def _add(self, step: str, name: str, values: pd.Series) -> int:
+        """Add a column of a step's `Columns` after the working column: `name`, or `name_2` when the table has it."""
+        target = _free_name(self.table, str(name))
+        changed = _cells_changed(values, None)
+        self._note(step, target, self.table[self.column][changed], values[changed])
+        self._insert(target, values)
+        return int(changed.sum())
+
+    def _insert(self, target: str, values: pd.Series) -> None:
+        """A new column right after the working column and the columns added after it before."""
+        table = self.table.copy(deep=False)
+        after = self._last_added.get(self.column, self.column)
+        table.insert(table.columns.get_loc(after if after in table.columns else self.column) + 1, target, values)
+        self._last_added[self.column] = target
+        self.table = table
 
     def _note(self, step: str, column: str, before: pd.Series, after: pd.Series | None) -> None:
         if self.journal is None:

@@ -290,3 +290,14 @@ def test_a_step_runs_on_its_fixture(step: str) -> None:
 
     assert result.exit_code == 0, result.output
     assert result.rows, "the step wrote no rows"
+
+
+def test_text_stats_is_a_change_that_adds_its_metric_columns_after_the_working_column() -> None:
+    result = run("core.csv", "text-stats", "write", "-")
+
+    assert result.exit_code == 0, result.output
+    assert len(result.rows) == 14
+    first = result.rows[1]
+    assert list(first)[:3] == ["phrase", "chars", "chars_no_spaces"] and list(first)[-1] == "freq"
+    assert (first["phrase"], first["words"], first["freq"]) == ("купить диван", 2, 4)
+    assert "text-stats: 14 → 14 rows" in result.stderr

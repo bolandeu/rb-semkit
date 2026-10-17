@@ -4,9 +4,9 @@ Each area keeps its entries in its own module of this package, as the list `STEP
 a new area needs no edit here. An entry names the step, the library function whose signature gives the options and
 whose docstring gives the help, the kind of the step and how to prepare it from the options.
 
-Kinds: change (writes the working column, or a new column), filter (keeps or drops rows), report (its table becomes
+Kinds: change (writes the working column, or new columns), filter (keeps or drops rows), report (its table becomes
 the current one). A prepared step takes the current table and the working column and gives its outcome: `Change`,
-`Keep` or `Report`.
+`Columns`, `Keep` or `Report`.
 
 Helpers for the area modules: `change_step` and `changing` make a change step of a function over phrases (`slug`
 names it, `changing` checks its options on no phrases at all); `Adapted` shows a function to the command generator
@@ -56,6 +56,13 @@ class Change:
 
 
 @dataclass(frozen=True)
+class Columns:
+    """New columns, with the index of the table, to add right after the working column."""
+
+    table: pd.DataFrame
+
+
+@dataclass(frozen=True)
 class Keep:
     """True for each row of the table that stays."""
 
@@ -69,7 +76,7 @@ class Report:
     table: pd.DataFrame
 
 
-Outcome = Change | Keep | Report
+Outcome = Change | Columns | Keep | Report
 Prepared = Callable[[pd.DataFrame, str], Outcome]
 
 
@@ -84,6 +91,7 @@ class Step:
     None rewrites the working column.
     source, example: the file the `Example:` line of the help reads, and the text after the step name in it; None
     gives the example from the required options (a file option shows a file, a list option a bundled list).
+    columns: a change that adds several columns (`Columns`); it takes no --as.
     """
 
     name: str
@@ -94,6 +102,7 @@ class Step:
     new_column: str | None = None
     source: str = "core.csv"
     example: str | None = None
+    columns: bool = False
 
     def help(self) -> str:
         """The docstring of the function without its porting notes (paragraphs «ADR …»), then the note.

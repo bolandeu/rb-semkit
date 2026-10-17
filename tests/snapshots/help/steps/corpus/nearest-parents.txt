@@ -1,22 +1,28 @@
 
  Usage: semkit read {IN} nearest-parents [OPTIONS] [PARENTS]
 
- The parent from `parents` with the most words for each phrase, or "" when it has none.
+ The parent from a list with the most words for each phrase, or an empty cell when it has none.
+
+ parents: the phrases that may be parents; a parent is a phrase whose words all stand in the
+ phrase.
 
  Between parents with as many words, the one whose words stand later in the phrase wins («a b c»:
- «b c» before «a c»), then the first in the list. Empty items of `parents` are skipped.
+ «b c» before «a c»), then the first in the list. Empty items of the list are skipped.
 
  The step writes its result to a new column <column>_parent.
 
- Example: semkit read core.csv nearest-parents @minus/universal write out.csv
+ Example: semkit read core.csv nearest-parents 'диван,купить диван' write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
-│   PARENTS      <str>  See the description above. Items: a comma list 'a,b', @FILE (one item per  │
-│                       line) or @NAME of a list. The same as --parents PARENTS.                   │
+│   PARENTS      <str>  the phrases that may be parents; a parent is a phrase whose words all      │
+│                       stand in the phrase. Items: a comma list 'a,b', @FILE (one item per line,  │
+│                       or the first column of a table) or @NAME of a list. The same as --parents  │
+│                       PARENTS.                                                                   │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --parents        PARENTS  See the description above. Items: a comma list 'a,b', @FILE (one item  │
-│                           per line) or @NAME of a list.                                          │
+│ --parents        PARENTS  the phrases that may be parents; a parent is a phrase whose words all  │
+│                           stand in the phrase. Items: a comma list 'a,b', @FILE (one item per    │
+│                           line, or the first column of a table) or @NAME of a list.              │
 │ --as             NAME     Write the result to a new column NAME and keep the working column as   │
 │                           it is.                                                                 │
 │ --help                    Show this message and exit.                                            │

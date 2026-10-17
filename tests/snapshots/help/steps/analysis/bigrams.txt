@@ -4,8 +4,11 @@
  Pairs of words of a phrase in any order, counted: «купить диван» and «диван купить» both give
  «диван+купить».
 
- Per phrase the words are sorted and a repeated word counts once. The table and its arguments are
- those of `ngrams`.
+ Per phrase the words are sorted and a repeated word counts once. The table is that of ngrams.
+ lemmas: count lemmas of the words («диваны» is «диван»).
+ stopwords: on, every word counts; off (--no-stopwords), only the words that are no stopwords make
+ pairs.
+ weight: a column of numbers of the table (a frequency); sum adds its value once per occurrence.
 
  The step counts the working column; the table replaces the current one, its column ngram is the
  working one.
@@ -13,9 +16,12 @@
  Example: semkit read core.csv bigrams write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --lemmas                                See the description above.                               │
-│ --stopwords    --no-stopwords           See the description above. [default: stopwords]          │
-│ --weight                         <str>  See the description above.                               │
+│ --lemmas                                count lemmas of the words («диваны» is «диван»).         │
+│ --stopwords    --no-stopwords           on, every word counts; off (--no-stopwords), only the    │
+│                                         words that are no stopwords make pairs.                  │
+│                                         [default: stopwords]                                     │
+│ --weight                         <str>  a column of numbers of the table (a frequency); sum adds │
+│                                         its value once per occurrence.                           │
 │ --help                                  Show this message and exit.                              │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

@@ -4,11 +4,16 @@
  Phrases of a list, found as whole words («угловой диван» is not in «угловойдиван» or «угловой
  диван,»).
 
+ items: the phrases to find.
+
  Words compare in any case, ё as е; punctuation glued to a word counts. find, remove and extract
- take the same phrases, as `sk.markers(user=...)` does: left to right, for each word the longest
+ take the same phrases, as the markers of your own lists: left to right, for each word the longest
  phrase that starts there (in words, then in characters; a tie keeps the list order), and the words
  of a taken phrase start no other. remove keeps the case of the other words; extract gives the
  phrases as the list spells them, joined by ', '.
+
+ lemmas: compare the lemmas of the words (the bundled dictionary): «дешевые диваны» is «дешевый
+ диван».
 
  find-phrases marks the rows where the matcher finds something, in a new column <column>_find of
  true and false.
@@ -16,15 +21,17 @@
  Example: semkit read core.csv find-phrases @minus/universal write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
-│   ITEMS      <str>  See the description above. Items: a comma list 'a,b', @FILE (one item per    │
-│                     line) or @NAME of a list. The same as --items ITEMS.                         │
+│   ITEMS      <str>  the phrases to find. Items: a comma list 'a,b', @FILE (one item per line, or │
+│                     the first column of a table) or @NAME of a list. The same as --items ITEMS.  │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --items        ITEMS  See the description above. Items: a comma list 'a,b', @FILE (one item per  │
-│                       line) or @NAME of a list.                                                  │
-│ --as           NAME   Write the result to a new column NAME and keep the working column as it    │
-│                       is.                                                                        │
-│ --help                Show this message and exit.                                                │
+│ --items         ITEMS  the phrases to find. Items: a comma list 'a,b', @FILE (one item per line, │
+│                        or the first column of a table) or @NAME of a list.                       │
+│ --lemmas               compare the lemmas of the words (the bundled dictionary): «дешевые        │
+│                        диваны» is «дешевый диван».                                               │
+│ --as            NAME   Write the result to a new column NAME and keep the working column as it   │
+│                        is.                                                                       │
+│ --help                 Show this message and exit.                                               │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 
  Lists for @NAME: @combine/kiev-region-towns, @combine/leningrad-region-villages,

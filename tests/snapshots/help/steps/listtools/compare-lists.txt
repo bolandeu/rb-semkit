@@ -1,11 +1,15 @@
 
  Usage: semkit read {IN} compare-lists [OPTIONS] [AGAINST]
 
- The phrases of two lists by `op`: both (of `first` that are in `second`), either (`first`, then
- `second`), first (only in `first`), second (only in `second`).
+ The phrases of two lists, by an operation.
 
- The same phrase is the same key of `dupes` for `kind`. A phrase keeps the spelling of its first
- occurrence and comes once; the order is the input order. Empty cells are never phrases.
+ op: both (the phrases of the first list that are in the second), either (the first list, then the
+ second), first (only in the first list), second (only in the second).
+ kind: when two phrases are the same, as for dupes: exact, explicit, implicit or lemmas.
+ second_column: the column of the phrases of the second list.
+
+ A phrase keeps the spelling of its first occurrence and comes once; the order is the input order.
+ Empty cells are never phrases.
 
  against: a file with the second list, one phrase per row; the file is read like `read` does. The
  phrases are in --second-column, by default the first text column of the file.
@@ -26,11 +30,18 @@
 │                                                          does. The phrases are in                │
 │                                                          --second-column, by default the first   │
 │                                                          text column of the file.                │
-│ --op                   <str>                             See the description above.              │
+│ --op                   <both|either|first|second>        both (the phrases of the first list     │
+│                                                          that are in the second), either (the    │
+│                                                          first list, then the second), first     │
+│                                                          (only in the first list), second (only  │
+│                                                          in the second).                         │
 │                                                          [default: both]                         │
-│ --kind                 <exact|explicit|implicit|lemmas>  See the description above.              │
+│ --kind                 <exact|explicit|implicit|lemmas>  when two phrases are the same, as for   │
+│                                                          dupes: exact, explicit, implicit or     │
+│                                                          lemmas.                                 │
 │                                                          [default: exact]                        │
-│ --second-column        <str>                             See the description above.              │
+│ --second-column        <str>                             the column of the phrases of the second │
+│                                                          list.                                   │
 │ --help                                                   Show this message and exit.             │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

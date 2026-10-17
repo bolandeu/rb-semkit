@@ -73,7 +73,7 @@ def test_bare_invocation_shows_help_and_exits_zero() -> None:
     assert "Usage:" in result.output
 
 
-@pytest.mark.parametrize("group", ["config", "skill", "auth", "read"])
+@pytest.mark.parametrize("group", ["config", "skill", "auth"])
 def test_bare_group_shows_help_and_exits_zero(group: str) -> None:
     result = invoke(group)
     assert result.exit_code == 0
@@ -173,7 +173,7 @@ def test_min_version_gate(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> No
 
 def test_doctor_json(tmp_path: Path) -> None:
     code, payload = invoke_json("--project", str(tmp_path), "doctor")
-    assert code == 0
+    assert code == 1  # unhealthy: the report is still the output
     names = [check["name"] for check in payload["checks"]]
     assert names[:3] == ["python", "cli_version", "project"]
     assert payload["healthy"] is False  # no project here
@@ -184,7 +184,7 @@ def test_doctor_reports_config_parse_error(tmp_path: Path) -> None:
     (tmp_path / ".rb_semkit" / "config.toml").write_text("this is not valid toml [[[")
 
     code, payload = invoke_json("--project", str(tmp_path), "doctor")
-    assert code == 0
+    assert code == 1  # unhealthy: the report is still the output
     config_check = next(check for check in payload["checks"] if check["name"] == "config")
     assert config_check["ok"] is False
     assert config_check["detail"]
@@ -196,7 +196,7 @@ def test_doctor_reports_incompatible_cli_instead_of_failing(tmp_path: Path, monk
     invoke("--project", str(tmp_path), "config", "set", "cli.min_version", "99.0.0")
 
     code, payload = invoke_json("--project", str(tmp_path), "doctor")
-    assert code == 0
+    assert code == 1  # unhealthy: the report is still the output
     compat = next(check for check in payload["checks"] if check["name"] == "cli_compat")
     assert compat["ok"] is False
     assert "99.0.0" in compat["detail"]
@@ -340,3 +340,263 @@ def test_auth_status_without_credentials_is_empty_and_healthy() -> None:
     assert (code, payload["error"]["code"]) == (2, "INVALID_ARGUMENTS")
     assert invoke("auth", "login").exit_code == 2  # no such command without credentials
     assert "stores no credentials" in invoke("auth", "status").stdout
+
+
+# --- SEMKIT-033: top-level commands ----------------------------------------------
+
+
+def _config_text(project: Path) -> str:
+    return services.config_path(project).read_text()
+
+
+def test_dry_run_config_set_leaves_the_config_unchanged(tmp_path: Path) -> None:
+    init(tmp_path)
+    before = _config_text(tmp_path)
+
+    code, payload = invoke_json("--dry-run", "--project", str(tmp_path), "config", "set", "name", "x")
+
+    assert (code, payload["dry_run"], payload["value"]) == (0, True, "x")
+    assert _config_text(tmp_path) == before
+
+
+def test_dry_run_init_creates_nothing(tmp_path: Path) -> None:
+    code, payload = invoke_json("--dry-run", "--project", str(tmp_path), "init", "--name", "demo")
+
+    assert (code, payload["dry_run"], payload["project"]) == (0, True, "demo")
+    assert list(tmp_path.iterdir()) == []
+
+
+def test_init_takes_dry_run_after_the_command(tmp_path: Path) -> None:
+    code, payload = invoke_json("--project", str(tmp_path), "init", "--dry-run")
+
+    assert (code, payload["dry_run"]) == (0, True)
+    assert list(tmp_path.iterdir()) == []
+
+
+def test_dry_run_skill_install_writes_nothing(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.chdir(tmp_path)
+
+    code, payload = invoke_json("--dry-run", "skill", "install", "--project")
+
+    assert (code, payload["dry_run"]) == (0, True)
+    assert list(tmp_path.iterdir()) == []
+
+
+def test_dry_run_lists_add_and_rm_change_no_file(tmp_path: Path) -> None:
+    init(tmp_path)
+    source = tmp_path / "items.txt"
+    source.write_text("один\n", encoding="utf-8")
+    kept = services.project_lists_dir(tmp_path) / "kept.txt"
+    kept.parent.mkdir(parents=True)
+    kept.write_text("два\n", encoding="utf-8")
+
+    added = invoke_json("--dry-run", "--project", str(tmp_path), "lists", "add", "new", str(source))
+    removed = invoke_json("--dry-run", "--project", str(tmp_path), "lists", "rm", "kept")
+
+    assert [(code, payload["dry_run"]) for code, payload in (added, removed)] == [(0, True), (0, True)]
+    assert sorted(path.name for path in kept.parent.iterdir()) == ["kept.txt"]
+
+
+def _pin_installed(monkeypatch: pytest.MonkeyPatch, version: str) -> None:
+    monkeypatch.setattr(services, "installed_version", lambda: version)
+
+
+def test_config_set_lowers_min_version_the_project_needs(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    _pin_installed(monkeypatch, "0.1.5")
+    init(tmp_path)
+    assert invoke("--project", str(tmp_path), "config", "set", "cli.min_version", "0.2.0").exit_code == 0
+
+    result = invoke("--project", str(tmp_path), "config", "set", "cli.min_version", "0.1.0")
+
+    assert result.exit_code == 0, result.output
+    assert services.load_config(tmp_path).cli.min_version == "0.1.0"
+
+
+def _table(tmp_path: Path) -> Path:
+    path = tmp_path / "core.csv"
+    path.write_text("phrase\nдиван\n", encoding="utf-8")
+    return path
+
+
+@pytest.mark.parametrize(
+    "args",
+    [("status",), ("lists",), ("describe",), ("read", "{table}", "write", "{out}")],
+    ids=["status", "lists", "describe", "read-without-lists"],
+)
+def test_the_version_gate_stops_every_command(
+    args: tuple[str, ...], tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _pin_installed(monkeypatch, "1.0.0")
+    init(tmp_path)
+    invoke("--project", str(tmp_path), "config", "set", "cli.min_version", "99.0.0")
+    filled = [arg.format(table=_table(tmp_path), out=tmp_path / "out.csv") for arg in args]
+
+    result = invoke("--json", "--project", str(tmp_path), *filled)  # global --json: the pipeline ends with write OUT
+
+    assert (result.exit_code, json.loads(result.stdout)["error"]["code"]) == (6, "CLI_TOO_OLD")
+    assert not (tmp_path / "out.csv").exists()
+
+
+def test_config_set_lists_takes_a_json_list(tmp_path: Path) -> None:
+    init(tmp_path)
+
+    code, _ = invoke_json("--project", str(tmp_path), "config", "set", "lists", '["/abs", "~/lists"]')
+
+    assert code == 0
+    assert tomllib.loads(_config_text(tmp_path))["lists"] == ["/abs", "~/lists"]
+
+
+@pytest.mark.parametrize(
+    ("key", "value"),
+    [("version", "abc"), ("lists", "/abs"), ("lists", "[1, 2]"), ("cli.min_version", "abc"), ("cli", "x")],
+)
+def test_config_set_refuses_a_bad_value_with_the_accepted_format(key: str, value: str, tmp_path: Path) -> None:
+    init(tmp_path)
+    before = _config_text(tmp_path)
+
+    code, payload = invoke_json("--project", str(tmp_path), "config", "set", key, value)
+
+    assert (code, payload["error"]["code"]) == (2, "INVALID_ARGUMENTS")
+    assert "allowed:" in payload["error"]["message"]
+    assert _config_text(tmp_path) == before
+
+
+def test_init_help_names_the_folder_init_creates(tmp_path: Path) -> None:
+    init(tmp_path)
+
+    created = [path.name for path in tmp_path.iterdir()]
+
+    assert created == [services.PROJECT_DIR_NAME]
+    assert f"{services.PROJECT_DIR_NAME}/config.toml" in invoke("init", "--help", env={"COLUMNS": "200"}).stdout
+
+
+def _write_list(folder: Path, name: str, text: str) -> None:
+    folder.mkdir(parents=True, exist_ok=True)
+    (folder / f"{name}.txt").write_text(text, encoding="utf-8")
+
+
+def _items(*args: str) -> list[str]:
+    code, payload = invoke_json("lists", "show", *args)
+    assert code == 0, payload
+    return payload["items"]
+
+
+def test_a_relative_semkit_lists_is_from_the_current_folder(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    init(tmp_path)
+    here = tmp_path / "sub"
+    _write_list(here / "mine", "a", "из текущей\n")
+    monkeypatch.chdir(here)
+    monkeypatch.setenv("SEMKIT_LISTS", "mine")
+
+    assert _items("a") == ["из текущей"]
+
+
+def test_semkit_lists_wins_over_the_config_lists(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    init(tmp_path)
+    _write_list(tmp_path / "from-config", "a", "config\n")
+    _write_list(tmp_path / "from-env", "a", "env\n")
+    config = services.load_config(tmp_path)
+    config.lists = [str(tmp_path / "from-config")]
+    services.save_config(tmp_path, config)
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("SEMKIT_LISTS", str(tmp_path / "from-env"))
+
+    assert _items("a") == ["env"]
+
+
+def test_lists_add_to_a_folder_outside_the_search_warns(tmp_path: Path) -> None:
+    source = tmp_path / "items.txt"
+    source.write_text("один\n", encoding="utf-8")
+    elsewhere = tmp_path / "elsewhere"
+
+    result = invoke("--project", str(tmp_path), "lists", "add", "a", str(source), "--to", str(elsewhere))
+
+    assert result.exit_code == 0, result.output
+    assert (elsewhere / "a.txt").is_file()
+    assert "SEMKIT_LISTS" in result.stderr
+
+
+def test_lists_add_to_a_searched_folder_does_not_warn(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    source = tmp_path / "items.txt"
+    source.write_text("один\n", encoding="utf-8")
+    monkeypatch.setenv("SEMKIT_LISTS", str(tmp_path / "mine"))
+
+    result = invoke("--project", str(tmp_path), "lists", "add", "a", str(source), "--to", str(tmp_path / "mine"))
+
+    assert (result.exit_code, result.stderr) == (0, "")
+
+
+def test_lists_show_takes_the_leading_at() -> None:
+    assert _items("@minus/free") == _items("minus/free")
+
+
+def test_lists_show_of_an_unknown_name_exits_2() -> None:
+    code, payload = invoke_json("lists", "show", "@no/such-list")
+
+    assert (code, payload["error"]["code"]) == (2, "INVALID_ARGUMENTS")
+
+
+def test_lists_help_names_only_commands_that_exist() -> None:
+    lists_group = typer.main.get_command(app).commands["lists"]  # ty: ignore[unresolved-attribute]
+    help_text = invoke("lists", "--help", env={"COLUMNS": "200"}).stdout
+
+    assert set(re.findall(r"`semkit lists (\w+)", help_text)) <= set(lists_group.commands)
+    assert "lists list" not in help_text
+
+
+def test_quiet_keeps_the_items_of_lists_show() -> None:
+    result = invoke("--quiet", "lists", "show", "minus/free")
+
+    assert result.stdout.splitlines() == _items("minus/free")
+
+
+@pytest.mark.parametrize("command", ["status", "doctor"])
+def test_quiet_keeps_the_result(command: str, tmp_path: Path) -> None:
+    init(tmp_path)
+
+    loud = invoke("--project", str(tmp_path), command)
+    quiet = invoke("--quiet", "--project", str(tmp_path), command)
+
+    assert (quiet.exit_code, quiet.stdout) == (0, loud.stdout)
+
+
+def test_doctor_unhealthy_exits_1_and_keeps_the_report(tmp_path: Path) -> None:
+    code, payload = invoke_json("--project", str(tmp_path), "doctor")
+
+    assert (code, payload["ok"], payload["healthy"], payload["error"]["code"]) == (1, False, False, "UNHEALTHY")
+    assert [check["name"] for check in payload["checks"] if not check["ok"]] == ["project"]
+
+
+def test_doctor_healthy_exits_0(tmp_path: Path) -> None:
+    init(tmp_path)
+
+    code, payload = invoke_json("--project", str(tmp_path), "doctor")
+
+    assert (code, payload["ok"], payload["healthy"]) == (0, True, True)
+
+
+def test_run_is_hidden() -> None:
+    assert typer.main.get_command(app).commands["run"].hidden  # ty: ignore[unresolved-attribute]
+
+
+def test_version_json_is_an_envelope() -> None:
+    result = invoke("--version", "--json")
+
+    assert result.exit_code == 0
+    assert list(json.loads(result.stdout)) == ["ok", "version"]
+
+
+@pytest.mark.parametrize(
+    "args",
+    [("status",), ("config", "list"), ("config", "get", "name"), ("lists",), ("lists", "show", "minus/free"),
+     ("doctor",), ("init",)],
+    ids=lambda args: "-".join(args),
+)  # fmt: skip
+def test_every_success_envelope_opens_with_ok(args: tuple[str, ...], tmp_path: Path) -> None:
+    init(tmp_path, name="проект")
+
+    code, payload = invoke_json("--project", str(tmp_path), *args)
+    result = invoke("--project", str(tmp_path), *args, "--json")
+
+    assert (code, next(iter(payload)), payload["ok"]) == (0, "ok", True)
+    assert "\\u04" not in result.stdout
