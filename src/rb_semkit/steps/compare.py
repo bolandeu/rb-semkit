@@ -7,10 +7,10 @@ from types import FunctionType
 import pandas as pd
 
 from ..core.compare.bm25 import bm25
-from ..core.compare.grams import URL, compare_grams
+from ..core.compare.grams import compare_grams
 from ..core.compare.stats import compare_stats
-from ..core.frame import Frame, text_columns
-from . import Adapted, Change, Prepared, Report, Step, first_text, joined, option, slug, table_of
+from ..core.frame import Frame
+from . import Adapted, Change, Prepared, Report, Step, joined, option, slug, table_of, texts_column
 
 COMPETITORS_DOC = (
     "competitors: a file with the texts of the competitors, one per row, in its first text column;"
@@ -22,16 +22,11 @@ NOTE = (
 )
 
 
-def _texts_column(competitors: pd.DataFrame) -> str:
-    """The first text column that is no url column: a table of pages holds the url before the text."""
-    return next((name for name in text_columns(competitors) if name != URL), first_text(competitors, "competitors"))
-
-
 def _comparison(function: FunctionType) -> Step:
     def prepare(options: dict) -> Prepared:
         competitors = table_of(options["competitors"], "competitors")
         arguments = {name: value for name, value in options.items() if name != "competitors"}
-        found = _texts_column(competitors)  # the table, not its texts: a url column names the columns
+        found = texts_column(competitors, "competitors")  # the table, not its texts: a url column names the columns
         return lambda table, column: Report(function(joined(table, column), competitors, column=found, **arguments))
 
     adapted = Adapted(function, {"mine": None, "competitors": option("competitors")}, COMPETITORS_DOC)

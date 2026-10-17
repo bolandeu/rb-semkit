@@ -1,0 +1,13 @@
+# The page vector (nearest, assign-pages): the vector of a text of any length.
+#
+# A text longer than its model reads is cut into pieces of near-equal number of words, each of at most
+# max_tokens / tokens_per_word words (max_tokens: of the model, models.toml), so the model takes each whole.
+# tokens_per_word: the tokens of a Russian word with its punctuation, rounded up, so a piece is not cut by the model.
+tokens_per_word = 2.5
+
+# The weight of each part of a page in its vector: the mean of the pieces of its text, and the title and h1 of the
+# page when its table has the columns title and h1.
+[weights]
+text = 1
+title = 2
+h1 = 1.5
