@@ -5,6 +5,15 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.25 — 2026-10-18
+
+### E-005 — Vectors: the base and the steps by meaning
+
+With the vectors extra installed and a model pulled once (semkit models pull), the Human runs dupes --kind meaning, cluster-meaning, off-topic, classify-queries and assign-pages in a pipeline and gets candidate columns with a similarity; nothing is dropped by these steps; a checked-in quality test on 200 labelled phrase pairs shows the default model and threshold separate same and different intents.
+Time: 0.9h since the epic was approved
+
+- Vectors base: models pull/list/remove, the encoder, the index and cluster-meaning end to end (SEMKIT-034)
+
 ## v0.1.24 — 2026-10-18
 
 ### E-005 — Vectors: the base and the steps by meaning
