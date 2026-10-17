@@ -2,7 +2,7 @@
 id: SEMKIT-016
 title: 'Core phrases in a text: count, texts and density of each core phrase, exact,
   by lemmas or in any word order'
-status: publish
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
