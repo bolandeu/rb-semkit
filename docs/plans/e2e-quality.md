@@ -113,7 +113,42 @@ hash-text, chpu, the csv / xlsx / parquet / jsonl round trip of text, --dry-run,
     «no text column … ([])».
 38. --trace: row is 0-based and undocumented; an existing trace file is overwritten without --overwrite.
 
+## CLI: top-level commands, config, lists
+
+39. Global `--dry-run` is ignored outside `read`: `config set` and `skill install` write for real; `init --dry-run`
+    is refused.
+40. `config set cli.min_version 0.2.0` (the Example of its help) locks the project, and `config set` cannot lower it
+    (exit 6); the version gate is applied to some commands only (`read` with an @list, not without).
+41. `config set lists …` and `config set version abc` crash with a raw pydantic error (exit 1); the documented
+    `lists = [paths]` cannot be set from the CLI.
+42. `init` creates `.rb_semkit/`, its help and the guide say `.semkit/`.
+43. A relative SEMKIT_LISTS resolves against the project root, not the current folder; the config `lists` wins over
+    SEMKIT_LISTS (undocumented); `lists add --to` a folder outside the search path gives no warning.
+44. `lists show @minus/cheap` prints an error and exits 0; `lists list` does not exist though the help names it.
+45. `--quiet` hides the result itself (`status`, `doctor`, `lists show`), not only the extra lines.
+46. `read` in human mode never says what it wrote; `--dry-run` does not say it was one; `read` with no arguments
+    exits 0; `run` is listed and is not implemented.
+47. The output format, a txt target with several columns and the trace folder are checked after the steps ran (exit 1,
+    temp paths in the message), not before the input is read.
+48. A number column becomes text when it is the working column, or when one cell is space-padded; in an all-number
+    table the first column silently becomes the working one.
+49. `--json`: shapes differ between commands (`data`, `result`, top level), `doctor` unhealthy exits 0, Cyrillic is
+    escaped in envelopes, `--json` after the steps is refused, `--version --json` is text; the guide's exit 3
+    `auth login` does not exist.
+50. The guide: «every column is read as text» (no longer true), step summaries cut at a colon, help text hard-wrapped
+    mid-sentence; `dupes` needs `--action` though the guide calls it a change step.
+
+## dataio (another tool)
+
+51. Writing xlsx is quadratic: 10k rows 3.8 s, 100k rows 326 s, 1M rows did not end; a killed write leaves its temp
+    folder. Reading the same file takes 1.3 s. This is rb_dataio's writer: an idea for dataio, and semkit's benchmark
+    of a write to xlsx guards it.
+
 ## Not taken
 
 - Real competitor texts: all texts came from one site; compare-grams was checked for its maths, not for a market.
-- Run D (top-level commands, the 1M benchmark): added here when it ends.
+
+Correct in run D: introspection (`describe` and `--ai` name the same 122 steps), doctor / init / status / auth /
+config get, lists add / rm / show and the @name order, every input format (csv `,` `;` cp1251 BOM, tsv, xlsx,
+parquet, json, jsonl, stdin, txt, --whole), `write -` only JSONL, OUTPUT_EXISTS, a failed step keeps the old OUT,
+136 of 137 Example lines, 1M rows through 5 steps to parquet in 11.1 s (790 MB).
