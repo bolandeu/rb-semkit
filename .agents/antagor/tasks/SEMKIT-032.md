@@ -2,10 +2,10 @@
 id: SEMKIT-032
 title: 'Change functions on real phrases: match types with operators, a reversible
   translit, toponyms, phonetic, replace-words, UTM'
-status: in_progress
+status: queue
 attempts: 1
-blocked: true
-blocked_reason: scope_held
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -109,3 +109,16 @@ ADR 0005: follow the add-in, fix explicit defects, record each deviation in docs
 > SEMKIT-033 docstrings, rules changed by SEMKIT-032: (1) match_type: a phrase with quotes/brackets is not wrapped again; operator goes inside the existing quote/bracket pair; brackets/quotes/quoted_* replace the old wrap; antisemantic drops the old wrap. (2) translit to='ru': a word in capitals reads by small-letter groups and stays in capitals (ZHUK→ЖУК); new groups shch, ts, yy; 'y' after a/u before no vowel is й; ь and ъ (and е/ё) cannot reverse. (3) change_case toponyms: punctuation at word edges is ignored and kept; a hyphen splits a word so «ростов-на-дону»→«Ростов-на-Дону». (4) phonetic: whole-word table has 'ikea'→'икеа'. (5) replace_words: punctuation at the edges of the found words is kept around the replacement; an empty replacement removes the words with that punctuation. (6) extract_utm: only the part before '#' is searched. (7) split_digits: a size NxM (x latin/cyrillic, any case) stays whole. (8) switch_layout: signs of the Russian layout map to English keys and back: . = /, ',' = ?, : = ^, ; = $, ? = &, " = @, № = #, / = |.
 
 Goes into SEMKIT-033's body (the docstring rules changed by 032) before 033 starts.
+
+### Blocked: scope_held (holders ['SEMKIT-030'], paths ['docs/adr/0003-morphology-engines.md'])
+
+SEMKIT-030 finished; your kept work on docs/adr/0003-morphology-engines.md is back in the worktree; main is merged into your branch where it merges clean
+
+`main` changed since your work began, and merging it conflicts in:
+
+- `docs/adr/0003-morphology-engines.md`
+- `docs/brief.md`
+- `docs/vba/conformance.md`
+- `docs/vba/conformance/change.md`
+
+Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).
