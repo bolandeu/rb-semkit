@@ -2,7 +2,7 @@
 id: SEMKIT-008
 title: 'Conformance: text matchers and markers in the shared case format, and the
   core report'
-status: in_review
+status: publish
 attempts: 0
 blocked: false
 blocked_reason: null
