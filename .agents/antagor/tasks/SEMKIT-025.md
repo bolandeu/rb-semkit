@@ -2,10 +2,10 @@
 id: SEMKIT-025
 title: 'Word lists: bundled Bukvarix and add-in lists with a manifest, the Human''s
   folders by any path, semkit lists, sk.word_list'
-status: queue
+status: in_progress
 attempts: 0
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: needs_scope
 phase: null
 tests_hash: null
 publish_stage: null
@@ -28,8 +28,40 @@ owns_paths:
 - tests/snapshots/help/lists-show.txt
 - tests/snapshots/help/lists-add.txt
 - tests/snapshots/help/lists-rm.txt
+- scripts/build_parts/wordlists.toml
+- src/rb_semkit/commands/read.py
+- src/rb_semkit/core/models.py
+- src/rb_semkit/core/opencli.py
+- src/rb_semkit/pipeline/commands.py
+- src/rb_semkit/pipeline/items.py
 test_paths:
 - tests/wordlists/
+- tests/conformance/data_manifest/wordlists.json
+- tests/conftest.py
+- tests/pipeline/test_lists.py
+- tests/snapshots/describe.json
+- tests/snapshots/help/read.txt
+- tests/snapshots/help/steps/text/drop-cells.txt
+- tests/snapshots/help/steps/text/drop-phrases.txt
+- tests/snapshots/help/steps/text/drop-word-content.txt
+- tests/snapshots/help/steps/text/drop-words.txt
+- tests/snapshots/help/steps/text/extract-cells.txt
+- tests/snapshots/help/steps/text/extract-phrases.txt
+- tests/snapshots/help/steps/text/extract-word-content.txt
+- tests/snapshots/help/steps/text/extract-words.txt
+- tests/snapshots/help/steps/text/find-cells.txt
+- tests/snapshots/help/steps/text/find-phrases.txt
+- tests/snapshots/help/steps/text/find-word-content.txt
+- tests/snapshots/help/steps/text/find-words.txt
+- tests/snapshots/help/steps/text/keep-cells.txt
+- tests/snapshots/help/steps/text/keep-phrases.txt
+- tests/snapshots/help/steps/text/keep-word-content.txt
+- tests/snapshots/help/steps/text/keep-words.txt
+- tests/snapshots/help/steps/text/remove-cells.txt
+- tests/snapshots/help/steps/text/remove-phrases.txt
+- tests/snapshots/help/steps/text/remove-stopwords.txt
+- tests/snapshots/help/steps/text/remove-word-content.txt
+- tests/snapshots/help/steps/text/remove-words.txt
 docs: none
 tools: []
 worker_args: null
