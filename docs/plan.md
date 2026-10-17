@@ -205,6 +205,9 @@ semkit turns a dirty core into a clean one; clustering by embeddings and collect
 which takes semkit's clean core. Clustering a SERP table it is given (soft, hard) is semkit's. For a small core (one article) semkit alone is enough.
 Text analysis is semkit's job too (the name says it): a text is a table of one cell; `split_text` cuts it into
 phrases, then the core steps apply; core phrases in a text, competitor comparison and text metrics build on them.
+Texts, tables and lists come in as data: semkit never downloads pages, search results or frequencies (own CLI
+services do). An external API only for a text operation itself, when it cannot run locally or a ready service is
+cheaper, as an optional provider (the spelling server, §3a).
 1. **One line is a pipeline.** Input (dataio) → any number of steps as options, mixed freely and repeated →
    output (dataio). Example shape: `semkit IN --remove-words stop.txt --remove-markers geo --dupes --lemmas OUT`.
 2. **Steps run in the order they are written.** Click/Typer do not keep the order across different options, so the
