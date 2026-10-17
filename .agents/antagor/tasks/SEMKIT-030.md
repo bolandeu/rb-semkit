@@ -132,3 +132,9 @@ ADR 0003 (dictionary, pymorphy3, tables), ADR 0005 (follow the add-in, fix expli
 > SEMKIT-030 changed rules that public docstrings state (for SEMKIT-033): (1) decline_noun: the accusative is no longer from the tables only; an inanimate noun takes its nominative («диван» → «диван»), an animate one its genitive («кот» → «кота»), a singular in -а/-я the table form («книгу»); a hyphenated noun declines whole by pymorphy3 («диваном-кроватью»). The docstring still says «диван» → «дивана». (2) decline: a nominative plural phrase declines in the plural («угловые диваны» → «угловых диванов»); a feminine, neuter or plural adjective declines from its lemma («большая скидка» → «большой скидки»); the accusative agrees by animacy («купить кожаный диван», «рыжего кота»). (3) decline_full_name: a value that is not three words stays as it is (no InvalidArguments); surnames in -ых/-их stay; a man's surname in -а/-я declines («Глинки»). (4) part_of_speech and SemtoolsLemmatizer: a word with no part of speech gets the code «unkn», not «»; a не- noun of the dictionary whose rest is an adjective is «a». (5) complements and fix_word_order step 1: a complement ends at its first noun and the oblique nouns and adjectives right after it, not at the last noun among the next five. (6) phrase_end buy_markers: a marker right after a preposition stays («диван с доставкой купить» → «диван с доставкой»).
 
 Goes into SEMKIT-033's body.
+
+### Answer to finding #2
+
+> ADR 0003 says declension has the modes auto / table / pymorphy (auto: pymorphy3 when it knows the word). The code has no such mode: decline, decline_noun and decline_adjective use the add-in tables only; SEMKIT-030 added pymorphy3 only for animacy and hyphenated nouns. Decide: implement the modes, or correct ADR 0003.
+
+Correct ADR 0003 to the code: tables decline, pymorphy3 for animacy and hyphenated nouns, no modes; in this task's body now.
