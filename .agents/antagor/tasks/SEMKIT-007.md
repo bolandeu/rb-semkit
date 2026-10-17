@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-007
 title: 'Markers and phrase lists: extract the longest match'
-status: in_progress
+status: queue
 attempts: 1
-blocked: true
-blocked_reason: scope_held
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -108,3 +108,5 @@ ERROR: file or directory not found: tests/matchers_vba
 > Recommended: Publish SEMKIT-005 first, then restart SEMKIT-007 from the new main (add depends_on: SEMKIT-005)
 
 Option 2. SEMKIT-005 is accepted (status publish) but not on main yet: its publish waits for the Human. Merge its branch into yours now: git merge --no-edit antagor/SEMKIT-005 (no rebase, no force), then continue; the code and tests of SEMKIT-005 (tests/matchers_vba, core/markers/matcher.py, matchers, lemmatizer looks_like_adjective) are the base. Do not edit the SEMKIT-005 files outside your owns.
+
+### Blocked: scope_held (holders ['SEMKIT-005'], paths ['docs/plan.md', 'src/rb_semkit/core/morph/lemmatizer.py', 'src/rb_semkit/core/text/matchers/around.py', 'src/rb_semkit/core/text/matchers/cells.py', 'src/rb_semkit/core/text/matchers/chars.py', 'src/rb_semkit/core/text/matchers/classes.py', 'src/rb_semkit/core/text/matchers/pos.py', 'src/rb_semkit/core/text/matchers/positions.py', 'src/rb_semkit/core/text/matchers/regex.py', 'src/rb_semkit/core/text/matchers/repeats.py', 'src/rb_semkit/core/text/matchers/spaces.py', 'src/rb_semkit/core/text/matchers/stopwords.py', 'src/rb_semkit/core/text/matchers/word_case.py', 'src/rb_semkit/core/text/matchers/word_content.py', 'src/rb_semkit/core/text/matchers/word_position.py', 'src/rb_semkit/core/text/matchers/words.py'])
