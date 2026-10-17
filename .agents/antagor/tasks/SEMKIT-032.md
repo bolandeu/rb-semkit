@@ -2,7 +2,7 @@
 id: SEMKIT-032
 title: 'Change functions on real phrases: match types with operators, a reversible
   translit, toponyms, phonetic, replace-words, UTM'
-status: publish
+status: done
 attempts: 1
 blocked: false
 blocked_reason: null
