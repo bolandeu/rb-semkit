@@ -2,7 +2,7 @@
 id: SEMKIT-020
 title: 'List tools: compare two lists (both, either, only first, only second) by a
   duplicate kind; strip characters at word edges'
-status: publish
+status: done
 attempts: 1
 blocked: false
 blocked_reason: null
