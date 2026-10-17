@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-045
 title: Pipeline steps use the project of the CLI, not the current folder
-status: publish
+status: done
 attempts: 1
 blocked: false
 blocked_reason: null
