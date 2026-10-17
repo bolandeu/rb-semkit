@@ -2,10 +2,10 @@
 id: SEMKIT-033
 title: 'CLI that tells the truth: --as, errors, lemma matching of lists, help and
   guide in CLI terms, top-level commands; the e2e run on a real core in the gate'
-status: queue
+status: in_progress
 attempts: 0
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: timeout
 phase: null
 tests_hash: null
 publish_stage: null
@@ -35,6 +35,11 @@ owns_paths:
 - tests/wordlists
 - src/rb_semkit/data/morph
 - scripts/build_parts/morph.py
+- docs/vba/deviations/morph.md
+- pyproject.toml
+- scripts/build_parts/morph.toml
+- scripts/build_parts/wordlists.py
+- uv.lock
 test_paths:
 - tests/pipeline
 - tests/steps
@@ -44,6 +49,11 @@ test_paths:
 - tests/test_describe.py
 - tests/wordlists
 - tests/e2e
+- tests/change/test_errors.py
+- tests/conformance/data_manifest/morph.json
+- tests/conformance/data_manifest/wordlists.json
+- tests/core/test_frame.py
+- tests/core/test_morph.py
 docs:
 - README.md
 - src/rb_semkit/data/SKILL.md
@@ -76,10 +86,6 @@ translation: '**CLI говорит правду + сквозная провер�
   обратимо, lists и --quiet правильно, единый --json. Сквозная проверка: 1000 фраз
   Букварикса и текст страницы, независимый пересчёт 10 прогонов в гейте.'
 ---
-
-
-
-
 
 The end-to-end check (docs/plans/e2e-quality.md, items 20, 21, 27-50) found the CLI shell disagrees with itself and with its guide. Fix the CLI and the help; then check it end to end on real data.
 
