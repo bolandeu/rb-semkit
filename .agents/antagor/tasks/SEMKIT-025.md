@@ -125,3 +125,16 @@ Bundle the lists the way the marker lists are bundled (a build part, compact fil
 
 - Downloading lists at run time or from the CLI; editing a list's items from the CLI (edit the file).
 - The pipeline core and the other steps: SEMKIT-023 and SEMKIT-024.
+
+## Feedback
+
+### Answer to question #1
+
+> Acceptance of SEMKIT-025 runs 'read core.csv drop-words --items @minus/cheap', but drop-words (core/text/matchers/words.py, SEMKIT-023/024) accepts single words only and minus/cheap holds phrases ('по дешевке', 'за копейки'), so the command exits 2.
+> Question: How should the acceptance command work?
+> Options:
+> 1. Use drop-phrases in the acceptance and the test (phrases matcher takes multi-word items; I did this)
+> 2. Make the words matcher accept multi-word items (a change of SEMKIT-024's matcher)
+> Recommended: Use drop-phrases in the acceptance and the test (phrases matcher takes multi-word items; I did this)
+
+Option 1: drop-phrases. A list with multi-word items goes to the phrases matcher; words stays for single words. Read the acceptance line as drop-phrases --items @minus/cheap.
