@@ -41,6 +41,7 @@ translation: '**Текст → фразы.** Текст — это таблиц�
   через точку. Wi-Fi, 2,5 и подобное не режутся. Чтение файла — в эпике CLI.'
 ---
 
+
 A text is a table of one cell. Add sk.split_text(data, column=None): each cell is cut into phrases at sentence ends (. ! ? …) and at clause punctuation (, ; : dashes as separators, brackets, quotes « » " ' ), the punctuation is dropped, whitespace is collapsed, empty pieces are dropped; one input row becomes as many rows as it has phrases. Then every existing step works on prose: sk.ngrams(sk.split_text(text), 2, stopwords=False) is a bigram dictionary of an article without grams across a sentence end. Series in -> Series out, each phrase keeps the index of its source row (pandas explode). DataFrame with column= -> a DataFrame whose rows are the phrases: the column holds the phrase, the other columns repeat the source row, the index repeats the source index. Keep the case of the text. Keep inside a word: a hyphen (Wi-Fi, кто-то), an apostrophe, a decimal point or comma between digits (2.5, 2,5), a dot inside a number or an abbreviation is a separator only where a sentence ends (decide simply and document: 'т.д.' may split, that is acceptable). The function is not from the add-in: no conformance case, no VBA reference.
 
 ## Acceptance
@@ -57,13 +58,14 @@ Unit tests over pandas Series and DataFrame in tests/split/; a 1M-row timing is 
 
 ## Basis
 
-Reuse the input handling of the other areas (Series, or DataFrame with column=; NaN/None are empty strings) and the error type sk.InvalidArguments. The new area declares its public name in __all__; the root finds it (no edit of rb_semkit/__init__.py).
+Reuse the input handling of the other areas (Series, or DataFrame with column=; NaN/None are empty strings) and the error type sk.InvalidArguments. The new area declares its public name in __all__; the root finds it (no edit of rb_semkit/__init__.py). Punctuation is the class of sk.chars("punctuation") (src/rb_semkit/core/text/matchers/chars.py), so both steps mean the same characters; reuse its definition, do not write a second list. The difference from sk.remove(x, sk.chars("punctuation")) + sk.spaces("extra"): those clean a cell in place and glue sentences («в Москве. Диван» → «в Москве Диван»); split_text first cuts at the boundaries, then cleans each piece, keeping the in-word exceptions above.
 
 ## Read first
 
 - `src/rb_semkit/__init__.py`
 - `src/rb_semkit/core/analysis/frequency.py`
 - `src/rb_semkit/core/text/base.py`
+- `src/rb_semkit/core/text/matchers/chars.py`
 
 ## Out of scope
 
