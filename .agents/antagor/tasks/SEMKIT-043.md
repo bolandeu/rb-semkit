@@ -2,7 +2,7 @@
 id: SEMKIT-043
 title: summary, the mean in the comparisons, recommended occurrences, --no-digits
   and --exclude
-status: publish
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
