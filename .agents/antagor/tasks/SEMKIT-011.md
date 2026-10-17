@@ -3,7 +3,7 @@ id: SEMKIT-011
 title: 'Change block: every text change of the add-in (case, insert, replace, translit,
   ЧПУ, match types, UTM, hashes, word order, phonetic)'
 status: in_review
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
