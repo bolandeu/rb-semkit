@@ -3,7 +3,7 @@ id: SEMKIT-030
 title: 'Morphology on a real core: correct lemmas, the accusative, plurals, compounds,
   adjectives, full names, word forms'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -25,6 +25,15 @@ owns_paths:
 - docs/vba/deviations/declension.md
 - docs/vba/deviations/patterns.md
 - docs/vba/deviations/morph.md
+- docs/vba/conformance/change.md
+- docs/vba/conformance/declension.md
+- docs/vba/conformance/morph.md
+- docs/vba/conformance/patterns.md
+- docs/vba/deviations/change.md
+- scripts/build_parts/declension.toml
+- scripts/build_parts/morph.toml
+- src/rb_semkit/core/change/word_order.py
+- src/rb_semkit/steps/morph.py
 test_paths:
 - tests/declension
 - tests/patterns
@@ -33,6 +42,11 @@ test_paths:
 - tests/conformance/cases/morph
 - tests/conformance/cases/declension
 - tests/conformance/cases/patterns
+- tests/conformance/cases/change/fix_word_order.tsv
+- tests/conformance/data_manifest/declension.json
+- tests/conformance/data_manifest/morph.json
+- tests/core/test_build_data.py
+- tests/steps/test_steps.py
 docs:
 - docs/adr/0003-morphology-engines.md
 - docs/vba/deviations/declension.md
@@ -100,3 +114,10 @@ ADR 0003 (dictionary, pymorphy3, tables), ADR 0005 (follow the add-in, fix expli
 
 - A new morphology engine (mystem, a model)
 - The step help, its snapshots, the docstrings and the guide: SEMKIT-033
+
+## Feedback
+
+### Attempt 1: file docstring
+
+- update the docstring of src/rb_semkit/core/morph/lemmatizer.py: +noun_parse
+- update the docstring of src/rb_semkit/core/patterns/complements.py: +complement_end
