@@ -14,6 +14,9 @@ with other arguments (`option` makes the parameter), for a table or a file in pl
 read by `table_of` and turned into the argument by `as_table`, `pairs_of` or `scores_of` (`first_text`
 names the column of the texts); `joined` gives the working column as one text.
 
+The project of the CLI (the option --project, else the current folder): the command prepares each step inside
+`project_start`, and a step that looks up the project (the models.dir of the config, a word list) asks `prepared_for`.
+
 The help of a step is made from the docstring: `doc_lines` joins the lines of a paragraph but keeps the items of a list
 and the explanations of arguments as lines of their own, `argument_names` gives the arguments such an explanation is
 for, and `parameter_names` the arguments of a function (and of the function an `Adapted` one wraps).
