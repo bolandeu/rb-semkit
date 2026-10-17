@@ -70,3 +70,11 @@ rb_dataio.read infers types by default (plan §3: '5' → Int64, dates → datet
 ## Out of scope
 
 - Changing the library's input rules (fillna and text checks in Frame).
+
+## Feedback
+
+### Answer to finding #1
+
+> tests/test_scripts.py::test_antagor_project_config fails independent of SEMKIT-028: antagor config now lists 'scratch/' next to 'state/', 'receipts/'; the test expects only the two.
+
+Taken into SEMKIT-029; 028 is published together with 029 so main stays green.
