@@ -158,3 +158,9 @@ Option 1: both. The first required argument is positional and also accepted as -
 > ADR 0001 says rb_dataio comes as the extra [io]; SEMKIT-023 made it a required dependency (task Basis), pinned to the homeserver repo https://homeserver.tailee01ab.ts.net:3000/bolandeu/dataio.git (the GitHub URL in docs/plan.md §3 does not exist). docs/plan.md §3.2 is updated; the ADR wording is the Architect's.
 
 Accepted: required dependency, the homeserver URL. ADR 0001 is updated on main.
+
+### Answer to finding #4
+
+> Typer 0.27 ships its own Click without chained groups; src/rb_semkit/pipeline/group.py chains the steps itself and imports typer._click (Command, Context, UsageError) and typer.core.TyperGroup, which are Typer internals. A Typer upgrade can break the pipeline group; tests/pipeline catches it.
+
+Accepted with a guard: bound typer to the current minor in pyproject (>=0.27,<0.28) so an upgrade is a deliberate change; keep the pipeline tests as the tripwire.
