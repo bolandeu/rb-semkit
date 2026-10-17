@@ -2,7 +2,7 @@
 id: SEMKIT-013
 title: 'Analysis block: combinations, parents and basis phrases, good/bad split, clustering,
   synonyms to minus-words, typos, sentiment'
-status: queue
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -105,3 +105,9 @@ docs/vba/analysis.md §5–§11 (handlers, quirks, worked examples); the v1 fram
 - `tests/conformance/case_files.py`
 
 Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).
+
+### Answer to finding #2
+
+> SEMKIT-013: the corpus area (hierarchy, split, clustering, synonyms) reuses the private helper rb_semkit.core.analysis.frequency._word_keys (word -> key, lemma, stopword flag) instead of copying it. Make it a public helper of the analysis area in a later task, so other areas do not import a private name.
+
+A follow-up task after SEMKIT-013 makes _word_keys a public helper of the analysis area.
