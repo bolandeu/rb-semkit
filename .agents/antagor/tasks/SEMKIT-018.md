@@ -2,7 +2,7 @@
 id: SEMKIT-018
 title: 'Clustering by a given SERP table: soft and hard, by the number of common URLs
   in the top'
-status: in_review
+status: done
 attempts: 1
 blocked: false
 blocked_reason: null

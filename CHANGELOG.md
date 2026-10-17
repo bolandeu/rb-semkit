@@ -5,6 +5,16 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.11 — 2026-10-17
+
+### E-002 — semkit: the rest of the library — change, declension, analysis and the later functions
+
+import rb_semkit gives every function of the add-in's menus except Mystem: each follows the VBA algorithm, the broken ones work as intended, and the conformance report lists for each function where it follows the VBA, where it differs and why.
+Time: 1.1h since the epic was approved
+
+- Clustering by a given SERP table: soft and hard, by the number of common URLs in the top (SEMKIT-018)
+- Compare a text with competitor texts: gram density against the competitors' median, metrics against their median, BM25 (SEMKIT-019)
+
 ## v0.1.10 — 2026-10-17
 
 ### E-002 — semkit: the rest of the library — change, declension, analysis and the later functions
