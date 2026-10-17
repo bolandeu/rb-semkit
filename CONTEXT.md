@@ -44,8 +44,28 @@ A function word that carries no search intent: prepositions, conjunctions, parti
 
 **Duplicate** (дубль):
 A phrase that repeats an earlier one. Kinds: exact (same string), explicit (same after normalization:
-case, ё→е, spaces), implicit (same words in another order), implicit by wordforms (same lemmas).
+case, ё→е, spaces), implicit (same words in another order), implicit by wordforms (same lemmas), by meaning (close phrase vectors, and the words that differ are only
+non-refining words or synonyms).
 _Avoid_: double, повтор (a repeat is a word repeated inside one phrase)
+
+**Phrase vector** (вектор фразы, эмбеддинг):
+A list of numbers a language model gives a phrase; phrases of close meaning get close vectors. The ground of the
+steps by meaning; they give candidates, the Human decides.
+_Avoid_: embedding in product text (say vector), semantics (the semantic core is the phrase list)
+
+**Encoder** (модель векторов):
+The model that turns a phrase into its phrase vector, chosen by name; downloaded once into the cache.
+_Avoid_: LLM, neural net
+
+**Non-refining word** (неуточняющее слово):
+A word that does not change what a phrase asks for: a commercial word (недорого, распродажа, от производителя,
+с доставкой, цены). A refining word (type, mechanism, size, material, room, brand, used, another city) makes
+another intent, so two phrases that differ by it are not duplicates.
+_Avoid_: modifier (too broad), stopword (a stopword is a preposition or a particle)
+
+**Intent** (интент):
+What a phrase asks for; two phrases have one intent when one landing page serves both.
+_Avoid_: meaning (vague), тема
 
 **N-gram** (n-грамма):
 A run of N words of a phrase; counted over a semantic core to build a frequency dictionary.
