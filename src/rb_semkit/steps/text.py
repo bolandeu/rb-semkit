@@ -1,5 +1,5 @@
 """Text steps: each matcher as `<verb>-<matcher>` for the verbs it supports, and `keep-` / `drop-<matcher>` row filters
-for a matcher that can find (ADR 0004)."""
+for a matcher that can find (ADR 0004). `matcher_steps` makes them for any matcher factory; other areas reuse it."""
 
 from __future__ import annotations
 

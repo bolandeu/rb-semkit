@@ -7,6 +7,12 @@ whose docstring gives the help, the kind of the step and how to prepare it from 
 Kinds: change (writes the working column, or a new column), filter (keeps or drops rows), report (its table becomes
 the current one). A prepared step takes the current table and the working column and gives its outcome: `Change`,
 `Keep` or `Report`.
+
+Helpers for the area modules: `change_step` and `changing` make a change step of a function over phrases (`slug`
+names it, `changing` checks its options on no phrases at all); `Adapted` shows a function to the command generator
+with other arguments (`option` makes the parameter), for a table or a file in place of an argument; a file option is
+read by `table_of` and turned into the argument by `as_table`, `pairs_of`, `scores_of` or `texts_of` (`first_text`
+names the column of the texts); `joined` gives the working column as one text.
 """
 
 from __future__ import annotations
