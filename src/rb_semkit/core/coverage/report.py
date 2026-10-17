@@ -62,6 +62,13 @@ def _checked_mode(mode: str) -> str:
     return mode
 
 
+def _checked_gap(gap: int, mode: str) -> None:
+    if gap < 0:
+        raise InvalidArguments(f"gap={gap}; allowed: 0 or more.")
+    if gap and mode == "any_order":
+        raise InvalidArguments("gap does not apply to mode 'any_order': its words are already anywhere in one piece.")
+
+
 def _key_of(mode: str, lemmatizer: Lemmatizer) -> Callable[[str], str]:
     if mode == "exact":
         return norm_phrase
@@ -79,7 +86,19 @@ def _pieces(texts: pd.Series, key: Callable[[str], str], cuts: Cut) -> Iterator[
             seen += len(words)
 
 
-def _in_a_row(pieces: list[Piece], phrases: list[list[str]], tally: _Tally) -> None:
+def _end_of_match(keys: list[str], position: int, words: list[str], gap: int) -> int | None:
+    """Where the phrase `words` that starts at `position` ends (the first end it can have), or None if it does not."""
+    reached = [position]
+    for word in words[1:]:
+        reached = sorted(
+            {at for last in reached for at in range(last + 1, min(last + gap + 2, len(keys))) if keys[at] == word}
+        )
+        if not reached:
+            return None
+    return reached[0] + 1
+
+
+def _in_a_row(pieces: list[Piece], phrases: list[list[str]], tally: _Tally, gap: int) -> None:
     starts: dict[str, list[int]] = defaultdict(list)
     for number, words in enumerate(phrases):
         if words:
@@ -88,8 +107,10 @@ def _in_a_row(pieces: list[Piece], phrases: list[list[str]], tally: _Tally) -> N
         ends: dict[int, int] = {}
         for position, key in enumerate(keys):
             for number in starts.get(key, ()):
-                end = position + len(phrases[number])
-                if ends.get(number, 0) <= position and keys[position:end] == phrases[number]:
+                if ends.get(number, 0) > position:
+                    continue
+                end = _end_of_match(keys, position, phrases[number], gap)
+                if end is not None:
                     ends[number] = end
                     tally.hit(number, doc, offset + position)
 
@@ -115,6 +136,7 @@ def coverage(
     texts: pd.Series | pd.DataFrame,
     *,
     mode: Mode = "exact",
+    gap: int = 0,
     lemmatizer: Lemmatizer = BUNDLED,
     column: str | None = None,
     text_column: str | None = None,
@@ -124,6 +146,9 @@ def coverage(
     mode: 'exact' — the words of the phrase in a row, case and ё folded; 'lemmas' — the same by lemmas of both sides;
     'any_order' — the lemmas of the phrase all inside one piece of text (one phrase of split-text), in any order; a
     piece with them is one occurrence.
+    gap: how many words may stand between each two neighbouring words of the phrase in 'exact' and 'lemmas' («купить
+    недорогие пластиковые окна» is «купить пластиковые окна» with gap 1); the order stays and a gap never crosses a
+    sentence end; 0 allows none. It does not apply to 'any_order', where the words are already anywhere in one piece.
     core: the core phrases.
     column: the column of the core phrases.
     texts: the texts, one per row.
@@ -140,6 +165,7 @@ def coverage(
       first text that holds it; empty when count is 0.
     """
     _checked_mode(mode)
+    _checked_gap(gap, mode)
     core_phrases = Frame(core, column).phrases
     text_rows = Frame(texts, text_column, argument="text_column").phrases.reset_index(drop=True)
     key = _key_of(mode, lemmatizer)
@@ -148,7 +174,10 @@ def coverage(
     any_order = mode == "any_order"
     found = list(_pieces(text_rows, key, ends_phrase if any_order else ends_sentence))
     tally = _Tally(len(distinct))
-    (_in_any_order if any_order else _in_a_row)(found, phrases, tally)
+    if any_order:
+        _in_any_order(found, phrases, tally)
+    else:
+        _in_a_row(found, phrases, tally, gap)
     total = sum(len(keys) for _, _, keys in found)
     density = [
         round(count * len(words) / total, DECIMALS) if total else 0.0

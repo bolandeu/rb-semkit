@@ -40,8 +40,8 @@ Replace `vX.Y.Z` with the latest release tag (install from a tag, never a branch
   it to see what a step did. An existing trace FILE is refused unless `write OUT --overwrite`.
 - `--json`, `--quiet` and `--dry-run` go before the steps (`semkit --json read …`). With `--json` and a file OUT,
   stdout is one envelope `{"ok": true, "output", "rows", "written", "steps"}` (`steps`: one `{"step", "rows_before",
-  "rows_after", "cells_changed"}` per step); with `write -` stdout is the JSONL of the rows. `--quiet` hides the lines
-  on stderr, never the result.
+  "rows_after", "cells_changed"}` per step, and `"note"` after them when the step tells more, as `index: exact`); with
+  `write -` stdout is the JSONL of the rows. `--quiet` hides the lines on stderr, never the result.
 
 ## Step kinds
 
@@ -55,7 +55,7 @@ Replace `vX.Y.Z` with the latest release tag (install from a tag, never a branch
 - **filter** — keeps or drops rows (`keep-…`, `drop-…`, `dupes --action drop`, `split-by-words --keep`,
   `remove-cells empty`).
 - **report** — makes a new table the current one, and its first text column the working one (`ngrams`, `split-text`,
-  `coverage`, `compare-grams`, `cluster-serp`, `compare-lists`, `permutations`).
+  `coverage`, `compare-grams`, `cluster-serp`, `compare-lists`, `permutations`, `summary`).
 
 The matchers (`words`, `phrases`, `stopwords`, `chars`, `spaces`, `regex`, `around`, `edges`, `positions`,
 `word-case`, `word-content`, `word-position`, `pos`, `repeats`, `cells`, `markers`, `ready-pattern`, `complements`,
@@ -150,16 +150,20 @@ $ semkit read --whole article.txt split-text ngrams -n 1 --lemmas write -
 ```
 
 My text against the competitors: the density of each lemma in the competitors' texts and in mine, with a verdict
-(`below`, `within`, `above`).
+(`below`, `within`, `above`) against the median (`--norm mean` for the mean), and the occurrences to reach it: `need`
+for the size of my text (`--words N` for another size), `have`, `add` (negative: remove) and `med_count`, the median count
+in the competitors. `--per-text` adds the density of each competitor, `--no-digits` and `--exclude LIST` leave numbers
+and listed words out of every count (also in `text-stats` and `compare-stats`). `summary` reports the mean, median, min
+and max of every numeric column, e.g. after `text-stats`.
 
 ```console
 $ semkit read --whole mine.txt compare-grams --competitors competitors.csv write -
-{"ngram": "диван", "docs": 2, "docs_share": 0.6667, "median": 0.2857, "min": 0.0, "max": 0.4286, "mine": 0.3333, "verdict": "within"}
-{"ngram": "кресло", "docs": 3, "docs_share": 1.0, "median": 0.1429, "min": 0.1429, "max": 0.5, "mine": 0.0, "verdict": "below"}
-{"ngram": "купить", "docs": 2, "docs_share": 0.6667, "median": 0.1429, "min": 0.0, "max": 0.5, "mine": 0.1667, "verdict": "within"}
-{"ngram": "угловой", "docs": 2, "docs_share": 0.6667, "median": 0.1429, "min": 0.0, "max": 0.1429, "mine": 0.1667, "verdict": "within"}
-{"ngram": "кожаный", "docs": 1, "docs_share": 0.3333, "median": 0.0, "min": 0.0, "max": 0.1429, "mine": 0.1667, "verdict": "above"}
-{"ngram": "недорогой", "docs": 1, "docs_share": 0.3333, "median": 0.0, "min": 0.0, "max": 0.1429, "mine": 0.1667, "verdict": "above"}
+{"ngram": "диван", "docs": 2, "docs_share": 0.6667, "median": 0.2857, "mean": 0.2381, "min": 0.0, "max": 0.4286, "mine": 0.3333, "verdict": "within", "need": 2, "have": 2, "add": 0, "med_count": 2}
+{"ngram": "кресло", "docs": 3, "docs_share": 1.0, "median": 0.1429, "mean": 0.2619, "min": 0.1429, "max": 0.5, "mine": 0.0, "verdict": "below", "need": 1, "have": 0, "add": 1, "med_count": 1}
+{"ngram": "купить", "docs": 2, "docs_share": 0.6667, "median": 0.1429, "mean": 0.2143, "min": 0.0, "max": 0.5, "mine": 0.1667, "verdict": "within", "need": 1, "have": 1, "add": 0, "med_count": 1}
+{"ngram": "угловой", "docs": 2, "docs_share": 0.6667, "median": 0.1429, "mean": 0.0952, "min": 0.0, "max": 0.1429, "mine": 0.1667, "verdict": "within", "need": 1, "have": 1, "add": 0, "med_count": 1}
+{"ngram": "кожаный", "docs": 1, "docs_share": 0.3333, "median": 0.0, "mean": 0.0476, "min": 0.0, "max": 0.1429, "mine": 0.1667, "verdict": "above", "need": 0, "have": 1, "add": -1, "med_count": 0}
+{"ngram": "недорогой", "docs": 1, "docs_share": 0.3333, "median": 0.0, "mean": 0.0476, "min": 0.0, "max": 0.1429, "mine": 0.1667, "verdict": "above", "need": 0, "have": 1, "add": -1, "med_count": 0}
 ```
 
 Core phrases in a text: how often each phrase stands in the texts and where it first starts.
@@ -192,8 +196,8 @@ $ semkit read phrases.csv compare-lists --against second.csv --op second write -
 The steps by meaning (`cluster-meaning`, `dupes --kind meaning`) compare phrases by their phrase vectors: phrases of close meaning get close
 vectors. They need the optional extra `vectors` and an encoder pulled once; a step never downloads one.
 
-1. Install semkit with the extra: `uv tool install "rb-semkit[vectors] @ git+https://github.com/bolandeu/rb-semkit.git@vX.Y.Z"`
-   (over an installed semkit, uv must reinstall it: the error `VECTORS_NOT_INSTALLED` gives the exact command).
+1. Install semkit with the extra: the command of «Install» above with `rb-semkit[vectors]` in place of `rb-semkit`
+   and `--force` (uv must reinstall an installed semkit). The error `VECTORS_NOT_INSTALLED` gives the exact command.
 2. Pull an encoder once: `semkit models pull e5-small` (the default; `bge-m3` is better and 7 times slower, for small
    cores; `potion` is 20 times faster, for very large ones; `hf:<id>` is any model of the Hugging Face hub with an ONNX
    export or a model2vec model). The files are checked against pinned checksums; a failed pull keeps nothing (exit 5,

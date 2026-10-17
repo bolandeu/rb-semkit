@@ -2,10 +2,10 @@
 id: SEMKIT-036
 title: 'off-topic, classify-queries, assign-pages: phrases against the core, a query
   report and the site pages by meaning'
-status: queue
+status: in_progress
 attempts: 0
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: scope_held
 phase: null
 tests_hash: null
 publish_stage: null
@@ -17,9 +17,18 @@ owns_paths:
 - src/rb_semkit/core/relevance/
 - src/rb_semkit/steps/relevance.py
 - tests/steps/fixtures/pages.csv
+- README.md
+- src/rb_semkit/steps/vectors.py
 test_paths:
 - tests/relevance/
 - tests/steps/test_examples.py
+- tests/snapshots/help/steps/relevance/assign-pages.txt
+- tests/snapshots/help/steps/relevance/classify-queries.txt
+- tests/snapshots/help/steps/relevance/off-topic.txt
+- tests/snapshots/describe.json
+- tests/snapshots/help/read.txt
+- tests/steps/areas.py
+- tests/steps/test_steps.py
 docs: none
 tools: []
 worker_args: null

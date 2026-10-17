@@ -2,7 +2,7 @@
 id: SEMKIT-043
 title: summary, the mean in the comparisons, recommended occurrences, --no-digits
   and --exclude
-status: queue
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -20,10 +20,22 @@ owns_paths:
 - src/rb_semkit/steps/compare.py
 - src/rb_semkit/steps/textstats.py
 - src/rb_semkit/steps/summary.py
+- README.md
+- src/rb_semkit/data/SKILL.md
+- src/rb_semkit/steps/__init__.py
 test_paths:
 - tests/compare/
 - tests/textstats/
 - tests/summary/
+- tests/snapshots/help/steps/compare/compare-grams.txt
+- tests/snapshots/help/steps/compare/compare-stats.txt
+- tests/snapshots/help/steps/summary/summary.txt
+- tests/snapshots/help/steps/textstats/text-stats.txt
+- tests/snapshots/describe.json
+- tests/snapshots/help/read.txt
+- tests/steps/areas.py
+- tests/steps/test_steps.py
+- tests/conformance/test_cases.py
 docs: none
 tools: []
 worker_args: null
@@ -98,3 +110,20 @@ The compare area (its shared norm, rounding and verdicts), the text-stats words 
 
 - parse-html, headings, coverage (other tasks)
 - the copywriter brief and target counts per phrase
+
+## Feedback
+
+### Answer to question #1
+
+> SEMKIT-043 acceptance: text «диван 2026 года за 15000 рублей» has 6 words (stopwords and units count as words in text-stats), but the point says no-digits gives words 3 and --exclude года gives 4.
+> Question: Which counts hold: the arithmetic of the text (4 and 5) or the numbers in the acceptance (3 and 4)?
+> Options:
+> 1. 4 and 5: the words rule of text-stats stays
+> 2. 3 and 4: also drop «за» or «рублей»
+> Recommended: 4 and 5: the words rule of text-stats stays
+
+Option 1: 4 and 5. The acceptance miscounted; the words rule of text-stats stays (stopwords and units are words). --no-digits gives 4, --exclude года gives 5.
+
+### Blocked: scope_held (holders ['SEMKIT-034'], paths ['src/rb_semkit/data/SKILL.md', 'src/rb_semkit/steps/__init__.py', 'tests/snapshots/describe.json', 'tests/snapshots/help/read.txt', 'tests/steps/areas.py', 'tests/steps/test_steps.py'])
+
+SEMKIT-034 finished; your kept work on src/rb_semkit/data/SKILL.md, src/rb_semkit/steps/__init__.py, tests/snapshots/describe.json, tests/snapshots/help/read.txt, tests/steps/areas.py, tests/steps/test_steps.py is back in the worktree; main is merged into your branch where it merges clean
