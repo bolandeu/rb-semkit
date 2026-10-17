@@ -2,7 +2,7 @@
 id: SEMKIT-021
 title: 'Conformance: no cases for semkit''s own functions; drop the text_stats cases
   that copy expected into vba'
-status: queue
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -50,8 +50,6 @@ translation: '**Сверка: без псевдо-случаев для свои
   Убрать их, добавить text_stats в исключения рядом со split_text и coverage, записать
   правило: своя функция — без сверки, тесты только в своей области.'
 ---
-
-
 
 The conformance report compares semkit with the add-in. text_stats, compare_grams, compare_stats and bm25 are not from the add-in, yet their case files copy expected into the vba column, so the report counts cases «as the VBA» that compare nothing. Remove tests/conformance/cases/textstats/, tests/conformance/cases/compare/, tests/conformance/areas/textstats.py, tests/conformance/areas/compare.py and the area pages docs/vba/conformance/textstats.md and docs/vba/conformance/compare.md (if present); add text_stats, compare_grams, compare_stats, bm25, compare_lists and edges to NOT_CASED in tests/conformance/test_cases.py with split_text, coverage and cluster_serp (semkit's own functions); regenerate docs/vba/conformance.md. Make the rule explicit where NOT_CASED is defined: a function that is not from the add-in has no conformance case; it is tested in its own area tests. If the report script needs an area list, it must not require an area for an own function.
 
