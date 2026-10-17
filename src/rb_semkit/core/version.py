@@ -76,3 +76,14 @@ def installed_version() -> str | None:
         return _distribution().version
     except PackageNotFoundError:
         return None
+
+
+def repository_url() -> str | None:
+    """The `Repository` URL of `[project.urls]` in pyproject.toml, as installed; None when it has none."""
+    try:
+        urls = _distribution().metadata.get_all("Project-URL") or []
+    except PackageNotFoundError:
+        return None
+    return next(
+        (url.strip() for label, _, url in (entry.partition(",") for entry in urls) if label == "Repository"), None
+    )

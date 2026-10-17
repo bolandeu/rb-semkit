@@ -242,3 +242,42 @@ class DatabaseTooNew(CliError):
             action=f"Run 'uv tool upgrade {_DIST}', then retry.",
             exit_code=6,
         )
+
+
+class VectorsNotInstalled(CliError):
+    """The steps by meaning and `models` need the optional extra rb-semkit[vectors]; `install` is its command."""
+
+    def __init__(self, missing: str, install: str) -> None:
+        super().__init__(
+            "VECTORS_NOT_INSTALLED",
+            f"The vectors extra is not installed (no module {missing!r}).",
+            action=f"Run '{install}', then retry.",
+            exit_code=1,
+        )
+
+
+class ModelNotPulled(CliError):
+    """A step by meaning names an encoder that is not in the cache; steps never download one (ADR 0009)."""
+
+    def __init__(self, name: str, folder: str) -> None:
+        super().__init__(
+            "MODEL_NOT_PULLED",
+            f"The encoder {name} is not in {folder}.",
+            action=f"Run '{_CLI} models pull {name}' once, then retry.",
+            exit_code=1,
+        )
+
+
+class PullFailed(CliError):
+    """`models pull` did not get the model whole: the download broke, or a file's checksum differs from the pinned one.
+
+    Nothing of it stays in the cache. Exit 5, like any external service.
+    """
+
+    def __init__(self, name: str, cause: str) -> None:
+        super().__init__(
+            "PULL_FAILED",
+            f"The pull of {name} failed: {cause}; nothing of it was kept.",
+            action=f"Run '{_CLI} models pull {name}' to retry.",
+            exit_code=5,
+        )

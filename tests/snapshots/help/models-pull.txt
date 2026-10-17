@@ -1,0 +1,24 @@
+
+ Usage: semkit models pull [OPTIONS] {name}
+
+ Download an encoder once into the cache, at its pinned revision, and check the checksum of each
+ file.
+
+ A model already in the cache is not downloaded again.
+ A pull that fails keeps nothing of the model and exits 5; run it again.
+ A hub model (hf:<id>) is fetched at its latest revision: an ONNX export with tokenizer.json, or a
+ model2vec model.
+
+ Example: semkit models pull e5-small
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│ *    name      <str>  The encoder: e5-small, bge-m3, potion, or hf:<id> of a model of the        │
+│                       Hugging Face hub.                                                          │
+│                       [required]                                                                 │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --json           Emit machine-readable JSON output.                                              │
+│ --quiet          Suppress non-essential output.                                                  │
+│ --help           Show this message and exit.                                                     │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

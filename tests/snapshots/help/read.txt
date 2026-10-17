@@ -281,6 +281,8 @@
 │                        found.                                                                    │
 │ text-stats             The usual SEO metrics of each text, the same numbers each run: a metric   │
 │                        column per metric, a row per text.                                        │
+│ cluster-meaning        Clusters of phrases by meaning: phrases of close vectors share a cluster; │
+│                        every phrase gets one.                                                    │
 │ write                  Write the current table to OUT: the last step of a pipeline.              │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

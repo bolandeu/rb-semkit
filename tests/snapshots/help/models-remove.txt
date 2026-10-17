@@ -1,0 +1,20 @@
+
+ Usage: semkit models remove [OPTIONS] {name}
+
+ Remove an encoder from the cache.
+
+ A model that is not pulled is refused with exit 2 and the pulled ones.
+ With --dry-run nothing is removed: it says which folder it would remove.
+
+ Example: semkit models remove e5-small
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│ *    name      <str>  The pulled encoder to remove, as `models list` names it. [required]        │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --json             Emit machine-readable JSON output.                                            │
+│ --quiet            Suppress non-essential output.                                                │
+│ --dry-run          Show what would happen without making changes.                                │
+│ --help             Show this message and exit.                                                   │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
