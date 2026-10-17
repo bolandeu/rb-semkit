@@ -9,7 +9,7 @@ becomes a Series. An area whose functions take another input has a hook module `
 reason the library does not give `expected` yet (reported to the Architect as a finding).
 
 A result renders by its type as text: the items of a Series or a list joined by « | », a table as «first=last» per row
-(an n-gram and its count or sum), a bool as TRUE / FALSE (as Excel writes it), an empty value as "", a number as
+(an n-gram and its sum, or its count: the other columns, such as docs, are not in the add-in), a bool as TRUE / FALSE (as Excel writes it), an empty value as "", a number as
 written. A per-row function given a table adds its column to it: that column is the result.
 
 A case that differs from the VBA quotes its rules from ADR 0005 or from its area's deviations document
@@ -112,7 +112,8 @@ def render_value(value: Any) -> str:
 
 def render(result: Any) -> str:
     if isinstance(result, pd.DataFrame):
-        return SEP.join(f"{row.iloc[0]}={render_value(row.iloc[-1])}" for _, row in result.iterrows())
+        value = next((name for name in ("sum", "count") if name in result.columns), result.columns[-1])
+        return SEP.join(f"{row.iloc[0]}={render_value(row[value])}" for _, row in result.iterrows())
     values = result.tolist() if isinstance(result, pd.Series) else list(result)
     return SEP.join(render_value(value) for value in values)
 

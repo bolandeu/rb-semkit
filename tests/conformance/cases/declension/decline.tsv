@@ -1,0 +1,14 @@
+# decline. VBA, RibbonCallbacks.vba: «Просклонять › Все что склоняется» —aa— (L1774, ko 2) … —aa· (L2673, ko 12), each k– with the wrapper
+# aoa(cell, ko) (L1521–1581): W = Split(" " & cell & " "); per word, the first branch wins: dictRange is never Set, so the part-of-speech
+# skip tests the word itself (only nonDecl works); a word in «ой» before a word that is not a lemma stays; from the 3rd word on, a word after
+# arrPron stays; l­ <> word (not an abbreviation) → the adjective form; aaa (L1354) <> word → stays; else the noun form (ko 4/10 by the table;
+# a consonant with an empty cell → the usual ending). Case restored by ·–— (L1350). Docs: docs/vba/analysis.md §3.0, §3 «Все что склоняется».
+case_id	function	call	input	vba	expected	rule	why	xfail
+decline-verb-stays	decline	{"case": "genitive"}	купить красный диван	купити красного дивана	купить красного дивана	«Все что склоняется» склоняет только существительные, прилагательные и местоимения по таблице прилагательных	dictRange is never Set, so aoa declines the verb as a noun: «купити»	
+decline-plural	decline	{"case": "genitive", "number": "plural"}	купить красный диван	купитей красных диванов	купить красных диванов	«Все что склоняется» склоняет только существительные, прилагательные и местоимения по таблице прилагательных	dictRange is never Set, so aoa declines the verb as a noun: «купитей»	
+decline-after-preposition	decline	{"case": "genitive"}	чехол для телефон	чехла для телефон	чехла для телефон			
+decline-capital	decline	{"case": "dative"}	Москва	Москве	Москве			
+decline-pronoun	decline	{"case": "genitive"}	этот диван	этого дивана	этого дивана			
+decline-noun-like-adjective	decline	{"case": "genitive"}	зной	зного	зноя	«Все что склоняется» склоняет только существительные, прилагательные и местоимения по таблице прилагательных	aoa tests the adjective ending first and the noun skip never works: «ной» gives «зного»	
+decline-adverb	decline	{"case": "dative"}	диван недорого	дивану недорого	дивану недорого			
+decline-inflected	decline	{"case": "genitive"}	диваны для дачи	диваны для дачи	диваны для дачи			
