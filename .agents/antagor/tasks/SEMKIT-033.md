@@ -3,7 +3,7 @@ id: SEMKIT-033
 title: 'CLI that tells the truth: --as, errors, lemma matching of lists, help and
   guide in CLI terms, top-level commands; the e2e run on a real core in the gate'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -35,6 +35,11 @@ owns_paths:
 - tests/wordlists
 - src/rb_semkit/data/morph
 - scripts/build_parts/morph.py
+- docs/vba/deviations/morph.md
+- pyproject.toml
+- scripts/build_parts/morph.toml
+- scripts/build_parts/wordlists.py
+- uv.lock
 test_paths:
 - tests/pipeline
 - tests/steps
@@ -44,6 +49,11 @@ test_paths:
 - tests/test_describe.py
 - tests/wordlists
 - tests/e2e
+- tests/change/test_errors.py
+- tests/conformance/data_manifest/morph.json
+- tests/conformance/data_manifest/wordlists.json
+- tests/core/test_frame.py
+- tests/core/test_morph.py
 docs:
 - README.md
 - src/rb_semkit/data/SKILL.md
@@ -76,10 +86,6 @@ translation: '**CLI говорит правду + сквозная провер�
   обратимо, lists и --quiet правильно, единый --json. Сквозная проверка: 1000 фраз
   Букварикса и текст страницы, независимый пересчёт 10 прогонов в гейте.'
 ---
-
-
-
-
 
 The end-to-end check (docs/plans/e2e-quality.md, items 20, 21, 27-50) found the CLI shell disagrees with itself and with its guide. Fix the CLI and the help; then check it end to end on real data.
 
@@ -146,3 +152,27 @@ ADR 0008 (pipeline of steps, help from the docstring); the step table of src/rb_
 - The behaviour of library functions (SEMKIT-030..032); only their docstrings
 - dataio's xlsx writer speed (IDEA-231)
 - Fetching texts or SERPs
+
+## Feedback
+
+### Blocked: timeout (detail ,"terminal_id":"term_65e0d8dd52c242c0","terminal_title":"◑ Antagor handoff prompt.md","terminal_title_stripped":"Antagor handoff prompt.md","workspace_id":"w1N"},"type":"agent_info"}}
+
+--- screen ---
+de == 0, f"{arguments}: {result.output}" 41 + summary = json.loads(result.stdout)["steps"][-1] 42 + did = { … 5 more lines (ctrl+o to expand) ⏺ Bash(uv run pytest tests/steps/test_examples.py -q --no-cov -p no:randomly 2>&1 | grep -E "^E +AssertionError" | head -30; cat tests/steps/fixtures/core.csv) ⎿ Running… ✢ Perambulating… (1h 0m 7s · ↓ 158.2k tokens · thought for 1s) ⎿ Tip: Use /clear to start fresh when switching topics and free up context ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ❯ ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ⏵⏵ bypass permissions on (shift+tab to cycle) · esc to interrupt · ← 3 agents)
+
+Timeout hit mid-work, not a dead end. Continue from your worktree as it stands (66 changed files are kept): finish the tests/steps/test_examples.py fixes, then run the task checks and the full test suite once. Do not restart from scratch.
+
+### Attempt 1: file docstring
+
+- add a docstring to src/rb_semkit/commands/auth.py: what it holds and why
+- add a docstring to src/rb_semkit/commands/config.py: what it holds and why
+- add a docstring to src/rb_semkit/commands/describe.py: what it holds and why
+- add a docstring to src/rb_semkit/commands/doctor.py: what it holds and why
+- add a docstring to src/rb_semkit/commands/init.py: what it holds and why
+- add a docstring to src/rb_semkit/commands/run.py: what it holds and why
+- add a docstring to src/rb_semkit/commands/skill.py: what it holds and why
+- update the docstring of src/rb_semkit/core/errors.py: +ConfigInvalid +Unhealthy
+- update the docstring of src/rb_semkit/core/services.py: +check_project_compat
+- add a docstring to src/rb_semkit/output/__init__.py: what it holds and why
+- add a docstring to src/rb_semkit/output/json.py: what it holds and why
+- update the docstring of src/rb_semkit/steps/text.py: +ByLemmas +MatcherFactory
