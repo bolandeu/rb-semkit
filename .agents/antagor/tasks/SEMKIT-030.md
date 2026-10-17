@@ -138,3 +138,9 @@ Goes into SEMKIT-033's body.
 > ADR 0003 says declension has the modes auto / table / pymorphy (auto: pymorphy3 when it knows the word). The code has no such mode: decline, decline_noun and decline_adjective use the add-in tables only; SEMKIT-030 added pymorphy3 only for animacy and hyphenated nouns. Decide: implement the modes, or correct ADR 0003.
 
 Correct ADR 0003 to the code: tables decline, pymorphy3 for animacy and hyphenated nouns, no modes; in this task's body now.
+
+### Answer to finding #3
+
+> Declension tables (sheet abc, adjective_exceptions) have more defects of the kind SEMKIT-030 fixed for «третий», not taken (out of the task): «второй» feminine nominative «вторые» and animate accusatives «второго» / «вторых»; «голубой» and «рябой» dative «голубого» / «рябого» and plural genitive «голубыъ» / «рябыъ». A fix is a line each in scripts/build_parts/declension.toml.
+
+Taken into this task: one line each, acceptance added.
