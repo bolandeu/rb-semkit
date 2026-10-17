@@ -201,8 +201,8 @@ Typos: Levenshtein in the library; spelling check through LanguageTool on homese
 
 ## 3b. CLI shape (the Human, 2026-10-17)
 
-semkit turns a dirty core into a clean one; clustering by embeddings or by search results is another tool that
-takes semkit's clean core. For a small core (one article) semkit alone is enough.
+semkit turns a dirty core into a clean one; clustering by embeddings and collecting search results are another tool,
+which takes semkit's clean core. Clustering a SERP table it is given (soft, hard) is semkit's. For a small core (one article) semkit alone is enough.
 Text analysis is semkit's job too (the name says it): a text is a table of one cell; `split_text` cuts it into
 phrases, then the core steps apply; core phrases in a text, competitor comparison and text metrics build on them.
 1. **One line is a pipeline.** Input (dataio) → any number of steps as options, mixed freely and repeated →
