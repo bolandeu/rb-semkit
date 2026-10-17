@@ -2,10 +2,10 @@
 id: SEMKIT-032
 title: 'Change functions on real phrases: match types with operators, a reversible
   translit, toponyms, phonetic, replace-words, UTM'
-status: queue
+status: in_progress
 attempts: 1
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: scope_held
 phase: null
 tests_hash: null
 publish_stage: null
@@ -20,6 +20,8 @@ owns_paths:
 - docs/vba/deviations/change.md
 - docs/vba/conformance.md
 - docs/vba/conformance/change.md
+- docs/brief.md
+- docs/adr/0003-morphology-engines.md
 test_paths:
 - tests/change
 - tests/conformance/cases/change
