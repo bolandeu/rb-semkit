@@ -2,10 +2,10 @@
 id: SEMKIT-033
 title: 'CLI that tells the truth: --as, errors, lemma matching of lists, help and
   guide in CLI terms, top-level commands; the e2e run on a real core in the gate'
-status: in_progress
+status: queue
 attempts: 0
-blocked: true
-blocked_reason: timeout
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -152,3 +152,12 @@ ADR 0008 (pipeline of steps, help from the docstring); the step table of src/rb_
 - The behaviour of library functions (SEMKIT-030..032); only their docstrings
 - dataio's xlsx writer speed (IDEA-231)
 - Fetching texts or SERPs
+
+## Feedback
+
+### Blocked: timeout (detail ,"terminal_id":"term_65e0d8dd52c242c0","terminal_title":"◑ Antagor handoff prompt.md","terminal_title_stripped":"Antagor handoff prompt.md","workspace_id":"w1N"},"type":"agent_info"}}
+
+--- screen ---
+de == 0, f"{arguments}: {result.output}" 41 + summary = json.loads(result.stdout)["steps"][-1] 42 + did = { … 5 more lines (ctrl+o to expand) ⏺ Bash(uv run pytest tests/steps/test_examples.py -q --no-cov -p no:randomly 2>&1 | grep -E "^E +AssertionError" | head -30; cat tests/steps/fixtures/core.csv) ⎿ Running… ✢ Perambulating… (1h 0m 7s · ↓ 158.2k tokens · thought for 1s) ⎿ Tip: Use /clear to start fresh when switching topics and free up context ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ❯ ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ⏵⏵ bypass permissions on (shift+tab to cycle) · esc to interrupt · ← 3 agents)
+
+Timeout hit mid-work, not a dead end. Continue from your worktree as it stands (66 changed files are kept): finish the tests/steps/test_examples.py fixes, then run the task checks and the full test suite once. Do not restart from scratch.
