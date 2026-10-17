@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-037
 title: Help and docstrings say «the bundled dictionary», not the add-in name
-status: in_progress
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -19,6 +19,9 @@ owns_paths:
 - src/rb_semkit/core/text/matchers/pos.py
 test_paths:
 - tests/core/test_no_vba_in_docs.py
+- tests/snapshots/describe.json
+- tests/snapshots/help/steps/corpus/is-typo.txt
+- tests/snapshots/help/steps/morph/part-of-speech.txt
 docs: none
 tools: []
 worker_args: null
