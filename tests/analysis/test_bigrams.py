@@ -8,13 +8,14 @@ import rb_semkit as sk
 
 
 def rows(table: pd.DataFrame) -> list[tuple]:
-    return list(table.itertuples(index=False, name=None))
+    """The add-in's columns only: ngram, count and sum."""
+    return list(table.drop(columns=["docs", "forms"], errors="ignore").itertuples(index=False, name=None))
 
 
 def test_pairs_ignore_word_order_and_keep_stopwords() -> None:
     table = sk.bigrams(pd.Series(["диван в москве", "москве диван"]))
 
-    assert table.columns.tolist() == ["ngram", "count"]
+    assert table.columns.tolist() == ["ngram", "count", "docs"]
     assert rows(table) == [("диван+москве", 2), ("в+диван", 1), ("в+москве", 1)]
 
 
@@ -37,5 +38,5 @@ def test_lemmas_and_the_sum_of_a_weight_column() -> None:
 
     table = sk.bigrams(df, lemmas=True, weight="freq", column="phrase")
 
-    assert table.columns.tolist() == ["ngram", "count", "sum"]
+    assert table.columns.tolist() == ["ngram", "count", "docs", "sum", "forms"]
     assert rows(table) == [("диван+купить", 2, 10)]
