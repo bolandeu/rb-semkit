@@ -49,20 +49,11 @@ size in words (my page by default, `--words N` for a target size), rounded: the 
 
 ## Keyword occurrence check (the Human, 2026-10-18)
 
-The check of a text against lists of phrases with target counts (Miratext «Проверка вхождения ключевых слов») is an
-extension of coverage, not a new step:
-- eight kinds of occurrence: exact, direct, diluted, morphological, morphological diluted, reversed, reversed
-  diluted, complex (coverage now has exact, lemmas, any_order). The Human: clean and exact are one kind, named exact:
-  the phrase word for word, no change of case, number or order and no punctuation inside it («Мы поможем купить
-  пластиковые окна по выгодной цене» for «купить пластиковые окна»); direct: the same forms and order, punctuation
-  (a comma, a dash, a point) may stand inside the phrase or at its edges. The existing coverage mode exact (it crosses
-  a comma or a dash inside a sentence) becomes this stricter exact; what it matched across punctuation is direct now:
-  a change of behaviour, named in the release notes;
-- `--kinds`: which kinds count; a column per kind, so the Human sees what made the count;
-- the three groups of Miratext (exact and others, diluted and others, any) are three runs with different `--kinds`;
-- no target per phrase and no brief templates: the copywriter brief is a complex scenario, not done (the Human,
-  2026-10-18);
-- leaving out a list of words; leaving out noindex comes with the HTML input.
+semkit gives bricks, not the house. The eight named kinds of Miratext are four parameters of one search: word forms
+(as given / any: coverage exact, lemmas), order (as given / any: any_order), punctuation inside, words inserted
+between. Only the insertions are missing and useful: natural text writes «купить недорогие пластиковые окна».
+Decided: coverage gets `--gap N` (up to N words between the words of the phrase, default 0). No named kinds, no
+`--kinds`, no column per kind, no stricter exact: the existing exact stays as it is.
 
 ## HTML libraries: measured (2026-10-18)
 
