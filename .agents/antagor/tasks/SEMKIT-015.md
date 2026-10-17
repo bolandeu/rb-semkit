@@ -2,7 +2,7 @@
 id: SEMKIT-015
 title: 'N-grams and bigrams: a docs column, the number of texts (cells) that hold
   the gram'
-status: in_review
+status: publish
 attempts: 0
 blocked: false
 blocked_reason: null
