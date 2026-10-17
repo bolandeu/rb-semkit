@@ -67,7 +67,7 @@
  "change/translit.json:layout": {
   "source": "RibbonCallbacks.vba L1615: the literals of layout",
   "source_items": 33,
-  "bundled_items": 40,
+  "bundled_items": 48,
   "dropped": [
    {
     "item": "·\tя",
@@ -106,6 +106,38 @@
    {
     "item": "~\tЁ",
     "reason": "a shifted key: the add-in maps only the unshifted punctuation keys"
+   },
+   {
+    "item": "/\t.",
+    "reason": "a sign of the Russian layout: the add-in maps only the letter keys and the unshifted sign keys"
+   },
+   {
+    "item": "?\t,",
+    "reason": "a sign of the Russian layout: the add-in maps only the letter keys and the unshifted sign keys"
+   },
+   {
+    "item": "^\t:",
+    "reason": "a sign of the Russian layout: the add-in maps only the letter keys and the unshifted sign keys"
+   },
+   {
+    "item": "$\t;",
+    "reason": "a sign of the Russian layout: the add-in maps only the letter keys and the unshifted sign keys"
+   },
+   {
+    "item": "&\t?",
+    "reason": "a sign of the Russian layout: the add-in maps only the letter keys and the unshifted sign keys"
+   },
+   {
+    "item": "@\t\"",
+    "reason": "a sign of the Russian layout: the add-in maps only the letter keys and the unshifted sign keys"
+   },
+   {
+    "item": "#\t№",
+    "reason": "a sign of the Russian layout: the add-in maps only the letter keys and the unshifted sign keys"
+   },
+   {
+    "item": "|\t/",
+    "reason": "a sign of the Russian layout: the add-in maps only the letter keys and the unshifted sign keys"
    }
   ]
  },
@@ -259,9 +291,14 @@
  "change/translit.json:phonetic_words": {
   "source": "RibbonCallbacks.vba InitDicts: the literals fEn / fRu",
   "source_items": 65,
-  "bundled_items": 65,
+  "bundled_items": 66,
   "dropped": [],
-  "added": []
+  "added": [
+   {
+    "item": "ikea\tикеа",
+    "reason": "a brand that the letter groups read wrong («ikea» as «ики»)"
+   }
+  ]
  },
  "change/translit.json:similar_chars": {
   "source": "RibbonCallbacks.vba L1896: the literals of similar_chars",
@@ -273,9 +310,30 @@
  "change/translit.json:translit_en_ru": {
   "source": "RibbonCallbacks.vba L1351: the literals of translit_en_ru",
   "source_items": 79,
-  "bundled_items": 79,
+  "bundled_items": 84,
   "dropped": [],
-  "added": []
+  "added": [
+   {
+    "item": "Shch\tЩ",
+    "reason": "a letter group of the latin translit that reads back to its cyrillic letters"
+   },
+   {
+    "item": "shch\tщ",
+    "reason": "a letter group of the latin translit that reads back to its cyrillic letters"
+   },
+   {
+    "item": "Ts\tЦ",
+    "reason": "a letter group of the latin translit that reads back to its cyrillic letters"
+   },
+   {
+    "item": "ts\tц",
+    "reason": "a letter group of the latin translit that reads back to its cyrillic letters"
+   },
+   {
+    "item": "yy\tый",
+    "reason": "a letter group of the latin translit that reads back to its cyrillic letters"
+   }
+  ]
  },
  "change/translit.json:translit_ru_en": {
   "source": "RibbonCallbacks.vba L2275: the literals of translit_ru_en",

@@ -13,8 +13,9 @@ from .common import changed
 __all__ = ["reverse", "sort_words", "split_digits"]
 
 WHAT = ("chars", "words")
-# Between a digit and a letter or a sign glued to it, either way round.
-_DIGIT_EDGE = re.compile(r"(?<=\d)(?=[^\d\s])|(?<=[^\d\s])(?=\d)")
+# Between a digit and a letter or a sign glued to it, either way round; a size «140х200» (latin or cyrillic x) is
+# matched whole, after the edge in front of it, so it has no edge inside.
+_DIGIT_EDGE = re.compile(r"(?<=\d)(?=[^\d\s])|(?<=[^\d\s])(?=\d)|(?P<size>\d+(?:[xх]\d+)+)", re.IGNORECASE)
 
 
 def split_digits(
@@ -24,7 +25,13 @@ def split_digits(
     «a|1|b|22». Digits and text already apart stay as they are."""
     if not isinstance(sep, str):
         raise InvalidArguments(f"sep={sep!r}; allowed: a text.")
-    return changed(data, lambda phrase: _DIGIT_EDGE.sub(sep, phrase), "split_digits", column, inplace)
+    return changed(
+        data,
+        lambda phrase: _DIGIT_EDGE.sub(lambda found: found["size"] or sep, phrase),
+        "split_digits",
+        column,
+        inplace,
+    )
 
 
 def reverse(

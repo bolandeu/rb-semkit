@@ -5,4 +5,7 @@ translit-en-caps	translit	{"to": "en"}	ЖУК ЩИ	ZhUK SchI	ZHUK SCHI	Слов�
 translit-en-signs	translit	{"to": "en"}	объём 2 л	obyem 2 l	obyem 2 l			
 translit-ru	translit	{"to": "ru"}	Fyva Yandex	Фыва Яндекс	Фыва Яндекс			
 translit-ru-groups	translit	{"to": "ru"}	Jeep ob'em	Джееп обэм	Джееп обэм			
-translit-ru-not-inverse	translit	{"to": "ru"}	Shch yel	Шч ыел	Шч ыел			
+translit-ru-shch	translit	{"to": "ru"}	Shch yel	Шч ыел	Щ ыел	Транслит на кириллицу обращает транслит на латиницу, где таблица однозначна	the table has no «shch», so «Sh» and «ch» read apart	
+translit-ru-caps	translit	{"to": "ru"}	ZHUK ZHKKH	ЗХУК ЗХККХ	ЖУК ЖКХ	Транслит на кириллицу обращает транслит на латиницу, где таблица однозначна	a word in capitals has no «ZH» or «KH» in the table, so the letters read one by one	
+translit-ru-ts-ay	translit	{"to": "ru"}	Tsoy Chayka	Тсой Чаыка	Цой Чайка	Транслит на кириллицу обращает транслит на латиницу, где таблица однозначна	the table has no «ts», and «y» after a vowel is «ы»	
+translit-ru-signs	translit	{"to": "ru"}	shchuka syomnyy	шчука сёмныы	щука сёмный	Транслит на кириллицу обращает транслит на латиницу, где таблица однозначна	the table has no «shch», and «yy» reads as «ыы»	

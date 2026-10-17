@@ -23,6 +23,8 @@ KINDS = (
 MODIFIERS = ("+", "!")
 OPERATORS = ("+", "!", "-")
 BROAD_STRIPPED = str.maketrans("", "", '+![]"')
+WRAP_STRIPPED = str.maketrans("", "", '[]"')
+OPENING_MARKS, CLOSING_MARKS = '"[', '"]'
 # The kinds that wrap the words of the phrase: the opening and the closing marks, and the operator of each word.
 WRAPS = {
     "quoted_fixed_forms": ('"', '"', "!"),
@@ -40,13 +42,26 @@ def _with_operator(word: str, operator: str) -> str:
     return word if word.startswith(OPERATORS) else operator + word
 
 
+def _inside_marks(change: Callable[[str], str]) -> Callable[[str], str]:
+    """A change of a word that works on the word inside the quotes and brackets of the phrase and leaves them."""
+
+    def marked(word: str) -> str:
+        core = word.lstrip(OPENING_MARKS).rstrip(CLOSING_MARKS)
+        if not core:
+            return word
+        opening = len(word) - len(word.lstrip(OPENING_MARKS))
+        return word[:opening] + change(core) + word[opening + len(core) :]
+
+    return marked
+
+
 def _without_stopword_modifier(word: str) -> str:
     return word[1:] if len(word) > 1 and word.startswith(MODIFIERS) and is_stopword(word[1:]) else word
 
 
 def _wrapped(opening: str, closing: str, operator: str) -> Callable[[str], str]:
     def change(phrase: str) -> str:
-        words = split_words(phrase)
+        words = split_words(phrase.translate(WRAP_STRIPPED))
         minus = [word for word in words if _is_minus_word(word)]
         kept = [_with_operator(word, operator) if operator else word for word in words if not _is_minus_word(word)]
         return " ".join([f"{opening}{' '.join(kept)}{closing}"] * bool(kept) + minus)
@@ -57,16 +72,16 @@ def _wrapped(opening: str, closing: str, operator: str) -> Callable[[str], str]:
 def _change(kind: str, modifier: str) -> Callable[[str], str]:
     if kind in WRAPS:
         return _wrapped(*WRAPS[kind])
-    plus = each_word(lambda word: _with_operator(word, "+"))
+    plus = each_word(_inside_marks(lambda word: _with_operator(word, "+")))
     kinds: dict[str, Callable[[str], str]] = {
         "broad": lambda phrase: phrase.translate(BROAD_STRIPPED),
         "plus_every_word": plus,
-        "broad_modifier": lambda phrase: each_word(_without_stopword_modifier)(plus(phrase)),
-        "stopword_modifier": each_word(lambda word: modifier + word if is_stopword(word) else word),
-        "fixed_forms": each_word(lambda word: _with_operator(word, "!")),
-        "antisemantic": each_word(
+        "broad_modifier": lambda phrase: each_word(_inside_marks(_without_stopword_modifier))(plus(phrase)),
+        "stopword_modifier": each_word(_inside_marks(lambda word: modifier + word if is_stopword(word) else word)),
+        "fixed_forms": each_word(_inside_marks(lambda word: _with_operator(word, "!"))),
+        "antisemantic": lambda phrase: each_word(
             lambda word: word if is_stopword(word) or word.startswith(OPERATORS) else f"[{word}]"
-        ),
+        )(phrase.translate(WRAP_STRIPPED)),
     }
     return kinds[kind]
 

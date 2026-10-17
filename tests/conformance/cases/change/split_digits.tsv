@@ -5,3 +5,4 @@ split-digits-sep	split_digits	{"sep": "|"}	a1b22	a|1|b|22	a|1|b|22
 split-digits-apart	split_digits		iphone 13 pro	iphone  13  pro	iphone 13 pro	Разделитель ставится только между цифрами и текстом, которые стоят слитно	the runs «iphone », «13», « pro» joined by a space give double spaces	
 split-digits-apart-sep	split_digits	{"sep": "|"}	iphone 13pro	iphone |13|pro	iphone 13|pro	Разделитель ставится только между цифрами и текстом, которые стоят слитно	the space stays inside the run «iphone »	
 split-digits-empty	split_digits							
+split-digits-size	split_digits		диван 140х200 ps5	диван 140 х 200 ps 5	диван 140х200 ps 5	Размер NxM остаётся целым	the add-in splits every digit run from the text, the «х» of a size too	

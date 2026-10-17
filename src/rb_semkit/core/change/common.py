@@ -1,4 +1,5 @@
-"""What the change functions share: the run over a column, the bundled tables, the word case classes and checks."""
+"""What the change functions share: the run over a column, the bundled tables, the word case classes and checks,
+the split of a word into its edge punctuation and its core."""
 
 from __future__ import annotations
 
@@ -10,7 +11,7 @@ from .. import datastore
 from ..errors import InvalidArguments
 from ..frame import Frame, map_unique
 from ..normalize import norm_phrase
-from ..text.base import bundled_list, split_words
+from ..text.base import bundled_list, split_words, strip_edges
 
 TRANSLIT = "change/translit.json"
 WORD_ORDER = "change/word_order.json"
@@ -44,6 +45,14 @@ def stopword_keys() -> frozenset[str]:
 
 def is_stopword(word: str) -> bool:
     return norm_phrase(word) in stopword_keys()
+
+
+def split_edges(text: str) -> tuple[str, str, str]:
+    """The punctuation before the text, the text, the punctuation after it: «(Диван),» → «(», «Диван», «),»; a text
+    of punctuation only has no middle."""
+    core = strip_edges(text)
+    start = text.find(core)
+    return text[:start], core, text[start + len(core) :]
 
 
 def capitalised(text: str) -> str:

@@ -44,10 +44,10 @@ def extract_utm(
     «?utm_source=%D0%AF%D0%BD%D0%B4%D0%B5%D0%BA%D1%81» → «Яндекс», «+» as a space. The name counts in any case; the
     first tag of that name wins; no such tag gives an empty string."""
     choice("tag", tag, TAGS)
-    pattern = re.compile(rf"(?:^|[?&#]){UTM_PREFIX}{tag}=([^&#]*)", re.IGNORECASE)
+    pattern = re.compile(rf"(?:^|[?&]){UTM_PREFIX}{tag}=([^&#]*)", re.IGNORECASE)
 
     def value(url: str) -> str:
-        found = pattern.search(url)
+        found = pattern.search(url.partition(FRAGMENT)[0])
         return unquote_plus(found[1]) if found else ""
 
     return changed(data, value, "extract_utm", column, inplace)

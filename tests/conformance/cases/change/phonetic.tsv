@@ -7,3 +7,4 @@ phonetic-caps	phonetic		XIAOMI	СЯОМИ	СЯОМИ
 phonetic-mixed	phonetic		DreamLine	дримлайн	дримлайн			
 phonetic-latin-c	phonetic		pictures	пикчерк	пикчерс	В фонетических таблицах латинская «c» в русских значениях заменена на «с»	s5 maps «tures» to «черc» with a latin «c», which a1 turns into «к»	
 phonetic-spaces	phonetic		apple  iphone	эпл  айфон	эпл айфон	фраза делится по любым пробелам, двойных пробелов в результатах нет	Split(s & " ") keeps the empty token: the two spaces stay	
+phonetic-brand	phonetic		IKEA	ИКИ	ИКЕА	Бренд читается по слову таблицы	the letter groups read «ea» as «и»; the add-in has no word for the brand	

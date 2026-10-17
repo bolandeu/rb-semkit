@@ -17,6 +17,8 @@ LANGUAGES = ("en", "ru")
 QUOTE = '"'
 OPENING, CLOSING = "«", "»"
 _WORD = re.compile(r"\S+")
+# «y» after «a» or «u» and before no vowel is «й»: «Chayka» → «Чайка», but «maya» → «мая».
+_VOWEL_Y = re.compile(r"([AaUu])y(?![AaEeIiOoUuYy])")
 _NOT_SLUG = re.compile(r"[^a-z0-9]+")
 SLUG_SEP = "-"
 
@@ -57,10 +59,22 @@ def _latin_word(word: str, table: dict[int, str]) -> str:
     return latin.upper() if sum(char.isupper() for char in word) > 1 and word == word.upper() else latin
 
 
-def _to_cyrillic(phrase: str) -> str:
+def _to_cyrillic_text(text: str) -> str:
+    text = _VOWEL_Y.sub("\\1й", text)
     for latin, cyrillic in pairs_table("translit_en_ru"):
-        phrase = phrase.replace(latin, cyrillic)
-    return phrase
+        text = text.replace(latin, cyrillic)
+    return text
+
+
+def _to_cyrillic_word(word: str) -> str:
+    """A word in capitals is read by the groups of small letters and stays in capitals: «ZHUK» → «ЖУК»."""
+    if len(word) > 1 and word.isupper():
+        return _to_cyrillic_text(word.lower()).upper()
+    return _to_cyrillic_text(word)
+
+
+def _to_cyrillic(phrase: str) -> str:
+    return _WORD.sub(lambda word: _to_cyrillic_word(word[0]), phrase)
 
 
 def translit(

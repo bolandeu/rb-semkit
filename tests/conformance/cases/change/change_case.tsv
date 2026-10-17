@@ -19,8 +19,10 @@ case-list-upper	change_case	{"kind": "list_upper", "words": ["москва", "с
 case-list-title-hyphen	change_case	{"kind": "list_title", "words": ["москва-сити"]}	офис москва-сити	офис Москва-Сити	офис Москва-Сити			
 case-list-yo	change_case	{"kind": "list_upper", "words": ["ёлка"]}	искусственная елка	искусственная елка	искусственная ЕЛКА	ё = е при сравнении	kko compares UCase as typed: «ЕЛКА» is not «ЁЛКА»	
 case-toponyms	change_case	{"kind": "toponyms"}	квартира нижний новгород	квартира Нижний Новгород	квартира Нижний Новгород			
-case-toponyms-moscow	change_case	{"kind": "toponyms"}	доставка москва  и санкт-петербург	доставка Москва и санкт-петербург	доставка Москва и санкт-петербург			
+case-toponyms-moscow	change_case	{"kind": "toponyms"}	доставка москва  и санкт-петербург	доставка Москва и санкт-петербург	доставка Москва и Санкт-Петербург	Топоним находится вместе с дефисами и знаками на краях слов	the add-in compares «санкт-петербург» with its hyphen as one word that the list lacks	
 case-toponyms-yo	change_case	{"kind": "toponyms"}	отели в орел	отели в Орел	отели в Орёл	ё = е при сравнении	the geo list holds «Орёл» before «Орел»; semkit takes both as one name and its first spelling	
 case-abbreviations	change_case	{"kind": "abbreviations"}	купить мфу hp в спб 200 см ооо usb	купить мфу HP в СПб 200 см ООО USB	купить мфу HP в СПб 200 см ООО USB			
 case-abbreviations-punct	change_case	{"kind": "abbreviations"}	доставка спб, 2шт	доставка СПБ, 2ШТ	доставка СПБ, 2ШТ			
 case-abbreviations-pollution	change_case	{"kind": "abbreviations"}	2шт ао2	2ШТ ао2	2ШТ АО2	Признак аббревиатуры не зависит от соседних слов	the first char «2» of «2шт» enters the class dictionary with no class, and inside «ао2» it makes the vowel word mixed	
+case-toponyms-hyphen	change_case	{"kind": "toponyms"}	диван ростов-на-дону	диван ростов-на-дону	диван Ростов-на-Дону	Топоним находится вместе с дефисами и знаками на краях слов	the list holds «Ростов на Дону» and the add-in compares a word with its hyphens as one	
+case-toponyms-punct	change_case	{"kind": "toponyms"}	купить диван в москве. отзывы!	купить диван в москве. отзывы!	купить диван в Москве. отзывы!	Топоним находится вместе с дефисами и знаками на краях слов	the add-in compares «москве.» with its point, so the name is not found	
