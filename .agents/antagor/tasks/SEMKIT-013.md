@@ -2,7 +2,7 @@
 id: SEMKIT-013
 title: 'Analysis block: combinations, parents and basis phrases, good/bad split, clustering,
   synonyms to minus-words, typos, sentiment'
-status: in_review
+status: queue
 attempts: 1
 blocked: false
 blocked_reason: null
@@ -111,3 +111,19 @@ Merge it into your branch (`git merge main`), resolve each file keeping both beh
 > SEMKIT-013: the corpus area (hierarchy, split, clustering, synonyms) reuses the private helper rb_semkit.core.analysis.frequency._word_keys (word -> key, lemma, stopword flag) instead of copying it. Make it a public helper of the analysis area in a later task, so other areas do not import a private name.
 
 A follow-up task after SEMKIT-013 makes _word_keys a public helper of the analysis area.
+
+### Attempt 1: the Architect's verdict
+
+The review found blockers; close each:
+
+- [blocker] C2 src/rb_semkit/core/corpus/clustering.py: `cluster_by_serp` ports the add-in method (positional score, chains of links = connected components). ADR 0007 (docs/adr/0007-serp-clustering-by-common-urls.md) says: «Метод надстройки (позиционный счёт и компоненты связности) не переносим: он сцепляет A и C через B без единого общего URL». `sk.cluster_serp` (soft/hard, SEMKIT-018) already clusters a SERP table. The task text asks for this function, so the two collide. The work followed the task silently and did not report the collision. The Architect must decide: amend ADR 0007 (and say why two SERP clusterings exist), or change the task. I did not add an inbox question; the Architect owns the ADR.
+- [blocker] [wrong] Same collision as C2 above: the task demands the add-in SERP method, ADR 0007 rejects it. Until the Architect decides, the work cannot be accepted or rejected on this point — «clustering ... by a SERP table (phrase, position, url; the bonuses and the threshold as arguments, defaults 5 4 3 2 1, 1 and 24)».
+
+Minor remarks of the review: optional, if they do not widen the task:
+
+- [minor] C8 src/rb_semkit/core/corpus/clustering.py `cluster_by_serp` (CCN 12, 6 params incl. keyword-only), typos.py `CoreSpelling._corrections` (CCN 13), `check` (CCN 11): above lizard's usual limit of 10. I did not find the project limit in the tree; if it is 10, these are blockers. Tool result is the authority.
+- [minor] C7 src/rb_semkit/core/corpus/hierarchy.py `SUBSET_WORDS = 12`, combinations.py `LIMIT = 1_048_576`, typos.py `distance=2, ratio=10`: tunable thresholds as literals in code. `LIMIT` and the typo defaults are argument defaults and documented, so low weight.
+- [minor] C5 hierarchy.py / split.py / synonyms.py / clustering.py: import the private `_word_keys` of the analysis area. Already known (answer to finding #2, follow-up task), so no action here.
+- [minor] C1 hierarchy.py `basis_phrases`: local name `tokens` (CONTEXT.md avoids «token» for wordform). Rename to `entries`.
+- [minor] [wrong] `is_typo` and `typo_correction` work on whole phrases, not on a word — «typos: is a word a typo, the most likely correction». A phrase-level result is consistent with the other per-row functions; a one-word input works too. Accept.
+- [minor] [extra] `add_minus_words` leaves a phrase in quotes unchanged; `synonyms` adds a «to check» row from the query when there is no matched phrase. The task does not say either. Both are documented in the docstrings; the second is the add-in behaviour. Accept.
