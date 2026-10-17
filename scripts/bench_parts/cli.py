@@ -1,4 +1,7 @@
-"""The CLI pipeline: read a parquet file, run 5 cleaning steps, write a parquet file, as one `semkit` process."""
+"""The CLI pipeline: read a parquet file, run 5 cleaning steps, write a parquet file, as one `semkit` process.
+
+Its budget is the budget of every operation of the bench (--limit): the library steps plus the read and the write.
+"""
 
 from __future__ import annotations
 

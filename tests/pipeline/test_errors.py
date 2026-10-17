@@ -59,6 +59,20 @@ def test_dry_run_prints_the_summary_and_writes_nothing(core_csv: Path, tmp_path:
     assert not trace.exists()
 
 
+def test_a_trace_that_fails_leaves_out_unchanged(core_csv: Path, tmp_path: Path) -> None:
+    out, trace = tmp_path / "out.csv", tmp_path / "folder.jsonl"
+    out.write_text("old\n", encoding="utf-8")
+    trace.mkdir()
+
+    result = semkit(
+        "read", str(core_csv), "--trace", str(trace), "remove-words", "--items", "купить",
+        "write", str(out), "--overwrite",
+    )  # fmt: skip
+
+    assert result.exit_code != 0
+    assert out.read_text(encoding="utf-8") == "old\n"
+
+
 def test_a_wrong_value_is_refused_before_the_input_is_read(tmp_path: Path) -> None:
     missing = tmp_path / "missing.csv"
 
