@@ -3,7 +3,7 @@ id: SEMKIT-033
 title: 'CLI that tells the truth: --as, errors, lemma matching of lists, help and
   guide in CLI terms, top-level commands; the e2e run on a real core in the gate'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -161,3 +161,18 @@ ADR 0008 (pipeline of steps, help from the docstring); the step table of src/rb_
 de == 0, f"{arguments}: {result.output}" 41 + summary = json.loads(result.stdout)["steps"][-1] 42 + did = { … 5 more lines (ctrl+o to expand) ⏺ Bash(uv run pytest tests/steps/test_examples.py -q --no-cov -p no:randomly 2>&1 | grep -E "^E +AssertionError" | head -30; cat tests/steps/fixtures/core.csv) ⎿ Running… ✢ Perambulating… (1h 0m 7s · ↓ 158.2k tokens · thought for 1s) ⎿ Tip: Use /clear to start fresh when switching topics and free up context ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ❯ ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ⏵⏵ bypass permissions on (shift+tab to cycle) · esc to interrupt · ← 3 agents)
 
 Timeout hit mid-work, not a dead end. Continue from your worktree as it stands (66 changed files are kept): finish the tests/steps/test_examples.py fixes, then run the task checks and the full test suite once. Do not restart from scratch.
+
+### Attempt 1: file docstring
+
+- add a docstring to src/rb_semkit/commands/auth.py: what it holds and why
+- add a docstring to src/rb_semkit/commands/config.py: what it holds and why
+- add a docstring to src/rb_semkit/commands/describe.py: what it holds and why
+- add a docstring to src/rb_semkit/commands/doctor.py: what it holds and why
+- add a docstring to src/rb_semkit/commands/init.py: what it holds and why
+- add a docstring to src/rb_semkit/commands/run.py: what it holds and why
+- add a docstring to src/rb_semkit/commands/skill.py: what it holds and why
+- update the docstring of src/rb_semkit/core/errors.py: +ConfigInvalid +Unhealthy
+- update the docstring of src/rb_semkit/core/services.py: +check_project_compat
+- add a docstring to src/rb_semkit/output/__init__.py: what it holds and why
+- add a docstring to src/rb_semkit/output/json.py: what it holds and why
+- update the docstring of src/rb_semkit/steps/text.py: +ByLemmas +MatcherFactory
