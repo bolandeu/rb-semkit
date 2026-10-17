@@ -69,7 +69,7 @@ def test_chpu_writes_the_url_column() -> None:
     result = run("core.csv", "chpu", "--as", "url", "write", "-")
 
     assert result.exit_code == 0, result.output
-    assert result.rows[0] == {"phrase": "Диван-кровать 2 м!", "url": "divan-krovat-2-m", "freq": "5"}
+    assert result.rows[0] == {"phrase": "Диван-кровать 2 м!", "url": "divan-krovat-2-m", "freq": 5}
 
 
 def test_split_text_then_ngrams_of_lemmas_counts_with_docs_and_forms() -> None:

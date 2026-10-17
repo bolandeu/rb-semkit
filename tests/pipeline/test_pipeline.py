@@ -187,3 +187,35 @@ def test_the_first_required_argument_as_an_option_or_positional_gives_the_same(c
     semkit("read", str(core_csv), "keep-words", "--items", "купить", "write", str(second))
 
     assert _phrases(first) == _phrases(second) == ["купить диван", "купить угловой диван"]
+
+
+def test_read_keeps_numbers_numbers(tmp_path: Path) -> None:
+    path = tmp_path / "core.csv"
+    path.write_text("phrase,freq\nдиван,100\n", encoding="utf-8")
+    result = semkit("read", str(path), "write", "-")
+    assert jsonl(result.stdout) == [{"phrase": "диван", "freq": 100}]
+
+
+def test_the_working_column_stays_text(tmp_path: Path) -> None:
+    path = tmp_path / "core.csv"
+    path.write_text("phrase,freq\n2024,1\n,2\n", encoding="utf-8")
+    result = semkit("read", str(path), "write", "-")
+    assert jsonl(result.stdout) == [{"phrase": "2024", "freq": 1}, {"phrase": "", "freq": 2}]
+
+
+def test_ngrams_weight_sums_the_numbers(tmp_path: Path) -> None:
+    path = tmp_path / "core.csv"
+    path.write_text("phrase,freq\nдиван,100\nдиван,50\n", encoding="utf-8")
+    result = semkit("read", str(path), "ngrams", "--weight", "freq", "write", "-")
+    assert result.exit_code == 0, result.output
+    assert 150 in [v for row in jsonl(result.stdout) for v in row.values()]
+
+
+def test_freq_stays_a_number_in_xlsx_and_parquet(tmp_path: Path) -> None:
+    source = tmp_path / "core.csv"
+    source.write_text("phrase,freq\n2024,100\n", encoding="utf-8")
+    for name in ("out.xlsx", "out.parquet"):
+        out = tmp_path / name
+        assert semkit("read", str(source), "write", str(out)).exit_code == 0
+        table = rb_dataio.read(out)
+        assert pd.api.types.is_numeric_dtype(table["freq"])

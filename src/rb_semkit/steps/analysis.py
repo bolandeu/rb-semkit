@@ -13,7 +13,7 @@ from . import Change, Prepared, Report, Step
 
 
 def _numeric_weight(table: pd.DataFrame, weight: str | None) -> pd.DataFrame:
-    """The table with the weight column as numbers: the pipeline reads every column as text; an empty cell stays empty."""
+    """The table with the weight column as numbers: a text column (or an empty cell) becomes numbers; an empty cell stays empty."""
     if weight is None or weight not in table.columns:
         return table
     values = table[weight]
