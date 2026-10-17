@@ -52,8 +52,11 @@ size in words (my page by default, `--words N` for a target size), rounded: the 
 The check of a text against lists of phrases with target counts (Miratext «Проверка вхождения ключевых слов») is an
 extension of coverage, not a new step:
 - nine kinds of occurrence: exact, clean, direct, diluted, morphological, morphological diluted, reversed, reversed
-  diluted, complex (coverage now has exact, lemmas, any_order); the exact definitions of clean and direct are to be
-  checked against the source;
+  diluted, complex (coverage now has exact, lemmas, any_order); the definitions of the Human: clean (= exact): the
+  phrase word for word, no change of case, number or order and no punctuation inside it («Мы поможем купить
+  пластиковые окна по выгодной цене» for «купить пластиковые окна»); direct: the same forms and order, punctuation
+  (a comma, a dash, a point) may stand inside the phrase or at its edges. The existing coverage mode exact (it crosses
+  a comma or a dash, never a sentence end) stays as it is; clean and direct are new kinds;
 - `--kinds`: which kinds count; a column per kind, so the Human sees what made the count;
 - the target per phrase: a number column or parsed from the phrase template («фраза (3)», «[4]», «- 2*», «,6*»);
   columns found, need, missing;
