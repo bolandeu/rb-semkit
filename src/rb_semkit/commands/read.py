@@ -11,7 +11,7 @@ from pathlib import Path
 import typer
 
 from .. import output, steps
-from ..pipeline.commands import step_command
+from ..pipeline.commands import ListsHelp, step_command, takes_items
 from ..pipeline.group import PipelineGroup
 from ..pipeline.tables import Source, Target
 
@@ -37,7 +37,7 @@ def read(
 
     Every column is read as text; an empty cell is an empty string. An option that
     takes items takes a comma list 'a,b', @FILE (one item per line) or @NAME of a list
-    (@stopwords, the marker lists). `{cli} read IN STEP --help` shows a step.
+    (@stop/semtools, @minus/cheap…; `{cli} lists` shows them all). `{cli} read IN STEP --help` shows a step.
 
     Example: {cli} read core.csv remove-words --items купить dupes --kind lemmas --action drop write out.csv
     """
@@ -64,7 +64,7 @@ app = typer.Typer(cls=PipelineGroup, help=read.__doc__)
 app.callback(invoke_without_command=True)(read)
 for area_steps in steps.areas().values():
     for step in area_steps:
-        app.command(step.name)(step_command(step))
+        app.command(step.name, cls=ListsHelp if takes_items(step) else None)(step_command(step))
 app.command("write")(write)
 
 

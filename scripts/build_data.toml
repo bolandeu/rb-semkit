@@ -6,6 +6,7 @@ sheet_abc = "/Users/bolandau/Work/_sandbox/semtools/reverse/data/sheet_abc.tsv"
 vba = "/Users/bolandau/Work/_sandbox/semtools/reverse/vba/RibbonCallbacks.vba"
 find_irrelevant = "/Users/bolandau/Work/_sandbox/semtools/reverse/vba/findIrr.frm"
 markers = "/Users/bolandau/Work/_sandbox/semtools/reverse/downloads/spiski"
+bukvarix = "/Users/bolandau/Work/_sandbox/semtools/reference/bukvarix"
 
 # The add-in's output on reference phrases, one sheet per handler (tests/conformance/test_reference.py).
 [conformance]

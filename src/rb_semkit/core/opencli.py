@@ -51,6 +51,7 @@ def document(root: Any) -> dict:
             "x-rb-env": env_vars(),
             "x-rb-data": data(),
             "x-rb-external": [asdict(spec) for spec in deps.declared().values()],
+            "x-rb-lists": word_lists(),
         }
     )
     info = {"title": cli_name(), "version": installed_version() or DEV_VERSION}
@@ -183,6 +184,14 @@ def env_vars() -> list[dict]:
             for name, description in db.ENV_VARS.items()
         ]
     return found
+
+
+def word_lists() -> list[dict] | None:
+    """Every word list `@NAME` can name, with where it comes from and what it is; None when the tool has no lists."""
+    module = f"{_PACKAGE_NAME}.core.wordlists"
+    if not module_exists(module):
+        return None
+    return [asdict(entry) for entry in importlib.import_module(module).names()]
 
 
 def data() -> dict:

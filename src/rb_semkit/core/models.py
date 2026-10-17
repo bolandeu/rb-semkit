@@ -18,6 +18,7 @@ class CliCompat(BaseModel):
 class ProjectConfig(BaseModel):
     version: int = 1
     name: str
+    lists: list[str] = Field(default_factory=list)  # folders of word lists: absolute, ~ or relative to the project
     provider: ProviderConfig = Field(default_factory=ProviderConfig)
     output: OutputConfig = Field(default_factory=OutputConfig)
     cli: CliCompat = Field(default_factory=CliCompat)

@@ -1,0 +1,16 @@
+
+ Usage: semkit lists [OPTIONS] COMMAND [ARGS]...
+
+ Word lists: the bundled ones and the Human's own (list, show, add, rm).
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --json           Emit machine-readable JSON output.                                              │
+│ --quiet          Suppress non-essential output.                                                  │
+│ --help           Show this message and exit.                                                     │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Commands ───────────────────────────────────────────────────────────────────────────────────────╮
+│ show  Show the items of a word list, one per line.                                               │
+│ add   Copy a file into a folder of word lists under a name.                                      │
+│ rm    Remove a word list from a folder of lists. A bundled list is never removed.                │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

@@ -1,0 +1,5821 @@
+{
+ "wordlists/combine/kiev-region-towns.txt.gz": {
+  "source": "bukvarix/combiner/KievOblastTowns.txt",
+  "source_items": 28,
+  "bundled_items": 28,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/leningrad-region-villages.txt.gz": {
+  "source": "bukvarix/combiner/LeningradOblastVillages.txt",
+  "source_items": 43,
+  "bundled_items": 43,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/moscow-hotels.txt.gz": {
+  "source": "bukvarix/combiner/MoscowHotels.txt",
+  "source_items": 489,
+  "bundled_items": 489,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/moscow-metro.txt.gz": {
+  "source": "bukvarix/combiner/MoscowMetroStations.txt",
+  "source_items": 185,
+  "bundled_items": 185,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/moscow-region-villages.txt.gz": {
+  "source": "bukvarix/combiner/MoscowOblastVillages.txt",
+  "source_items": 4408,
+  "bundled_items": 3239,
+  "dropped": [
+   {
+    "item": "Алексеевка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Машино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Афанасово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дмитровка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дубровка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ескино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Головино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ивановское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Костюнино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Малыгино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Мелихово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новоселки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пешково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Еремино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ильинское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ивановское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Карачарово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Караваево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Крюково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рязанцы",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ступино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Жуково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бережки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Березняки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Данилово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дмитровка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Гора",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Горки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Горшково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Карцево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Колычево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Костино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Леоново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лобаново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Назарово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Панино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Старое",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Троица",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Юрьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Татищево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Давыдково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Федоровка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Горки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Горшково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Холмы",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ивановское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Карцево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Крюково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лобаново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лукино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Мансурово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Матвейково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Надеждино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Назарово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никитское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новинки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Павловское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Петровское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Покровское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рождествено",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Селиваниха",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Троица",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Успенское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Вельяминово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Высоково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Юрьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Захарово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Каменка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кишкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никулино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новоселки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сорокино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Токарево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Акатово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Акулово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Александрово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Анненка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Борисово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Борки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бортниково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бутырки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Давыдково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Горицы",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Горки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Городище",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Караваево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Копылово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Крюково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кузнецово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лазарево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лукино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Матвеево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Меленки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Михайловское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Мишнево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Надеждино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никольское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новая",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новоселки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Орлово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Овсянниково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Петровское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Слободка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Соколово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Терехово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Трехденево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Троицкое",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Васильково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Вертково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Волосово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Воронино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Введенское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Высоково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Языково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Заболотье",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Захарово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Зубово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Богдановка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Борисово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дубна",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Горки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Гришино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ильинское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Каменка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Комлево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лесной",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никульское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новая",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новоселки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пески",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Подосинки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Романовка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Семеновское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Суханово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Васильево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Глухово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Максимовка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Овсянниково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сабурово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сысоево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Тимошкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ащерино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Андреевское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Горки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Городище",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Красный Путь",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ленино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Летово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Марьино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новинки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новоленское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пенсионер",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Писково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Поливаново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Повадино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Прудки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Румянцево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Семенково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Семеновское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Суханово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Васильево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Яковлево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Заречный",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Афанасово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Акулово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Алферьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Андрейково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Березняки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Борки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бородино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Быково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Щеглятьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ильинское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Клусово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кульпино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лужки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Макарево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Матвейково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Михалево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Натальино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Павловское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Раменье",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Степаньково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Телешово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Васильевское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Владимировка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Волково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Введенское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Аксеново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Барсуки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Булгаково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Щекино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Федоровское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Городище",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Григорьевское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Игнатьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Курово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Орешково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Павловское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Протасово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Третьяково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Власьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Октябрьский",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Топорково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Александрово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Алексеевка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Андреевское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Авдотьино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Барсуки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бобры",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Борисово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бородино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бутырки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Доронино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Еремеево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Федоровское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Глазово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Голышкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Горбуны",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Губино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Хорошилово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Храброво",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ильинское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Каменка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Киселево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Клементьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Колычево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Красновидово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Крюково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кузяево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лесное",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Макарево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Михайловское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Михалево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Настасьино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Некрасово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никольское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новинки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новоселки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Нововасильевское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Панино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Петраково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Петрово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Починки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Подсосенье",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Поминово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Поповка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пушкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Семеновское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Шапкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сивково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сокольники",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сокольниково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Старое Село",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Троица",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Валуево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Воронино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Вороново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Юрьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Афанасово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Драчево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Еремино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ермолино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Филатово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Голенищево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Крюково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лыськово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Марфино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Михалево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Некрасовский",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никульское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пестово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Потапово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Протасово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пруссы",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рождествено",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Румянцево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Степаньково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Юрьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Афанасьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Акулово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Александровка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Алексеевка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Алексино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Алферьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Архангельское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Благовещенье",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Давыдково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Деденево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дубровка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дуброво",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дятлово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Федоровское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Фоминское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Горчаково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Григорово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ильинское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Каменка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Клин",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кобяково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Коровино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ковригино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Круги",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Крюково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кукшево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кузнецово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лобаново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лукино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Марфино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Настасьино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Назарьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никольское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новая",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новиково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новоселки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Орешково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Паново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Первомайское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Петровское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Плаксино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Покровка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Поповка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Редькино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ревякино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рождествено",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Руднево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рыжково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Семенково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Шапкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Шеломово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Шубино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Слепушкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Соколово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ступино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Татищево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Тимофеево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Васильево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Васькино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Власово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Якшино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Юрьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Абрамцево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Аксеново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Беседы",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ельня",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Горки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ивановское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Колычево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Круги",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Макарево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Марьино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Обухово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пешково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Починки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пушкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Шульгино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Старки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Степаново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Зубцово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Аксинино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Акулово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Андреевское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Андрианково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дубки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Фенино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Григорово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Козино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ларево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Латышская",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ляхово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Мамоново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Марьина Гора",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Марьино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Матвейково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Михайловское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Могильцы",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Назарьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никольское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Одинцово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пестово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Подлипки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Покровское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Поселок",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Раево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Русино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Семенково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Шарапово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Синьково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сивково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сурмино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Татарки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Тимохово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Троицкое",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Угрюмово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Успенское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Власово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Введенское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Захарово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Заречье",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Знаменское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Аксеново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Белавино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Богородское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Демихово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дуброво",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Елизарово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Глебово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Губино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Иванцево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кабаново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Коровино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Костино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Красное",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кузнецово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Минино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Молоково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Нестерово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новая",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новое",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Селиваниха",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Тимонино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Верея",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Власово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Высоково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Яковлево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Юрятино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Александровка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бутьково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Храброво",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Каменка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кобяково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кудрино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Марково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Протасово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рудаково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Старое",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Якшино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Алферово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Быково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Часовня",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Данилово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Демидово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дмитрово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Горшково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Грибаново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ковригино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Курово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Малыгино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Митино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Назарьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Перхурово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пестово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рахманово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сонино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Теренино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Васютино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Власово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Истра",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Акулово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Александровка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Андреевское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бородино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Щапово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дмитрово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дровнино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дятлово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ильино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Исаково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Каменка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Киселево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Колотилово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Красное",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кутино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Луговая",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лужки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Малыгино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Маврино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Михайловское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Мотовилово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никольское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никоново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новое Коледино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новомихайловское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новоселки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Овечкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Песье",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пески",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Петрово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Поливаново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пузиково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Романцево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Русино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Слащево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Тарасово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Терехово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Троица",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Троицкое",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Вороново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ярцево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Заболотье",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Алешино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Березняки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Центральный",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дарьино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Федоровское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Фомкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Городище",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Грибаново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Клязьма",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Костино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лесной",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Луговая",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Марьина Гора",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Михайловское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Могильцы",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Нагорное",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Назарово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никольское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никулино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Панино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Паршино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Павловское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Подвязново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пушкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рахманово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Раково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Семеновское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Тишково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Васильево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Васюково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Введенское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Жуковка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Антоново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Аринино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бельково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Большое Ивановское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бояркино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Булгаково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Быково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Щеголево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Давыдово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Денежниково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Денисьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дьяково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Фоминское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Головино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Григорово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Харитоново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Хлыново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Игумново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ивановка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Карпово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Константиново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Костино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кузнецово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Левино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Литвиново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лужки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Макаровка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Малая Володарка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Марково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Митьково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Морозово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Надеждино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Натальино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никитское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никулино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Нижнее Грибово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новлянское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Панино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Паткино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Петровское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Починки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Полушкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Поповка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Прудки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пушкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рогачево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сафоново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Семеновское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Шилово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Синьково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Слободка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Софино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Старково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Степановское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Тимонино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Титово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Васильево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Верея",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Вишняково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Власово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Воскресенское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Юрово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Захарово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Жуково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Акатово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Алексино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Алешино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Андрейково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Архангельское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бережки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Богородское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Большие Горки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Болтино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Щербинки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Денисиха",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дорохово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ескино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Филатово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Фролково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Гидроузел",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Горбово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Городище",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Городище",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ильинское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Иваново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Колодкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Комлево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Константиново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Козлово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Крюково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Курово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лукино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лужки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лыщиково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Михайловское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никольское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никулино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новая",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новомихайловское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новониколаевка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Покров",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Покровское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Поречье",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Притыкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Редькино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рождествено",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рыбушкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Семенково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Шилово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Шолохова",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сонино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Старое",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сычево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Вишенки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Волково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Воробьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Воскресенское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Александровка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Аннино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Беляево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Беззубово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Клинское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Коровино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Красное",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Курбатово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кузьминка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ламоново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ларино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никольское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новоселки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Петрово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Шеметово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Степановка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Тютьково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Васильевское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Абрамцево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Алексеево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Алферьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Алмазово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Антоново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Арханово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Березняки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Боблово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Богородское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Борисово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дубки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Еремино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Гаврилково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Глебово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Игнатьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Иванково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кикино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Константиново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Корытцево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Козлово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кудрино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лазарево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лихачево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Марьино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Михалево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Минино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Назарьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никитино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новинки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новоселки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Озерецкое",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Петрушино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Псарево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рогачево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рязанцы",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сахарово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сальково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Селиваново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Семенково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Шарапово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Шелково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Шубино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ситники",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Слободка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Судниково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Топорково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Торжнево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Васильевское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Власово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Воронцово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Воронино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Вороново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Воздвиженское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Высоково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Яковлево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Юдино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Юрцово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Заболотье",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Захарино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Заречный",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Золотилово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Зубцово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Акулово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Аладьино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Банино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бегичево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ескино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Фенино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Глазово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Игумново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Каменка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Костино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лукино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лукьяново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лужки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никифорово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новая Деревня",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новинки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новоселки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Петровское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Родники",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рогово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рыжково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Семеновское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Турово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Васильевское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Воскресенки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Якшино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Зайцево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дуброво",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Горчаково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кутузово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Петушки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Аксаково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Андреевское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Архангельское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бабенки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Березняки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бурцево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дмитровка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дятлово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Елизарово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Елизаветино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Фроловское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Гольцово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Городище",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Холмец",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ивановское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ивашково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Костино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Козлово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Максимково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Малинки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Михайловское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Михалево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Назарьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никольское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новиково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новомихайловское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новоникольское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Обухово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Орешки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Паново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пески",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Починки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Раменье",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Романцево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рябинки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Шахово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Софино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Соколово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Степаньково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сутоки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Тарасово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Варварино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Вишенки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Воскресенское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Высокое",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Высоково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Якшино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Юрьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Забелино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Замошье",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Алешино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Артемово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бабынино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Чернятино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Денисьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дмитровка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дорофеево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дубровка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Гавриловская",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Гаврино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Голыгино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Гора",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Горелово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Губино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Харинская",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ивановская",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кузнецы",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Маврино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Минино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новошино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Обухово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Перхурово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пески",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Петряиха",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Починки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пронино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пруды",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пятница",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сазоново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Семеновская",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Шарапово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сычи",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Терехово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Власово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Вяхерево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Высоково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Захаровка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Белавино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бережки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Березки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бородино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бухарово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дубровка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дулепово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дурыкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Елино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Есипово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Головково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Горбово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Холмы",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Карпово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Климово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Костино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Курилово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Липуниха",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Литвиново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Логиново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Марьино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Маслово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Муравьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никифорово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никольское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никулино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новая",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новинки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Обухово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Овсянниково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Парфеново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пешки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Погорелово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Покров",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Покровка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Поповка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Повадино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пятница",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Радищево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Радомля",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рахманово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Раково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Шапкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Соколово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Субботино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Судниково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Татищево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Терехово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Тимофеево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Тимоново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Васюково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Владычино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Воробьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Высокое",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Захарино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Залесье",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Жилино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Жуково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Аксинино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Антипино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Барыбино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бобры",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бортниково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бурцево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Чирково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Щапово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Денисьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Еганово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Горностаево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Городище",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Игнатьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ивановское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Каменка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Карпово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кишкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Коледино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Костомарово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ламоново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лаптево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Леньково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лобаново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ловцово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ляхово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лыськово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Матвейково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Мещерино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Мякинино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Назарово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новоалександровка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новоселки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Образцово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ольховка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Орешково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Петрищево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Петрово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Починки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Покровское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Полушкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Протасово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Псарево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Савельево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Семеновское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Шелково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сидорово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Спасское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Старое",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ступино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сумароково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Съяново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Татариново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Троицкое",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Тураево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Тютьково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Уварово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Васильевское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Вороново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Воскресенки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ярцево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Юсупово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Забелино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Захарово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Жилево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Андрейково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бородино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бурцево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дмитровка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дубки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дьяконово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ермолино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Федоровка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Федоровское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Федотово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Филиппово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Фоминское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Глебово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Глинки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Головачево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Григорово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Храброво",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Игумново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Иванцево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Климово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Курилово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кузнецово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Леоново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лесной",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Манихино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Некрасово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никитино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никитское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новая Деревня",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новоникольское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Овсянниково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ожигово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Павловское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Попадьино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Раменское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Растовцы",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Семеновское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Шадрино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Терехово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Волково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Вороново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Юдино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Жуково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Афанасово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Алферьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ананьино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Аннино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Авдотьино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Балобаново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Богданово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ботово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бражниково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Быково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Чеблоково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ченцы",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Чернево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Щекино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Данилково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Давыдово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дьяково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Еремеево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Федоровское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Федюково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Глазово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Горки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ханево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Игнатково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ильино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ильинское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Исаково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Иванцево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Иванково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ивановское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ивлево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Калинино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Калистово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Каменки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Карачарово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Клетки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Клишино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Княжево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Коняшино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Козино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Козлово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Красная Гора",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Куликово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Курбатово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кутино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кузьминское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кузяево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лапино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лазарево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Литвиново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Львово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лысцево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Медведки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Михайловское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Морозово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никольское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Носово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новинки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новлянское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новое",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Парфенково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пашково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Петровское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Покровское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Поречье",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Путятино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рахманово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Речки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рождественно",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рождествено",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Руза",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Середниково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сергово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Шестаково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ширяево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Шульгино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Софино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Соколово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Соснино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Спирово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Судниково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Татищево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Терехово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Теряево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Тимково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Тимонино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Токарево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Васильевское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Веригино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Вишенки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Владычино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Власьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ядрово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Юрьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Жуковка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Зубово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Аргуново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Богатищево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бояркино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Губино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Исаково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Карпово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Леоново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лидино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лукьяново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Максимовка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Марьинка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Медведево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Михалево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Муромцево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никольское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новлянское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новоселки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новотроицкое",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Осташево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Перхурово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пушкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ратчино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Руднево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сабурово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Старая",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Субботино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сухарево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Трофимово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Знаменка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Алферьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Алтухово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Аргуново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Чернево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Давыдово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дятлово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Федоровка",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Гололобово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ивашково",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Карманово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кишкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кудиново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Макеево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Михалево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Назарьево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никитино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Никольское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новая Деревня",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новоселки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Овечкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пенкино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Прудки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рябцево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Секирино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Шарапово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сохино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Титово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Трегубово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Якшино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Зайцево",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Замятино",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Зименки",
+    "reason": "a repeat of an earlier item"
+   }
+  ],
+  "added": []
+ },
+ "wordlists/combine/realty-object.txt.gz": {
+  "source": "bukvarix/combiner/RealEstateObject.txt",
+  "source_items": 53,
+  "bundled_items": 53,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/realty-service.txt.gz": {
+  "source": "bukvarix/combiner/RealEstateService.txt",
+  "source_items": 51,
+  "bundled_items": 43,
+  "dropped": [
+   {
+    "item": "продать",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "купить",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "обменять",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "куплю",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "продам",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "обменяю",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "сниму",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "сдам посуточно",
+    "reason": "a repeat of an earlier item"
+   }
+  ],
+  "added": []
+ },
+ "wordlists/combine/review.txt.gz": {
+  "source": "bukvarix/combiner/Review.txt",
+  "source_items": 36,
+  "bundled_items": 36,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/russia-cities-100k.txt.gz": {
+  "source": "bukvarix/combiner/RussianCities100.txt",
+  "source_items": 181,
+  "bundled_items": 181,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/russia-cities-250k.txt.gz": {
+  "source": "bukvarix/combiner/RussianCities250.txt",
+  "source_items": 83,
+  "bundled_items": 83,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/russia-cities-500k.txt.gz": {
+  "source": "bukvarix/combiner/RussianCities500.txt",
+  "source_items": 42,
+  "bundled_items": 42,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/shop.txt.gz": {
+  "source": "bukvarix/combiner/Shop.txt",
+  "source_items": 16,
+  "bundled_items": 16,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/spb-hotels.txt.gz": {
+  "source": "bukvarix/combiner/SPbHotels.txt",
+  "source_items": 165,
+  "bundled_items": 56,
+  "dropped": [
+   {
+    "item": "Аглая",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Азимут",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Амбассадор",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Англетер",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Андерсен",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Астория",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Балтия",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бельведер Невский",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бристоль",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Введенский",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Выборгская",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Гайот",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Голден Гарден",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Гранд Отель Эмеральд",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Гранд Отель Европа",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Деметра Арт Отель",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Достоевский",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Домина Престиж",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ибис Санкт-Петербург Центр",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Индиго",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Карелия",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кемпински Мойка 22",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Коринтия Невский Палас",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Краун Плаза Лиговский",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ладога",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Марриотт Васильевский",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Марриотт Пушкин",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Матисов Домик",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Москва",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Наш Отель",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Нептун",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новотель",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Октябрьская",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Охтинская",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Парк Инн Невский",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Парк Инн Прибалтийская",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Парк Инн Пулковская",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Петро Палас Отель",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Петро Спорт",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Поло Регата",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Полюстрово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Россия",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ренессанс Санкт-Петербург Балтик",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рэд Старс",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рэдиссон Роял",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рэдиссон Соня",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сокос Васильевский",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сокос Палас Бридж",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сокос Олимпия Гарден",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Холидей Инн Московские Ворота",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Эрмитаж",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "W  St Petersburg",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Red Stars",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Polo Regatta Hotel",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Аглая",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Азимут",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Амбассадор",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Англетер",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Андерсен",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Астория",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Балтия",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бельведер Невский",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Бристоль",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Введенский",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Выборгская",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Гайот",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Голден Гарден",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Гранд Отель Эмеральд",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Гранд Отель Европа",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Деметра Арт Отель",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Достоевский",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Домина Престиж",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ибис Санкт-Петербург Центр",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Индиго",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Карелия",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кемпински Мойка 22",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Коринтия Невский Палас",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Краун Плаза Лиговский",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ладога",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Марриотт Васильевский",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Марриотт Пушкин",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Матисов Домик",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Москва",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Наш Отель",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Нептун",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новотель",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Октябрьская",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Охтинская",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Парк Инн Невский",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Парк Инн Прибалтийская",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Парк Инн Пулковская",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Петро Палас Отель",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Петро Спорт",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Поло Регата",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Полюстрово",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Россия",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ренессанс Санкт-Петербург Балтик",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рэд Старс",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рэдиссон Роял",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Рэдиссон Соня",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сокос Васильевский",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сокос Палас Бридж",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Сокос Олимпия Гарден",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Холидей Инн Московские Ворота",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Эрмитаж",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "W  St Petersburg",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Golden Garden",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Red Stars",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Polo Regatta Hotel",
+    "reason": "a repeat of an earlier item"
+   }
+  ],
+  "added": []
+ },
+ "wordlists/combine/spb-metro.txt.gz": {
+  "source": "bukvarix/combiner/SPbMetroStations.txt",
+  "source_items": 82,
+  "bundled_items": 82,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism.txt.gz": {
+  "source": "bukvarix/combiner/Tourism.txt",
+  "source_items": 63,
+  "bundled_items": 61,
+  "dropped": [
+   {
+    "item": "авиа перелет подбор",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "авиаперелет подбор",
+    "reason": "a repeat of an earlier item"
+   }
+  ],
+  "added": []
+ },
+ "wordlists/combine/tourism/austria.txt.gz": {
+  "source": "bukvarix/combiner/TourismAustria.txt",
+  "source_items": 104,
+  "bundled_items": 102,
+  "dropped": [
+   {
+    "item": "Зальцбург",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Ишгль",
+    "reason": "a repeat of an earlier item"
+   }
+  ],
+  "added": []
+ },
+ "wordlists/combine/tourism/baltic.txt.gz": {
+  "source": "bukvarix/combiner/TourismBaltic.txt",
+  "source_items": 41,
+  "bundled_items": 41,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/benelux.txt.gz": {
+  "source": "bukvarix/combiner/TourismBenelux.txt",
+  "source_items": 33,
+  "bundled_items": 33,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/bulgaria.txt.gz": {
+  "source": "bukvarix/combiner/TourismBolgaria.txt",
+  "source_items": 35,
+  "bundled_items": 35,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/canada.txt.gz": {
+  "source": "bukvarix/combiner/TourismCanada.txt",
+  "source_items": 26,
+  "bundled_items": 26,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/caribbean.txt.gz": {
+  "source": "bukvarix/combiner/TourismCarribean.txt",
+  "source_items": 51,
+  "bundled_items": 51,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/china.txt.gz": {
+  "source": "bukvarix/combiner/TourismChina.txt",
+  "source_items": 37,
+  "bundled_items": 37,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/croatia.txt.gz": {
+  "source": "bukvarix/combiner/TourismCroatia.txt",
+  "source_items": 48,
+  "bundled_items": 48,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/cyprus.txt.gz": {
+  "source": "bukvarix/combiner/TourismCyprus.txt",
+  "source_items": 9,
+  "bundled_items": 9,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/czech.txt.gz": {
+  "source": "bukvarix/combiner/TourismCzech.txt",
+  "source_items": 50,
+  "bundled_items": 50,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/egypt.txt.gz": {
+  "source": "bukvarix/combiner/TourismEgypt.txt",
+  "source_items": 48,
+  "bundled_items": 48,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/france.txt.gz": {
+  "source": "bukvarix/combiner/TourismFrance.txt",
+  "source_items": 150,
+  "bundled_items": 150,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/germany.txt.gz": {
+  "source": "bukvarix/combiner/TourismGermany.txt",
+  "source_items": 80,
+  "bundled_items": 80,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/greece.txt.gz": {
+  "source": "bukvarix/combiner/TourismGreece.txt",
+  "source_items": 133,
+  "bundled_items": 122,
+  "dropped": [
+   {
+    "item": "Афины",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дельфы",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Закинф",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Корфу",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Кос",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Крит",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Лутраки",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Пелопоннес",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Родос",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Салоники",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Халкидики",
+    "reason": "a repeat of an earlier item"
+   }
+  ],
+  "added": []
+ },
+ "wordlists/combine/tourism/hungary.txt.gz": {
+  "source": "bukvarix/combiner/TourismHungary.txt",
+  "source_items": 24,
+  "bundled_items": 24,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/india.txt.gz": {
+  "source": "bukvarix/combiner/TourismIndia.txt",
+  "source_items": 95,
+  "bundled_items": 95,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/indonesia.txt.gz": {
+  "source": "bukvarix/combiner/TourismIndonesia.txt",
+  "source_items": 28,
+  "bundled_items": 28,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/israel.txt.gz": {
+  "source": "bukvarix/combiner/TourismIsrael.txt",
+  "source_items": 30,
+  "bundled_items": 30,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/italy.txt.gz": {
+  "source": "bukvarix/combiner/TourismItaly.txt",
+  "source_items": 339,
+  "bundled_items": 339,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/malaysia.txt.gz": {
+  "source": "bukvarix/combiner/TourismMalaysia.txt",
+  "source_items": 45,
+  "bundled_items": 45,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/mexico.txt.gz": {
+  "source": "bukvarix/combiner/TourismMexico.txt",
+  "source_items": 33,
+  "bundled_items": 33,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/montenegro.txt.gz": {
+  "source": "bukvarix/combiner/TourismMonteNegro.txt",
+  "source_items": 30,
+  "bundled_items": 30,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/poland.txt.gz": {
+  "source": "bukvarix/combiner/TourismPoland.txt",
+  "source_items": 46,
+  "bundled_items": 46,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/portugal.txt.gz": {
+  "source": "bukvarix/combiner/TourismPortugal.txt",
+  "source_items": 51,
+  "bundled_items": 51,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/scandinavia.txt.gz": {
+  "source": "bukvarix/combiner/TourismScandinavian.txt",
+  "source_items": 99,
+  "bundled_items": 99,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/spain.txt.gz": {
+  "source": "bukvarix/combiner/TourismSpain.txt",
+  "source_items": 205,
+  "bundled_items": 205,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/switzerland.txt.gz": {
+  "source": "bukvarix/combiner/TourismSwitzerland.txt",
+  "source_items": 55,
+  "bundled_items": 55,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/thailand.txt.gz": {
+  "source": "bukvarix/combiner/TourismThailand.txt",
+  "source_items": 68,
+  "bundled_items": 68,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/turkey.txt.gz": {
+  "source": "bukvarix/combiner/TourismTurkey.txt",
+  "source_items": 96,
+  "bundled_items": 96,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/uae.txt.gz": {
+  "source": "bukvarix/combiner/TourismUAE.txt",
+  "source_items": 21,
+  "bundled_items": 21,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/uk.txt.gz": {
+  "source": "bukvarix/combiner/TourismUK.txt",
+  "source_items": 50,
+  "bundled_items": 50,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/tourism/usa.txt.gz": {
+  "source": "bukvarix/combiner/TourismUSA.txt",
+  "source_items": 136,
+  "bundled_items": 136,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/ukraine-cities-100k.txt.gz": {
+  "source": "bukvarix/combiner/UkrainianCities100.txt",
+  "source_items": 43,
+  "bundled_items": 43,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/combine/ukraine-cities-250k.txt.gz": {
+  "source": "bukvarix/combiner/UkrainianCities250.txt",
+  "source_items": 23,
+  "bundled_items": 23,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/minus/abusive.txt.gz": {
+  "source": "bukvarix/minus/Abusive.txt",
+  "source_items": 364,
+  "bundled_items": 363,
+  "dropped": [
+   {
+    "item": "ебан*",
+    "reason": "a repeat of an earlier item"
+   }
+  ],
+  "added": []
+ },
+ "wordlists/minus/adult-hard.txt.gz": {
+  "source": "bukvarix/minus/Adult_hard.txt",
+  "source_items": 259,
+  "bundled_items": 259,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/minus/adult-soft.txt.gz": {
+  "source": "bukvarix/minus/Adult_soft.txt",
+  "source_items": 106,
+  "bundled_items": 106,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/minus/belarus-cities.txt.gz": {
+  "source": "bukvarix/minus/Belarus.txt",
+  "source_items": 106,
+  "bundled_items": 106,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/minus/cheap.txt.gz": {
+  "source": "bukvarix/minus/Cheap.txt",
+  "source_items": 28,
+  "bundled_items": 28,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/minus/computer.txt.gz": {
+  "source": "bukvarix/minus/Computer.txt",
+  "source_items": 200,
+  "bundled_items": 197,
+  "dropped": [
+   {
+    "item": "lg",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "чит",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "читы",
+    "reason": "a repeat of an earlier item"
+   }
+  ],
+  "added": []
+ },
+ "wordlists/minus/countries.txt.gz": {
+  "source": "bukvarix/minus/Country.txt",
+  "source_items": 252,
+  "bundled_items": 249,
+  "dropped": [
+   {
+    "item": "Кот д Ивуар",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Гвинея",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Гвинея",
+    "reason": "a repeat of an earlier item"
+   }
+  ],
+  "added": []
+ },
+ "wordlists/minus/ex-ussr-cities.txt.gz": {
+  "source": "bukvarix/minus/ExUSSR.txt",
+  "source_items": 1289,
+  "bundled_items": 1273,
+  "dropped": [
+   {
+    "item": "Железногорск",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Троицк",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Благовещенск",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Киров",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Мирный",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Белогорск",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Донецк",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Новомосковск",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Первомайск",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дзержинск",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Котовск",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Первомайск",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Дзержинск",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Иваново",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Аксай",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Армавир",
+    "reason": "a repeat of an earlier item"
+   }
+  ],
+  "added": []
+ },
+ "wordlists/minus/free.txt.gz": {
+  "source": "bukvarix/minus/Free.txt",
+  "source_items": 26,
+  "bundled_items": 26,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/minus/handmade.txt.gz": {
+  "source": "bukvarix/minus/Handmade.txt",
+  "source_items": 45,
+  "bundled_items": 43,
+  "dropped": [
+   {
+    "item": "как сделать",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "как приготовить",
+    "reason": "a repeat of an earlier item"
+   }
+  ],
+  "added": []
+ },
+ "wordlists/minus/kazakhstan-cities.txt.gz": {
+  "source": "bukvarix/minus/Kazakhstan.txt",
+  "source_items": 102,
+  "bundled_items": 102,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/minus/moscow-region-cities.txt.gz": {
+  "source": "bukvarix/minus/Moscow.txt",
+  "source_items": 97,
+  "bundled_items": 97,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/minus/russia-cities.txt.gz": {
+  "source": "bukvarix/minus/Russian.txt",
+  "source_items": 1097,
+  "bundled_items": 1097,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/minus/ukraine-cities.txt.gz": {
+  "source": "bukvarix/minus/Ukraine.txt",
+  "source_items": 433,
+  "bundled_items": 426,
+  "dropped": [
+   {
+    "item": "Первомайск",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Первомайск",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Городок",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Николаев",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Комсомольское",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Золочев",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Артемовск",
+    "reason": "a repeat of an earlier item"
+   }
+  ],
+  "added": []
+ },
+ "wordlists/minus/universal.txt.gz": {
+  "source": "bukvarix/minus/Universal.txt",
+  "source_items": 74,
+  "bundled_items": 74,
+  "dropped": [],
+  "added": []
+ },
+ "wordlists/minus/world-cities.txt.gz": {
+  "source": "bukvarix/minus/BigWorldCities.txt",
+  "source_items": 522,
+  "bundled_items": 519,
+  "dropped": [
+   {
+    "item": "Хайдарабад",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Валенсия",
+    "reason": "a repeat of an earlier item"
+   },
+   {
+    "item": "Казань",
+    "reason": "a repeat of an earlier item"
+   }
+  ],
+  "added": []
+ },
+ "wordlists/stop/wordstat.txt.gz": {
+  "source": "bukvarix/stop/YandexWS_stop_words.txt",
+  "source_items": 278,
+  "bundled_items": 278,
+  "dropped": [],
+  "added": []
+ }
+}

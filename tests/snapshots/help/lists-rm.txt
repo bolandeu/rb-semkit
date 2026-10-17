@@ -1,0 +1,22 @@
+
+ Usage: semkit lists rm [OPTIONS] {name}
+
+ Remove a word list from a folder of lists. A bundled list is never removed.
+
+ With --dry-run nothing is removed.
+
+ Example: semkit lists rm niche/mebel --from project
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│ *    name      <str>  The name of the list to remove, as niche/mebel. [required]                 │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --from           <str>  Where the list is: 'project' (the project's .rb_semkit/lists) or the     │
+│                         path of a folder of lists; ~ is the home folder.                         │
+│                         [default: project]                                                       │
+│ --json                  Emit machine-readable JSON output.                                       │
+│ --quiet                 Suppress non-essential output.                                           │
+│ --dry-run               Show what would happen without making changes.                           │
+│ --help                  Show this message and exit.                                              │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

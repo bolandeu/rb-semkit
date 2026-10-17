@@ -16,6 +16,7 @@ from .version import installed_version
 _PACKAGE_NAME = __name__.split(".")[0]
 PROJECT_DIR_NAME = f".{_PACKAGE_NAME}"
 CONFIG_FILE_NAME = "config.toml"
+LISTS_DIR_NAME = "lists"
 
 
 def find_project_root(start: Path) -> Path | None:
@@ -35,6 +36,11 @@ def require_project_root(start: Path) -> Path:
 
 def config_path(project_root: Path) -> Path:
     return project_root / PROJECT_DIR_NAME / CONFIG_FILE_NAME
+
+
+def project_lists_dir(project_root: Path) -> Path:
+    """The folder of the project's own word lists (`semkit lists add` puts them here)."""
+    return project_root / PROJECT_DIR_NAME / LISTS_DIR_NAME
 
 
 def check_cli_compat(config: ProjectConfig) -> None:
