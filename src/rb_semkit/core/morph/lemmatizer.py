@@ -4,6 +4,8 @@ A wordform goes to the !SEMTools dictionary first; a word not in it goes to pymo
 not know either gets its last four letters replaced by the add-in's `lemmSuf` table. With the fallback "pymorphy",
 every word not in the dictionary takes the best guess of pymorphy3 instead. Lemmas are lower case.
 `looks_like_adjective` is the add-in's adjective rule by the lemma ending; the pos matcher uses it too.
+`noun_parse` is the first noun parse of pymorphy3, from which the declension takes the animacy, the gender and the
+forms of a hyphenated noun.
 """
 
 from __future__ import annotations

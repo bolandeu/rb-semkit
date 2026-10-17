@@ -1,4 +1,7 @@
-"""Prepositional complements: a preposition and the words up to its noun («в москве», «для детей»); extract only."""
+"""Prepositional complements: a preposition and the words up to its noun («в москве», «для детей»); extract only.
+
+`complement_end` is the rule where a complement ends; the word order of a phrase (fix_word_order) uses it too.
+"""
 
 from __future__ import annotations
 

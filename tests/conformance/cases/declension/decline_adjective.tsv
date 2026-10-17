@@ -17,3 +17,10 @@ adj-neuter-soft	decline_adjective	{"case": "nominative", "gender": "neuter"}	с�
 adj-feminine-third	decline_adjective	{"case": "nominative", "gender": "feminine"}	третий	третьи	третья	Ошибки таблиц склонения исправлены	the feminine nominative of «третий» in adjExclusions2 is «третьи»	
 adj-plural-accusative-third	decline_adjective	{"case": "accusative", "number": "plural"}	третий	третьих	третьи	Ошибки таблиц склонения исправлены	the plural accusative of «третий» in adjExclusions2 is the animate «третьих»	
 adj-plural-possessive	decline_adjective	{"case": "nominative", "number": "plural"}	лисий	лисие	лисьи	Ошибки таблиц склонения исправлены	the plural of the ending «сий» in adjSuffixes is «сие»	
+adj-feminine-second	decline_adjective	{"case": "nominative", "gender": "feminine"}	второй	вторые	вторая	Ошибки таблиц склонения исправлены	the feminine nominative of «второй» in adjExclusions2 is «вторые»	
+adj-accusative-second	decline_adjective	{"case": "accusative"}	второй	второго	второй	Ошибки таблиц склонения исправлены	the masculine accusative of «второй» in adjExclusions2 is the animate «второго»	
+adj-plural-accusative-second	decline_adjective	{"case": "accusative", "number": "plural"}	второй	вторых	вторые	Ошибки таблиц склонения исправлены	the plural accusative of «второй» in adjExclusions2 is the animate «вторых»	
+adj-dative-blue	decline_adjective	{"case": "dative"}	голубой	голубого	голубому	Ошибки таблиц склонения исправлены	the dative of «голубой» in adjExclusions2 is «голубого»	
+adj-dative-pockmarked	decline_adjective	{"case": "dative"}	рябой	рябого	рябому	Ошибки таблиц склонения исправлены	the dative of «рябой» in adjExclusions2 is «рябого»	
+adj-plural-genitive-blue	decline_adjective	{"case": "genitive", "number": "plural"}	голубой	голубыъ	голубых	Ошибки таблиц склонения исправлены	the plural genitive of «голубой» in adjExclusions2 is the typo «голубыъ»	
+adj-plural-genitive-pockmarked	decline_adjective	{"case": "genitive", "number": "plural"}	рябой	рябыъ	рябых	Ошибки таблиц склонения исправлены	the plural genitive of «рябой» in adjExclusions2 is the typo «рябыъ»	

@@ -8,11 +8,11 @@ edit it. The terms and the other areas: [the summary](../conformance.md).
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
 | [decline](#decline) | 22 | 7 | 15 | 0 |
-| [decline_adjective](#decline_adjective) | 13 | 8 | 5 | 0 |
+| [decline_adjective](#decline_adjective) | 20 | 8 | 12 | 0 |
 | [decline_full_name](#decline_full_name) | 14 | 2 | 12 | 0 |
 | [decline_noun](#decline_noun) | 16 | 5 | 11 | 0 |
 | [irrelevant_words](#irrelevant_words) | 7 | 2 | 5 | 0 |
-| **All** | **72** | **24** | **48** | **0** |
+| **All** | **79** | **24** | **55** | **0** |
 
 ## decline
 
@@ -52,7 +52,7 @@ decline_adjective. VBA, RibbonCallbacks.vba: «Просклонять › При
 
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
-| `decline_adjective` | 13 | 8 | 5 | 0 |
+| `decline_adjective` | 20 | 8 | 12 | 0 |
 
 ### Deviations
 
@@ -63,6 +63,13 @@ decline_adjective. VBA, RibbonCallbacks.vba: «Просклонять › При
 | adj-feminine-third | `"третий"` | `"третьи"` | `"третья"` | Ошибки таблиц склонения исправлены | the feminine nominative of «третий» in adjExclusions2 is «третьи» |
 | adj-plural-accusative-third | `"третий"` | `"третьих"` | `"третьи"` | Ошибки таблиц склонения исправлены | the plural accusative of «третий» in adjExclusions2 is the animate «третьих» |
 | adj-plural-possessive | `"лисий"` | `"лисие"` | `"лисьи"` | Ошибки таблиц склонения исправлены | the plural of the ending «сий» in adjSuffixes is «сие» |
+| adj-feminine-second | `"второй"` | `"вторые"` | `"вторая"` | Ошибки таблиц склонения исправлены | the feminine nominative of «второй» in adjExclusions2 is «вторые» |
+| adj-accusative-second | `"второй"` | `"второго"` | `"второй"` | Ошибки таблиц склонения исправлены | the masculine accusative of «второй» in adjExclusions2 is the animate «второго» |
+| adj-plural-accusative-second | `"второй"` | `"вторых"` | `"вторые"` | Ошибки таблиц склонения исправлены | the plural accusative of «второй» in adjExclusions2 is the animate «вторых» |
+| adj-dative-blue | `"голубой"` | `"голубого"` | `"голубому"` | Ошибки таблиц склонения исправлены | the dative of «голубой» in adjExclusions2 is «голубого» |
+| adj-dative-pockmarked | `"рябой"` | `"рябого"` | `"рябому"` | Ошибки таблиц склонения исправлены | the dative of «рябой» in adjExclusions2 is «рябого» |
+| adj-plural-genitive-blue | `"голубой"` | `"голубыъ"` | `"голубых"` | Ошибки таблиц склонения исправлены | the plural genitive of «голубой» in adjExclusions2 is the typo «голубыъ» |
+| adj-plural-genitive-pockmarked | `"рябой"` | `"рябыъ"` | `"рябых"` | Ошибки таблиц склонения исправлены | the plural genitive of «рябой» in adjExclusions2 is the typo «рябыъ» |
 
 ### xfail
 
