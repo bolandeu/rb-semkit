@@ -8,11 +8,13 @@ from collections.abc import Iterator
 from itertools import combinations
 
 import pandas as pd
+import pymorphy3
 
+from .. import datastore
 from ..analysis.frequency import bundled_stopwords
 from ..errors import InvalidArguments
 from ..frame import Frame
-from ..morph.lemmatizer import is_known
+from ..morph.lemmatizer import LEMMAS
 from ..normalize import norm_phrase
 from ..text.base import whole_number
 from .spelling import Misspelling, SpellingProvider
@@ -38,7 +40,8 @@ def levenshtein(first: str, second: str) -> int:
 
 def _known(key: str) -> bool:
     """A stopword, or a wordform the lemmatizer's dictionaries hold («москве», «угловые», «пружинном»)."""
-    return key in bundled_stopwords() or is_known(key)
+    analyzer = datastore.once("pymorphy3", pymorphy3.MorphAnalyzer)
+    return key in bundled_stopwords() or key in datastore.trie(LEMMAS) or analyzer.word_is_known(key)
 
 
 def _deletes(word: str, distance: int) -> Iterator[str]:
