@@ -104,6 +104,8 @@ samples → dataio. XML feed. License.
 
 Built by `scripts/build_data.py` (all data but D15) and `scripts/build_markers.py` (D15) from the sandbox sources into
 `src/rb_semkit/data/`. Both scripts are re-runnable; the built files are committed (private repo). Sources stay outside the repo.
+`scripts/data_manifest.py` records, per built file, its source, the item counts and every dropped item with the reason
+(`tests/conformance/data_manifest.json`); `tests/conformance/test_data.py` checks the built files against it.
 
 | # | Data | Source | Rows | Package format | Load | Used by |
 |---|---|---|---|---|---|---|
