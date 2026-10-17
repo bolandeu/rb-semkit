@@ -53,3 +53,21 @@ Second epic, built on the same base (not to be forgotten):
   against competitor texts.
 - Ads: small ad groups of one intent, how an ad text fits each phrase of its group, the landing page per phrase.
 - Synonym candidates for words (RuWordNet + word vectors), coverage of a text by meaning.
+
+## Clarification, decided (the Human, 2026-10-18)
+
+1. Models: `semkit models pull NAME` once into the system cache (ADR 0009); `semkit models list`.
+2. Duplicates by meaning are a kind of `dupes` (`--kind meaning`), with a similarity column.
+3. A duplicate by meaning needs close vectors and only non-refining words or synonyms between the phrases;
+   bundled list `@meaning/neutral` (commercial words), the Human's own list adds to it; the home city by `--home`.
+4. `classify-queries`: a query report and `--against` the core; the nearest core phrase, similarity, target yes/no.
+   Nothing is dropped.
+5. `assign-pages`: `--pages` table (url + text); the best page, its similarity, the second page and its similarity.
+6. `--model` takes short names (e5-small default, bge-m3, potion) and `hf:<id>`.
+7. Exact search up to about 300k phrases, HNSW above, chosen by size and named in the step summary; deterministic.
+8. `cluster-meaning`: one `--threshold`; a phrase without neighbours is a cluster of one; the cluster's name is its
+   most frequent phrase (`--freq`) or the one nearest its centre.
+9. `off-topic`: distance from the core's centre weighted by frequency, or from `--seed` phrases; a 0–1 score and a
+   flag by threshold.
+10. The 200 labelled phrase pairs go into the repository as a quality test of the gate; it takes models from the
+    cache and is skipped, with a message, when they are not there.
