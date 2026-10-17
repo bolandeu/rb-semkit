@@ -2,10 +2,10 @@
 id: SEMKIT-023
 title: 'CLI pipeline core: read, chained steps, write; the step table and its generator;
   the text, dupes and n-gram steps'
-status: queue
+status: in_progress
 attempts: 0
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: needs_scope
 phase: null
 tests_hash: null
 publish_stage: null
@@ -33,8 +33,26 @@ owns_paths:
 - tests/snapshots/help/steps/text/
 - tests/snapshots/help/steps/dupes/
 - tests/snapshots/help/steps/analysis/
+- docs/plan.md
+- src/rb_semkit/commands/read.py
+- src/rb_semkit/core/dupes/functions.py
+- src/rb_semkit/core/errors.py
+- src/rb_semkit/core/frame.py
+- src/rb_semkit/core/lists/functions.py
+- src/rb_semkit/core/markers/lists.py
+- src/rb_semkit/core/text/base.py
+- src/rb_semkit/core/text/matchers/cells.py
+- src/rb_semkit/core/text/matchers/chars.py
+- src/rb_semkit/core/text/matchers/pos.py
+- src/rb_semkit/core/text/matchers/repeats.py
+- src/rb_semkit/core/text/matchers/spaces.py
+- src/rb_semkit/core/text/matchers/word_case.py
+- src/rb_semkit/core/text/matchers/word_content.py
+- src/rb_semkit/core/text/matchers/words.py
 test_paths:
 - tests/pipeline/
+- tests/snapshots/describe.json
+- tests/snapshots/help/read-write.txt
 docs: none
 tools: []
 worker_args: null
