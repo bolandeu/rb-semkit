@@ -2,7 +2,7 @@
 id: SEMKIT-015
 title: 'N-grams and bigrams: a docs column, the number of texts (cells) that hold
   the gram'
-status: queue
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -19,6 +19,7 @@ owns_paths:
 - tests/conformance/areas/analysis.py
 test_paths:
 - tests/analysis/
+- tests/conformance/case_files.py
 docs: none
 tools: []
 worker_args: null
@@ -40,7 +41,6 @@ translation: '**Колонка docs в n-граммах и биграммах.**
   в строке → split_text → ngrams: видно, какие слова и биграммы есть у 7 из 10. Сверка
   с надстройкой по count и sum не меняется.'
 ---
-
 
 To compare a text with competitor texts, a gram needs two numbers: how often it occurs (count) and in how many texts (rows, cells) it occurs. Add the column docs to the tables of sk.ngrams and sk.bigrams, right after count: the number of distinct index values of the input whose phrases hold the gram at least once. With a one-phrase-per-row core it is the number of phrases with the gram. With phrases cut from texts by sk.split_text (it keeps the source index, so the index repeats) it is the number of texts. Sorting stays by count, then ngram. The conformance comparison with the add-in keeps checking count and sum only; docs is a semkit addition (say so in the docstring; no ADR: the add-in has no such column).
 
