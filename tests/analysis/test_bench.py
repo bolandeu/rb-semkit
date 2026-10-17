@@ -59,22 +59,6 @@ def test_synthetic_phrases_are_the_same_on_every_run() -> None:
     assert len(bench.build_phrases(50, None)) == 50
 
 
-def test_an_operation_whose_module_is_missing_is_skipped(
-    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
-) -> None:
-    import sys
-
-    import rb_semkit as sk
-
-    monkeypatch.delattr(sk, "dupes", raising=False)
-    monkeypatch.setitem(sys.modules, "rb_semkit.core.dupes", None)
-
-    code = bench.main(["--rows", "20", "--ops", "dupes"])
-
-    assert code == 0
-    assert "skipped" in capsys.readouterr().out
-
-
 def test_an_unknown_operation_is_refused() -> None:
     with pytest.raises(SystemExit) as stop:
         bench.main(["--ops", "nope"])

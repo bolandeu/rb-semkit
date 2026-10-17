@@ -13,6 +13,8 @@ from ...errors import InvalidArguments
 from ...frame import map_unique
 from ..base import WordMatcher, collapse, split_words, word_key
 
+__all__ = ["phrases"]
+
 
 class Hit(NamedTuple):
     """Words `start` up to `stop` of a phrase hold a listed phrase, as the list spells it."""
@@ -104,12 +106,9 @@ def phrases(items: Iterable[str]) -> Phrases:
     words, then in characters; a tie keeps the list order), and the words of a taken phrase start no other. remove
     keeps the case of the other words; extract gives the phrases as the list spells them, joined by ', '.
 
-    VBA (RibbonCallbacks.vba):
-        find: `—k—k` (line 2218) with `–la` (lines 645–646).
-        remove: `aok–` (line 2733) with `DeletePhrases` (lines 3452–3470).
-        extract: `–a–a` (line 1736) with `la—` (lines 647–648).
-    ADR 0005: ё = е; split on any whitespace; no double spaces; remove keeps the case (`DeletePhrases` lower-cases);
-    extract joins by ', ', not "\\"; extract takes the longest phrase («нижний новгород»), `la—` the first in list
-    order found anywhere in the phrase («нижний»), and gives a word inside a found phrase its own marker too.
+    ADR 0005: ё = е; split on any whitespace; no double spaces; remove keeps the case (the add-in lower-cases the
+    cell); extract joins by ', ', not "\\"; extract takes the longest phrase («нижний новгород»), where the add-in
+    takes the first in list order found anywhere in the phrase («нижний») and gives a word inside a found phrase its
+    own marker too.
     """
     return Phrases(items)

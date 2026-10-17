@@ -1,6 +1,8 @@
 # repeats. VBA, RibbonCallbacks.vba (docs/vba/matchers.md F2, R2): find —k—– (L1731) with —la (L2938): two equal tokens of
 # Split(UCase(s), " "); remove aala (L2514) all, aal1 (L2257) en, aall (L2703) ru, remrepW (L1697) adjacent, aal· (L2569) numbers, aook (L2371)
 # wordforms; a later repeat goes, the first stays.
+# find with the other modes and scopes has no handler: derived from their remove handlers; wordforms with a scope has no handler:
+# derived from aook (L2371).
 case_id	function	call	input	vba	expected	rule	why	xfail
 repeats-find-exact	repeats.find	{}	диван Диван	TRUE	TRUE			
 repeats-find-exact-form	repeats.find	{}	диван диваны	FALSE	FALSE			

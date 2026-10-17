@@ -1,4 +1,4 @@
-"""scripts/build_data.py on the sandbox sources: re-runnable, byte-identical, the committed data is its output."""
+"""scripts/build_data.py on the sandbox sources: re-runnable, byte-identical, the committed data and manifests are its output."""
 
 from __future__ import annotations
 
@@ -15,11 +15,12 @@ ROOT = Path(__file__).resolve().parents[2]
 SCRIPT = ROOT / "scripts" / "build_data.py"
 CONFIG = ROOT / "scripts" / "build_data.toml"
 PACKAGE_DATA = ROOT / "src" / "rb_semkit" / "data"
+MANIFESTS = ROOT / "tests" / "conformance" / "data_manifest"
 BUILT_FILES = (
     "morph/lemmas.marisa",
     "morph/forms.marisa",
     "morph/morph.json",
-    "lists/lists.json",
+    "text/lists.json",
 )
 SOURCES = tomllib.loads(CONFIG.read_text())["sources"]
 SANDBOX_ABSENT = not all(Path(path).exists() for path in SOURCES.values())
@@ -28,8 +29,18 @@ pytestmark = pytest.mark.skipif(SANDBOX_ABSENT, reason="the !SEMTools sandbox so
 
 
 def _build(out: Path, config: Path = CONFIG) -> subprocess.CompletedProcess[str]:
+    """The data into `out`, the manifests into `out/manifests`."""
     return subprocess.run(  # noqa: S603
-        [sys.executable, str(SCRIPT), "--config", str(config), "--out", str(out)],
+        [
+            sys.executable,
+            str(SCRIPT),
+            "--config",
+            str(config),
+            "--out",
+            str(out),
+            "--manifests",
+            str(out / "manifests"),
+        ],
         capture_output=True,
         text=True,
         check=False,
@@ -51,8 +62,16 @@ def test_two_runs_are_byte_identical_and_match_the_package(built: Path, tmp_path
         assert (PACKAGE_DATA / name).read_bytes() == (built / name).read_bytes(), f"{name}: rebuild the package data"
 
 
+def test_the_committed_manifests_are_what_the_script_builds(built: Path) -> None:
+    built_manifests = sorted(path.name for path in (built / "manifests").iterdir())
+
+    assert built_manifests == sorted(path.name for path in MANIFESTS.iterdir())
+    for name in built_manifests:
+        assert (MANIFESTS / name).read_bytes() == (built / "manifests" / name).read_bytes(), f"{name}: rebuild"
+
+
 def test_json_files_are_compact_and_no_declension_tables_are_built(built: Path) -> None:
-    for name in ("morph/morph.json", "lists/lists.json"):
+    for name in ("morph/morph.json", "text/lists.json"):
         assert len((built / name).read_text().splitlines()) == 1, name
     assert not (built / "morph/decline.json").exists()
 
@@ -74,7 +93,7 @@ def test_row_counts(built: Path) -> None:
     lemmas = marisa_trie.BytesTrie().mmap(str(built / "morph/lemmas.marisa"))
     forms = marisa_trie.BytesTrie().mmap(str(built / "morph/forms.marisa"))
     morph = json.loads((built / "morph/morph.json").read_text())
-    lists = json.loads((built / "lists/lists.json").read_text())
+    lists = json.loads((built / "text/lists.json").read_text())
 
     # 845 374 source rows minus 6 junk rows (a number, «од?оклассники», 4 without a POS), 397 repeated wordforms
     assert len(lemmas) == 844_971
@@ -116,7 +135,7 @@ def test_known_lookups(built: Path) -> None:
     lemmas = marisa_trie.BytesTrie().mmap(str(built / "morph/lemmas.marisa"))
     forms = marisa_trie.BytesTrie().mmap(str(built / "morph/forms.marisa"))
     morph = json.loads((built / "morph/morph.json").read_text())
-    lists = json.loads((built / "lists/lists.json").read_text())
+    lists = json.loads((built / "text/lists.json").read_text())
 
     for wordform, value in KNOWN_LEMMAS.items():
         assert [v.decode() for v in lemmas[wordform]] == [value], wordform

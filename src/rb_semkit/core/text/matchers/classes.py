@@ -1,8 +1,8 @@
-"""The add-in's character classes and word tests (docs/vba/matchers.md S4), shared by the matchers.
+"""The add-in's character classes and word tests, shared by the matchers.
 
-VBA compares with `Option Compare Binary`, so `[A-Za-z]` and `[0-9]` are ASCII. A letter is «cased» when its upper and
-lower case differ (`UCase(c) <> LCase(c)`): latin, cyrillic, greek…, not CJK or Arabic; VBA strings are UTF-16, so
-only the Basic Multilingual Plane counts. Each class is a regex class body, to put inside `[…]` or `[^…]`.
+Latin letters (`[A-Za-z]`) and digits (`[0-9]`) are ASCII. A letter is «cased» when its upper and lower case differ:
+latin, cyrillic, greek…, not CJK or Arabic; only the Basic Multilingual Plane counts, as in the add-in. Each class is
+a regex class body, to put inside `[…]` or `[^…]`.
 """
 
 from __future__ import annotations
@@ -53,7 +53,7 @@ def cased() -> str:
 
 @cache
 def upper() -> str:
-    """The letters that differ from their lower case (`ooa`, line 2655)."""
+    """The letters that differ from their lower case."""
     return _class_of(lambda char: char != char.lower())
 
 
@@ -63,30 +63,30 @@ def _has_cased() -> re.Pattern[str]:
 
 
 def has_latin(word: str) -> bool:
-    """`a–—` (line 2153): an ASCII latin letter."""
+    """An ASCII latin letter."""
     return _HAS_LATIN.search(word) is not None
 
 
 def has_digit(word: str) -> bool:
-    """`·kk` (line 1619): an ASCII digit."""
+    """An ASCII digit."""
     return _HAS_DIGIT.search(word) is not None
 
 
 def has_cyrillic(word: str) -> bool:
-    """`—–o` (line 2147): a cyrillic letter of `CYRILLIC`."""
+    """A cyrillic letter of `CYRILLIC`."""
     return _HAS_CYRILLIC.search(word) is not None
 
 
 def has_cased(word: str) -> bool:
-    """A letter whose upper and lower case differ (`UCase(x) <> LCase(x)`)."""
+    """A letter whose upper and lower case differ."""
     return _has_cased().search(word) is not None
 
 
 def only_latin(word: str) -> bool:
-    """`ala` (line 1770): a latin letter and no digit and no `[А-Яа-я]`; punctuation is allowed («Wi-Fi»)."""
+    """A latin letter and no digit and no `[А-Яа-я]`; punctuation is allowed («Wi-Fi»)."""
     return has_latin(word) and _DIGIT_OR_RU.search(word) is None
 
 
 def is_numeric(word: str) -> bool:
-    """`··—` (line 2360): the word is a number for VBA `IsNumeric` («2», «1,5», «-5», «1e3»)."""
+    """The word is a number as the add-in reads numbers («2», «1,5», «-5», «1e3»)."""
     return _NUMERIC.fullmatch(word) is not None

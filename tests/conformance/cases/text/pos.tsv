@@ -1,7 +1,7 @@
 # pos. VBA, RibbonCallbacks.vba (docs/vba/matchers.md S9, F2, R2, X2). find: —k–a (L2266) noun, –··· (L2909) adj, —k—· (L2494) verb, —kkk
 # (L1663) adverb; remove: ak·· (L2642), —··a (L2697), ao—— (L1897), —··· (L2563); extract: –ao· (L2891), –—o— (L1948), –·ka (L2246), –—oa (L2480). The
 # word tests: ··– (L2207) noun, ··o (L1439) adj, ·ok (L1344) verb, oa– (L2154) adverb, on the dictionary lemms.tsv; a token is looked up with its
-# punctuation.
+# punctuation. The verb endings of ·ok are in the bundled lemmatizer.
 case_id	function	call	input	vba	expected	rule	why	xfail
 pos-find-noun	pos.find	{"kind": "noun"}	купить красный диван	TRUE	TRUE			
 pos-find-adj	pos.find	{"kind": "adj"}	купить красный диван	TRUE	TRUE			

@@ -102,10 +102,12 @@ samples → dataio. XML feed. License.
 
 ## 2. Reference data
 
-Built by `scripts/build_data.py` (all data but D15) and `scripts/build_markers.py` (D15) from the sandbox sources into
-`src/rb_semkit/data/`. Both scripts are re-runnable; the built files are committed (private repo). Sources stay outside the repo.
-`scripts/data_manifest.py` records, per built file, its source, the item counts and every dropped item with the reason
-(`tests/conformance/data_manifest.json`); `tests/conformance/test_data.py` checks the built files against it.
+Built by `scripts/build_data.py` from the sandbox sources: it runs one build part per area (`scripts/build_parts/<area>.py`),
+which writes into the area's folder `src/rb_semkit/data/<area>/` (morph: D1–D3, D6, D10; text: D11, D13, D14 and the prepositions;
+markers: D15). The script is re-runnable; the built files are committed (private repo). Sources stay outside the repo.
+Each part also records, per built file, its source, the item counts and every dropped item with the reason, in the area's
+data manifest (`tests/conformance/data_manifest/<area>.json`); `tests/conformance/test_data.py` checks the built files
+against the manifests.
 
 | # | Data | Source | Rows | Package format | Load | Used by |
 |---|---|---|---|---|---|---|

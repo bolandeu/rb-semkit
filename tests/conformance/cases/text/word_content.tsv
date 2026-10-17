@@ -3,6 +3,11 @@
 # (IsNumeric, ru locale), a·a— (L1864) has_digits; extract: –·–a (L1903) starts, ——·– (L2107) only_latin, –—k— (L2442) has_latin, ——·— (L2127)
 # only_digits, a·o– (L2916) mixed. A token is tested with its punctuation, UCase, ё ≠ е. find by a kind of characters has no handler: derived from its
 # remove and extract handlers; vba is the derived value.
+# More handlers. find: —ka– (L2759) ends a list, —kk— (L2556) contains a list; contains one pattern has no handler
+# (SEM_findCellsContainingPattern is missing): derived from —kk— (L2556). remove: aoa· (L1762) starts a list, aoa– (L1887) ends,
+# aoa— (L2706) ends a list, aoao (L2183–2185) contains a list; mixed has no handler: derived from a·o– (L2916). extract: –·–· (L2513)
+# starts a list, –·–– (L1816) ends, –·–— (L2330) ends a list, –·k· (L2156) contains a list, –—k– (L2416) has_digits; contains one
+# pattern has no handler: derived from –·k· (L2156).
 case_id	function	call	input	vba	expected	rule	why	xfail
 word_content-find-starts	word_content.find	{"kind": "starts", "pattern": "диван"}	купить диванчик	TRUE	TRUE			
 word_content-find-starts-list	word_content.find	{"kind": "starts", "pattern": ["див", "крес"]}	стол	FALSE	FALSE			

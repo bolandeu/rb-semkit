@@ -7,6 +7,8 @@ import pandas as pd
 from ...frame import map_unique
 from ..base import Matcher, collapse, compiled
 
+__all__ = ["regex"]
+
 
 class Regex(Matcher):
     def __init__(self, pattern: str, *, all_matches: bool, invert: bool) -> None:
@@ -50,12 +52,6 @@ def regex(pattern: str, *, all_matches: bool = False, invert: bool = False) -> R
     nothing between («диван 120x200» with \\d+ → «120200»); extract gives the text outside the matches («диван x»);
     find is True where such text is left.
 
-    VBA (RibbonCallbacks.vba):
-        find: `—koa` (line 2089); invert: no VBA handler: derived from `aok·` (line 1820).
-        remove: `aoka` (line 2363); invert `aok·` (line 1820), its bug fixed (it takes an empty pattern).
-        extract: `–a—–` (line 2712), all_matches `–a——` (lines 2877–2878), joined by a space (the VBA asks for the
-        separator); invert: no VBA handler: derived from `aok·` (line 1820).
-    ADR 0005: \\w, \\b and \\d understand Cyrillic (Unicode, not the ASCII of VBScript); no double spaces in the
-    results.
+    ADR 0005: \\w, \\b and \\d understand Cyrillic (Unicode); no double spaces in the results.
     """
     return Regex(pattern, all_matches=all_matches, invert=invert)

@@ -1,0 +1,61 @@
+{
+ "text/lists.json:abbreviations": {
+  "source": "sheet abc M1:M1016 (abbreviations)",
+  "source_items": 1016,
+  "bundled_items": 1016,
+  "dropped": [],
+  "added": []
+ },
+ "text/lists.json:complement_prepositions": {
+  "source": "RibbonCallbacks.vba L1428: the literal of complement_prepositions",
+  "source_items": 16,
+  "bundled_items": 16,
+  "dropped": [],
+  "added": []
+ },
+ "text/lists.json:phrase_start_words": {
+  "source": "sheet abc BA1:BA644 (phrase_start_words)",
+  "source_items": 644,
+  "bundled_items": 644,
+  "dropped": [],
+  "added": []
+ },
+ "text/lists.json:prepositions": {
+  "source": "RibbonCallbacks.vba L1322: the literal of prepositions",
+  "source_items": 47,
+  "bundled_items": 46,
+  "dropped": [
+   {
+    "item": "g",
+    "reason": "junk in the VBA literal: a stray latin letter among the Russian words"
+   }
+  ],
+  "added": []
+ },
+ "text/lists.json:stopwords": {
+  "source": "RibbonCallbacks.vba L1374: the literal of stopwords",
+  "source_items": 440,
+  "bundled_items": 439,
+  "dropped": [
+   {
+    "item": "g",
+    "reason": "junk in the VBA literal: a stray latin letter among the Russian words"
+   }
+  ],
+  "added": []
+ },
+ "text/lists.json:toponym_prepositions_en": {
+  "source": "RibbonCallbacks.vba L1194: the literal of toponym_prepositions_en",
+  "source_items": 4,
+  "bundled_items": 4,
+  "dropped": [],
+  "added": []
+ },
+ "text/lists.json:toponym_prepositions_ru": {
+  "source": "RibbonCallbacks.vba L1194: the literal of toponym_prepositions_ru",
+  "source_items": 8,
+  "bundled_items": 8,
+  "dropped": [],
+  "added": []
+ }
+}

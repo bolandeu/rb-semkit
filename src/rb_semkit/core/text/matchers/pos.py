@@ -9,6 +9,8 @@ from ...morph.functions import BUNDLED
 from ...morph.lemmatizer import looks_like_adjective
 from ..base import WordMatcher, choice
 
+__all__ = ["pos"]
+
 CODES = {"noun": "n", "verb": "v", "adverb": "advb"}
 # `··o` (line 1439): a word with one of these codes is no adjective, whatever its lemma looks like
 NOT_ADJECTIVES = frozenset({"n", "v", "advb", "p", "prep", "conj", "nv"})
@@ -26,7 +28,7 @@ class Pos(WordMatcher):
         return lambda word: self._lemmatizer.pos(word.lower()) == code
 
     def _is_adjective(self, word: str) -> bool:
-        """`··o`: the code «a»; else, but for the codes of NOT_ADJECTIVES, a lemma that ends like an adjective.
+        """The code «a»; else, but for the codes of NOT_ADJECTIVES, a lemma that ends like an adjective.
 
         The add-in looks the word up as written, so a word with a capital has no code and goes to the lemma rule.
         """
@@ -47,12 +49,6 @@ def pos(kind: str, *, lemmatizer: Lemmatizer | None = None) -> Pos:
     capital is looked up by that rule only («Быстро» is an adjective, as in the add-in).
     lemmatizer: what gives the part of speech and the lemma of a word; None is the bundled !SEMTools dictionary.
 
-    VBA (RibbonCallbacks.vba):
-        find: `—k–a` (line 2266) noun, `–···` (line 2909) adj, `—k—·` (line 2494) verb, `—kkk` (line 1663) adverb.
-        remove: `ak··` (line 2642) noun, `—··a` (line 2697) adj, `ao——` (line 1897) verb, `—···` (line 2563) adverb.
-        extract: `–ao·` (line 2891) noun, `–—o—` (line 1948) adj, `–·ka` (line 2246) verb, `–—oa` (line 2480) adverb.
-        The tests of a word: `··–` (line 2207) noun, `··o` (line 1439) adj, `·ok` (line 1344) verb, `oa–` (line 2154)
-        adverb; the verb endings of `·ok` are in the bundled lemmatizer.
     ADR 0005: split on any whitespace; ё = е in the lookup.
     """
     return Pos(kind, lemmatizer)

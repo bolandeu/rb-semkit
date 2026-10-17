@@ -11,6 +11,8 @@ from ...frame import map_unique
 from ...normalize import norm_phrase
 from ..base import Matcher, bundled_list, choice, compiled, split_words, word_key
 
+__all__ = ["cells"]
+
 CONTENT = ("contains", "starts", "ends")
 KINDS = (*CONTENT, "regex", "empty", "unique", "repeated", "first", "last")
 
@@ -117,18 +119,6 @@ def cells(
     cells, in any case and ё as е: "unique" (once), "repeated" (more than once), "first", "last" occurrence.
     Empty cells are never repeats of each other.
 
-    VBA (RibbonCallbacks.vba):
-        find: `—kk—` (line 2556) contains, `—ko·` (line 2172) starts, `—koo` (line 2822) ends, `findFFWprps`
-        (line 2304) starts with a preposition, `findFLWprps` (line 2305) ends with one, `—koa` (line 2089) regex,
-        `—kk–` (line 1872) empty, `—k—a` (line 2170) unique, `—k–—` (line 2214) repeated, `—k–k` (line 2846) first,
-        `—k––` (line 2493) last; contains a preposition: no VBA handler: derived from `findFFWprps` (line 2304).
-        remove: `remBlankCellsUp` (line 178) empty drops the rows; `akok` (line 1868) contains, `ak–a` (line 2613)
-        starts, `ak–k` (line 2248) ends, `akk·` (line 2969) regex, `ao—–` (line 2074) unique, `ak·a` (line 2358)
-        repeated clear the cell; first, last, prepositions: no VBA handler: derived from `ak·a` (line 2358) and
-        `ak–a` (line 2613).
-        extract: `–——k` (line 2101) contains, `—·–·` (line 2935) starts, `—·––` (line 2645) ends, `–·k—` (line 2942)
-        unique, `–aoa` (line 2911) repeated; regex: no VBA handler (`—·–a` is broken): derived from `akk·`
-        (line 2969); empty, first, last, prepositions: no VBA handler: derived from their find handlers.
     ADR 0005: ё = е; empty cells are never duplicates; regex classes understand Cyrillic (Unicode); the fixed
     preposition list («по», no «g»); blank list items are refused.
     """

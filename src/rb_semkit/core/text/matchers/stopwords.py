@@ -7,6 +7,8 @@ from collections.abc import Iterable
 from ...normalize import norm_phrase
 from ..base import Matcher, WordMatcher, bundled_list, word_key, word_list
 
+__all__ = ["stopwords"]
+
 
 class Stopwords(WordMatcher):
     find = Matcher.find
@@ -26,9 +28,6 @@ def stopwords(extra: Iterable[str] | None = None) -> Stopwords:
     A word is compared as written: «и,» with its comma is no stopword. Case and ё do not count.
     extra: your own words, taken together with the bundled list.
 
-    VBA (RibbonCallbacks.vba):
-        remove: `a·–·` (line 2285) with `Del1DimArr` (line 2284) and the list `stopwords` (lines 1374–1378); extra:
-        no VBA handler: derived from `a·–·` (line 2285).
     ADR 0005: stopwords in any case; ё = е; split on any whitespace; no double spaces; the junk word «g» dropped.
     """
     return Stopwords(extra)

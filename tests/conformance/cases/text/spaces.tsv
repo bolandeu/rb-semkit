@@ -1,5 +1,6 @@
 # spaces.remove. VBA, RibbonCallbacks.vba (docs/vba/matchers.md R1): –aal (L1941) extra = a· (L1855), —ako (L2926) left = LTrim, a–o— (L2230)
 # right = RTrim, a–k— (L1878) both = Trim; only U+0020 counts. all has no handler: derived from –aal, every space cut; vba is the derived value.
+# –aal (L1941) is the button «Лишние пробелы > Все».
 case_id	function	call	input	vba	expected	rule	why	xfail
 spaces-remove-extra	spaces.remove	{"kind": "extra"}	  купить   диван 	купить диван	купить диван			
 spaces-remove-extra-none	spaces.remove	{"kind": "extra"}	диван	диван	диван			

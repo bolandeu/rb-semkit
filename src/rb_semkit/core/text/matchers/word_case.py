@@ -7,6 +7,8 @@ from collections.abc import Callable
 from ..base import Matcher, WordMatcher, choice
 from . import classes
 
+__all__ = ["word_case"]
+
 # The word as it is written, punctuation included; a word with no cased letter has no case («2024», «—»).
 CASES: dict[str, Callable[[str], bool]] = {
     "lower": lambda word: word == word.lower(),
@@ -31,9 +33,6 @@ def word_case(kind: str) -> WordCase:
     kind: "lower" (no capital letter: «x5»); "Capital" (each run of letters starts with a capital, the rest small:
     «Москве», not «iPhone» or «Из-за»); "CAPS" (no small letter: «BMW», «В»).
 
-    VBA (RibbonCallbacks.vba):
-        find: `aakL` (line 1665) lower, `aakP` (line 1666) Capital, `aakC` (line 1667) CAPS.
-        extract: no VBA handler: derived from `aakL` (line 1665), `aakP` (line 1666), `aakC` (line 1667).
     ADR 0005: split on any whitespace.
     """
     return WordCase(kind)

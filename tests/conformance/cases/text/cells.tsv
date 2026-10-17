@@ -2,7 +2,9 @@
 # findFFWprps (L2304) and findFLWprps (L2305) with prps (L1322), —koa (L2089) regex, —kk– (L1872) empty, —k—a (L2170) unique, —k–— (L2214)
 # repeated, —k–k (L2846) first, —k–– (L2493) last (o—— L381–434, koo· L2929: key UCase, empty cells counted). remove: remBlankCellsUp (L178) empty,
 # akok (L1868) contains, akk· (L2969) regex, ao—– (L2074) unique, ak·a (L2358) repeated. extract: –——k (L2101) contains, —·–· (L2935) starts,
-# —·–– (L2645) ends, –·k— (L2942) unique, –aoa (L2911) repeated.
+# —·–– (L2645) ends, –·k— (L2942) unique, –aoa (L2911) repeated. remove also: ak–a (L2613) starts, ak–k (L2248) ends. No handler, derived:
+# find contains a preposition from findFFWprps (L2304); remove first, last, prepositions from ak·a (L2358) and ak–a (L2613); extract regex from
+# akk· (L2969) (—·–a is broken); extract empty, first, last, prepositions from their find handlers; vba is the derived value.
 case_id	function	call	input	vba	expected	rule	why	xfail
 cells-find-contains	cells.find	{"kind": "contains", "items": ["диван"]}	Купить диван | кресло	TRUE | FALSE	TRUE | FALSE			
 cells-find-starts	cells.find	{"kind": "starts", "items": ["купить"]}	купить диван | купитьдиван | диван купить	TRUE | TRUE | FALSE	TRUE | TRUE | FALSE			

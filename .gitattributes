@@ -1,4 +1,4 @@
-# Built data, not written by hand (scripts/build_data.py, scripts/build_markers.py; ADR 0002): Antagor counts it by file.
+# Built data, not written by hand (scripts/build_data.py and its build parts; ADR 0002): Antagor counts it by file.
 src/rb_semkit/data/morph/** linguist-generated
-src/rb_semkit/data/lists/** linguist-generated
+src/rb_semkit/data/text/** linguist-generated
 src/rb_semkit/data/markers/** linguist-generated

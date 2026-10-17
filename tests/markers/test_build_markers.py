@@ -1,4 +1,5 @@
-"""scripts/build_markers.py on the sandbox xlsx: re-runnable, byte-identical, the committed lists are its output."""
+"""The markers build part of scripts/build_data.py on the sandbox xlsx: re-runnable, byte-identical, the committed lists
+are its output."""
 
 from __future__ import annotations
 
@@ -15,21 +16,34 @@ import pytest
 import rb_semkit as sk
 
 ROOT = Path(__file__).resolve().parents[2]
-SCRIPT = ROOT / "scripts" / "build_markers.py"
+SCRIPT = ROOT / "scripts" / "build_data.py"
 CONFIG = ROOT / "scripts" / "build_data.toml"
 PACKAGE_MARKERS = ROOT / "src" / "rb_semkit" / "data" / "markers"
-SPISKI = Path(tomllib.loads(CONFIG.read_text())["sources"]["markers"])
+SOURCES = tomllib.loads(CONFIG.read_text())["sources"]
+SPISKI = Path(SOURCES["markers"])
 LIST_NAMES = (
     *("geo", "mosmetro", "districts", "MO", "citiesRu", "questions", "fun", "DIY", "edu"),
     *("game", "sale", "rent", "reviews", "color", "material", "origin", "cars", "names"),
 )
 
-pytestmark = pytest.mark.skipif(not SPISKI.is_dir(), reason="the !SEMTools sandbox sources are not on this machine")
+SANDBOX_ABSENT = not all(Path(path).exists() for path in SOURCES.values())
+
+pytestmark = pytest.mark.skipif(SANDBOX_ABSENT, reason="the !SEMTools sandbox sources are not on this machine")
 
 
 def _build(out: Path, config: Path = CONFIG) -> subprocess.CompletedProcess[str]:
+    """The data into `out`, the manifests into `out/manifests`."""
     return subprocess.run(  # noqa: S603
-        [sys.executable, str(SCRIPT), "--config", str(config), "--out", str(out)],
+        [
+            sys.executable,
+            str(SCRIPT),
+            "--config",
+            str(config),
+            "--out",
+            str(out),
+            "--manifests",
+            str(out / "manifests"),
+        ],
         capture_output=True,
         text=True,
         check=False,
@@ -89,7 +103,8 @@ def test_a_missing_xlsx_exits_naming_it(tmp_path: Path) -> None:
     spiski = tmp_path / "spiski"
     shutil.copytree(SPISKI, spiski, ignore=shutil.ignore_patterns("cars.xlsx"))
     config = tmp_path / "build_data.toml"
-    config.write_text(f'[sources]\nmarkers = "{spiski}"\n')
+    sources = {**SOURCES, "markers": str(spiski)}
+    config.write_text("[sources]\n" + "".join(f'{key} = "{value}"\n' for key, value in sources.items()))
 
     result = _build(tmp_path / "out", config)
 
@@ -104,7 +119,7 @@ def test_gitattributes_marks_all_built_data_as_generated() -> None:
     marked = {line.split()[0] for line in lines if line.endswith("linguist-generated")}
     assert marked == {
         "src/rb_semkit/data/morph/**",
-        "src/rb_semkit/data/lists/**",
+        "src/rb_semkit/data/text/**",
         "src/rb_semkit/data/markers/**",
     }
     assert "ADR 0002" in lines[0]
