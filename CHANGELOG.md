@@ -5,6 +5,13 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.20 — 2026-10-17
+
+### Outside epics
+
+- CLI read keeps numeric columns numeric; only the text columns are text (SEMKIT-028)
+- Project config test: .agents/antagor/.gitignore holds state/ and receipts/; Antagor may add its own lines (SEMKIT-029)
+
 ## v0.1.19 — 2026-10-17
 
 ### E-003 — semkit CLI: one command line is a pipeline of steps over the whole library; named word lists

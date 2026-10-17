@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-028
 title: CLI read keeps numeric columns numeric; only the text columns are text
-status: publish
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
