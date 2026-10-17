@@ -125,3 +125,9 @@ Minor remarks of the review: optional, if they do not widen the task:
 - [minor] docs/plan.md (joined outside the slice): the edit is needed (D12/D16 now built in the area, "later" removed). The new line is longer than the neighbours; style only.
 - [minor] [extra] `change_case` has `sentence_lower`; `fix_word_order` has `lemmatizer=` and `complements=`; `insert` has `each_word`. The task names none of them. They come from the add-in or from ADR 0003/0005, and the deviations document explains them — «insert text before / after each word, at the start / end of the phrase». Accept.
 - [minor] [wrong] The task lists the match type «exact». `match_type` has no kind of that name (`kind='exact'` is refused in `tests/change/test_errors.py`). The nearest are "fixed_forms" («!A») and "quoted_fixed_order" («"[!A]"»). The docstring should say which kind is the exact match — «match types: broad «+A», «!A», phrase «[A]» and «"A"», exact, anti-semantic».
+
+### Answer to finding #1
+
+> tests/core/test_build_data.py BUILT_FILES and the compact-JSON check do not list change/translit.json and change/word_order.json. SEMKIT-011 left them out because SEMKIT-012 holds the file. The manifest test there already compares change.json with the build. Add the two files when the file is free.
+
+Taken into SEMKIT-021.
