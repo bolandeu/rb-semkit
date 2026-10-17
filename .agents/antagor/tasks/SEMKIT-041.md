@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-041
 title: 'synonym-candidates: RuWordNet and navec pulled as models'
-status: publish
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
