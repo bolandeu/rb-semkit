@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-044
 title: 'coverage --gap: phrases with inserted words'
-status: in_progress
+status: queue
 attempts: 0
-blocked: true
-blocked_reason: scope_held
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -79,3 +79,7 @@ The word index of coverage: a text is scanned once, phrases are looked up by the
 
 - named kinds of occurrence, a column per kind, a stricter exact
 - target counts per phrase
+
+## Feedback
+
+### Blocked: scope_held (holders ['SEMKIT-042'], paths ['tests/snapshots/describe.json'])

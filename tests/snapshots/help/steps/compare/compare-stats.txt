@@ -3,16 +3,18 @@
 
  The metrics of text-stats, mine against the competitors: a row per metric.
 
- tolerance: how far from the median a metric is still within, a share of the median (0.3 is ±30 %).
+ tolerance: how far from the norm a metric is still within, a share of the norm (0.3 is ±30 %).
+ norm: «median» (the default) or «mean»: what delta and the verdict are against.
+ no_digits: leave out the words with a digit of every count, as text-stats does.
+ exclude: words to leave out of every count, as text-stats does.
 
- The columns: metric; mine; median, min, max, the metric over the competitors; delta, mine -
- median; verdict, «below», «within» or «above», mine against median x (1 ± tolerance), and when the
- median is 0, «within» if mine is 0, else «above». Numbers are rounded to 4 decimals; the counts
- (chars, chars_no_spaces, words, unique) stay whole numbers where they are whole. The only norm is
- the median.
+ The columns: metric; mine; median, mean, min, max, the metric over the competitors; delta, mine -
+ the norm; verdict, «below», «within» or «above», mine against norm x (1 ± tolerance), and when the
+ norm is 0, «within» if mine is 0, else «above». Numbers are rounded to 4 decimals; the counts
+ (chars, chars_no_spaces, words, unique) stay whole numbers where they are whole.
 
  competitors: a file with the texts of the competitors, one per row, in its first text column; the
- file is read like `read` does.
+ file is read like `read` does. A url column, if the file has one, names the columns of --per-text.
 
  The step takes the working column as my text (its cells, one per line); the table of the
  comparison replaces the current one.
@@ -21,15 +23,51 @@
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   COMPETITORS      <str>  a file with the texts of the competitors, one per row, in its first    │
-│                           text column; the file is read like `read` does. The same as            │
+│                           text column; the file is read like `read` does. A url column, if the   │
+│                           file has one, names the columns of --per-text. The same as             │
 │                           --competitors COMPETITORS.                                             │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --competitors        COMPETITORS  a file with the texts of the competitors, one per row, in its  │
-│                                   first text column; the file is read like `read` does.          │
-│ --tolerance          <float>      how far from the median a metric is still within, a share of   │
-│                                   the median (0.3 is ±30 %).                                     │
-│                                   [default: 0.3]                                                 │
-│ --help                            Show this message and exit.                                    │
+│ --competitors        COMPETITORS    a file with the texts of the competitors, one per row, in    │
+│                                     its first text column; the file is read like `read` does. A  │
+│                                     url column, if the file has one, names the columns of        │
+│                                     --per-text.                                                  │
+│ --tolerance          <float>        how far from the norm a metric is still within, a share of   │
+│                                     the norm (0.3 is ±30 %).                                     │
+│                                     [default: 0.3]                                               │
+│ --norm               <mean|median>  «median» (the default) or «mean»: what delta and the verdict │
+│                                     are against.                                                 │
+│                                     [default: median]                                            │
+│ --no-digits                         leave out the words with a digit of every count, as          │
+│                                     text-stats does.                                             │
+│ --exclude            <str>          words to leave out of every count, as text-stats does.       │
+│                                     Items: a comma list 'a,b', @FILE (one item per line, or the  │
+│                                     first column of a table) or @NAME of a list.                 │
+│ --help                              Show this message and exit.                                  │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+ Lists for @NAME: @combine/kiev-region-towns, @combine/leningrad-region-villages,
+ @combine/moscow-hotels, @combine/moscow-metro, @combine/moscow-region-villages,
+ @combine/realty-object, @combine/realty-service, @combine/review, @combine/russia-cities-100k,
+ @combine/russia-cities-250k, @combine/russia-cities-500k, @combine/shop, @combine/spb-hotels,
+ @combine/spb-metro, @combine/tourism, @combine/tourism/austria, @combine/tourism/baltic,
+ @combine/tourism/benelux, @combine/tourism/bulgaria, @combine/tourism/canada,
+ @combine/tourism/caribbean, @combine/tourism/china, @combine/tourism/croatia,
+ @combine/tourism/cyprus, @combine/tourism/czech, @combine/tourism/egypt, @combine/tourism/france,
+ @combine/tourism/germany, @combine/tourism/greece, @combine/tourism/hungary,
+ @combine/tourism/india, @combine/tourism/indonesia, @combine/tourism/israel,
+ @combine/tourism/italy, @combine/tourism/malaysia, @combine/tourism/mexico,
+ @combine/tourism/montenegro, @combine/tourism/poland, @combine/tourism/portugal,
+ @combine/tourism/scandinavia, @combine/tourism/spain, @combine/tourism/switzerland,
+ @combine/tourism/thailand, @combine/tourism/turkey, @combine/tourism/uae, @combine/tourism/uk,
+ @combine/tourism/usa, @combine/ukraine-cities-100k, @combine/ukraine-cities-250k, @markers/DIY,
+ @markers/MO, @markers/cars, @markers/citiesRu, @markers/color, @markers/districts, @markers/edu,
+ @markers/fun, @markers/game, @markers/geo, @markers/material, @markers/mosmetro, @markers/names,
+ @markers/origin, @markers/questions, @markers/rent, @markers/reviews, @markers/sale,
+ @minus/abusive, @minus/adult-hard, @minus/adult-soft, @minus/belarus-cities, @minus/cheap,
+ @minus/computer, @minus/countries, @minus/ex-ussr-cities, @minus/free, @minus/handmade,
+ @minus/kazakhstan-cities, @minus/moscow-region-cities, @minus/russia-cities,
+ @minus/ukraine-cities, @minus/universal, @minus/world-cities, @stop/semtools, @stop/wordstat. Run
+ 'semkit lists' for their sources and descriptions.
+
 
