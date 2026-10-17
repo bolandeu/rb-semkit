@@ -75,7 +75,7 @@ def part_of_speech(
 ) -> pd.Series | pd.DataFrame:
     """The part of speech of each word of a phrase, by space: «купить диван» → «v n».
 
-    The codes are those of the !SEMTools dictionary: n (noun), v (verb), a (adjective), p (participle), advb (adverb),
+    The codes are those of the bundled dictionary: n (noun), v (verb), a (adjective), p (participle), advb (adverb),
     prn (pronoun), prep (preposition), conj (conjunction), prt (particle), nv (as in the dictionary), and unkn for a
     word no rule gives a part of speech («кляк», «15»), so no code is empty.
     lemmatizer: what gives the parts of speech.

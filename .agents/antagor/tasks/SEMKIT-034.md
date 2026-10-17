@@ -3,7 +3,7 @@ id: SEMKIT-034
 title: 'Vectors base: models pull/list/remove, the encoder, the index and cluster-meaning
   end to end'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -19,8 +19,25 @@ owns_paths:
 - src/rb_semkit/steps/vectors.py
 - src/rb_semkit/data/SKILL.md
 - tests/conftest.py
+- pyproject.toml
+- src/rb_semkit/core/errors.py
+- src/rb_semkit/core/models.py
+- src/rb_semkit/core/version.py
+- src/rb_semkit/data/vectors/models.toml
+- src/rb_semkit/pipeline/state.py
+- src/rb_semkit/steps/__init__.py
+- uv.lock
 test_paths:
 - tests/vectors/
+- tests/snapshots/describe.json
+- tests/snapshots/help/models-list.txt
+- tests/snapshots/help/models-pull.txt
+- tests/snapshots/help/models-remove.txt
+- tests/snapshots/help/models.txt
+- tests/snapshots/help/read.txt
+- tests/snapshots/help/steps/vectors/cluster-meaning.txt
+- tests/steps/areas.py
+- tests/steps/test_steps.py
 docs:
 - src/rb_semkit/data/SKILL.md
 tools: []
@@ -110,3 +127,10 @@ The step table (the steps package: Step and STEPS of an area module); the comman
 - dupes --kind meaning, off-topic, classify-queries, assign-pages (other tasks of the epic)
 - word synonyms and the second vectors epic
 - GPU
+
+## Feedback
+
+### Attempt 1: file docstring
+
+- update the docstring of src/rb_semkit/core/errors.py: +ModelNotPulled +PullFailed +VectorsNotInstalled
+- add a docstring to src/rb_semkit/core/version.py: what it holds and why

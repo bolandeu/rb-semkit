@@ -3606,7 +3606,7 @@
           },
           {
             "name": "is-typo",
-            "description": "true for a phrase with a misspelt word, false for the others.\n\nBy default the words are learnt from the phrases given, so give the whole core: a word is misspelt when another word stands in at least 10 times as many phrases and differs from it by a few edits (up to 2, and one per two letters after the first for a short word: «диавн» → «диван»). A word with a digit, a stopword and a wordform the !SEMTools dictionary or pymorphy3 knows («москве», «угловые») are never misspelt; a correction starts with the same letter as the word.\n\nThe step writes its result to a new column <column>_typo.\n\nExample: semkit read core.csv is-typo write out.csv",
+            "description": "true for a phrase with a misspelt word, false for the others.\n\nBy default the words are learnt from the phrases given, so give the whole core: a word is misspelt when another word stands in at least 10 times as many phrases and differs from it by a few edits (up to 2, and one per two letters after the first for a short word: «диавн» → «диван»). A word with a digit, a stopword and a wordform the bundled dictionary or pymorphy3 knows («москве», «угловые») are never misspelt; a correction starts with the same letter as the word.\n\nThe step writes its result to a new column <column>_typo.\n\nExample: semkit read core.csv is-typo write out.csv",
             "options": [
               {
                 "name": "--as",
@@ -5420,7 +5420,7 @@
           },
           {
             "name": "part-of-speech",
-            "description": "The part of speech of each word of a phrase, by space: «купить диван» → «v n».\n\nThe codes are those of the !SEMTools dictionary: n (noun), v (verb), a (adjective), p (participle), advb (adverb), prn (pronoun), prep (preposition), conj (conjunction), prt (particle), nv (as in the dictionary), and unkn for a word no rule gives a part of speech («кляк», «15»), so no code is empty.\n\nThe step writes its result to a new column <column>_pos.\n\nExample: semkit read core.csv part-of-speech write out.csv",
+            "description": "The part of speech of each word of a phrase, by space: «купить диван» → «v n».\n\nThe codes are those of the bundled dictionary: n (noun), v (verb), a (adjective), p (participle), advb (adverb), prn (pronoun), prep (preposition), conj (conjunction), prt (particle), nv (as in the dictionary), and unkn for a word no rule gives a part of speech («кляк», «15»), so no code is empty.\n\nThe step writes its result to a new column <column>_pos.\n\nExample: semkit read core.csv part-of-speech write out.csv",
             "options": [
               {
                 "name": "--as",

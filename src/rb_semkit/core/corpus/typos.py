@@ -56,7 +56,7 @@ class CoreSpelling:
 
     A word is misspelt when another word stands in at least `ratio` times as many phrases and differs from it by a
     few edits (Levenshtein): up to `distance`, and fewer for a short word, one per two letters after the first
-    («диавн» → «диван» is 2 edits, «кит» → «кот» 1). A word with a digit, a stopword and a wordform the !SEMTools
+    («диавн» → «диван» is 2 edits, «кит» → «кот» 1). A word with a digit, a stopword and a wordform the bundled
     dictionary or pymorphy3 knows are never misspelt. The correction starts with the same letter as the word; it is
     the nearest such word, then the most frequent, then the first alphabetically; words are compared by case and ё,
     and the correction is in lower case, spelt as it first stands in the phrases.
@@ -141,7 +141,7 @@ def is_typo(
 
     By default the words are learnt from the phrases given, so give the whole core: a word is misspelt when another word
     stands in at least 10 times as many phrases and differs from it by a few edits (up to 2, and one per two letters
-    after the first for a short word: «диавн» → «диван»). A word with a digit, a stopword and a wordform the !SEMTools
+    after the first for a short word: «диавн» → «диван»). A word with a digit, a stopword and a wordform the bundled
     dictionary or pymorphy3 knows («москве», «угловые») are never misspelt; a correction starts with the same letter
     as the word.
     provider: what finds the misspelt words: the core itself (the default), or a spelling server (LanguageTool).
