@@ -3,8 +3,8 @@ id: SEMKIT-009
 title: 'Analysis functions: follow the VBA where the conformance cases differ'
 status: in_progress
 attempts: 0
-blocked: true
-blocked_reason: scope_held
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -80,3 +80,9 @@ docs/vba/analysis.md §1.4, §2, §4 and docs/vba/matchers.md for the stopword b
 ## Out of scope
 
 - Other analysis functions; the case values (vba, expected) of SEMKIT-006.
+
+## Feedback
+
+### Blocked: scope_held (holders ['SEMKIT-006'], paths ['tests/conformance/test_cases.py'])
+
+SEMKIT-006 is on main now (v0.1.4)
