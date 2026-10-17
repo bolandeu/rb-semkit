@@ -2,8 +2,8 @@
 id: SEMKIT-012
 title: 'Morphology block: declension of nouns, adjectives and full names, irrelevant
   words, the pymorphy fallback, ready patterns and prepositional complements'
-status: queue
-attempts: 0
+status: done
+attempts: 2
 blocked: false
 blocked_reason: null
 phase: null
@@ -25,9 +25,13 @@ owns_paths:
 - tests/conformance/cases/patterns/
 - tests/conformance/areas/declension.py
 - tests/conformance/data_manifest/declension.json
+- README.md
+- scripts/build_data.toml
+- scripts/build_parts/morph.py
 test_paths:
 - tests/declension/
 - tests/patterns/
+- tests/core/test_build_data.py
 docs:
 - docs/vba/deviations/declension.md
 - docs/vba/deviations/patterns.md
@@ -97,3 +101,29 @@ docs/vba/analysis.md §1.5, §2, §3, §9, §12 and docs/vba/matchers.md (phrase
 
 - The change block and the analysis block (other area tasks).
 - Changing the bundled lemma dictionary.
+
+## Feedback
+
+### Answer to finding #1
+
+> SEMKIT-012, lemmatize fallback: the epic E-002 says «by default the word stays as it is, as in the add-in», but the v1 default (ADR 0003) already asks pymorphy3 for a word its dictionary knows («лайфхаками» → «лайфхак», case lemmatize-unknown-pymorphy). The task says «by default nothing changes», so I kept the v1 default; fallback='pymorphy' adds the pymorphy3 guess for a word unknown to both dictionaries («тиктокерами» → «тиктокер»). If the default must be the add-in's (the word as it is), that is a change of ADR 0003 and of the morph cases: a separate task.
+
+Keep the v1 default (ADR 0003: pymorphy3 for a word the bundled dictionary does not know) — better lemmas than the add-in's word-as-is; fallback='pymorphy' as you did. The epic line «the word stays as it is» is outdated by ADR 0003; no separate task.
+
+### Attempt 1: file docstring
+
+- update the docstring of src/rb_semkit/core/morph/functions.py: +word_by_word
+
+### Attempt 2: the Architect's verdict
+
+The review found blockers; close each:
+
+- [blocker] [missing] The phrase-end preposition list defect (Latin «o» in «пo», the junk «g») is not recorded in `docs/vba/deviations/patterns.md`, and no conformance case in `tests/conformance/cases/patterns/phrase_end.tsv` names it. The bundled list is clean (the fix is in `scripts/build_parts/text.py`, `JUNK_WORD`), but the task asks for the record with how the add-in did it and why — «record each in the area deviations document, with how the add-in did it and why … the phrase-end preposition list (Latin «o» in «пo», the junk «g»)».
+
+Minor remarks of the review: optional, if they do not widen the task:
+
+- [minor] C6 .agents/antagor/scratch/report.md: the worker report is committed (commit 132e562). It is not product code; remove it from the tree or ignore `scratch/` in `.agents/antagor/.gitignore`.
+- [minor] C7 src/rb_semkit/core/patterns/complements.py: `WINDOW = 5` is a limit that can change without a change of behaviour. It is a literal in code, not a setting.
+- [minor] C3 scripts/build_parts/declension.py: `table_key` is written again here and in `src/rb_semkit/core/declension/forms.py` (same rule, two files). The build script could not import the package, so this is a judgement call.
+- [minor] C3 src/rb_semkit/core/patterns/complements.py: the docstring lists the 15 prepositions by hand. The list is in the bundled `complement_prepositions`; a change of the data leaves the docstring stale.
+- [minor] [extra] The `fallback` argument raises InvalidArguments when `lemmatizer` is not the bundled one (`_with_fallback`). The task does not ask for this rule; it is a sensible guard, so the Architect may accept it — «lemmatize(..., fallback='pymorphy') gives the pymorphy3 lemma to a word missing from the bundled dictionary».

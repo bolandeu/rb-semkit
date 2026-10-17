@@ -179,7 +179,7 @@ def basis_phrases(
 
     def word_set(phrase: str) -> frozenset[str]:
         tokens = [keys[word] for word in split_words(phrase)]
-        return frozenset(key for key, counts in tokens if counts) or frozenset(key for key, _ in tokens if key)
+        return frozenset(key for key, counts, _ in tokens if counts) or frozenset(key for key, _, _ in tokens if key)
 
     sets = map_unique(phrases, word_set).tolist()
     owners: dict[frozenset[str], int] = {}

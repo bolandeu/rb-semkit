@@ -21,6 +21,7 @@ BUILT_FILES = (
     "morph/forms.marisa",
     "morph/morph.json",
     "text/lists.json",
+    "declension/tables.json",
 )
 SOURCES = tomllib.loads(CONFIG.read_text())["sources"]
 SANDBOX_ABSENT = not all(Path(path).exists() for path in SOURCES.values())
@@ -70,8 +71,8 @@ def test_the_committed_manifests_are_what_the_script_builds(built: Path) -> None
         assert (MANIFESTS / name).read_bytes() == (built / "manifests" / name).read_bytes(), f"{name}: rebuild"
 
 
-def test_json_files_are_compact_and_no_declension_tables_are_built(built: Path) -> None:
-    for name in ("morph/morph.json", "text/lists.json"):
+def test_json_files_are_compact_and_the_declension_tables_are_not_in_morph(built: Path) -> None:
+    for name in ("morph/morph.json", "text/lists.json", "declension/tables.json"):
         assert len((built / name).read_text().splitlines()) == 1, name
     assert not (built / "morph/decline.json").exists()
 

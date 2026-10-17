@@ -20,7 +20,14 @@ from .case_files import CASE_COLUMNS, CASES_DIR, Case, all_cases, case_files, re
 
 MIN_CASES = 5
 VERBS = ("find", "remove", "extract")
-NOT_CASED = {*VERBS, "pipe"}  # the verbs and the pipe run in the cases of every matcher
+NOT_CASED = {
+    *VERBS,
+    "pipe",
+    "split_text",
+    "coverage",
+    "cluster_serp",
+}  # the verbs and the pipe run in the cases of every matcher; split_text and coverage are not from the add-in;
+# cluster_serp takes a SERP table and replaces the add-in's method (ADR 0005)
 CASES = all_cases()
 
 

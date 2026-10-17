@@ -18,8 +18,10 @@ owns_paths:
 - scripts/bench_parts/corpus.py
 - tests/conformance/cases/corpus/
 - tests/conformance/areas/corpus.py
+- src/rb_semkit/data/corpus/languagetool.toml
 test_paths:
 - tests/corpus/
+- tests/conformance/case_files.py
 docs:
 - docs/vba/deviations/corpus.md
 - docs/vba/conformance/corpus.md
@@ -93,3 +95,13 @@ docs/vba/analysis.md §5–§11 (handlers, quirks, worked examples); the v1 fram
 - Irrelevant words (the morphology block).
 - Typo check through Yandex Suggest.
 - A real network call in the tests.
+
+## Feedback
+
+### Attempt 0 (not counted): main moved and conflicts with the work
+
+`main` changed since your work began, and merging it conflicts in:
+
+- `tests/conformance/case_files.py`
+
+Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).

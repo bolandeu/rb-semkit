@@ -1,0 +1,15 @@
+# decline_adjective. VBA, RibbonCallbacks.vba: «Просклонять › Прилагательные», the wrapper ka("l­", cell, ko) (L2669) with l­ (L2470):
+# adjExclusions2 for a word of adjExclusions (LCase), else root & oa(last3(LCase), adjSuffixes, ko). м. род Род a–k· (L1822, 2) … Предл —·—·
+# (L2641, 6); мн. ч. Им —aak (L1671, 7) … Предл —·a– (L2160, 12); ж. род Им ———– (L2468, 13), Род/Дат/Твор/Предл —··– (L2311, 14), Вин a···
+# (L1744, 15); ср. род Им and Вин ———— (L2384, 16), Род/Дат/Твор/Предл the noun handlers a–ka, ––—·, aal—, —·—a (l–).
+# Docs: docs/vba/analysis.md §3 «Прилагательные».
+case_id	function	call	input	vba	expected	rule	why	xfail
+adj-genitive	decline_adjective	{"case": "genitive"}	красный	красного	красного			
+adj-instrumental	decline_adjective	{"case": "instrumental"}	красный	красным	красным			
+adj-feminine-accusative	decline_adjective	{"case": "accusative", "gender": "feminine"}	красный	красную	красную			
+adj-feminine-genitive	decline_adjective	{"case": "genitive", "gender": "feminine"}	синий	синей	синей			
+adj-neuter-nominative	decline_adjective	{"case": "nominative", "gender": "neuter"}	красный	красное	красное			
+adj-neuter-genitive	decline_adjective	{"case": "genitive", "gender": "neuter"}	красный	красный	красного	Средний род прилагательного в косвенных падежах — формы прилагательного	the ср. род Род button runs the noun handler a–ka: «ный» is no noun ending, so the word stays	
+adj-plural-genitive	decline_adjective	{"case": "genitive", "number": "plural"}	красный	красных	красных			
+adj-capital	decline_adjective	{"case": "instrumental", "number": "plural"}	Красный	Красными	Красными			
+adj-exception	decline_adjective	{"case": "dative"}	этот	этому	этому			

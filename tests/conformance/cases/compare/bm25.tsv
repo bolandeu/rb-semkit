@@ -1,0 +1,8 @@
+# compare. No VBA handler: bm25 is the Okapi BM25 of semkit's own comparison (SEMKIT-019), defined in its docstring; the `vba` column repeats `expected`.
+# Counted by hand: N 3, lengths 2, 2, 4 (average 8/3); for диван df 2, idf ln(1.6) = 0.47; for кресло df 1, idf ln(8/3) = 0.9808.
+case_id	function	call	input	vba	expected	rule	why	xfail
+bm25-term	bm25	{"query": "диван"}	диван стол | стол стул | диван диван диван кресло	0.5296 | 0 | 0.6963	0.5296 | 0 | 0.6963			
+bm25-stopword-in-query	bm25	{"query": "и диван"}	диван стол | стол стул | диван диван диван кресло	0.5296 | 0 | 0.6963	0.5296 | 0 | 0.6963			
+bm25-rare-term	bm25	{"query": "кресло"}	диван стол | стол стул | диван диван диван кресло	0 | 0 | 0.8007	0 | 0 | 0.8007			
+bm25-term-nowhere	bm25	{"query": "шкаф"}	диван стол | стол стул | диван диван диван кресло	0 | 0 | 0	0 | 0 | 0			
+bm25-no-length-norm	bm25	{"query": "диван", "b": 0}	диван стол | стол стул | диван диван диван кресло	0.47 | 0 | 0.7833	0.47 | 0 | 0.7833			

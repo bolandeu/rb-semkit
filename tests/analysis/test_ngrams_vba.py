@@ -8,7 +8,8 @@ import rb_semkit as sk
 
 
 def rows(table: pd.DataFrame) -> list[tuple]:
-    return list(table.itertuples(index=False, name=None))
+    """The add-in's columns only: ngram, count and sum."""
+    return list(table.drop(columns=["docs", "forms"], errors="ignore").itertuples(index=False, name=None))
 
 
 def test_a_stopword_between_two_words_stays_inside_the_gram() -> None:

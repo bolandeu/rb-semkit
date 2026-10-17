@@ -199,6 +199,21 @@ Typos: Levenshtein in the library; spelling check through LanguageTool on homese
 - Do not rely on a version bump (sitegen pins it). More throughput → a ticket to sysadmin with volume and frequency.
 - Open: for 1M phrases a local dictionary check (hunspell-style) may be much faster; decide in the API design.
 
+## 3b. CLI shape (the Human, 2026-10-17)
+
+semkit turns a dirty core into a clean one; clustering by embeddings and collecting search results are another tool,
+which takes semkit's clean core. Clustering a SERP table it is given (soft, hard) is semkit's. For a small core (one article) semkit alone is enough.
+Text analysis is semkit's job too (the name says it): a text is a table of one cell; `split_text` cuts it into
+phrases, then the core steps apply; core phrases in a text, competitor comparison and text metrics build on them.
+Texts, tables and lists come in as data: semkit never downloads pages, search results or frequencies (own CLI
+services do). An external API only for a text operation itself, when it cannot run locally or a ready service is
+cheaper, as an optional provider (the spelling server, §3a).
+1. **One line is a pipeline.** Input (dataio) → any number of steps as options, mixed freely and repeated →
+   output (dataio). Example shape: `semkit IN --remove-words stop.txt --remove-markers geo --dupes --lemmas OUT`.
+2. **Steps run in the order they are written.** Click/Typer do not keep the order across different options, so the
+   CLI reads the step order from the command line itself; settle the mechanism in the CLI epic.
+3. Each step maps to one library call; the same pipeline in Python is `sk.pipe(...)`.
+
 ## 4. Work order
 
 0. git init, this plan accepted, interview blocks B–F answered.

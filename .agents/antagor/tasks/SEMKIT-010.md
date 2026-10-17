@@ -2,7 +2,7 @@
 id: SEMKIT-010
 title: 'Frame for parallel areas: discovered public names, data build parts, per-area
   conformance and benchmark; product text without the VBA'
-status: in_progress
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -29,6 +29,11 @@ owns_paths:
 - tests/markers/test_build_markers.py
 - docs/vba/conformance/
 - docs/vba/deviations/
+- .gitattributes
+- docs/plan.md
+- scripts/area_parts.py
+- src/rb_semkit/data/lists/lists.json
+- src/rb_semkit/data/text/lists.json
 test_paths:
 - tests/core/
 - tests/conformance/
@@ -104,3 +109,11 @@ The v1 package root (lazy name map), the data build and manifest scripts, the co
 
 - New functions of any area: the area tasks add them.
 - Changing behaviour of v1 functions or the values of existing cases.
+
+## Feedback
+
+### Answer to finding #1
+
+> SEMKIT-010: the conformance summary docs/vba/conformance.md is now checked only by 'uv run scripts/conformance_report.py --check'. E-002 checks (.agents/antagor/epics/E-002.md) do not run it yet. Add it to the epic checks, so the summary is checked at the epic close.
+
+Added 'uv run scripts/conformance_report.py --check' to E-002 checks.

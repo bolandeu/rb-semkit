@@ -5,13 +5,15 @@ VBA handler and lines the `vba` column is traced from). Its folder is the area o
 sk name, or «<matcher>.<verb>» for a matcher (`markers.extract` is `sk.extract(phrases, sk.markers(**call))`). `call`
 holds the keyword arguments as JSON. `input` is one phrase, or several joined by « | » for a whole-column function; it
 becomes a Series. An area whose functions take another input has a hook module `areas/<area>.py` with
-`arguments(case) -> (data, kwargs)`: the first argument of the call and the keyword arguments. `xfail` is empty, or the
+`arguments(case) -> (data, kwargs)`: the first argument of the call and the keyword arguments; it may also have
+`outcome(case, result)`, which picks the result to compare from the call's. `xfail` is empty, or the
 reason the library does not give `expected` yet (reported to the Architect as a finding).
 
 A result renders by its type as text: the items of a Series or a list joined by « | », a table as «first=last» per row
-(an n-gram and its count or sum), a bool as TRUE / FALSE (as Excel writes it), an empty value as "", a number (a
-single result too) as written, the parts of a tuple (a named tuple) each by its type, joined by « || ». A per-row function given a table adds
-its column to it: that column is the result.
+(an n-gram and its sum, or its count: the other columns, such as docs, are not in the add-in), a bool as TRUE / FALSE
+(as Excel writes it), an empty value as "", a number (a single result too) as written, the parts of a tuple (a named
+tuple) each by its type, joined by « || ». A per-row function given a table adds its column to it: that column is the
+result.
 
 A case that differs from the VBA quotes its rules from ADR 0005 or from its area's deviations document
 (`docs/vba/deviations/<area>.md`).
@@ -118,7 +120,8 @@ def render(result: Any) -> str:
     if isinstance(result, str | int | float):
         return render_value(result)
     if isinstance(result, pd.DataFrame):
-        return SEP.join(f"{row.iloc[0]}={render_value(row.iloc[-1])}" for _, row in result.iterrows())
+        value = next((name for name in ("sum", "count") if name in result.columns), result.columns[-1])
+        return SEP.join(f"{row.iloc[0]}={render_value(row[value])}" for _, row in result.iterrows())
     values = result.tolist() if isinstance(result, pd.Series) else list(result)
     return SEP.join(render_value(value) for value in values)
 
@@ -147,6 +150,9 @@ def run(case: Case) -> Any:
     name, _, verb = case.function.partition(".")
     function = getattr(sk, name)
     result = getattr(sk, verb)(data, function(**kwargs)) if verb else function(data, **kwargs)
+    hook = _hook(case.area)
+    if hook is not None and hasattr(hook, "outcome"):
+        return hook.outcome(case, result)
     if before is not None and isinstance(result, pd.DataFrame) and before < set(result.columns):
         (added,) = [column for column in result.columns if column not in before]
         return result[added]

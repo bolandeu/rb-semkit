@@ -1,0 +1,12 @@
+# decline_full_name. VBA, RibbonCallbacks.vba: «Просклонять › ФИО» a–ok (L2894, ko 2), ––ao (L1624, 3), a··o (L1642, Вин, ko 3), aa—l (L2223, 5),
+# —·ak (L2102, 6), each k– with oak (L1593): Split(LCase(cell)) must give 3 words, else «!!!Это не ФИО, ФИО это 3 слова»; a woman when the
+# cell ends in «зы» or «на»: the name by ·a— (L1584), the surname by fSurn (L1586); a man: ––o (L1585) and mSurn (L1592); the patronymic by l–
+# (L1518–1520, with its consonant bug); a·a (L1721) on the whole. –·— (L2375) puts «'» before a cut name. Docs: docs/vba/analysis.md §3 «ФИО».
+case_id	function	call	input	vba	expected	rule	why	xfail
+fio-genitive-man	decline_full_name	{"case": "genitive"}	Иванов Сергей Петрович	Иванова Сергея Петро	Иванова Сергея Петровича	Существительное на согласную получает обычное окончание своей группы	the patronymic goes through l–, whose consonant bug leaves «Петро»	
+fio-dative-woman	decline_full_name	{"case": "dative"}	Петрова Анна Ивановна	Петровой Анне Ивановне	Петровой Анне Ивановне			
+fio-accusative-woman	decline_full_name	{"case": "accusative"}	Петрова Анна Ивановна	Петровой Анне Ивановне	Петрову Анну Ивановну	Винительный падеж ФИО — винительный	the Вин button a··o calls oak with ko 3, the dative	
+fio-accusative-man	decline_full_name	{"case": "accusative"}	Иванов Сергей Петрович	Иванову Сергею Петро	Иванова Сергея Петровича	Винительный падеж ФИО — винительный; Существительное на согласную получает обычное окончание своей группы	a··o calls oak with ko 3 (the dative), and l– leaves the patronymic «Петро»	
+fio-instrumental-woman	decline_full_name	{"case": "instrumental"}	Петрова Анна Ивановна	Петровой Анной Ивановной	Петровой Анной Ивановной			
+fio-ij-oj	decline_full_name	{"case": "genitive"}	Толстой Дмитрий Ильич	Толстоя 'Дмитрия Ильича	Толстого Дмитрия Ильича	В ФИО нет апострофа; Мужская фамилия на «-ой» склоняется как прилагательное	––o cuts «Дмитрий» by –·—, which puts «'» in front; mSurn has no «ой» and declines «Толстой» by the noun table	
+fio-empty	decline_full_name	{"case": "genitive"}		!!!Это не ФИО, ФИО это 3 слова		Пустая ячейка ФИО остаётся пустой	oak writes its error text into an empty cell too	

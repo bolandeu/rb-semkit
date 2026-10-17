@@ -1,0 +1,479 @@
+{
+ "declension/tables.json:adjective_endings": {
+  "source": "sheet abc AD2:AS90 (adjective_endings)",
+  "source_items": 89,
+  "bundled_items": 89,
+  "dropped": [],
+  "added": []
+ },
+ "declension/tables.json:adjective_exceptions": {
+  "source": "sheet abc AD93:AS136 (adjective_exceptions)",
+  "source_items": 44,
+  "bundled_items": 44,
+  "dropped": [],
+  "added": []
+ },
+ "declension/tables.json:governing": {
+  "source": "RibbonCallbacks.vba L1526: the literal of arrPron",
+  "source_items": 56,
+  "bundled_items": 53,
+  "dropped": [
+   {
+    "item": "своей",
+    "reason": "a repeat of an earlier item (ё as е)"
+   },
+   {
+    "item": "моей",
+    "reason": "a repeat of an earlier item (ё as е)"
+   },
+   {
+    "item": "твоей",
+    "reason": "a repeat of an earlier item (ё as е)"
+   }
+  ],
+  "added": []
+ },
+ "declension/tables.json:indeclinable": {
+  "source": "sheet abc B1:B1205 (indeclinable)",
+  "source_items": 1205,
+  "bundled_items": 1205,
+  "dropped": [],
+  "added": []
+ },
+ "declension/tables.json:noun_endings": {
+  "source": "sheet abc Q1:AB3331 (noun_endings)",
+  "source_items": 3331,
+  "bundled_items": 3328,
+  "dropped": [
+   {
+    "item": "ааз\tРОД\tДАТ\tааза\tТВОР\tПРЕДЛ\tМНОЖ\tРОД\tДАТ\tаазы\tТВОР\tПРЕДЛ",
+    "reason": "the column titles, not an ending"
+   },
+   {
+    "item": "вид\t\t\tвида\t\t\t\t\t\tвидов\t\t",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "ена\tены\tене\tену\tеной\tене\tены\tеных\tеным\tены\tеными\tеных",
+    "reason": "a later row of the same key wins (ё as е)"
+   }
+  ],
+  "added": []
+ },
+ "declension/tables.json:noun_exceptions": {
+  "source": "sheet abc Q3380:AB11089 (noun_exceptions)",
+  "source_items": 7710,
+  "bundled_items": 7625,
+  "dropped": [
+   {
+    "item": "адиль\tадиль\tадиль\tадиль\tадиль\tадиль\tадиль\tадиль\tадиль\tадиль\tадиль\tадиль",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "адэль\tадэль\tадэль\tадэль\tадэль\tадэль\tадэль\tадэль\tадэль\tадэль\tадэль\tадэль",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "айнур\tайнур\tайнур\tайнур\tайнур\tайнур\tайнур\tайнур\tайнур\tайнур\tайнур\tайнур",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "аллювий\tаллювия\tаллювию\tаллювий\tаллювием\tаллювии\tаллювии\tаллювиев\tаллювиям\tаллювии\tаллювиями\tаллювиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "алюминий\tалюминия\tалюминию\tалюминий\tалюминием\tалюминии\tалюминии\tалюминиев\tалюминиям\tалюминии\tалюминиями\tалюминиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "аммоний\tаммония\tаммонию\tаммоний\tаммонием\tаммонии\tаммонии\tаммониев\tаммониям\tаммонии\tаммониями\tаммониях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "амфибрахий\tамфибрахия\tамфибрахию\tамфибрахий\tамфибрахием\tамфибрахии\tамфибрахии\tамфибрахиев\tамфибрахиям\tамфибрахии\tамфибрахиями\tамфибрахиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "анварь\tанварь\tанварь\tанварь\tанварь\tанварь\tанварь\tанварь\tанварь\tанварь\tанварь\tанварь",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "ара\tара\tара\tара\tара\tара\tара\tара\tара\tара\tара\tара",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "бериллий\tбериллия\tбериллию\tбериллий\tбериллием\tбериллии\tбериллии\tбериллиев\tбериллиям\tбериллии\tбериллиями\tбериллиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "бобер\tбобра\tбобру\tбобра\tбобром\tбобре\tбобры\tбобров\tбобрам\tбобров\tбобрами\tбобрах",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "ванадий\tванадия\tванадию\tванадий\tванадием\tванадии\tванадии\tванадиев\tванадиям\tванадии\tванадиями\tванадиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "гадолиний\tгадолиния\tгадолинию\tгадолиний\tгадолинием\tгадолинии\tгадолинии\tгадолиниев\tгадолиниям\tгадолинии\tгадолиниями\tгадолиниях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "галлий\tгаллия\tгаллию\tгаллий\tгаллием\tгаллии\tгаллии\tгаллиев\tгаллиям\tгаллии\tгаллиями\tгаллиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "гафний\tгафния\tгафнию\tгафний\tгафнием\tгафнии\tгафнии\tгафниев\tгафниям\tгафнии\tгафниями\tгафниях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "гаяр\tгаяр\tгаяр\tгаяр\tгаяр\tгаяр\tгаяр\tгаяр\tгаяр\tгаяр\tгаяр\tгаяр",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "гелий\tгелия\tгелию\tгелий\tгелием\tгелии\tгелии\tгелиев\tгелиям\tгелии\tгелиями\tгелиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "герундий\tгерундия\tгерундию\tгерундий\tгерундием\tгерундии\tгерундии\tгерундиев\tгерундиям\tгерундии\tгерундиями\tгерундиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "гравий\tгравия\tгравию\tгравий\tгравием\tгравии\tгравии\tгравиев\tгравиям\tгравии\tгравиями\tгравиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "дурсун\tдурсун\tдурсун\tдурсун\tдурсун\tдурсун\tдурсун\tдурсун\tдурсун\tдурсун\tдурсун\tдурсун",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "дюралюминий\tдюралюминия\tдюралюминию\tдюралюминий\tдюралюминием\tдюралюминии\tдюралюминии\tдюралюминиев\tдюралюминиям\tдюралюминии\tдюралюминиями\tдюралюминиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "европий\tевропия\tевропию\tевропий\tевропием\tевропии\tевропии\tевропиев\tевропиям\tевропии\tевропиями\tевропиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "жребий\tжребия\tжребию\tжребий\tжребием\tжребии\tжребии\tжребиев\tжребиям\tжребии\tжребиями\tжребиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "заем\tзайма\tзайму\tзаем\tзаймом\tзайме\tзаймы\tзаймов\tзаймам\tзаймы\tзаймами\tзаймах",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "индий\tиндия\tиндию\tиндий\tиндием\tиндии\tиндии\tиндиев\tиндиям\tиндии\tиндиями\tиндиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "иридий\tиридия\tиридию\tиридий\tиридием\tиридии\tиридии\tиридиев\tиридиям\tиридии\tиридиями\tиридиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "кадмий\tкадмия\tкадмию\tкадмий\tкадмием\tкадмии\tкадмии\tкадмиев\tкадмиям\tкадмии\tкадмиями\tкадмиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "калий\tкалия\tкалию\tкалий\tкалием\tкалии\tкалии\tкалиев\tкалиям\tкалии\tкалиями\tкалиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "калифорний\tкалифорния\tкалифорнию\tкалифорний\tкалифорнием\tкалифорнии\tкалифорнии\tкалифорниев\tкалифорниям\tкалифорнии\tкалифорниями\tкалифорниях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "камбий\tкамбия\tкамбию\tкамбий\tкамбием\tкамбии\tкамбии\tкамбиев\tкамбиям\tкамбии\tкамбиями\tкамбиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "карлен\tкарлен\tкарлен\tкарлен\tкарлен\tкарлен\tкарлен\tкарлен\tкарлен\tкарлен\tкарлен\tкарлен",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "кобел\tкобла\tкоблу\tкобел\tкоблом\tкобле\tкоблы\tкоблов\tкоблам\tкоблы\tкоблами\tкоблах",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "козел\tкозла\tкозлу\tкозла\tкозлом\tкозле\tкозлы\tкозлов\tкозлам\tкозлов\tкозлами\tкозлах",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "копер\tкопра\tкопру\tкопер\tкопром\tкопре\tкопры\tкопров\tкопрам\tкопры\tкопрами\tкопрах",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "костер\tкостра\tкостру\tкостер\tкостром\tкостре\tкостры\tкостров\tкострам\tкостры\tкострами\tкострах",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "котел\tкотла\tкотлу\tкотел\tкотлом\tкотле\tкотлы\tкотлов\tкотлам\tкотлы\tкотлами\tкотлах",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "кремний\tкремния\tкремнию\tкремний\tкремнием\tкремнии\tкремнии\tкремниев\tкремниям\tкремнии\tкремниями\tкремниях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "кристин\tкристин\tкристин\tкристин\tкристин\tкристин\tкристин\tкристин\tкристин\tкристин\tкристин\tкристин",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "левий\tлевия\tлевию\tлевий\tлевием\tлевии\tлевии\tлевиев\tлевиям\tлевии\tлевиями\tлевиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "лед\tльда\tльду\tлед\tльдом\tльде\tльды\tльдов\tльдам\tльды\tльдами\tльдах",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "ликоподий\tликоподия\tликоподию\tликоподий\tликоподием\tликоподии\tликоподии\tликоподиев\tликоподиям\tликоподии\tликоподиями\tликоподиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "лилиан\tлилиан\tлилиан\tлилиан\tлилиан\tлилиан\tлилиан\tлилиан\tлилиан\tлилиан\tлилиан\tлилиан",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "литий\tлития\tлитию\tлитий\tлитием\tлитии\tлитии\tлитий\tлитиям\tлитии\tлитиями\tлитиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "магний\tмагния\tмагнию\tмагний\tмагнием\tмагнии\tмагнии\tмагниев\tмагниям\tмагнии\tмагниями\tмагниях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "мицелий\tмицелия\tмицелию\tмицелий\tмицелием\tмицелии\tмицелии\tмицелиев\tмицелиям\tмицелии\tмицелиями\tмицелиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "морфий\tморфия\tморфию\tморфий\tморфием\tморфии\tморфии\tморфиев\tморфиям\tморфии\tморфиями\tморфиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "наем\tнайма\tнайму\tнаем\tнаймом\tнайме\tнаймы\tнаймов\tнаймам\tнаймы\tнаймами\tнаймах",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "ниобий\tниобия\tниобию\tниобий\tниобием\tниобии\tниобии\tниобиев\tниобиям\tниобии\tниобиями\tниобиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "овес\tовса\tовсу\tовес\tовсом\tовсе\tFalse\tFalse\tFalse\tFalse\tFalse\tFalse",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "одер\tодра\tодру\tодра\tодром\tодре\tодры\tодров\tодрам\tодры\tодрами\tодрах",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "опий\tопия\tопию\tопий\tопием\tопии\tопии\tопиев\tопиям\tопии\tопиями\tопиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "орел\tорла\tорлу\tорла\tорлом\tорле\tорлы\tорлов\tорлам\tорлов\tорлами\tорлах",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "осел\tосла\tослу\tосла\tослом\tосле\tослы\tослов\tослам\tослов\tослами\tослах",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "осмий\tосмия\tосмию\tосмий\tосмием\tосмии\tосмии\tосмиев\tосмиям\tосмии\tосмиями\tосмиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "палладий\tпалладия\tпалладию\tпалладий\tпалладием\tпалладии\tпалладии\tпалладиев\tпалладиям\tпалладии\tпалладиями\tпалладиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "паргелий\tпаргелия\tпаргелию\tпаргелий\tпаргелием\tпаргелии\tпаргелии\tпаргелиев\tпаргелиям\tпаргелии\tпаргелиями\tпаргелиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "перенаем\tперенайма\tперенайму\tперенаем\tперенаймом\tперенайме\tперенаймы\tперенаймов\tперенаймам\tперенаймы\tперенаймами\tперенаймах",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "перигелий\tперигелия\tперигелию\tперигелий\tперигелием\tперигелии\tперигелии\tперигелиев\tперигелиям\tперигелии\tперигелиями\tперигелиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "пес\tпса\tпсу\tпса\tпсом\tпсе\tпсы\tпсов\tпсам\tпсов\tпсами\tпсах",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "пиррихий\tпиррихия\tпиррихию\tпиррихий\tпиррихием\tпиррихии\tпиррихии\tпиррихиев\tпиррихиям\tпиррихии\tпиррихиями\tпиррихиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "плазмодий\tплазмодия\tплазмодию\tплазмодий\tплазмодием\tплазмодии\tплазмодии\tплазмодиев\tплазмодиям\tплазмодии\tплазмодиями\tплазмодиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "плутоний\tплутония\tплутонию\tплутоний\tплутонием\tплутонии\tплутонии\tплутониев\tплутониям\tплутонии\tплутониями\tплутониях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "поднаем\tподнайма\tподнайму\tподнаем\tподнаймом\tподнайме\tподнаймы\tподнаймов\tподнаймам\tподнаймы\tподнаймами\tподнаймах",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "полоний\tполония\tполонию\tполоний\tполонием\tполонии\tполонии\tполониев\tполониям\tполонии\tполониями\tполониях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "полукозел\tполукозла\tполукозлу\tполукозла\tполукозлом\tполукозле\tполукозлы\tполукозлов\tполукозлам\tполукозлов\tполукозлами\tполукозлах",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "радий\tрадия\tрадию\tрадий\tрадием\tрадии\tрадии\tрадиев\tрадиям\tрадии\tрадиями\tрадиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "расуль\tрасуль\tрасуль\tрасуль\tрасуль\tрасуль\tрасуль\tрасуль\tрасуль\tрасуль\tрасуль\tрасуль",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "раушан\tраушан\tраушан\tраушан\tраушан\tраушан\tраушан\tраушан\tраушан\tраушан\tраушан\tраушан",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "рений\tрения\tрению\tрений\tрением\tрении\tрении\tрениев\tрениям\tрении\tрениями\tрениях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "родий\tродия\tродию\tродий\tродием\tродии\tродии\tродиев\tродиям\tродии\tродиями\tродиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "рубидий\tрубидия\tрубидию\tрубидий\tрубидием\tрубидии\tрубидии\tрубидиев\tрубидиям\tрубидии\tрубидиями\tрубидиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "рутений\tрутения\tрутению\tрутений\tрутением\tрутении\tрутении\tрутениев\tрутениям\tрутении\tрутениями\tрутениях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "свекор\tсвекра\tсвекру\tсвекра\tсвекром\tсвекре\tсвекры\tсвекров\tсвекрам\tсвекров\tсвекрами\tсвекрах",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "скандий\tскандия\tскандию\tскандий\tскандием\tскандии\tскандии\tскандиев\tскандиям\tскандии\tскандиями\tскандиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "таллий\tталлия\tталлию\tталлий\tталлием\tталлии\tталлии\tталлиев\tталлиям\tталлии\tталлиями\tталлиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "тербий\tтербия\tтербию\tтербий\tтербием\tтербии\tтербии\tтербиев\tтербиям\tтербии\tтербиями\tтербиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "тритий\tтрития\tтритию\tтритий\tтритием\tтритии\tтритии\tтритиев\tтритиям\tтритии\tтритиями\tтритиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "туллий\tтуллия\tтуллию\tтуллий\tтуллием\tтуллии\tтуллии\tтуллиев\tтуллиям\tтуллии\tтуллиями\tтуллиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "цезий\tцезия\tцезию\tцезий\tцезием\tцезии\tцезии\tцезиев\tцезиям\tцезии\tцезиями\tцезиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "цирконий\tциркония\tцирконию\tцирконий\tцирконием\tцирконии\tцирконии\tциркониев\tциркониям\tцирконии\tциркониями\tциркониях",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "чабер\tчабра\tчабру\tчабер\tчабром\tчабре\tчабры\tчабров\tчабрам\tчабры\tчабрами\tчабрах",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "шабер\tшабера\tшаберу\tшабер\tшабером\tшабере\tшаберы\tшаберов\tшаберам\tшаберы\tшаберами\tшаберах",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "шатер\tшатра\tшатру\tшатер\tшатром\tшатре\tшатры\tшатров\tшатрам\tшатры\tшатрами\tшатрах",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "элиз\tэлиз\tэлиз\tэлиз\tэлиз\tэлиз\tэлиз\tэлиз\tэлиз\tэлиз\tэлиз\tэлиз",
+    "reason": "a later row of the same key wins (ё as е)"
+   },
+   {
+    "item": "эпителий\tэпителия\tэпителию\tэпителий\tэпителием\tэпителии\tэпителии\tэпителиев\tэпителиям\tэпителии\tэпителиями\tэпителиях",
+    "reason": "a later row of the same key wins (ё as е)"
+   }
+  ],
+  "added": []
+ },
+ "declension/tables.json:takes_accusative": {
+  "source": "findIrr.frm L25: the literal of arrVinit",
+  "source_items": 26,
+  "bundled_items": 26,
+  "dropped": [],
+  "added": []
+ },
+ "declension/tables.json:takes_dative": {
+  "source": "findIrr.frm L24: the literal of arrDat",
+  "source_items": 11,
+  "bundled_items": 11,
+  "dropped": [],
+  "added": []
+ },
+ "declension/tables.json:takes_genitive": {
+  "source": "findIrr.frm L23: the literal of arrRodit",
+  "source_items": 20,
+  "bundled_items": 20,
+  "dropped": [],
+  "added": []
+ },
+ "declension/tables.json:takes_instrumental": {
+  "source": "findIrr.frm L26: the literal of arrTvorit",
+  "source_items": 17,
+  "bundled_items": 17,
+  "dropped": [],
+  "added": []
+ },
+ "declension/tables.json:takes_nominative": {
+  "source": "findIrr.frm L22: the literal of arrImenit",
+  "source_items": 18,
+  "bundled_items": 15,
+  "dropped": [
+   {
+    "item": "своё",
+    "reason": "a repeat of an earlier item (ё as е)"
+   },
+   {
+    "item": "моё",
+    "reason": "a repeat of an earlier item (ё as е)"
+   },
+   {
+    "item": "твоё",
+    "reason": "a repeat of an earlier item (ё as е)"
+   }
+  ],
+  "added": []
+ },
+ "declension/tables.json:takes_prepositional": {
+  "source": "findIrr.frm L27: the literal of arrPredl",
+  "source_items": 18,
+  "bundled_items": 15,
+  "dropped": [
+   {
+    "item": "своем",
+    "reason": "a repeat of an earlier item (ё as е)"
+   },
+   {
+    "item": "моем",
+    "reason": "a repeat of an earlier item (ё as е)"
+   },
+   {
+    "item": "твоем",
+    "reason": "a repeat of an earlier item (ё as е)"
+   }
+  ],
+  "added": []
+ }
+}

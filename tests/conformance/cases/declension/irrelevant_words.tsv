@@ -1,0 +1,13 @@
+# irrelevant_words. VBA, RibbonCallbacks.vba —k–o (L2887) → findIrr.frm searchButton_Click: the form asks the 12 forms of the main word,
+# filled from l– (L1518–1520, with its consonant bug); the selection is changed in place by udalit_toponimy_s_pryedlogami (L1194) and
+# DeletePhrases (L3452) for GEO_Toponyms and markyerypokupki (lower case). For each word triple, w[g] is a form and w[g-1] is in the list
+# of its case (arrImenit … arrPredl): w[g-2] is a candidate unless a stopword. Sheet «Минус-слова»: Слово, Употреблений, Примеры (each
+# «w prep form» and a comma). The result renders as «word=examples». Docs: docs/vba/analysis.md §9.
+case_id	function	call	input	vba	expected	rule	why	xfail
+irr-two-uses	irrelevant_words	{"word": "телефон"}	чехол для телефона | чехол на телефон	чехол=чехол на телефон,	чехол=чехол для телефона, чехол на телефон	Формы главного слова — исправленные формы существительного; Примеры нерелевантного слова — через «, », каждый пример один раз	the form fills Род from l–: «теле», so «для телефона» is not found; the examples end in a comma	
+irr-stopword	irrelevant_words	{"word": "телефон"}	и на телефон | и для телефона					
+irr-accusative	irrelevant_words	{"word": "телефон"}	стекло на телефон	стекло=стекло на телефон,	стекло=стекло на телефон	Примеры нерелевантного слова — через «, », каждый пример один раз	the examples end in a comma	
+irr-repeat	irrelevant_words	{"word": "телефон"}	чехол на телефон | чехол на телефон	чехол=чехол на телефон,	чехол=чехол на телефон	Примеры нерелевантного слова — через «, », каждый пример один раз	the examples end in a comma	
+irr-other-case	irrelevant_words	{"word": "телефон"}	чехол к телефон					
+irr-plural	irrelevant_words	{"word": "телефон"}	чехлы для телефонов		чехлы=чехлы для телефонов	Формы главного слова — исправленные формы существительного	the form fills МН Род from l–: «теле», so «телефонов» is not found	
+irr-lower-case	irrelevant_words	{"word": "телефон"}	Чехол на Телефон	чехол=чехол на телефон,	чехол=чехол на телефон	Поиск нерелевантных слов не меняет вход; Примеры нерелевантного слова — через «, », каждый пример один раз	DeletePhrases lower-cases the selection in place before the search; the examples end in a comma	

@@ -30,7 +30,7 @@ def _keys(argument: str, words: str | Iterable[str], lemmatizer: Lemmatizer | No
     if not listed:
         return frozenset()
     found = _word_keys(pd.Series(word_list(argument, listed)), lemmatizer=lemmatizer, stopwords=True)
-    return frozenset(key for key, _ in found.values())
+    return frozenset(key for key, _, _ in found.values())
 
 
 def split_by_words(
@@ -48,7 +48,7 @@ def split_by_words(
     Every other phrase, an empty one too, is the rest. Words are compared by case and ё.
     lemmas: compare the lemmas of the words and of `good` and `bad` («диваны» is «диван»), by `lemmatizer`.
     The parts are the rows of the input in its order: a Series for a Series, the table for a table. `frequency` is
-    the `ngrams` table of the rest (ngram, count), of lemmas with `lemmas`, to choose the next good and bad words.
+    the `ngrams` table of the rest, of lemmas with `lemmas`, to choose the next good and bad words.
     """
     frame = Frame(data, column)
     phrases = frame.phrases

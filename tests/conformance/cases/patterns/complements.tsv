@@ -1,0 +1,10 @@
+# complements. VBA, RibbonCallbacks.vba (docs/vba/matchers.md X3, docs/vba/analysis.md §12): «Дополнения с предлогами» findCollocs (L448)
+# → k– "collocs" (L1428): for a word in « для с в из на к со о во у по под от после за над » (case-sensitive), the next ≤ 5 words up to the
+# next preposition; v = the last noun (k—·— L2905 = aoo("··–", w, True), the word after oko); «prep … v» joined by ", ". Extract only.
+case_id	function	call	input	vba	expected	rule	why	xfail
+compl-two	complements.extract	{}	диван для детей с доставкой	для детей, с доставкой	для детей, с доставкой			
+compl-toponym	complements.extract	{}	купить диван в москве недорого	в москве	в москве			
+compl-capital	complements.extract	{}	диван В Москве		В Москве	Предлог дополнения — в любом регистре, ё = е	collocs finds the preposition case-sensitively: «В» is none	
+compl-no-noun	complements.extract	{}	диван для					
+compl-adjective	complements.extract	{}	чехол для нового телефона	для нового телефона	для нового телефона			
+compl-last-noun	complements.extract	{}	кровать из массива дуба	из массива дуба	из массива дуба			

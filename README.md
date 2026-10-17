@@ -16,6 +16,8 @@ sk.extract(phrases, sk.words(["диван"]))  # ["диван", "Диван", ""
 sk.lemmatize(pd.Series(["купила диваны"]))  # ["купить диван"]
 sk.part_of_speech(pd.Series(["москве"]))  # ["n"]
 sk.wordforms("москва")  # [..., "москве", ...]
+sk.decline(pd.Series(["купить красный диван"]), "genitive")  # ["купить красного дивана"]
+sk.decline_full_name(pd.Series(["Петрова Анна Ивановна"]), "accusative")  # ["Петрову Анну Ивановну"]
 
 df = pd.DataFrame({"phrase": ["купить диван бу"], "freq": [10]})
 sk.remove(df, sk.words("бу"), column="phrase")  # adds "phrase_remove" right after "phrase"
@@ -30,8 +32,12 @@ sk.pipe(df, "phrase").remove(sk.words("бу")).remove(sk.words("купить")).
   A phrase splits on any whitespace; words compare by case and ё = е; the output keeps the original text.
 - `sk.words(items, mode="any"|"all", where="anywhere"|"start"|"end", ignore_punct=False, lemmatizer=None)`.
   With a `lemmatizer` it compares lemmas («диваны» = «диван»); without one, words as they are.
-- Lemmas: the !SEMTools dictionary, then pymorphy3, then the add-in's suffix table; any object with
+- Lemmas: the !SEMTools dictionary, then pymorphy3, then the add-in's suffix table; `fallback="pymorphy"` gives
+  every word missing from the dictionary the pymorphy3 guess instead; any object with
   `lemma(word)`, `pos(word)` and `forms(lemma)` works as `lemmatizer=`.
+- `sk.text_stats(data, lemmatizer=..., column=None)`: per text, `chars`, `chars_no_spaces`, `words`, `unique`, `water`,
+  `nausea_classic`, `nausea_academic`, `top`, `ttr`, `mtld`, `zipf` (definitions in the docstring); with `column=` the
+  metric columns follow `column`.
 - Wrong input raises `sk.InvalidArguments`, naming the argument and the allowed values.
 
 The bundled data (`src/rb_semkit/data/`) is built from the !SEMTools sources (paths in

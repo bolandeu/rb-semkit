@@ -19,8 +19,12 @@ A value is in quotes; « | » separates the cells of a whole-column input or res
 | Area | Functions | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|---|
 | [analysis](conformance/analysis.md) | 3 | 41 | 26 | 15 | 0 |
+| [compare](conformance/compare.md) | 3 | 17 | 17 | 0 | 0 |
+| [declension](conformance/declension.md) | 5 | 41 | 21 | 20 | 0 |
 | [dupes](conformance/dupes.md) | 1 | 102 | 89 | 13 | 0 |
 | [markers](conformance/markers.md) | 1 | 44 | 35 | 9 | 0 |
 | [morph](conformance/morph.md) | 3 | 45 | 27 | 18 | 0 |
+| [patterns](conformance/patterns.md) | 3 | 35 | 19 | 16 | 0 |
 | [text](conformance/text.md) | 14 | 260 | 219 | 41 | 0 |
-| **All** | **22** | **492** | **396** | **96** | **0** |
+| [textstats](conformance/textstats.md) | 1 | 10 | 10 | 0 | 0 |
+| **All** | **34** | **595** | **463** | **132** | **0** |

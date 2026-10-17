@@ -20,14 +20,14 @@ def test_by_lemmas_a_bad_word_wins_good_words_only_are_good_and_the_rest_keeps_i
     assert parts.bad.tolist() == ["диваны бу", "стол бу"]
     assert parts.good.tolist() == ["купить диван", "диван"]
     assert parts.rest.tolist() == ["диваны недорого", "стул"]
-    assert rows(parts.frequency) == [("диван", 1), ("недорогой", 1), ("стул", 1)]
+    assert rows(parts.frequency[["ngram", "count"]]) == [("диван", 1), ("недорогой", 1), ("стул", 1)]
 
 
 def test_by_words_a_wordform_is_another_word() -> None:
     parts = sk.split_by_words(CORE, good=["диван", "купить"], bad="бу")
 
     assert parts.good.tolist() == ["купить диван", "диван"]
-    assert rows(parts.frequency) == [("диваны", 1), ("недорого", 1), ("стул", 1)]
+    assert rows(parts.frequency[["ngram", "count"]]) == [("диваны", 1), ("недорого", 1), ("стул", 1)]
 
 
 def test_the_parts_keep_the_rows_of_a_table() -> None:
