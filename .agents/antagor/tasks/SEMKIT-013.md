@@ -2,7 +2,7 @@
 id: SEMKIT-013
 title: 'Analysis block: combinations, parents and basis phrases, good/bad split, clustering,
   synonyms to minus-words, typos, sentiment'
-status: in_progress
+status: queue
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -18,8 +18,10 @@ owns_paths:
 - scripts/bench_parts/corpus.py
 - tests/conformance/cases/corpus/
 - tests/conformance/areas/corpus.py
+- src/rb_semkit/data/corpus/languagetool.toml
 test_paths:
 - tests/corpus/
+- tests/conformance/case_files.py
 docs:
 - docs/vba/deviations/corpus.md
 - docs/vba/conformance/corpus.md
@@ -96,13 +98,10 @@ docs/vba/analysis.md §5–§11 (handlers, quirks, worked examples); the v1 fram
 
 ## Feedback
 
-### Answer to question #1
+### Attempt 0 (not counted): main moved and conflicts with the work
 
-> SEMKIT-013 asks for sk.cluster_by_serp over a given SERP table (offline), but docs/plan.md §3b (the Human, 2026-10-17) says clustering by search results is another tool.
-> Question: Does semkit keep the offline SERP-table clustering of SEMKIT-013?
-> Options:
-> 1. Keep it: it ports an add-in menu function over a given table, no network; I implement it as the task says
-> 2. Drop it from SEMKIT-013 and leave SERP clustering to the other tool
-> Recommended: Keep it: it ports an add-in menu function over a given table, no network; I implement it as the task says
+`main` changed since your work began, and merging it conflicts in:
 
-Drop sk.cluster_by_serp: the Human decided (2026-10-17) that clustering by search results belongs to the other tool, even over a given table. Do not implement it; list it as out of scope in the task result.
+- `tests/conformance/case_files.py`
+
+Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).
