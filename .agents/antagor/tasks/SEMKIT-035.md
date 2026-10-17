@@ -19,6 +19,7 @@ owns_paths:
 - src/rb_semkit/data/wordlists/meaning/
 - src/rb_semkit/data/wordlists/manifest.toml
 - scripts/build_parts/wordlists.py
+- src/rb_semkit/core/lists/functions.py
 test_paths:
 - tests/dupes/
 - tests/wordlists/
