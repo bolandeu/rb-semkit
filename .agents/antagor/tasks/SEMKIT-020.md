@@ -76,3 +76,9 @@ Comparison reuses the keys of sk.dupes (kinds exact, explicit, implicit, lemmas;
 ### Attempt 1: file docstring
 
 - update the docstring of src/rb_semkit/core/dupes/functions.py: +key_function
+
+### Answer to finding #1
+
+> SEMKIT-020: tests/conformance/test_cases.py::test_every_public_function_has_its_case_file_in_its_area fails for sk.compare_lists and sk.edges (semkit additions, no VBA case by the task). SEMKIT-021 must exempt semkit's own functions there; the gate stays red for these 2 tests until it lands.
+
+Taken into SEMKIT-021; 020 is published together with 021 so main stays green.
