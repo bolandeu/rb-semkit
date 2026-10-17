@@ -5,3 +5,7 @@ lemmas = "/Users/bolandau/Work/_sandbox/semtools/reverse/data/lemms.tsv"
 sheet_abc = "/Users/bolandau/Work/_sandbox/semtools/reverse/data/sheet_abc.tsv"
 vba = "/Users/bolandau/Work/_sandbox/semtools/reverse/vba/RibbonCallbacks.vba"
 markers = "/Users/bolandau/Work/_sandbox/semtools/reverse/downloads/spiski"
+
+# The add-in's output on reference phrases, one sheet per handler (tests/conformance/test_reference.py).
+[conformance]
+reference = "/Users/bolandau/Work/_sandbox/semtools/reference/semkit_reference.xlsx"

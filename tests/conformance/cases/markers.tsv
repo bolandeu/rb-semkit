@@ -1,0 +1,23 @@
+# markers.extract, the workbook sheet markers_geo only (the matchers are SEMKIT-005). VBA: «Извлечь › Маркеры › Топонимы › Все топонимы › Без предлогов»
+# –a·a (L2823) → la— (L647), list geo.xlsx column A; found toponyms as the list spells them.
+case_id	function	call	input	vba	expected	rule	why
+ref-markers_geo-02	markers.extract	{"lists": "geo"}	купить диван				
+ref-markers_geo-03	markers.extract	{"lists": "geo"}	Купить  диван				
+ref-markers_geo-04	markers.extract	{"lists": "geo"}	диван купить				
+ref-markers_geo-05	markers.extract	{"lists": "geo"}	купить диваны				
+ref-markers_geo-06	markers.extract	{"lists": "geo"}	диван угловой недорого				
+ref-markers_geo-07	markers.extract	{"lists": "geo"}	угловой диван недорого				
+ref-markers_geo-08	markers.extract	{"lists": "geo"}	диван в москве	Москве	Москве		
+ref-markers_geo-09	markers.extract	{"lists": "geo"}	москве диван	Москве	Москве		
+ref-markers_geo-10	markers.extract	{"lists": "geo"}	диван у метро таганская				
+ref-markers_geo-11	markers.extract	{"lists": "geo"}	купить iPhone 15 в Москве	Москве	Москве		
+ref-markers_geo-12	markers.extract	{"lists": "geo"}	красный диван бу				
+ref-markers_geo-13	markers.extract	{"lists": "geo"}	где купить диван				
+ref-markers_geo-14	markers.extract	{"lists": "geo"}	как выбрать диван				
+ref-markers_geo-15	markers.extract	{"lists": "geo"}	диван диван угловой				
+ref-markers_geo-16	markers.extract	{"lists": "geo"}	стол столы				
+ref-markers_geo-17	markers.extract	{"lists": "geo"}	диван-кровать икеа				
+ref-markers_geo-18	markers.extract	{"lists": "geo"}	кровать для детей от 3 лет				
+ref-markers_geo-19	markers.extract	{"lists": "geo"}	ремонт квартир в спб под ключ	СПб	СПб		
+ref-markers_geo-20	markers.extract	{"lists": "geo"}					
+ref-markers_geo-21	markers.extract	{"lists": "geo"}	диван				

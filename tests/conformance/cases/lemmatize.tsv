@@ -1,0 +1,30 @@
+# lemmatize. VBA, RibbonCallbacks.vba: «Лемматизация › Словарь !SEMTools» —ak– (L1960) → kok— (L2835): Split(LCase(cell), " "), each word through aaa (L1354),
+# joined by " ". aaa gives the lemma as the dictionary (lemms.tsv) stores it, a word it lacks as is; lemmSuf only when Evaluate fails. Docs: docs/vba/analysis.md §1.4, §2;
+# the workbook sheet lemmas.
+case_id	function	call	input	vba	expected	rule	why
+lemmatize-case	lemmatize	{}	Купить ДИВАНЫ	купить диван	купить диван		
+lemmatize-yo	lemmatize	{}	ёлки	ёлки	елка	ё = е при сравнении	aaa looks the word up as written, and the dictionary has no ё
+lemmatize-unknown-pymorphy	lemmatize	{}	лайфхаками	лайфхаками	лайфхак	Явное улучшение там, где Python может больше VBA	aaa returns a word the dictionary lacks as is; semkit asks pymorphy3 next (ADR 0003)
+lemmatize-unknown	lemmatize	{}	зюзюками	зюзюками	зюзюками		
+lemmatize-punctuation	lemmatize	{}	диван, кресла	диван, кресло	диван, кресло		
+lemmatize-column	lemmatize	{}	диваны |  | столы	диван |  | стол	диван |  | стол		
+ref-lemmas-02	lemmatize	{}	купить диван	купить диван	купить диван		
+ref-lemmas-03	lemmatize	{}	Купить  диван	купить  диван	купить диван	фраза делится по любым пробелам, двойных пробелов в результатах нет	kok— splits by one space and joins by one, so the double space stays
+ref-lemmas-04	lemmatize	{}	диван купить	диван купить	диван купить		
+ref-lemmas-05	lemmatize	{}	купить диваны	купить диван	купить диван		
+ref-lemmas-06	lemmatize	{}	диван угловой недорого	диван угловой недорогой	диван угловой недорогой		
+ref-lemmas-07	lemmatize	{}	угловой диван недорого	угловой диван недорогой	угловой диван недорогой		
+ref-lemmas-08	lemmatize	{}	диван в москве	диван в Москва	диван в москва	леммы в нижнем регистре	aaa gives the lemma as the dictionary stores it: москве → Москва
+ref-lemmas-09	lemmatize	{}	москве диван	Москва диван	москва диван	леммы в нижнем регистре	aaa gives the lemma as the dictionary stores it: москве → Москва
+ref-lemmas-10	lemmatize	{}	диван у метро таганская	диван у метро таганский	диван у метро таганский		
+ref-lemmas-11	lemmatize	{}	купить iPhone 15 в Москве	купить iphone 15 в Москва	купить iphone 15 в москва	леммы в нижнем регистре	aaa gives the lemma as the dictionary stores it: Москве → Москва
+ref-lemmas-12	lemmatize	{}	красный диван бу	красный диван бу	красный диван бу		
+ref-lemmas-13	lemmatize	{}	где купить диван	где купить диван	где купить диван		
+ref-lemmas-14	lemmatize	{}	как выбрать диван	как выбирать диван	как выбирать диван		
+ref-lemmas-15	lemmatize	{}	диван диван угловой	диван диван угловой	диван диван угловой		
+ref-lemmas-16	lemmatize	{}	стол столы	стол стол	стол стол		
+ref-lemmas-17	lemmatize	{}	диван-кровать икеа	диван-кровать икеа	диван-кровать икеа		
+ref-lemmas-18	lemmatize	{}	кровать для детей от 3 лет	кровать для ребенок от 3 лет	кровать для ребенок от 3 лет		
+ref-lemmas-19	lemmatize	{}	ремонт квартир в спб под ключ	ремонт квартира в спб под ключ	ремонт квартира в спб под ключ		
+ref-lemmas-20	lemmatize	{}					
+ref-lemmas-21	lemmatize	{}	диван	диван	диван		
