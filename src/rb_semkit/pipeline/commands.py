@@ -6,6 +6,8 @@ the choices, a bool a flag (`--name/--no-name` when it is on by default), an arg
 ones with no command-line form (a lemmatizer, a Series) are left out. The first required argument is also taken
 positionally (`remove-chars punctuation` is `remove-chars --kind punctuation`). A change step also takes `--as NAME`.
 
+A step that takes items gets `ListsHelp`: its help ends with the names of the word lists (`takes_items` finds such a step).
+
 The help of an option is the line of the docstring that starts with its name («mode: …»). The command checks every
 option before any input is read: Click checks the types and choices, `Step.prepare` the rest.
 """

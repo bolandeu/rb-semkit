@@ -1,3 +1,6 @@
+"""The project config as a model (`.rb_semkit/config.toml`): the name, the provider, the output, the CLI version it needs
+and `lists`, the folders of the Human's word lists. A field has a default, so an old config still loads."""
+
 from __future__ import annotations
 
 from pydantic import BaseModel, Field

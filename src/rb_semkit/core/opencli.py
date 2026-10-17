@@ -8,7 +8,7 @@ against the `click` package would match nothing. OpenCLI has no fields for a par
 or default, nor metadata on the document itself, so ours go into `metadata`
 entries named `x-rb-*`: per option/argument `x-rb-type`, `x-rb-default`,
 `x-rb-multiple`; on the root command the tool's env vars, data, external
-programs and template version.
+programs, word lists (`word_lists`) and template version.
 
 The output is a cross-tool contract like `auth status`: tests/test_describe.py
 validates it against the OpenCLI schema and snapshots it. Changing or removing

@@ -1,3 +1,6 @@
+"""The project: where it is (the folder with `.rb_semkit/`), its config file and its own word-list folder, and the
+config's load, save and check against the installed CLI version."""
+
 from __future__ import annotations
 
 import tomllib
