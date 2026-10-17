@@ -81,7 +81,7 @@ Modes: mark all except first / including first; remove; keep first.
 |---|---|
 | n-gram frequency of words / lemmas, n = 1..N, count or sum by a weight column | v1 |
 | bigrams ignoring word order (words / lemmas); bigrams without stopwords | v1 |
-| word counts: words, chars per phrase; occurrence count, occurrence number, share of sum (cumulative), ABC | v1 |
+| word counts: words, chars per phrase; occurrence count, occurrence number, cumulative share in row order, share of total, ABC | v1 |
 | word permutations in a phrase; pairs from a list; linear combinations | v2 |
 | parents (nearest, first) and children (first nested) | v2 |
 | basis phrases | v2 |

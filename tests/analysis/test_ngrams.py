@@ -63,11 +63,11 @@ def test_a_weight_is_added_for_every_occurrence() -> None:
     assert rows(sk.ngrams(df, weight="freq", column="phrase")) == [("диван", 2, 6)]
 
 
-def test_stopwords_stay_by_default_and_go_first_with_stopwords_false() -> None:
+def test_stopwords_stay_by_default_and_stay_inside_a_gram_with_stopwords_false() -> None:
     s = pd.Series(["диван в москве"])
 
     assert rows(sk.ngrams(s, n=2)) == [("в москве", 1), ("диван в", 1)]
-    assert rows(sk.ngrams(s, n=2, stopwords=False)) == [("диван москве", 1)]
+    assert rows(sk.ngrams(s, n=2, stopwords=False)) == [("диван в москве", 1)]
 
 
 def test_words_are_compared_by_case_and_yo() -> None:

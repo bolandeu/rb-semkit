@@ -37,31 +37,41 @@ def _checked_n(n: int) -> int:
     return n
 
 
-def _word_keys(phrases: pd.Series, *, lemmatizer: Lemmatizer | None, stopwords: bool) -> dict[str, str]:
-    """Each distinct word of `phrases` as its key; "" for a word that drops out (a stopword, an empty key)."""
+Token = tuple[str, bool]  # the key of a word, and whether it counts (False: a stopword to drop)
+
+
+def _word_keys(phrases: pd.Series, *, lemmatizer: Lemmatizer | None, stopwords: bool) -> dict[str, Token]:
+    """Each distinct word of `phrases` as its key; a stopword to drop (`stopwords=False`) is not lemmatized."""
     dropped = frozenset() if stopwords else _stopwords()
     keys = {}
     for word in {word for phrase in phrases.unique() for word in split_words(phrase)}:
         key = norm_phrase(word)
-        if key in dropped:
-            key = ""
-        elif key and lemmatizer is not None:
-            key = lemmatizer.lemma(key)
-        keys[word] = key
+        counts = bool(key) and key not in dropped
+        keys[word] = (lemmatizer.lemma(key) if counts and lemmatizer is not None else key, counts)
     return keys
 
 
-def _runs(n: int) -> Callable[[list[str]], list[str]]:
-    return lambda words: [" ".join(words[i : i + n]) for i in range(len(words) - n + 1)]
+def _runs(n: int) -> Callable[[list[Token]], list[str]]:
+    """Runs of `n` counting words; the dropped stopwords between them stay inside the gram (ka–a L1005)."""
+
+    def shape(tokens: list[Token]) -> list[str]:
+        counting = [i for i, (_, counts) in enumerate(tokens) if counts]
+        return [
+            " ".join(key for key, _ in tokens[counting[i] : counting[i + n - 1] + 1] if key)
+            for i in range(len(counting) - n + 1)
+        ]
+
+    return shape
 
 
-def _pairs(words: list[str]) -> list[str]:
-    return [f"{first}+{second}" for first, second in combinations(sorted(set(words)), 2)]
+def _pairs(tokens: list[Token]) -> list[str]:
+    words = sorted({key for key, counts in tokens if counts})
+    return [f"{first}+{second}" for first, second in combinations(words, 2)]
 
 
 def _tally(
     data: pd.Series | pd.DataFrame,
-    shape: Callable[[list[str]], list[str]],
+    shape: Callable[[list[Token]], list[str]],
     *,
     lemmatizer: Lemmatizer | None,
     stopwords: bool,
@@ -72,7 +82,7 @@ def _tally(
     weights = weights_of(frame, weight)
     phrases = frame.phrases
     keys = _word_keys(phrases, lemmatizer=lemmatizer, stopwords=stopwords)
-    grams = map_unique(phrases, lambda phrase: shape([keys[w] for w in split_words(phrase) if keys[w]])).tolist()
+    grams = map_unique(phrases, lambda phrase: shape([keys[word] for word in split_words(phrase)])).tolist()
     table = pd.DataFrame({"ngram": list(chain.from_iterable(grams))})
     totals = {"count": ("ngram", "size")}
     if weights is not None:
@@ -96,7 +106,9 @@ def ngrams(
 
     Sorted by count, biggest first, then by ngram. Words are compared by case and ё.
     lemmas: count lemmas of the words («диваны» is «диван»), by `lemmatizer`.
-    stopwords: False drops the stopwords before the runs are made (before the lemmas too).
+    stopwords: False makes the runs of words that are no stopwords; a stopword between two of them stays inside the
+    gram («купить диван в москве» gives «купить диван» and «диван в москве»), as «Биграмм без учета стоп-слов»
+    (—k·· L2781 → ka–a L1005); stopwords are found in any case (ADR 0005).
     weight: a numeric column of the table; `sum` adds its value once per occurrence.
     """
     return _tally(
