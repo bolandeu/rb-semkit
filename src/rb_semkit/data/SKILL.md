@@ -55,7 +55,7 @@ Replace `vX.Y.Z` with the latest release tag (install from a tag, never a branch
 - **filter** — keeps or drops rows (`keep-…`, `drop-…`, `dupes --action drop`, `split-by-words --keep`,
   `remove-cells empty`).
 - **report** — makes a new table the current one, and its first text column the working one (`ngrams`, `split-text`,
-  `coverage`, `compare-grams`, `cluster-serp`, `compare-lists`, `permutations`).
+  `coverage`, `compare-grams`, `cluster-serp`, `compare-lists`, `permutations`, `summary`).
 
 The matchers (`words`, `phrases`, `stopwords`, `chars`, `spaces`, `regex`, `around`, `edges`, `positions`,
 `word-case`, `word-content`, `word-position`, `pos`, `repeats`, `cells`, `markers`, `ready-pattern`, `complements`,
@@ -150,16 +150,20 @@ $ semkit read --whole article.txt split-text ngrams -n 1 --lemmas write -
 ```
 
 My text against the competitors: the density of each lemma in the competitors' texts and in mine, with a verdict
-(`below`, `within`, `above`).
+(`below`, `within`, `above`) against the median (`--norm mean` for the mean), and the occurrences to reach it: `need`
+for the size of my text (`--words N` for another size), `have`, `add` (negative: remove) and `med_count`, the median count
+in the competitors. `--per-text` adds the density of each competitor, `--no-digits` and `--exclude LIST` leave numbers
+and listed words out of every count (also in `text-stats` and `compare-stats`). `summary` reports the mean, median, min
+and max of every numeric column, e.g. after `text-stats`.
 
 ```console
 $ semkit read --whole mine.txt compare-grams --competitors competitors.csv write -
-{"ngram": "диван", "docs": 2, "docs_share": 0.6667, "median": 0.2857, "min": 0.0, "max": 0.4286, "mine": 0.3333, "verdict": "within"}
-{"ngram": "кресло", "docs": 3, "docs_share": 1.0, "median": 0.1429, "min": 0.1429, "max": 0.5, "mine": 0.0, "verdict": "below"}
-{"ngram": "купить", "docs": 2, "docs_share": 0.6667, "median": 0.1429, "min": 0.0, "max": 0.5, "mine": 0.1667, "verdict": "within"}
-{"ngram": "угловой", "docs": 2, "docs_share": 0.6667, "median": 0.1429, "min": 0.0, "max": 0.1429, "mine": 0.1667, "verdict": "within"}
-{"ngram": "кожаный", "docs": 1, "docs_share": 0.3333, "median": 0.0, "min": 0.0, "max": 0.1429, "mine": 0.1667, "verdict": "above"}
-{"ngram": "недорогой", "docs": 1, "docs_share": 0.3333, "median": 0.0, "min": 0.0, "max": 0.1429, "mine": 0.1667, "verdict": "above"}
+{"ngram": "диван", "docs": 2, "docs_share": 0.6667, "median": 0.2857, "mean": 0.2381, "min": 0.0, "max": 0.4286, "mine": 0.3333, "verdict": "within", "need": 2, "have": 2, "add": 0, "med_count": 2}
+{"ngram": "кресло", "docs": 3, "docs_share": 1.0, "median": 0.1429, "mean": 0.2619, "min": 0.1429, "max": 0.5, "mine": 0.0, "verdict": "below", "need": 1, "have": 0, "add": 1, "med_count": 1}
+{"ngram": "купить", "docs": 2, "docs_share": 0.6667, "median": 0.1429, "mean": 0.2143, "min": 0.0, "max": 0.5, "mine": 0.1667, "verdict": "within", "need": 1, "have": 1, "add": 0, "med_count": 1}
+{"ngram": "угловой", "docs": 2, "docs_share": 0.6667, "median": 0.1429, "mean": 0.0952, "min": 0.0, "max": 0.1429, "mine": 0.1667, "verdict": "within", "need": 1, "have": 1, "add": 0, "med_count": 1}
+{"ngram": "кожаный", "docs": 1, "docs_share": 0.3333, "median": 0.0, "mean": 0.0476, "min": 0.0, "max": 0.1429, "mine": 0.1667, "verdict": "above", "need": 0, "have": 1, "add": -1, "med_count": 0}
+{"ngram": "недорогой", "docs": 1, "docs_share": 0.3333, "median": 0.0, "mean": 0.0476, "min": 0.0, "max": 0.1429, "mine": 0.1667, "verdict": "above", "need": 0, "have": 1, "add": -1, "med_count": 0}
 ```
 
 Core phrases in a text: how often each phrase stands in the texts and where it first starts.

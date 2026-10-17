@@ -25,5 +25,6 @@ AREAS = {
     "morph": ["lemmatize", "part-of-speech", "wordforms"],
     "serp": ["cluster-serp"],
     "split": ["split-text"],
+    "summary": ["summary"],
     "textstats": ["text-stats"],
 }  # fmt: skip
