@@ -7,6 +7,10 @@
  mode: 'exact' — the words of the phrase in a row, case and ё folded; 'lemmas' — the same by lemmas
  of both sides; 'any_order' — the lemmas of the phrase all inside one piece of text (one phrase of
  split-text), in any order; a piece with them is one occurrence.
+ gap: how many words may stand between each two neighbouring words of the phrase in 'exact' and
+ 'lemmas' («купить недорогие пластиковые окна» is «купить пластиковые окна» with gap 1); the order
+ stays and a gap never crosses a sentence end; 0 allows none. It does not apply to 'any_order',
+ where the words are already anywhere in one piece.
  text_column: the column of the texts.
 
  exact and lemmas cross any punctuation inside a sentence («хранения — это» is «хранения это», a
@@ -46,6 +50,15 @@
 │                                                of split-text), in any order; a piece with them   │
 │                                                is one occurrence.                                │
 │                                                [default: exact]                                  │
+│ --gap                <int>                     how many words may stand between each two         │
+│                                                neighbouring words of the phrase in 'exact' and   │
+│                                                'lemmas' («купить недорогие пластиковые окна» is  │
+│                                                «купить пластиковые окна» with gap 1); the order  │
+│                                                stays and a gap never crosses a sentence end; 0   │
+│                                                allows none. It does not apply to 'any_order',    │
+│                                                where the words are already anywhere in one       │
+│                                                piece.                                            │
+│                                                [default: 0]                                      │
 │ --text-column        <str>                     the column of the texts.                          │
 │ --help                                         Show this message and exit.                       │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯

@@ -3886,7 +3886,7 @@
           },
           {
             "name": "coverage",
-            "description": "Every distinct core phrase checked against the texts: a table phrase, count, docs, density and first.\n\nmode: 'exact' — the words of the phrase in a row, case and ё folded; 'lemmas' — the same by lemmas of both sides; 'any_order' — the lemmas of the phrase all inside one piece of text (one phrase of split-text), in any order; a piece with them is one occurrence.\ntext_column: the column of the texts.\n\nexact and lemmas cross any punctuation inside a sentence («хранения — это» is «хранения это», a comma too), never a sentence end (. ! ? …; the point of an abbreviation such as «г.» is none). The rows follow the core order; a phrase that is not found stays with count 0, as the missing phrases are the point. The columns:\n- count: occurrences in all texts; one phrase does not overlap itself, and each phrase is counted on its own;\n- docs: the texts that hold the phrase at least once;\n- density: count x words of the phrase / words of all texts, a share from 0 to 1, rounded to 4 decimals;\n- first: the number of the word (1-based, all words of the text counted) where the phrase first starts, in the first text that holds it; empty when count is 0.\n\nagainst: a file with the texts, one per row; the file is read like `read` does. The texts are in --text-column, by default the first text column of the file.\n\nThe step takes the working column as the core; the table phrase, count, docs, density and first replaces the current one.\n\nExample: semkit read core.csv coverage --against texts.csv write out.csv",
+            "description": "Every distinct core phrase checked against the texts: a table phrase, count, docs, density and first.\n\nmode: 'exact' — the words of the phrase in a row, case and ё folded; 'lemmas' — the same by lemmas of both sides; 'any_order' — the lemmas of the phrase all inside one piece of text (one phrase of split-text), in any order; a piece with them is one occurrence.\ngap: how many words may stand between each two neighbouring words of the phrase in 'exact' and 'lemmas' («купить недорогие пластиковые окна» is «купить пластиковые окна» with gap 1); the order stays and a gap never crosses a sentence end; 0 allows none. It does not apply to 'any_order', where the words are already anywhere in one piece.\ntext_column: the column of the texts.\n\nexact and lemmas cross any punctuation inside a sentence («хранения — это» is «хранения это», a comma too), never a sentence end (. ! ? …; the point of an abbreviation such as «г.» is none). The rows follow the core order; a phrase that is not found stays with count 0, as the missing phrases are the point. The columns:\n- count: occurrences in all texts; one phrase does not overlap itself, and each phrase is counted on its own;\n- docs: the texts that hold the phrase at least once;\n- density: count x words of the phrase / words of all texts, a share from 0 to 1, rounded to 4 decimals;\n- first: the number of the word (1-based, all words of the text counted) where the phrase first starts, in the first text that holds it; empty when count is 0.\n\nagainst: a file with the texts, one per row; the file is read like `read` does. The texts are in --text-column, by default the first text column of the file.\n\nThe step takes the working column as the core; the table phrase, count, docs, density and first replaces the current one.\n\nExample: semkit read core.csv coverage --against texts.csv write out.csv",
             "options": [
               {
                 "name": "--against",
@@ -3926,6 +3926,26 @@
                   {
                     "name": "x-rb-default",
                     "value": "exact"
+                  }
+                ]
+              },
+              {
+                "name": "--gap",
+                "arguments": [
+                  {
+                    "name": "GAP",
+                    "required": true
+                  }
+                ],
+                "description": "how many words may stand between each two neighbouring words of the phrase in 'exact' and 'lemmas' («купить недорогие пластиковые окна» is «купить пластиковые окна» with gap 1); the order stays and a gap never crosses a sentence end; 0 allows none. It does not apply to 'any_order', where the words are already anywhere in one piece.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "int"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": 0
                   }
                 ]
               },
