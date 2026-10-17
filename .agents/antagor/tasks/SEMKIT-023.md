@@ -2,8 +2,8 @@
 id: SEMKIT-023
 title: 'CLI pipeline core: read, chained steps, write; the step table and its generator;
   the text, dupes and n-gram steps'
-status: queue
-attempts: 1
+status: done
+attempts: 2
 blocked: false
 blocked_reason: null
 phase: null
@@ -177,3 +177,25 @@ Answers in inbox #1-#4: keep action; both positional first argument and --NAME; 
 - update the docstring of src/rb_semkit/core/frame.py: +text_columns
 - update the docstring of src/rb_semkit/core/markers/lists.py: +phrases
 - update the docstring of src/rb_semkit/core/text/base.py: +verbs
+
+### Attempt 2: the Architect's verdict
+
+The review found blockers; close each:
+
+- [blocker] C6 .agents/antagor/scratch/report.md: the worker's attempt report is committed (commits 67e3522, 2d8c5b0, 8ef9aaf). It is a stray file; it is not in `.agents/antagor/.gitignore`. Remove it from the tree.
+- [blocker] [wrong] `read --whole` loses the blank lines of the text. `read_lines` uses dataio `txt` reading, which skips blank lines. I ran `semkit read w.txt --whole write -` on the file `a`, blank line, `b`: the cell is `a\nb`, not `a\n\nb\n`. A paragraph break is lost, and so is the structure of an article — «read --whole reads a text file as one cell (column text)»; «Then the table has one cell with the whole text».
+
+Minor remarks of the review: optional, if they do not widen the task:
+
+- [minor] C5 src/rb_semkit/pipeline/run.py: `--trace` is written after OUT. If the trace write fails, OUT is already replaced and the command reports an error. Write the trace first, or document the order.
+- [minor] C4 src/rb_semkit/core/lists/functions.py: `compare_lists` gets the `DupeKind` type. The change is small and keeps one list of kinds (C3), but this function is not a step of this task. The Architect may accept it.
+- [minor] C1 src/rb_semkit/pipeline/commands.py: the name `POSITIONAL = "positional_"` is a parameter prefix, not a positional marker. `POSITIONAL_PREFIX` says what it holds.
+- [minor] [wrong] The `--json` error envelope keeps the key `action`, not `hint`. This follows the Architect's answer to question #1 (option 1), so it is not a defect. SKILL.md still has no word on it; that file is out of scope. Noted only.
+- [minor] [extra] `--trace` also records the dropped rows of a filter step (`after` is null). The task says «a row-level JSONL journal (row, step, column, before, after)». This fits the journal, so I do not count it.
+- [minor] [missing] The speed test passes, but the bench part has no number of its own: it uses the global `--limit` of 120 s. The task says «within the library budget plus read and write». Name the budget of the pipeline part, or state that the global limit is the budget.
+
+### Answer to gap #5
+
+> .agents/antagor/.gitignore does not ignore scratch/, but the antagor submit example writes the worker report to .agents/antagor/scratch/report.md, so it gets committed (SEMKIT-023 attempt 2, blocker C6). Ignore scratch/ or move the report path out of the tree.
+
+An Antagor idea: the generated .gitignore must ignore scratch/ (project test pins that file, so the fix is in Antagor).

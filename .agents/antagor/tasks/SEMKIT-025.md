@@ -3,7 +3,7 @@ id: SEMKIT-025
 title: 'Word lists: bundled Bukvarix and add-in lists with a manifest, the Human''s
   folders by any path, semkit lists, sk.word_list'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -28,8 +28,40 @@ owns_paths:
 - tests/snapshots/help/lists-show.txt
 - tests/snapshots/help/lists-add.txt
 - tests/snapshots/help/lists-rm.txt
+- scripts/build_parts/wordlists.toml
+- src/rb_semkit/commands/read.py
+- src/rb_semkit/core/models.py
+- src/rb_semkit/core/opencli.py
+- src/rb_semkit/pipeline/commands.py
+- src/rb_semkit/pipeline/items.py
 test_paths:
 - tests/wordlists/
+- tests/conformance/data_manifest/wordlists.json
+- tests/conftest.py
+- tests/pipeline/test_lists.py
+- tests/snapshots/describe.json
+- tests/snapshots/help/read.txt
+- tests/snapshots/help/steps/text/drop-cells.txt
+- tests/snapshots/help/steps/text/drop-phrases.txt
+- tests/snapshots/help/steps/text/drop-word-content.txt
+- tests/snapshots/help/steps/text/drop-words.txt
+- tests/snapshots/help/steps/text/extract-cells.txt
+- tests/snapshots/help/steps/text/extract-phrases.txt
+- tests/snapshots/help/steps/text/extract-word-content.txt
+- tests/snapshots/help/steps/text/extract-words.txt
+- tests/snapshots/help/steps/text/find-cells.txt
+- tests/snapshots/help/steps/text/find-phrases.txt
+- tests/snapshots/help/steps/text/find-word-content.txt
+- tests/snapshots/help/steps/text/find-words.txt
+- tests/snapshots/help/steps/text/keep-cells.txt
+- tests/snapshots/help/steps/text/keep-phrases.txt
+- tests/snapshots/help/steps/text/keep-word-content.txt
+- tests/snapshots/help/steps/text/keep-words.txt
+- tests/snapshots/help/steps/text/remove-cells.txt
+- tests/snapshots/help/steps/text/remove-phrases.txt
+- tests/snapshots/help/steps/text/remove-stopwords.txt
+- tests/snapshots/help/steps/text/remove-word-content.txt
+- tests/snapshots/help/steps/text/remove-words.txt
 docs: none
 tools: []
 worker_args: null
@@ -93,3 +125,27 @@ Bundle the lists the way the marker lists are bundled (a build part, compact fil
 
 - Downloading lists at run time or from the CLI; editing a list's items from the CLI (edit the file).
 - The pipeline core and the other steps: SEMKIT-023 and SEMKIT-024.
+
+## Feedback
+
+### Answer to question #1
+
+> Acceptance of SEMKIT-025 runs 'read core.csv drop-words --items @minus/cheap', but drop-words (core/text/matchers/words.py, SEMKIT-023/024) accepts single words only and minus/cheap holds phrases ('по дешевке', 'за копейки'), so the command exits 2.
+> Question: How should the acceptance command work?
+> Options:
+> 1. Use drop-phrases in the acceptance and the test (phrases matcher takes multi-word items; I did this)
+> 2. Make the words matcher accept multi-word items (a change of SEMKIT-024's matcher)
+> Recommended: Use drop-phrases in the acceptance and the test (phrases matcher takes multi-word items; I did this)
+
+Option 1: drop-phrases. A list with multi-word items goes to the phrases matcher; words stays for single words. Read the acceptance line as drop-phrases --items @minus/cheap.
+
+### Blocked: needs_scope (entries [{'n': 1, 'text': "Acceptance of SEMKIT-025 runs 'read core.csv drop-words --items @minus/cheap', but drop-words (core/text/matchers/words.py, SEMKIT-023/024) accepts single words only and minus/cheap holds phrases ('по"}])
+
+Inbox #1: option 1, use drop-phrases for lists with phrases; keep the words matcher as it is.
+
+### Attempt 1: file docstring
+
+- add a docstring to src/rb_semkit/core/models.py: what it holds and why
+- update the docstring of src/rb_semkit/core/opencli.py: +word_lists
+- add a docstring to src/rb_semkit/core/services.py: what it holds and why
+- update the docstring of src/rb_semkit/pipeline/commands.py: +ListsHelp +takes_items

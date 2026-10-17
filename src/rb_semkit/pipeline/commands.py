@@ -40,7 +40,7 @@ ITEM_TYPES = (collections.abc.Iterable, list, tuple)
 EXAMPLE_VALUES = {str: "купить", int: "2", float: "0.5"}
 AS_HELP = "Write the result to a new column NAME and keep the working column as it is."
 MISSING_HELP = "See the description above."
-POSITIONAL = "positional_"  # the parameter of the command that takes the first required argument positionally
+POSITIONAL_PREFIX = "positional_"  # the parameter of the command that takes the first required argument positionally
 
 
 @dataclass(frozen=True)
@@ -72,7 +72,7 @@ class StepOption:
         option = values[self.name]
         if not self.positional:
             return option
-        argument = values[POSITIONAL + self.name]
+        argument = values[POSITIONAL_PREFIX + self.name]
         if option is not None and argument is not None:
             raise InvalidArguments(
                 f"{self.flag()}: given twice, as {self.metavar()} {argument!r} and as {self.flag()} {option!r};"
@@ -207,7 +207,7 @@ def _option_parameters(option: StepOption) -> list[inspect.Parameter]:
     flag = typer.Option(None, option.flag(), metavar=option.metavar(), help=escape(option.help))
     return [
         inspect.Parameter(
-            POSITIONAL + option.name, inspect.Parameter.KEYWORD_ONLY, default=argument, annotation=annotation
+            POSITIONAL_PREFIX + option.name, inspect.Parameter.KEYWORD_ONLY, default=argument, annotation=annotation
         ),
         inspect.Parameter(option.name, inspect.Parameter.KEYWORD_ONLY, default=flag, annotation=annotation),
     ]

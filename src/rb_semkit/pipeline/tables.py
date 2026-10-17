@@ -6,6 +6,7 @@ A file is written to a temporary file next to it and renamed over it: OUT holds 
 from __future__ import annotations
 
 import os
+import sys
 import tempfile
 from collections.abc import Generator
 from contextlib import contextmanager
@@ -20,6 +21,7 @@ from ..core.errors import CliError, InvalidArguments
 STDIO = "-"
 STREAM_FORMAT = "jsonl"
 WHOLE_COLUMN = "text"
+BOM = "\ufeff"
 
 
 @contextmanager
@@ -43,10 +45,27 @@ class Source:
     def read(self) -> pd.DataFrame:
         """The table; with `whole` the text of the input as one cell of the column `text`."""
         if self.whole:
-            return pd.DataFrame({WHOLE_COLUMN: ["\n".join(read_lines(self.address))]})
+            return pd.DataFrame({WHOLE_COLUMN: [self._text()]})
         stream = STREAM_FORMAT if self.address == STDIO else None
         with _dataio():
             return rb_dataio.read(self.address, format=stream, as_text=True).fillna("")
+
+    def _text(self) -> str:
+        """The text of the input as written, blank lines too, without a BOM; line ends become '\\n'.
+
+        Not through dataio: its txt format reads one row per line and skips the blank ones.
+        """
+        if self.address == STDIO:
+            return sys.stdin.read().removeprefix(BOM)
+        path = Path(self.address)
+        if not path.is_file():
+            raise CliError(
+                "SOURCE_NOT_FOUND",
+                f"read: {self.address} does not exist.",
+                action="Name a text file that exists, or '-' for stdin.",
+                exit_code=2,
+            )
+        return path.read_text(encoding="utf-8-sig")
 
 
 @dataclass(frozen=True)

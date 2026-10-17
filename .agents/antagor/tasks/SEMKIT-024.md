@@ -2,8 +2,8 @@
 id: SEMKIT-024
 title: CLI steps for every other area of the library; the agent guide (--ai) and README
   with typical pipelines
-status: queue
-attempts: 0
+status: publish
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -37,8 +37,15 @@ owns_paths:
 - tests/snapshots/help/steps/split/
 - tests/snapshots/help/steps/markers/
 - tests/snapshots/help/steps/listtools/
+- src/rb_semkit/steps/__init__.py
+- src/rb_semkit/steps/analysis.py
+- src/rb_semkit/steps/text.py
 test_paths:
 - tests/steps/
+- tests/pipeline/test_discovery.py
+- tests/snapshots/describe.json
+- tests/snapshots/help/read.txt
+- tests/snapshots/help/steps/analysis/counts.txt
 docs:
 - README.md
 tools: []
@@ -102,3 +109,10 @@ Add one step-table module per area in the steps package, as the core task did fo
 
 - The pipeline core, the generator, read/write: SEMKIT-023.
 - User list folders, the list manifest, semkit lists: the word-list task.
+
+## Feedback
+
+### Attempt 1: file docstring
+
+- update the docstring of src/rb_semkit/steps/__init__.py: +Adapted +as_table +change_step +changing +first_text +joined +option +pairs_of +scores_of +slug +table_of +texts_of
+- update the docstring of src/rb_semkit/steps/text.py: +matcher_steps
