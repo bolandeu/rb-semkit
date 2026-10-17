@@ -2,10 +2,10 @@
 id: SEMKIT-043
 title: summary, the mean in the comparisons, recommended occurrences, --no-digits
   and --exclude
-status: in_progress
+status: queue
 attempts: 0
-blocked: true
-blocked_reason: scope_held
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -122,3 +122,7 @@ The compare area (its shared norm, rounding and verdicts), the text-stats words 
 > Recommended: 4 and 5: the words rule of text-stats stays
 
 Option 1: 4 and 5. The acceptance miscounted; the words rule of text-stats stays (stopwords and units are words). --no-digits gives 4, --exclude года gives 5.
+
+### Blocked: scope_held (holders ['SEMKIT-034'], paths ['src/rb_semkit/data/SKILL.md', 'src/rb_semkit/steps/__init__.py', 'tests/snapshots/describe.json', 'tests/snapshots/help/read.txt', 'tests/steps/areas.py', 'tests/steps/test_steps.py'])
+
+SEMKIT-034 finished; your kept work on src/rb_semkit/data/SKILL.md, src/rb_semkit/steps/__init__.py, tests/snapshots/describe.json, tests/snapshots/help/read.txt, tests/steps/areas.py, tests/steps/test_steps.py is back in the worktree; main is merged into your branch where it merges clean
