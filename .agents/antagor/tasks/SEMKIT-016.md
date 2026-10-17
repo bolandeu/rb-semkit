@@ -2,7 +2,7 @@
 id: SEMKIT-016
 title: 'Core phrases in a text: count, texts and density of each core phrase, exact,
   by lemmas or in any word order'
-status: queue
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -15,8 +15,10 @@ worker: claude-code
 type: feature
 owns_paths:
 - src/rb_semkit/core/coverage/
+- src/rb_semkit/core/frame.py
 test_paths:
 - tests/coverage/
+- tests/conformance/test_cases.py
 docs: none
 tools: []
 worker_args: null
@@ -41,7 +43,6 @@ translation: '**Вхождения ядра в текст.** sk.coverage(ядр�
   any_order (леммы в одном отрезке текста в любом порядке). Через точку и запятую
   фраза не ищется.'
 ---
-
 
 The SEO check of a text against its core. Add sk.coverage(core, texts, *, mode='exact', lemmatizer=BUNDLED, column=None, text_column=None) -> DataFrame. core: the core phrases (Series, or DataFrame with column=); texts: the texts, one per row (Series, or DataFrame with text_column=). The table has one row per distinct core phrase, in the core order: phrase, count (occurrences in all texts), docs (texts that hold it at least once), density (count x words of the phrase / words of all texts, as a share 0..1). first (the number of the word of the first text where the phrase first starts, 1-based, counting all words of that text; empty when count is 0: the earlier, the stronger the signal). A phrase with count 0 stays in the table: the missing phrases are the point. mode: 'exact' — the words of the phrase in a row, as written (case and ё folded); 'lemmas' — the same with lemmas of both sides («купить диваны» finds «купила диван»); 'any_order' — the lemmas of the phrase all inside one piece of text (one split_text phrase), in any order. Occurrences of one core phrase do not overlap; each core phrase is counted on its own (a longer phrase does not hide a shorter one). Speed: a core of 10 000 phrases over a text of 100 000 words in seconds (index the text pieces by word, do not scan the text per phrase).
 
