@@ -116,3 +116,9 @@ Add one step-table module per area in the steps package, as the core task did fo
 
 - update the docstring of src/rb_semkit/steps/__init__.py: +Adapted +as_table +change_step +changing +first_text +joined +option +pairs_of +scores_of +slug +table_of +texts_of
 - update the docstring of src/rb_semkit/steps/text.py: +matcher_steps
+
+### Answer to finding #1
+
+> Generated step help (SEMKIT-023 generator): (1) 'Example:' fills a required str option with 'купить', so 'coverage --against' shows 'coverage купить' and 'split-by-words good'; a file option needs a FILE example. (2) A library docstring line that lists several arguments ('core, column: …') or a sentence 'good: …' inside another argument's line leaks into the previous option's help (coverage --mode, split-by-words --bad, markers --lists). (3) Docstring bullet lists are joined into one paragraph by the reflow. Fix in the generator or the library docstrings.
+
+Taken into a help-quality task after the snapshot refresh.
