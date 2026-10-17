@@ -35,7 +35,7 @@ budget_usd: null
 epic: E-001
 spec_refs: []
 checks:
-- uv run pytest tests/analysis tests/core tests/conformance -q
+- uv run pytest tests/analysis tests/core tests/conformance -q --no-cov
 resident: null
 tool: null
 pr: null
@@ -60,7 +60,7 @@ The conformance cases of SEMKIT-006 (tests/conformance/cases, xfail rows reporte
 - Given weights 20, 50, 30 in that row order, When counts(what='share'), Then 0.2, 0.7, 1; When counts(what='share_of_total'), Then 0.2, 0.5, 0.3 [check: tests/analysis/test_counts_vba.py]
 - Given 'купить диван в москве', When ngrams(n=2, stopwords=False), Then the grams are 'купить диван' and 'диван в москве' [check: tests/analysis/test_ngrams_vba.py]
 - Given 'диваны', When wordforms, Then the forms of 'диван' in alphabetical order, each once [check: tests/core/test_wordforms_vba.py]
-- Given the conformance cases, When they run, Then the rows of SEMKIT-006 inbox #1–#5 pass without xfail [check: uv run pytest tests/analysis tests/core tests/conformance -q]
+- Given the conformance cases, When they run, Then the rows of SEMKIT-006 inbox #1–#5 pass without xfail [check: uv run pytest tests/analysis tests/core tests/conformance -q --no-cov]
 
 ## How to test
 
