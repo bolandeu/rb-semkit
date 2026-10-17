@@ -1,4 +1,8 @@
-"""Lemma-dependent functions over phrases: each word is looked up once per call, then mapped back."""
+"""Lemma-dependent functions over phrases: each word is looked up once per call, then mapped back.
+
+word_by_word is the shared walk: it gives each word of a phrase to a lookup and joins the results. The lemmatizer
+functions here and the declension of nouns and adjectives use it.
+"""
 
 from __future__ import annotations
 
