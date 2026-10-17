@@ -5,6 +5,15 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.18 — 2026-10-17
+
+### E-003 — semkit CLI: one command line is a pipeline of steps over the whole library; named word lists
+
+semkit read core.xlsx drop-words @minus/universal remove-chars punctuation dupes --kind lemmas --action drop ngrams -n 2 write out.csv works; every library function is a step with its own --help; semkit lists shows every list (bundled, the Human's folders, the project) and a step that takes a list shows them in its help; an agent gets the same through --json, describe and --ai.
+Time: 1.1h since the epic was approved
+
+- Refresh the 11 step help snapshots that now list the word lists (SEMKIT-026)
+
 ## v0.1.17 — 2026-10-17
 
 ### E-003 — semkit CLI: one command line is a pipeline of steps over the whole library; named word lists
