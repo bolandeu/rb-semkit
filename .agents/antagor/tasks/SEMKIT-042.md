@@ -113,3 +113,13 @@ The step table (Step and STEPS of an area module), a change step that adds sever
 ### Attempt 1: file docstring
 
 - update the docstring of src/rb_semkit/core/frame.py: +put_columns
+
+### Attempt 1 (not counted): main moved and conflicts with the work
+
+`main` changed since your work began, and merging it conflicts in:
+
+- `src/rb_semkit/pipeline/state.py`
+- `src/rb_semkit/steps/__init__.py`
+- `uv.lock`
+
+Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).
