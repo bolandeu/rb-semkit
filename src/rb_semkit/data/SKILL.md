@@ -215,6 +215,24 @@ searched (`index: exact`, or `index: hnsw` above about 300 000 phrases; both giv
 `--json` it is the `note` of the step's summary. A model not pulled is `MODEL_NOT_PULLED` (exit 1, the action is the
 pull command); an unknown `--model` or a `--threshold` out of 0–1 is exit 2.
 
+### Synonym candidates
+
+`synonym-candidates` proposes synonyms for the words of the core (by lemmas; stopwords and words with digits are
+skipped), for you to pick. It needs two word data, pulled once like an encoder: `semkit models pull ruwordnet` (the
+thesaurus RuWordNet) and `semkit models pull navec` (word vectors); `models list` and `models remove` handle them too.
+
+```bash
+semkit read core.csv synonym-candidates write candidates.csv
+semkit read core.csv synonym-candidates --source ruwordnet --as-synonyms write synonyms.csv
+```
+
+The report has the columns `word`, `candidate`, `source` (`ruwordnet` or `navec`), `score` (1 for a thesaurus
+synonym, the cosine for navec) and `in_core`. By default only candidates that occur in the core are given; `--all`
+gives every candidate. `--source ruwordnet|navec|both` picks the data, `--top` limits the navec candidates per word.
+`--as-synonyms` gives the file of synonyms instead (`word`, `synonyms`) that `--synonyms` of the steps reads
+(`add-minus-words`): edit it down to the picked words first. A data not pulled is `MODEL_NOT_PULLED` (exit 1, the
+action is the pull command).
+
 ## Errors
 
 Error envelope with `--json`: `{"ok": false, "error": {"code", "message", "action"}}`. Read the exit code, then

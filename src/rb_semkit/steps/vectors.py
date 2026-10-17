@@ -35,7 +35,7 @@ FREQ_DOC = (
 
 def by_meaning(options: dict) -> tuple[Encoder, float]:
     """The encoder and the threshold the options --model and --threshold name."""
-    model = registry.model(options["model"])
+    model = registry.encoder(options["model"])
     threshold = registry.threshold(model, options["threshold"])
     return encoder.encoder_for(model, Path.cwd()), threshold
 
