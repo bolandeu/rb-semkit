@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-045
 title: Pipeline steps use the project of the CLI, not the current folder
-status: queue
+status: in_progress
 attempts: 0
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: scope_held
 phase: null
 tests_hash: null
 publish_stage: null
@@ -17,6 +17,8 @@ owns_paths:
 - src/rb_semkit/commands/read.py
 - src/rb_semkit/steps/vectors.py
 - src/rb_semkit/core/wordlists/folders.py
+- src/rb_semkit/steps/markers.py
+- src/rb_semkit/steps/__init__.py
 test_paths:
 - tests/pipeline/test_project_folder.py
 docs: none

@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-042
 title: 'parse-html and headings: pages as HTML into columns and their heading structure'
-status: in_progress
+status: queue
 attempts: 0
-blocked: true
-blocked_reason: scope_held
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -105,3 +105,7 @@ The step table (Step and STEPS of an area module), a change step that adds sever
 
 - fetching pages or rendering JavaScript
 - summary, the comparisons, coverage (other tasks)
+
+## Feedback
+
+### Blocked: scope_held (holders ['SEMKIT-034', 'SEMKIT-043'], paths ['pyproject.toml', 'src/rb_semkit/core/textstats/functions.py', 'src/rb_semkit/data/SKILL.md', 'src/rb_semkit/pipeline/state.py', 'src/rb_semkit/steps/__init__.py', 'tests/snapshots/describe.json', 'tests/snapshots/help/read.txt', 'tests/steps/areas.py', 'tests/steps/test_steps.py', 'uv.lock'])
