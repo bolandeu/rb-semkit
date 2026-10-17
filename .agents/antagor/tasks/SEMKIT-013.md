@@ -48,7 +48,6 @@ translation: 'Блок анализа ядра: перестановки, пар
   надстройки — в документе области.'
 ---
 
-
 Operations over a whole semantic core, as Python functions (the v1 frame; a result that is a table is a DataFrame). The algorithms come from docs/vba/analysis.md (§5–§11), improved where Python does better or the add-in is broken.
 
 Area «corpus»:
@@ -128,3 +127,14 @@ Minor remarks of the review: optional, if they do not widen the task:
 - [minor] C1 hierarchy.py `basis_phrases`: local name `tokens` (CONTEXT.md avoids «token» for wordform). Rename to `entries`.
 - [minor] [wrong] `is_typo` and `typo_correction` work on whole phrases, not on a word — «typos: is a word a typo, the most likely correction». A phrase-level result is consistent with the other per-row functions; a one-word input works too. Accept.
 - [minor] [extra] `add_minus_words` leaves a phrase in quotes unchanged; `synonyms` adds a «to check» row from the query when there is no matched phrase. The task does not say either. Both are documented in the docstrings; the second is the add-in behaviour. Accept.
+
+### Answer to question #3
+
+> SEMKIT-013 asks for cluster_by_serp (add-in positional score 5 4 3 2 1 + bonus 1, threshold 24, connected components), but ADR 0007 rejects that method because it chains A and C through B with no common URL, and sk.cluster_serp (soft/hard, SEMKIT-018) already clusters a SERP table.
+> Question: Which SERP clustering does the add-in menu item map to in rb_semkit?
+> Options:
+> 1. Drop cluster_by_serp from SEMKIT-013: the menu item maps to sk.cluster_serp; record the add-in method and why it is not ported in docs/vba/deviations/corpus.md, conformance cases run against cluster_serp; amend task acceptance (score 28/45)
+> 2. Keep cluster_by_serp as the add-in method (largest first, keyword twice fixed): amend ADR 0007 to say why two SERP clusterings exist
+> Recommended: Drop cluster_by_serp from SEMKIT-013: the menu item maps to sk.cluster_serp; record the add-in method and why it is not ported in docs/vba/deviations/corpus.md, conformance cases run against cluster_serp; amend task acceptance (score 28/45)
+
+Option 1. Drop cluster_by_serp: the menu item maps to sk.cluster_serp (ADR 0007). Record the add-in's SERP method and why it is not ported in docs/vba/deviations/corpus.md. No conformance cases for SERP clustering (cluster_serp is in NOT_CASED). The task body is amended (the score 28/45 criterion is gone). Also split the long functions (CCN over 10) if the gate's lizard limit asks for it.
