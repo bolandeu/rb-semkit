@@ -150,3 +150,9 @@ TOTAL                                                1774   1224    31%
 FAIL Required test coverage of 90.0% not reached. Total coverage: 31.00%
 677 passed, 10 xfailed in 4.45s
 ```
+
+### Answer to gap #6
+
+> Task check 'uv run pytest tests/conformance -q' always exits 1: pyproject addopts --cov with fail_under=90 fails on a subset run (31%). A task check on a test subset needs --no-cov, or the project needs a rule for it.
+
+Checks now run the subset with --no-cov; the full gate (release.py --check) keeps the coverage floor.
