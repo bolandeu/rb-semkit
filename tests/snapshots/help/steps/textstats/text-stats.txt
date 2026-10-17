@@ -13,6 +13,11 @@
  the n-grams. Lemmas are the words that are no stopwords. A single-letter word, an abbreviation (г,
  ул, руб, шт, кв, стр…) and a unit (рублей, см, мм, мл, кг) of the bundled word rules are words but
  no lemmas for top, nausea, ttr, mtld and zipf.
+ no_digits: leave out the words with a digit («2026», «15000», «A4») of every count, the words
+ total included, as if the text did not hold them; chars and chars_no_spaces stay those of the text
+ as given.
+ exclude: words to leave out the same way, as written, with case and ё folded, not by lemma («года»
+ does not leave out «год»).
 
  The columns, in this order:
  - chars: all characters of the text; chars_no_spaces: the same without whitespace;
@@ -37,6 +42,38 @@
  Example: semkit read core.csv text-stats write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --help          Show this message and exit.                                                      │
+│ --no-digits               leave out the words with a digit («2026», «15000», «A4») of every      │
+│                           count, the words total included, as if the text did not hold them;     │
+│                           chars and chars_no_spaces stay those of the text as given.             │
+│ --exclude          <str>  words to leave out the same way, as written, with case and ё folded,   │
+│                           not by lemma («года» does not leave out «год»). Items: a comma list    │
+│                           'a,b', @FILE (one item per line, or the first column of a table) or    │
+│                           @NAME of a list.                                                       │
+│ --help                    Show this message and exit.                                            │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+ Lists for @NAME: @combine/kiev-region-towns, @combine/leningrad-region-villages,
+ @combine/moscow-hotels, @combine/moscow-metro, @combine/moscow-region-villages,
+ @combine/realty-object, @combine/realty-service, @combine/review, @combine/russia-cities-100k,
+ @combine/russia-cities-250k, @combine/russia-cities-500k, @combine/shop, @combine/spb-hotels,
+ @combine/spb-metro, @combine/tourism, @combine/tourism/austria, @combine/tourism/baltic,
+ @combine/tourism/benelux, @combine/tourism/bulgaria, @combine/tourism/canada,
+ @combine/tourism/caribbean, @combine/tourism/china, @combine/tourism/croatia,
+ @combine/tourism/cyprus, @combine/tourism/czech, @combine/tourism/egypt, @combine/tourism/france,
+ @combine/tourism/germany, @combine/tourism/greece, @combine/tourism/hungary,
+ @combine/tourism/india, @combine/tourism/indonesia, @combine/tourism/israel,
+ @combine/tourism/italy, @combine/tourism/malaysia, @combine/tourism/mexico,
+ @combine/tourism/montenegro, @combine/tourism/poland, @combine/tourism/portugal,
+ @combine/tourism/scandinavia, @combine/tourism/spain, @combine/tourism/switzerland,
+ @combine/tourism/thailand, @combine/tourism/turkey, @combine/tourism/uae, @combine/tourism/uk,
+ @combine/tourism/usa, @combine/ukraine-cities-100k, @combine/ukraine-cities-250k, @markers/DIY,
+ @markers/MO, @markers/cars, @markers/citiesRu, @markers/color, @markers/districts, @markers/edu,
+ @markers/fun, @markers/game, @markers/geo, @markers/material, @markers/mosmetro, @markers/names,
+ @markers/origin, @markers/questions, @markers/rent, @markers/reviews, @markers/sale,
+ @minus/abusive, @minus/adult-hard, @minus/adult-soft, @minus/belarus-cities, @minus/cheap,
+ @minus/computer, @minus/countries, @minus/ex-ussr-cities, @minus/free, @minus/handmade,
+ @minus/kazakhstan-cities, @minus/moscow-region-cities, @minus/russia-cities,
+ @minus/ukraine-cities, @minus/universal, @minus/world-cities, @stop/semtools, @stop/wordstat. Run
+ 'semkit lists' for their sources and descriptions.
+
 
