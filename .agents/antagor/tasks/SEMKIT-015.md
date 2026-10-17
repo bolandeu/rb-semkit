@@ -41,9 +41,14 @@ translation: '**Колонка docs в n-граммах и биграммах.**
   с надстройкой по count и sum не меняется.'
 ---
 
+
 To compare a text with competitor texts, a gram needs two numbers: how often it occurs (count) and in how many texts (rows, cells) it occurs. Add the column docs to the tables of sk.ngrams and sk.bigrams, right after count: the number of distinct index values of the input whose phrases hold the gram at least once. With a one-phrase-per-row core it is the number of phrases with the gram. With phrases cut from texts by sk.split_text (it keeps the source index, so the index repeats) it is the number of texts. Sorting stays by count, then ngram. The conformance comparison with the add-in keeps checking count and sum only; docs is a semkit addition (say so in the docstring; no ADR: the add-in has no such column).
 
+Also add the column forms when lemmas=True: the word forms met for the gram's lemmas, most frequent first, joined by ', ' (for a unigram «диван» — «диваны, диван, дивана»; for a longer gram the forms of each position joined by ' ' per occurrence variant is too much: give the distinct original spellings of the whole gram instead, most frequent first, at most 5). Without lemmas there is no forms column.
+
 ## Acceptance
+
+- Given ['диваны диван', 'диваны'], When sk.ngrams(data, 1, lemmas=True) runs, Then the row диван has forms 'диваны, диван' [check: tests/analysis/]
 
 - Given the Series ['диван кровать диван', 'диван'], When sk.ngrams(data, 1) runs, Then диван has count 3 and docs 2 [check: tests/analysis/]
 - Given a Series with the index [0, 0, 1] (phrases cut from 2 texts) and диван in all three, When sk.ngrams runs, Then диван has docs 2 [check: tests/analysis/]
