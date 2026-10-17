@@ -46,7 +46,7 @@ translation: '**Функции изменения на реальных фраз
 ---
 
 
-The end-to-end check (docs/plans/e2e-quality.md, items 23-26) found the change functions give wrong results on real phrases. Fix the library behaviour; keep the public docstrings as they are unless a rule they state changes (the step help and its snapshots are the CLI task's).
+The end-to-end check (docs/plans/e2e-quality.md, items 23-26) found the change functions give wrong results on real phrases. Fix the library behaviour. Do not change the public docstrings: SEMKIT-033 updates them and the help snapshots after this task; when your fix changes a rule a docstring states, report it as an inbox finding (the function and the new rule).
 
 match_type: a phrase that already has quotes, brackets or operators is not wrapped again and no operator is glued to a quote or a bracket: «"купить диван" -бесплатно» plus_every_word → «"+купить +диван" -бесплатно»; «[диван в икеа] -бу» brackets → «[диван в икеа] -бу»; quotes of a quoted phrase stay one pair; fixed_forms gives «"!купить !диван"», «[!диван !в !икеа] -бу». The result is valid Yandex Direct syntax.
 
