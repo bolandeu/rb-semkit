@@ -121,3 +121,43 @@ def test_counts_shares_have_at_most_four_decimals() -> None:
 
     assert share.tolist() == [0.3333, 0.6667, 1.0]
     assert of_total.tolist() == [0.3333, 0.3333, 0.3333]
+
+
+def _count(phrase: str, text: str, **options: object) -> int:
+    return sk.coverage(pd.Series([phrase]), pd.Series([text]), **options)["count"].tolist()[0]
+
+
+@pytest.mark.parametrize(
+    ("text", "gap", "count"),
+    [
+        ("Здесь можно купить недорогие пластиковые окна.", 1, 1),
+        ("Здесь можно купить недорогие пластиковые окна.", 0, 0),
+        ("купить очень недорогие пластиковые окна", 1, 0),
+        ("купить очень недорогие пластиковые окна", 2, 1),
+        ("купить. Пластиковые окна", 3, 0),
+        ("купить пластиковые окна", 2, 1),
+    ],
+)
+def test_gap_allows_inserted_words_between_the_phrase_words(text: str, gap: int, count: int) -> None:
+    assert _count("купить пластиковые окна", text, gap=gap) == count
+
+
+def test_gap_finds_a_later_word_when_the_nearest_is_too_far() -> None:
+    assert _count("диван стол кровать", "диван стол стол шкаф кровать", gap=1) == 1
+
+
+def test_gap_in_lemmas_mode() -> None:
+    text = "купили недорогое пластиковое окно"
+
+    assert _count("купить пластиковые окна", text, mode="lemmas", gap=1) == 1
+    assert _count("купить пластиковые окна", text, mode="lemmas") == 0
+
+
+def test_a_negative_gap_names_the_argument() -> None:
+    with pytest.raises(sk.InvalidArguments, match="gap"):
+        _count("диван стол", "диван стол", gap=-1)
+
+
+def test_gap_does_not_apply_to_any_order() -> None:
+    with pytest.raises(sk.InvalidArguments, match=r"gap.*any_order"):
+        _count("диван стол", "диван стол", mode="any_order", gap=2)

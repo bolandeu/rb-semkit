@@ -17,7 +17,7 @@
  The step adds the columns best_page, best_similarity, second_page and second_similarity right
  after the working column; the rows stay.
 
- Example: semkit read core.csv assign-pages --pages pages.csv write out.csv
+ Example: semkit read core.csv assign-pages --pages page_texts.csv write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   PAGES      <str>  a file with the pages of the site; the file is read like `read` does. Its    │

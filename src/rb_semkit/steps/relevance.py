@@ -12,7 +12,7 @@ from ..core.frame import Frame
 from ..core.relevance.classify import classify_queries
 from ..core.relevance.off_topic import off_topic
 from ..core.relevance.pages import assign_pages, check_pages
-from . import Adapted, Columns, Prepared, Step, option, table_of, texts_of
+from . import Adapted, Columns, Prepared, Step, first_text, option, table_of
 from .vectors import MEANING, MODEL_DOC, by_meaning, encoder_of, frequencies
 
 AGAINST_DOC = (
@@ -45,7 +45,8 @@ def _prepare_off_topic(options: dict) -> Prepared:
 
 def _prepare_classify_queries(options: dict) -> Prepared:
     found_encoder, threshold = by_meaning(options)
-    core = texts_of(table_of(options["against"], "against"), "against")
+    against = table_of(options["against"], "against")
+    core = against[first_text(against, "against")]
     return lambda table, column: Columns(
         classify_queries(Frame(table, column).phrases, against=core, encoder=found_encoder, threshold=threshold)
     )
@@ -86,7 +87,7 @@ STEPS = [
         _prepare_assign_pages,
         "The step adds the columns best_page, best_similarity, second_page and second_similarity right after the working"
         " column; the rows stay.",
-        example="--pages pages.csv",
+        example="--pages page_texts.csv",
         columns=True,
     ),
 ]

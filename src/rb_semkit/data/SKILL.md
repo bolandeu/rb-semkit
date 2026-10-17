@@ -51,11 +51,12 @@ Replace `vX.Y.Z` with the latest release tag (install from a tag, never a branch
   result to a new column NAME (refused when the table has it), keeps the working column, and makes NAME the working
   column of the next steps. Steps that give a value other than a phrase (`dupes`, `find-…`, `counts`, `is-typo`,
   `sentiment`, `bm25`, `first-parents`) write a new column `<column>_<suffix>` (a second one gets `_2`).
-  `text-stats` adds its metric columns after the working column.
+  `text-stats` and `parse-html` (a column of HTML → text, links, all, main, title, description, h1) add their columns
+  after the working column; a text step takes one of them with `semkit read IN --column all`.
 - **filter** — keeps or drops rows (`keep-…`, `drop-…`, `dupes --action drop`, `split-by-words --keep`,
   `remove-cells empty`).
 - **report** — makes a new table the current one, and its first text column the working one (`ngrams`, `split-text`,
-  `coverage`, `compare-grams`, `cluster-serp`, `compare-lists`, `permutations`).
+  `headings`, `coverage`, `compare-grams`, `cluster-serp`, `compare-lists`, `permutations`, `summary`).
 
 The matchers (`words`, `phrases`, `stopwords`, `chars`, `spaces`, `regex`, `around`, `edges`, `positions`,
 `word-case`, `word-content`, `word-position`, `pos`, `repeats`, `cells`, `markers`, `ready-pattern`, `complements`,
@@ -150,16 +151,20 @@ $ semkit read --whole article.txt split-text ngrams -n 1 --lemmas write -
 ```
 
 My text against the competitors: the density of each lemma in the competitors' texts and in mine, with a verdict
-(`below`, `within`, `above`).
+(`below`, `within`, `above`) against the median (`--norm mean` for the mean), and the occurrences to reach it: `need`
+for the size of my text (`--words N` for another size), `have`, `add` (negative: remove) and `med_count`, the median count
+in the competitors. `--per-text` adds the density of each competitor, `--no-digits` and `--exclude LIST` leave numbers
+and listed words out of every count (also in `text-stats` and `compare-stats`). `summary` reports the mean, median, min
+and max of every numeric column, e.g. after `text-stats`.
 
 ```console
 $ semkit read --whole mine.txt compare-grams --competitors competitors.csv write -
-{"ngram": "диван", "docs": 2, "docs_share": 0.6667, "median": 0.2857, "min": 0.0, "max": 0.4286, "mine": 0.3333, "verdict": "within"}
-{"ngram": "кресло", "docs": 3, "docs_share": 1.0, "median": 0.1429, "min": 0.1429, "max": 0.5, "mine": 0.0, "verdict": "below"}
-{"ngram": "купить", "docs": 2, "docs_share": 0.6667, "median": 0.1429, "min": 0.0, "max": 0.5, "mine": 0.1667, "verdict": "within"}
-{"ngram": "угловой", "docs": 2, "docs_share": 0.6667, "median": 0.1429, "min": 0.0, "max": 0.1429, "mine": 0.1667, "verdict": "within"}
-{"ngram": "кожаный", "docs": 1, "docs_share": 0.3333, "median": 0.0, "min": 0.0, "max": 0.1429, "mine": 0.1667, "verdict": "above"}
-{"ngram": "недорогой", "docs": 1, "docs_share": 0.3333, "median": 0.0, "min": 0.0, "max": 0.1429, "mine": 0.1667, "verdict": "above"}
+{"ngram": "диван", "docs": 2, "docs_share": 0.6667, "median": 0.2857, "mean": 0.2381, "min": 0.0, "max": 0.4286, "mine": 0.3333, "verdict": "within", "need": 2, "have": 2, "add": 0, "med_count": 2}
+{"ngram": "кресло", "docs": 3, "docs_share": 1.0, "median": 0.1429, "mean": 0.2619, "min": 0.1429, "max": 0.5, "mine": 0.0, "verdict": "below", "need": 1, "have": 0, "add": 1, "med_count": 1}
+{"ngram": "купить", "docs": 2, "docs_share": 0.6667, "median": 0.1429, "mean": 0.2143, "min": 0.0, "max": 0.5, "mine": 0.1667, "verdict": "within", "need": 1, "have": 1, "add": 0, "med_count": 1}
+{"ngram": "угловой", "docs": 2, "docs_share": 0.6667, "median": 0.1429, "mean": 0.0952, "min": 0.0, "max": 0.1429, "mine": 0.1667, "verdict": "within", "need": 1, "have": 1, "add": 0, "med_count": 1}
+{"ngram": "кожаный", "docs": 1, "docs_share": 0.3333, "median": 0.0, "mean": 0.0476, "min": 0.0, "max": 0.1429, "mine": 0.1667, "verdict": "above", "need": 0, "have": 1, "add": -1, "med_count": 0}
+{"ngram": "недорогой", "docs": 1, "docs_share": 0.3333, "median": 0.0, "mean": 0.0476, "min": 0.0, "max": 0.1429, "mine": 0.1667, "verdict": "above", "need": 0, "have": 1, "add": -1, "med_count": 0}
 ```
 
 Core phrases in a text: how often each phrase stands in the texts and where it first starts.
@@ -189,7 +194,7 @@ $ semkit read phrases.csv compare-lists --against second.csv --op second write -
 
 ## Steps by meaning
 
-The steps by meaning (`cluster-meaning`) compare phrases by their phrase vectors: phrases of close meaning get close
+The steps by meaning (`cluster-meaning`, `dupes --kind meaning`) compare phrases by their phrase vectors: phrases of close meaning get close
 vectors. They need the optional extra `vectors` and an encoder pulled once; a step never downloads one.
 
 1. Install semkit with the extra: the command of «Install» above with `rb-semkit[vectors]` in place of `rb-semkit`
@@ -214,6 +219,13 @@ name; a phrase without close phrases is a cluster of one. The summary line of th
 searched (`index: exact`, or `index: hnsw` above about 300 000 phrases; both give the same result every run); with
 `--json` it is the `note` of the step's summary. A model not pulled is `MODEL_NOT_PULLED` (exit 1, the action is the
 pull command); an unknown `--model` or a `--threshold` out of 0–1 is exit 2.
+
+`dupes --kind meaning` marks a phrase as a duplicate of an earlier one when their vectors are close and the words that
+differ are only non-refining words (the bundled list `@meaning/neutral`, plus your own `--neutral @FILE`), synonyms
+(`--synonyms FILE` of word and synonyms, as the step `synonyms` gives), another form or order of a word, or the home
+city (`--home NAME`). A refinement (type, size, material, brand, another city) is another intent, however close the
+vectors. It adds `<column>_dupes`, `dupe_of` (the first phrase of the group) and `similarity` (the cosine to it);
+`--action drop` keeps the first row of each group.
 
 ## Errors
 

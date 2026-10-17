@@ -88,7 +88,7 @@ def test_two_lines_with_one_name_fail_the_check(part: ModuleType, tmp_path: Path
 def test_the_manifest_has_a_line_with_every_key_for_each_bundled_list() -> None:
     lines = tomllib.loads((WORDLISTS / "manifest.toml").read_text(encoding="utf-8"))["lists"]
 
-    assert len(lines) == len({line["name"] for line in lines}) == 85
+    assert len(lines) == len({line["name"] for line in lines}) == 86
     for line in lines:
         assert {"name", "description", "source", "file"} <= set(line), line
         assert line["description"].strip(), line["name"]

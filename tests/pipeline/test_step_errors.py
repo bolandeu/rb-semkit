@@ -47,7 +47,7 @@ def test_a_missing_file_of_an_option_is_refused_before_the_input_is_read(
 def test_a_missing_file_of_an_at_option_is_refused(tmp_path: Path) -> None:
     error = _refusal(str(tmp_path / "no-input.csv"), "drop-words", f"@{tmp_path / 'minus.txt'}", "write", "-")
 
-    assert error["message"] == f"drop-words: @{tmp_path / 'minus.txt'}: the file does not exist."
+    assert error["message"] == f"drop-words: --items: @{tmp_path / 'minus.txt'}: the file does not exist."
 
 
 @pytest.mark.parametrize(
@@ -113,7 +113,9 @@ def test_a_list_of_phrases_given_to_a_words_step_names_five_items_and_the_phrase
 def test_an_unknown_list_name_lists_the_names_that_exist_closest_first(tmp_path: Path) -> None:
     error = _refusal(str(tmp_path / "no-input.csv"), "drop-phrases", "@minus/cheep", "write", "-")
 
-    assert error["message"].startswith("drop-phrases: minus/cheep: no such list; the lists closest to it: minus/cheap")
+    assert error["message"].startswith(
+        "drop-phrases: --items: minus/cheep: no such list; the lists closest to it: minus/cheap"
+    )
 
 
 def test_an_at_csv_reads_its_first_column_without_the_header(tmp_path: Path) -> None:

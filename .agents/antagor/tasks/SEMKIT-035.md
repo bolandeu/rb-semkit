@@ -2,7 +2,7 @@
 id: SEMKIT-035
 title: 'dupes --kind meaning: duplicates by meaning with non-refining words, synonyms
   and the home city'
-status: queue
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -20,9 +20,53 @@ owns_paths:
 - src/rb_semkit/data/wordlists/manifest.toml
 - scripts/build_parts/wordlists.py
 - src/rb_semkit/core/lists/functions.py
+- scripts/build_parts/lists/meaning/neutral.txt
+- scripts/build_parts/wordlists.toml
+- src/rb_semkit/data/SKILL.md
+- src/rb_semkit/pipeline/commands.py
+- CHANGELOG.md
+- src/rb_semkit/core/textstats/functions.py
 test_paths:
 - tests/dupes/
 - tests/wordlists/
+- tests/conformance/data_manifest/wordlists.json
+- tests/pipeline/test_step_errors.py
+- tests/snapshots/help/steps/change/change-case.txt
+- tests/snapshots/help/steps/change/move-words.txt
+- tests/snapshots/help/steps/corpus/first-children.txt
+- tests/snapshots/help/steps/corpus/first-parents.txt
+- tests/snapshots/help/steps/corpus/nearest-parents.txt
+- tests/snapshots/help/steps/corpus/split-by-words.txt
+- tests/snapshots/help/steps/dupes/dupes.txt
+- tests/snapshots/help/steps/text/drop-cells.txt
+- tests/snapshots/help/steps/text/drop-phrases.txt
+- tests/snapshots/help/steps/text/drop-word-content.txt
+- tests/snapshots/help/steps/text/drop-words.txt
+- tests/snapshots/help/steps/text/extract-cells.txt
+- tests/snapshots/help/steps/text/extract-phrases.txt
+- tests/snapshots/help/steps/text/extract-word-content.txt
+- tests/snapshots/help/steps/text/extract-words.txt
+- tests/snapshots/help/steps/text/find-cells.txt
+- tests/snapshots/help/steps/text/find-phrases.txt
+- tests/snapshots/help/steps/text/find-word-content.txt
+- tests/snapshots/help/steps/text/find-words.txt
+- tests/snapshots/help/steps/text/keep-cells.txt
+- tests/snapshots/help/steps/text/keep-phrases.txt
+- tests/snapshots/help/steps/text/keep-word-content.txt
+- tests/snapshots/help/steps/text/keep-words.txt
+- tests/snapshots/help/steps/text/remove-cells.txt
+- tests/snapshots/help/steps/text/remove-phrases.txt
+- tests/snapshots/help/steps/text/remove-stopwords.txt
+- tests/snapshots/help/steps/text/remove-word-content.txt
+- tests/snapshots/help/steps/text/remove-words.txt
+- tests/snapshots/describe.json
+- tests/conformance/test_cases.py
+- tests/snapshots/help/read.txt
+- tests/snapshots/help/steps/compare/compare-grams.txt
+- tests/snapshots/help/steps/compare/compare-stats.txt
+- tests/snapshots/help/steps/textstats/text-stats.txt
+- tests/steps/areas.py
+- tests/steps/test_steps.py
 docs: none
 tools: []
 worker_args: null
@@ -104,3 +148,15 @@ The existing dupes kinds and their action rules; the lemmatizer for word compari
 - synonym candidates for words (the second vectors epic)
 - cluster-meaning, off-topic, classify-queries, assign-pages
 - changes to the existing dupes kinds
+
+## Feedback
+
+### Blocked: scope_held (holders ['SEMKIT-044', 'SEMKIT-045'], paths ['src/rb_semkit/pipeline/commands.py', 'tests/snapshots/describe.json'])
+
+SEMKIT-044, SEMKIT-045 finished; your kept work on src/rb_semkit/pipeline/commands.py, tests/snapshots/describe.json is back in the worktree; main is merged into your branch where it merges clean
+
+`main` changed since your work began, and merging it conflicts in:
+
+- `src/rb_semkit/pipeline/commands.py`
+
+Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).

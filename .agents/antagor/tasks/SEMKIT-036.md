@@ -17,9 +17,18 @@ owns_paths:
 - src/rb_semkit/core/relevance/
 - src/rb_semkit/steps/relevance.py
 - tests/steps/fixtures/pages.csv
+- README.md
+- src/rb_semkit/steps/vectors.py
 test_paths:
 - tests/relevance/
 - tests/steps/test_examples.py
+- tests/snapshots/help/steps/relevance/assign-pages.txt
+- tests/snapshots/help/steps/relevance/classify-queries.txt
+- tests/snapshots/help/steps/relevance/off-topic.txt
+- tests/snapshots/describe.json
+- tests/snapshots/help/read.txt
+- tests/steps/areas.py
+- tests/steps/test_steps.py
 docs: none
 tools: []
 worker_args: null
@@ -96,3 +105,16 @@ The step table (Step and STEPS of an area module) and the report steps of the co
 - dupes --kind meaning, cluster-meaning (other tasks)
 - competing pages, gaps, paragraphs of texts (the second vectors epic)
 - fetching page texts from the web
+
+## Feedback
+
+### Blocked: scope_held (holders ['SEMKIT-035', 'SEMKIT-043', 'SEMKIT-045'], paths ['README.md', 'src/rb_semkit/steps/vectors.py', 'tests/snapshots/describe.json', 'tests/snapshots/help/read.txt', 'tests/steps/areas.py', 'tests/steps/test_steps.py'])
+
+SEMKIT-035, SEMKIT-043, SEMKIT-045 finished; your kept work on README.md, src/rb_semkit/steps/vectors.py, tests/snapshots/describe.json, tests/snapshots/help/read.txt, tests/steps/areas.py, tests/steps/test_steps.py is back in the worktree; main is merged into your branch where it merges clean
+
+`main` changed since your work began, and merging it conflicts in:
+
+- `src/rb_semkit/steps/vectors.py`
+- `tests/steps/fixtures/pages.csv`
+
+Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).

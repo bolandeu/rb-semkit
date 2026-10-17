@@ -36,7 +36,6 @@ def test_rows_are_sorted_by_median_then_ngram() -> None:
     table = sk.compare_grams(MINE, COMPETITORS)
 
     assert list(table["ngram"]) == ["диван", "стол", "стул"]
-    assert list(table.columns) == ["ngram", "docs", "docs_share", "median", "min", "max", "mine", "verdict"]
 
 
 def test_a_gram_within_the_tolerance_is_within() -> None:
@@ -148,3 +147,81 @@ def test_one_text_against_twenty_competitors_of_five_thousand_words_runs_fast() 
     sk.compare_grams(texts[0], texts[1:])
 
     assert time.perf_counter() - start < 30
+
+
+def test_compare_stats_mean_sits_beside_the_median_and_norm_mean_gives_the_verdict() -> None:
+    competitors = [" ".join(["слово"] * count) for count in (100, 200, 600)]
+    mine = " ".join(["слово"] * 350)
+
+    by_median = sk.compare_stats(mine, competitors).set_index("metric").loc["words"]
+    by_mean = sk.compare_stats(mine, competitors, norm="mean").set_index("metric").loc["words"]
+
+    assert (by_median["median"], by_median["mean"], by_median["verdict"]) == (200, 300, "above")
+    assert (by_mean["median"], by_mean["mean"], by_mean["delta"], by_mean["verdict"]) == (200, 300, 50, "within")
+
+
+def test_compare_stats_columns_of_before_stay_and_the_mean_is_added() -> None:
+    table = sk.compare_stats(MINE, COMPETITORS)
+
+    assert list(table.columns) == ["metric", "mine", "median", "mean", "min", "max", "delta", "verdict"]
+
+
+def test_compare_grams_need_have_and_add_come_from_the_mean_density_and_the_size() -> None:
+    competitors = ["a" + " я" * 99, "a a" + " я" * 98, "a a a" + " я" * 97]  # a: 0.01, 0.02, 0.03 of 100 words
+    mine = "a a a a" + " я" * 496  # 500 words, a four times
+
+    own = gram(sk.compare_grams(mine, competitors, norm="mean", lemmas=False, stopwords=True), "a")
+    bigger = gram(sk.compare_grams(mine, competitors, norm="mean", words=1000, lemmas=False, stopwords=True), "a")
+
+    assert (own["need"], own["have"], own["add"]) == (10, 4, 6)
+    assert (bigger["need"], bigger["have"], bigger["add"]) == (20, 4, 16)
+
+
+def test_compare_grams_med_count_is_the_median_of_the_occurrences() -> None:
+    competitors = ["диван диван", "диван диван диван", "диван " * 10]
+
+    assert gram(sk.compare_grams("диван", competitors), "диван")["med_count"] == 3
+
+
+def test_compare_grams_default_columns_are_those_of_before_plus_the_mean_and_the_recommendation() -> None:
+    table = sk.compare_grams(MINE, COMPETITORS)
+
+    assert list(table.columns)[:9] == ["ngram", "docs", "docs_share", "median", "mean", "min", "max", "mine", "verdict"]
+    assert list(table.columns)[9:] == ["need", "have", "add", "med_count"]
+
+
+def test_compare_grams_per_text_names_the_columns_by_url_or_by_number() -> None:
+    with_url = pd.DataFrame({"url": ["a.ru", "b.ru"], "text": ["диван стол", "диван"]})
+
+    named = sk.compare_grams(MINE, with_url, per_text=True, column="text")
+    numbered = sk.compare_grams(MINE, ["диван стол", "диван"], per_text=True)
+
+    assert gram(named, "диван")[["a.ru", "b.ru"]].tolist() == [0.5, 1.0]
+    assert gram(numbered, "диван")[["text_1", "text_2"]].tolist() == [0.5, 1.0]
+
+
+def test_compare_grams_no_digits_and_exclude_leave_words_out_of_the_grams_and_the_density() -> None:
+    mine = "диван 2026 года"
+
+    plain = sk.compare_grams(mine, ["диван 2026 года"] * 2, lemmas=False, stopwords=True)
+    cleaned = sk.compare_grams(mine, ["диван 2026 года"] * 2, lemmas=False, stopwords=True, no_digits=True)
+    excluded = sk.compare_grams(mine, ["диван 2026 года"] * 2, lemmas=False, stopwords=True, exclude=["ГОДА"])
+
+    assert "2026" in set(plain["ngram"])
+    assert set(cleaned["ngram"]) == {"диван", "года"}
+    assert gram(cleaned, "диван")["median"] == 0.5
+    assert set(excluded["ngram"]) == {"диван", "2026"}
+
+
+@pytest.mark.parametrize(
+    ("call", "argument"),
+    [
+        (lambda: sk.compare_grams(MINE, COMPETITORS, norm="mode"), "norm"),
+        (lambda: sk.compare_stats(MINE, COMPETITORS, norm="mode"), "norm"),
+        (lambda: sk.compare_grams(MINE, COMPETITORS, words=-1), "words"),
+        (lambda: sk.compare_grams(MINE, COMPETITORS, exclude="года"), "exclude"),
+    ],
+)
+def test_wrong_new_arguments_raise_invalid_arguments_naming_the_argument(call, argument: str) -> None:
+    with pytest.raises(sk.InvalidArguments, match=argument):
+        call()

@@ -4,16 +4,18 @@ from __future__ import annotations
 
 import math
 from collections import Counter
+from collections.abc import Iterable
 
 import pandas as pd
 
 from ..analysis.frequency import bundled_stopwords
-from ..frame import Frame, map_unique
+from ..frame import Frame, map_unique, put_columns
 from ..morph import Lemmatizer
 from ..morph.functions import BUNDLED
 from ..normalize import norm_phrase
 from ..text.words import has_lemma, text_words
 from .metrics import mtld, zipf
+from .skip import Skip
 
 COLUMNS = [
     "chars",
@@ -30,8 +32,8 @@ COLUMNS = [
 ]
 
 
-def _metrics(text: str, lemma_of: dict[str, str], stopwords: frozenset[str]) -> list:
-    keys = [norm_phrase(word) for word in text_words(text)]
+def _metrics(text: str, lemma_of: dict[str, str], stopwords: frozenset[str], skip: Skip) -> list:
+    keys = [norm_phrase(word) for word in skip.kept(text_words(text))]
     content = [key for key in keys if key not in stopwords]
     lemmas = [lemma_of[key] for key in content if has_lemma(key)]
     counts = Counter(lemmas)
@@ -57,6 +59,8 @@ def text_stats(
     *,
     lemmatizer: Lemmatizer = BUNDLED,
     column: str | None = None,
+    no_digits: bool = False,
+    exclude: Iterable[str] = (),
 ) -> pd.DataFrame:
     """The usual SEO metrics of each text, the same numbers each run: a metric column per metric, a row per text.
 
@@ -69,6 +73,10 @@ def text_stats(
     no stopwords. A single-letter word, an abbreviation (г, ул, руб, шт, кв, стр…) and a unit (рублей, см, мм, мл, кг)
     of the bundled word rules are words but no lemmas for top, nausea, ttr, mtld and zipf.
     lemmatizer: what gives the lemmas.
+    no_digits: leave out the words with a digit («2026», «15000», «A4») of every count, the words total included, as if
+    the text did not hold them; chars and chars_no_spaces stay those of the text as given.
+    exclude: words to leave out the same way, as written, with case and ё folded, not by lemma («года» does not leave
+    out «год»).
 
     The columns, in this order:
     - chars: all characters of the text; chars_no_spaces: the same without whitespace;
@@ -88,17 +96,11 @@ def text_stats(
 
     No norms and no verdicts: the caller sets them.
     """
+    skip = Skip.of(no_digits, exclude)
     frame = Frame(data, column)
     texts, stopwords = frame.phrases, bundled_stopwords()
-    words = {norm_phrase(word) for text in texts.unique() for word in text_words(text)}
+    words = {norm_phrase(word) for text in texts.unique() for word in skip.kept(text_words(text))}
     lemma_of = {word: lemmatizer.lemma(word) for word in words - stopwords}
-    rows = map_unique(texts, lambda text: _metrics(text, lemma_of, stopwords))
+    rows = map_unique(texts, lambda text: _metrics(text, lemma_of, stopwords, skip))
     table = pd.DataFrame(rows.tolist(), columns=COLUMNS, index=texts.index)
-    if isinstance(data, pd.Series):
-        return table
-    for position, name in enumerate(COLUMNS, data.columns.get_loc(column) + 1):
-        if name in data.columns:
-            data[name] = table[name]
-        else:
-            data.insert(position, name, table[name])
-    return data
+    return put_columns(data, table, column)

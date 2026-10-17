@@ -159,3 +159,32 @@ def test_compare_grams_lists_no_gram_of_an_abbreviation() -> None:
 
     assert grams.isdisjoint({"г", "м", "п", "ул", "д", "далее", "руб"})  # the lemma of «д» is «далее»
     assert "москва" in grams
+
+
+def test_no_digits_leaves_the_numbers_out_of_the_words() -> None:
+    assert one("диван 2026 года за 15000 рублей", no_digits=True)["words"] == 4
+
+
+def test_exclude_leaves_the_listed_words_out_of_every_count() -> None:
+    text = "диван 2026 года за 15000 рублей"
+
+    row = one(text, exclude=["Года"])
+
+    assert row["words"] == 5
+    assert one(text, exclude=["года", "2026", "15000"])["words"] == 3
+    assert one("диван года года", exclude=["года"])["top"] == "диван"
+
+
+def test_exclude_goes_by_the_word_as_written_not_by_the_lemma() -> None:
+    assert one("год года", exclude=["года"])["words"] == 1
+
+
+def test_a_text_of_excluded_words_only_gives_zeros() -> None:
+    row = one("2026 15000", no_digits=True)
+
+    assert (row["words"], row["unique"], row["top"]) == (0, 0, "")
+
+
+def test_exclude_as_one_text_is_refused() -> None:
+    with pytest.raises(sk.InvalidArguments, match="exclude"):
+        one(SAMPLE, exclude="года")

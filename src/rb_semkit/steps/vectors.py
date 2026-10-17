@@ -7,8 +7,6 @@ the threshold they name, `encoder_of` the encoder alone; all refuse before the i
 
 from __future__ import annotations
 
-from pathlib import Path
-
 import pandas as pd
 
 from ..core.errors import InvalidArguments
@@ -16,7 +14,7 @@ from ..core.frame import Frame
 from ..core.vectors import encoder, registry
 from ..core.vectors.cluster import cluster_meaning
 from ..core.vectors.encoder import Encoder
-from . import Adapted, Columns, Prepared, Step, numbers_of, option
+from . import Adapted, Columns, Prepared, Step, numbers_of, option, prepared_for
 
 MEANING = {
     "encoder": None,
@@ -35,7 +33,7 @@ FREQ_DOC = (
 
 def encoder_of(options: dict) -> Encoder:
     """The encoder the option --model names."""
-    return encoder.encoder_for(registry.model(options["model"]), Path.cwd())
+    return encoder.encoder_for(registry.model(options["model"]), prepared_for())
 
 
 def by_meaning(options: dict) -> tuple[Encoder, float]:

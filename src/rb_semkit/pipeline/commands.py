@@ -23,6 +23,7 @@ import typing
 from collections.abc import Callable, Collection
 from dataclasses import dataclass, replace
 from itertools import takewhile
+from pathlib import Path
 from types import NoneType, UnionType
 from typing import Any, Literal
 
@@ -34,7 +35,7 @@ from .. import output
 from ..core import wordlists
 from ..core.errors import InvalidArguments
 from ..core.version import cli_name
-from ..steps import ARGUMENT_LINE, LIST_ITEM, Prepared, Step, argument_names, doc_lines, parameter_names
+from ..steps import ARGUMENT_LINE, LIST_ITEM, Prepared, Step, argument_names, doc_lines, parameter_names, project_start
 from .items import SYNTAX, items
 from .state import Planned
 
@@ -86,10 +87,15 @@ class StepOption:
     def metavar(self) -> str:
         return self.name.upper()
 
-    def value(self, values: dict[str, Any]) -> Any:
+    def value(self, values: dict[str, Any], start: Path) -> Any:
         """The value the function takes for what the command line gave, as the option or positionally."""
         given = self._given(values)
-        return items(given) if self.takes_items and given is not None else given
+        if not self.takes_items or given is None:
+            return given
+        try:
+            return items(given, start)
+        except InvalidArguments as error:
+            raise InvalidArguments(f"{self.flag()}: {error.message}", action=error.action) from None
 
     def _given(self, values: dict[str, Any]) -> Any:
         option = values[self.name]
@@ -313,9 +319,12 @@ def step_command(step: Step) -> Callable[..., Planned]:
     options = step_options(step.function)
 
     def command(ctx: typer.Context, as_column: str | None = None, **values: Any) -> Planned:
+        start = Path(ctx.obj.get("project") or Path.cwd())
         try:
-            arguments = {option.name: option.value(values) for option in options}
-            return Planned(step, _reported_run(step, options, step.prepare(arguments)), as_column)
+            arguments = {option.name: option.value(values, start) for option in options}
+            with project_start(start):
+                prepared = step.prepare(arguments)
+            return Planned(step, _reported_run(step, options, prepared), as_column)
         except InvalidArguments as error:
             raise _refused(step, options, error) from None
 
