@@ -2,7 +2,7 @@
 id: SEMKIT-019
 title: 'Compare a text with competitor texts: gram density against the competitors''
   median, metrics against their median, BM25'
-status: queue
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -15,8 +15,14 @@ worker: claude-code
 type: feature
 owns_paths:
 - src/rb_semkit/core/compare/
+- docs/vba/conformance.md
+- docs/vba/conformance/compare.md
 test_paths:
 - tests/compare/
+- tests/conformance/areas/compare.py
+- tests/conformance/cases/compare/bm25.tsv
+- tests/conformance/cases/compare/compare_grams.tsv
+- tests/conformance/cases/compare/compare_stats.tsv
 docs: none
 tools: []
 worker_args: null
@@ -44,7 +50,6 @@ translation: '**Сравнение текста с конкурентами (Т�
   релевантность каждого текста запросу с учётом редкости слов в корпусе — моё место
   среди конкурентов.'
 ---
-
 
 The brief of a text by the top: how my text differs from the competitors' texts. semkit never fetches anything: the texts come in as data (other CLI services download and clean pages). Three functions; mine is one text (a str, or a Series or DataFrame cell), competitors are texts one per row (Series, or DataFrame with column=). (1) sk.compare_grams(mine, competitors, *, n=1, lemmas=True, stopwords=False, tolerance=0.3) -> DataFrame, one row per gram met in any competitor: ngram, docs (competitors that hold it), docs_share (docs / competitors, 0..1), median, min, max (the density of the gram in each competitor text = count of the gram / words of that text; a competitor without the gram counts as 0, so the median is not inflated), mine (its density in my text), verdict ('below', 'within', 'above': mine against median x (1 ± tolerance); when the median is 0, 'within' if mine is 0, else 'above'). Sorted by median, biggest first, then ngram. (2) sk.compare_stats(mine, competitors, *, tolerance=0.3) -> DataFrame, one row per numeric metric of sk.text_stats: metric, mine, median, min, max, delta (mine - median), verdict as above. (3) sk.bm25(texts, query, *, k1=1.5, b=0.75) -> Series of scores with the index of texts: Okapi BM25 of each text for the query, lemmas without stopwords on both sides; idf = ln((N - df + 0.5) / (df + 0.5) + 1), df and the average length over the given texts; to rank my text among the competitors pass all of them together. Round densities and scores to 4 decimals. No fixed norms (no «переспам» thresholds): the only norm is the competitors' median.
 
