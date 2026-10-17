@@ -2,6 +2,8 @@
 
 A phrase becomes its words (case and ё folded, stopwords dropped on request, then lemmas on request); a shape turns
 the words into grams; the grams of all phrases are counted, and summed by the weight of their phrase.
+
+`bundled_stopwords` gives the stopword list of these steps to other areas (text_stats uses it for water and nausea).
 """
 
 from __future__ import annotations
@@ -24,7 +26,8 @@ from .weights import weights_of
 MAX_FORMS = 5  # the spellings of a gram longer than one word
 
 
-def _stopwords() -> frozenset[str]:
+def bundled_stopwords() -> frozenset[str]:
+    """The bundled stopwords, folded as `norm_phrase` folds a word."""
     return datastore.once("analysis_stopwords", lambda: frozenset(norm_phrase(w) for w in bundled_list("stopwords")))
 
 
@@ -40,7 +43,7 @@ Gram = tuple[str, str]  # the gram, and the spelling of its words
 
 def _word_keys(phrases: pd.Series, *, lemmatizer: Lemmatizer | None, stopwords: bool) -> dict[str, Token]:
     """Each distinct word of `phrases` as its key; a stopword to drop (`stopwords=False`) is not lemmatized."""
-    dropped = frozenset() if stopwords else _stopwords()
+    dropped = frozenset() if stopwords else bundled_stopwords()
     keys = {}
     for word in {word for phrase in phrases.unique() for word in split_words(phrase)}:
         key = norm_phrase(word)
