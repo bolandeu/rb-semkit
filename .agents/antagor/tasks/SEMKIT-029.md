@@ -2,7 +2,7 @@
 id: SEMKIT-029
 title: 'Project config test: .agents/antagor/.gitignore holds state/ and receipts/;
   Antagor may add its own lines'
-status: in_review
+status: publish
 attempts: 0
 blocked: false
 blocked_reason: null
