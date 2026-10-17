@@ -66,20 +66,22 @@ def test_a_list_without_a_description_line(home: Path, monkeypatch: pytest.Monke
     assert _by_name()["plain"].description == ""
 
 
-def test_the_project_list_wins_over_the_config_then_semkit_lists_then_the_bundled(
+def test_the_project_list_wins_over_semkit_lists_then_the_config_then_the_bundled(
     project: Path, home: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     write_list(services.project_lists_dir(project), "minus/cheap", "project\n")
     write_list(home / "x", "minus/cheap", "config\n")
     write_list(home / "x", "minus/free", "config\n")
+    write_list(home / "x", "minus/countries", "config\n")
     write_list(home / "y", "minus/free", "env\n")
     write_list(home / "y", "minus/computer", "env\n")
     set_config_lists(project, ["~/x"])
     monkeypatch.setenv("SEMKIT_LISTS", str(home / "y"))
 
     assert wordlists.resolve("minus/cheap") == ["project"]
-    assert wordlists.resolve("minus/free") == ["config"]
+    assert wordlists.resolve("minus/free") == ["env"]
     assert wordlists.resolve("minus/computer") == ["env"]
+    assert wordlists.resolve("minus/countries") == ["config"]
     assert _by_name()["minus/cheap"].source == "project"
     assert len([entry for entry in wordlists.names() if entry.name == "minus/cheap"]) == 1
 

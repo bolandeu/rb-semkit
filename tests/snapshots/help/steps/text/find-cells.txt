@@ -1,47 +1,52 @@
 
  Usage: semkit read {IN} find-cells [OPTIONS] [KIND]
 
- A whole cell is found or not. remove clears a found cell to '' ("empty" drops the rows); extract
- keeps the cell, or '' if not found.
+ A whole cell is found or not. remove clears a found cell (with "empty", it drops the rows);
+ extract keeps the cell, or an empty cell if not found.
 
- kind: "contains", "starts", "ends" (with `items`: text parts, case and ё do not count; or with
- `prepositions=True`: the first, the last or any word is a bundled preposition, as written, «для,»
- is none); "regex" (with `pattern`); "empty" (no characters at all: a cell of spaces is not empty);
- by occurrence among the cells, in any case and ё as е: "unique" (once), "repeated" (more than
- once), "first", "last" occurrence. Empty cells are never repeats of each other.
+ kind: "contains", "starts", "ends" (with items: text parts, case and ё do not count; or with
+ prepositions: the first, the last or any word is a bundled preposition, as written, «для,» is
+ none); "regex" (with pattern); "empty" (no characters at all: a cell of spaces is not empty); by
+ occurrence among the cells, in any case and ё as е: "unique" (once), "repeated" (more than once),
+ "first", "last" occurrence. Empty cells are never repeats of each other.
+ items: the text parts for "contains", "starts" and "ends".
+ pattern: the regular expression for "regex".
+ prepositions: for "contains", "starts" and "ends", look for a bundled preposition instead of
+ items.
 
  find-cells marks the rows where the matcher finds something, in a new column <column>_find of true
  and false.
 
- Example: semkit read core.csv find-cells contains --items @minus/universal write out.csv
+ Example: semkit read core.csv find-cells contains --items бесплатно,скачать write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
-│   KIND      <contains|starts|ends|regex|empty|unique|  "contains", "starts", "ends" (with        │
-│             repeated|first|last>                       `items`: text parts, case and ё do not    │
-│                                                        count; or with `prepositions=True`: the   │
-│                                                        first, the last or any word is a bundled  │
-│                                                        preposition, as written, «для,» is none); │
-│                                                        "regex" (with `pattern`); "empty" (no     │
-│                                                        characters at all: a cell of spaces is    │
-│                                                        not empty); by occurrence among the       │
-│                                                        cells, in any case and ё as е: "unique"   │
-│                                                        (once), "repeated" (more than once),      │
-│                                                        "first", "last" occurrence. Empty cells   │
-│                                                        are never repeats of each other. The same │
-│                                                        as --kind KIND.                           │
+│   KIND      <contains|starts|ends|regex|empty|unique|  "contains", "starts", "ends" (with items: │
+│             repeated|first|last>                       text parts, case and ё do not count; or   │
+│                                                        with prepositions: the first, the last or │
+│                                                        any word is a bundled preposition, as     │
+│                                                        written, «для,» is none); "regex" (with   │
+│                                                        pattern); "empty" (no characters at all:  │
+│                                                        a cell of spaces is not empty); by        │
+│                                                        occurrence among the cells, in any case   │
+│                                                        and ё as е: "unique" (once), "repeated"   │
+│                                                        (more than once), "first", "last"         │
+│                                                        occurrence. Empty cells are never repeats │
+│                                                        of each other. The same as --kind KIND.   │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --kind                KIND   "contains", "starts", "ends" (with `items`: text parts, case and ё  │
-│                              do not count; or with `prepositions=True`: the first, the last or   │
-│                              any word is a bundled preposition, as written, «для,» is none);     │
-│                              "regex" (with `pattern`); "empty" (no characters at all: a cell of  │
-│                              spaces is not empty); by occurrence among the cells, in any case    │
-│                              and ё as е: "unique" (once), "repeated" (more than once), "first",  │
-│                              "last" occurrence. Empty cells are never repeats of each other.     │
-│ --items               <str>  See the description above. Items: a comma list 'a,b', @FILE (one    │
-│                              item per line) or @NAME of a list.                                  │
-│ --pattern             <str>  See the description above.                                          │
-│ --prepositions               See the description above.                                          │
+│ --kind                KIND   "contains", "starts", "ends" (with items: text parts, case and ё do │
+│                              not count; or with prepositions: the first, the last or any word is │
+│                              a bundled preposition, as written, «для,» is none); "regex" (with   │
+│                              pattern); "empty" (no characters at all: a cell of spaces is not    │
+│                              empty); by occurrence among the cells, in any case and ё as е:      │
+│                              "unique" (once), "repeated" (more than once), "first", "last"       │
+│                              occurrence. Empty cells are never repeats of each other.            │
+│ --items               <str>  the text parts for "contains", "starts" and "ends". Items: a comma  │
+│                              list 'a,b', @FILE (one item per line, or the first column of a      │
+│                              table) or @NAME of a list.                                          │
+│ --pattern             <str>  the regular expression for "regex".                                 │
+│ --prepositions               for "contains", "starts" and "ends", look for a bundled preposition │
+│                              instead of items.                                                   │
 │ --as                  NAME   Write the result to a new column NAME and keep the working column   │
 │                              as it is.                                                           │
 │ --help                       Show this message and exit.                                         │

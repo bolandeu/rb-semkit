@@ -3,9 +3,10 @@
 
  Print this CLI's machine-readable contract: an OpenCLI document (opencli.org).
 
- Commands, options, arguments, exit codes, plus `x-rb-*` metadata: env vars,
- tables, v1 views, data files, external programs. With --json it is the bare
- document on one line (no {"ok": ...} envelope); without, the same indented.
+ Commands, options, arguments, exit codes, plus `x-rb-*` metadata: env vars, tables, v1 views, data
+ files, external programs.
+ With --json it is the bare document on one line (no {"ok": ...} envelope); without, the same
+ indented.
 
  Example: semkit describe --json
 

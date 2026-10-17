@@ -192,15 +192,17 @@ def _option_help(step: str, option: str) -> str:
 def test_the_help_of_an_option_holds_only_its_own_text() -> None:
     assert _option_help("coverage", "mode").endswith("a piece with them is one occurrence.")
     assert "core" not in _option_help("coverage", "mode")
-    assert _option_help("coverage", "text_column") == "the texts, one per row."
+    assert _option_help("coverage", "text_column") == "the column of the texts."
     assert _option_help("split-by-words", "bad").startswith("a phrase with any of these words is bad. Items:")
     assert _option_help("split-by-words", "good").startswith("a phrase that is not bad and has only these words")
     assert "Every other phrase" not in _option_help("split-by-words", "bad")
     lists = _option_help("find-markers", "lists")
     assert (
-        lists.startswith("names of the bundled lists (geo,") and "user:" not in lists and "your own lists" not in lists
+        lists.startswith("the marker lists, comma-separated: a bundled one by its name (geo)") and "user:" not in lists
     )
     assert "A word glued" not in _option_help("find-markers", "with_prepositions")
+    assert _option_help("remove-edges", "start") == "characters cut from the start of a word, any run of them."
+    assert "inside a word" not in _option_help("remove-edges", "end")
 
 
 def test_the_bullets_of_a_docstring_stay_lines_of_the_help() -> None:

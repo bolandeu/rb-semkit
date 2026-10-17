@@ -1,8 +1,19 @@
+"""`run`: a placeholder for the main operation of a CLI of the family; here it does nothing.
+
+It is hidden from the help (`HIDDEN`) so the help shows only commands that do something; the pipeline is `read`.
+"""
+
 from __future__ import annotations
 
 import typer
 
 from .. import output
+
+HIDDEN = True  # not implemented: kept out of the help (cli.py) until it does something
+
+# Extension point: replace the body with a call into core.services for this CLI's main operation. If it changes
+# external state, check `output.is_dry_run(ctx)` first and return a preview instead of acting, and — if the action is
+# irreversible — call `output.require_confirmation(ctx, "...", confirm)` right before the change itself.
 
 
 @output.guard
@@ -12,16 +23,7 @@ def run(
     quiet: bool = output.QuietOption,
     dry_run: bool = output.DryRunOption,
 ) -> None:
-    """Execute the project's main operation.
-
-    Extension point: replace this body with a call into core.services (or a
-    provider) for this CLI's actual business logic.
-
-    If the real implementation changes external state, keep this shape:
-    check `output.is_dry_run(ctx)` first and return a preview instead of
-    acting, and — if the action is destructive/irreversible — call
-    `output.require_confirmation(ctx, "...", confirm)` right before the
-    change itself (never before the dry-run preview).
+    """Not implemented yet, and hidden from the help: it changes nothing and says so.
 
     Example: {cli} run --dry-run
     """

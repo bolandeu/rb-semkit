@@ -3,7 +3,8 @@
 A phrase is split on any run of whitespace, so no word is empty and joined results never hold double spaces.
 Words are compared by `norm_phrase` (case, ё→е); the output keeps the words as the phrase spells them.
 
-Helpers shared by the matchers: `strip_edges` (a word without edge punctuation), `collapse` (single spaces, none
+Helpers shared by the matchers: `strip_edges` (a word without edge punctuation), `lemma_key` (a word or its lemma
+as compared), `collapse` (single spaces, none
 at the edges), `bundled_list` (a word list of the package data), and argument checks that raise InvalidArguments
 naming the argument and the allowed values: `choice`, `whole_number` (N from 1), `word_list`, `compiled` (a regex).
 `verbs` names the verbs a kind of matcher supports (the steps of the pipeline are made from them).
@@ -13,7 +14,7 @@ from __future__ import annotations
 
 import re
 from collections.abc import Iterable
-from typing import TypeVar
+from typing import TYPE_CHECKING, TypeVar
 
 import pandas as pd
 
@@ -22,7 +23,11 @@ from ..errors import InvalidArguments
 from ..frame import Frame, map_unique
 from ..normalize import norm_phrase
 
+if TYPE_CHECKING:
+    from ..morph import Lemmatizer
+
 VERBS = ("find", "remove", "extract")
+SHOWN_ITEMS = 5  # the items of a list an error names
 _Value = TypeVar("_Value", bound=str)
 _EDGE_PUNCTUATION = re.compile(r"^[\W_]+|[\W_]+$")
 
@@ -39,6 +44,14 @@ def strip_edges(word: str) -> str:
 def word_key(word: str, *, ignore_punct: bool = False) -> str:
     """A word as compared: `norm_phrase`, and with `ignore_punct` without punctuation at its edges («Диван,» → диван)."""
     return norm_phrase(strip_edges(word) if ignore_punct else word)
+
+
+def lemma_key(word: str, lemmatizer: Lemmatizer | None, *, ignore_punct: bool = False) -> str:
+    """A word as compared by a matcher with a lemmatizer: the `word_key` of its lemma; without one, its `word_key`."""
+    key = word_key(word, ignore_punct=ignore_punct)
+    if lemmatizer is None or not key:
+        return key
+    return norm_phrase(lemmatizer.lemma(key))
 
 
 def bundled_list(name: str) -> list[str]:
@@ -73,12 +86,28 @@ def whole_number(argument: str, value: int) -> int:
     return value
 
 
+class NotSingleWords(InvalidArguments):
+    """A list of words holds items that are not one word each; the message names the first of them."""
+
+
 def word_list(argument: str, items: str | Iterable[str]) -> list[str]:
-    """One word or a non-empty list of single words, as a list."""
+    """One word or a non-empty list of single words, as a list; an error names at most SHOWN_ITEMS bad items."""
     listed = [items] if isinstance(items, str) else list(items)
-    if not listed or not all(isinstance(item, str) and len(split_words(item)) == 1 for item in listed):
-        raise InvalidArguments(f"{argument}={listed!r}; allowed: one word or a non-empty list of single words.")
+    if not listed:
+        raise InvalidArguments(f"{argument}: an empty list; allowed: one word or a list of single words.")
+    bad = [item for item in listed if not (isinstance(item, str) and len(split_words(item)) == 1)]
+    if bad:
+        raise NotSingleWords(
+            f"{argument}: {len(bad)} of {len(listed)} items are not single words: {shown(bad)};"
+            " allowed: one word or a list of single words."
+        )
     return listed
+
+
+def shown(items: list) -> str:
+    """At most SHOWN_ITEMS items of a list for a message, as «a», «b» and how many more."""
+    named = ", ".join(f"«{item}»" for item in items[:SHOWN_ITEMS])
+    return named if len(items) <= SHOWN_ITEMS else f"{named} and {len(items) - SHOWN_ITEMS} more"
 
 
 class Matcher:

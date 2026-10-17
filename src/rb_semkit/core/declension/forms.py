@@ -16,15 +16,19 @@ with ё as е; a form keeps the capitals of its word.
 from __future__ import annotations
 
 import re
+from typing import Literal, get_args
 
 from .. import datastore
 from ..morph.lemmatizer import noun_parse
 from ..text.base import choice
 
 TABLES = "declension/tables.json"
-CASES = ("nominative", "genitive", "dative", "accusative", "instrumental", "prepositional")
-NUMBERS = ("singular", "plural")
-GENDERS = ("masculine", "feminine", "neuter")
+Case = Literal["nominative", "genitive", "dative", "accusative", "instrumental", "prepositional"]
+Number = Literal["singular", "plural"]
+Gender = Literal["masculine", "feminine", "neuter"]
+CASES = get_args(Case)
+NUMBERS = get_args(Number)
+GENDERS = get_args(Gender)
 # The usual endings after a hard consonant, after г к х and after ж ш ч щ, by form index.
 HARD_ENDINGS = ("а", "у", "а", "ом", "е", "ы", "ов", "ам", "", "ами", "ах")
 USUAL_ENDINGS = {

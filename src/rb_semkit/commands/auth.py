@@ -1,3 +1,9 @@
+"""`auth status`: the health of each provider's credential, never its value.
+
+Every CLI of the family has this command (a cross-tool contract); this CLI has no credentials, so it reports an empty
+list and exits 0. The credentials package is found at run time, so the file has no template logic.
+"""
+
 from __future__ import annotations
 
 import importlib
@@ -35,12 +41,9 @@ def auth_status(
     """Report every provider's credential: where it comes from and whether it works. Never prints values.
 
     Without --check only presence is reported (status `unchecked` or `missing`).
-    Exits 0 when every required provider is ok/unchecked (an optional one may be
-    missing), 3 when any required provider has a problem or any credential is
-    invalid/expired, 2 on a usage error. A per-target provider (one credential per
-    site/host/account) gets one entry per stored target, named `<kind>:<target>`. The --json shape is a cross-tool contract:
-    `tool`, `version`, `checked_at`, `credentials[]` with `provider`, `required`,
-    `fields`, `source`, `source_ref`, `status`, `expires_at`, `quota`, `message`.
+    Exits 0 when every required provider is ok/unchecked (an optional one may be missing), 3 when any required provider has a problem or any credential is invalid/expired, 2 on a usage error.
+    A per-target provider (one credential per site/host/account) gets one entry per stored target, named `<kind>:<target>`.
+    The --json shape is a cross-tool contract: `tool`, `version`, `checked_at`, `credentials[]` with `provider`, `required`, `fields`, `source`, `source_ref`, `status`, `expires_at`, `quota`, `message`.
 
     Example: {cli} auth status --check --json
     """

@@ -3,15 +3,23 @@
 
  Set a single, non-secret configuration value.
 
+ A value of the wrong form is refused with exit 2 and the form the key takes; lists takes a JSON
+ list of folders.
+ The version the project needs is not checked here, so cli.min_version can be lowered.
+ With --dry-run the config is not written.
+
  Example: semkit config set cli.min_version 0.2.0
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │ *    key        <str>  Dotted config key, e.g. cli.min_version (see `config list`). [required]   │
-│ *    value      <str>  New value (stored as a string). [required]                                │
+│ *    value      <str>  New value: text for a text key, JSON for any other, as 2 or               │
+│                        '["/abs/lists"]'.                                                         │
+│                        [required]                                                                │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --json           Emit machine-readable JSON output.                                              │
-│ --quiet          Suppress non-essential output.                                                  │
-│ --help           Show this message and exit.                                                     │
+│ --json             Emit machine-readable JSON output.                                            │
+│ --quiet            Suppress non-essential output.                                                │
+│ --dry-run          Show what would happen without making changes.                                │
+│ --help             Show this message and exit.                                                   │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

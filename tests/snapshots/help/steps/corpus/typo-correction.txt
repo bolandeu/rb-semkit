@@ -4,8 +4,9 @@
  Each phrase with its misspelt words replaced by their most likely corrections («купить диавн» →
  «купить диван»).
 
- A phrase with no misspelt word, or none the provider can correct, stays as it is.
- provider: as for `is_typo`.
+ The misspelt words are those of is-typo; the correction is the nearest such word, then the most
+ frequent, starting with the same letter. A phrase with no misspelt word, or none that can be
+ corrected, stays as it is.
 
  The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 

@@ -44,11 +44,14 @@ def split_by_words(
 ) -> Split:
     """The core split into good, bad and rest phrases, and the frequency dictionary of the rest.
 
-    bad: a phrase with any of these words is bad. good: a phrase that is not bad and has only these words is good.
-    Every other phrase, an empty one too, is the rest. Words are compared by case and ё.
-    lemmas: compare the lemmas of the words and of `good` and `bad` («диваны» is «диван»), by `lemmatizer`.
-    The parts are the rows of the input in its order: a Series for a Series, the table for a table. `frequency` is
-    the `ngrams` table of the rest, of lemmas with `lemmas`, to choose the next good and bad words.
+    bad: a phrase with any of these words is bad.
+    good: a phrase that is not bad and has only these words is good.
+    lemmas: compare the lemmas of the words of the phrase and of the lists («диваны» is «диван»).
+    lemmatizer: what gives the lemmas.
+
+    Every other phrase, an empty one too, is the rest. Words are compared in any case and with ё as е. The parts keep
+    the rows of the input in its order. The frequency dictionary is the ngrams table of the rest (of lemmas with
+    lemmas), to choose the next good and bad words.
     """
     frame = Frame(data, column)
     phrases = frame.phrases

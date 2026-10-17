@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
+from typing import Literal, get_args
 
 import pandas as pd
 
@@ -12,7 +13,8 @@ from .common import changed
 
 __all__ = ["insert", "move_words"]
 
-PLACES = ("start", "end")
+Place = Literal["start", "end"]
+PLACES = get_args(Place)
 
 
 def insert(
@@ -24,9 +26,11 @@ def insert(
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """`before` at the start and `after` at the end of the phrase, as given; an empty phrase gets them too.
+    """Text at the start and at the end of the phrase, as given; an empty phrase gets them too.
 
-    each_word: round each word of the phrase instead («купить диван» with after="," → «купить, диван,»); the words
+    before: the text at the start («купить » gives «купить диван»).
+    after: the text at the end («диван» with « в москве» gives «диван в москве»).
+    each_word: round each word of the phrase instead («купить диван» with after "," → «купить, диван,»); the words
     are joined by one space and an empty phrase stays empty.
     """
     if not (isinstance(before, str) and isinstance(after, str)):
@@ -73,13 +77,16 @@ def move_words(
     data: pd.Series | pd.DataFrame,
     words: str | Iterable[str],
     *,
-    to: str = "start",
+    to: Place = "start",
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """The words of `words` found in the phrase moved to its start or end (`to`), in the order and the spelling of
-    `words`: «диван угловой купить» with ["купить", "угловой"] → «купить угловой диван». Case and ё do not count;
-    the first word equal to an item moves."""
+    """Words found in the phrase moved to its start or end, in the order and the spelling of the list: «диван угловой
+    купить» with купить,угловой → «купить угловой диван». Case and ё do not count; the first word equal to an item moves.
+
+    words: the words to move.
+    to: where they go: "start" or "end".
+    """
     mover = WordMover(word_list("words", words))
     choice("to", to, PLACES)
     return changed(data, lambda phrase: " ".join(mover.moved(split_words(phrase), to)), "move_words", column, inplace)

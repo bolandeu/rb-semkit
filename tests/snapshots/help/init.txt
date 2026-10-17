@@ -1,7 +1,10 @@
 
  Usage: semkit init [OPTIONS]
 
- Initialize a project: creates .semkit/config.toml in the target directory.
+ Initialize a project: creates .rb_semkit/config.toml in the target directory.
+
+ An initialized project is left as it is without --force.
+ With --dry-run nothing is written.
 
  Example: semkit init --name demo
 
@@ -11,6 +14,7 @@
 │ --json                  Emit machine-readable JSON output.                                       │
 │ --quiet                 Suppress non-essential output.                                           │
 │ --verbose               Emit extra diagnostic output.                                            │
+│ --dry-run               Show what would happen without making changes.                           │
 │ --help                  Show this message and exit.                                              │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

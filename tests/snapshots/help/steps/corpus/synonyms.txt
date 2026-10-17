@@ -3,12 +3,11 @@
 
  The synonyms in a search-phrase report: a table word, sure, synonyms (joined by a space).
 
- report: a table with the columns phrase, condition and matched. A row whose condition and matched
- phrase differ in one word gives a sure synonym; a row with no matched phrase («-») compares the
- condition with the phrase and gives a synonym to check, unless it is a sure one already. The word
- is the one of the condition. Words are compared as lemmas (by `lemmatizer`), in any case and with
- ё = е; minus-words, operators (+ ! " [ ]) and stopwords are left out. The sure rows come first,
- each part in the order of the report.
+ A row whose condition and matched phrase differ in one word gives a sure synonym; a row with no
+ matched phrase («-») compares the condition with the phrase and gives a synonym to check, unless
+ it is a sure one already. The word is the one of the condition. Words are compared as lemmas, in
+ any case and with ё = е; minus-words, operators (+ ! " [ ]) and stopwords are left out. The sure
+ rows come first, each part in the order of the report.
 
  The step makes a table of its result; it replaces the current table, its first text column is the
  working one.

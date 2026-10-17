@@ -10,7 +10,7 @@ forms of a hyphenated noun.
 
 from __future__ import annotations
 
-from typing import Protocol
+from typing import Literal, Protocol, get_args
 
 import pymorphy3
 from pymorphy3.analyzer import Parse
@@ -23,7 +23,8 @@ LEMMAS = "morph/lemmas.marisa"
 FORMS = "morph/forms.marisa"
 MORPH = "morph/morph.json"
 
-FALLBACKS = ("pymorphy",)
+Fallback = Literal["pymorphy"]
+FALLBACKS = get_args(Fallback)
 # The add-in's verb rule: these endings make a verb whatever the dictionary says; «уют» itself is a noun.
 VERB_ENDINGS = ("тся", "ься", "ают", "уют")
 NOT_VERBS = frozenset({"уют"})
@@ -132,7 +133,8 @@ class SemtoolsLemmatizer:
     fallback: None as above; "pymorphy" gives every word not in the dictionary the best guess of pymorphy3, also a
     word its own dictionary lacks («тиктокерами» → «тиктокер»).
     Each distinct word is analysed once per instance. POS codes are the dictionary's: n, v, a, p (participle),
-    advb, prn, prep, conj, prt; nv as in the dictionary (meaning unknown); "" when no rule gives one.
+    advb, prn, prep, conj, prt; nv as in the dictionary (meaning unknown); unkn when no rule gives one. A noun of the
+    dictionary in «не-» whose rest is an adjective is a («нераскладной»).
     """
 
     def __init__(self, fallback: str | None = None) -> None:

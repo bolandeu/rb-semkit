@@ -63,17 +63,19 @@ def markers(
     """Items of marker lists found in a phrase, as whole words, in any case, ё as е; all lists in one pass.
 
     lists: names of the bundled lists (geo, mosmetro, districts, MO, citiesRu, questions, fun, DIY, edu, game, sale,
-    rent, reviews, color, material, origin, cars, names). user: your own lists, `{"name": ["phrase", …]}`.
-    A word glued to punctuation is not matched («москве,»).
-    find, remove and extract take the same markers: left to right, for each word the longest item that starts there
-    (in words, then in characters; a tie keeps the list order: the lists in the given order, user lists last), and
-    the words of a taken item start no other («Нижний Новгород», not «Нижний Новгород, Новгород»).
-    extract gives them as the list spells them («Москве»; «как сделать», not «как»), in word order, joined by `sep`.
-    remove keeps the case of the other words.
+    rent, reviews, color, material, origin, cars, names).
+    user: lists of your own by name, each a list of phrases.
     with_prepositions: only the markers right after a toponym preposition («в», «во», «на», «по», «из», «до», «г»,
     «и»; as written, «в,» is none) count, and the preposition goes with them; a marker without one stays. A
-    preposition takes the longest item right after it, as above. remove cuts the pair, extract gives it («в Москве»),
-    find is True where such a pair stands.
+    preposition takes the longest item right after it. remove cuts the pair, extract gives it («в Москве»), find marks
+    the phrases where such a pair stands.
+    sep: what joins the markers extract gives.
+
+    A word glued to punctuation is not matched («москве,»). find, remove and extract take the same markers: left to
+    right, for each word the longest item that starts there (in words, then in characters; a tie keeps the list order:
+    the lists in the given order, your own lists last), and the words of a taken item start no other («Нижний
+    Новгород», not «Нижний Новгород, Новгород»). extract gives them as the list spells them («Москве»; «как сделать»,
+    not «как»), in word order. remove keeps the case of the other words.
 
     ADR 0005: ё = е; split on any whitespace; no double spaces; markers as the list spells them, joined by ', ';
     remove keeps the case of the phrase; with prepositions, the preposition and one list item go as a whole, not only

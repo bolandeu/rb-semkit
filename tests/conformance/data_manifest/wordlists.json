@@ -5787,8 +5787,13 @@
  "wordlists/minus/universal.txt.gz": {
   "source": "bukvarix/minus/Universal.txt",
   "source_items": 74,
-  "bundled_items": 74,
-  "dropped": [],
+  "bundled_items": 73,
+  "dropped": [
+   {
+    "item": "купить",
+    "reason": "a commercial core is a core of buying: a minus-word «купить» drops it whole"
+   }
+  ],
   "added": []
  },
  "wordlists/minus/world-cities.txt.gz": {

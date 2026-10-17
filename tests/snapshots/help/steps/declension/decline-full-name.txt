@@ -4,31 +4,25 @@
  A full name «Фамилия Имя Отчество» declined: «Иванов Сергей Петрович» genitive → «Иванова Сергея
  Петровича».
 
- case: "genitive", "dative", "accusative", "instrumental" or "prepositional". A full name that ends
- in «-на» or «-зы» is a woman's («Петрова Анна Ивановна» → «Петровой Анны Ивановны»). The surname
- declines by its ending («-ов», «-ин», «-ой», «-ская»…), the name and the patronymic as nouns; the
- result has a capital in each word. An empty cell stays empty; any other value that is not three
- words raises InvalidArguments.
+ case: "genitive", "dative", "accusative", "instrumental" or "prepositional".
+
+ A full name that ends in «-на» or «-зы» is a woman's («Петрова Анна Ивановна» → «Петровой Анны
+ Ивановны»). The surname declines by its ending («-ов», «-ин», «-ой», «-ская»…), the name and the
+ patronymic as nouns; a surname in «-ых» or «-их» stays («Белых»), a man's surname in «-а» or «-я»
+ declines («Глинка» → «Глинки»). The result has a capital in each word. An empty cell and a value
+ that is not three words stay as they are.
 
  The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
  Example: semkit read names.csv decline-full-name genitive write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
-│   CASE      <str>  "genitive", "dative", "accusative", "instrumental" or "prepositional". A full │
-│                    name that ends in «-на» or «-зы» is a woman's («Петрова Анна Ивановна» →      │
-│                    «Петровой Анны Ивановны»). The surname declines by its ending («-ов», «-ин»,  │
-│                    «-ой», «-ская»…), the name and the patronymic as nouns; the result has a      │
-│                    capital in each word. An empty cell stays empty; any other value that is not  │
-│                    three words raises InvalidArguments. The same as --case CASE.                 │
+│   CASE      <genitive|dative|accusative|instrumental|  "genitive", "dative", "accusative",       │
+│             prepositional>                             "instrumental" or "prepositional". The    │
+│                                                        same as --case CASE.                      │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --case        CASE  "genitive", "dative", "accusative", "instrumental" or "prepositional". A     │
-│                     full name that ends in «-на» or «-зы» is a woman's («Петрова Анна Ивановна»  │
-│                     → «Петровой Анны Ивановны»). The surname declines by its ending («-ов»,      │
-│                     «-ин», «-ой», «-ская»…), the name and the patronymic as nouns; the result    │
-│                     has a capital in each word. An empty cell stays empty; any other value that  │
-│                     is not three words raises InvalidArguments.                                  │
+│ --case        CASE  "genitive", "dative", "accusative", "instrumental" or "prepositional".       │
 │ --as          NAME  Write the result to a new column NAME and keep the working column as it is.  │
 │ --help              Show this message and exit.                                                  │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯

@@ -1,33 +1,64 @@
 
  Usage: semkit read {IN} match-type [OPTIONS] [KIND]
 
- The phrase with the operators of a match type, by `kind`:
+ The phrase with the operators of a match type.
 
+ kind: the match type:
  - "broad": «A в Б», every «+», «!», «[», «]» and «"» taken out;
  - "plus_every_word": «+A +в +Б»; "broad_modifier": «+A в +Б», the stopwords plain;
- - "stopword_modifier": «A +в Б», `modifier` ("+" or "!") on the stopwords only;
+ - "stopword_modifier": «A +в Б», the modifier ("+" or "!") on the stopwords only;
  - "fixed_forms": «!A !в !Б»; "quoted_fixed_forms": «"!A !в !Б"»; "quoted_fixed_order": «"[!A !в
  !Б]"»;
  - "brackets": «[A в Б]»; "quotes": «"A в Б"»;
  - the exact match is "quotes", "quoted_fixed_forms" and "quoted_fixed_order" for Yandex,
  "brackets" for Google; the phrase match is "brackets" for Yandex, "quotes" for Google;
  - "antisemantic": «[A] в [Б]», each word but the stopwords in brackets.
+ modifier: the operator of "stopword_modifier": "+" or "!".
 
  A word that has an operator keeps it, and no other is added; the minus-words keep their place, and
- the kinds that wrap the phrase put them after it («"купить диван" -бесплатно»). Stopwords are
- found in any case. An empty phrase stays empty; the words are joined by one space ("broad" keeps
- the spaces as they are).
+ the kinds that wrap the phrase put them after it («"купить диван" -бесплатно»). A phrase already
+ in quotes or brackets is not wrapped again: the operators of a word go inside the pair («"+купить
+ +диван"»); "brackets", "quotes" and the quoted kinds put their own wrap in place of the old one
+ («"купить диван"» → «[купить диван]»), and "antisemantic" drops the old wrap. Stopwords are found
+ in any case. An empty phrase stays empty; the words are joined by one space ("broad" keeps the
+ spaces as they are).
 
  The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
  Example: semkit read core.csv match-type quotes write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
-│   KIND      <str>  See the description above. The same as --kind KIND.                           │
+│   KIND      <broad|broad_modifier|plus_every_word|st  the match type: - "broad": «A в Б», every  │
+│             opword_modifier|fixed_forms|quoted_fixed  «+», «!», «[», «]» and «"» taken out; -    │
+│             _forms|quoted_fixed_order|brackets|quote  "plus_every_word": «+A +в +Б»;             │
+│             s|antisemantic>                           "broad_modifier": «+A в +Б», the stopwords │
+│                                                       plain; - "stopword_modifier": «A +в Б»,    │
+│                                                       the modifier ("+" or "!") on the stopwords │
+│                                                       only; - "fixed_forms": «!A !в !Б»;         │
+│                                                       "quoted_fixed_forms": «"!A !в !Б"»;        │
+│                                                       "quoted_fixed_order": «"[!A !в !Б]"»; -    │
+│                                                       "brackets": «[A в Б]»; "quotes": «"A в     │
+│                                                       Б"»; - the exact match is "quotes",        │
+│                                                       "quoted_fixed_forms" and                   │
+│                                                       "quoted_fixed_order" for Yandex,           │
+│                                                       "brackets" for Google; the phrase match is │
+│                                                       "brackets" for Yandex, "quotes" for        │
+│                                                       Google; - "antisemantic": «[A] в [Б]»,     │
+│                                                       each word but the stopwords in brackets.   │
+│                                                       The same as --kind KIND.                   │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --kind            KIND   See the description above.                                              │
-│ --modifier        <str>  See the description above. [default: +]                                 │
+│ --kind            KIND   the match type: - "broad": «A в Б», every «+», «!», «[», «]» and «"»    │
+│                          taken out; - "plus_every_word": «+A +в +Б»; "broad_modifier": «+A в     │
+│                          +Б», the stopwords plain; - "stopword_modifier": «A +в Б», the modifier │
+│                          ("+" or "!") on the stopwords only; - "fixed_forms": «!A !в !Б»;        │
+│                          "quoted_fixed_forms": «"!A !в !Б"»; "quoted_fixed_order": «"[!A !в      │
+│                          !Б]"»; - "brackets": «[A в Б]»; "quotes": «"A в Б"»; - the exact match  │
+│                          is "quotes", "quoted_fixed_forms" and "quoted_fixed_order" for Yandex,  │
+│                          "brackets" for Google; the phrase match is "brackets" for Yandex,       │
+│                          "quotes" for Google; - "antisemantic": «[A] в [Б]», each word but the   │
+│                          stopwords in brackets.                                                  │
+│ --modifier        <+|!>  the operator of "stopword_modifier": "+" or "!". [default: +]           │
 │ --as              NAME   Write the result to a new column NAME and keep the working column as it │
 │                          is.                                                                     │
 │ --help                   Show this message and exit.                                             │

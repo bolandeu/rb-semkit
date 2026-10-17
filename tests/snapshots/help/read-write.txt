@@ -3,8 +3,8 @@
 
  Write the current table to OUT: the last step of a pipeline.
 
- The file is written whole or not at all: a failed step or write leaves it as it
- was. With --dry-run nothing is written.
+ The file is written whole or not at all: a failed step or write leaves it as it was. With
+ --dry-run nothing is written. A closed output (`| head`) ends the pipeline quietly.
 
  Example: semkit read core.csv dupes --kind exact --action drop write out.csv --overwrite
 

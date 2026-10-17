@@ -50,11 +50,13 @@ def _pair(initial: list[str], other: list[str]) -> tuple[str, str] | None:
 def synonyms(report: pd.DataFrame, *, lemmatizer: Lemmatizer = BUNDLED) -> pd.DataFrame:
     """The synonyms in a search-phrase report: a table word, sure, synonyms (joined by a space).
 
-    report: a table with the columns phrase, condition and matched. A row whose condition and matched phrase differ in
-    one word gives a sure synonym; a row with no matched phrase («-») compares the condition with the phrase and gives
-    a synonym to check, unless it is a sure one already. The word is the one of the condition. Words are compared as
-    lemmas (by `lemmatizer`), in any case and with ё = е; minus-words, operators (+ ! " [ ]) and stopwords are left out.
-    The sure rows come first, each part in the order of the report.
+    report: a table with the columns phrase, condition and matched.
+
+    A row whose condition and matched phrase differ in one word gives a sure synonym; a row with no matched phrase
+    («-») compares the condition with the phrase and gives a synonym to check, unless it is a sure one already. The word
+    is the one of the condition. Words are compared as lemmas, in any case and with ё = е; minus-words, operators
+    (+ ! " [ ]) and stopwords are left out. The sure rows come first, each part in the order of the report.
+    lemmatizer: what gives the lemmas.
     """
     require_columns(report, "report", REPORT_COLUMNS)
     texts = report[list(REPORT_COLUMNS)].fillna("").astype(str)
@@ -99,9 +101,13 @@ def add_minus_words(
 ) -> pd.Series | pd.DataFrame:
     """Each phrase with the synonyms of its words appended as minus-words: «купить диван» → «купить диван -софа».
 
-    table: a table with the columns word and synonyms (separated by spaces), as `synonyms` gives. A word of the phrase
-    matches by its lemma (by `lemmatizer`), in any case and with ё = е. A synonym that the phrase holds already, as a
-    word or a minus-word, is not added again. A phrase in quotes is left as it is.
+    table: a table with the columns word, sure and synonyms (separated by spaces), as the step synonyms gives; a table
+    without the column sure is all sure. A word of the phrase matches by its lemma, in any case and with ё = е. A
+    synonym that the phrase holds already, as a word or a minus-word, is not added again. A phrase in quotes is left
+    as it is.
+    unsure: also add the synonyms to check (sure is false); by default only the sure ones. A sure cell read from a
+    file as text counts as sure when it is true (in any case), ИСТИНА or 1.
+    lemmatizer: what gives the lemmas.
     """
     require_columns(table, "table", ["word", "synonyms"])
 

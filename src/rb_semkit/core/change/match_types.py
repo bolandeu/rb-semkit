@@ -8,6 +8,7 @@ an operator is one that starts with «+», «!» or «-».
 from __future__ import annotations
 
 from collections.abc import Callable
+from typing import Literal, get_args
 
 import pandas as pd
 
@@ -16,11 +17,13 @@ from .common import changed, each_word, is_stopword
 
 __all__ = ["drop_minus_words", "drop_modifiers", "match_type"]
 
-KINDS = (
-    *("broad", "broad_modifier", "plus_every_word", "stopword_modifier", "fixed_forms"),
-    *("quoted_fixed_forms", "quoted_fixed_order", "brackets", "quotes", "antisemantic"),
-)
-MODIFIERS = ("+", "!")
+Kind = Literal[
+    "broad", "broad_modifier", "plus_every_word", "stopword_modifier", "fixed_forms",
+    "quoted_fixed_forms", "quoted_fixed_order", "brackets", "quotes", "antisemantic",
+]  # fmt: skip
+Modifier = Literal["+", "!"]
+KINDS = get_args(Kind)
+MODIFIERS = get_args(Modifier)
 OPERATORS = ("+", "!", "-")
 BROAD_STRIPPED = str.maketrans("", "", '+![]"')
 WRAP_STRIPPED = str.maketrans("", "", '[]"')
@@ -88,26 +91,31 @@ def _change(kind: str, modifier: str) -> Callable[[str], str]:
 
 def match_type(
     data: pd.Series | pd.DataFrame,
-    kind: str,
+    kind: Kind,
     *,
-    modifier: str = "+",
+    modifier: Modifier = "+",
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """The phrase with the operators of a match type, by `kind`:
+    """The phrase with the operators of a match type.
 
+    kind: the match type:
     - "broad": «A в Б», every «+», «!», «[», «]» and «"» taken out;
     - "plus_every_word": «+A +в +Б»; "broad_modifier": «+A в +Б», the stopwords plain;
-    - "stopword_modifier": «A +в Б», `modifier` ("+" or "!") on the stopwords only;
+    - "stopword_modifier": «A +в Б», the modifier ("+" or "!") on the stopwords only;
     - "fixed_forms": «!A !в !Б»; "quoted_fixed_forms": «"!A !в !Б"»; "quoted_fixed_order": «"[!A !в !Б]"»;
     - "brackets": «[A в Б]»; "quotes": «"A в Б"»;
     - the exact match is "quotes", "quoted_fixed_forms" and "quoted_fixed_order" for Yandex, "brackets" for
       Google; the phrase match is "brackets" for Yandex, "quotes" for Google;
     - "antisemantic": «[A] в [Б]», each word but the stopwords in brackets.
+    modifier: the operator of "stopword_modifier": "+" or "!".
 
     A word that has an operator keeps it, and no other is added; the minus-words keep their place, and the kinds that
-    wrap the phrase put them after it («"купить диван" -бесплатно»). Stopwords are found in any case. An empty phrase
-    stays empty; the words are joined by one space ("broad" keeps the spaces as they are).
+    wrap the phrase put them after it («"купить диван" -бесплатно»). A phrase already in quotes or brackets is not
+    wrapped again: the operators of a word go inside the pair («"+купить +диван"»); "brackets", "quotes" and the quoted
+    kinds put their own wrap in place of the old one («"купить диван"» → «[купить диван]»), and "antisemantic" drops the
+    old wrap. Stopwords are found in any case. An empty phrase stays empty; the words are joined by one space ("broad"
+    keeps the spaces as they are).
     """
     choice("kind", kind, KINDS)
     choice("modifier", modifier, MODIFIERS)

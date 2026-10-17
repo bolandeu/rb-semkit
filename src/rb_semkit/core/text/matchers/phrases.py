@@ -4,14 +4,17 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
-from typing import NamedTuple
+from typing import TYPE_CHECKING, NamedTuple
 
 import ahocorasick  # ty: ignore[unresolved-import]  # a compiled extension without type stubs
 import pandas as pd
 
 from ...errors import InvalidArguments
 from ...frame import map_unique
-from ..base import WordMatcher, collapse, split_words, word_key
+from ..base import WordMatcher, collapse, lemma_key, split_words
+
+if TYPE_CHECKING:
+    from ...morph import Lemmatizer
 
 __all__ = ["phrases"]
 
@@ -27,15 +30,17 @@ class Hit(NamedTuple):
 class PhraseList:
     """Phrases compared word by word as written (case and ё do not count, punctuation does: «москве,» is no «москве»).
 
-    The automaton runs over words, not letters. The phrases that start with a word keep the list order.
+    The automaton runs over words, not letters. The phrases that start with a word keep the list order. With a
+    lemmatizer the words compare by their lemmas («дешевые диваны» is «дешевый диван»).
     """
 
-    def __init__(self, argument: str, items: Iterable[str]) -> None:
+    def __init__(self, argument: str, items: Iterable[str], lemmatizer: Lemmatizer | None = None) -> None:
         listed = [items] if isinstance(items, str) else list(items)
+        self._lemmatizer = lemmatizer
         spellings: dict[str, str] = {}
         for item in listed:
             if isinstance(item, str) and item.split():
-                spellings.setdefault(" ".join(word_key(word) for word in item.split()), collapse(item))
+                spellings.setdefault(" ".join(self._key(word) for word in item.split()), collapse(item))
         if not spellings:
             raise InvalidArguments(f"{argument}={listed[:3]!r}; allowed: a non-empty list of phrases.")
         self._spellings = spellings
@@ -46,9 +51,12 @@ class PhraseList:
             self._automaton.add_word(f" {key} ", key)
         self._automaton.make_automaton()
 
+    def _key(self, word: str) -> str:
+        return lemma_key(word, self._lemmatizer)
+
     def hits(self, words: list[str]) -> list[Hit]:
         """Every listed phrase in the words, overlapping ones too."""
-        text = f" {' '.join(word_key(word) for word in words)} "
+        text = f" {' '.join(self._key(word) for word in words)} "
         hits = []
         for end, key in self._automaton.iter(text):
             start = text.count(" ", 0, end - len(key) - 1)  # the spaces before the leading space of the match
@@ -57,7 +65,7 @@ class PhraseList:
 
     def starting_at(self, words: list[str], index: int) -> list[Hit]:
         """The listed phrases that stand at word `index`, in list order."""
-        keys = [word_key(word) for word in words[index:]]
+        keys = [self._key(word) for word in words[index:]]
         return [
             Hit(index, index + len(key.split(" ")), self._spellings[key])
             for key in self._starting.get(keys[0], ())
@@ -83,8 +91,8 @@ def choose(hits: Iterable[Hit]) -> list[Hit]:
 
 
 class Phrases(WordMatcher):
-    def __init__(self, items: Iterable[str]) -> None:
-        self._list = PhraseList("items", items)
+    def __init__(self, items: Iterable[str], lemmatizer: Lemmatizer | None = None) -> None:
+        self._list = PhraseList("items", items, lemmatizer)
 
     def picks(self, words: list[str]) -> list[bool]:
         picked = [False] * len(words)
@@ -98,11 +106,14 @@ class Phrases(WordMatcher):
         )
 
 
-def phrases(items: Iterable[str]) -> Phrases:
+def phrases(items: Iterable[str], *, lemmatizer: Lemmatizer | None = None) -> Phrases:
     """Phrases of a list, found as whole words («угловой диван» is not in «угловойдиван» or «угловой диван,»).
 
+    items: the phrases to find.
+    lemmatizer: compare the lemmas of the words («дешевые диваны» is «дешевый диван»).
+
     Words compare in any case, ё as е; punctuation glued to a word counts. find, remove and extract take the same
-    phrases, as `sk.markers(user=...)` does: left to right, for each word the longest phrase that starts there (in
+    phrases, as the markers of your own lists: left to right, for each word the longest phrase that starts there (in
     words, then in characters; a tie keeps the list order), and the words of a taken phrase start no other. remove
     keeps the case of the other words; extract gives the phrases as the list spells them, joined by ', '.
 
@@ -111,4 +122,4 @@ def phrases(items: Iterable[str]) -> Phrases:
     takes the first in list order found anywhere in the phrase («нижний») and gives a word inside a found phrase its
     own marker too.
     """
-    return Phrases(items)
+    return Phrases(items, lemmatizer)

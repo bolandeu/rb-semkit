@@ -36,19 +36,18 @@ def _command_modules() -> list[ModuleType]:
 COMMAND_MODULES = _command_modules()
 
 # A module is a command group when it exposes a Typer `app` (`auth status` in every CLI), else a command when it has
-# a function of its own name (`init.init`).
+# a function of its own name (`init.init`). `HIDDEN = True` in a module keeps its command out of the help.
 for module in COMMAND_MODULES:
     name = module.__name__.rsplit(".", 1)[-1]
     if isinstance(getattr(module, "app", None), typer.Typer):
         app.add_typer(module.app, name=name)
     elif callable(getattr(module, name, None)):
-        app.command(name=name)(getattr(module, name))
+        app.command(name=name, hidden=getattr(module, "HIDDEN", False))(getattr(module, name))
 
 
-def _version_callback(value: bool) -> None:
-    if not value:
-        return
-    typer.echo(installed_version() or DEV_VERSION)
+def _show_version(ctx: typer.Context) -> None:
+    """Print the version, as the envelope `{"ok": true, "version": ...}` with --json, and exit."""
+    output.emit_success(ctx, {"version": installed_version() or DEV_VERSION}, lambda data: typer.echo(data["version"]))
     raise typer.Exit()
 
 
@@ -76,9 +75,7 @@ def main_options(
     verbose: bool = typer.Option(False, "--verbose", help="Emit extra diagnostic output."),
     non_interactive: bool = typer.Option(False, "--non-interactive", help="Never prompt; fail instead."),
     dry_run: bool = typer.Option(False, "--dry-run", help="Show what would happen without making changes."),
-    version: bool = typer.Option(
-        False, "--version", callback=_version_callback, is_eager=True, help="Show the version and exit."
-    ),
+    version: bool = typer.Option(False, "--version", help="Show the version and exit."),
     ai: bool = typer.Option(
         False,
         "--ai",
@@ -95,6 +92,8 @@ def main_options(
     ctx.obj["non_interactive"] = non_interactive
     ctx.obj["dry_run"] = dry_run
     output.configure_logging(verbose)
+    if version:  # not eager: it reads --json, wherever it stands
+        _show_version(ctx)
     output.help_if_no_command(ctx)
 
 

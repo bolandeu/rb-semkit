@@ -1,8 +1,8 @@
 """The folders of the Human's word lists, and a list as a file: `<name>.txt` under a folder, UTF-8, one item per line.
 
-The folders, in the order they are searched: the project's own (`.rb_semkit/lists/`), the folders of the config key
-`lists`, the folders of the variable SEMKIT_LISTS (separated as PATH is). A first line that starts with '# ' is the
-description of the list, not an item.
+The folders, in the order they are searched: the project's own (`.rb_semkit/lists/`), the folders of the variable
+SEMKIT_LISTS (separated as PATH is; a relative one is from the current folder), the folders of the config key `lists`
+(a relative one is from the project). A first line that starts with '# ' is the description of the list, not an item.
 """
 
 from __future__ import annotations
@@ -32,12 +32,16 @@ def search_folders(start: Path | None = None) -> list[Folder]:
     """The folders to search from `start` (the working folder by default), in the order of the search."""
     root = services.find_project_root(start or Path.cwd())
     found = [] if root is None else [Folder(PROJECT, services.project_lists_dir(root))]
-    configured = []
-    if root is not None and services.config_path(root).is_file():
-        configured = services.load_config(root).lists
     listed = [text for text in os.environ.get(ENV_VAR, "").split(os.pathsep) if text]
-    base = root or Path.cwd()
-    return found + [Folder(text, base / Path(text).expanduser()) for text in [*configured, *listed]]
+    found += [Folder(text, Path.cwd() / Path(text).expanduser()) for text in listed]
+    if root is not None and services.config_path(root).is_file():
+        found += [Folder(text, root / Path(text).expanduser()) for text in services.load_config(root).lists]
+    return found
+
+
+def is_searched(folder: Path, start: Path | None = None) -> bool:
+    """Whether `folder` is one of the folders searched from `start`, so that its lists are found by name."""
+    return folder.resolve() in {searched.path.resolve() for searched in search_folders(start)}
 
 
 def list_path(folder: Path, name: str) -> Path:

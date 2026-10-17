@@ -54,3 +54,47 @@ def test_a_pipeline_of_the_guide_gives_the_output_it_shows(
     assert [json.loads(line) for line in result.stdout.splitlines()] == [
         json.loads(line) for line in shown.splitlines()
     ]
+
+
+def _describe() -> dict:
+    return json.loads(semkit("describe", "--json").stdout)["command"]
+
+
+def _commands(command: dict) -> list[dict]:
+    return [command, *(found for sub in command.get("commands", []) for found in _commands(sub))]
+
+
+def test_every_flag_command_and_exit_code_of_the_guide_exists(tmp_path: Path) -> None:
+    guide = semkit("--ai").stdout
+    cli = _describe()
+    flags = {option["name"] for command in _commands(cli) for option in command.get("options", [])}
+    commands = {command["name"] for command in cli["commands"]}
+    codes = {code["code"] for code in cli["exitCodes"]}
+
+    assert set(re.findall(r"(?<![\w-])--[a-z][a-z-]*", guide)) - {"--help"} <= flags
+    assert set(re.findall(r"(?:`|→ )semkit ([a-z]+)", guide)) <= commands
+    assert {int(code) for code in re.findall(r"^    (\d)  ", guide, re.MULTILINE)} == codes
+    assert "-q" not in re.findall(r"(?<![\w-])-[a-z]\b", guide)
+
+
+def test_the_success_envelope_of_the_guide_is_the_one_read_gives(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.chdir(FIXTURES)
+    named, step = (re.search(pattern, GUIDE) for pattern in (r'`(\{"ok": true, [^`]+\})`', r'`(\{"step", [^`]+\})`'))
+    assert named and step
+
+    result = semkit("--json", "read", "core.csv", "remove-chars", "punctuation", "write", str(tmp_path / "out.csv"))
+
+    envelope = json.loads(result.stdout)
+    assert list(envelope) == ["ok", *re.findall(r'"(\w+)"', named[1].removeprefix('{"ok": true'))]
+    assert list(envelope["steps"][0]) == re.findall(r'"(\w+)"', step[1])
+
+
+def test_the_clean_a_core_pipeline_keeps_most_of_a_commercial_core(monkeypatch) -> None:
+    command = next(words for _, words in map(_split, (c for c, _ in EXAMPLES)) if "@minus/universal" in words)
+    monkeypatch.chdir(Path(__file__).parents[1] / "e2e" / "fixtures")
+    arguments = ["sofa_core.csv" if word == "core.csv" else word for word in command[1:]]
+
+    result = semkit(*arguments)
+
+    assert result.exit_code == 0, result.output
+    assert len(result.stdout.splitlines()) > 1000 / 2

@@ -4,10 +4,8 @@
  Each phrase with the synonyms of its words appended as minus-words: «купить диван» → «купить диван
  -софа».
 
- table: a table with the columns word and synonyms (separated by spaces), as `synonyms` gives. A
- word of the phrase matches by its lemma (by `lemmatizer`), in any case and with ё = е. A synonym
- that the phrase holds already, as a word or a minus-word, is not added again. A phrase in quotes
- is left as it is.
+ unsure: also add the synonyms to check (sure is false); by default only the sure ones. A sure cell
+ read from a file as text counts as sure when it is true (in any case), ИСТИНА or 1.
 
  synonyms: a file with the columns word and synonyms, as the step `synonyms` gives; the file is
  read like `read` does.
@@ -23,7 +21,9 @@
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --synonyms        SYNONYMS  a file with the columns word and synonyms, as the step `synonyms`    │
 │                             gives; the file is read like `read` does.                            │
-│ --unsure                    See the description above.                                           │
+│ --unsure                    also add the synonyms to check (sure is false); by default only the  │
+│                             sure ones. A sure cell read from a file as text counts as sure when  │
+│                             it is true (in any case), ИСТИНА or 1.                               │
 │ --as              NAME      Write the result to a new column NAME and keep the working column as │
 │                             it is.                                                               │
 │ --help                      Show this message and exit.                                          │

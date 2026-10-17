@@ -2,6 +2,7 @@
 
 Each error carries a stable code, a message, an optional action (how to recover) and an exit code; `output.guard`
 turns it into a stderr line or, with --json, the error envelope. InvalidArguments is a usage error (exit 2).
+ConfigInvalid: the project's config.toml cannot be read. Unhealthy: `doctor` found a failed check (exit 1).
 """
 
 from __future__ import annotations
@@ -166,8 +167,32 @@ class CliTooOld(CliError):
         super().__init__(
             "CLI_TOO_OLD",
             f"This project requires {_CLI} >= {required}, but {installed} is installed.",
-            action=f"Run 'uv tool upgrade {_DIST}' (or lower cli.min_version in the project's config.toml).",
+            action=f"Run 'uv tool upgrade {_DIST}', or lower the version: '{_CLI} config set cli.min_version {installed}'.",
             exit_code=6,
+        )
+
+
+class ConfigInvalid(CliError):
+    """The project's config.toml cannot be read: not TOML, or a value of the wrong type."""
+
+    def __init__(self, path: str, reason: str) -> None:
+        super().__init__(
+            "CONFIG_INVALID",
+            f"{path}: not a valid config: {reason}",
+            action=f"Fix the file, or run '{_CLI} init --force' to write a new one.",
+            exit_code=1,
+        )
+
+
+class Unhealthy(CliError):
+    """`doctor` found a check that failed; its report says which and why."""
+
+    def __init__(self, failed: list[str]) -> None:
+        super().__init__(
+            "UNHEALTHY",
+            f"{len(failed)} check(s) failed: {', '.join(failed)}.",
+            action="See the detail of each failed check.",
+            exit_code=1,
         )
 
 

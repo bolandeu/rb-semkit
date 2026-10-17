@@ -17,7 +17,7 @@ dependencies = [
     "pymorphy3>=2.0.6",
     "pandas>=3.0.6",
     "pyahocorasick>=2.3.1",
-    "rb-dataio>=0.1.21,<0.2",
+    "rb-dataio>=0.1.23,<0.2",
 ]
 
 [project.scripts]
@@ -40,7 +40,7 @@ fallback-version = "0.0.0"
 
 [tool.uv.sources]
 # The CLI reads and writes every table through dataio (docs/plan.md §3, ADR 0001).
-rb-dataio = { git = "https://homeserver.tailee01ab.ts.net:3000/bolandeu/dataio.git", tag = "v0.1.21" }
+rb-dataio = { git = "https://homeserver.tailee01ab.ts.net:3000/bolandeu/dataio.git", tag = "v0.1.23" }
 
 [tool.uv]
 # Rebuild the editable install when a commit or tag moves, so `--version` follows the tag.

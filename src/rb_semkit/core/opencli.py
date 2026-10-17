@@ -72,6 +72,8 @@ def _command(name: str, cmd: Any) -> dict:
         out["options"] = options
     if arguments:
         out["arguments"] = arguments
+    if extra := getattr(cmd.callback, "opencli_metadata", None):  # a command's own x-rb-* entries
+        out["metadata"] = _meta(extra)
     if (subcommands := getattr(cmd, "commands", None)) is not None:  # a group
         # Registration order (Typer keeps it): the order `--help` shows.
         out["commands"] = [_command(sub_name, sub) for sub_name, sub in subcommands.items()]
@@ -99,7 +101,7 @@ def _option(param: Any) -> dict:
 
 
 def _argument(param: Any) -> dict:
-    out: dict[str, Any] = {"name": param.name or "argument"}
+    out: dict[str, Any] = {"name": param.metavar or param.name or "argument"}  # the name --help shows
     out["required"] = param.required
     maximum = None if param.nargs == -1 else param.nargs
     out["arity"] = {"minimum": param.nargs if param.required and param.nargs > 0 else int(param.required)}

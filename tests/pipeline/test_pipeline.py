@@ -25,7 +25,7 @@ def test_steps_run_in_order_and_write_the_file(core_csv: Path, tmp_path: Path) -
 
     assert result.exit_code == 0, result.output
     assert _phrases(out) == ["диван", "угловой диван", "диван недорого"]
-    assert result.stdout == ""
+    assert result.stdout == f"Wrote 3 rows to {out}.\n"
 
 
 def test_jsonl_stdin_to_jsonl_stdout_with_a_report_step(tmp_path: Path) -> None:
@@ -43,8 +43,9 @@ def test_jsonl_stdin_to_jsonl_stdout_with_a_report_step(tmp_path: Path) -> None:
         {"ngram": "диван в", "count": 1, "docs": 1},
     ]
     lines = result.stderr.splitlines()
-    assert [line.split(":")[0] for line in lines] == ["drop-words", "ngrams"]
+    assert [line.split(":")[0] for line in lines[:-1]] == ["drop-words", "ngrams"]
     assert "2 → 1 rows" in lines[0]
+    assert lines[-1] == "Wrote 2 rows to stdout."
 
 
 def test_change_step_with_as_adds_a_column(core_csv: Path, tmp_path: Path) -> None:
@@ -196,11 +197,11 @@ def test_read_keeps_numbers_numbers(tmp_path: Path) -> None:
     assert jsonl(result.stdout) == [{"phrase": "диван", "freq": 100}]
 
 
-def test_the_working_column_stays_text(tmp_path: Path) -> None:
+def test_a_number_working_column_stays_numbers_in_the_table(tmp_path: Path) -> None:
     path = tmp_path / "core.csv"
     path.write_text("phrase,freq\n2024,1\n,2\n", encoding="utf-8")
     result = semkit("read", str(path), "write", "-")
-    assert jsonl(result.stdout) == [{"phrase": "2024", "freq": 1}, {"phrase": "", "freq": 2}]
+    assert jsonl(result.stdout) == [{"phrase": 2024, "freq": 1}, {"phrase": None, "freq": 2}]
 
 
 def test_ngrams_weight_sums_the_numbers(tmp_path: Path) -> None:

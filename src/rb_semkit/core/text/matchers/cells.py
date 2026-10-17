@@ -10,7 +10,7 @@ import pandas as pd
 from ...errors import InvalidArguments
 from ...frame import map_unique
 from ...normalize import norm_phrase
-from ..base import Matcher, bundled_list, choice, compiled, split_words, word_key
+from ..base import Matcher, bundled_list, choice, compiled, shown, split_words, word_key
 
 __all__ = ["cells"]
 
@@ -44,7 +44,7 @@ def _word_test(kind: str, words: frozenset[str]) -> Callable[[str], bool]:
 def _item_keys(items: str | Iterable[str]) -> tuple[str, ...]:
     listed = [items] if isinstance(items, str) else list(items)
     if not listed or not all(isinstance(item, str) and item.strip() for item in listed):
-        raise InvalidArguments(f"items={listed!r}; allowed: a non-empty list of non-empty strings.")
+        raise InvalidArguments(f"items: {shown(listed)}; allowed: a non-empty list of non-empty items.")
     return tuple(norm_phrase(item) for item in listed)
 
 
@@ -114,14 +114,17 @@ def cells(
     pattern: str | None = None,
     prepositions: bool = False,
 ) -> Cells:
-    """A whole cell is found or not. remove clears a found cell to '' ("empty" drops the rows); extract keeps the cell,
-    or '' if not found.
+    """A whole cell is found or not. remove clears a found cell (with "empty", it drops the rows); extract keeps the cell,
+    or an empty cell if not found.
 
-    kind: "contains", "starts", "ends" (with `items`: text parts, case and ё do not count; or with
-    `prepositions=True`: the first, the last or any word is a bundled preposition, as written, «для,» is none);
-    "regex" (with `pattern`); "empty" (no characters at all: a cell of spaces is not empty); by occurrence among the
-    cells, in any case and ё as е: "unique" (once), "repeated" (more than once), "first", "last" occurrence.
-    Empty cells are never repeats of each other.
+    kind: "contains", "starts", "ends" (with items: text parts, case and ё do not count; or with prepositions: the
+    first, the last or any word is a bundled preposition, as written, «для,» is none); "regex" (with pattern); "empty"
+    (no characters at all: a cell of spaces is not empty); by occurrence among the cells, in any case and ё as е:
+    "unique" (once), "repeated" (more than once), "first", "last" occurrence. Empty cells are never repeats of each
+    other.
+    items: the text parts for "contains", "starts" and "ends".
+    pattern: the regular expression for "regex".
+    prepositions: for "contains", "starts" and "ends", look for a bundled preposition instead of items.
 
     ADR 0005: ё = е; empty cells are never duplicates; regex classes understand Cyrillic (Unicode); the fixed
     preposition list («по», no «g»); blank list items are refused.

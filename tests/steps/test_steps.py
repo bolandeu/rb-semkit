@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import inspect
+import json
 from pathlib import Path
 
 import pytest
@@ -115,17 +116,18 @@ def test_cluster_serp_gives_each_phrase_a_cluster_and_a_center() -> None:
 
 
 def test_a_wrong_value_is_refused_with_the_step_the_option_and_the_allowed_values() -> None:
-    result = semkit("read", str(FIXTURES / "core.csv"), "decline", "--case", "падеж", "write", "-")
+    result = semkit("--json", "read", str(FIXTURES / "core.csv"), "decline", "--case", "падеж", "write", "-")
 
     assert result.exit_code == 2
-    assert "decline: case='падеж'; allowed: 'nominative', 'genitive'" in result.output
+    message = json.loads(result.stdout)["error"]["message"]
+    assert message.startswith("decline: Invalid value for '--case': 'падеж' is not one of 'nominative', 'genitive'")
 
 
 def test_a_wrong_value_is_refused_before_the_input_is_read(tmp_path: Path) -> None:
     result = semkit("read", str(tmp_path / "missing.csv"), "decline", "--case", "падеж", "write", "-")
 
     assert result.exit_code == 2
-    assert "decline: case='падеж'" in result.output
+    assert "decline: Invalid value for '--case'" in result.output
 
 
 def test_coverage_counts_the_core_phrases_in_the_texts() -> None:
@@ -148,7 +150,7 @@ def test_a_file_option_refuses_stdin() -> None:
     result = run("phrases.csv", "compare-lists", "--against", "-", "write", "-")
 
     assert result.exit_code == 2
-    assert "against: '-' is not allowed here" in result.output
+    assert "compare-lists: --against -: '-' is the input of the pipeline." in result.output
 
 
 def test_sentiment_reads_the_dictionary_file() -> None:
@@ -288,3 +290,14 @@ def test_a_step_runs_on_its_fixture(step: str) -> None:
 
     assert result.exit_code == 0, result.output
     assert result.rows, "the step wrote no rows"
+
+
+def test_text_stats_is_a_change_that_adds_its_metric_columns_after_the_working_column() -> None:
+    result = run("core.csv", "text-stats", "write", "-")
+
+    assert result.exit_code == 0, result.output
+    assert len(result.rows) == 14
+    first = result.rows[1]
+    assert list(first)[:3] == ["phrase", "chars", "chars_no_spaces"] and list(first)[-1] == "freq"
+    assert (first["phrase"], first["words"], first["freq"]) == ("купить диван", 2, 4)
+    assert "text-stats: 14 → 14 rows" in result.stderr

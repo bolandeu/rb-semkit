@@ -103,3 +103,10 @@ def test_lemmatize_a_dataframe_column() -> None:
 
     assert list(out.columns) == ["phrase", "phrase_lemmatize", "freq"]
     assert out["phrase_lemmatize"].tolist() == ["купить диван"]
+
+
+def test_the_dictionary_correction_codes_luchshe_as_an_adverb_and_pokryvalo_as_a_noun() -> None:
+    phrases = pd.Series(["лучше", "покрывало на диван", "покрывала", "покрывалом"])
+
+    assert sk.part_of_speech(phrases).tolist() == ["advb", "n prep n", "n", "n"]
+    assert sk.lemmatize(phrases).tolist() == ["хороший", "покрывало на диван", "покрывало", "покрывало"]

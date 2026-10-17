@@ -14,7 +14,7 @@ from ..errors import InvalidArguments
 from ..frame import Frame, map_unique
 from ..normalize import norm_phrase
 from ..text.base import choice, split_words
-from .lemmatizer import FALLBACKS, Lemmatizer, SemtoolsLemmatizer
+from .lemmatizer import FALLBACKS, Fallback, Lemmatizer, SemtoolsLemmatizer
 
 BUNDLED = SemtoolsLemmatizer()
 WITH_PYMORPHY = SemtoolsLemmatizer(fallback="pymorphy")
@@ -50,15 +50,16 @@ def lemmatize(
     data: pd.Series | pd.DataFrame,
     *,
     lemmatizer: Lemmatizer = BUNDLED,
-    fallback: str | None = None,
+    fallback: Fallback | None = None,
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
     """Each word of a phrase replaced by its lemma, in lower case: «купила диваны» → «купить диван».
 
-    fallback: None — a word missing from the bundled dictionary goes to pymorphy3 if its dictionary knows the word,
-    else to the suffix rule, and often stays as it is («тиктокерами»); "pymorphy" — such a word takes the best
-    guess of pymorphy3 («тиктокерами» → «тиктокер»). The fallback is for the bundled lemmatizer.
+    fallback: for a word missing from the bundled dictionary. Not given: the word goes to pymorphy3 if its dictionary
+    knows the word, else to the suffix rule, and often stays as it is («тиктокерами»); "pymorphy": such a word takes the
+    best guess of pymorphy3 («тиктокерами» → «тиктокер»).
+    lemmatizer: what gives the lemmas; the fallback is for the bundled one.
     """
     if fallback is not None:
         lemmatizer = _with_fallback(lemmatizer, fallback)
@@ -72,15 +73,24 @@ def part_of_speech(
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """The part of speech of each word of a phrase, by space: «купить диван» → «v n» (SemtoolsLemmatizer codes)."""
+    """The part of speech of each word of a phrase, by space: «купить диван» → «v n».
+
+    The codes are those of the !SEMTools dictionary: n (noun), v (verb), a (adjective), p (participle), advb (adverb),
+    prn (pronoun), prep (preposition), conj (conjunction), prt (particle), nv (as in the dictionary), and unkn for a
+    word no rule gives a part of speech («кляк», «15»), so no code is empty.
+    lemmatizer: what gives the parts of speech.
+    """
     return word_by_word(data, lemmatizer.pos, "part_of_speech", column, inplace)
 
 
 def wordforms(word: str, *, lemmatizer: Lemmatizer = BUNDLED) -> list[str]:
-    """Every wordform of the lemma of `word`, alphabetical, each once: «диваны» → [«диван», «дивана», ...].
+    """Every wordform of the lemma of a word, alphabetical, each once: «диваны» → «диван», «дивана», …
 
-    As «Генерация всех словоформ»: the forms of the lemma of the word in lower case; the input word is not repeated
-    (ADR 0005).
+    word: the word, in any form. The forms are those of its lemma, in lower case; the word itself is not repeated
+    («диван» gives «дивана», «диване», … but not «диван»). A word the dictionary lacks gives no forms.
+    lemmatizer: what gives the lemma and the forms.
+
+    ADR 0005: as «Генерация всех словоформ», without the input word the add-in writes twice.
     """
     key = norm_phrase(word)
     return sorted({form for form in lemmatizer.forms(lemmatizer.lemma(word)) if norm_phrase(form) != key})

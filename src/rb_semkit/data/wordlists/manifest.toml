@@ -3,9 +3,10 @@
 # file: under rb_semkit/data/ ("text/lists.json:stopwords" is a table of a JSON file);
 # origin: for a list built here, its file under the Bukvarix folder of build_data.toml [sources]. A list without
 # origin points at data another build part writes.
+# drop: items of the source the list leaves out, each with the reason.
 
 lists = [
-  { name = "minus/universal", description = "Универсальные минус-слова: купить, скачать, бесплатно, онлайн и подобные", source = "Bukvarix", file = "wordlists/minus/universal.txt.gz", origin = "minus/Universal.txt" },
+  { name = "minus/universal", description = "Универсальные минус-слова: скачать, бесплатно, онлайн и подобные", source = "Bukvarix", file = "wordlists/minus/universal.txt.gz", origin = "minus/Universal.txt", drop = { "купить" = "a commercial core is a core of buying: a minus-word «купить» drops it whole" } },
   { name = "minus/computer", description = "Минус-слова компьютерной тематики: игры, программы, моды", source = "Bukvarix", file = "wordlists/minus/computer.txt.gz", origin = "minus/Computer.txt" },
   { name = "minus/free", description = "Слова про бесплатность: бесплатно, подарок, даром", source = "Bukvarix", file = "wordlists/minus/free.txt.gz", origin = "minus/Free.txt" },
   { name = "minus/cheap", description = "Слова про дешевизну и скидки: недорого, акция, скидка, бонус", source = "Bukvarix", file = "wordlists/minus/cheap.txt.gz", origin = "minus/Cheap.txt" },

@@ -17,7 +17,7 @@ from . import bundled
 from .folders import Folder, list_names, list_path, read_list, search_folders
 
 BUNDLED = "bundled"
-CLOSE_NAMES = 3
+CLOSE_NAMES = 10  # the names an unknown name is shown, the closest first
 
 
 @dataclass(frozen=True)
@@ -45,9 +45,12 @@ def _find(name: str, folders: list[Folder]) -> tuple[WordList, list[str]] | None
 def _get(name: str, start: Path | None) -> tuple[WordList, list[str]]:
     found = _find(name, search_folders(start))
     if found is None:
-        close = difflib.get_close_matches(name, [info.name for info in names(start)], n=CLOSE_NAMES)
-        hint = f" Close names: {', '.join(close)}." if close else ""
-        raise InvalidArguments(f"{name}: no such list.{hint}", action=f"Run '{cli_name()} lists' for every list.")
+        every = [info.name for info in names(start)]
+        closest = sorted(every, key=lambda other: -difflib.SequenceMatcher(None, name, other).ratio())[:CLOSE_NAMES]
+        raise InvalidArguments(
+            f"{name}: no such list; the lists closest to it: {', '.join(closest)}.",
+            action=f"Run '{cli_name()} lists' for every list.",
+        )
     return found
 
 
@@ -60,7 +63,7 @@ def names(start: Path | None = None) -> tuple[WordList, ...]:
 
 
 def resolve(name: str, start: Path | None = None) -> list[str]:
-    """The items of the list `name`: the first match in the project's folder, the config's, SEMKIT_LISTS, the bundled."""
+    """The items of the list `name`: the first match in the project's folder, SEMKIT_LISTS, the config's, the bundled."""
     return _get(name, start)[1]
 
 
@@ -72,7 +75,7 @@ def describe(name: str, start: Path | None = None) -> WordList:
 def word_list(name: str) -> pd.Series:
     """The items of the word list `name` as a Series; an unknown name raises InvalidArguments with the close names.
 
-    A name is a relative path without .txt (`minus/cheap`, `niche/mebel`); the project's lists, the folders of the
-    config key `lists`, the folders of SEMKIT_LISTS and the bundled lists are searched in that order.
+    A name is a relative path without .txt (`minus/cheap`, `niche/mebel`); the project's lists, the folders of
+    SEMKIT_LISTS, the folders of the config key `lists` and the bundled lists are searched in that order.
     """
     return pd.Series(resolve(name), dtype=object)

@@ -137,9 +137,9 @@ def test_trace_writes_one_row_per_changed_cell(core_csv: Path, tmp_path: Path) -
 
     assert result.exit_code == 0, result.output
     assert jsonl(trace.read_text(encoding="utf-8")) == [
-        {"row": 0, "step": "remove-words", "column": "phrase", "before": "купить диван", "after": "диван"},
+        {"row": 1, "step": "remove-words", "column": "phrase", "before": "купить диван", "after": "диван"},
         {
-            "row": 2,
+            "row": 3,
             "step": "remove-words",
             "column": "phrase",
             "before": "купить угловой диван",

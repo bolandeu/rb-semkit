@@ -69,7 +69,9 @@ def chars(kind: CharKind) -> Chars:
 
     kind: "latin" (A-Z a-z), "cyrillic" (А..ӿ and Ё: not the capitals Є І Ї), "digits" (0-9), "letters_digits"
     (letters that have a case, and 0-9), "punctuation" (every other character but whitespace: also «-», «№» and
-    letters without a case), "upper" (upper-case letters), "ua" (the Ukrainian letters і ї є ґ).
+    letters without a case; a point or a comma between two digits is none, so «2.5» and «541,67» stay), "upper"
+    (upper-case letters), "ua" (the Ukrainian letters і ї є ґ).
+
     remove cuts the characters out; a punctuation character leaves a space («Диван-кровать» → «Диван кровать»).
     extract keeps latin, cyrillic and digits with the whitespace between them («120x200» → «120200»); for the other
     kinds it gives the runs joined by a space.

@@ -7,8 +7,8 @@
 │ --help          Show this message and exit.                                                      │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Commands ───────────────────────────────────────────────────────────────────────────────────────╮
-│ list  List all configuration values.                                                             │
-│ get   Get a single configuration value.                                                          │
+│ list  List all configuration values, one key per line as `config get` and `config set` name it.  │
+│ get   Get a single configuration value, or a whole section (cli).                                │
 │ set   Set a single, non-secret configuration value.                                              │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

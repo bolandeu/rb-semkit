@@ -1,18 +1,21 @@
 
  Usage: semkit read {IN} similar-chars [OPTIONS] [TO]
 
- The letters that look alike in both alphabets (а a, В B, Н H, р p, с c, у y, х x…) in the alphabet
- `to`: to="en" — «Москва» → «Mockвa»; to="ru" — «CTO» → «СТО». The other letters stay.
+ The letters that look alike in both alphabets (а a, В B, Н H, р p, с c, у y, х x…) in one
+ alphabet. The other letters stay.
+
+ to: the alphabet: "en" — «Москва» → «Mockвa»; "ru" — «CTO» → «СТО».
 
  The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
  Example: semkit read core.csv similar-chars en write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
-│   TO      <str>  See the description above. The same as --to TO.                                 │
+│   TO      <en|ru>  the alphabet: "en" — «Москва» → «Mockвa»; "ru" — «CTO» → «СТО». The same as   │
+│                    --to TO.                                                                      │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --to          TO    See the description above.                                                   │
+│ --to          TO    the alphabet: "en" — «Москва» → «Mockвa»; "ru" — «CTO» → «СТО».              │
 │ --as          NAME  Write the result to a new column NAME and keep the working column as it is.  │
 │ --help              Show this message and exit.                                                  │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯

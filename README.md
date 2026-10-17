@@ -52,13 +52,13 @@ works on the working column (`--column`, by default the first text column), a se
 (`src/rb_semkit/data/SKILL.md` shows their output; the tests run them):
 
 ```bash
-# clean a core: drop the phrases with the universal minus-words (a list of phrases: drop-phrases; single words
-# go to drop-words), remove punctuation and extra spaces, drop duplicates by lemmas
-semkit read core.csv drop-phrases @minus/universal remove-chars punctuation remove-spaces extra \
+# clean a core: drop the phrases with the universal minus-words by lemmas (a list of phrases: drop-phrases; single
+# words go to drop-words), remove punctuation and extra spaces, drop duplicates by lemmas
+semkit read core.csv drop-phrases @minus/universal --lemmas remove-chars punctuation remove-spaces extra \
   dupes --kind lemmas --action drop write clean.csv
 
 # the same with your own list: lists/niche/minus.txt (one word per line) is @niche/minus; `semkit lists` shows the names
-SEMKIT_LISTS=lists semkit read core.csv drop-words @niche/minus remove-chars punctuation remove-spaces extra \
+SEMKIT_LISTS=lists semkit read core.csv drop-words @niche/minus --lemmas remove-chars punctuation remove-spaces extra \
   dupes --kind lemmas --action drop write clean.csv
 
 # the frequency dictionary of an article
@@ -77,8 +77,17 @@ semkit read serp.csv cluster-serp --method hard --common 3 write clusters.csv
 semkit read first.csv compare-lists --against second.csv --op second write only-second.csv
 ```
 
-`--dry-run` runs the steps and writes nothing, `--trace FILE` records every cell a step changed, `write OUT
---overwrite` replaces an existing file.
+Columns keep the types of the file (numbers stay numbers). Every step, option and file an option names is checked
+before the input is read; a refusal exits 2 and names the step and the option. `--as NAME` writes a change to a new
+column NAME, which the next steps work on. `--lemmas` on a words or phrases step compares lemmas, as the bundled
+lists hold them. `--json`, `--quiet` and `--dry-run` go before the steps: `semkit --json read …` prints one envelope
+`{"ok": true, "output", "rows", "written", "steps"}`, `--quiet` hides the lines on stderr, `--dry-run` runs the steps
+and writes nothing (it also keeps `init`, `config set`, `skill install`, `lists add` and `lists rm` from writing).
+`--trace FILE` records every cell a step changed (row 1 is the first row under the header), `write OUT --overwrite`
+replaces an existing file (and an existing trace).
+
+Your own lists: `SEMKIT_LISTS=DIR` (a relative folder is from the current one) or `semkit config set lists '["DIR"]'`;
+`SEMKIT_LISTS` wins over the config. `semkit lists` shows every list, `semkit lists show @NAME` its items.
 
 ## Development
 
@@ -175,8 +184,8 @@ fixed exit codes, `error.action` telling you what to do next) and go to
 stderr in human mode, so stdout is always safe to pipe.
 
 A project can require a minimum CLI version in its `.rb_semkit/config.toml`
-(`[cli] min_version = "..."`); an older install refuses with exit 6 and
-`uv tool upgrade rb-semkit` fixes it.
+(`[cli] min_version = "..."`, set or lowered by `semkit config set cli.min_version X`); every command checks it, an
+older install refuses with exit 6 and `uv tool upgrade rb-semkit` fixes it.
 
 See `src/rb_semkit/data/SKILL.md` for the agent-facing usage guide
 bundled with this package — install it into an AI tool with

@@ -1,19 +1,23 @@
 
  Usage: semkit read {IN} extract-utm [OPTIONS] [TAG]
 
- The value of the UTM tag `tag` (source, medium, campaign, term, content) of the URL, URL-decoded:
- «?utm_source=%D0%AF%D0%BD%D0%B4%D0%B5%D0%BA%D1%81» → «Яндекс», «+» as a space. The name counts in
- any case; the first tag of that name wins; no such tag gives an empty string.
+ The value of a UTM tag of the URL, URL-decoded: «?utm_source=%D0%AF%D0%BD%D0%B4%D0%B5%D0%BA%D1%81»
+ → «Яндекс», «+» as a space. Only the part before «#» is searched; the name counts in any case; the
+ first tag of that name wins; no such tag gives an empty cell.
+
+ tag: the name of the tag without utm_: source, medium, campaign, term or content.
 
  The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
  Example: semkit read urls.csv extract-utm source write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
-│   TAG      <str>  See the description above. The same as --tag TAG.                              │
+│   TAG      <source|medium|campaign|term|content>  the name of the tag without utm_: source,      │
+│                                                   medium, campaign, term or content. The same as │
+│                                                   --tag TAG.                                     │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --tag         TAG   See the description above.                                                   │
+│ --tag         TAG   the name of the tag without utm_: source, medium, campaign, term or content. │
 │ --as          NAME  Write the result to a new column NAME and keep the working column as it is.  │
 │ --help              Show this message and exit.                                                  │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯

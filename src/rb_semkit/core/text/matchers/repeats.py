@@ -58,7 +58,7 @@ def repeats(mode: Mode = "exact", *, scope: Scope = "all", lemmatizer: Lemmatize
     "wordforms" — the same lemma.
     scope: "all" words; only "adjacent" repeats («диван диван»); only words with a latin ("en") or a cyrillic ("ru")
     letter («iphone13», «wi-fi-роутер»); only "numbers" («2», «1,5»).
-    lemmatizer: for "wordforms"; None is the bundled one.
+    lemmatizer: what gives the lemmas for "wordforms"; not given, the bundled one.
 
     ADR 0005: ё = е; split on any whitespace; lemmas in lower case.
     """

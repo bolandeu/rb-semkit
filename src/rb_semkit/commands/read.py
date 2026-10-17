@@ -22,22 +22,16 @@ def read(
     source: str = typer.Argument(..., metavar="IN", help="The table to read: a file of any format dataio reads, or '-' for JSONL on stdin."),
     column: str = typer.Option(None, "--column", help="The working column the steps read and change; by default the first text column."),
     whole: bool = typer.Option(False, "--whole", help="Read a text file as one cell of the column text (an article)."),
-    trace: Path = typer.Option(None, "--trace", metavar="FILE", help="Write every cell a step changes and every row it drops to FILE as JSONL: row, step, column, before, after."),
+    trace: Path = typer.Option(None, "--trace", metavar="FILE", help="Write every cell a step changes and every row it drops to FILE as JSONL: row (1 is the first row under the header), step, column, before, after. An existing FILE needs --overwrite."),
     json_output: bool = output.JsonOption,
     quiet: bool = output.QuietOption,
     dry_run: bool = typer.Option(False, "--dry-run", help="Read and run every step, print the summary, write nothing."),
 ) -> Source:  # fmt: skip
     """Read a table, run the steps in the order written, write the result: one pipeline.
 
-    Each step works on the current table. A change step rewrites the working column
-    (with --as NAME it writes a new column), a filter keeps or drops rows, a report
-    (n-grams) makes its table the current one and its first text column the working one.
-    After each step one line goes to stderr: the step, the rows before and after it,
-    the cells it changed. Every step and option is checked before the input is read.
+    Each step works on the current table. A change step rewrites the working column (with --as NAME it writes a new column NAME, which the next steps work on), a filter keeps or drops rows, a report (n-grams) makes its table the current one and its first text column the working one. After each step one line goes to stderr: the step, the rows before and after it, the cells it changed; the last line says how many rows went where. Every step and option is checked before the input is read.
 
-    Every column is read as text; an empty cell is an empty string. An option that
-    takes items takes a comma list 'a,b', @FILE (one item per line) or @NAME of a list
-    (@stop/semtools, @minus/cheap…; `{cli} lists` shows them all). `{cli} read IN STEP --help` shows a step.
+    Columns are read with the types of the file: numbers stay numbers, a text column is text and its empty cell an empty text. A column of numbers with spaces around a cell is numbers too. A column of numbers picked as the working column is text for the step and is written back as numbers. An option that takes items takes a comma list 'a,b', @FILE (one item per line, or the first column of a table without its header) or @NAME of a list (@stop/semtools, @minus/cheap…; `{cli} lists` shows them all). `{cli} read IN STEP --help` shows a step.
 
     Example: {cli} read core.csv remove-words --items купить dupes --kind lemmas --action drop write out.csv
     """
@@ -52,8 +46,7 @@ def write(
 ) -> Target:  # fmt: skip
     """Write the current table to OUT: the last step of a pipeline.
 
-    The file is written whole or not at all: a failed step or write leaves it as it
-    was. With --dry-run nothing is written.
+    The file is written whole or not at all: a failed step or write leaves it as it was. With --dry-run nothing is written. A closed output (`| head`) ends the pipeline quietly.
 
     Example: {cli} read core.csv dupes --kind exact --action drop write out.csv --overwrite
     """

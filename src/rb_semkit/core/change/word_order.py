@@ -3,6 +3,8 @@ complements («для гостиной»)."""
 
 from __future__ import annotations
 
+from typing import Literal
+
 import pandas as pd
 
 from .. import datastore
@@ -16,7 +18,8 @@ from .insert import WordMover
 __all__ = ["fix_word_order"]
 
 # The form of the main word and the last letter of an adjective that agrees with it.
-FORMS = {"masculine": "й", "feminine": "я", "feminine_accusative": "ю", "plural": "е"}
+Form = Literal["masculine", "feminine", "feminine_accusative", "plural"]
+FORMS: dict[Form, str] = {"masculine": "й", "feminine": "я", "feminine_accusative": "ю", "plural": "е"}
 NOT_ADJECTIVES = frozenset({"n", "v", "advb", "p", "prep", "conj", "nv"})
 ADJECTIVE = "a"
 
@@ -35,7 +38,7 @@ def _is_adjective(word: str, lemmatizer: Lemmatizer) -> bool:
 
 
 class _Order:
-    def __init__(self, form: str, main_word: str | None, complements: bool, lemmatizer: Lemmatizer) -> None:
+    def __init__(self, form: Form, main_word: str | None, complements: bool, lemmatizer: Lemmatizer) -> None:
         self._ending = FORMS[form]
         self._main = None if main_word is None else word_key(one_word("main_word", main_word))
         self._complements = complements
@@ -86,7 +89,7 @@ class _Order:
 def fix_word_order(
     data: pd.Series | pd.DataFrame,
     *,
-    form: str = "masculine",
+    form: Form = "masculine",
     main_word: str | None = None,
     complements: bool = True,
     lemmatizer: Lemmatizer = BUNDLED,
@@ -96,15 +99,20 @@ def fix_word_order(
     """The words of the phrase in the order of a search query: «диван для гостиной раскладной кожаный» → «кожаный
     раскладной диван для гостиной».
 
-    1. The complements go to the end: a preposition (для, с, без, в, из, на…) with the words after it up to the last
-       noun among the next 5, stopping at the next preposition or at `main_word`.
-    2. The adjectives that agree with the main word in `form` go first: masculine («кожаный»), feminine
-       («кожаная»), feminine_accusative («кожаную»), plural («кожаные»).
+    1. The complements go to the end: a preposition (для, с, без, в, из, на…) with the words after it up to its first
+       noun and the oblique nouns and adjectives right after that noun («из массива дуба»), stopping at the next
+       preposition or at the main word.
+    2. The adjectives that agree with the main word in the form go first.
     3. The words of the bundled list of words that start a query (где, купить, недорогой, кожаный…, in that form)
        go first, in the order of the list.
 
+    form: the form of the adjectives of step 2: masculine («кожаный»), feminine («кожаная»), feminine_accusative
+    («кожаную»), plural («кожаные»).
     main_word: the object of the query, one word (case and ё do not count): a complement never takes it.
-    complements=False: only step 3. The words are joined by one space.
+    complements: on, all three steps; off (--no-complements), only step 3.
+    lemmatizer: what gives the parts of speech.
+
+    The words are joined by one space.
     """
     choice("form", form, tuple(FORMS))
     order = _Order(form, main_word, complements, lemmatizer)

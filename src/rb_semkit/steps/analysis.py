@@ -8,22 +8,14 @@ import pandas as pd
 
 from ..core.analysis.counts import counts
 from ..core.analysis.frequency import bigrams, ngrams
-from ..core.errors import InvalidArguments
-from . import Change, Prepared, Report, Step
+from . import Change, Prepared, Report, Step, numbers_of
 
 
 def _numeric_weight(table: pd.DataFrame, weight: str | None) -> pd.DataFrame:
-    """The table with the weight column as numbers: a text column (or an empty cell) becomes numbers; an empty cell stays empty."""
+    """The table with the weight column as numbers («5,5», «1 000» too); an empty cell stays empty."""
     if weight is None or weight not in table.columns:
         return table
-    values = table[weight]
-    try:
-        numbers = pd.to_numeric(values.mask(values == ""))
-    except (TypeError, ValueError):
-        raise InvalidArguments(
-            f"weight: {weight!r} holds text that is not a number; allowed: a column of numbers."
-        ) from None
-    return table.assign(**{weight: numbers})
+    return table.assign(**{weight: numbers_of(table[weight], f"--weight {weight}")})
 
 
 def _report(function: Callable[..., pd.DataFrame]) -> Callable[[dict], Prepared]:

@@ -3,8 +3,8 @@
 
  Run diagnostic checks and report readiness.
 
- Always exits 0 — the report itself is the result; `healthy` says
- whether every check passed.
+ The report is printed whether or not a check fails; `healthy` says whether every check passed.
+ Exits 0 when healthy, 1 (UNHEALTHY) when any check failed.
 
  Example: semkit doctor --json
 

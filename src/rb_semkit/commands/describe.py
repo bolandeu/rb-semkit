@@ -1,3 +1,8 @@
+"""`describe`: the machine-readable contract of the CLI as an OpenCLI document (`core.opencli`).
+
+Agents read it to learn every command, option, accepted value and exit code without parsing the help.
+"""
+
 from __future__ import annotations
 
 import json
@@ -17,9 +22,8 @@ def describe(
 ) -> None:
     """Print this CLI's machine-readable contract: an OpenCLI document (opencli.org).
 
-    Commands, options, arguments, exit codes, plus `x-rb-*` metadata: env vars,
-    tables, v1 views, data files, external programs. With --json it is the bare
-    document on one line (no {"ok": ...} envelope); without, the same indented.
+    Commands, options, arguments, exit codes, plus `x-rb-*` metadata: env vars, tables, v1 views, data files, external programs.
+    With --json it is the bare document on one line (no {"ok": ...} envelope); without, the same indented.
 
     Example: {cli} describe --json
     """

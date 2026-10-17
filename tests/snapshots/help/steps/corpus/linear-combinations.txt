@@ -1,21 +1,23 @@
 
  Usage: semkit read {IN} linear-combinations [OPTIONS]
 
- Every combination of one item from each column of `lists`, one column per list (the Cartesian
+ Every combination of one item from each column of the table, one column per list (the Cartesian
  product).
 
  The first column changes slowest: купить, заказать × диван, стол → купить диван, купить стол,
  заказать диван… The empty cells of a column are skipped, so the lists may differ in length; a
- column with no items raises InvalidArguments.
- limit: the most rows the result may hold.
+ column with no items is refused.
+ limit: the most rows the result may hold; a larger result is refused before any is made.
 
  The step makes a table of its result; it replaces the current table, its first text column is the
  working one.
 
- Example: semkit read core.csv linear-combinations write out.csv
+ Example: semkit read combine.csv linear-combinations --limit 1000 write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --limit        <int>  the most rows the result may hold. [default: 1048576]                      │
+│ --limit        <int>  the most rows the result may hold; a larger result is refused before any   │
+│                       is made.                                                                   │
+│                       [default: 1048576]                                                         │
 │ --help                Show this message and exit.                                                │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

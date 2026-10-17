@@ -1,3 +1,8 @@
+"""`skill install`: copy the bundled SKILL.md into the skill folder of an AI tool (user or project level).
+
+An agent then finds the guide of this CLI without `--ai`; --dry-run writes nothing.
+"""
+
 from __future__ import annotations
 
 from importlib import resources
@@ -44,8 +49,11 @@ def install(
     ),
     json_output: bool = output.JsonOption,
     quiet: bool = output.QuietOption,
+    dry_run: bool = output.DryRunOption,
 ) -> None:
     """Copy this CLI's bundled SKILL.md into an AI tool's skill directory.
+
+    With --dry-run nothing is written.
 
     Example: {cli} skill install --tool claude-code
     """
@@ -55,13 +63,14 @@ def install(
         raise InvalidArguments(f"Unknown --tool '{tool}'. Choose one of: {', '.join(_TOOL_TARGETS)}.")
 
     scope = "project" if project else "user"
-    target_dir = _TOOL_TARGETS[tool][scope]
-    target_dir.mkdir(parents=True, exist_ok=True)
-    target_path = target_dir / "SKILL.md"
-    target_path.write_text(_skill_content())
+    target_path = _TOOL_TARGETS[tool][scope] / "SKILL.md"
+    if not output.is_dry_run(ctx):
+        target_path.parent.mkdir(parents=True, exist_ok=True)
+        target_path.write_text(_skill_content())
 
+    verb = output.done(ctx, "Installed", "Would install")
     output.emit_success(
         ctx,
-        {"tool": tool, "scope": scope, "path": str(target_path.resolve())},
-        render_human=lambda d: output.human.echo(f"Installed skill for '{d['tool']}' ({d['scope']}) at {d['path']}"),
+        {"tool": tool, "scope": scope, "path": str(target_path.resolve()), "dry_run": output.is_dry_run(ctx)},
+        render_human=lambda d: output.human.echo(f"{verb} skill for '{d['tool']}' ({d['scope']}) at {d['path']}"),
     )

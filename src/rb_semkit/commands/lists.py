@@ -17,7 +17,6 @@ from .. import output
 from ..core import services, wordlists
 from ..core.wordlists import folders
 
-app = typer.Typer(help="Word lists: the bundled ones and the Human's own (list, show, add, rm).")
 PROJECT_FOLDER = folders.PROJECT
 FOLDER_HELP = (
     f"'{PROJECT_FOLDER}' (the project's {services.PROJECT_DIR_NAME}/{services.LISTS_DIR_NAME}) or the path of a folder"
@@ -43,17 +42,18 @@ def _render_lists(payload: dict) -> None:
     output.human.console.print(table)
 
 
-@app.callback(invoke_without_command=True)
 @output.guard
 def lists(
     ctx: typer.Context,
     json_output: bool = output.JsonOption,
     quiet: bool = output.QuietOption,
 ) -> None:
-    """Show every word list: its name, where it comes from, its lines and its description.
+    """Word lists: without a command, every list with its source, lines and description.
 
-    A step takes a list as @NAME in an option that takes items. The project's lists come first, then the folders of
-    the config key lists and of the variable SEMKIT_LISTS, then the bundled lists.
+    A step takes a list as @NAME in an option that takes items.
+    A name is looked up in this order: the project's lists, then the folders of the variable SEMKIT_LISTS, then the folders of the config key lists, then the bundled lists.
+    SEMKIT_LISTS holds folders separated as in PATH; a relative one is from the current folder.
+    The config key lists holds a JSON list of folders; a relative one is from the project.
 
     Example: {cli} lists --json
     """
@@ -63,19 +63,26 @@ def lists(
     output.emit_success(ctx, {"lists": [asdict(entry) for entry in found]}, _render_lists)
 
 
+app = typer.Typer(help=lists.__doc__)  # `lists --help` shows the order of the search
+app.callback(invoke_without_command=True)(lists)
+
+
 @app.command("show")
 @output.guard
 def show(
     ctx: typer.Context,
-    name: str = typer.Argument(..., help="The name of the list, as niche/mebel (see `lists`)."),
+    name: str = typer.Argument(..., help="The name of the list, as niche/mebel or @niche/mebel (see `lists`)."),
     json_output: bool = output.JsonOption,
     quiet: bool = output.QuietOption,
 ) -> None:
     """Show the items of a word list, one per line.
 
-    Example: {cli} lists show minus/cheap
+    An unknown name exits 2 with the closest names.
+
+    Example: {cli} lists show @minus/cheap
     """
     start = _start(ctx)
+    name = name.removeprefix("@")
     entry = wordlists.describe(name, start)
     items = wordlists.resolve(name, start)
     output.emit_success(ctx, {**asdict(entry), "items": items}, lambda data: typer.echo("\n".join(data["items"])))
@@ -95,12 +102,17 @@ def add(
 ) -> None:  # fmt: skip
     """Copy a file into a folder of word lists under a name.
 
-    An existing list is refused without --replace. With --dry-run the file is not copied.
+    An existing list is refused without --replace.
+    A folder that is not searched for lists gets a warning: @NAME finds the list only once the folder is in SEMKIT_LISTS or the config key lists.
+    With --dry-run the file is not copied.
 
     Example: {cli} lists add niche/mebel mebel.txt --to project
     """
-    target = wordlists.store.add(name, file, _folder(ctx, to), replace=replace, dry_run=output.is_dry_run(ctx))
-    verb = "Would add" if output.is_dry_run(ctx) else "Added"
+    folder = _folder(ctx, to)
+    target = wordlists.store.add(name, file, folder, replace=replace, dry_run=output.is_dry_run(ctx))
+    if not folders.is_searched(folder, _start(ctx)):
+        output.warn(f"{folder} is not searched for lists: add it to SEMKIT_LISTS or the config key lists.")
+    verb = output.done(ctx, "Added", "Would add")
     output.emit_success(
         ctx,
         {"name": name, "path": str(target), "dry_run": output.is_dry_run(ctx)},
@@ -120,12 +132,12 @@ def rm(
 ) -> None:
     """Remove a word list from a folder of lists. A bundled list is never removed.
 
-    With --dry-run nothing is removed.
+    With --dry-run nothing is removed: it says which file it would remove.
 
     Example: {cli} lists rm niche/mebel --from project
     """
     target = wordlists.store.remove(name, _folder(ctx, source_folder), dry_run=output.is_dry_run(ctx))
-    verb = "Would remove" if output.is_dry_run(ctx) else "Removed"
+    verb = output.done(ctx, "Removed", "Would remove")
     output.emit_success(
         ctx,
         {"name": name, "path": str(target), "dry_run": output.is_dry_run(ctx)},

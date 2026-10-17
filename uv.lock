@@ -1753,8 +1753,8 @@ wheels = [
 
 [[package]]
 name = "rb-dataio"
-version = "0.1.21"
-source = { git = "https://homeserver.tailee01ab.ts.net:3000/bolandeu/dataio.git?tag=v0.1.21#1cbcf55c70a1cb69d545b5cd21d36a7165ad89dd" }
+version = "0.1.23"
+source = { git = "https://homeserver.tailee01ab.ts.net:3000/bolandeu/dataio.git?tag=v0.1.23#93eacbf96ada9da549ea38f961afdf1bdce5d9cd" }
 dependencies = [
     { name = "duckdb" },
     { name = "google-auth", extra = ["requests"] },
@@ -1813,7 +1813,7 @@ requires-dist = [
     { name = "pyahocorasick", specifier = ">=2.3.1" },
     { name = "pydantic", specifier = ">=2.6" },
     { name = "pymorphy3", specifier = ">=2.0.6" },
-    { name = "rb-dataio", git = "https://homeserver.tailee01ab.ts.net:3000/bolandeu/dataio.git?tag=v0.1.21" },
+    { name = "rb-dataio", git = "https://homeserver.tailee01ab.ts.net:3000/bolandeu/dataio.git?tag=v0.1.23" },
     { name = "rich", specifier = ">=13.7" },
     { name = "tomli-w", specifier = ">=1.0" },
     { name = "typer", specifier = ">=0.27,<0.28" },

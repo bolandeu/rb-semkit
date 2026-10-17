@@ -3,6 +3,8 @@
 
  Copy this CLI's bundled SKILL.md into an AI tool's skill directory.
 
+ With --dry-run nothing is written.
+
  Example: semkit skill install --tool claude-code
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
@@ -10,6 +12,7 @@
 │ --project               Install into the current project instead of the user-level directory.    │
 │ --json                  Emit machine-readable JSON output.                                       │
 │ --quiet                 Suppress non-essential output.                                           │
+│ --dry-run               Show what would happen without making changes.                           │
 │ --help                  Show this message and exit.                                              │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

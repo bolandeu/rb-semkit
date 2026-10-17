@@ -7,7 +7,6 @@
  repeat); "wordforms" — the same lemma.
  scope: "all" words; only "adjacent" repeats («диван диван»); only words with a latin ("en") or a
  cyrillic ("ru") letter («iphone13», «wi-fi-роутер»); only "numbers" («2», «1,5»).
- lemmatizer: for "wordforms"; None is the bundled one.
 
  find-repeats marks the rows where the matcher finds something, in a new column <column>_find of
  true and false.

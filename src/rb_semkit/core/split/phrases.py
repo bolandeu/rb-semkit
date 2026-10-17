@@ -20,9 +20,11 @@ def _phrases(cell: str) -> list[str]:
 def split_text(data: pd.Series | pd.DataFrame, *, column: str | None = None) -> pd.Series | pd.DataFrame:
     """Every cell cut into phrases at sentence ends and clause punctuation; one row per phrase, none for an empty cell.
 
-    The punctuation is dropped, whitespace collapsed, case kept. A hyphen or apostrophe inside a word and a point or
-    comma between digits stay. A Series gives a Series; a DataFrame with `column` gives a DataFrame whose rows are the
-    phrases: `column` holds the phrase, the other columns repeat the source row. Each row keeps the index of its source.
+    The punctuation is dropped, whitespace collapsed, case kept. A dash between words (— – -) and the point of an
+    abbreviation of the bundled word rules («г.», «ул.», «т. е.», «тел.», «руб.») do not cut a phrase and are
+    dropped too: «Склад временного хранения — это место» is one phrase, «г. Краснознаменск» is «г Краснознаменск». A hyphen or
+    an apostrophe inside a word and a point or a comma inside a number stay («31.03.2026», «2,5»). The rows of the
+    phrases repeat the other columns of their source row and keep its index.
     """
     frame = Frame(data, column)
     pieces_of = map_unique(frame.phrases, _phrases)

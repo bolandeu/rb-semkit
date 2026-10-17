@@ -1,14 +1,15 @@
 
  Usage: semkit read {IN} compare-stats [OPTIONS] [COMPETITORS]
 
- The numeric metrics of sk.text_stats, mine against the competitors: a row per metric.
+ The metrics of text-stats, mine against the competitors: a row per metric.
 
- mine: one text (a str).
- competitors: texts one per row (a Series, or a DataFrame with `column`).
- Columns: metric. mine. median, min, max: the metric over the competitors. delta: mine - median.
- verdict: 'below', 'within' or 'above', mine against median x (1 ± tolerance); when the median is
- 0, 'within' if mine is 0, else 'above'. Numbers are rounded to 4 decimals. The only norm is the
- median.
+ tolerance: how far from the median a metric is still within, a share of the median (0.3 is ±30 %).
+
+ The columns: metric; mine; median, min, max, the metric over the competitors; delta, mine -
+ median; verdict, «below», «within» or «above», mine against median x (1 ± tolerance), and when the
+ median is 0, «within» if mine is 0, else «above». Numbers are rounded to 4 decimals; the counts
+ (chars, chars_no_spaces, words, unique) stay whole numbers where they are whole. The only norm is
+ the median.
 
  competitors: a file with the texts of the competitors, one per row, in its first text column; the
  file is read like `read` does.
@@ -19,12 +20,16 @@
  Example: semkit read --whole mine.txt compare-stats --competitors competitors.csv write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
-│   COMPETITORS      <str>  texts one per row (a Series, or a DataFrame with `column`). The same   │
-│                           as --competitors COMPETITORS.                                          │
+│   COMPETITORS      <str>  a file with the texts of the competitors, one per row, in its first    │
+│                           text column; the file is read like `read` does. The same as            │
+│                           --competitors COMPETITORS.                                             │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --competitors        COMPETITORS  texts one per row (a Series, or a DataFrame with `column`).    │
-│ --tolerance          <float>      See the description above. [default: 0.3]                      │
+│ --competitors        COMPETITORS  a file with the texts of the competitors, one per row, in its  │
+│                                   first text column; the file is read like `read` does.          │
+│ --tolerance          <float>      how far from the median a metric is still within, a share of   │
+│                                   the median (0.3 is ±30 %).                                     │
+│                                   [default: 0.3]                                                 │
 │ --help                            Show this message and exit.                                    │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 
