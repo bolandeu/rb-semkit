@@ -93,10 +93,39 @@ Steps of the epic (each gives columns or a report, none drops rows; it starts wh
 - `synonym-candidates`: per word of the core, candidates from RuWordNet and word vectors (navec) with the source and a
   score; RuWordNet and navec are pulled by `semkit models pull` (ADR 0009); the 100 labelled word pairs are its
   quality test.
-- Recipes in the guide: core gaps with H1 and title candidates, competing pages, internal links with anchors, ad fit,
-  competitor topics, off-topic paragraphs.
 
-Tasks: T1 `nearest` + page vector + `split-paragraphs` (the frame) → T4 `coverage-meaning` + the recipes; T2
-`ad-groups` and T3 `synonym-candidates` beside T1.
+Tasks: T1 `nearest` + page vector + `split-paragraphs` (the frame) → T4 `coverage-meaning`; T2 `ad-groups` and T3
+`synonym-candidates` beside T1.
+
+## Scenarios, recorded for later (the Human, 2026-10-18)
+
+Now only the atomic commands; the scenarios are built in later (as steps, recipes or another tool) when the Human
+chooses. Each names the commands it is made of.
+
+SEO:
+- Core gaps: `cluster-meaning` → `nearest --against pages --top 1` per cluster; a cluster whose best page is below a
+  threshold is a gap; sort by the total frequency of the cluster.
+- H1 and title candidates per cluster: H1 the most frequent phrase (`cluster-meaning --freq`), title the phrase that
+  holds the most words of the cluster.
+- Competing pages (cannibalization): `nearest --against pages --top 2` per phrase; pages whose best and second differ
+  by less than a margin for many phrases, or `nearest` of pages against pages above a threshold; sort by the frequency
+  of the disputed phrases.
+- Internal links: `nearest` of pages against pages; pairs between a link threshold and the competing threshold, both
+  ways, at most N per page; the anchor is the most frequent core phrase whose best page is the target.
+- Landing page per phrase: `assign-pages`.
+
+Copywriting:
+- Coverage by meaning per paragraph: `split-paragraphs` → `coverage-meaning`.
+- Paragraphs off the topic of the text: `split-paragraphs` → `off-topic` with the core as `--seed`.
+- Competitor topics I do not cover: `split-paragraphs` of competitor texts → `cluster-meaning` of their paragraphs →
+  `nearest --against` my paragraphs; groups that several competitors have and my text has no close paragraph for.
+
+Ads:
+- Small ad groups of one intent: `ad-groups`.
+- Ad fit: `nearest` of the phrases of a group against its ad (title and text); a weak fit is below a threshold.
+- Landing page per phrase: `assign-pages`.
+
+Words:
+- Synonym candidates: `synonym-candidates`; the Human picks, the picked go to `--synonyms` of `dupes --kind meaning`.
 
 Order: now IDEA-235 (the help of is-typo) as a task outside the epics, beside E-005; the epic after E-005.

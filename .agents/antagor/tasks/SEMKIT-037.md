@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-037
 title: Help and docstrings say «the bundled dictionary», not the add-in name
-status: queue
+status: in_progress
 attempts: 0
 blocked: false
 blocked_reason: null
