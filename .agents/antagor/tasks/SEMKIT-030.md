@@ -74,7 +74,6 @@ translation: '**Морфология на реальном ядре.** Испр�
   ADR 0003. Справку и снимки не трогать.'
 ---
 
-
 The end-to-end check (docs/plans/e2e-quality.md, items 1-11) found the morphology gives wrong Russian on a real sofa core and a customs core. Fix the library behaviour so the words below come out right; each fixed word is a conformance case of its area (expected = the correct form, the add-in's value in vba, the rule and why per ADR 0005). Do not change the docstrings of the public sk functions (the step help is made from them): SEMKIT-033 updates them and the help snapshots after this task; when your fix changes a rule a docstring states, report it as an inbox finding (the function and the new rule). Module (file) docstrings are not frozen: keep each one naming what its file holds, new helpers too (the project's file docstring check). Behaviour only.
 
 Lemmatizer: the bundled dictionary answers first and gives wrong lemmas that pymorphy3 gets right. Correct them (a correction of the dictionary data or a rule for when pymorphy3 wins; record the rule in ADR 0003): кафе, купе, мини, ширина, шириной, спину, экокожа, подростка, аскона, ножках, петушках, донецке, вещей, временного (склад временного хранения), рус; раскладывающийся / раскладывается keep their own lemmas; a lemma has no ё where the word has none (вперед).
@@ -127,3 +126,9 @@ ADR 0003 (dictionary, pymorphy3, tables), ADR 0005 (follow the add-in, fix expli
 
 - update the docstring of src/rb_semkit/core/morph/lemmatizer.py: +noun_parse
 - update the docstring of src/rb_semkit/core/patterns/complements.py: +complement_end
+
+### Answer to finding #1
+
+> SEMKIT-030 changed rules that public docstrings state (for SEMKIT-033): (1) decline_noun: the accusative is no longer from the tables only; an inanimate noun takes its nominative («диван» → «диван»), an animate one its genitive («кот» → «кота»), a singular in -а/-я the table form («книгу»); a hyphenated noun declines whole by pymorphy3 («диваном-кроватью»). The docstring still says «диван» → «дивана». (2) decline: a nominative plural phrase declines in the plural («угловые диваны» → «угловых диванов»); a feminine, neuter or plural adjective declines from its lemma («большая скидка» → «большой скидки»); the accusative agrees by animacy («купить кожаный диван», «рыжего кота»). (3) decline_full_name: a value that is not three words stays as it is (no InvalidArguments); surnames in -ых/-их stay; a man's surname in -а/-я declines («Глинки»). (4) part_of_speech and SemtoolsLemmatizer: a word with no part of speech gets the code «unkn», not «»; a не- noun of the dictionary whose rest is an adjective is «a». (5) complements and fix_word_order step 1: a complement ends at its first noun and the oblique nouns and adjectives right after it, not at the last noun among the next five. (6) phrase_end buy_markers: a marker right after a preposition stays («диван с доставкой купить» → «диван с доставкой»).
+
+Goes into SEMKIT-033's body.
