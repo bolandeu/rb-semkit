@@ -50,6 +50,21 @@ _Avoid_: double, повтор (a repeat is a word repeated inside one phrase)
 **N-gram** (n-грамма):
 A run of N words of a phrase; counted over a semantic core to build a frequency dictionary.
 
+**Text** (текст):
+Prose to analyse (an article, a review); a table of one cell, cut into phrases before the phrase steps.
+
+**Step** (шаг):
+One operation of the CLI over the current table: one library function with its arguments.
+
+**Pipeline** (конвейер):
+One command line: read, then any steps in the order written, then write. Built from steps, never a built-in scenario.
+_Avoid_: scenario, recipe (a saved pipeline is the Human's shell line, not a semkit object)
+
+**Word list** (список слов, список):
+A named list of words or phrases (minus-words, stopwords, items to combine, a niche list), one per line; bundled,
+or the Human's own in any folder the config names.
+_Avoid_: dictionary (a dictionary is the lemma data)
+
 <!-- Формат термина:
 
 **Термин**:
