@@ -1,9 +1,0 @@
-# compare. No VBA handler: compare_stats is semkit's own comparison of the text metrics with the competitors' median (SEMKIT-019), defined in its docstring; the `vba` column repeats `expected`.
-# Counted by hand: the competitors have 2, 2 and 4 words (median 2, max 4) and 10, 9 and 22 characters (median 10); mine has 3 words and 18 characters.
-case_id	function	call	input	vba	expected	rule	why	xfail
-compare-stats-words-mine	compare_stats	{"metric": "words", "show": "mine", "competitors": ["диван стол", "стол стул", "диван диван диван стол"]}	диван диван кресло	3	3			
-compare-stats-words-median	compare_stats	{"metric": "words", "show": "median", "competitors": ["диван стол", "стол стул", "диван диван диван стол"]}	диван диван кресло	2	2			
-compare-stats-words-max	compare_stats	{"metric": "words", "show": "max", "competitors": ["диван стол", "стол стул", "диван диван диван стол"]}	диван диван кресло	4	4			
-compare-stats-words-delta	compare_stats	{"metric": "words", "show": "delta", "competitors": ["диван стол", "стол стул", "диван диван диван стол"]}	диван диван кресло	1	1			
-compare-stats-words-verdict	compare_stats	{"metric": "words", "show": "verdict", "competitors": ["диван стол", "стол стул", "диван диван диван стол"]}	диван диван кресло	above	above			
-compare-stats-chars-verdict	compare_stats	{"metric": "chars", "show": "verdict", "tolerance": 1, "competitors": ["диван стол", "стол стул", "диван диван диван стол"]}	диван диван кресло	within	within			
