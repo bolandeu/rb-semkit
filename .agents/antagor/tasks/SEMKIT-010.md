@@ -18,11 +18,15 @@ owns_paths:
 - src/rb_semkit/core/
 - scripts/build_data.py
 - scripts/build_markers.py
+- scripts/build_parts/
 - scripts/bench.py
+- scripts/bench_parts/
 - scripts/data_manifest.py
 - scripts/conformance_report.py
 - tests/conformance/
 - tests/matchers_vba/
+- tests/analysis/test_bench.py
+- tests/markers/test_build_markers.py
 - docs/vba/conformance/
 - docs/vba/deviations/
 test_paths:
@@ -64,6 +68,16 @@ E-002 adds three areas of the library side by side (change, morph + text, analys
 6. Benchmark: the benchmark script runs every per-area benchmark part it finds; the existing measurements move into parts with the same budgets.
 7. ADR 0006: the public docstrings of the v1 modules describe the behaviour in user terms, without VBA handler names or line numbers; those move into the header notes of the case files. Replace the docstring test that demands VBA references with a test that no public docstring under the package names the VBA (the word VBA, the obfuscated handler names, «L<number>» line references).
 
+## Per-area names (the area tasks rely on them exactly)
+
+For an area <area> (v1 areas: text, markers, dupes, analysis, morph; E-002 adds change):
+- package code: the area package under the package core; data: the area folder under the package data;
+- build part: scripts/build_parts/<area>.py; data manifest: tests/conformance/data_manifest/<area>.json;
+- benchmark part: scripts/bench_parts/<area>.py;
+- case files: tests/conformance/cases/<area>/<function>.tsv; optional hook: tests/conformance/areas/<area>.py;
+- deviations: docs/vba/deviations/<area>.md; report: docs/vba/conformance/<area>.md.
+Move the v1 content into these names for the v1 areas.
+
 ## Acceptance
 
 - Given a new module with declared public names inside an area package, When rb_semkit is imported and the name accessed, Then sk.<name> works without an edit of the package root, and importing rb_semkit loads no area module [check: tests/core/test_public_names.py]
@@ -76,7 +90,6 @@ E-002 adds three areas of the library side by side (change, morph + text, analys
 ## How to test
 
 Public library seam (import rb_semkit as sk) and the scripts' own entry points, with temporary area modules, build parts and case files created by the tests.
-
 ## Basis
 
 The v1 package root (lazy name map), the data build and manifest scripts, the conformance loader, report and benchmark of SEMKIT-004/006/008; ADR 0005 and ADR 0006.
