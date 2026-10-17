@@ -48,7 +48,8 @@ translation: '**Функции изменения на реальных фраз
   #фрагмент; switch_layout туда-обратно; split_digits не рвёт 140х200.'
 ---
 
-The end-to-end check (docs/plans/e2e-quality.md, items 23-26) found the change functions give wrong results on real phrases. Fix the library behaviour. Do not change the public docstrings: SEMKIT-033 updates them and the help snapshots after this task; when your fix changes a rule a docstring states, report it as an inbox finding (the function and the new rule).
+
+The end-to-end check (docs/plans/e2e-quality.md, items 23-26) found the change functions give wrong results on real phrases. Fix the library behaviour. Do not change the docstrings of the public sk functions (the step help is made from them): SEMKIT-033 updates them and the help snapshots after this task; when your fix changes a rule a docstring states, report it as an inbox finding (the function and the new rule). Module (file) docstrings are not frozen: keep each one naming what its file holds, new helpers too (the project's file docstring check).
 
 match_type: a phrase that already has quotes, brackets or operators is not wrapped again and no operator is glued to a quote or a bracket: «"купить диван" -бесплатно» plus_every_word → «"+купить +диван" -бесплатно»; «[диван в икеа] -бу» brackets → «[диван в икеа] -бу»; quotes of a quoted phrase stay one pair; fixed_forms gives «"!купить !диван"», «[!диван !в !икеа] -бу». The result is valid Yandex Direct syntax.
 
