@@ -39,7 +39,7 @@ MATCHERS = {
 }
 
 
-def _supported(matcher: sk.Matcher) -> list[str]:
+def supported_verbs(matcher: sk.Matcher) -> list[str]:
     return [verb for verb in VERBS if getattr(type(matcher), verb) is not getattr(sk.Matcher, verb)]
 
 
@@ -57,7 +57,7 @@ def test_the_docstring_names_a_handler_for_each_verb(name: str) -> None:
     assert "VBA (RibbonCallbacks.vba):" in doc
     assert "ADR 0005:" in doc
     entries = _verb_entries(doc)
-    for verb in _supported(MATCHERS[name]):
+    for verb in supported_verbs(MATCHERS[name]):
         assert verb in entries, f"{name}: no VBA entry for {verb}"
         assert CITED.search(entries[verb]) or "no VBA handler: derived from" in entries[verb]
 

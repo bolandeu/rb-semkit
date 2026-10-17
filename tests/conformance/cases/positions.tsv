@@ -1,0 +1,14 @@
+# positions. VBA, RibbonCallbacks.vba (docs/vba/matchers.md R1, X1): remove ak—— (L2702) first = Mid(s, N + 1), ak·k (L2086) last =
+# Left(s, Len − N), "" when N > Len; extract –—·– (L2369) first = Left(s, N), –ak· (L1687) last = Right(s, N). No trim.
+case_id	function	call	input	vba	expected	rule	why	xfail
+positions-remove-first	positions.remove	{"count": 2}	1. диван	 диван	диван	фраза делится по любым пробелам, двойных пробелов в результатах нет	ak—— gives Mid(s, N + 1) as is: the space after «1.» stays at the start	
+positions-remove-first-3	positions.remove	{"count": 3}	диван	ан	ан			
+positions-remove-first-all	positions.remove	{"count": 5}	диван					
+positions-remove-first-more	positions.remove	{"count": 10}	диван					
+positions-remove-last	positions.remove	{"count": 1, "last": true}	диван.	диван	диван			
+positions-remove-last-2	positions.remove	{"count": 2, "last": true}	диван-кровать	диван-крова	диван-крова			
+positions-extract-first	positions.extract	{"count": 5}	диван-кровать	диван	диван			
+positions-extract-first-more	positions.extract	{"count": 10}	диван	диван	диван			
+positions-extract-first-space	positions.extract	{"count": 7}	купить диван	купить 	купить	фраза делится по любым пробелам, двойных пробелов в результатах нет	–—·– gives Left(s, N) as is: the space after «купить» stays at the end	
+positions-extract-last	positions.extract	{"count": 6, "last": true}	диван-кровать	ровать	ровать			
+positions-extract-last-2	positions.extract	{"count": 2, "last": true}	диван.	н.	н.			

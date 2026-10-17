@@ -1,0 +1,21 @@
+# repeats. VBA, RibbonCallbacks.vba (docs/vba/matchers.md F2, R2): find —k—– (L1731) with —la (L2938): two equal tokens of
+# Split(UCase(s), " "); remove aala (L2514) all, aal1 (L2257) en, aall (L2703) ru, remrepW (L1697) adjacent, aal· (L2569) numbers, aook (L2371)
+# wordforms; a later repeat goes, the first stays.
+case_id	function	call	input	vba	expected	rule	why	xfail
+repeats-find-exact	repeats.find	{}	диван Диван	TRUE	TRUE			
+repeats-find-exact-form	repeats.find	{}	диван диваны	FALSE	FALSE			
+repeats-find-exact-punct	repeats.find	{}	диван, диван	FALSE	FALSE			
+repeats-find-exact-one	repeats.find	{}	диван	FALSE	FALSE			
+repeats-find-exact-double-space	repeats.find	{}	a  b  c	TRUE	FALSE	фраза делится по любым пробелам, двойных пробелов в результатах нет	—la splits on one space: the two empty words of the double spaces are equal	
+repeats-find-exact-yo	repeats.find	{}	ёлка елка	FALSE	TRUE	ё = е при сравнении	—la compares UCase: «ЁЛКА» is not «ЕЛКА»	
+repeats-remove-all-punct	repeats.remove	{}	Диван купить диван, ДИВАН	Диван купить диван,	Диван купить диван,			
+repeats-remove-all	repeats.remove	{}	Купить диван купить диван недорого	Купить диван недорого	Купить диван недорого			
+repeats-remove-en	repeats.remove	{"scope": "en"}	iphone 13 iphone 13	iphone 13 13	iphone 13 13			
+repeats-remove-en-mixed	repeats.remove	{"scope": "en"}	iphone13 iphone13	iphone13	iphone13			
+repeats-remove-ru	repeats.remove	{"scope": "ru"}	диван 2 диван 2	диван 2 2	диван 2 2			
+repeats-remove-ru-mixed	repeats.remove	{"scope": "ru"}	wi-fi-роутер wi-fi-роутер	wi-fi-роутер	wi-fi-роутер			
+repeats-remove-adjacent	repeats.remove	{"scope": "adjacent"}	диван диван Диван кресло диван	диван кресло диван	диван кресло диван			
+repeats-remove-numbers	repeats.remove	{"scope": "numbers"}	диван 2 места 2 шт	диван 2 места шт	диван 2 места шт			
+repeats-remove-numbers-comma	repeats.remove	{"scope": "numbers"}	1,5 м 1,5	1,5 м	1,5 м			
+repeats-remove-wordforms	repeats.remove	{"mode": "wordforms"}	диван диваны диванов	диван	диван			
+repeats-remove-wordforms-verb	repeats.remove	{"mode": "wordforms"}	купить диван купила	купить диван	купить диван			

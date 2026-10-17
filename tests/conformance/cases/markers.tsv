@@ -1,23 +1,50 @@
-# markers.extract, the workbook sheet markers_geo only (the matchers are SEMKIT-005). VBA: «Извлечь › Маркеры › Топонимы › Все топонимы › Без предлогов»
-# –a·a (L2823) → la— (L647), list geo.xlsx column A; found toponyms as the list spells them.
-case_id	function	call	input	vba	expected	rule	why
-ref-markers_geo-02	markers.extract	{"lists": "geo"}	купить диван				
-ref-markers_geo-03	markers.extract	{"lists": "geo"}	Купить  диван				
-ref-markers_geo-04	markers.extract	{"lists": "geo"}	диван купить				
-ref-markers_geo-05	markers.extract	{"lists": "geo"}	купить диваны				
-ref-markers_geo-06	markers.extract	{"lists": "geo"}	диван угловой недорого				
-ref-markers_geo-07	markers.extract	{"lists": "geo"}	угловой диван недорого				
-ref-markers_geo-08	markers.extract	{"lists": "geo"}	диван в москве	Москве	Москве		
-ref-markers_geo-09	markers.extract	{"lists": "geo"}	москве диван	Москве	Москве		
-ref-markers_geo-10	markers.extract	{"lists": "geo"}	диван у метро таганская				
-ref-markers_geo-11	markers.extract	{"lists": "geo"}	купить iPhone 15 в Москве	Москве	Москве		
-ref-markers_geo-12	markers.extract	{"lists": "geo"}	красный диван бу				
-ref-markers_geo-13	markers.extract	{"lists": "geo"}	где купить диван				
-ref-markers_geo-14	markers.extract	{"lists": "geo"}	как выбрать диван				
-ref-markers_geo-15	markers.extract	{"lists": "geo"}	диван диван угловой				
-ref-markers_geo-16	markers.extract	{"lists": "geo"}	стол столы				
-ref-markers_geo-17	markers.extract	{"lists": "geo"}	диван-кровать икеа				
-ref-markers_geo-18	markers.extract	{"lists": "geo"}	кровать для детей от 3 лет				
-ref-markers_geo-19	markers.extract	{"lists": "geo"}	ремонт квартир в спб под ключ	СПб	СПб		
-ref-markers_geo-20	markers.extract	{"lists": "geo"}					
-ref-markers_geo-21	markers.extract	{"lists": "geo"}	диван				
+# markers. VBA, RibbonCallbacks.vba (docs/vba/matchers.md S10, F3, R3, X3). find: —k—— (L2520) geo, —k—o (L2040) questions and the other —k—*
+# buttons, with –la (L645–646). remove: a·–a (L2204) geo with DeletePhrases (L3452–3470), lower-cases the cell; geo with prepositions a·—a (L2967) with
+# udalit_toponimy_s_pryedlogami (L1194–1197). extract: –a·a (L2823) geo, –a—o (L2409) questions, with la— (L647–648): the found items as the list
+# spells them, joined by a backslash; geo with prepositions –·kk (L2674) with k—–– (L1198–1199). The rows ref-markers_geo-* are the workbook sheet
+# markers_geo. Prepositions on other lists and find with prepositions have no handler: derived from udalit_toponimy_s_pryedlogami; vba is the derived value.
+case_id	function	call	input	vba	expected	rule	why	xfail
+ref-markers_geo-02	markers.extract	{"lists": "geo"}	купить диван					
+ref-markers_geo-03	markers.extract	{"lists": "geo"}	Купить  диван					
+ref-markers_geo-04	markers.extract	{"lists": "geo"}	диван купить					
+ref-markers_geo-05	markers.extract	{"lists": "geo"}	купить диваны					
+ref-markers_geo-06	markers.extract	{"lists": "geo"}	диван угловой недорого					
+ref-markers_geo-07	markers.extract	{"lists": "geo"}	угловой диван недорого					
+ref-markers_geo-08	markers.extract	{"lists": "geo"}	диван в москве	Москве	Москве			
+ref-markers_geo-09	markers.extract	{"lists": "geo"}	москве диван	Москве	Москве			
+ref-markers_geo-10	markers.extract	{"lists": "geo"}	диван у метро таганская					
+ref-markers_geo-11	markers.extract	{"lists": "geo"}	купить iPhone 15 в Москве	Москве	Москве			
+ref-markers_geo-12	markers.extract	{"lists": "geo"}	красный диван бу					
+ref-markers_geo-13	markers.extract	{"lists": "geo"}	где купить диван					
+ref-markers_geo-14	markers.extract	{"lists": "geo"}	как выбрать диван					
+ref-markers_geo-15	markers.extract	{"lists": "geo"}	диван диван угловой					
+ref-markers_geo-16	markers.extract	{"lists": "geo"}	стол столы					
+ref-markers_geo-17	markers.extract	{"lists": "geo"}	диван-кровать икеа					
+ref-markers_geo-18	markers.extract	{"lists": "geo"}	кровать для детей от 3 лет					
+ref-markers_geo-19	markers.extract	{"lists": "geo"}	ремонт квартир в спб под ключ	СПб	СПб			
+ref-markers_geo-20	markers.extract	{"lists": "geo"}						
+ref-markers_geo-21	markers.extract	{"lists": "geo"}	диван					
+markers-find-geo	markers.find	{"lists": "geo"}	купить диван в москве недорого	TRUE	TRUE			
+markers-find-geo-two-words	markers.find	{"lists": "geo"}	диван москва	TRUE	TRUE			
+markers-find-geo-phrase	markers.find	{"lists": "geo"}	доставка в нижний новгород	TRUE	TRUE			
+markers-find-geo-none	markers.find	{"lists": "geo"}	купить диван	FALSE	FALSE			
+markers-find-geo-punct	markers.find	{"lists": "geo"}	в москве, недорого	FALSE	FALSE			
+markers-find-geo-prepositions-none	markers.find	{"lists": "geo", "with_prepositions": true}	диван москва	FALSE	FALSE			
+markers-extract-geo	markers.extract	{"lists": "geo"}	купить диван в москве недорого	Москве	Москве			
+markers-extract-geo-inner	markers.extract	{"lists": "geo"}	доставка в нижний новгород	Нижний Новгород\Новгород	Нижний Новгород	маркеры — в написании списка, через «, »; Извлечение маркеров берёт самое длинное совпадение	la— finds «Нижний Новгород» and gives «новгород», a key too, its own slot, joined by a backslash	
+markers-extract-geo-inner-long	markers.extract	{"lists": "geo"}	отели в хересе де ла фронтере	Хересе де Ла Фронтере\Ла Фронтере	Хересе де Ла Фронтере	маркеры — в написании списка, через «, »; Извлечение маркеров берёт самое длинное совпадение	la— gives «ла», a key too, its own slot «Ла Фронтере», joined by a backslash	
+markers-extract-questions	markers.extract	{"lists": "questions"}	Где Купить диван как сделать	где\как	где, как сделать	маркеры — в написании списка, через «, »; Извлечение маркеров берёт самое длинное совпадение	la— takes «как», first in the list order, and joins by a backslash; –a—o then lower-cases the cell	
+markers-extract-geo-prepositions	markers.extract	{"lists": "geo", "with_prepositions": true}	купить диван в москве недорого	\\в Москве\\\	в Москве	маркеры — в написании списка, через «, »	k—–– keeps one slot per word, the empty ones too, joined by a backslash	
+markers-extract-geo-prepositions-none	markers.extract	{"lists": "geo", "with_prepositions": true}	диван москва	\\		маркеры — в написании списка, через «, »	k—–– keeps one slot per word, the empty ones too, joined by a backslash	
+markers-extract-geo-prepositions-phrase	markers.extract	{"lists": "geo", "with_prepositions": true}	доставка в нижний новгород	\в Нижний Новгород\\\	в Нижний Новгород	маркеры — в написании списка, через «, »	k—–– keeps one slot per word, the empty ones too, joined by a backslash	
+markers-extract-geo-prepositions-long	markers.extract	{"lists": "geo", "with_prepositions": true}	отели в хересе де ла фронтере	\в Хересе де Ла Фронтере\\\\\	в Хересе де Ла Фронтере	маркеры — в написании списка, через «, »	k—–– keeps one slot per word, the empty ones too, joined by a backslash	
+markers-remove-geo	markers.remove	{"lists": "geo"}	купить диван в москве недорого	купить диван в недорого	купить диван в недорого			
+markers-remove-geo-phrase	markers.remove	{"lists": "geo"}	доставка в нижний новгород	доставка в	доставка в			
+markers-remove-geo-case	markers.remove	{"lists": "geo"}	Диван Москва	диван	Диван	Удаление по списку фраз и маркеров сохраняет регистр	DeletePhrases lower-cases the whole cell	
+markers-remove-geo-prepositions	markers.remove	{"lists": "geo", "with_prepositions": true}	купить диван в москве недорого	купить диван недорого	купить диван недорого			
+markers-remove-geo-prepositions-none	markers.remove	{"lists": "geo", "with_prepositions": true}	диван москва	диван москва	диван москва			
+markers-remove-geo-prepositions-phrase	markers.remove	{"lists": "geo", "with_prepositions": true}	доставка в нижний новгород	доставка	доставка			
+markers-remove-geo-prepositions-one-item	markers.remove	{"lists": "geo", "with_prepositions": true}	отели в хересе де ла фронтере	отели де ла фронтере	отели	Удаление топонимов с предлогами убирает топоним целиком	udalit_toponimy_s_pryedlogami cuts only the preposition and the next word when that word keys one list item	
+markers-remove-geo-prepositions-en	markers.remove	{"lists": "geo", "with_prepositions": true}	диван in москве	диван in москве	диван in москве			
+markers-remove-geo-prepositions-case	markers.remove	{"lists": "geo", "with_prepositions": true}	Купить диван В Москве	Купить диван	Купить диван			
+markers-remove-mosmetro-prepositions	markers.remove	{"lists": "mosmetro", "with_prepositions": true}	офис на таганской у таганской	офис у таганской	офис у таганской			

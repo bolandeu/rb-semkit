@@ -1,17 +1,17 @@
 # part_of_speech. No VBA handler writes the part of speech. The word tests read it: ··– (L2207) noun, ·ok (L1344) verb, oa– (L2154) adverb, ··o (L1439) adjective
 # (docs/vba/analysis.md §1.5). The vba column is the code they read per word of Split(phrase, " "): column 3 of the dictionary by oa(LCase(w), slovarlyemm, 3) (L2208),
 # which gives the word itself when the dictionary lacks it; ·ok makes a word ending in тся, ься, ают, уют (but уют) a verb. Codes joined by " ".
-case_id	function	call	input	vba	expected	rule	why
-pos-plain	part_of_speech	{}	купить красные диваны	v a n	v a n		
-pos-adverb-verb	part_of_speech	{}	быстро делается	advb v	advb v		
-pos-verb-ending	part_of_speech	{}	зюзюкается	v	v		
-pos-uyut	part_of_speech	{}	уют	n	n		
-pos-capital	part_of_speech	{}	Москве	n	n		
-pos-pronoun	part_of_speech	{}	какой	prn	prn		
-pos-unknown	part_of_speech	{}	бу	бу		у неё дефект или побочный эффект Excel	oa returns a key it does not find as the value, so an unknown word reads as its own code
-pos-punctuation	part_of_speech	{}	диван,	диван,		у неё дефект или побочный эффект Excel	oa returns a key it does not find as the value, so «диван,» reads as its own code
-pos-pymorphy	part_of_speech	{}	икеа	икеа	n	Явное улучшение там, где Python может больше VBA	the dictionary lacks the word and oa returns it as is; semkit asks pymorphy3 next (ADR 0003)
-pos-adjective-ending	part_of_speech	{}	зюзюкный	зюзюкный	a	у неё дефект или побочный эффект Excel	oa returns the unknown word as its own code; ··o then calls it an adjective by the lemma ending (adjSuffixes), which semkit gives as the code a
-pos-yo	part_of_speech	{}	ёлки	ёлки	n	ё = е при сравнении	oa looks the word up as written, and the dictionary has no ё
-pos-double-space	part_of_speech	{}	купить  диван	v  n	v n	фраза делится по любым пробелам, двойных пробелов в результатах нет	the word tests split by one space, so the empty word between two spaces gets the empty code
-pos-column	part_of_speech	{}	купить |  | диван	v |  | n	v |  | n		
+case_id	function	call	input	vba	expected	rule	why	xfail
+pos-plain	part_of_speech	{}	купить красные диваны	v a n	v a n			
+pos-adverb-verb	part_of_speech	{}	быстро делается	advb v	advb v			
+pos-verb-ending	part_of_speech	{}	зюзюкается	v	v			
+pos-uyut	part_of_speech	{}	уют	n	n			
+pos-capital	part_of_speech	{}	Москве	n	n			
+pos-pronoun	part_of_speech	{}	какой	prn	prn			
+pos-unknown	part_of_speech	{}	бу	бу		у неё дефект или побочный эффект Excel	oa returns a key it does not find as the value, so an unknown word reads as its own code	
+pos-punctuation	part_of_speech	{}	диван,	диван,		у неё дефект или побочный эффект Excel	oa returns a key it does not find as the value, so «диван,» reads as its own code	
+pos-pymorphy	part_of_speech	{}	икеа	икеа	n	Явное улучшение там, где Python может больше VBA	the dictionary lacks the word and oa returns it as is; semkit asks pymorphy3 next (ADR 0003)	
+pos-adjective-ending	part_of_speech	{}	зюзюкный	зюзюкный	a	у неё дефект или побочный эффект Excel	oa returns the unknown word as its own code; ··o then calls it an adjective by the lemma ending (adjSuffixes), which semkit gives as the code a	
+pos-yo	part_of_speech	{}	ёлки	ёлки	n	ё = е при сравнении	oa looks the word up as written, and the dictionary has no ё	
+pos-double-space	part_of_speech	{}	купить  диван	v  n	v n	фраза делится по любым пробелам, двойных пробелов в результатах нет	the word tests split by one space, so the empty word between two spaces gets the empty code	
+pos-column	part_of_speech	{}	купить |  | диван	v |  | n	v |  | n			

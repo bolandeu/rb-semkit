@@ -1,0 +1,22 @@
+# pos. VBA, RibbonCallbacks.vba (docs/vba/matchers.md S9, F2, R2, X2). find: —k–a (L2266) noun, –··· (L2909) adj, —k—· (L2494) verb, —kkk
+# (L1663) adverb; remove: ak·· (L2642), —··a (L2697), ao—— (L1897), —··· (L2563); extract: –ao· (L2891), –—o— (L1948), –·ka (L2246), –—oa (L2480). The
+# word tests: ··– (L2207) noun, ··o (L1439) adj, ·ok (L1344) verb, oa– (L2154) adverb, on the dictionary lemms.tsv; a token is looked up with its
+# punctuation.
+case_id	function	call	input	vba	expected	rule	why	xfail
+pos-find-noun	pos.find	{"kind": "noun"}	купить красный диван	TRUE	TRUE			
+pos-find-adj	pos.find	{"kind": "adj"}	купить красный диван	TRUE	TRUE			
+pos-find-verb	pos.find	{"kind": "verb"}	купить красный диван	TRUE	TRUE			
+pos-find-adverb	pos.find	{"kind": "adverb"}	купить красный диван	FALSE	FALSE			
+pos-find-adj-capital	pos.find	{"kind": "adj"}	Быстро купить	TRUE	TRUE			
+pos-find-noun-punct	pos.find	{"kind": "noun"}	диван, кресло	TRUE	TRUE			
+pos-find-verb-ending	pos.find	{"kind": "verb"}	кровать раскладывается	TRUE	TRUE			
+pos-remove-noun	pos.remove	{"kind": "noun"}	купить красный диван быстро	купить красный быстро	купить красный быстро			
+pos-remove-adj	pos.remove	{"kind": "adj"}	купить красный диван быстро	купить диван быстро	купить диван быстро			
+pos-remove-verb	pos.remove	{"kind": "verb"}	купить красный диван быстро	красный диван быстро	красный диван быстро			
+pos-remove-adverb	pos.remove	{"kind": "adverb"}	купить красный диван быстро	купить красный диван	купить красный диван			
+pos-remove-noun-case	pos.remove	{"kind": "noun"}	Купить Диваны	Купить	Купить			
+pos-extract-noun-punct	pos.extract	{"kind": "noun"}	купить диван, кресло	кресло	кресло			
+pos-extract-adj	pos.extract	{"kind": "adj"}	купить красный диван быстро	красный	красный			
+pos-extract-adj-pronoun	pos.extract	{"kind": "adj"}	какой диван купить	какой	какой			
+pos-extract-verb	pos.extract	{"kind": "verb"}	купить красный диван быстро	купить	купить			
+pos-extract-adverb	pos.extract	{"kind": "adverb"}	купить красный диван быстро	быстро	быстро			

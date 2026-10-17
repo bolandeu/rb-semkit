@@ -5,7 +5,8 @@ VBA handler and lines the `vba` column is traced from). `function` is a public s
 matcher (`markers.extract` is `sk.extract(phrases, sk.markers(**call))`). `call` holds the keyword arguments as JSON:
 `against` (a list) becomes a Series; with `weight`, each input item is «phrase [number]» and the call gets a table
 with the columns «phrase» and the weight. `input` is one phrase, or several joined by « | » for a whole-column
-function; `wordforms` gets it as one word.
+function; `wordforms` gets it as one word. `xfail` is empty, or the reason the library does not give `expected` yet
+(reported to the Architect as a finding).
 
 A result renders as text: the items of a Series or a list joined by « | », a bool as TRUE / FALSE (as Excel writes
 it), an empty value as "", a number as written; an n-gram table as «ngram=value» per row, the value being the sum
@@ -27,7 +28,7 @@ import pandas as pd
 import rb_semkit as sk
 
 CASES_DIR = Path(__file__).resolve().parent / "cases"
-CASE_COLUMNS = ("case_id", "function", "call", "input", "vba", "expected", "rule", "why")
+CASE_COLUMNS = ("case_id", "function", "call", "input", "vba", "expected", "rule", "why", "xfail")
 SEP = " | "
 WEIGHTED_ITEM = re.compile(r"(.*) \[(-?[\d.]+)\]")
 PHRASE = "phrase"
@@ -44,6 +45,7 @@ class Case:
     expected: str
     rule: str
     why: str
+    xfail: str
     file: str
 
     @property
@@ -51,16 +53,31 @@ class Case:
         return json.loads(self.call) if self.call else {}
 
 
-def read_cases(path: Path) -> list[Case]:
-    lines = [line for line in path.read_text(encoding="utf-8").splitlines() if not line.startswith("#")]
-    rows = list(csv.reader(lines, delimiter="\t", quoting=csv.QUOTE_NONE))
+@dataclass(frozen=True)
+class CaseFile:
+    """The cases of one public function, with the notes of its file (the «#» lines, joined)."""
+
+    function: str
+    notes: str
+    cases: list[Case]
+
+
+def read_case_file(path: Path) -> CaseFile:
+    lines = path.read_text(encoding="utf-8").splitlines()
+    notes = " ".join(line.removeprefix("#").strip() for line in lines if line.startswith("#"))
+    table = [line for line in lines if not line.startswith("#")]
+    rows = list(csv.reader(table, delimiter="\t", quoting=csv.QUOTE_NONE))
     if tuple(rows[0]) != CASE_COLUMNS:
         raise ValueError(f"{path.name}: the header is {rows[0]}, not {list(CASE_COLUMNS)}")
-    return [Case(*row, file=path.name) for row in rows[1:]]
+    return CaseFile(path.stem, notes, [Case(*row, file=path.name) for row in rows[1:]])
+
+
+def case_files() -> list[CaseFile]:
+    return [read_case_file(path) for path in sorted(CASES_DIR.glob("*.tsv"))]
 
 
 def all_cases() -> list[Case]:
-    return [case for path in sorted(CASES_DIR.glob("*.tsv")) for case in read_cases(path)]
+    return [case for case_file in case_files() for case in case_file.cases]
 
 
 def render_value(value: Any) -> str:

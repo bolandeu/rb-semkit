@@ -1,0 +1,22 @@
+# words. VBA, RibbonCallbacks.vba (docs/vba/matchers.md F2, R2, X2). find: –––o (L1927) one word = ·a– (L2573), –––k (L2805) all; remove:
+# ao—a (L1835) one word, dFWCustom (L2309) start, dLWCustom (L2308) end; extract: –·oo (L2567). UCase on both sides, ё ≠ е, Split(s, " "); ignore_punct
+# is the «Игнорировать пунктуацию» variant (oka, L2460). extract with where has no handler: derived from –·oo; vba is the derived value.
+case_id	function	call	input	vba	expected	rule	why	xfail
+words-find-one	words.find	{"items": "диван"}	Купить Диван	TRUE	TRUE			
+words-find-one-hyphen	words.find	{"items": "диван"}	диван-кровать	FALSE	FALSE			
+words-find-one-form	words.find	{"items": "диван"}	диваны	FALSE	FALSE			
+words-find-one-double-space	words.find	{"items": "диван"}	купить  диван	TRUE	TRUE			
+words-find-one-yo	words.find	{"items": "елка"}	ёлка	FALSE	TRUE	ё = е при сравнении	·a– compares UCase: «ЁЛКА» is not «ЕЛКА»	
+words-find-all	words.find	{"items": ["диван", "москва"], "mode": "all"}	диван в москва	TRUE	TRUE			
+words-find-all-form	words.find	{"items": ["диван", "москва"], "mode": "all"}	диван в москве	FALSE	FALSE			
+words-remove-one	words.remove	{"items": "диван"}	Диван диван-кровать диван	диван-кровать	диван-кровать			
+words-remove-one-punct	words.remove	{"items": "диван"}	диван, кресло	диван, кресло	диван, кресло			
+words-remove-one-ignore-punct	words.remove	{"items": "диван", "ignore_punct": true}	диван, кресло	кресло	кресло			
+words-remove-one-yo	words.remove	{"items": "ёлка"}	Ёлка елка	елка		ё = е при сравнении	ao—a compares UCase: «ЕЛКА» is not «ЁЛКА», so «елка» stays	
+words-remove-start	words.remove	{"items": ["купить"], "where": "start"}	Купить диван купить	диван купить	диван купить			
+words-remove-end	words.remove	{"items": ["купить"], "where": "end"}	диван купить	диван	диван			
+words-extract-one	words.extract	{"items": "диван"}	Купить Диван и диван	Диван диван	Диван диван			
+words-extract-one-form	words.extract	{"items": "диван"}	диваны					
+words-extract-list	words.extract	{"items": ["диван", "кресло"]}	диван и кресло	диван кресло	диван кресло			
+words-extract-start	words.extract	{"items": "диван", "where": "start"}	диван купить диван	диван	диван			
+words-extract-one-yo	words.extract	{"items": "елка"}	Ёлка		Ёлка	ё = е при сравнении	–·oo compares UCase: «ЁЛКА» is not «ЕЛКА»	
