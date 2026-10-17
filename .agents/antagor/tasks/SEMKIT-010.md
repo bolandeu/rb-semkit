@@ -2,7 +2,7 @@
 id: SEMKIT-010
 title: 'Frame for parallel areas: discovered public names, data build parts, per-area
   conformance and benchmark; product text without the VBA'
-status: in_review
+status: publish
 attempts: 0
 blocked: false
 blocked_reason: null
