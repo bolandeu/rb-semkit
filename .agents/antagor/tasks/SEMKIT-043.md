@@ -2,7 +2,7 @@
 id: SEMKIT-043
 title: summary, the mean in the comparisons, recommended occurrences, --no-digits
   and --exclude
-status: queue
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -35,6 +35,7 @@ test_paths:
 - tests/snapshots/help/read.txt
 - tests/steps/areas.py
 - tests/steps/test_steps.py
+- tests/conformance/test_cases.py
 docs: none
 tools: []
 worker_args: null
