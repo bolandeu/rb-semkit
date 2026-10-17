@@ -1,0 +1,16 @@
+# decline_noun. VBA, RibbonCallbacks.vba: «Просклонять › Существительные» a–ka (L2841, ko 2) … —·ao (L2864, ko 12), the wrapper
+# ka("l–", cell, ko) (L2669): l– (L1518–1520) maps over Split(cell, " "), then a·. l– as compiled: ko 4 and 10 take nounExclusions2 or
+# root & oa(last3, nounSuffixes, ko) before any other test; else an abbreviation al· (L2634) or a word of nonDecl stays, nounExclusions gives its
+# row, and every other word is root & oa(last3, nounSuffixes, ko), because the consonant branch (Select Case True / InStr) never runs.
+# oa (L2208) gives the key itself when the table lacks it. Docs: docs/vba/analysis.md §3.0, §3 «Существительные».
+case_id	function	call	input	vba	expected	rule	why	xfail
+noun-genitive-consonant	decline_noun	{"case": "genitive"}	диван	ди	дивана	Существительное на согласную получает обычное окончание своей группы	l– skips its consonant branch (Select Case True never equals InStr), so the empty cell of the endings table leaves the root only: «ди»	
+noun-genitive-k	decline_noun	{"case": "genitive"}	парк	п	парка	Существительное на согласную получает обычное окончание своей группы	l– skips its consonant branch (Select Case True never equals InStr), so the empty cell of the endings table leaves the root only: «п»	
+noun-genitive-vowel	decline_noun	{"case": "genitive"}	книга	книги	книги			
+noun-genitive-plural	decline_noun	{"case": "genitive", "number": "plural"}	диван	ди	диванов	Существительное на согласную получает обычное окончание своей группы	l– skips its consonant branch (Select Case True never equals InStr), so the empty cell of the endings table leaves the root only: «ди»	
+noun-accusative-table	decline_noun	{"case": "accusative"}	парк	парк	парк			
+noun-instrumental-plural	decline_noun	{"case": "instrumental", "number": "plural"}	книга	книгами	книгами			
+noun-accusative-indeclinable	decline_noun	{"case": "accusative"}	авиасалес	авиасалеса	авиасалес	Несклоняемое слово и аббревиатура не меняются ни в одном падеже	l– declines the accusative by the endings table before it tests nonDecl: «лес» → «леса»	
+noun-abbreviation	decline_noun	{"case": "dative"}	МТС	МТС	МТС			
+noun-capital	decline_noun	{"case": "genitive"}	Павел	Па	Павла	Слово ищется в таблицах в нижнем регистре, форма сохраняет его заглавные; Существительное на согласную получает обычное окончание своей группы	l– looks «Павел» up as written and misses nounExclusions, then the consonant bug leaves «Па»	
+noun-each-word	decline_noun	{"case": "dative"}	диван  стол	ди с	дивану столу	Существительное на согласную получает обычное окончание своей группы; фраза делится по любым пробелам, двойных пробелов в результатах нет	l– skips its consonant branch (Select Case True never equals InStr), so the empty cell of the endings table leaves the root only; ka keeps the empty word of the double space, a· collapses it	

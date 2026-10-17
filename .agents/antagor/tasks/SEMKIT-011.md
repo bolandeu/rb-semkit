@@ -2,10 +2,10 @@
 id: SEMKIT-011
 title: 'Change block: every text change of the add-in (case, insert, replace, translit,
   ЧПУ, match types, UTM, hashes, word order, phonetic)'
-status: in_progress
+status: in_review
 attempts: 0
-blocked: true
-blocked_reason: scope_held
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -104,3 +104,7 @@ docs/vba/change.md (every button: handler, algorithm, quirks, examples); the v1 
 
 - Declension, analysis and text matchers (other area tasks).
 - Excel-only actions (colours, bold).
+
+## Feedback
+
+### Blocked: scope_held (holders ['SEMKIT-012'], paths ['tests/core/test_build_data.py'])

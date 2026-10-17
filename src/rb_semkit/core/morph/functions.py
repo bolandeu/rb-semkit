@@ -1,4 +1,8 @@
-"""Lemma-dependent functions over phrases: each word is looked up once per call, then mapped back."""
+"""Lemma-dependent functions over phrases: each word is looked up once per call, then mapped back.
+
+word_by_word is the shared walk: it gives each word of a phrase to a lookup and joins the results. The lemmatizer
+functions here and the declension of nouns and adjectives use it.
+"""
 
 from __future__ import annotations
 
@@ -6,14 +10,16 @@ from collections.abc import Callable
 
 import pandas as pd
 
+from ..errors import InvalidArguments
 from ..frame import Frame, map_unique
-from ..text.base import split_words
-from .lemmatizer import Lemmatizer, SemtoolsLemmatizer
+from ..text.base import choice, split_words
+from .lemmatizer import FALLBACKS, Lemmatizer, SemtoolsLemmatizer
 
 BUNDLED = SemtoolsLemmatizer()
+WITH_PYMORPHY = SemtoolsLemmatizer(fallback="pymorphy")
 
 
-def _word_by_word(
+def word_by_word(
     data: pd.Series | pd.DataFrame,
     lookup: Callable[[str], str],
     operation: str,
@@ -29,15 +35,33 @@ def _word_by_word(
     )
 
 
+def _with_fallback(lemmatizer: Lemmatizer, fallback: str) -> Lemmatizer:
+    choice("fallback", fallback, FALLBACKS)
+    if lemmatizer is not BUNDLED:
+        raise InvalidArguments(
+            f"fallback: {fallback!r} is for the bundled lemmatizer; allowed: fallback=None with lemmatizer="
+            f"{type(lemmatizer).__name__}(...), or SemtoolsLemmatizer(fallback={fallback!r}) as the lemmatizer."
+        )
+    return WITH_PYMORPHY
+
+
 def lemmatize(
     data: pd.Series | pd.DataFrame,
     *,
     lemmatizer: Lemmatizer = BUNDLED,
+    fallback: str | None = None,
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """Each word of a phrase replaced by its lemma, in lower case: «купила диваны» → «купить диван»."""
-    return _word_by_word(data, lemmatizer.lemma, "lemmatize", column, inplace)
+    """Each word of a phrase replaced by its lemma, in lower case: «купила диваны» → «купить диван».
+
+    fallback: None — a word missing from the bundled dictionary goes to pymorphy3 if its dictionary knows the word,
+    else to the suffix rule, and often stays as it is («тиктокерами»); "pymorphy" — such a word takes the best
+    guess of pymorphy3 («тиктокерами» → «тиктокер»). The fallback is for the bundled lemmatizer.
+    """
+    if fallback is not None:
+        lemmatizer = _with_fallback(lemmatizer, fallback)
+    return word_by_word(data, lemmatizer.lemma, "lemmatize", column, inplace)
 
 
 def part_of_speech(
@@ -48,7 +72,7 @@ def part_of_speech(
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
     """The part of speech of each word of a phrase, by space: «купить диван» → «v n» (SemtoolsLemmatizer codes)."""
-    return _word_by_word(data, lemmatizer.pos, "part_of_speech", column, inplace)
+    return word_by_word(data, lemmatizer.pos, "part_of_speech", column, inplace)
 
 
 def wordforms(word: str, *, lemmatizer: Lemmatizer = BUNDLED) -> list[str]:
