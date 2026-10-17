@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-026
 title: Refresh the 11 step help snapshots that now list the word lists
-status: in_review
+status: publish
 attempts: 0
 blocked: false
 blocked_reason: null
