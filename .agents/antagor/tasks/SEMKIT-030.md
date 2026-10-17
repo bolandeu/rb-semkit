@@ -2,7 +2,7 @@
 id: SEMKIT-030
 title: 'Morphology on a real core: correct lemmas, the accusative, plurals, compounds,
   adjectives, full names, word forms'
-status: queue
+status: in_review
 attempts: 1
 blocked: false
 blocked_reason: null
