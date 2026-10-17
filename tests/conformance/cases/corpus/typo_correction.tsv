@@ -1,0 +1,10 @@
+# typo_correction. VBA (docs/vba/analysis.md §10): «Наиболее вероятное исправление» a–aa (L1620) → oo–— (L1511): the
+# same request as «Является ли опечаткой?»; the suggestions split by «,»; every window of as many words as the cell
+# counted; the window counted at least the current value wins, from the word count of the cell up. No network in the
+# cases: the request fails and the macro stops (#ERROR).
+case_id	function	call	input	vba	expected	rule	why	xfail
+fix-core	typo_correction	{"provider": {"ratio": 2}}	диван | диван угловой | купить диавн	#ERROR	диван | диван угловой | купить диван	Опечатки ищутся без сети, по частотному словарю самого ядра	the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops	
+fix-none	typo_correction		стол | стол купить | стул	#ERROR	стол | стол купить | стул	Опечатки ищутся без сети, по частотному словарю самого ядра	the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops	
+fix-ratio-2	typo_correction	{"provider": {"ratio": 2}}	стол | стол купить | стул	#ERROR	стол | стол купить | стол	Опечатки ищутся без сети, по частотному словарю самого ядра	the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops	
+fix-short	typo_correction	{"provider": {"ratio": 2}}	кот | кот черный | кит	#ERROR	кот | кот черный | кот	Опечатки ищутся без сети, по частотному словарю самого ядра	the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops	
+fix-case	typo_correction	{"provider": {"ratio": 2}}	Диван | диван угловой | купить ДИАВН	#ERROR	Диван | диван угловой | купить диван	Опечатки ищутся без сети, по частотному словарю самого ядра	the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops	

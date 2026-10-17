@@ -1,0 +1,10 @@
+# is_typo. VBA (docs/vba/analysis.md §10): «Является ли опечаткой?» a–a— (L2484) → oo–a (L2451): a GET of
+# suggest.yandex.ru for each cell (at most 500, 100 ms timeouts); the cell is a typo when « text » of the suggestions
+# does not hold « cell ». No network in the cases: the request fails and the macro stops (#ERROR).
+case_id	function	call	input	vba	expected	rule	why	xfail
+typo-core	is_typo	{"provider": {"ratio": 2}}	диван | диван угловой | купить диавн	#ERROR	FALSE | FALSE | TRUE	Опечатки ищутся без сети, по частотному словарю самого ядра	the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops	
+typo-ratio	is_typo		стол | стол купить | стул	#ERROR	FALSE | FALSE | FALSE	Опечатки ищутся без сети, по частотному словарю самого ядра	the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops	
+typo-ratio-2	is_typo	{"provider": {"ratio": 2}}	стол | стол купить | стул	#ERROR	FALSE | FALSE | TRUE	Опечатки ищутся без сети, по частотному словарю самого ядра	the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops	
+typo-short	is_typo	{"provider": {"ratio": 2}}	кот | кот черный | кит | кто	#ERROR	FALSE | FALSE | TRUE | FALSE	Опечатки ищутся без сети, по частотному словарю самого ядра	the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops	
+typo-digit	is_typo	{"provider": {"ratio": 2}}	диван | диван угловой | диван2	#ERROR	FALSE | FALSE | FALSE	Опечатки ищутся без сети, по частотному словарю самого ядра	the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops	
+typo-case	is_typo	{"provider": {"ratio": 2}}	диван | диван угловой | купить Диавн	#ERROR	FALSE | FALSE | TRUE	Опечатки ищутся без сети, по частотному словарю самого ядра	the add-in asks Yandex Suggest for each cell (100 ms timeouts); offline the request fails and the macro stops	

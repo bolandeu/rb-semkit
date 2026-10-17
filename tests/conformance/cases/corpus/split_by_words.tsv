@@ -1,0 +1,14 @@
+# split_by_words. VBA (docs/vba/analysis.md §7): «Работа с семантическим ядром» semWP (L319–328) and the helper
+# workbook SEMToolsWordProcessor.xlsb: the lemma map TOOL_crLemmDict (L310–311) only when at least 3 words have
+# another lemma; Tool_dictAtor (L315) counts the lemmas; findPhrWithWord (L316) moves the phrases with « word » to Bad
+# case; TOOL_remPhrWithOnlyPlusWords (L312–313) moves the phrases whose lemmas are all plus-words to Good case. vba:
+# the sheets after the good words, then the bad words are chosen: Good case || Bad case || the rest || the frequency
+# dictionary. Without lemmas the core has fewer than 3 inflected words: the workbook builds no lemma map and compares
+# words.
+case_id	function	call	input	vba	expected	rule	why	xfail
+split-words	split_by_words	{"good": ["диван", "купить"], "bad": ["бу"]}	диван бу | купить диван | диван | диван недорого	купить диван | диван || диван бу || диван недорого || диван=1 | недорого=1	купить диван | диван || диван бу || диван недорого || диван=1 | недорого=1			
+split-lemmas	split_by_words	{"good": ["диван", "купить"], "bad": ["бу"], "lemmas": true}	диваны бу | купить диваны | диваны | столы недорого | столы | стулья	купить диваны | диваны || диваны бу || столы недорого | столы | стулья || стол=2 | недорогой=1 | стул=1	купить диваны | диваны || диваны бу || столы недорого | столы | стулья || стол=2 | недорогой=1 | стул=1			
+split-few-forms	split_by_words	{"good": ["диван", "купить"], "bad": ["бу"], "lemmas": true}	диваны бу | купить диван | диван | диваны недорого	купить диван | диван || диваны бу || диваны недорого || диваны=1 | недорого=1	купить диван | диван || диваны бу || диваны недорого || диван=1 | недорогой=1	По леммам — всегда, без порога в три словоформы	with fewer than 3 inflected words the workbook builds no lemma map and compares the words as they stand	
+split-case	split_by_words	{"good": ["диван", "купить"], "bad": ["бу"]}	Диван | диван купить	Диван | диван купить ||  ||  || 	Диван | диван купить ||  ||  || 			
+split-substring	split_by_words	{"bad": ["бу"]}	буфет | стол бу	 || стол бу || буфет || буфет=1	 || стол бу || буфет || буфет=1			
+split-yo	split_by_words	{"good": ["елка", "купить"]}	ёлка купить | ёлка	 ||  || ёлка купить | ёлка || ёлка=2 | купить=1	ёлка купить | ёлка ||  ||  || 	ё = е при сравнении	LCase keeps ё, and the plus-words compare by UCase: «ЁЛКА» is not «ЕЛКА»	

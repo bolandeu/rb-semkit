@@ -1,0 +1,12 @@
+# sentiment. VBA (docs/vba/analysis.md §11): «Анализ тональности» NGB (L834) mean, NGBMin (L835) min, NGBMax (L836)
+# max: an InputBox asks for two columns, marker | number, the first occurrence of a marker wins, binary keys; each
+# phrase split by one space; the mean is sum / count (0 / 0 stops the macro), the min starts at 11111, the max at 0.
+case_id	function	call	input	vba	expected	rule	why	xfail
+sent-mean	sentiment	{"scores": {"отличный": 5, "плохой": -3}}	отличный диван | плохой плохой стол	5 | -3	5 | -3			
+sent-mean-mixed	sentiment	{"scores": {"отличный": 5, "плохой": -3}}	отличный плохой стол	1	1			
+sent-min	sentiment	{"scores": {"отличный": 5, "плохой": -3}, "what": "min"}	отличный плохой	-3	-3			
+sent-max	sentiment	{"scores": {"отличный": 5, "плохой": -3}, "what": "max"}	отличный плохой	5	5			
+sent-mean-none	sentiment	{"scores": {"отличный": 5, "плохой": -3}}	отличный диван | стул	#ERROR	5 | 	Тональность фразы без маркера пустая	the mean of a phrase with no marker divides 0 by 0 and the macro stops	
+sent-min-none	sentiment	{"scores": {"отличный": 5, "плохой": -3}, "what": "min"}	стул	11111		Тональность фразы без маркера пустая	the min starts at 11111 and stays	
+sent-max-negative	sentiment	{"scores": {"отличный": 5, "плохой": -3}, "what": "max"}	плохой стол	0	-3	Максимум тональности может быть отрицательным	the max starts at 0	
+sent-case	sentiment	{"scores": {"отличный": 5, "плохой": -3}}	Отличный диван	#ERROR	5	Слова сравниваются без учёта регистра; Тональность фразы без маркера пустая	the keys are binary: «Отличный» is no marker, so the phrase has none and the mean divides 0 by 0	

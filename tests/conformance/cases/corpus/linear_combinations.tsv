@@ -1,0 +1,10 @@
+# linear_combinations. VBA (docs/vba/analysis.md §5): «Генератор линейных комбинаций» ———o (L377–379): each column of
+# the used range read from row 1 down to its first empty cell; the Cartesian product on a new sheet, the first column
+# slowest, one column per list; a column with no items is a runtime error. Input: each item is one list, its values
+# joined by «, »; a row renders as first=last column.
+case_id	function	call	input	vba	expected	rule	why	xfail
+lin-two	linear_combinations		купить, заказать | диван, стол	купить=диван | купить=стол | заказать=диван | заказать=стол	купить=диван | купить=стол | заказать=диван | заказать=стол			
+lin-three	linear_combinations		a, b | c | d, e	a=d | a=e | b=d | b=e	a=d | a=e | b=d | b=e			
+lin-one	linear_combinations		a, b	a=a | b=b	a=a | b=b			
+lin-shorter	linear_combinations		купить, заказать, взять | диван	купить=диван | заказать=диван | взять=диван	купить=диван | заказать=диван | взять=диван			
+lin-gap	linear_combinations		купить, , заказать | диван	купить=диван	купить=диван | заказать=диван	Пустые ячейки списка пропускаются	a column is read down to its first empty cell: the items below it are lost	

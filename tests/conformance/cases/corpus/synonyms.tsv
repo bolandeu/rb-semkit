@@ -1,0 +1,15 @@
+# synonyms. VBA (docs/vba/analysis.md §9): «Составить список на основе отчета» aa·a (L2376) → o·k– (L654–747): the
+# condition and the matched phrase cut from the first « -», «+» removed; ook (L1302): LCase, the stopwords out, equal
+# word counts, lemmas, srt of all the words, the words unlike both neighbours, at most 2; as compiled, Select Case
+# InStr/Case True always reverses the pair, so the initial word is the alphabetically later one. A row with the
+# matched phrase «-» compares the condition with the search phrase, for the list to check. Output: the sheets Синонимы
+# 100% and Синонимы проверить, keyword | synonyms. Input: each item «phrase / condition / matched»; vba renders the
+# rows of the two sheets in that order as word=synonyms.
+case_id	function	call	input	vba	expected	rule	why	xfail
+syn-initial	synonyms		купить софу / купить диван / купить софа	софа=диван	диван=софа	Синоним считается от слова условия показа	the pair is always reversed: the initial word is the later one in sort order	
+syn-later	synonyms		 / купить софа / купить диван	софа=диван	софа=диван			
+syn-operators	synonyms		 / +купить !диваны -бу / купила софы	софа=!диваны	диван=софа	Синоним считается от слова условия показа; Операторы соответствия убираются все	only «+» is removed: «!диваны» is no word of the dictionary and stays as it is	
+syn-check	synonyms		купить кушетку / купить диван / - | купить софу / купить диван / купить софа	софа=диван | кушетка=диван	диван=софа | диван=кушетка	Синоним считается от слова условия показа	the pair is always reversed: the initial word is the later one in sort order	
+syn-two-words	synonyms		 / купить диван / заказать софа					
+syn-length	synonyms		 / купить диван / купить диван угловой					
+syn-stopwords	synonyms		 / диван в москве / софа москва	софа=диван	диван=софа	Синоним считается от слова условия показа	the pair is always reversed: the initial word is the later one in sort order	

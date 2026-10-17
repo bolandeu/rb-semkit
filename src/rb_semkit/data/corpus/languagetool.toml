@@ -1,0 +1,13 @@
+# The LanguageTool spelling server of sk.LanguageTool (docs/plan.md §3a): tailnet only, no auth, owner sysadmin.
+url = "https://homeserver.tailee01ab.ts.net:8010/v2/check"
+language = "ru-RU"
+rules = "MORFOLOGIK_RULE_RU_RU"
+# Seconds to wait for an answer: the server starts on demand, its cold start takes about 15 s.
+timeout = 60.0
+# Phrases per request (one per line) and requests at once: the limits the server owner set.
+batch_lines = 1000
+parallel = 2
+# Retries of a request after a 5xx answer, a timeout or a lost connection; the pause before the first, in seconds,
+# doubles before each next one.
+retries = 3
+backoff = 2.0

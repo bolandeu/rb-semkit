@@ -1,0 +1,12 @@
+# add_minus_words. VBA (docs/vba/analysis.md §9): «Добавить в минус-слова» aa·· (L2466) → oo—– (L839–840): an InputBox
+# asks for two columns, word | synonyms (separated by spaces); each phrase that does not start with a quote is
+# lemmatized (oko of LCase, cut from its minus-words); for each lemma that is a word of the list, as compiled every
+# synonym is appended as « -synonym», since the InStr/Case True test never matches. The phrase column comes from ydPhr
+# (L1206), an empty stub: here the phrases are the input.
+case_id	function	call	input	vba	expected	rule	why	xfail
+minus-basic	add_minus_words	{"table": {"диван": "софа тахта"}}	купить диван	купить диван -софа -тахта	купить диван -софа -тахта			
+minus-form	add_minus_words	{"table": {"диван": "софа тахта"}}	купить диваны	купить диваны -софа -тахта	купить диваны -софа -тахта			
+minus-none	add_minus_words	{"table": {"диван": "софа тахта"}}	стол	стол	стол			
+minus-quote	add_minus_words	{"table": {"диван": "софа тахта"}}	"купить диван"	"купить диван"	"купить диван"			
+minus-held	add_minus_words	{"table": {"диван": "софа тахта"}}	купить диван -софа	купить диван -софа -софа -тахта	купить диван -софа -тахта	Минус-слово не добавляется, если синоним уже есть во фразе	the test of a synonym in the phrase never matches: every synonym is appended	
+minus-word-held	add_minus_words	{"table": {"диван": "софа тахта"}}	диван софа	диван софа -софа -тахта	диван софа -тахта	Минус-слово не добавляется, если синоним уже есть во фразе	the test of a synonym in the phrase never matches: every synonym is appended	

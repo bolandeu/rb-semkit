@@ -1,0 +1,10 @@
+# levenshtein. VBA (docs/vba/analysis.md §10): the UDF Levenstein (L3338): unit costs, but it compares the low byte of
+# each UTF-16 unit (bs1((i - 1) * 2)), so «а» (U+0430) equals «0» (U+0030). Input: «first | second».
+case_id	function	call	input	vba	expected	rule	why	xfail
+lev-transpose	levenshtein		диван | диавн	2	2			
+lev-one	levenshtein		кот | кит	1	1			
+lev-empty	levenshtein		 | abc	3	3			
+lev-same	levenshtein		диван | диван	0	0			
+lev-yo	levenshtein		ёж | еж	1	1			
+lev-low-byte	levenshtein		а | 0	0	1	Расстояние Левенштейна считается по целым символам	only the low byte is compared: U+0430 and U+0030 share 0x30	
+lev-low-byte-word	levenshtein		кот | к>т	0	1	Расстояние Левенштейна считается по целым символам	only the low byte is compared: «о» U+043E and «>» U+003E share 0x3E	
