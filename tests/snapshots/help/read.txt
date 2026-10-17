@@ -178,6 +178,11 @@
 │                        «v n».                                                                    │
 │ wordforms              Every wordform of the lemma of a word, alphabetical, each once: «диваны»  │
 │                        → «диван», «дивана», …                                                    │
+│ off-topic              The distance of each phrase of the core from the centre of the core, by   │
+│                        meaning.                                                                  │
+│ classify-queries       The nearest phrase of the core for each query of a search query report,   │
+│                        by meaning.                                                               │
+│ assign-pages           The best two pages of the site for each phrase of the core, by meaning.   │
 │ cluster-serp           Cluster the phrases of a SERP table (columns phrase, position, url) by    │
 │                        the common URLs of their tops.                                            │
 │ split-text             Every cell cut into phrases at sentence ends and clause punctuation; one  │
