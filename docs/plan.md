@@ -104,6 +104,8 @@ samples → dataio. XML feed. License.
 
 Built by `scripts/build_data.py` (all data but D15) and `scripts/build_markers.py` (D15) from the sandbox sources into
 `src/rb_semkit/data/`. Both scripts are re-runnable; the built files are committed (private repo). Sources stay outside the repo.
+`scripts/data_manifest.py` records, per built file, its source, the item counts and every dropped item with the reason
+(`tests/conformance/data_manifest.json`); `tests/conformance/test_data.py` checks the built files against it.
 
 | # | Data | Source | Rows | Package format | Load | Used by |
 |---|---|---|---|---|---|---|
@@ -204,7 +206,7 @@ Typos: Levenshtein in the library; spelling check through LanguageTool on homese
 4. `markers`, `dupes`.
 5. `analysis`: n-grams, bigrams, counts.
 6. Reference examples from the add-in for key functions; compare.
-7. v2 block; then CLI.
+7. The rest of the library (E-002: the change block, the v2 and later functions); then one CLI over the whole library (the Human, 2026-10-17: the CLI is designed once for every function).
 
 ## 5. Open questions (interview)
 Block A answered by this plan (order above) — confirm. Blocks B–F of the brief are still open.
