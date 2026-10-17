@@ -189,7 +189,7 @@ $ semkit read phrases.csv compare-lists --against second.csv --op second write -
 
 ## Steps by meaning
 
-The steps by meaning (`cluster-meaning`) compare phrases by their phrase vectors: phrases of close meaning get close
+The steps by meaning (`cluster-meaning`, `dupes --kind meaning`) compare phrases by their phrase vectors: phrases of close meaning get close
 vectors. They need the optional extra `vectors` and an encoder pulled once; a step never downloads one.
 
 1. Install semkit with the extra: `uv tool install "rb-semkit[vectors] @ git+https://github.com/bolandeu/rb-semkit.git@vX.Y.Z"`
@@ -214,6 +214,13 @@ name; a phrase without close phrases is a cluster of one. The summary line of th
 searched (`index: exact`, or `index: hnsw` above about 300 000 phrases; both give the same result every run); with
 `--json` it is the `note` of the step's summary. A model not pulled is `MODEL_NOT_PULLED` (exit 1, the action is the
 pull command); an unknown `--model` or a `--threshold` out of 0–1 is exit 2.
+
+`dupes --kind meaning` marks a phrase as a duplicate of an earlier one when their vectors are close and the words that
+differ are only non-refining words (the bundled list `@meaning/neutral`, plus your own `--neutral @FILE`), synonyms
+(`--synonyms FILE` of word and synonyms, as the step `synonyms` gives), another form or order of a word, or the home
+city (`--home NAME`). A refinement (type, size, material, brand, another city) is another intent, however close the
+vectors. It adds `<column>_dupes`, `dupe_of` (the first phrase of the group) and `similarity` (the cosine to it);
+`--action drop` keeps the first row of each group.
 
 ## Errors
 

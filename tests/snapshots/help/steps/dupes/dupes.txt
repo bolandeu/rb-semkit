@@ -3,35 +3,109 @@
 
  Duplicates of the phrases, by kind.
 
- kind: exact (the same text), explicit (the same in any case, with ё as е and any spaces), implicit
- (the same words in another order) or lemmas (the same lemmas in any order).
  action: mark_except_first (true for each duplicate, false for the first of its group), mark_all
  (true for every member of a group of 2 or more), drop (keep the first, drop the rest).
 
+ kind: exact (the same text), explicit (the same in any case, with ё as е and any spaces), implicit
+ (the same words in another order), lemmas (the same lemmas in any order) or meaning (close phrase
+ vectors, and the words that differ are only non-refining words, synonyms or the home city).
+ neutral: the Human's non-refining words for --kind meaning, as @FILE or @NAME of a list; they add
+ to the bundled list @meaning/neutral. Words are compared by lemma.
+ synonyms: a file with the columns word and synonyms, as the step `synonyms` gives, for --kind
+ meaning; a word and its synonyms are the same word. The file is read like `read` does.
+ home: the name of the home city for --kind meaning; its word is non-refining, another city's is
+ not.
+ threshold: the similarity from 0 to 1 two phrases need to be one intent, for --kind meaning.
+ Without it the threshold of the model.
+ model: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or
+ hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of
+ the model; a hub model has none.
+
  The step marks the duplicates of the working column in a new column <column>_dupes; with --action
- drop it keeps only the first row of each group.
+ drop it keeps only the first row of each group. With --kind meaning it also adds the columns
+ dupe_of (the first row of the group, the phrase kept) and similarity (the cosine to it) next to
+ it.
 
  Example: semkit read core.csv dupes lemmas --action mark_except_first write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
-│   KIND      <exact|explicit|implicit|lemmas>  exact (the same text), explicit (the same in any   │
-│                                               case, with ё as е and any spaces), implicit (the   │
-│                                               same words in another order) or lemmas (the same   │
-│                                               lemmas in any order). The same as --kind KIND.     │
+│   KIND      <exact|explicit|implicit|lemmas|meaning>  exact (the same text), explicit (the same  │
+│                                                       in any case, with ё as е and any spaces),  │
+│                                                       implicit (the same words in another        │
+│                                                       order), lemmas (the same lemmas in any     │
+│                                                       order) or meaning (close phrase vectors,   │
+│                                                       and the words that differ are only         │
+│                                                       non-refining words, synonyms or the home   │
+│                                                       city). The same as --kind KIND.            │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│    --kind          KIND                               exact (the same text), explicit (the same  │
-│                                                       in any case, with ё as е and any spaces),  │
-│                                                       implicit (the same words in another order) │
-│                                                       or lemmas (the same lemmas in any order).  │
-│ *  --action        <mark_except_first|mark_all|drop>  mark_except_first (true for each           │
-│                                                       duplicate, false for the first of its      │
-│                                                       group), mark_all (true for every member of │
-│                                                       a group of 2 or more), drop (keep the      │
-│                                                       first, drop the rest).                     │
-│                                                       [required]                                 │
-│    --as            NAME                               Write the result to a new column NAME and  │
-│                                                       keep the working column as it is.          │
-│    --help                                             Show this message and exit.                │
+│    --kind             KIND                               exact (the same text), explicit (the    │
+│                                                          same in any case, with ё as е and any   │
+│                                                          spaces), implicit (the same words in    │
+│                                                          another order), lemmas (the same lemmas │
+│                                                          in any order) or meaning (close phrase  │
+│                                                          vectors, and the words that differ are  │
+│                                                          only non-refining words, synonyms or    │
+│                                                          the home city).                         │
+│ *  --action           <mark_except_first|mark_all|drop>  mark_except_first (true for each        │
+│                                                          duplicate, false for the first of its   │
+│                                                          group), mark_all (true for every member │
+│                                                          of a group of 2 or more), drop (keep    │
+│                                                          the first, drop the rest).              │
+│                                                          [required]                              │
+│    --threshold        <float>                            the similarity from 0 to 1 two phrases  │
+│                                                          need to be one intent, for --kind       │
+│                                                          meaning. Without it the threshold of    │
+│                                                          the model.                              │
+│    --model            <str>                              the encoder, pulled once with `semkit   │
+│                                                          models pull NAME`: e5-small, bge-m3,    │
+│                                                          potion, or hf:<id> of a model of the    │
+│                                                          Hugging Face hub. Without --threshold   │
+│                                                          the step takes the threshold of the     │
+│                                                          model; a hub model has none.            │
+│                                                          [default: e5-small]                     │
+│    --neutral          <str>                              the Human's non-refining words for      │
+│                                                          --kind meaning, as @FILE or @NAME of a  │
+│                                                          list; they add to the bundled list      │
+│                                                          @meaning/neutral. Words are compared by │
+│                                                          lemma. Items: a comma list 'a,b', @FILE │
+│                                                          (one item per line, or the first column │
+│                                                          of a table) or @NAME of a list.         │
+│    --synonyms         <str>                              a file with the columns word and        │
+│                                                          synonyms, as the step `synonyms` gives, │
+│                                                          for --kind meaning; a word and its      │
+│                                                          synonyms are the same word. The file is │
+│                                                          read like `read` does.                  │
+│    --home             <str>                              the name of the home city for --kind    │
+│                                                          meaning; its word is non-refining,      │
+│                                                          another city's is not.                  │
+│    --as               NAME                               Write the result to a new column NAME   │
+│                                                          and keep the working column as it is.   │
+│    --help                                                Show this message and exit.             │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+ Lists for @NAME: @combine/kiev-region-towns, @combine/leningrad-region-villages,
+ @combine/moscow-hotels, @combine/moscow-metro, @combine/moscow-region-villages,
+ @combine/realty-object, @combine/realty-service, @combine/review, @combine/russia-cities-100k,
+ @combine/russia-cities-250k, @combine/russia-cities-500k, @combine/shop, @combine/spb-hotels,
+ @combine/spb-metro, @combine/tourism, @combine/tourism/austria, @combine/tourism/baltic,
+ @combine/tourism/benelux, @combine/tourism/bulgaria, @combine/tourism/canada,
+ @combine/tourism/caribbean, @combine/tourism/china, @combine/tourism/croatia,
+ @combine/tourism/cyprus, @combine/tourism/czech, @combine/tourism/egypt, @combine/tourism/france,
+ @combine/tourism/germany, @combine/tourism/greece, @combine/tourism/hungary,
+ @combine/tourism/india, @combine/tourism/indonesia, @combine/tourism/israel,
+ @combine/tourism/italy, @combine/tourism/malaysia, @combine/tourism/mexico,
+ @combine/tourism/montenegro, @combine/tourism/poland, @combine/tourism/portugal,
+ @combine/tourism/scandinavia, @combine/tourism/spain, @combine/tourism/switzerland,
+ @combine/tourism/thailand, @combine/tourism/turkey, @combine/tourism/uae, @combine/tourism/uk,
+ @combine/tourism/usa, @combine/ukraine-cities-100k, @combine/ukraine-cities-250k, @markers/DIY,
+ @markers/MO, @markers/cars, @markers/citiesRu, @markers/color, @markers/districts, @markers/edu,
+ @markers/fun, @markers/game, @markers/geo, @markers/material, @markers/mosmetro, @markers/names,
+ @markers/origin, @markers/questions, @markers/rent, @markers/reviews, @markers/sale,
+ @meaning/neutral, @minus/abusive, @minus/adult-hard, @minus/adult-soft, @minus/belarus-cities,
+ @minus/cheap, @minus/computer, @minus/countries, @minus/ex-ussr-cities, @minus/free,
+ @minus/handmade, @minus/kazakhstan-cities, @minus/moscow-region-cities, @minus/russia-cities,
+ @minus/ukraine-cities, @minus/universal, @minus/world-cities, @stop/semtools, @stop/wordstat. Run
+ 'semkit lists' for their sources and descriptions.
+
 

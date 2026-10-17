@@ -6,7 +6,8 @@
 Source: `bukvarix` (the folder with minus/, stop/ and combiner/). Each list is its file without the BOM, with LF line
 ends, every line trimmed, empty lines and repeats dropped, in the order of the file. A manifest line may drop items
 (`drop`: the item and the reason), as minus/universal drops «купить»: a commercial core is a core of buying. A line of the manifest without an
-`origin` is a list of another area (the marker lists, the stopwords of the text area): it only names that data.
+`origin` is a list of another area (the marker lists, the stopwords of the text area): it only names that data. A line
+with an `own` instead of an `origin` is a list written here: its file under lists/ next to this part, one item per line.
 """
 
 from __future__ import annotations
@@ -23,6 +24,7 @@ MANIFEST = Path(__file__).with_suffix(".toml")
 MANIFEST_NAME = "manifest.toml"
 SOURCE_SUFFIX = ".txt"
 BUILT_PREFIX = "wordlists/"
+OWN_DIR = Path(__file__).parent / "lists"
 
 
 class ManifestMismatch(SourceMissing):
@@ -76,16 +78,24 @@ def check_pointers(lines: list[dict[str, str]], data_dir: Path) -> None:
     problems = [
         f"{line['name']}: a manifest line without its data {line['file']}"
         for line in lines
-        if "origin" not in line and not _table_exists(data_dir, line["file"])
+        if "origin" not in line and "own" not in line and not _table_exists(data_dir, line["file"])
     ]
     if problems:
         raise ManifestMismatch("; ".join(problems))
 
 
+def _source(line: dict, source_dir: Path) -> tuple[str, Path]:
+    """The name for the manifest and the path of the source file of a built list: its own file, or one of Bukvarix."""
+    if "own" in line:
+        return f"semkit/{line['own']}", OWN_DIR / line["own"]
+    return f"bukvarix/{line['origin']}", source_dir / line["origin"]
+
+
 def entry(line: dict, source_dir: Path) -> Entry:
     """What the list of `line` takes from its source: the repeats and the items the line drops are dropped."""
-    items = read_items(source_dir / line["origin"])
-    found = Entry(f"bukvarix/{line['origin']}", len(items))
+    name, path = _source(line, source_dir)
+    items = read_items(path)
+    found = Entry(name, len(items))
     dropped = line.get("drop", {})
     seen: set[str] = set()
     for item in items:
@@ -100,21 +110,23 @@ def entry(line: dict, source_dir: Path) -> Entry:
 def built_items(line: dict, source_dir: Path) -> list[str]:
     """The items of the list of `line`: its source without repeats and without the items the line drops."""
     dropped = line.get("drop", {})
-    return [item for item in dict.fromkeys(read_items(source_dir / line["origin"])) if item not in dropped]
+    return [item for item in dict.fromkeys(read_items(_source(line, source_dir)[1])) if item not in dropped]
 
 
 def manifest(sources: dict[str, Path]) -> dict[str, Entry]:
     lines = read_manifest()
     check_sources(lines, sources["bukvarix"])
     return {
-        line["file"].removeprefix(BUILT_PREFIX): entry(line, sources["bukvarix"]) for line in lines if "origin" in line
+        line["file"].removeprefix(BUILT_PREFIX): entry(line, sources["bukvarix"])
+        for line in lines
+        if "origin" in line or "own" in line
     }
 
 
 def write_lists(lines: list[dict[str, str]], source_dir: Path, data_dir: Path) -> None:
     """Each built list of `lines` as its file under `data_dir`: the items of its source, repeats dropped, gzipped."""
     for line in lines:
-        if "origin" in line:
+        if "origin" in line or "own" in line:
             items = built_items(line, source_dir)
             target = data_dir / line["file"]
             target.parent.mkdir(parents=True, exist_ok=True)
