@@ -4,3 +4,4 @@ src/rb_semkit/data/text/** linguist-generated
 src/rb_semkit/data/markers/** linguist-generated
 src/rb_semkit/data/change/** linguist-generated
 src/rb_semkit/data/declension/** linguist-generated
+src/rb_semkit/data/wordlists/** linguist-generated

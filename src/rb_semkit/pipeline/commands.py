@@ -6,6 +6,8 @@ the choices, a bool a flag (`--name/--no-name` when it is on by default), an arg
 ones with no command-line form (a lemmatizer, a Series) are left out. The first required argument is also taken
 positionally (`remove-chars punctuation` is `remove-chars --kind punctuation`). A change step also takes `--as NAME`.
 
+A step that takes items gets `ListsHelp`: its help ends with the names of the word lists (`takes_items` finds such a step).
+
 The help of an option is the line of the docstring that starts with its name («mode: …»). The command checks every
 option before any input is read: Click checks the types and choices, `Step.prepare` the rest.
 """
@@ -22,8 +24,10 @@ from typing import Any, Literal
 
 import typer
 from rich.markup import escape
+from typer.core import TyperCommand
 
 from .. import output
+from ..core import wordlists
 from ..core.errors import InvalidArguments
 from ..core.version import cli_name
 from ..steps import ARGUMENT_LINE, Step
@@ -84,6 +88,24 @@ class StepOption:
         choices = typing.get_args(self.annotation) if typing.get_origin(self.annotation) is Literal else ()
         value = choices[0] if choices else EXAMPLE_VALUES[str if self.takes_items else self.annotation]
         return str(value) if self.positional else f"{self.flag()} {value}"
+
+
+class ListsHelp(TyperCommand):
+    """A step that takes items: its help ends with the word lists that exist when the help is shown."""
+
+    @property
+    def epilog(self) -> str:
+        names = ", ".join(f"@{entry.name}" for entry in wordlists.names())
+        return escape(f"Lists for @NAME: {names}. Run '{cli_name()} lists' for their sources and descriptions.")
+
+    @epilog.setter
+    def epilog(self, value: str | None) -> None:
+        """Click sets the epilog in its constructor; the help takes it from the lists instead."""
+
+
+def takes_items(step: Step) -> bool:
+    """Whether an option of the step takes items."""
+    return any(option.takes_items for option in step_options(step.function))
 
 
 def help_hint(step: str) -> str:

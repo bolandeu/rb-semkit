@@ -1,0 +1,16 @@
+
+ Usage: semkit lists show [OPTIONS] {name}
+
+ Show the items of a word list, one per line.
+
+ Example: semkit lists show minus/cheap
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│ *    name      <str>  The name of the list, as niche/mebel (see `lists`). [required]             │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --json           Emit machine-readable JSON output.                                              │
+│ --quiet          Suppress non-essential output.                                                  │
+│ --help           Show this message and exit.                                                     │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

@@ -34,6 +34,7 @@ NOT_CASED = {
     "bm25",
     "compare_lists",
     "edges",
+    "word_list",  # semkit's own: the word lists, not a function of the add-in
 }
 CASES = all_cases()
 

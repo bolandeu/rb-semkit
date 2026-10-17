@@ -11,7 +11,8 @@
 
  Every column is read as text; an empty cell is an empty string. An option that
  takes items takes a comma list 'a,b', @FILE (one item per line) or @NAME of a list
- (@stopwords, the marker lists). `semkit read IN STEP --help` shows a step.
+ (@stop/semtools, @minus/cheap…; `semkit lists` shows them all). `semkit read IN STEP --help` shows
+ a step.
 
  Example: semkit read core.csv remove-words --items купить dupes --kind lemmas --action drop write
  out.csv

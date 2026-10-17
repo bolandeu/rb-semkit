@@ -8,7 +8,7 @@ against the `click` package would match nothing. OpenCLI has no fields for a par
 or default, nor metadata on the document itself, so ours go into `metadata`
 entries named `x-rb-*`: per option/argument `x-rb-type`, `x-rb-default`,
 `x-rb-multiple`; on the root command the tool's env vars, data, external
-programs and template version.
+programs, word lists (`word_lists`) and template version.
 
 The output is a cross-tool contract like `auth status`: tests/test_describe.py
 validates it against the OpenCLI schema and snapshots it. Changing or removing
@@ -51,6 +51,7 @@ def document(root: Any) -> dict:
             "x-rb-env": env_vars(),
             "x-rb-data": data(),
             "x-rb-external": [asdict(spec) for spec in deps.declared().values()],
+            "x-rb-lists": word_lists(),
         }
     )
     info = {"title": cli_name(), "version": installed_version() or DEV_VERSION}
@@ -183,6 +184,14 @@ def env_vars() -> list[dict]:
             for name, description in db.ENV_VARS.items()
         ]
     return found
+
+
+def word_lists() -> list[dict] | None:
+    """Every word list `@NAME` can name, with where it comes from and what it is; None when the tool has no lists."""
+    module = f"{_PACKAGE_NAME}.core.wordlists"
+    if not module_exists(module):
+        return None
+    return [asdict(entry) for entry in importlib.import_module(module).names()]
 
 
 def data() -> dict:

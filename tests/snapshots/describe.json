@@ -642,8 +642,294 @@
         ]
       },
       {
+        "name": "lists",
+        "description": "Word lists: the bundled ones and the Human's own (list, show, add, rm).",
+        "options": [
+          {
+            "name": "--json",
+            "description": "Emit machine-readable JSON output.",
+            "metadata": [
+              {
+                "name": "x-rb-type",
+                "value": "boolean"
+              },
+              {
+                "name": "x-rb-default",
+                "value": false
+              }
+            ]
+          },
+          {
+            "name": "--quiet",
+            "description": "Suppress non-essential output.",
+            "metadata": [
+              {
+                "name": "x-rb-type",
+                "value": "boolean"
+              },
+              {
+                "name": "x-rb-default",
+                "value": false
+              }
+            ]
+          }
+        ],
+        "commands": [
+          {
+            "name": "show",
+            "description": "Show the items of a word list, one per line.\n\nExample: semkit lists show minus/cheap",
+            "options": [
+              {
+                "name": "--json",
+                "description": "Emit machine-readable JSON output.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--quiet",
+                "description": "Suppress non-essential output.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "name",
+                "required": true,
+                "arity": {
+                  "minimum": 1,
+                  "maximum": 1
+                },
+                "description": "The name of the list, as niche/mebel (see `lists`).",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "add",
+            "description": "Copy a file into a folder of word lists under a name.\n\nAn existing list is refused without --replace. With --dry-run the file is not copied.\n\nExample: semkit lists add niche/mebel mebel.txt --to project",
+            "options": [
+              {
+                "name": "--to",
+                "arguments": [
+                  {
+                    "name": "TO",
+                    "required": true
+                  }
+                ],
+                "description": "Where to put the list: 'project' (the project's .rb_semkit/lists) or the path of a folder of lists; ~ is the home folder.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "project"
+                  }
+                ]
+              },
+              {
+                "name": "--replace",
+                "description": "Overwrite the list when the folder has it.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--json",
+                "description": "Emit machine-readable JSON output.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--quiet",
+                "description": "Suppress non-essential output.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--dry-run",
+                "description": "Show what would happen without making changes.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "name",
+                "required": true,
+                "arity": {
+                  "minimum": 1,
+                  "maximum": 1
+                },
+                "description": "The name to give the list, as niche/mebel.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "file",
+                "required": true,
+                "arity": {
+                  "minimum": 1,
+                  "maximum": 1
+                },
+                "description": "The text file to copy: one item per line, a first line '# …' is the description.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "path"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "rm",
+            "description": "Remove a word list from a folder of lists. A bundled list is never removed.\n\nWith --dry-run nothing is removed.\n\nExample: semkit lists rm niche/mebel --from project",
+            "options": [
+              {
+                "name": "--from",
+                "arguments": [
+                  {
+                    "name": "SOURCE_FOLDER",
+                    "required": true
+                  }
+                ],
+                "description": "Where the list is: 'project' (the project's .rb_semkit/lists) or the path of a folder of lists; ~ is the home folder.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "project"
+                  }
+                ]
+              },
+              {
+                "name": "--json",
+                "description": "Emit machine-readable JSON output.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--quiet",
+                "description": "Suppress non-essential output.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--dry-run",
+                "description": "Show what would happen without making changes.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "name",
+                "required": true,
+                "arity": {
+                  "minimum": 1,
+                  "maximum": 1
+                },
+                "description": "The name of the list to remove, as niche/mebel.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
         "name": "read",
-        "description": "Read a table, run the steps in the order written, write the result: one pipeline.\n\nEach step works on the current table. A change step rewrites the working column\n(with --as NAME it writes a new column), a filter keeps or drops rows, a report\n(n-grams) makes its table the current one and its first text column the working one.\nAfter each step one line goes to stderr: the step, the rows before and after it,\nthe cells it changed. Every step and option is checked before the input is read.\n\nEvery column is read as text; an empty cell is an empty string. An option that\ntakes items takes a comma list 'a,b', @FILE (one item per line) or @NAME of a list\n(@stopwords, the marker lists). `semkit read IN STEP --help` shows a step.\n\nExample: semkit read core.csv remove-words --items купить dupes --kind lemmas --action drop write out.csv",
+        "description": "Read a table, run the steps in the order written, write the result: one pipeline.\n\nEach step works on the current table. A change step rewrites the working column\n(with --as NAME it writes a new column), a filter keeps or drops rows, a report\n(n-grams) makes its table the current one and its first text column the working one.\nAfter each step one line goes to stderr: the step, the rows before and after it,\nthe cells it changed. Every step and option is checked before the input is read.\n\nEvery column is read as text; an empty cell is an empty string. An option that\ntakes items takes a comma list 'a,b', @FILE (one item per line) or @NAME of a list\n(@stop/semtools, @minus/cheap…; `semkit lists` shows them all). `semkit read IN STEP --help` shows a step.\n\nExample: semkit read core.csv remove-words --items купить dupes --kind lemmas --action drop write out.csv",
         "options": [
           {
             "name": "--column",
@@ -8770,6 +9056,521 @@
       {
         "name": "x-rb-external",
         "value": []
+      },
+      {
+        "name": "x-rb-lists",
+        "value": [
+          {
+            "name": "combine/kiev-region-towns",
+            "source": "bundled",
+            "lines": 28,
+            "description": "Города Киевской области"
+          },
+          {
+            "name": "combine/leningrad-region-villages",
+            "source": "bundled",
+            "lines": 43,
+            "description": "Населённые пункты Ленинградской области"
+          },
+          {
+            "name": "combine/moscow-hotels",
+            "source": "bundled",
+            "lines": 489,
+            "description": "Гостиницы Москвы"
+          },
+          {
+            "name": "combine/moscow-metro",
+            "source": "bundled",
+            "lines": 185,
+            "description": "Станции московского метро"
+          },
+          {
+            "name": "combine/moscow-region-villages",
+            "source": "bundled",
+            "lines": 3239,
+            "description": "Населённые пункты и районы Московской области"
+          },
+          {
+            "name": "combine/realty-object",
+            "source": "bundled",
+            "lines": 53,
+            "description": "Виды недвижимости для комбинирования: квартира, дом, офис"
+          },
+          {
+            "name": "combine/realty-service",
+            "source": "bundled",
+            "lines": 43,
+            "description": "Действия с недвижимостью для комбинирования: купить, продать, сдать, снять"
+          },
+          {
+            "name": "combine/review",
+            "source": "bundled",
+            "lines": 36,
+            "description": "Слова отзывов для комбинирования: обзор, отзыв, рецензия"
+          },
+          {
+            "name": "combine/russia-cities-100k",
+            "source": "bundled",
+            "lines": 181,
+            "description": "Города России с населением от 100 тысяч"
+          },
+          {
+            "name": "combine/russia-cities-250k",
+            "source": "bundled",
+            "lines": 83,
+            "description": "Города России с населением от 250 тысяч"
+          },
+          {
+            "name": "combine/russia-cities-500k",
+            "source": "bundled",
+            "lines": 42,
+            "description": "Города России с населением от 500 тысяч"
+          },
+          {
+            "name": "combine/shop",
+            "source": "bundled",
+            "lines": 16,
+            "description": "Слова магазина для комбинирования: распродажа, акция, скидка"
+          },
+          {
+            "name": "combine/spb-hotels",
+            "source": "bundled",
+            "lines": 56,
+            "description": "Гостиницы Санкт-Петербурга"
+          },
+          {
+            "name": "combine/spb-metro",
+            "source": "bundled",
+            "lines": 82,
+            "description": "Станции петербургского метро"
+          },
+          {
+            "name": "combine/tourism",
+            "source": "bundled",
+            "lines": 61,
+            "description": "Туристические слова для комбинирования: тур, путёвка, отдых"
+          },
+          {
+            "name": "combine/tourism/austria",
+            "source": "bundled",
+            "lines": 102,
+            "description": "Курорты, города и достопримечательности: Австрия"
+          },
+          {
+            "name": "combine/tourism/baltic",
+            "source": "bundled",
+            "lines": 41,
+            "description": "Курорты, города и достопримечательности: Прибалтика"
+          },
+          {
+            "name": "combine/tourism/benelux",
+            "source": "bundled",
+            "lines": 33,
+            "description": "Курорты, города и достопримечательности: Бенилюкс"
+          },
+          {
+            "name": "combine/tourism/bulgaria",
+            "source": "bundled",
+            "lines": 35,
+            "description": "Курорты, города и достопримечательности: Болгария"
+          },
+          {
+            "name": "combine/tourism/canada",
+            "source": "bundled",
+            "lines": 26,
+            "description": "Курорты, города и достопримечательности: Канада"
+          },
+          {
+            "name": "combine/tourism/caribbean",
+            "source": "bundled",
+            "lines": 51,
+            "description": "Курорты, города и достопримечательности: Карибские острова"
+          },
+          {
+            "name": "combine/tourism/china",
+            "source": "bundled",
+            "lines": 37,
+            "description": "Курорты, города и достопримечательности: Китай"
+          },
+          {
+            "name": "combine/tourism/croatia",
+            "source": "bundled",
+            "lines": 48,
+            "description": "Курорты, города и достопримечательности: Хорватия"
+          },
+          {
+            "name": "combine/tourism/cyprus",
+            "source": "bundled",
+            "lines": 9,
+            "description": "Курорты, города и достопримечательности: Кипр"
+          },
+          {
+            "name": "combine/tourism/czech",
+            "source": "bundled",
+            "lines": 50,
+            "description": "Курорты, города и достопримечательности: Чехия"
+          },
+          {
+            "name": "combine/tourism/egypt",
+            "source": "bundled",
+            "lines": 48,
+            "description": "Курорты, города и достопримечательности: Египет"
+          },
+          {
+            "name": "combine/tourism/france",
+            "source": "bundled",
+            "lines": 150,
+            "description": "Курорты, города и достопримечательности: Франция"
+          },
+          {
+            "name": "combine/tourism/germany",
+            "source": "bundled",
+            "lines": 80,
+            "description": "Курорты, города и достопримечательности: Германия"
+          },
+          {
+            "name": "combine/tourism/greece",
+            "source": "bundled",
+            "lines": 122,
+            "description": "Курорты, города и достопримечательности: Греция"
+          },
+          {
+            "name": "combine/tourism/hungary",
+            "source": "bundled",
+            "lines": 24,
+            "description": "Курорты, города и достопримечательности: Венгрия"
+          },
+          {
+            "name": "combine/tourism/india",
+            "source": "bundled",
+            "lines": 95,
+            "description": "Курорты, города и достопримечательности: Индия"
+          },
+          {
+            "name": "combine/tourism/indonesia",
+            "source": "bundled",
+            "lines": 28,
+            "description": "Курорты, города и достопримечательности: Индонезия"
+          },
+          {
+            "name": "combine/tourism/israel",
+            "source": "bundled",
+            "lines": 30,
+            "description": "Курорты, города и достопримечательности: Израиль"
+          },
+          {
+            "name": "combine/tourism/italy",
+            "source": "bundled",
+            "lines": 339,
+            "description": "Курорты, города и достопримечательности: Италия"
+          },
+          {
+            "name": "combine/tourism/malaysia",
+            "source": "bundled",
+            "lines": 45,
+            "description": "Курорты, города и достопримечательности: Малайзия"
+          },
+          {
+            "name": "combine/tourism/mexico",
+            "source": "bundled",
+            "lines": 33,
+            "description": "Курорты, города и достопримечательности: Мексика"
+          },
+          {
+            "name": "combine/tourism/montenegro",
+            "source": "bundled",
+            "lines": 30,
+            "description": "Курорты, города и достопримечательности: Черногория"
+          },
+          {
+            "name": "combine/tourism/poland",
+            "source": "bundled",
+            "lines": 46,
+            "description": "Курорты, города и достопримечательности: Польша"
+          },
+          {
+            "name": "combine/tourism/portugal",
+            "source": "bundled",
+            "lines": 51,
+            "description": "Курорты, города и достопримечательности: Португалия"
+          },
+          {
+            "name": "combine/tourism/scandinavia",
+            "source": "bundled",
+            "lines": 99,
+            "description": "Курорты, города и достопримечательности: Скандинавия"
+          },
+          {
+            "name": "combine/tourism/spain",
+            "source": "bundled",
+            "lines": 205,
+            "description": "Курорты, города и достопримечательности: Испания"
+          },
+          {
+            "name": "combine/tourism/switzerland",
+            "source": "bundled",
+            "lines": 55,
+            "description": "Курорты, города и достопримечательности: Швейцария"
+          },
+          {
+            "name": "combine/tourism/thailand",
+            "source": "bundled",
+            "lines": 68,
+            "description": "Курорты, города и достопримечательности: Таиланд"
+          },
+          {
+            "name": "combine/tourism/turkey",
+            "source": "bundled",
+            "lines": 96,
+            "description": "Курорты, города и достопримечательности: Турция"
+          },
+          {
+            "name": "combine/tourism/uae",
+            "source": "bundled",
+            "lines": 21,
+            "description": "Курорты, города и достопримечательности: ОАЭ"
+          },
+          {
+            "name": "combine/tourism/uk",
+            "source": "bundled",
+            "lines": 50,
+            "description": "Курорты, города и достопримечательности: Великобритания"
+          },
+          {
+            "name": "combine/tourism/usa",
+            "source": "bundled",
+            "lines": 136,
+            "description": "Курорты, города и достопримечательности: США"
+          },
+          {
+            "name": "combine/ukraine-cities-100k",
+            "source": "bundled",
+            "lines": 43,
+            "description": "Города Украины с населением от 100 тысяч"
+          },
+          {
+            "name": "combine/ukraine-cities-250k",
+            "source": "bundled",
+            "lines": 23,
+            "description": "Города Украины с населением от 250 тысяч"
+          },
+          {
+            "name": "markers/DIY",
+            "source": "bundled",
+            "lines": 206,
+            "description": "Слова про чертежи, расчёты и самостоятельное изготовление"
+          },
+          {
+            "name": "markers/MO",
+            "source": "bundled",
+            "lines": 435,
+            "description": "Населённые пункты Московской области"
+          },
+          {
+            "name": "markers/cars",
+            "source": "bundled",
+            "lines": 2502,
+            "description": "Модели автомобилей"
+          },
+          {
+            "name": "markers/citiesRu",
+            "source": "bundled",
+            "lines": 5763,
+            "description": "Города России в разных падежах"
+          },
+          {
+            "name": "markers/color",
+            "source": "bundled",
+            "lines": 432,
+            "description": "Названия цветов в разных формах"
+          },
+          {
+            "name": "markers/districts",
+            "source": "bundled",
+            "lines": 211,
+            "description": "Районы Москвы в разных падежах"
+          },
+          {
+            "name": "markers/edu",
+            "source": "bundled",
+            "lines": 399,
+            "description": "Слова про учёбу: алгебра, алгоритм, анализ"
+          },
+          {
+            "name": "markers/fun",
+            "source": "bundled",
+            "lines": 152,
+            "description": "Слова про озвучку, кроссворды и развлечения"
+          },
+          {
+            "name": "markers/game",
+            "source": "bundled",
+            "lines": 1417,
+            "description": "Названия компьютерных игр"
+          },
+          {
+            "name": "markers/geo",
+            "source": "bundled",
+            "lines": 36012,
+            "description": "Топонимы в разных падежах: города, регионы, страны мира"
+          },
+          {
+            "name": "markers/material",
+            "source": "bundled",
+            "lines": 1001,
+            "description": "Названия материалов в разных формах"
+          },
+          {
+            "name": "markers/mosmetro",
+            "source": "bundled",
+            "lines": 647,
+            "description": "Станции метро Москвы в разных падежах"
+          },
+          {
+            "name": "markers/names",
+            "source": "bundled",
+            "lines": 7988,
+            "description": "Имена людей"
+          },
+          {
+            "name": "markers/origin",
+            "source": "bundled",
+            "lines": 982,
+            "description": "Прилагательные происхождения: австралийский, немецкий"
+          },
+          {
+            "name": "markers/questions",
+            "source": "bundled",
+            "lines": 602,
+            "description": "Вопросительные слова и обороты: сколько, какой, 10 букв, 1 класс"
+          },
+          {
+            "name": "markers/rent",
+            "source": "bundled",
+            "lines": 12,
+            "description": "Слова про аренду: аренда, арендовать, напрокат"
+          },
+          {
+            "name": "markers/reviews",
+            "source": "bundled",
+            "lines": 105,
+            "description": "Слова отзывов: отзывы покупателей, плюсы и минусы"
+          },
+          {
+            "name": "markers/sale",
+            "source": "bundled",
+            "lines": 203,
+            "description": "Слова про продажу и покупку: купить, цена, недорого"
+          },
+          {
+            "name": "minus/abusive",
+            "source": "bundled",
+            "lines": 363,
+            "description": "Нецензурная лексика"
+          },
+          {
+            "name": "minus/adult-hard",
+            "source": "bundled",
+            "lines": 259,
+            "description": "Слова для взрослых, жёсткий список"
+          },
+          {
+            "name": "minus/adult-soft",
+            "source": "bundled",
+            "lines": 106,
+            "description": "Слова для взрослых, мягкий список"
+          },
+          {
+            "name": "minus/belarus-cities",
+            "source": "bundled",
+            "lines": 106,
+            "description": "Города Белоруссии"
+          },
+          {
+            "name": "minus/cheap",
+            "source": "bundled",
+            "lines": 28,
+            "description": "Слова про дешевизну и скидки: недорого, акция, скидка, бонус"
+          },
+          {
+            "name": "minus/computer",
+            "source": "bundled",
+            "lines": 197,
+            "description": "Минус-слова компьютерной тематики: игры, программы, моды"
+          },
+          {
+            "name": "minus/countries",
+            "source": "bundled",
+            "lines": 249,
+            "description": "Страны мира"
+          },
+          {
+            "name": "minus/ex-ussr-cities",
+            "source": "bundled",
+            "lines": 1273,
+            "description": "Города России и стран бывшего СССР"
+          },
+          {
+            "name": "minus/free",
+            "source": "bundled",
+            "lines": 26,
+            "description": "Слова про бесплатность: бесплатно, подарок, даром"
+          },
+          {
+            "name": "minus/handmade",
+            "source": "bundled",
+            "lines": 43,
+            "description": "Слова про самостоятельное изготовление: своими руками, сам, самодельный"
+          },
+          {
+            "name": "minus/kazakhstan-cities",
+            "source": "bundled",
+            "lines": 102,
+            "description": "Города Казахстана"
+          },
+          {
+            "name": "minus/moscow-region-cities",
+            "source": "bundled",
+            "lines": 97,
+            "description": "Города Московской области"
+          },
+          {
+            "name": "minus/russia-cities",
+            "source": "bundled",
+            "lines": 1097,
+            "description": "Города России"
+          },
+          {
+            "name": "minus/ukraine-cities",
+            "source": "bundled",
+            "lines": 426,
+            "description": "Города Украины"
+          },
+          {
+            "name": "minus/universal",
+            "source": "bundled",
+            "lines": 74,
+            "description": "Универсальные минус-слова: купить, скачать, бесплатно, онлайн и подобные"
+          },
+          {
+            "name": "minus/world-cities",
+            "source": "bundled",
+            "lines": 519,
+            "description": "Крупные города мира"
+          },
+          {
+            "name": "stop/semtools",
+            "source": "bundled",
+            "lines": 439,
+            "description": "Стоп-слова надстройки !SEMTools: предлоги, союзы, частицы"
+          },
+          {
+            "name": "stop/wordstat",
+            "source": "bundled",
+            "lines": 278,
+            "description": "Стоп-слова Яндекс Вордстата"
+          }
+        ]
       }
     ]
   }

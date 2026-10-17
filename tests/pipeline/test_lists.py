@@ -3,11 +3,7 @@
 from __future__ import annotations
 
 import json
-import sys
-import types
 from pathlib import Path
-
-import pytest
 
 from .runner import jsonl, semkit
 
@@ -39,35 +35,24 @@ def test_a_comma_list(tmp_path: Path) -> None:
     assert _kept(_drop(tmp_path, "купить, москва")) == ["диван б/у", "кресло и диван"]
 
 
-def test_the_bundled_stopwords_by_name(tmp_path: Path) -> None:
-    assert _kept(_drop(tmp_path, "@stopwords")) == ["купить диван", "диван б/у", "диван москва"]
+def test_the_add_ins_stopwords_by_name(tmp_path: Path) -> None:
+    assert _kept(_drop(tmp_path, "@stop/semtools")) == ["купить диван", "диван б/у", "диван москва"]
 
 
 def test_a_marker_list_by_name(tmp_path: Path) -> None:
     source = tmp_path / "in.jsonl"
     source.write_text('{"phrase": "диван москва"}\n{"phrase": "диван"}\n', encoding="utf-8")
 
-    result = semkit("read", str(source), "keep-phrases", "--items", "@geo", "write", "-")
+    result = semkit("read", str(source), "keep-phrases", "--items", "@markers/geo", "write", "-")
 
     assert _kept(result) == ["диван москва"]
 
 
-def test_an_unknown_name_is_refused_with_the_names_that_exist(tmp_path: Path) -> None:
-    result = semkit("--json", "read", str(_source(tmp_path)), "drop-words", "--items", "@nope", "write", "-")
+def test_an_unknown_name_is_refused_with_the_close_names(tmp_path: Path) -> None:
+    result = semkit("--json", "read", str(_source(tmp_path)), "drop-words", "--items", "@minus/chep", "write", "-")
 
     payload = json.loads(result.stdout)
     assert result.exit_code == 2
     message = payload["error"]["message"]
-    assert "drop-words" in message and "@nope" in message
-    assert "stopwords" in message and "geo" in message
-
-
-def test_names_resolve_through_the_word_list_module_when_it_exists(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
-    wordlists = types.ModuleType("rb_semkit.core.wordlists")
-    wordlists.resolve = lambda name: {"minus/cheap": ["москва"]}[name]  # ty: ignore[unresolved-attribute]
-    wordlists.names = lambda: ["minus/cheap"]  # ty: ignore[unresolved-attribute]
-    monkeypatch.setitem(sys.modules, "rb_semkit.core.wordlists", wordlists)
-
-    assert _kept(_drop(tmp_path, "@minus/cheap")) == ["купить диван", "диван б/у", "кресло и диван"]
+    assert "drop-words" in message and "minus/chep" in message
+    assert "minus/cheap" in message

@@ -1,0 +1,26 @@
+
+ Usage: semkit lists add [OPTIONS] {name} {file}
+
+ Copy a file into a folder of word lists under a name.
+
+ An existing list is refused without --replace. With --dry-run the file is not copied.
+
+ Example: semkit lists add niche/mebel mebel.txt --to project
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│ *    name      <str>   The name to give the list, as niche/mebel. [required]                     │
+│ *    file      <path>  The text file to copy: one item per line, a first line '# …' is the       │
+│                        description.                                                              │
+│                        [required]                                                                │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --to             <str>  Where to put the list: 'project' (the project's .rb_semkit/lists) or the │
+│                         path of a folder of lists; ~ is the home folder.                         │
+│                         [default: project]                                                       │
+│ --replace               Overwrite the list when the folder has it.                               │
+│ --json                  Emit machine-readable JSON output.                                       │
+│ --quiet                 Suppress non-essential output.                                           │
+│ --dry-run               Show what would happen without making changes.                           │
+│ --help                  Show this message and exit.                                              │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
