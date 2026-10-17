@@ -1,4 +1,4 @@
-"""Cells as units: content, occurrence, empty; remove filters rows."""
+"""Cells as units: content, occurrence, empty; remove clears the found cells, the empty ones go."""
 
 from __future__ import annotations
 
@@ -24,9 +24,9 @@ def test_empty_cells_are_never_repeated() -> None:
     assert sk.find(twice, sk.cells("first")).tolist() == [True, True, True]
 
 
-def test_remove_drops_the_rows() -> None:
+def test_remove_drops_the_empty_rows_and_clears_the_other_found_cells() -> None:
     assert sk.remove(CELLS, sk.cells("empty")).to_dict() == {0: "диван", 1: "стол", 2: "диван"}
-    assert sk.remove(CELLS, sk.cells("repeated")).to_dict() == {1: "стол", 3: ""}
+    assert sk.remove(CELLS, sk.cells("repeated")).to_dict() == {0: "", 1: "стол", 2: "", 3: ""}
 
 
 def test_extract_keeps_the_cell_where_found() -> None:
