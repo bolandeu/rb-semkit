@@ -178,8 +178,8 @@ input and output. Agreed with the dataio agent on 2026-10-16 (checked against da
    `rb_dataio.write(frame, target, *, format, sheet, …, mode="replace", overwrite, backup, dry_run, …)`.
    Errors: `rb_dataio.DataioError` (has `.action`) — the semkit CLI maps it to a `CliError`.
 2. **Dependency.** A required dependency of the package since the CLI pipeline (E-003); the library itself never
-   imports it. Pin: `rb-dataio = { git = "https://homeserver.tailee01ab.ts.net:3000/bolandeu/dataio.git", tag = "v0.1.21" }`
-   (the GitHub address of the first draft does not exist).
+   imports it. Pinned by a git tag of `https://homeserver.tailee01ab.ts.net:3000/bolandeu/dataio.git` in
+   pyproject.toml (the current tag is there; the GitHub address of the first draft does not exist).
 3. **Types.** `read` infers types by default ("5" → Int64, dates → datetime). semkit CLI reads with
    the inferred types; the working column and the other text columns become text (`str`, NaN as ''), so a phrase
    '2024' stays '2024' and `freq` stays a number. Empty cells stay NaN: **semkit does `fillna("")`** itself,
