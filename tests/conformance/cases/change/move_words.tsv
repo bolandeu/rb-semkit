@@ -1,0 +1,8 @@
+# move_words. VBA, RibbonCallbacks.vba (docs/vba/change.md 3.1–3.2): to the start —aao (L1879) by moveToBeg (L1587), to the end —aa– (L2784) by moveToEnd (L1588); the list is the first column of the selected range, here words.
+case_id	function	call	input	vba	expected	rule	why	xfail
+move-start	move_words	{"words": ["купить", "угловой"]}	диван угловой купить	купить угловой диван	купить угловой диван			
+move-start-list-spelling	move_words	{"words": ["Купить"]}	диван купить	Купить диван	Купить диван			
+move-end	move_words	{"words": ["купить"], "to": "end"}	купить диван москва	диван москва купить	диван москва купить			
+move-first-only	move_words	{"words": ["диван"], "to": "end"}	диван кровать диван	кровать диван диван	кровать диван диван			
+move-yo	move_words	{"words": ["ёлка"]}	искусственная елка	искусственная елка	ёлка искусственная	ё = е при сравнении	moveToBeg compares LCase: «ёлка» is not «елка»	
+move-spaces	move_words	{"words": ["купить"]}	диван купить	диван купить	купить диван	фраза делится по любым пробелам, двойных пробелов в результатах нет	Split on the ASCII space only: «диван купить» with a no-break space is one token	

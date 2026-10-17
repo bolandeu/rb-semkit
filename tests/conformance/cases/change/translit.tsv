@@ -1,0 +1,8 @@
+# translit. VBA, RibbonCallbacks.vba (docs/vba/change.md 6.2–6.3): to en aa·o (L2144) by ooa— (L2275); to ru a·—· (L2368) by o·a— (L1351), 79 pairs replaced in order.
+case_id	function	call	input	vba	expected	rule	why	xfail
+translit-en	translit	{"to": "en"}	Щука жёлтая	Schuka zheltaya	Schuka zheltaya			
+translit-en-caps	translit	{"to": "en"}	ЖУК ЩИ	ZhUK SchI	ZHUK SCHI	Слово заглавными в транслите остаётся заглавным	StrConv ProperCase writes «Ж» as «Zh» and «Щ» as «Sch» inside a word in capitals	
+translit-en-signs	translit	{"to": "en"}	объём 2 л	obyem 2 l	obyem 2 l			
+translit-ru	translit	{"to": "ru"}	Fyva Yandex	Фыва Яндекс	Фыва Яндекс			
+translit-ru-groups	translit	{"to": "ru"}	Jeep ob'em	Джееп обэм	Джееп обэм			
+translit-ru-not-inverse	translit	{"to": "ru"}	Shch yel	Шч ыел	Шч ыел			

@@ -1,0 +1,7 @@
+# sort_words. VBA, RibbonCallbacks.vba (docs/vba/change.md 5.4): a–ao (L2820) by srt (L2951) and the quicksort kkka (L1015), binary order.
+case_id	function	call	input	vba	expected	rule	why	xfail
+sort-words	sort_words		стол Белый 2 ёлка арбуз	2 Белый арбуз стол ёлка	2 Белый арбуз стол ёлка			
+sort-words-yo-capital	sort_words		Яблоко Ёлка арбуз	Ёлка Яблоко арбуз	Ёлка Яблоко арбуз			
+sort-words-latin	sort_words		диван IKEA ikea 10	10 IKEA ikea диван	10 IKEA ikea диван			
+sort-words-one	sort_words		диван	диван	диван			
+sort-words-spaces	sort_words		б  а	а б	а б			

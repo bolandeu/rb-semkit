@@ -1,0 +1,315 @@
+{
+ "change/translit.json:chpu": {
+  "source": "sheet abc E10000:F10965 (chpuSym)",
+  "source_items": 966,
+  "bundled_items": 972,
+  "dropped": [
+   {
+    "item": "cb\tdb",
+    "reason": "a key of two chars: the add-in maps one char at a time, so it never matches"
+   },
+   {
+    "item": "cp\tqp",
+    "reason": "a key of two chars: the add-in maps one char at a time, so it never matches"
+   },
+   {
+    "item": "II\tll",
+    "reason": "a key of two chars: the add-in maps one char at a time, so it never matches"
+   },
+   {
+    "item": "IL\tLL",
+    "reason": "a key of two chars: the add-in maps one char at a time, so it never matches"
+   }
+  ],
+  "added": [
+   {
+    "item": "0\t0",
+    "reason": "the add-in adds the digits to the table in code"
+   },
+   {
+    "item": "1\t1",
+    "reason": "the add-in adds the digits to the table in code"
+   },
+   {
+    "item": "2\t2",
+    "reason": "the add-in adds the digits to the table in code"
+   },
+   {
+    "item": "3\t3",
+    "reason": "the add-in adds the digits to the table in code"
+   },
+   {
+    "item": "4\t4",
+    "reason": "the add-in adds the digits to the table in code"
+   },
+   {
+    "item": "5\t5",
+    "reason": "the add-in adds the digits to the table in code"
+   },
+   {
+    "item": "6\t6",
+    "reason": "the add-in adds the digits to the table in code"
+   },
+   {
+    "item": "7\t7",
+    "reason": "the add-in adds the digits to the table in code"
+   },
+   {
+    "item": "8\t8",
+    "reason": "the add-in adds the digits to the table in code"
+   },
+   {
+    "item": "9\t9",
+    "reason": "the add-in adds the digits to the table in code"
+   }
+  ]
+ },
+ "change/translit.json:layout": {
+  "source": "RibbonCallbacks.vba L1615: the literals of layout",
+  "source_items": 33,
+  "bundled_items": 40,
+  "dropped": [
+   {
+    "item": "·\tя",
+    "reason": "broken literal: the key of «я» is «·», not «z», so «z» never becomes «я»"
+   }
+  ],
+  "added": [
+   {
+    "item": "z\tя",
+    "reason": "the key of «я» fixed to «z»"
+   },
+   {
+    "item": "<\tБ",
+    "reason": "a shifted key: the add-in maps only the unshifted punctuation keys"
+   },
+   {
+    "item": ">\tЮ",
+    "reason": "a shifted key: the add-in maps only the unshifted punctuation keys"
+   },
+   {
+    "item": ":\tЖ",
+    "reason": "a shifted key: the add-in maps only the unshifted punctuation keys"
+   },
+   {
+    "item": "\"\tЭ",
+    "reason": "a shifted key: the add-in maps only the unshifted punctuation keys"
+   },
+   {
+    "item": "{\tХ",
+    "reason": "a shifted key: the add-in maps only the unshifted punctuation keys"
+   },
+   {
+    "item": "}\tЪ",
+    "reason": "a shifted key: the add-in maps only the unshifted punctuation keys"
+   },
+   {
+    "item": "~\tЁ",
+    "reason": "a shifted key: the add-in maps only the unshifted punctuation keys"
+   }
+  ]
+ },
+ "change/translit.json:phonetic_any_1": {
+  "source": "RibbonCallbacks.vba InitDicts: the literals aEn1 / aRu1",
+  "source_items": 26,
+  "bundled_items": 26,
+  "dropped": [],
+  "added": []
+ },
+ "change/translit.json:phonetic_any_2": {
+  "source": "RibbonCallbacks.vba InitDicts: the literals aEn2 / aRu2",
+  "source_items": 20,
+  "bundled_items": 20,
+  "dropped": [],
+  "added": []
+ },
+ "change/translit.json:phonetic_any_3": {
+  "source": "RibbonCallbacks.vba InitDicts: the literals aEn3 / aRu3",
+  "source_items": 37,
+  "bundled_items": 37,
+  "dropped": [],
+  "added": []
+ },
+ "change/translit.json:phonetic_any_4": {
+  "source": "RibbonCallbacks.vba InitDicts: the literals aEn4 / aRu4",
+  "source_items": 58,
+  "bundled_items": 58,
+  "dropped": [
+   {
+    "item": "aces\tейсиc",
+    "reason": "a latin «c» in a Russian value: the next table turns it into «к»"
+   }
+  ],
+  "added": [
+   {
+    "item": "aces\tейсис",
+    "reason": "the latin «c» of the value fixed to «с»"
+   }
+  ]
+ },
+ "change/translit.json:phonetic_any_5": {
+  "source": "RibbonCallbacks.vba InitDicts: the literals aEn5 / aRu5",
+  "source_items": 81,
+  "bundled_items": 80,
+  "dropped": [
+   {
+    "item": "heavy\tхеви",
+    "reason": "a later row of the same key wins"
+   }
+  ],
+  "added": []
+ },
+ "change/translit.json:phonetic_prefixes_2": {
+  "source": "RibbonCallbacks.vba InitDicts: the literals pEn2 / pRu2",
+  "source_items": 26,
+  "bundled_items": 26,
+  "dropped": [],
+  "added": []
+ },
+ "change/translit.json:phonetic_prefixes_3": {
+  "source": "RibbonCallbacks.vba InitDicts: the literals pEn3 / pRu3",
+  "source_items": 46,
+  "bundled_items": 46,
+  "dropped": [],
+  "added": []
+ },
+ "change/translit.json:phonetic_prefixes_4": {
+  "source": "RibbonCallbacks.vba InitDicts: the literals pEn4 / pRu4",
+  "source_items": 43,
+  "bundled_items": 42,
+  "dropped": [
+   {
+    "item": "chri\tкри",
+    "reason": "a later row of the same key wins"
+   }
+  ],
+  "added": []
+ },
+ "change/translit.json:phonetic_prefixes_5": {
+  "source": "RibbonCallbacks.vba InitDicts: the literals pEn5 / pRu5",
+  "source_items": 14,
+  "bundled_items": 14,
+  "dropped": [],
+  "added": []
+ },
+ "change/translit.json:phonetic_suffixes_2": {
+  "source": "RibbonCallbacks.vba InitDicts: the literals sEn2 / sRu2",
+  "source_items": 32,
+  "bundled_items": 32,
+  "dropped": [],
+  "added": []
+ },
+ "change/translit.json:phonetic_suffixes_3": {
+  "source": "RibbonCallbacks.vba InitDicts: the literals sEn3 / sRu3",
+  "source_items": 125,
+  "bundled_items": 125,
+  "dropped": [],
+  "added": []
+ },
+ "change/translit.json:phonetic_suffixes_4": {
+  "source": "RibbonCallbacks.vba InitDicts: the literals sEn4 / sRu4",
+  "source_items": 84,
+  "bundled_items": 84,
+  "dropped": [
+   {
+    "item": "cies\tсиc",
+    "reason": "a latin «c» in a Russian value: the next table turns it into «к»"
+   },
+   {
+    "item": "gies\tджиc",
+    "reason": "a latin «c» in a Russian value: the next table turns it into «к»"
+   },
+   {
+    "item": "ives\tивc",
+    "reason": "a latin «c» in a Russian value: the next table turns it into «к»"
+   }
+  ],
+  "added": [
+   {
+    "item": "cies\tсис",
+    "reason": "the latin «c» of the value fixed to «с»"
+   },
+   {
+    "item": "gies\tджис",
+    "reason": "the latin «c» of the value fixed to «с»"
+   },
+   {
+    "item": "ives\tивс",
+    "reason": "the latin «c» of the value fixed to «с»"
+   }
+  ]
+ },
+ "change/translit.json:phonetic_suffixes_5": {
+  "source": "RibbonCallbacks.vba InitDicts: the literals sEn5 / sRu5",
+  "source_items": 44,
+  "bundled_items": 44,
+  "dropped": [
+   {
+    "item": "tures\tчерc",
+    "reason": "a latin «c» in a Russian value: the next table turns it into «к»"
+   }
+  ],
+  "added": [
+   {
+    "item": "tures\tчерс",
+    "reason": "the latin «c» of the value fixed to «с»"
+   }
+  ]
+ },
+ "change/translit.json:phonetic_words": {
+  "source": "RibbonCallbacks.vba InitDicts: the literals fEn / fRu",
+  "source_items": 65,
+  "bundled_items": 65,
+  "dropped": [],
+  "added": []
+ },
+ "change/translit.json:similar_chars": {
+  "source": "RibbonCallbacks.vba L1896: the literals of similar_chars",
+  "source_items": 19,
+  "bundled_items": 19,
+  "dropped": [],
+  "added": []
+ },
+ "change/translit.json:translit_en_ru": {
+  "source": "RibbonCallbacks.vba L1351: the literals of translit_en_ru",
+  "source_items": 79,
+  "bundled_items": 79,
+  "dropped": [],
+  "added": []
+ },
+ "change/translit.json:translit_ru_en": {
+  "source": "RibbonCallbacks.vba L2275: the literals of translit_ru_en",
+  "source_items": 33,
+  "bundled_items": 33,
+  "dropped": [],
+  "added": []
+ },
+ "change/word_order.json:phrase_start_words_feminine": {
+  "source": "sheet abc BA1:BA644 (charsPat), declined by AD2:AS90 (adjSuffixes) and AD93:AS136 (adjExclusions)",
+  "source_items": 644,
+  "bundled_items": 644,
+  "dropped": [],
+  "added": []
+ },
+ "change/word_order.json:phrase_start_words_feminine_accusative": {
+  "source": "sheet abc BA1:BA644 (charsPat), declined by AD2:AS90 (adjSuffixes) and AD93:AS136 (adjExclusions)",
+  "source_items": 644,
+  "bundled_items": 644,
+  "dropped": [],
+  "added": []
+ },
+ "change/word_order.json:phrase_start_words_plural": {
+  "source": "sheet abc BA1:BA644 (charsPat), declined by AD2:AS90 (adjSuffixes) and AD93:AS136 (adjExclusions)",
+  "source_items": 644,
+  "bundled_items": 644,
+  "dropped": [],
+  "added": []
+ },
+ "change/word_order.json:prepositions": {
+  "source": "RibbonCallbacks.vba L1429: the literal p of BKP",
+  "source_items": 17,
+  "bundled_items": 17,
+  "dropped": [],
+  "added": []
+ }
+}

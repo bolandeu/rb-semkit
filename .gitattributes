@@ -2,3 +2,4 @@
 src/rb_semkit/data/morph/** linguist-generated
 src/rb_semkit/data/text/** linguist-generated
 src/rb_semkit/data/markers/** linguist-generated
+src/rb_semkit/data/change/** linguist-generated

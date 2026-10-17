@@ -1,0 +1,7 @@
+# chpu. VBA, RibbonCallbacks.vba (docs/vba/change.md 6.5): ––oa (L2749) with chpuSym (abc!E10000:F10965) and the digits added in code.
+case_id	function	call	input	vba	expected	rule	why	xfail
+chpu-hyphen	chpu		Диван-кровать 2 м!	Divankrovat-2-m	divan-krovat-2-m	ЧПУ в нижнем регистре; пробелы и знаки между словами — один «-», без «-» по краям и двойных «-»	the case stays, «-» and «!» are not keys of chpuSym and are dropped	
+chpu-spaces	chpu		Щётка  ёж	Schetka--ezh	schetka-ezh	ЧПУ в нижнем регистре; пробелы и знаки между словами — один «-», без «-» по краям и двойных «-»	each space gives «-»: two spaces give «--»	
+chpu-edges	chpu		 диван 	-divan-	divan	ЧПУ в нижнем регистре; пробелы и знаки между словами — один «-», без «-» по краям и двойных «-»	the spaces at the edges give «-» at the edges	
+chpu-accents	chpu		Café Æon	Cafe-AEon	cafe-aeon	ЧПУ в нижнем регистре; пробелы и знаки между словами — один «-», без «-» по краям и двойных «-»	the case stays: «Cafe-AEon»	
+chpu-latin	chpu		iphone_13.pro	iphone13pro	iphone-13-pro	ЧПУ в нижнем регистре; пробелы и знаки между словами — один «-», без «-» по краям и двойных «-»	«_» and «.» are not keys of chpuSym and are dropped: the words glue together	

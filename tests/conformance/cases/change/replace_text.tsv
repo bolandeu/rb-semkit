@@ -1,0 +1,12 @@
+# replace_text. VBA, RibbonCallbacks.vba (docs/vba/change.md 4.4–4.6): by substring ao·a (L2693) by k—o (L2870); the whole cell ao·k (L2483) by ko–— (L1016–1087) with ·–— (L1350) and ·ao (L2423); by regex, all matches —··— (L2278), the first ao·– (L2287), by RegExReplace (L2080). The VBA writes the groups as $1; the call here as \1.
+case_id	function	call	input	vba	expected	rule	why	xfail
+replace-text-substring	replace_text	{"pairs": {"ё": "е", "стол": "стул"}}	Столик Ёлка	стулик елка	стулик елка			
+replace-text-substring-chain	replace_text	{"pairs": {"мм": " мм", "  ": " "}}	труба 20мм	труба 20 мм	труба 20 мм			
+replace-text-substring-yo	replace_text	{"pairs": {"елка": "ель"}}	ёлка искусственная	ёлка искусственная	ель искусственная	ё = е при сравнении	vbTextCompare does not take «е» for «ё»	
+replace-text-phrase	replace_text	{"pairs": {"москва": "санкт-петербург"}, "by": "phrase"}	Москва | МОСКВА | москва | москва область	Санкт-Петербург | САНКТ-ПЕТЕРБУРГ | санкт-петербург | москва область	Санкт-Петербург | САНКТ-ПЕТЕРБУРГ | санкт-петербург | москва область			
+replace-text-phrase-spaces	replace_text	{"pairs": {"москва": "спб"}, "by": "phrase"}	москва 	москва 	спб	Целая фраза сравнивается без учёта лишних пробелов	the cell «москва » with its trailing space is not the key «МОСКВА»	
+replace-text-phrase-yo	replace_text	{"pairs": {"ёлка": "ель"}, "by": "phrase"}	елка	елка	ель	ё = е при сравнении	the UCase key «ЁЛКА» is not «ЕЛКА»	
+replace-text-regex-all	replace_text	{"pairs": {"(\\d+)\\s*мм": "\\1 мм"}, "by": "regex"}	труба 20мм и 32  мм	труба 20 мм и 32 мм	труба 20 мм и 32 мм			
+replace-text-regex-first	replace_text	{"pairs": {"\\d+": "N"}, "by": "regex", "first_only": true}	20 и 32	N и 32	N и 32			
+replace-text-regex-cyrillic	replace_text	{"pairs": {"\\bв\\b": "во"}, "by": "regex"}	диван в москве	диван в москве	диван во москве	Регулярные выражения понимают кириллицу	VBScript \b is ASCII: there is no boundary round «в»	
+replace-text-regex-formula	replace_text	{"pairs": {"^": "=+-"}, "by": "regex"}	x	'=+-x	=+-x	Результат замены по регулярному выражению не получает апостроф	the result starts with «=+-», so RegExReplace puts «'» before it	

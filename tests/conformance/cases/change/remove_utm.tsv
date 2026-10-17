@@ -1,0 +1,9 @@
+# remove_utm. VBA, RibbonCallbacks.vba (docs/vba/change.md 8.1): a·aa (L2686) by —–1 (L2728): RegExReplace of (\?|&)utm_[^$#&]+, then the first «&» becomes «?» when no «?» is left.
+case_id	function	call	input	vba	expected	rule	why	xfail
+utm-remove	remove_utm		https://site.ru/?utm_source=ya&utm_medium=cpc&id=5#top	https://site.ru/?id=5#top	https://site.ru/?id=5#top			
+utm-remove-case	remove_utm		https://site.ru/?UTM_Source=ya&utm_medium=cpc&id=5#top	https://site.ru/?UTM_Source=ya&id=5#top	https://site.ru/?id=5#top	UTM-метка — параметр с именем на «utm_» в любом регистре	«UTM_Source» does not match the case-sensitive «utm_»	
+utm-remove-only	remove_utm		https://site.ru/page?utm_source=ya	https://site.ru/page	https://site.ru/page			
+utm-remove-middle	remove_utm		https://site.ru/?id=5&utm_term=x&page=2	https://site.ru/?id=5&page=2	https://site.ru/?id=5&page=2			
+utm-remove-none	remove_utm		https://site.ru/page?id=5	https://site.ru/page?id=5	https://site.ru/page?id=5			
+utm-remove-fragment-amp	remove_utm		https://site.ru/?utm_source=ya#a&b	https://site.ru/#a?b	https://site.ru/#a&b	Удаление UTM-меток оставляет правильные «?» и «&»	with no «?» left, the first «&» of the string, in the fragment, becomes «?»	
+utm-remove-first-then-amp	remove_utm		https://site.ru/?utm_source=ya&id=5&p=2	https://site.ru/?id=5&p=2	https://site.ru/?id=5&p=2			

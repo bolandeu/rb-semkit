@@ -1,0 +1,7 @@
+# guillemets. VBA, RibbonCallbacks.vba (docs/vba/change.md 6.1): a·oa (L2008) by a·k— (L2057).
+case_id	function	call	input	vba	expected	rule	why	xfail
+guillemets-word	guillemets		"Честер"	«Честер»	«Честер»			
+guillemets-tail	guillemets		диван "Честер" купить	диван «Честер»	диван «Честер» купить	Кавычки в ёлочки сохраняют текст после последней кавычки	a·k— never appends the part « купить » after the closing quote	
+guillemets-two	guillemets		ооо "Ромашка" и "Лютик"	ооо «Ромашка» и «Лютик»	ооо «Ромашка» и «Лютик»			
+guillemets-odd	guillemets		диван "Честер	диван «	диван «Честер	Кавычки в ёлочки сохраняют текст после последней кавычки	a·k— drops the part «Честер » after the last quote	
+guillemets-none	guillemets		 диван 	 диван 	 диван 			

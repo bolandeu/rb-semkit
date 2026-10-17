@@ -1,0 +1,7 @@
+# split_digits. VBA, RibbonCallbacks.vba (docs/vba/change.md 5.1): a—–1 (L2853) by a1a (L1690) = RegExExtract(s, "(\d+|[^\d]+)", True, sep) (L2970); sep from an InputBox.
+case_id	function	call	input	vba	expected	rule	why	xfail
+split-digits-glued	split_digits		iphone13pro	iphone 13 pro	iphone 13 pro			
+split-digits-sep	split_digits	{"sep": "|"}	a1b22	a|1|b|22	a|1|b|22			
+split-digits-apart	split_digits		iphone 13 pro	iphone  13  pro	iphone 13 pro	Разделитель ставится только между цифрами и текстом, которые стоят слитно	the runs «iphone », «13», « pro» joined by a space give double spaces	
+split-digits-apart-sep	split_digits	{"sep": "|"}	iphone 13pro	iphone |13|pro	iphone 13|pro	Разделитель ставится только между цифрами и текстом, которые стоят слитно	the space stays inside the run «iphone »	
+split-digits-empty	split_digits							
