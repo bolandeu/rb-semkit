@@ -5,7 +5,8 @@
     morph.json      lemma_suffixes (lemmSuf), nouns_like_adjectives (nounsLikeAdj),
                     adjective_endings (the first column of adjSuffixes)
 
-Sources: `lemmas` (lemms.tsv) and `sheet_abc` (sheet `abc` of the add-in as TSV). The declension tables (v2) are not built.
+Sources: `lemmas` (lemms.tsv) and `sheet_abc` (sheet `abc` of the add-in as TSV). The declension tables are the
+declension part's (scripts/build_parts/declension.py).
 """
 
 from __future__ import annotations
@@ -23,7 +24,7 @@ WORDFORM = re.compile(r"[^\W\d_]+(?:-[^\W\d_]+)*")
 TABLES = {
     "lemma_suffixes": "E50:F305",  # lemmSuf is E50:G305; G (a POS guess) is not used by the add-in
     "nouns_like_adjectives": "J1:J417",
-    "adjective_endings": "AD2:AD90",  # adjSuffixes is AD2:AS90; the other columns are declension (v2)
+    "adjective_endings": "AD2:AD90",  # adjSuffixes is AD2:AS90; the declension part builds it whole
 }
 JUNK_ROW = "junk row: the wordform is not letters (maybe joined by hyphens) or the part of speech is empty"
 REPEATED_WORDFORM = "a later row of the same wordform wins, as the add-in's sorted VLOOKUP"
