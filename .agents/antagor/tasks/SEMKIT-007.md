@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-007
 title: 'Markers and phrase lists: extract the longest match'
-status: publish
+status: done
 attempts: 3
 blocked: false
 blocked_reason: null
