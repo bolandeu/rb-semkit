@@ -3,7 +3,8 @@
 A phrase becomes its words (case and ё folded, stopwords dropped on request, then lemmas on request); a shape turns
 the words into grams; the grams of all phrases are counted, and summed by the weight of their phrase.
 
-`bundled_stopwords` gives the stopword list of these steps to other areas (text_stats uses it for water and nausea).
+`bundled_stopwords` gives the stopword list of these steps to other areas (text_stats uses it for water and nausea);
+`word_keys` gives them the word -> key step (the corpus area uses it).
 """
 
 from __future__ import annotations
@@ -31,7 +32,8 @@ def bundled_stopwords() -> frozenset[str]:
     return datastore.once("analysis_stopwords", lambda: frozenset(norm_phrase(w) for w in bundled_list("stopwords")))
 
 
-def _checked_n(n: int) -> int:
+def checked_n(n: int) -> int:
+    """The gram size `n`, or InvalidArguments; other areas use it, like `bundled_stopwords`."""
     if isinstance(n, bool) or not isinstance(n, int) or n < 1:
         raise InvalidArguments(f"n={n!r}; allowed: an integer of 1 or more.")
     return n
@@ -41,8 +43,8 @@ Token = tuple[str, bool, str]  # the key of a word, whether it counts (False: a 
 Gram = tuple[str, str]  # the gram, and the spelling of its words
 
 
-def _word_keys(phrases: pd.Series, *, lemmatizer: Lemmatizer | None, stopwords: bool) -> dict[str, Token]:
-    """Each distinct word of `phrases` as its key; a stopword to drop (`stopwords=False`) is not lemmatized."""
+def word_keys(phrases: pd.Series, *, lemmatizer: Lemmatizer | None, stopwords: bool) -> dict[str, Token]:
+    """Each distinct word of `phrases` as its key (other areas use it, like `bundled_stopwords`); a stopword to drop (`stopwords=False`) is not lemmatized."""
     dropped = frozenset() if stopwords else bundled_stopwords()
     keys = {}
     for word in {word for phrase in phrases.unique() for word in split_words(phrase)}:
@@ -100,7 +102,7 @@ def _tally(
     frame = Frame(data, column)
     weights = weights_of(frame, weight)
     phrases = frame.phrases
-    keys = _word_keys(phrases, lemmatizer=lemmatizer, stopwords=stopwords)
+    keys = word_keys(phrases, lemmatizer=lemmatizer, stopwords=stopwords)
     grams = map_unique(phrases, lambda phrase: shape([keys[word] for word in split_words(phrase)])).tolist()
     lengths = [len(row) for row in grams]
     flat = list(chain.from_iterable(grams))
@@ -148,7 +150,7 @@ def ngrams(
     """
     return _tally(
         data,
-        _runs(_checked_n(n)),
+        _runs(checked_n(n)),
         lemmatizer=lemmatizer if lemmas else None,
         stopwords=stopwords,
         weight=weight,

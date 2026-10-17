@@ -13,7 +13,7 @@ from collections import Counter
 
 import pandas as pd
 
-from ..analysis.frequency import _word_keys
+from ..analysis.frequency import word_keys
 from ..frame import Frame, map_unique
 from ..morph import Lemmatizer
 from ..morph.functions import BUNDLED
@@ -58,7 +58,7 @@ def synonyms(report: pd.DataFrame, *, lemmatizer: Lemmatizer = BUNDLED) -> pd.Da
     require_columns(report, "report", REPORT_COLUMNS)
     texts = report[list(REPORT_COLUMNS)].fillna("").astype(str)
     cleaned = pd.Series(texts.to_numpy().ravel(), dtype=object).map(_words)
-    keys = _word_keys(cleaned, lemmatizer=lemmatizer, stopwords=False)
+    keys = word_keys(cleaned, lemmatizer=lemmatizer, stopwords=False)
 
     def lemmas(text: str) -> list[str]:
         return [keys[word][0] for word in split_words(_words(text)) if keys[word][1]]

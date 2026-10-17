@@ -7,6 +7,7 @@ test writes there count as areas of the package.
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -80,3 +81,25 @@ def test_a_name_declared_by_two_modules_is_an_error_naming_both(tmp_path: Path) 
     assert probe["error"].startswith("ImportError")
     assert "rb_semkit.core.zarea.one" in probe["error"]
     assert "rb_semkit.core.zarea.two" in probe["error"]
+
+
+def test_dir_lists_the_public_names_and_no_import_of_the_root() -> None:
+    code = "import json, rb_semkit as sk; print(json.dumps(dir(sk)))"
+    result = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, check=True)  # noqa: S603
+    listed = json.loads(result.stdout)
+
+    assert {"InvalidArguments", "ngrams", "bigrams", "counts"} <= set(listed)
+    assert not {"ast", "functools", "importlib", "Path", "Any", "annotations"} & set(listed)
+    assert listed == sorted(listed)
+
+
+def test_no_module_outside_analysis_imports_a_private_name_of_analysis() -> None:
+    source = Path(__file__).parents[2] / "src" / "rb_semkit"
+    pattern = re.compile(r"from\s+(?:\.+|rb_semkit\.core\.)analysis[\w.]*\s+import\s+\(?[^)\n]*\b_\w+")
+    found = [
+        path.name
+        for path in source.rglob("*.py")
+        if "analysis" not in path.relative_to(source).parts and pattern.search(path.read_text(encoding="utf-8"))
+    ]
+
+    assert found == []

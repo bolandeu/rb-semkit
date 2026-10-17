@@ -12,7 +12,7 @@ from typing import NamedTuple
 
 import pandas as pd
 
-from ..analysis.frequency import _word_keys
+from ..analysis.frequency import word_keys
 from ..errors import InvalidArguments
 from ..frame import Frame, map_unique
 from ..morph import Lemmatizer
@@ -175,7 +175,7 @@ def basis_phrases(
     """
     frame = Frame(data, column, inplace)
     phrases = frame.phrases
-    keys = _word_keys(phrases, lemmatizer=lemmatizer if lemmas else None, stopwords=stopwords)
+    keys = word_keys(phrases, lemmatizer=lemmatizer if lemmas else None, stopwords=stopwords)
 
     def word_set(phrase: str) -> frozenset[str]:
         entries = [keys[word] for word in split_words(phrase)]

@@ -6,7 +6,7 @@ from functools import partial
 
 import pandas as pd
 
-from ..analysis.frequency import _checked_n
+from ..analysis.frequency import checked_n
 from .shared import DECIMALS, TextCounts, checked_number, checked_text, texts_of, verdicts
 
 COLUMNS = ["ngram", "docs", "docs_share", "median", "min", "max", "mine", "verdict"]
@@ -33,7 +33,7 @@ def compare_grams(
     Densities are rounded to 4 decimals. Sorted by median, biggest first, then ngram. The only norm is the median.
     """
     text, others = checked_text(mine), texts_of(competitors, column, "competitors")
-    counts = partial(TextCounts, n=_checked_n(n), lemmas=lemmas, stopwords=stopwords)
+    counts = partial(TextCounts, n=checked_n(n), lemmas=lemmas, stopwords=stopwords)
     limit = checked_number(tolerance, "tolerance")
     density = pd.concat([counts(other).density for other in others], axis=1).fillna(0)
     own = counts(text).density.reindex(density.index, fill_value=0)
