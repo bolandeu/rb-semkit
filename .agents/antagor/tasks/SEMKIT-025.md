@@ -2,10 +2,10 @@
 id: SEMKIT-025
 title: 'Word lists: bundled Bukvarix and add-in lists with a manifest, the Human''s
   folders by any path, semkit lists, sk.word_list'
-status: in_progress
+status: queue
 attempts: 0
-blocked: true
-blocked_reason: needs_scope
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -138,3 +138,7 @@ Bundle the lists the way the marker lists are bundled (a build part, compact fil
 > Recommended: Use drop-phrases in the acceptance and the test (phrases matcher takes multi-word items; I did this)
 
 Option 1: drop-phrases. A list with multi-word items goes to the phrases matcher; words stays for single words. Read the acceptance line as drop-phrases --items @minus/cheap.
+
+### Blocked: needs_scope (entries [{'n': 1, 'text': "Acceptance of SEMKIT-025 runs 'read core.csv drop-words --items @minus/cheap', but drop-words (core/text/matchers/words.py, SEMKIT-023/024) accepts single words only and minus/cheap holds phrases ('по"}])
+
+Inbox #1: option 1, use drop-phrases for lists with phrases; keep the words matcher as it is.
