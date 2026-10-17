@@ -25,7 +25,9 @@ NOT_CASED = {
     "pipe",
     "split_text",
     "coverage",
-}  # the verbs and the pipe run in the cases of every matcher; split_text and coverage are not from the add-in
+    "cluster_serp",
+}  # the verbs and the pipe run in the cases of every matcher; split_text and coverage are not from the add-in;
+# cluster_serp takes a SERP table and replaces the add-in's method (ADR 0005)
 CASES = all_cases()
 
 
