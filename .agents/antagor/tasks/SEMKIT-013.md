@@ -2,10 +2,10 @@
 id: SEMKIT-013
 title: 'Analysis block: combinations, parents and basis phrases, good/bad split, clustering,
   synonyms to minus-words, typos, sentiment'
-status: in_progress
+status: queue
 attempts: 1
-blocked: true
-blocked_reason: needs_scope
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -138,3 +138,5 @@ Minor remarks of the review: optional, if they do not widen the task:
 > Recommended: Drop cluster_by_serp from SEMKIT-013: the menu item maps to sk.cluster_serp; record the add-in method and why it is not ported in docs/vba/deviations/corpus.md, conformance cases run against cluster_serp; amend task acceptance (score 28/45)
 
 Option 1. Drop cluster_by_serp: the menu item maps to sk.cluster_serp (ADR 0007). Record the add-in's SERP method and why it is not ported in docs/vba/deviations/corpus.md. No conformance cases for SERP clustering (cluster_serp is in NOT_CASED). The task body is amended (the score 28/45 criterion is gone). Also split the long functions (CCN over 10) if the gate's lizard limit asks for it.
+
+### Blocked: needs_scope (entries [{'n': 3, 'text': 'SEMKIT-013 asks for cluster_by_serp (add-in positional score 5 4 3 2 1 + bonus 1, threshold 24, connected components), but ADR 0007 rejects that method because it chains A and C through B with no comm'}])
