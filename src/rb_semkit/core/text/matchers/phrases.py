@@ -1,4 +1,5 @@
-"""Phrases from a list, found as whole words by an Aho-Corasick automaton; the engine of `markers` too."""
+"""Phrases from a list, found as whole words by an Aho-Corasick automaton, the longest from each word; the engine of
+`markers` too."""
 
 from __future__ import annotations
 
