@@ -31,18 +31,21 @@ class Planned:
 
 @dataclass(frozen=True)
 class Summary:
-    """One step: the rows before and after it and the cells it changed."""
+    """One step: the rows before and after it, the cells it changed, and what else the step tells (`note`)."""
 
     step: str
     rows_before: int
     rows_after: int
     cells_changed: int
+    note: str | None = None
 
     def line(self) -> str:
-        return f"{self.step}: {self.rows_before} → {self.rows_after} rows, {self.cells_changed} cells changed"
+        line = f"{self.step}: {self.rows_before} → {self.rows_after} rows, {self.cells_changed} cells changed"
+        return line if self.note is None else f"{line}; {self.note}"
 
     def to_dict(self) -> dict:
-        return asdict(self)
+        """The summary as --json gives it; `note` only when the step tells one."""
+        return {name: value for name, value in asdict(self).items() if name != "note" or value is not None}
 
 
 def _working_column(table: pd.DataFrame) -> str:
@@ -108,19 +111,20 @@ class State:
     def apply(self, planned: Planned) -> Summary:
         before = len(self.table)
         changed = 0
+        note = None
         match planned.run(self._as_steps_see_it(), self.column):
             case Change(values):
                 if len(values) < len(self.table):  # a change that also drops rows: remove-cells empty
                     self._keep(planned.step.name, self.table.index.isin(values.index))
                 changed = self._change(planned, values)
-            case Columns(table):
+            case Columns(table, note):
                 changed = sum(self._add(planned.step.name, str(name), values) for name, values in table.items())
             case Keep(rows):
                 self._keep(planned.step.name, rows.to_numpy())
             case Report(table):
                 self.table = table
                 self.column = _working_column(table)
-        return Summary(planned.step.name, before, len(self.table), changed)
+        return Summary(planned.step.name, before, len(self.table), changed, note)
 
     def _as_steps_see_it(self) -> pd.DataFrame:
         """The table with the working column as text."""
