@@ -3,7 +3,7 @@ id: SEMKIT-025
 title: 'Word lists: bundled Bukvarix and add-in lists with a manifest, the Human''s
   folders by any path, semkit lists, sk.word_list'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -142,3 +142,10 @@ Option 1: drop-phrases. A list with multi-word items goes to the phrases matcher
 ### Blocked: needs_scope (entries [{'n': 1, 'text': "Acceptance of SEMKIT-025 runs 'read core.csv drop-words --items @minus/cheap', but drop-words (core/text/matchers/words.py, SEMKIT-023/024) accepts single words only and minus/cheap holds phrases ('по"}])
 
 Inbox #1: option 1, use drop-phrases for lists with phrases; keep the words matcher as it is.
+
+### Attempt 1: file docstring
+
+- add a docstring to src/rb_semkit/core/models.py: what it holds and why
+- update the docstring of src/rb_semkit/core/opencli.py: +word_lists
+- add a docstring to src/rb_semkit/core/services.py: what it holds and why
+- update the docstring of src/rb_semkit/pipeline/commands.py: +ListsHelp +takes_items
