@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-005
 title: Port the text matchers and markers from the add-in VBA
-status: queue
+status: done
 attempts: 1
 blocked: false
 blocked_reason: null
@@ -16,6 +16,7 @@ owns_paths:
 - src/rb_semkit/core/text/matchers/
 - src/rb_semkit/core/markers/
 - src/rb_semkit/core/morph/lemmatizer.py
+- docs/plan.md
 test_paths:
 - tests/matchers_vba/
 - tests/matchers/
@@ -187,3 +188,9 @@ Option 3: keep the letters і ї є ґ for find, remove and extract. fua is a VB
 ### Attempt 1: file docstring
 
 - update the docstring of src/rb_semkit/core/morph/lemmatizer.py: +looks_like_adjective
+
+### Answer to finding #10
+
+> SEMKIT-005: markers(with_prepositions=True) fixes a VBA defect of udalit_toponimy_s_pryedlogami (lines 1194–1197): when the first-word key holds one list item, the VBA cuts only the preposition and the next word ('отели в хересе де ла фронтере' gives 'отели де ла фронтере'); the port cuts the whole item ('отели'). ADR 0005 on main asks to record each deviation: add this line there (the branch ADR is older than main, so the worker did not edit it). Also: toponym_prepositions_en (lists.json, scripts/build_data.py, docs/plan.md) is now unused by code, as in the VBA; keep it as data or drop it.
+
+Recorded in ADR 0005 on main. Keep toponym_prepositions_en as data (unused, as in the VBA).

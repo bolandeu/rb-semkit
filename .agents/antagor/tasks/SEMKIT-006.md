@@ -2,7 +2,7 @@
 id: SEMKIT-006
 title: 'Conformance: analysis functions and bundled data against the add-in VBA'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -16,6 +16,7 @@ owns_paths:
 - tests/conformance/
 - scripts/data_manifest.py
 - scripts/bench.py
+- scripts/build_data.toml
 test_paths:
 - tests/conformance/
 docs: none
@@ -30,7 +31,7 @@ budget_usd: null
 epic: E-001
 spec_refs: []
 checks:
-- uv run pytest tests/conformance -q
+- uv run pytest tests/conformance -q --no-cov
 - uv run scripts/release.py --check
 resident: null
 tool: null
@@ -59,10 +60,10 @@ tests/conformance/cases/<function>.tsv, one row per case, columns: case_id, func
 
 ## Acceptance
 
-- Given the analysis functions dupes, ngrams, bigrams, counts, lemmatize, wordforms, part_of_speech, When tests/conformance/cases is listed, Then each has a case file with at least 5 rows, every row with vba, expected and, where they differ, rule and why [check: uv run pytest tests/conformance -q]
-- Given the 7 sheets of the reference workbook, When the case files are read, Then every workbook row is a case with vba equal to the workbook value [check: uv run pytest tests/conformance -q]
-- Given the bundled data files, When test_data runs, Then each file matches the manifest built from its VBA source and every dropped item has a reason [check: uv run pytest tests/conformance -q]
-- Given 10 000 phrases, When each data-backed function runs, Then it finishes within its budget [check: uv run pytest tests/conformance -q]
+- Given the analysis functions dupes, ngrams, bigrams, counts, lemmatize, wordforms, part_of_speech, When tests/conformance/cases is listed, Then each has a case file with at least 5 rows, every row with vba, expected and, where they differ, rule and why [check: uv run pytest tests/conformance -q --no-cov]
+- Given the 7 sheets of the reference workbook, When the case files are read, Then every workbook row is a case with vba equal to the workbook value [check: uv run pytest tests/conformance -q --no-cov]
+- Given the bundled data files, When test_data runs, Then each file matches the manifest built from its VBA source and every dropped item has a reason [check: uv run pytest tests/conformance -q --no-cov]
+- Given 10 000 phrases, When each data-backed function runs, Then it finishes within its budget [check: uv run pytest tests/conformance -q --no-cov]
 
 ## How to test
 
@@ -82,3 +83,80 @@ docs/vba/analysis.md (handlers, quirks, worked examples), ADR 0005 (allowed devi
 
 - Changes in src/: a failing case becomes an xfail and an inbox finding.
 - The text matchers and markers (SEMKIT-005); declension, sentiment, clustering and the other v2 buttons.
+
+## Feedback
+
+### Blocked: scope_held (holders ['SEMKIT-005', 'SEMKIT-007'], paths ['docs/plan.md'])
+
+### Answer to finding #1
+
+> counts(what='count'/'number') keys a phrase as written; the VBA keys by UCase (––k— L1875, –kko L2166), and ADR 0005 asks ё = е and no count for empty cells. Cases (xfail): counts-count-case vba '2 | 2 | 1' expected '2 | 2 | 1' got '1 | 1 | 1' (input 'диван | Диван | стол'); counts-number-case vba '1 | 2' expected '1 | 2' got '1 | 1'; counts-count-yo vba '1 | 1' expected '2 | 2' got '1 | 1'; counts-count-empty vba '1 | 2 | 2' expected '1 |  | ' got '1 | 2 | 2'. Suspected code path: src/rb_semkit/core/analysis/counts.py _count groups by the raw value; key by norm_phrase and leave empty phrases without a count.
+
+Decided: follow the VBA with the ADR 0005 deviations; fix in SEMKIT-009 (depends on 006). Keep the rows as xfail in 006.
+
+### Answer to finding #2
+
+> counts(what='share') is the cumulative share from the heaviest row (core/analysis/counts.py _shares); the VBA «Накопительным итогом» –koo (L2489) sums in row order. Case counts-share-unsorted (xfail): input 'стул [20] | диван [50] | стол [30]', vba '0.2 | 0.7 | 1', expected '0.2 | 0.7 | 1', got '1 | 0.5 | 0.8'. Rows already sorted by weight agree (counts-share). Also «Долю от суммы» –kok (L1607, value / SUM) has no kind in counts. Decide: an ADR 0005 entry for the sorted share, or a row-order kind.
+
+Decided: follow the VBA with the ADR 0005 deviations; fix in SEMKIT-009 (depends on 006). Keep the rows as xfail in 006.
+
+### Answer to finding #3
+
+> ngrams(n=2, stopwords=False) drops the stopwords before the runs; the VBA «Биграмм без учета стоп-слов» —k·· (L2781) → ka–a (L1005) keeps a stopword inside the bigram as a 3-word gram. Case ngrams-stopwords-2 (xfail): input 'купить диван в москве', vba 'купить диван=1 | диван в москве=1', expected 'диван в москве=1 | купить диван=1', got 'диван москве=1 | купить диван=1'. Suspected code path: src/rb_semkit/core/analysis/frequency.py _word_keys/_runs (the stopword becomes an empty key and is skipped). ka–a also keys case-sensitively and adds a second-column sum (—okk L2142).
+
+Decided: follow the VBA with the ADR 0005 deviations; fix in SEMKIT-009 (depends on 006). Keep the rows as xfail in 006.
+
+### Answer to finding #4
+
+> wordforms() gives the forms in the order forms.marisa returns them, neither alphabetical (the dictionary order ––aa L380 writes) nor by paradigm: 'диван' gives '... диванах | диванов | диваном | диване ...'. Cases (xfail): wordforms-divan, wordforms-capital, wordforms-yo; vba/expected 'диван | дивана | диванам | диванами | диванах | диване | диванов | диваном | дивану | диваны', got the same forms in trie order. Suspected code path: src/rb_semkit/core/morph/lemmatizer.py SemtoolsLemmatizer.forms (BytesTrie.get order). Fix: sort the forms, or record the order in ADR 0005.
+
+Decided: follow the VBA with the ADR 0005 deviations; fix in SEMKIT-009 (depends on 006). Keep the rows as xfail in 006.
+
+### Answer to finding #5
+
+> wordforms() of a word that is not a lemma gives []; the VBA ––aa (L380) takes aaa(LCase(word)) first and gives the forms of that lemma. Case wordforms-inflected (xfail): input 'диваны', vba 'диваны | диван | дивана | ... | диваны', expected 'диван | дивана | ... | диваны', got ''. Suspected code path: src/rb_semkit/core/morph/functions.py wordforms → lemmatizer.forms(lemma) without lemmatizer.lemma(word) first.
+
+Decided: follow the VBA with the ADR 0005 deviations; fix in SEMKIT-009 (depends on 006). Keep the rows as xfail in 006.
+
+### Attempt 1: checks failed
+
+- `uv run pytest tests/conformance -q` (exit 1)
+
+```
+84     28    67%   33, 54, 60-63, 68-70, 75-78, 89, 92, 95, 98-99, 106, 109, 115, 124, 139, 160, 163, 166, 169, 174
+src/rb_semkit/core/text/matchers/around.py             39     39     0%   3-76
+src/rb_semkit/core/text/matchers/cells.py              73     73     0%   3-135
+src/rb_semkit/core/text/matchers/chars.py              30     30     0%   3-81
+src/rb_semkit/core/text/matchers/classes.py            46     46     0%   8-92
+src/rb_semkit/core/text/matchers/phrases.py            68     21    69%   37, 52-57, 61-62, 86-90, 95, 98-101, 104, 123
+src/rb_semkit/core/text/matchers/pos.py                24     24     0%   3-58
+src/rb_semkit/core/text/matchers/positions.py          13     13     0%   3-31
+src/rb_semkit/core/text/matchers/regex.py              30     30     0%   3-61
+src/rb_semkit/core/text/matchers/repeats.py            31     31     0%   3-66
+src/rb_semkit/core/text/matchers/spaces.py             13     13     0%   3-40
+src/rb_semkit/core/text/matchers/spans.py              22     22     0%   3-39
+src/rb_semkit/core/text/matchers/word_case.py          13     13     0%   3-39
+src/rb_semkit/core/text/matchers/word_content.py       21     21     0%   3-65
+src/rb_semkit/core/text/matchers/word_position.py      25     25     0%   3-74
+src/rb_semkit/core/text/matchers/words.py              34     34     0%   3-82
+src/rb_semkit/core/version.py                          40     18    55%   20-22, 32-35, 52-53, 57, 62-65, 75-78
+src/rb_semkit/output/__init__.py                       94     94     0%   1-224
+src/rb_semkit/output/human.py                          18     18     0%   1-32
+src/rb_semkit/output/json.py                            5      5     0%   1-9
+---------------------------------------------------------------------------------
+TOTAL                                                1774   1224    31%
+
+15 files skipped due to complete coverage.
+FAIL Required test coverage of 90.0% not reached. Total coverage: 31.00%
+677 passed, 10 xfailed in 4.45s
+```
+
+### Answer to gap #6
+
+> Task check 'uv run pytest tests/conformance -q' always exits 1: pyproject addopts --cov with fail_under=90 fails on a subset run (31%). A task check on a test subset needs --no-cov, or the project needs a rule for it.
+
+Checks now run the subset with --no-cov; the full gate (release.py --check) keeps the coverage floor.
+
+### Blocked: no_progress (head 2ee0f22e60f70766379b56f78844a683a2616732)
+
+checks fixed (--no-cov); the same head passes them
