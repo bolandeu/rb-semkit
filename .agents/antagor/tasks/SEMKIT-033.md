@@ -2,7 +2,7 @@
 id: SEMKIT-033
 title: 'CLI that tells the truth: --as, errors, lemma matching of lists, help and
   guide in CLI terms, top-level commands; the e2e run on a real core in the gate'
-status: in_review
+status: queue
 attempts: 2
 blocked: false
 blocked_reason: null
@@ -176,3 +176,15 @@ Timeout hit mid-work, not a dead end. Continue from your worktree as it stands (
 - add a docstring to src/rb_semkit/output/__init__.py: what it holds and why
 - add a docstring to src/rb_semkit/output/json.py: what it holds and why
 - update the docstring of src/rb_semkit/steps/text.py: +ByLemmas +MatcherFactory
+
+### Attempt 2: the Architect's verdict
+
+The review found blockers; close each:
+
+- [blocker] [missing] No benchmark that writes 100k rows to xlsx. A search of `tests/` and `scripts/` for xlsx and 100000 finds only the 1M-row parquet speed test and the round-trip test. — «add a benchmark that writes 100k rows to xlsx within a few seconds»
+
+Minor remarks of the review: optional, if they do not widen the task:
+
+- [minor] C11 docs/plan.md: line 175 still says the dataio contract was "checked against dataio v0.1.21", while pyproject.toml now pins v0.1.23. It is a dated note, so it may stay; the Architect decides.
+- [minor] C4 tests/e2e/fixtures: three fixture files of 1001 lines each (sofa_core, serp, svh_core) are in the diff. They are needed by the task's e2e run; no remark besides size.
+- [minor] [wrong] The `Feedback` block asked the worker to add file docstrings (commands/*.py, output/*.py, steps/text.py, core/errors.py, core/services.py). `commands/run.py` has one; the reviewer did not check the other files one by one. Not an acceptance point.
