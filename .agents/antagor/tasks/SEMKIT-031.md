@@ -125,3 +125,17 @@ ADR 0005 for ported functions; semkit's own functions (split_text, text_stats, c
 - Morphology (lemmas, declension): SEMKIT-030
 - The step help, its snapshots, the docstrings and the guide: SEMKIT-033
 - A new spelling service
+
+## Feedback
+
+### Answer to question #1
+
+> find-pos: the bundled !SEMTools dictionary codes лучше as a noun and покрывало as a verb (pymorphy3: comparative adjective, noun); the codes come from the lemmatizer (morph, SEMKIT-030), and a general 'pymorphy3 wins' rule breaks 15 of 29 disagreeing words of the sofa core (белые, угловой, дорогой become nouns).
+> Question: Where do the wrong part-of-speech codes of лучше and покрывало get fixed?
+> Options:
+> 1. SEMKIT-030 adds them to its correction of the dictionary data (code and lemma per word); find-pos follows without own code; SEMKIT-031 does the capital rule only
+> 2. SEMKIT-031 adds a small code correction table read by the pos matcher only (data/text)
+> 3. SEMKIT-031 edits the morph dictionary data now, before SEMKIT-030
+> Recommended: SEMKIT-030 adds them to its correction of the dictionary data (code and lemma per word); find-pos follows without own code; SEMKIT-031 does the capital rule only
+
+Option 1: the codes of лучше and покрывало are fixed in the dictionary correction of SEMKIT-030's mechanism; as 030 is already running, SEMKIT-033 adds the two entries after it. SEMKIT-031 does the capital rule only; drop the лучше / покрывало part of its find-pos acceptance (the Быстро part stays).
