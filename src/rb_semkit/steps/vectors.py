@@ -2,12 +2,10 @@
 
 The options every step by meaning shares are here: --model (the encoder) and --threshold (the similarity of one
 intent; by default the threshold of the model). `MEANING` adapts them for a step, `by_meaning` gives the encoder and
-the threshold they name; both refuse before the input is read.
+the threshold they name, `encoder_of` the encoder alone; all refuse before the input is read.
 """
 
 from __future__ import annotations
-
-from pathlib import Path
 
 import pandas as pd
 
@@ -16,7 +14,7 @@ from ..core.frame import Frame
 from ..core.vectors import encoder, registry
 from ..core.vectors.cluster import cluster_meaning
 from ..core.vectors.encoder import Encoder
-from . import Adapted, Columns, Prepared, Step, numbers_of, option
+from . import Adapted, Columns, Prepared, Step, numbers_of, option, prepared_for
 
 MEANING = {
     "encoder": None,
@@ -33,14 +31,18 @@ FREQ_DOC = (
 )
 
 
+def encoder_of(options: dict) -> Encoder:
+    """The encoder the option --model names."""
+    return encoder.encoder_for(registry.encoder(options["model"]), prepared_for())
+
+
 def by_meaning(options: dict) -> tuple[Encoder, float]:
     """The encoder and the threshold the options --model and --threshold name."""
-    model = registry.encoder(options["model"])
-    threshold = registry.threshold(model, options["threshold"])
-    return encoder.encoder_for(model, Path.cwd()), threshold
+    threshold = registry.threshold(registry.encoder(options["model"]), options["threshold"])
+    return encoder_of(options), threshold
 
 
-def _frequencies(table: pd.DataFrame, name: str) -> pd.Series:
+def frequencies(table: pd.DataFrame, name: str) -> pd.Series:
     if name not in table.columns:
         raise InvalidArguments(
             f"--freq {name}: the table has no such column.",
@@ -53,7 +55,7 @@ def _prepare(options: dict) -> Prepared:
     found_encoder, threshold = by_meaning(options)
 
     def run(table: pd.DataFrame, column: str) -> Columns:
-        freq = None if options["freq"] is None else _frequencies(table, options["freq"])
+        freq = None if options["freq"] is None else frequencies(table, options["freq"])
         found = cluster_meaning(Frame(table, column).phrases, encoder=found_encoder, threshold=threshold, freq=freq)
         return Columns(found, note=f"index: {found.attrs['index']}")
 

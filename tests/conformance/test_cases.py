@@ -29,11 +29,14 @@ NOT_CASED = {
     "coverage",
     "cluster_serp",  # takes a SERP table and replaces the add-in's method (ADR 0005)
     "text_stats",
+    "summary",
     "compare_grams",
     "compare_stats",
     "bm25",
     "compare_lists",
     "edges",
+    "parse_html",
+    "headings",
     "word_list",  # semkit's own: the word lists, not a function of the add-in
 }
 CASES = all_cases()

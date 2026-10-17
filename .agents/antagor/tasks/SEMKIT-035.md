@@ -2,10 +2,10 @@
 id: SEMKIT-035
 title: 'dupes --kind meaning: duplicates by meaning with non-refining words, synonyms
   and the home city'
-status: in_progress
+status: done
 attempts: 0
-blocked: true
-blocked_reason: scope_held
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -24,6 +24,8 @@ owns_paths:
 - scripts/build_parts/wordlists.toml
 - src/rb_semkit/data/SKILL.md
 - src/rb_semkit/pipeline/commands.py
+- CHANGELOG.md
+- src/rb_semkit/core/textstats/functions.py
 test_paths:
 - tests/dupes/
 - tests/wordlists/
@@ -58,6 +60,13 @@ test_paths:
 - tests/snapshots/help/steps/text/remove-word-content.txt
 - tests/snapshots/help/steps/text/remove-words.txt
 - tests/snapshots/describe.json
+- tests/conformance/test_cases.py
+- tests/snapshots/help/read.txt
+- tests/snapshots/help/steps/compare/compare-grams.txt
+- tests/snapshots/help/steps/compare/compare-stats.txt
+- tests/snapshots/help/steps/textstats/text-stats.txt
+- tests/steps/areas.py
+- tests/steps/test_steps.py
 docs: none
 tools: []
 worker_args: null
@@ -139,3 +148,15 @@ The existing dupes kinds and their action rules; the lemmatizer for word compari
 - synonym candidates for words (the second vectors epic)
 - cluster-meaning, off-topic, classify-queries, assign-pages
 - changes to the existing dupes kinds
+
+## Feedback
+
+### Blocked: scope_held (holders ['SEMKIT-044', 'SEMKIT-045'], paths ['src/rb_semkit/pipeline/commands.py', 'tests/snapshots/describe.json'])
+
+SEMKIT-044, SEMKIT-045 finished; your kept work on src/rb_semkit/pipeline/commands.py, tests/snapshots/describe.json is back in the worktree; main is merged into your branch where it merges clean
+
+`main` changed since your work began, and merging it conflicts in:
+
+- `src/rb_semkit/pipeline/commands.py`
+
+Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).

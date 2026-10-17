@@ -3,7 +3,7 @@
 In: NaN and None become empty strings. Out: a Series with the input index, or the input DataFrame with the
 result in a new column `<column>_<operation>` right after `column` (`inplace=True` replaces `column`).
 Wrong input raises InvalidArguments before anything changes. `text_columns` names the columns of a table that hold
-text.
+text. `put_columns` puts the several columns a function makes into the input table right after `column`.
 """
 
 from __future__ import annotations
@@ -106,3 +106,15 @@ class Frame:
 def map_unique(phrases: pd.Series, transform: Callable[[str], Any]) -> pd.Series:
     """`transform` each distinct phrase once and map the results back, input index kept."""
     return phrases.map({phrase: transform(phrase) for phrase in phrases.unique()})
+
+
+def put_columns(data: pd.Series | pd.DataFrame, table: pd.DataFrame, column: str | None) -> pd.DataFrame:
+    """`table` for a Series; for a DataFrame, its columns put into `data` right after `column` (a column of that name is replaced)."""
+    if isinstance(data, pd.Series):
+        return table
+    for position, name in enumerate(table.columns, data.columns.get_loc(column) + 1):
+        if name in data.columns:
+            data[name] = table[name]
+        else:
+            data.insert(position, name, table[name])
+    return data

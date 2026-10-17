@@ -5552,6 +5552,13 @@
   "dropped": [],
   "added": []
  },
+ "wordlists/meaning/neutral.txt.gz": {
+  "source": "semkit/meaning/neutral.txt",
+  "source_items": 32,
+  "bundled_items": 32,
+  "dropped": [],
+  "added": []
+ },
  "wordlists/minus/abusive.txt.gz": {
   "source": "bukvarix/minus/Abusive.txt",
   "source_items": 364,

@@ -5,15 +5,13 @@
 
 from __future__ import annotations
 
-from pathlib import Path
-
 import pandas as pd
 
 from ..core.frame import Frame
 from ..core.word_vectors.candidates import Source, synonym_candidates
 from ..core.word_vectors.navec import open_word_vectors
 from ..core.word_vectors.thesaurus import open_thesaurus
-from . import Adapted, Prepared, Report, Step, option
+from . import Adapted, Prepared, Report, Step, option, prepared_for
 
 SOURCE_DOC = (
     "source: the data to take candidates from, pulled once with `semkit models pull NAME`: ruwordnet (the thesaurus),"
@@ -22,7 +20,7 @@ SOURCE_DOC = (
 
 
 def _prepare(options: dict) -> Prepared:
-    source, start = options["source"], Path.cwd()
+    source, start = options["source"], prepared_for()
     given = {name: value for name, value in options.items() if name != "source"}
     given["thesaurus"] = open_thesaurus(start) if source in ("ruwordnet", "both") else None
     given["word_vectors"] = open_word_vectors(start) if source in ("navec", "both") else None

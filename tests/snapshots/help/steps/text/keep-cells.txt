@@ -67,9 +67,9 @@
  @markers/MO, @markers/cars, @markers/citiesRu, @markers/color, @markers/districts, @markers/edu,
  @markers/fun, @markers/game, @markers/geo, @markers/material, @markers/mosmetro, @markers/names,
  @markers/origin, @markers/questions, @markers/rent, @markers/reviews, @markers/sale,
- @minus/abusive, @minus/adult-hard, @minus/adult-soft, @minus/belarus-cities, @minus/cheap,
- @minus/computer, @minus/countries, @minus/ex-ussr-cities, @minus/free, @minus/handmade,
- @minus/kazakhstan-cities, @minus/moscow-region-cities, @minus/russia-cities,
+ @meaning/neutral, @minus/abusive, @minus/adult-hard, @minus/adult-soft, @minus/belarus-cities,
+ @minus/cheap, @minus/computer, @minus/countries, @minus/ex-ussr-cities, @minus/free,
+ @minus/handmade, @minus/kazakhstan-cities, @minus/moscow-region-cities, @minus/russia-cities,
  @minus/ukraine-cities, @minus/universal, @minus/world-cities, @stop/semtools, @stop/wordstat. Run
  'semkit lists' for their sources and descriptions.
 

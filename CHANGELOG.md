@@ -5,6 +5,58 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.30 — 2026-10-18
+
+### E-005 — Vectors: the base and the steps by meaning
+
+With the vectors extra installed and a model pulled once (semkit models pull), the Human runs dupes --kind meaning, cluster-meaning, off-topic, classify-queries and assign-pages in a pipeline and gets candidate columns with a similarity; nothing is dropped by these steps; a checked-in quality test on 200 labelled phrase pairs shows the default model and threshold separate same and different intents.
+Time: 1.7h since the epic was approved
+
+- off-topic, classify-queries, assign-pages: phrases against the core, a query report and the site pages by meaning (SEMKIT-036)
+
+## v0.1.29 — 2026-10-18
+
+### E-005 — Vectors: the base and the steps by meaning
+
+With the vectors extra installed and a model pulled once (semkit models pull), the Human runs dupes --kind meaning, cluster-meaning, off-topic, classify-queries and assign-pages in a pipeline and gets candidate columns with a similarity; nothing is dropped by these steps; a checked-in quality test on 200 labelled phrase pairs shows the default model and threshold separate same and different intents.
+Time: 1.5h since the epic was approved
+
+- dupes --kind meaning: duplicates by meaning with non-refining words, synonyms and the home city (SEMKIT-035)
+
+## v0.1.28 — 2026-10-18
+
+### E-007 — HTML input and page measures: parse-html, headings, summary, the mean, recommended occurrences
+
+semkit read pages.jsonl parse-html gives each page its zones (text, links, all, main), title, description and h1 as columns that every text step takes; headings gives the H1-H6 structure; summary gives the mean, median, min and max of any table; compare-stats and compare-grams compare a page with the mean or the median of a list and give the recommended occurrences for a text size; coverage finds phrases with inserted words; numbers and a word list can be left out of the measures.
+Time: 0.8h since the epic was approved
+
+- parse-html and headings: pages as HTML into columns and their heading structure (SEMKIT-042)
+
+## v0.1.27 — 2026-10-18
+
+### E-005 — Vectors: the base and the steps by meaning
+
+With the vectors extra installed and a model pulled once (semkit models pull), the Human runs dupes --kind meaning, cluster-meaning, off-topic, classify-queries and assign-pages in a pipeline and gets candidate columns with a similarity; nothing is dropped by these steps; a checked-in quality test on 200 labelled phrase pairs shows the default model and threshold separate same and different intents.
+Time: 1.3h since the epic was approved
+
+- Pipeline steps use the project of the CLI, not the current folder (SEMKIT-045)
+
+### E-007 — HTML input and page measures: parse-html, headings, summary, the mean, recommended occurrences
+
+semkit read pages.jsonl parse-html gives each page its zones (text, links, all, main), title, description and h1 as columns that every text step takes; headings gives the H1-H6 structure; summary gives the mean, median, min and max of any table; compare-stats and compare-grams compare a page with the mean or the median of a list and give the recommended occurrences for a text size; coverage finds phrases with inserted words; numbers and a word list can be left out of the measures.
+Time: 0.7h since the epic was approved
+
+- coverage --gap: phrases with inserted words (SEMKIT-044)
+
+## v0.1.26 — 2026-10-18
+
+### E-007 — HTML input and page measures: parse-html, headings, summary, the mean, recommended occurrences
+
+semkit read pages.jsonl parse-html gives each page its zones (text, links, all, main), title, description and h1 as columns that every text step takes; headings gives the H1-H6 structure; summary gives the mean, median, min and max of any table; compare-stats and compare-grams compare a page with the mean or the median of a list and give the recommended occurrences for a text size; coverage finds phrases with inserted words; numbers and a word list can be left out of the measures.
+Time: 0.5h since the epic was approved
+
+- summary, the mean in the comparisons, recommended occurrences, --no-digits and --exclude (SEMKIT-043)
+
 ## v0.1.25 — 2026-10-18
 
 ### E-005 — Vectors: the base and the steps by meaning

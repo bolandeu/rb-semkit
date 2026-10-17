@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-040
 title: 'ad-groups: small ad groups of one intent'
-status: queue
+status: in_progress
 attempts: 0
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: scope_held
 phase: null
 tests_hash: null
 publish_stage: null
@@ -15,8 +15,18 @@ type: feature
 owns_paths:
 - src/rb_semkit/core/adgroups/
 - src/rb_semkit/steps/adgroups.py
+- src/rb_semkit/steps/dupes.py
+- src/rb_semkit/core/vectors/cluster.py
+- src/rb_semkit/data/SKILL.md
+- src/rb_semkit/steps/vectors.py
 test_paths:
 - tests/adgroups/
+- tests/conformance/test_cases.py
+- tests/snapshots/help/steps/adgroups/ad-groups.txt
+- tests/snapshots/describe.json
+- tests/snapshots/help/read.txt
+- tests/steps/areas.py
+- tests/steps/test_steps.py
 docs: none
 tools: []
 worker_args: null

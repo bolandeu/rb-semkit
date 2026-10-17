@@ -3,9 +3,11 @@
 # file: under rb_semkit/data/ ("text/lists.json:stopwords" is a table of a JSON file);
 # origin: for a list built here, its file under the Bukvarix folder of build_data.toml [sources]. A list without
 # origin points at data another build part writes.
+# own: for a list written in scripts/build_parts/lists, its file there.
 # drop: items of the source the list leaves out, each with the reason.
 
 lists = [
+  { name = "meaning/neutral", description = "Неуточняющие слова: недорого, распродажа, от производителя, с доставкой, цены", source = "semkit", file = "wordlists/meaning/neutral.txt.gz", own = "meaning/neutral.txt" },
   { name = "minus/universal", description = "Универсальные минус-слова: скачать, бесплатно, онлайн и подобные", source = "Bukvarix", file = "wordlists/minus/universal.txt.gz", origin = "minus/Universal.txt", drop = { "купить" = "a commercial core is a core of buying: a minus-word «купить» drops it whole" } },
   { name = "minus/computer", description = "Минус-слова компьютерной тематики: игры, программы, моды", source = "Bukvarix", file = "wordlists/minus/computer.txt.gz", origin = "minus/Computer.txt" },
   { name = "minus/free", description = "Слова про бесплатность: бесплатно, подарок, даром", source = "Bukvarix", file = "wordlists/minus/free.txt.gz", origin = "minus/Free.txt" },
@@ -72,7 +74,7 @@ lists = [
   { name = "combine/tourism/czech", description = "Курорты, города и достопримечательности: Чехия", source = "Bukvarix", file = "wordlists/combine/tourism/czech.txt.gz", origin = "combiner/TourismCzech.txt" },
   { name = "combine/tourism/montenegro", description = "Курорты, города и достопримечательности: Черногория", source = "Bukvarix", file = "wordlists/combine/tourism/montenegro.txt.gz", origin = "combiner/TourismMonteNegro.txt" },
   { name = "combine/tourism/switzerland", description = "Курорты, города и достопримечательности: Швейцария", source = "Bukvarix", file = "wordlists/combine/tourism/switzerland.txt.gz", origin = "combiner/TourismSwitzerland.txt" },
-  { name = "stop/semtools", description = "Стоп-слова надстройки !SEMTools: предлоги, союзы, частицы", source = "!SEMTools", file = "text/lists.json:stopwords" },
+  { name = "stop/semtools", description = "Стоп-слова: предлоги, союзы, частицы", source = "!SEMTools", file = "text/lists.json:stopwords" },
   { name = "markers/geo", description = "Топонимы в разных падежах: города, регионы, страны мира", source = "!SEMTools", file = "markers/geo.txt.gz" },
   { name = "markers/mosmetro", description = "Станции метро Москвы в разных падежах", source = "!SEMTools", file = "markers/mosmetro.txt.gz" },
   { name = "markers/districts", description = "Районы Москвы в разных падежах", source = "!SEMTools", file = "markers/districts.txt.gz" },

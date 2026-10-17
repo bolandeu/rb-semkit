@@ -1,8 +1,8 @@
 ---
 id: SEMKIT-042
 title: 'parse-html and headings: pages as HTML into columns and their heading structure'
-status: queue
-attempts: 0
+status: done
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -22,6 +22,7 @@ owns_paths:
 - src/rb_semkit/pipeline/state.py
 - src/rb_semkit/steps/__init__.py
 - uv.lock
+- CHANGELOG.md
 test_paths:
 - tests/html/
 - tests/conformance/test_cases.py
@@ -109,3 +110,25 @@ The step table (Step and STEPS of an area module), a change step that adds sever
 ## Feedback
 
 ### Blocked: scope_held (holders ['SEMKIT-034', 'SEMKIT-043'], paths ['pyproject.toml', 'src/rb_semkit/core/textstats/functions.py', 'src/rb_semkit/data/SKILL.md', 'src/rb_semkit/pipeline/state.py', 'src/rb_semkit/steps/__init__.py', 'tests/snapshots/describe.json', 'tests/snapshots/help/read.txt', 'tests/steps/areas.py', 'tests/steps/test_steps.py', 'uv.lock'])
+
+### Attempt 1: file docstring
+
+- update the docstring of src/rb_semkit/core/frame.py: +put_columns
+
+### Attempt 1 (not counted): main moved and conflicts with the work
+
+`main` changed since your work began, and merging it conflicts in:
+
+- `src/rb_semkit/pipeline/state.py`
+- `src/rb_semkit/steps/__init__.py`
+- `uv.lock`
+
+Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).
+
+### Attempt 1 (not counted): main moved and conflicts with the work
+
+`main` changed since your work began, and merging it conflicts in:
+
+- `src/rb_semkit/data/SKILL.md`
+
+Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).

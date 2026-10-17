@@ -126,3 +126,16 @@ def test_an_unknown_name_raises_with_the_close_names(home: Path) -> None:
 def test_a_name_that_is_not_a_relative_path_without_suffix_is_refused(home: Path, name: str) -> None:
     with pytest.raises(InvalidArguments):
         wordlists.resolve(name)
+
+
+def test_the_meaning_list_of_non_refining_words_is_bundled_with_its_russian_description(home: Path) -> None:
+    neutral = _by_name()["meaning/neutral"]
+
+    assert neutral.source == "bundled"
+    assert "распродажа" in wordlists.resolve("meaning/neutral")
+    assert "новинка" not in wordlists.resolve("meaning/neutral")
+    assert neutral.description.startswith("Неуточняющие слова")
+
+
+def test_the_description_of_the_semtools_stop_list_does_not_name_the_add_in(home: Path) -> None:
+    assert _by_name()["stop/semtools"].description == "Стоп-слова: предлоги, союзы, частицы"
