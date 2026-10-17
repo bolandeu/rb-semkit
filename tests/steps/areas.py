@@ -20,6 +20,7 @@ AREAS = {
         "extract-ready-pattern", "find-ready-pattern", "irrelevant-words", "keep-ready-pattern", "remove-phrase-end",
         "remove-ready-pattern",
     ],
+    "html": ["headings", "parse-html"],
     "listtools": ["compare-lists"],
     "markers": ["drop-markers", "extract-markers", "find-markers", "keep-markers", "remove-markers"],
     "morph": ["lemmatize", "part-of-speech", "wordforms"],
