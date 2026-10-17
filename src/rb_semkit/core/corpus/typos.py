@@ -66,15 +66,8 @@ class CoreSpelling:
         words = [[(match.start(), match.group()) for match in _WORD.finditer(phrase)] for phrase in phrases]
         spelling = {norm_phrase(word): word.lower() for phrase in reversed(words) for _, word in reversed(phrase)}
         frequency = Counter(key for phrase in words for key in {norm_phrase(word) for _, word in phrase})
-        corrections = self._corrections(frequency)
-        return [
-            [
-                Misspelling(start, len(word), (spelling[corrections[key]],))
-                for start, word in phrase
-                if (key := norm_phrase(word)) in corrections
-            ]
-            for phrase in words
-        ]
+        corrections = {key: spelling[correction] for key, correction in self._corrections(frequency).items()}
+        return [_misspelt(phrase, corrections) for phrase in words]
 
     def _corrections(self, frequency: Counter[str]) -> dict[str, str]:
         """The correction of each misspelt word."""
@@ -87,17 +80,31 @@ class CoreSpelling:
         found = {}
         for key, count in frequency.items():
             allowed = self._allowed(key)
-            if not allowed or count * self.ratio > most:
-                continue
-            near = {other for variant in set(_deletes(key, allowed)) for other in by_delete.get(variant, ())}
-            ranked = [
-                (edits, -frequency[other], other)
-                for other in near
-                if frequency[other] >= count * self.ratio and (edits := levenshtein(key, other)) <= allowed
-            ]
-            if ranked:
-                found[key] = min(ranked)[2]
+            if allowed and count * self.ratio <= most:
+                near = {other for variant in set(_deletes(key, allowed)) for other in by_delete.get(variant, ())}
+                correction = self._nearest(key, near, frequency, allowed)
+                if correction is not None:
+                    found[key] = correction
         return found
+
+    def _nearest(self, key: str, near: set[str], frequency: Counter[str], allowed: int) -> str | None:
+        """The nearest of the frequent words `near` the word, then the most frequent, then the first alphabetically."""
+        least = frequency[key] * self.ratio
+        ranked = [
+            (edits, -frequency[other], other)
+            for other in near
+            if frequency[other] >= least and (edits := levenshtein(key, other)) <= allowed
+        ]
+        return min(ranked)[2] if ranked else None
+
+
+def _misspelt(words: list[tuple[int, str]], corrections: dict[str, str]) -> list[Misspelling]:
+    """The misspelt words of a phrase (its words with their offsets), each with its correction."""
+    return [
+        Misspelling(start, len(word), (corrections[key],))
+        for start, word in words
+        if (key := norm_phrase(word)) in corrections
+    ]
 
 
 CORE = CoreSpelling()

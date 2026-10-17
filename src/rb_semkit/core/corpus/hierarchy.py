@@ -178,8 +178,8 @@ def basis_phrases(
     keys = _word_keys(phrases, lemmatizer=lemmatizer if lemmas else None, stopwords=stopwords)
 
     def word_set(phrase: str) -> frozenset[str]:
-        tokens = [keys[word] for word in split_words(phrase)]
-        return frozenset(key for key, counts, _ in tokens if counts) or frozenset(key for key, _, _ in tokens if key)
+        entries = [keys[word] for word in split_words(phrase)]
+        return frozenset(key for key, counts, _ in entries if counts) or frozenset(key for key, _, _ in entries if key)
 
     sets = map_unique(phrases, word_set).tolist()
     owners: dict[frozenset[str], int] = {}
