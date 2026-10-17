@@ -2,10 +2,10 @@
 id: SEMKIT-036
 title: 'off-topic, classify-queries, assign-pages: phrases against the core, a query
   report and the site pages by meaning'
-status: in_progress
+status: queue
 attempts: 0
-blocked: true
-blocked_reason: scope_held
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -105,3 +105,16 @@ The step table (Step and STEPS of an area module) and the report steps of the co
 - dupes --kind meaning, cluster-meaning (other tasks)
 - competing pages, gaps, paragraphs of texts (the second vectors epic)
 - fetching page texts from the web
+
+## Feedback
+
+### Blocked: scope_held (holders ['SEMKIT-035', 'SEMKIT-043', 'SEMKIT-045'], paths ['README.md', 'src/rb_semkit/steps/vectors.py', 'tests/snapshots/describe.json', 'tests/snapshots/help/read.txt', 'tests/steps/areas.py', 'tests/steps/test_steps.py'])
+
+SEMKIT-035, SEMKIT-043, SEMKIT-045 finished; your kept work on README.md, src/rb_semkit/steps/vectors.py, tests/snapshots/describe.json, tests/snapshots/help/read.txt, tests/steps/areas.py, tests/steps/test_steps.py is back in the worktree; main is merged into your branch where it merges clean
+
+`main` changed since your work began, and merging it conflicts in:
+
+- `src/rb_semkit/steps/vectors.py`
+- `tests/steps/fixtures/pages.csv`
+
+Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).
