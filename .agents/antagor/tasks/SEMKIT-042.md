@@ -22,6 +22,7 @@ owns_paths:
 - src/rb_semkit/pipeline/state.py
 - src/rb_semkit/steps/__init__.py
 - uv.lock
+- CHANGELOG.md
 test_paths:
 - tests/html/
 - tests/conformance/test_cases.py
@@ -121,5 +122,13 @@ The step table (Step and STEPS of an area module), a change step that adds sever
 - `src/rb_semkit/pipeline/state.py`
 - `src/rb_semkit/steps/__init__.py`
 - `uv.lock`
+
+Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).
+
+### Attempt 1 (not counted): main moved and conflicts with the work
+
+`main` changed since your work began, and merging it conflicts in:
+
+- `src/rb_semkit/data/SKILL.md`
 
 Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).

@@ -182,6 +182,8 @@
 │                        the common URLs of their tops.                                            │
 │ split-text             Every cell cut into phrases at sentence ends and clause punctuation; one  │
 │                        row per phrase, none for an empty cell.                                   │
+│ summary                The count, mean, median, min and max of each numeric column of a table: a │
+│                        row per column.                                                           │
 │ find-words             Whole words of a phrase equal to the items of a list, compared in any     │
 │                        case and with ё as е.                                                     │
 │ remove-words           Whole words of a phrase equal to the items of a list, compared in any     │

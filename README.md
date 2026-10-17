@@ -37,7 +37,10 @@ sk.pipe(df, "phrase").remove(sk.words("бу")).remove(sk.words("купить")).
   `lemma(word)`, `pos(word)` and `forms(lemma)` works as `lemmatizer=`.
 - `sk.text_stats(data, lemmatizer=..., column=None)`: per text, `chars`, `chars_no_spaces`, `words`, `unique`, `water`,
   `nausea_classic`, `nausea_academic`, `top`, `ttr`, `mtld`, `zipf` (definitions in the docstring); with `column=` the
-  metric columns follow `column`.
+  metric columns follow `column`; `no_digits=True` and `exclude=[...]` leave words out of every count.
+- `sk.summary(df)`: per numeric column, `count`, `mean`, `median`, `min`, `max`. `sk.compare_stats` and
+  `sk.compare_grams` give a `mean` beside the median (`norm="mean"` sets the verdict by it); `compare_grams` also gives
+  `need`, `have`, `add` and `med_count` (`words=` sets the size) and `per_text=True` a density column per competitor.
 - Wrong input raises `sk.InvalidArguments`, naming the argument and the allowed values.
 
 The bundled data (`src/rb_semkit/data/`) is built from the !SEMTools sources (paths in

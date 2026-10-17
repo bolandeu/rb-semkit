@@ -97,7 +97,8 @@ def test_compare_grams_gives_the_table_of_the_verdicts() -> None:
 
     assert result.exit_code == 0, result.output
     assert list(result.rows[0]) == [
-        "ngram", "docs", "docs_share", "median", "min", "max", "mine", "verdict",
+        "ngram", "docs", "docs_share", "median", "mean", "min", "max", "mine", "verdict", "need", "have", "add",
+        "med_count",
     ]  # fmt: skip
     verdicts = {row["ngram"]: row["verdict"] for row in result.rows}
     assert verdicts["диван"] == "within"
@@ -272,6 +273,7 @@ COMMANDS = {
     "split-by-words": ["phrases.csv", "split-by-words", "--keep", "rest"],
     "split-digits": ["phrases.csv", "split-digits"],
     "split-text": ["phrases.csv", "split-text"],
+    "summary": ["core.csv", "summary"],
     "switch-layout": ["phrases.csv", "switch-layout", "--to", "ru"],
     "synonyms": ["report.csv", "synonyms"],
     "text-stats": ["phrases.csv", "text-stats"],
@@ -304,3 +306,43 @@ def test_text_stats_is_a_change_that_adds_its_metric_columns_after_the_working_c
     assert list(first)[:3] == ["phrase", "chars", "chars_no_spaces"] and list(first)[-1] == "freq"
     assert (first["phrase"], first["words"], first["freq"]) == ("купить диван", 2, 4)
     assert "text-stats: 14 → 14 rows" in result.stderr
+
+
+def test_summary_reports_the_mean_and_median_of_the_numeric_columns() -> None:
+    result = run("core.csv", "text-stats", "summary", "write", "-")
+
+    assert result.exit_code == 0, result.output
+    assert {row["column"] for row in result.rows} >= {"freq", "words", "chars"}
+    assert list(result.rows[0]) == ["column", "count", "mean", "median", "min", "max"]
+
+
+def test_summary_of_a_table_without_numbers_exits_2_naming_the_reason() -> None:
+    result = run("texts.csv", "summary", "write", "-")
+
+    assert result.exit_code == 2
+    assert "no numeric column" in result.output
+
+
+def test_compare_grams_per_text_names_the_columns_by_the_url_of_the_competitors(tmp_path: Path) -> None:
+    competitors = tmp_path / "pages.csv"
+    competitors.write_text("url,text\na.ru,диван стол\nb.ru,диван\n", encoding="utf-8")
+
+    result = run("--whole", "mine.txt", "compare-grams", "--competitors", str(competitors), "--per-text", "write", "-")
+
+    assert result.exit_code == 0, result.output
+    assert list(result.rows[0])[-2:] == ["a.ru", "b.ru"]
+
+
+def test_the_new_options_of_the_comparisons_reach_the_functions() -> None:
+    grams = run(
+        "--whole", "mine.txt", "compare-grams", "--competitors", "competitors.csv",
+        "--norm", "mean", "--words", "1000", "--no-digits", "--exclude", "диван", "write", "-",
+    )  # fmt: skip
+    stats = run(
+        "--whole", "mine.txt", "compare-stats", "--competitors", "competitors.csv", "--norm", "mean", "write", "-"
+    )
+
+    assert grams.exit_code == 0, grams.output
+    assert "диван" not in {row["ngram"] for row in grams.rows}
+    assert stats.exit_code == 0, stats.output
+    assert "mean" in stats.rows[0]

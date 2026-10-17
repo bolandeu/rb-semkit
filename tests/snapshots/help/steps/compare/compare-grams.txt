@@ -9,17 +9,28 @@
  n: how many words in a gram.
  lemmas: compare lemmas of the words («диваны» is «диван»).
  stopwords: on, every word makes grams; off (the default), only the words that are no stopwords.
- tolerance: how far from the median a density is still within, a share of the median (0.3 is ±30
- %).
+ tolerance: how far from the norm a density is still within, a share of the norm (0.3 is ±30 %).
+ norm: «median» (the default) or «mean»: the density the verdict and the recommended occurrences go
+ by.
+ words: the size of the text to recommend occurrences for, in words; by default the words of my
+ text.
+ per_text: add a density column per competitor text, named by its url column when the table of the
+ competitors has one, else text_1, text_2…
+ no_digits: leave out the words with a digit of every count, the words total included, as
+ text-stats does.
+ exclude: words to leave out of every count the same way, as written, with case and ё folded, not
+ by lemma.
 
  The columns: ngram; docs, the competitors that hold it; docs_share, docs / competitors, 0..1;
- median, min, max, the density in the competitors; mine, its density in my text; verdict, «below»,
- «within» or «above», mine against median x (1 ± tolerance), and when the median is 0, «within» if
- mine is 0, else «above». Densities are rounded to 4 decimals. Sorted by median, biggest first,
- then ngram. The only norm is the median.
+ median, mean, min, max, the density in the competitors; mine, its density in my text; verdict,
+ «below», «within» or «above», mine against norm x (1 ± tolerance), and when the norm is 0,
+ «within» if mine is 0, else «above»; need, the norm x `words`, rounded to a whole number of
+ occurrences; have, the occurrences in my text; add, need - have (negative: remove); med_count, the
+ median number of occurrences in the competitors. Densities are rounded to 4 decimals. Sorted by
+ median, biggest first, then ngram. With per_text, the density columns come last.
 
  competitors: a file with the texts of the competitors, one per row, in its first text column; the
- file is read like `read` does.
+ file is read like `read` does. A url column, if the file has one, names the columns of --per-text.
 
  The step takes the working column as my text (its cells, one per line); the table of the
  comparison replaces the current one.
@@ -28,22 +39,66 @@
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   COMPETITORS      <str>  a file with the texts of the competitors, one per row, in its first    │
-│                           text column; the file is read like `read` does. The same as            │
+│                           text column; the file is read like `read` does. A url column, if the   │
+│                           file has one, names the columns of --per-text. The same as             │
 │                           --competitors COMPETITORS.                                             │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --competitors                     COMPETITORS  a file with the texts of the competitors, one per │
-│                                                row, in its first text column; the file is read   │
-│                                                like `read` does.                                 │
-│                -n                 <int>        how many words in a gram. [default: 1]            │
-│ --lemmas           --no-lemmas                 compare lemmas of the words («диваны» is          │
-│                                                «диван»).                                         │
-│                                                [default: lemmas]                                 │
-│ --stopwords                                    on, every word makes grams; off (the default),    │
-│                                                only the words that are no stopwords.             │
-│ --tolerance                       <float>      how far from the median a density is still        │
-│                                                within, a share of the median (0.3 is ±30 %).     │
-│                                                [default: 0.3]                                    │
-│ --help                                         Show this message and exit.                       │
+│ --competitors                     COMPETITORS    a file with the texts of the competitors, one   │
+│                                                  per row, in its first text column; the file is  │
+│                                                  read like `read` does. A url column, if the     │
+│                                                  file has one, names the columns of --per-text.  │
+│                -n                 <int>          how many words in a gram. [default: 1]          │
+│ --lemmas           --no-lemmas                   compare lemmas of the words («диваны» is        │
+│                                                  «диван»).                                       │
+│                                                  [default: lemmas]                               │
+│ --stopwords                                      on, every word makes grams; off (the default),  │
+│                                                  only the words that are no stopwords.           │
+│ --tolerance                       <float>        how far from the norm a density is still        │
+│                                                  within, a share of the norm (0.3 is ±30 %).     │
+│                                                  [default: 0.3]                                  │
+│ --norm                            <mean|median>  «median» (the default) or «mean»: the density   │
+│                                                  the verdict and the recommended occurrences go  │
+│                                                  by.                                             │
+│                                                  [default: median]                               │
+│ --words                           <int>          the size of the text to recommend occurrences   │
+│                                                  for, in words; by default the words of my text. │
+│ --per-text                                       add a density column per competitor text, named │
+│                                                  by its url column when the table of the         │
+│                                                  competitors has one, else text_1, text_2…       │
+│ --no-digits                                      leave out the words with a digit of every       │
+│                                                  count, the words total included, as text-stats  │
+│                                                  does.                                           │
+│ --exclude                         <str>          words to leave out of every count the same way, │
+│                                                  as written, with case and ё folded, not by      │
+│                                                  lemma. Items: a comma list 'a,b', @FILE (one    │
+│                                                  item per line, or the first column of a table)  │
+│                                                  or @NAME of a list.                             │
+│ --help                                           Show this message and exit.                     │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+ Lists for @NAME: @combine/kiev-region-towns, @combine/leningrad-region-villages,
+ @combine/moscow-hotels, @combine/moscow-metro, @combine/moscow-region-villages,
+ @combine/realty-object, @combine/realty-service, @combine/review, @combine/russia-cities-100k,
+ @combine/russia-cities-250k, @combine/russia-cities-500k, @combine/shop, @combine/spb-hotels,
+ @combine/spb-metro, @combine/tourism, @combine/tourism/austria, @combine/tourism/baltic,
+ @combine/tourism/benelux, @combine/tourism/bulgaria, @combine/tourism/canada,
+ @combine/tourism/caribbean, @combine/tourism/china, @combine/tourism/croatia,
+ @combine/tourism/cyprus, @combine/tourism/czech, @combine/tourism/egypt, @combine/tourism/france,
+ @combine/tourism/germany, @combine/tourism/greece, @combine/tourism/hungary,
+ @combine/tourism/india, @combine/tourism/indonesia, @combine/tourism/israel,
+ @combine/tourism/italy, @combine/tourism/malaysia, @combine/tourism/mexico,
+ @combine/tourism/montenegro, @combine/tourism/poland, @combine/tourism/portugal,
+ @combine/tourism/scandinavia, @combine/tourism/spain, @combine/tourism/switzerland,
+ @combine/tourism/thailand, @combine/tourism/turkey, @combine/tourism/uae, @combine/tourism/uk,
+ @combine/tourism/usa, @combine/ukraine-cities-100k, @combine/ukraine-cities-250k, @markers/DIY,
+ @markers/MO, @markers/cars, @markers/citiesRu, @markers/color, @markers/districts, @markers/edu,
+ @markers/fun, @markers/game, @markers/geo, @markers/material, @markers/mosmetro, @markers/names,
+ @markers/origin, @markers/questions, @markers/rent, @markers/reviews, @markers/sale,
+ @minus/abusive, @minus/adult-hard, @minus/adult-soft, @minus/belarus-cities, @minus/cheap,
+ @minus/computer, @minus/countries, @minus/ex-ussr-cities, @minus/free, @minus/handmade,
+ @minus/kazakhstan-cities, @minus/moscow-region-cities, @minus/russia-cities,
+ @minus/ukraine-cities, @minus/universal, @minus/world-cities, @stop/semtools, @stop/wordstat. Run
+ 'semkit lists' for their sources and descriptions.
+
 
