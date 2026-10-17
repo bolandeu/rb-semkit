@@ -140,3 +140,29 @@ def test_quiet_drops_the_summary_lines(core_csv: Path, tmp_path: Path) -> None:
     assert result.exit_code == 0, result.output
     assert result.stderr == ""
     assert len(jsonl(result.stdout)) == 5
+
+
+def test_the_first_required_argument_given_twice_is_refused(core_csv: Path) -> None:
+    result = semkit("--json", "read", str(core_csv), "remove-words", "купить", "--items", "диван", "write", "-")
+
+    payload = json.loads(result.stdout)
+    assert result.exit_code == 2
+    assert payload["error"]["message"].startswith("remove-words: --items")
+
+
+def test_a_missing_first_required_argument_names_both_forms(core_csv: Path) -> None:
+    result = semkit("--json", "read", str(core_csv), "remove-chars", "write", "-")
+
+    payload = json.loads(result.stdout)
+    assert result.exit_code == 2
+    assert "KIND" in payload["error"]["message"] and "--kind" in payload["error"]["message"]
+
+
+def test_an_unknown_step_after_a_step_is_refused_naming_it(core_csv: Path) -> None:
+    result = semkit(
+        "--json", "read", str(core_csv), "dupes", "--kind", "exact", "--action", "drop", "nope", "write", "-"
+    )
+
+    payload = json.loads(result.stdout)
+    assert result.exit_code == 2
+    assert payload["error"]["message"].startswith("dupes: ") and "nope" in payload["error"]["message"]

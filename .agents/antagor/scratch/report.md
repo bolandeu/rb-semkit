@@ -1,22 +1,20 @@
-SEMKIT-023 done: the gate passes (`uv run scripts/release.py --check`, 1.7 min) and `scripts/check_command_docstrings.py` passes.
+SEMKIT-023 round 2 done: I applied the Architect's answers to inbox #1–#4. The gate passes, and `scripts/check_command_docstrings.py` passes.
 
-What is built:
-1. `semkit read IN [--column C] [--whole] [--trace FILE] STEP… write OUT [--overwrite]` in `src/rb_semkit/pipeline/` and `src/rb_semkit/commands/read.py`.
-   Typer 0.27 ships a Click without chained groups, so `PipelineGroup` chains the steps itself. It parses every step first, then reads the input.
-2. The step table is in `src/rb_semkit/steps/` (one module per area: text, dupes, analysis), and `areas()` discovers the modules. The generator in `pipeline/commands.py` makes one command per entry from the signature and the docstring.
-3. The text steps are `<verb>-<matcher>` for the verbs the matcher class supports (`core.text.base.verbs`), plus `keep-`/`drop-<matcher>`: 55 steps. Also `dupes` (`--action drop` is a filter), `ngrams` and `bigrams`.
-4. To give the generator Literal choices, the choice arguments of the matchers and of `dupes` (and `compare_lists` kind) are now `Literal` types. The runtime checks read their allowed values from the same Literal.
-5. `cli.py` registers every module of the commands package. `--ai` prints SKILL.md, then each module's `ai_section()`.
-6. rb-dataio is a required dependency, pinned to the homeserver repo at tag v0.1.21 (the GitHub URL in plan §3 does not exist).
-7. The bench part `scripts/bench_parts/cli.py` runs 1M phrases through 5 cleaning steps from parquet to parquet in 6.25 s (the budget is 120 s). `tests/pipeline/test_speed.py` (marker `speed`) runs it.
+1. #1, the error envelope: it keeps `action`. Nothing changed.
+2. #2, the first required argument: it is now positional and is also accepted as `--NAME`. The other arguments stay options.
+   - `drop-words @minus/universal`, `remove-chars punctuation` and `remove-words --items купить` all work.
+   - A value given in both forms is refused: exit 2, and the message names the step and both forms. A value given in neither form is refused the same way.
+   - The pipeline group now cuts the command line at each word that names a step, but not at the value of an option. So a step's options and its positional value can come in any order.
+   - A word after IN that names no step is refused with Typer's «No such command», which suggests near names.
+   - The Example lines of the step help now use the positional form.
+3. #3: no change in this round. docs/plan.md §3.2 was already updated in round 1.
+4. #4: pyproject now pins `typer>=0.27,<0.28`, with a comment that names pipeline/group.py.
 
-Red run before the code: 35 failed in tests/pipeline (no read command).
+New tests in tests/pipeline, red before the code:
+- the epic line with positional arguments
+- the positional form and the option form give the same rows
+- a value given twice is refused
+- a missing value names both forms
+- an unknown word after a step is refused, naming it
 
-Changed existing tests:
-- tests/test_help.py: a step's help is rendered as `read IN <step> --help`, and its snapshot is at steps/<area>/<step>.txt. The Example check accepts `semkit read IN … <step>`.
-- tests/test_describe.py::test_options_are_the_real_ones: it uses the same help argv.
-- tests/test_cli.py::test_bare_group_shows_help_and_exits_zero: `read` is added.
-- tests/snapshots/describe.json: the new commands. The root command order is now alphabetical, by module discovery.
-
-Open questions in the inbox: #1 is `hint` vs `action` in the error envelope (I kept `action`). #2 is the epic's positional `drop-words @list` vs the task's `--items` (I implemented options).
-Findings: #3 is the ADR 0001 wording about the [io] extra. #4 is about Typer internals imported by the pipeline group.
+Help snapshots are refreshed, because the steps now show an Arguments panel.

@@ -1816,7 +1816,7 @@ requires-dist = [
     { name = "rb-dataio", git = "https://homeserver.tailee01ab.ts.net:3000/bolandeu/dataio.git?tag=v0.1.21" },
     { name = "rich", specifier = ">=13.7" },
     { name = "tomli-w", specifier = ">=1.0" },
-    { name = "typer", specifier = ">=0.12" },
+    { name = "typer", specifier = ">=0.27,<0.28" },
 ]
 
 [package.metadata.requires-dev]

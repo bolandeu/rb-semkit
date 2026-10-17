@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} remove-pos [OPTIONS]
+ Usage: semkit read {IN} remove-pos [OPTIONS] [KIND]
 
  Words of one part of speech: "noun", "adj", "verb" or "adverb" (a participle is none of them).
 
@@ -12,12 +12,14 @@
 
  remove-pos removes what the matcher finds from the working column.
 
- Example: semkit read core.csv remove-pos --kind noun write out.csv
+ Example: semkit read core.csv remove-pos noun write out.csv
 
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   KIND      <noun|adj|verb|adverb>  See the description above. The same as --kind KIND.          │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ *  --kind        <noun|adj|verb|adverb>  See the description above. [required]                   │
-│    --as          NAME                    Write the result to a new column NAME and keep the      │
-│                                          working column as it is.                                │
-│    --help                                Show this message and exit.                             │
+│ --kind        KIND  See the description above.                                                   │
+│ --as          NAME  Write the result to a new column NAME and keep the working column as it is.  │
+│ --help              Show this message and exit.                                                  │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

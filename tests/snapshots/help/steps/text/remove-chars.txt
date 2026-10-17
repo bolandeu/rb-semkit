@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} remove-chars [OPTIONS]
+ Usage: semkit read {IN} remove-chars [OPTIONS] [KIND]
 
  The characters of one type.
 
@@ -12,28 +12,35 @@
 
  remove-chars removes what the matcher finds from the working column.
 
- Example: semkit read core.csv remove-chars --kind latin write out.csv
+ Example: semkit read core.csv remove-chars latin write out.csv
 
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   KIND      <latin|cyrillic|digits|letters_digits|pun  "latin" (A-Z a-z), "cyrillic" (А..ӿ and   │
+│             ctuation|upper|ua>                         Ё: not the capitals Є І Ї), "digits"      │
+│                                                        (0-9), "letters_digits" (letters that     │
+│                                                        have a case, and 0-9), "punctuation"      │
+│                                                        (every other character but whitespace:    │
+│                                                        also «-», «№» and letters without a       │
+│                                                        case), "upper" (upper-case letters), "ua" │
+│                                                        (the Ukrainian letters і ї є ґ). remove   │
+│                                                        cuts the characters out; a punctuation    │
+│                                                        character leaves a space («Диван-кровать» │
+│                                                        → «Диван кровать»). extract keeps latin,  │
+│                                                        cyrillic and digits with the whitespace   │
+│                                                        between them («120x200» → «120200»); for  │
+│                                                        the other kinds it gives the runs joined  │
+│                                                        by a space. The same as --kind KIND.      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ *  --kind        <latin|cyrillic|digits|letters_digits|  "latin" (A-Z a-z), "cyrillic" (А..ӿ and │
-│                  punctuation|upper|ua>                   Ё: not the capitals Є І Ї), "digits"    │
-│                                                          (0-9), "letters_digits" (letters that   │
-│                                                          have a case, and 0-9), "punctuation"    │
-│                                                          (every other character but whitespace:  │
-│                                                          also «-», «№» and letters without a     │
-│                                                          case), "upper" (upper-case letters),    │
-│                                                          "ua" (the Ukrainian letters і ї є ґ).   │
-│                                                          remove cuts the characters out; a       │
-│                                                          punctuation character leaves a space    │
-│                                                          («Диван-кровать» → «Диван кровать»).    │
-│                                                          extract keeps latin, cyrillic and       │
-│                                                          digits with the whitespace between them │
-│                                                          («120x200» → «120200»); for the other   │
-│                                                          kinds it gives the runs joined by a     │
-│                                                          space.                                  │
-│                                                          [required]                              │
-│    --as          NAME                                    Write the result to a new column NAME   │
-│                                                          and keep the working column as it is.   │
-│    --help                                                Show this message and exit.             │
+│ --kind        KIND  "latin" (A-Z a-z), "cyrillic" (А..ӿ and Ё: not the capitals Є І Ї), "digits" │
+│                     (0-9), "letters_digits" (letters that have a case, and 0-9), "punctuation"   │
+│                     (every other character but whitespace: also «-», «№» and letters without a   │
+│                     case), "upper" (upper-case letters), "ua" (the Ukrainian letters і ї є ґ).   │
+│                     remove cuts the characters out; a punctuation character leaves a space       │
+│                     («Диван-кровать» → «Диван кровать»). extract keeps latin, cyrillic and       │
+│                     digits with the whitespace between them («120x200» → «120200»); for the      │
+│                     other kinds it gives the runs joined by a space.                             │
+│ --as          NAME  Write the result to a new column NAME and keep the working column as it is.  │
+│ --help              Show this message and exit.                                                  │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

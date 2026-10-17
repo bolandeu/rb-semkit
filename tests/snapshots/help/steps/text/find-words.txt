@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} find-words [OPTIONS]
+ Usage: semkit read {IN} find-words [OPTIONS] [ITEMS]
 
  Whole words of a phrase equal to `items`, compared by case and ё (`norm_phrase`).
 
@@ -11,23 +11,25 @@
  find-words marks the rows where the matcher finds something, in a new column <column>_find of true
  and false.
 
- Example: semkit read core.csv find-words --items купить write out.csv
+ Example: semkit read core.csv find-words купить write out.csv
 
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   ITEMS      <str>  See the description above. Items: a comma list 'a,b', @FILE (one item per    │
+│                     line) or @NAME of a list. The same as --items ITEMS.                         │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ *  --items               <str>                 See the description above. Items: a comma list    │
-│                                                'a,b', @FILE (one item per line) or @NAME of a    │
-│                                                list.                                             │
-│                                                [required]                                        │
-│    --mode                <any|all>             "any" — any of the words; "all" — only phrases    │
-│                                                holding every one of them.                        │
-│                                                [default: any]                                    │
-│    --where               <anywhere|start|end>  "anywhere", "start" (the first word only) or      │
-│                                                "end" (the last word only).                       │
-│                                                [default: anywhere]                               │
-│    --ignore-punct                              punctuation at the edges of a word does not count │
-│                                                («диван,» is «диван»).                            │
-│    --as                  NAME                  Write the result to a new column NAME and keep    │
-│                                                the working column as it is.                      │
-│    --help                                      Show this message and exit.                       │
+│ --items               ITEMS                 See the description above. Items: a comma list       │
+│                                             'a,b', @FILE (one item per line) or @NAME of a list. │
+│ --mode                <any|all>             "any" — any of the words; "all" — only phrases       │
+│                                             holding every one of them.                           │
+│                                             [default: any]                                       │
+│ --where               <anywhere|start|end>  "anywhere", "start" (the first word only) or "end"   │
+│                                             (the last word only).                                │
+│                                             [default: anywhere]                                  │
+│ --ignore-punct                              punctuation at the edges of a word does not count    │
+│                                             («диван,» is «диван»).                               │
+│ --as                  NAME                  Write the result to a new column NAME and keep the   │
+│                                             working column as it is.                             │
+│ --help                                      Show this message and exit.                          │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

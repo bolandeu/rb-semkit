@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} extract-phrases [OPTIONS]
+ Usage: semkit read {IN} extract-phrases [OPTIONS] [ITEMS]
 
  Phrases of a list, found as whole words («угловой диван» is not in «угловойдиван» or «угловой
  диван,»).
@@ -13,14 +13,17 @@
  extract-phrases keeps only what the matcher finds in the working column; an empty cell where it
  finds nothing.
 
- Example: semkit read core.csv extract-phrases --items купить write out.csv
+ Example: semkit read core.csv extract-phrases купить write out.csv
 
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   ITEMS      <str>  See the description above. Items: a comma list 'a,b', @FILE (one item per    │
+│                     line) or @NAME of a list. The same as --items ITEMS.                         │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ *  --items        <str>  See the description above. Items: a comma list 'a,b', @FILE (one item   │
-│                          per line) or @NAME of a list.                                           │
-│                          [required]                                                              │
-│    --as           NAME   Write the result to a new column NAME and keep the working column as it │
-│                          is.                                                                     │
-│    --help                Show this message and exit.                                             │
+│ --items        ITEMS  See the description above. Items: a comma list 'a,b', @FILE (one item per  │
+│                       line) or @NAME of a list.                                                  │
+│ --as           NAME   Write the result to a new column NAME and keep the working column as it    │
+│                       is.                                                                        │
+│ --help                Show this message and exit.                                                │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

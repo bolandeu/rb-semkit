@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} find-word-content [OPTIONS]
+ Usage: semkit read {IN} find-word-content [OPTIONS] [KIND]
 
  Words by what they hold; a word is tested as written, with its punctuation («красный,» does not
  end in «ный»).
@@ -12,24 +12,29 @@
  find-word-content marks the rows where the matcher finds something, in a new column <column>_find
  of true and false.
 
- Example: semkit read core.csv find-word-content --kind starts write out.csv
+ Example: semkit read core.csv find-word-content starts write out.csv
 
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   KIND      <starts|ends|contains|only_latin|has_lat  "starts", "ends", "contains" (with         │
+│             in|only_digits|has_digits|mixed>          `pattern`: a word part or a list of them,  │
+│                                                       any one is enough; case and ё do not       │
+│                                                       count); "only_latin" (a latin letter, no   │
+│                                                       digit and no Russian letter: «IKEA»,       │
+│                                                       «Wi-Fi»); "has_latin"; "only_digits" (a    │
+│                                                       number: «2», «1,5», «-5»); "has_digits";   │
+│                                                       "mixed" (a digit and a letter:             │
+│                                                       «iphone15»). The same as --kind KIND.      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ *  --kind           <starts|ends|contains|only_latin|has  "starts", "ends", "contains" (with     │
-│                     _latin|only_digits|has_digits|mixed>  `pattern`: a word part or a list of    │
-│                                                           them, any one is enough; case and ё do │
-│                                                           not count); "only_latin" (a latin      │
-│                                                           letter, no digit and no Russian        │
-│                                                           letter: «IKEA», «Wi-Fi»); "has_latin"; │
-│                                                           "only_digits" (a number: «2», «1,5»,   │
-│                                                           «-5»); "has_digits"; "mixed" (a digit  │
-│                                                           and a letter: «iphone15»).             │
-│                                                           [required]                             │
-│    --pattern        <str>                                 See the description above. Items: a    │
-│                                                           comma list 'a,b', @FILE (one item per  │
-│                                                           line) or @NAME of a list.              │
-│    --as             NAME                                  Write the result to a new column NAME  │
-│                                                           and keep the working column as it is.  │
-│    --help                                                 Show this message and exit.            │
+│ --kind           KIND   "starts", "ends", "contains" (with `pattern`: a word part or a list of   │
+│                         them, any one is enough; case and ё do not count); "only_latin" (a latin │
+│                         letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); "has_latin";   │
+│                         "only_digits" (a number: «2», «1,5», «-5»); "has_digits"; "mixed" (a     │
+│                         digit and a letter: «iphone15»).                                         │
+│ --pattern        <str>  See the description above. Items: a comma list 'a,b', @FILE (one item    │
+│                         per line) or @NAME of a list.                                            │
+│ --as             NAME   Write the result to a new column NAME and keep the working column as it  │
+│                         is.                                                                      │
+│ --help                  Show this message and exit.                                              │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

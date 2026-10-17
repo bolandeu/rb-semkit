@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} extract-word-case [OPTIONS]
+ Usage: semkit read {IN} extract-word-case [OPTIONS] [KIND]
 
  Words by the case of their letters (find and extract only); digits and punctuation do not count.
 
@@ -9,16 +9,19 @@
  extract-word-case keeps only what the matcher finds in the working column; an empty cell where it
  finds nothing.
 
- Example: semkit read core.csv extract-word-case --kind lower write out.csv
+ Example: semkit read core.csv extract-word-case lower write out.csv
 
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   KIND      <lower|Capital|CAPS>  "lower" (no capital letter: «x5»); "Capital" (each run of      │
+│                                   letters starts with a capital, the rest small: «Москве», not   │
+│                                   «iPhone» or «Из-за»); "CAPS" (no small letter: «BMW», «В»).    │
+│                                   The same as --kind KIND.                                       │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ *  --kind        <lower|Capital|CAPS>  "lower" (no capital letter: «x5»); "Capital" (each run of │
-│                                        letters starts with a capital, the rest small: «Москве»,  │
-│                                        not «iPhone» or «Из-за»); "CAPS" (no small letter: «BMW», │
-│                                        «В»).                                                     │
-│                                        [required]                                                │
-│    --as          NAME                  Write the result to a new column NAME and keep the        │
-│                                        working column as it is.                                  │
-│    --help                              Show this message and exit.                               │
+│ --kind        KIND  "lower" (no capital letter: «x5»); "Capital" (each run of letters starts     │
+│                     with a capital, the rest small: «Москве», not «iPhone» or «Из-за»); "CAPS"   │
+│                     (no small letter: «BMW», «В»).                                               │
+│ --as          NAME  Write the result to a new column NAME and keep the working column as it is.  │
+│ --help              Show this message and exit.                                                  │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

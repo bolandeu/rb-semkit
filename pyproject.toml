@@ -7,7 +7,7 @@ readme = "README.md"
 authors = [{ name = "net.paradox" }]
 requires-python = ">=3.11"
 dependencies = [
-    "typer>=0.12",
+    "typer>=0.27,<0.28",  # the pipeline group uses its Click (pipeline/group.py): an upgrade is a deliberate change
     "pydantic>=2.6",
     "rich>=13.7",
     "platformdirs>=4.2",

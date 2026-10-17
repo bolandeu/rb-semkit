@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} remove-phrases [OPTIONS]
+ Usage: semkit read {IN} remove-phrases [OPTIONS] [ITEMS]
 
  Phrases of a list, found as whole words («угловой диван» is not in «угловойдиван» or «угловой
  диван,»).
@@ -12,14 +12,17 @@
 
  remove-phrases removes what the matcher finds from the working column.
 
- Example: semkit read core.csv remove-phrases --items купить write out.csv
+ Example: semkit read core.csv remove-phrases купить write out.csv
 
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   ITEMS      <str>  See the description above. Items: a comma list 'a,b', @FILE (one item per    │
+│                     line) or @NAME of a list. The same as --items ITEMS.                         │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ *  --items        <str>  See the description above. Items: a comma list 'a,b', @FILE (one item   │
-│                          per line) or @NAME of a list.                                           │
-│                          [required]                                                              │
-│    --as           NAME   Write the result to a new column NAME and keep the working column as it │
-│                          is.                                                                     │
-│    --help                Show this message and exit.                                             │
+│ --items        ITEMS  See the description above. Items: a comma list 'a,b', @FILE (one item per  │
+│                       line) or @NAME of a list.                                                  │
+│ --as           NAME   Write the result to a new column NAME and keep the working column as it    │
+│                       is.                                                                        │
+│ --help                Show this message and exit.                                                │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

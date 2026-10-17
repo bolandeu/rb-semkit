@@ -140,3 +140,26 @@ def test_json_reports_each_step_of_a_written_file(core_csv: Path, tmp_path: Path
         "written": True,
         "steps": [{"step": "remove-words", "rows_before": 5, "rows_after": 5, "cells_changed": 2}],
     }
+
+
+def test_the_epic_line_with_positional_first_arguments(core_csv: Path, tmp_path: Path) -> None:
+    (tmp_path / "minus.txt").write_text("недорого\n", encoding="utf-8")
+    out = tmp_path / "out.csv"
+
+    result = semkit(
+        "read", str(core_csv), "drop-words", f"@{tmp_path / 'minus.txt'}", "remove-words", "купить", "--where", "start",
+        "remove-chars", "punctuation", "dupes", "--kind", "lemmas", "--action", "drop", "ngrams", "-n", "2",
+        "write", str(out),
+    )  # fmt: skip
+
+    assert result.exit_code == 0, result.output
+    assert pd.read_csv(out, dtype=str)["ngram"].tolist() == ["угловой диван"]
+
+
+def test_the_first_required_argument_as_an_option_or_positional_gives_the_same(core_csv: Path, tmp_path: Path) -> None:
+    first, second = tmp_path / "a.csv", tmp_path / "b.csv"
+
+    semkit("read", str(core_csv), "keep-words", "купить", "write", str(first))
+    semkit("read", str(core_csv), "keep-words", "--items", "купить", "write", str(second))
+
+    assert _phrases(first) == _phrases(second) == ["купить диван", "купить угловой диван"]

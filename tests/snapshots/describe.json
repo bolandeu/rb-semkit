@@ -880,11 +880,10 @@
           },
           {
             "name": "dupes",
-            "description": "Duplicates by `kind`: exact, explicit (case, ё→е, spaces), implicit (other word order) or lemmas.\n\n`action`: mark_except_first (a bool, the first of a group is False), mark_all (every member of a group of 2+), drop (keep the first, drop the rest). With `against` a phrase is a duplicate when its key is in that Series.\n\nThe step marks the duplicates of the working column in a new column <column>_dupes; with --action drop it keeps only the first row of each group.\n\nExample: semkit read core.csv dupes --kind exact --action mark_except_first write out.csv",
+            "description": "Duplicates by `kind`: exact, explicit (case, ё→е, spaces), implicit (other word order) or lemmas.\n\n`action`: mark_except_first (a bool, the first of a group is False), mark_all (every member of a group of 2+), drop (keep the first, drop the rest). With `against` a phrase is a duplicate when its key is in that Series.\n\nThe step marks the duplicates of the working column in a new column <column>_dupes; with --action drop it keeps only the first row of each group.\n\nExample: semkit read core.csv dupes exact --action mark_except_first write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -943,15 +942,37 @@
                   }
                 ]
               }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "exact",
+                  "explicit",
+                  "implicit",
+                  "lemmas"
+                ],
+                "description": "See the description above. The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
+                  }
+                ]
+              }
             ]
           },
           {
             "name": "find-words",
-            "description": "Whole words of a phrase equal to `items`, compared by case and ё (`norm_phrase`).\n\nmode: \"any\" — any of the words; \"all\" — only phrases holding every one of them.\nwhere: \"anywhere\", \"start\" (the first word only) or \"end\" (the last word only).\nignore_punct: punctuation at the edges of a word does not count («диван,» is «диван»).\nlemmatizer: compare lemmas («диваны» is «диван»); None compares the words as they are.\n\nfind-words marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-words --items купить write out.csv",
+            "description": "Whole words of a phrase equal to `items`, compared by case and ё (`norm_phrase`).\n\nmode: \"any\" — any of the words; \"all\" — only phrases holding every one of them.\nwhere: \"anywhere\", \"start\" (the first word only) or \"end\" (the last word only).\nignore_punct: punctuation at the edges of a word does not count («диван,» is «диван»).\nlemmatizer: compare lemmas («диваны» is «диван»); None compares the words as they are.\n\nfind-words marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-words купить write out.csv",
             "options": [
               {
                 "name": "--items",
-                "required": true,
                 "arguments": [
                   {
                     "name": "ITEMS",
@@ -1038,6 +1059,23 @@
                   }
                 ],
                 "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_items",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list. The same as --items ITEMS.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -1049,11 +1087,10 @@
           },
           {
             "name": "remove-words",
-            "description": "Whole words of a phrase equal to `items`, compared by case and ё (`norm_phrase`).\n\nmode: \"any\" — any of the words; \"all\" — only phrases holding every one of them.\nwhere: \"anywhere\", \"start\" (the first word only) or \"end\" (the last word only).\nignore_punct: punctuation at the edges of a word does not count («диван,» is «диван»).\nlemmatizer: compare lemmas («диваны» is «диван»); None compares the words as they are.\n\nremove-words removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-words --items купить write out.csv",
+            "description": "Whole words of a phrase equal to `items`, compared by case and ё (`norm_phrase`).\n\nmode: \"any\" — any of the words; \"all\" — only phrases holding every one of them.\nwhere: \"anywhere\", \"start\" (the first word only) or \"end\" (the last word only).\nignore_punct: punctuation at the edges of a word does not count («диван,» is «диван»).\nlemmatizer: compare lemmas («диваны» is «диван»); None compares the words as they are.\n\nremove-words removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-words купить write out.csv",
             "options": [
               {
                 "name": "--items",
-                "required": true,
                 "arguments": [
                   {
                     "name": "ITEMS",
@@ -1140,6 +1177,23 @@
                   }
                 ],
                 "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_items",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list. The same as --items ITEMS.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -1151,11 +1205,10 @@
           },
           {
             "name": "extract-words",
-            "description": "Whole words of a phrase equal to `items`, compared by case and ё (`norm_phrase`).\n\nmode: \"any\" — any of the words; \"all\" — only phrases holding every one of them.\nwhere: \"anywhere\", \"start\" (the first word only) or \"end\" (the last word only).\nignore_punct: punctuation at the edges of a word does not count («диван,» is «диван»).\nlemmatizer: compare lemmas («диваны» is «диван»); None compares the words as they are.\n\nextract-words keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-words --items купить write out.csv",
+            "description": "Whole words of a phrase equal to `items`, compared by case and ё (`norm_phrase`).\n\nmode: \"any\" — any of the words; \"all\" — only phrases holding every one of them.\nwhere: \"anywhere\", \"start\" (the first word only) or \"end\" (the last word only).\nignore_punct: punctuation at the edges of a word does not count («диван,» is «диван»).\nlemmatizer: compare lemmas («диваны» is «диван»); None compares the words as they are.\n\nextract-words keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-words купить write out.csv",
             "options": [
               {
                 "name": "--items",
-                "required": true,
                 "arguments": [
                   {
                     "name": "ITEMS",
@@ -1242,6 +1295,23 @@
                   }
                 ],
                 "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_items",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list. The same as --items ITEMS.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -1253,11 +1323,10 @@
           },
           {
             "name": "keep-words",
-            "description": "Whole words of a phrase equal to `items`, compared by case and ё (`norm_phrase`).\n\nmode: \"any\" — any of the words; \"all\" — only phrases holding every one of them.\nwhere: \"anywhere\", \"start\" (the first word only) or \"end\" (the last word only).\nignore_punct: punctuation at the edges of a word does not count («диван,» is «диван»).\nlemmatizer: compare lemmas («диваны» is «диван»); None compares the words as they are.\n\nkeep-words keeps only the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv keep-words --items купить write out.csv",
+            "description": "Whole words of a phrase equal to `items`, compared by case and ё (`norm_phrase`).\n\nmode: \"any\" — any of the words; \"all\" — only phrases holding every one of them.\nwhere: \"anywhere\", \"start\" (the first word only) or \"end\" (the last word only).\nignore_punct: punctuation at the edges of a word does not count («диван,» is «диван»).\nlemmatizer: compare lemmas («диваны» is «диван»); None compares the words as they are.\n\nkeep-words keeps only the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv keep-words купить write out.csv",
             "options": [
               {
                 "name": "--items",
-                "required": true,
                 "arguments": [
                   {
                     "name": "ITEMS",
@@ -1332,6 +1401,23 @@
                   {
                     "name": "x-rb-default",
                     "value": false
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_items",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list. The same as --items ITEMS.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
                   }
                 ]
               }
@@ -1339,11 +1425,10 @@
           },
           {
             "name": "drop-words",
-            "description": "Whole words of a phrase equal to `items`, compared by case and ё (`norm_phrase`).\n\nmode: \"any\" — any of the words; \"all\" — only phrases holding every one of them.\nwhere: \"anywhere\", \"start\" (the first word only) or \"end\" (the last word only).\nignore_punct: punctuation at the edges of a word does not count («диван,» is «диван»).\nlemmatizer: compare lemmas («диваны» is «диван»); None compares the words as they are.\n\ndrop-words drops the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv drop-words --items купить write out.csv",
+            "description": "Whole words of a phrase equal to `items`, compared by case and ё (`norm_phrase`).\n\nmode: \"any\" — any of the words; \"all\" — only phrases holding every one of them.\nwhere: \"anywhere\", \"start\" (the first word only) or \"end\" (the last word only).\nignore_punct: punctuation at the edges of a word does not count («диван,» is «диван»).\nlemmatizer: compare lemmas («диваны» is «диван»); None compares the words as they are.\n\ndrop-words drops the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv drop-words купить write out.csv",
             "options": [
               {
                 "name": "--items",
-                "required": true,
                 "arguments": [
                   {
                     "name": "ITEMS",
@@ -1421,15 +1506,31 @@
                   }
                 ]
               }
+            ],
+            "arguments": [
+              {
+                "name": "positional_items",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list. The same as --items ITEMS.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
             ]
           },
           {
             "name": "find-phrases",
-            "description": "Phrases of a list, found as whole words («угловой диван» is not in «угловойдиван» or «угловой диван,»).\n\nWords compare in any case, ё as е; punctuation glued to a word counts. find, remove and extract take the same phrases, as `sk.markers(user=...)` does: left to right, for each word the longest phrase that starts there (in words, then in characters; a tie keeps the list order), and the words of a taken phrase start no other. remove keeps the case of the other words; extract gives the phrases as the list spells them, joined by ', '.\n\nfind-phrases marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-phrases --items купить write out.csv",
+            "description": "Phrases of a list, found as whole words («угловой диван» is not in «угловойдиван» or «угловой диван,»).\n\nWords compare in any case, ё as е; punctuation glued to a word counts. find, remove and extract take the same phrases, as `sk.markers(user=...)` does: left to right, for each word the longest phrase that starts there (in words, then in characters; a tie keeps the list order), and the words of a taken phrase start no other. remove keeps the case of the other words; extract gives the phrases as the list spells them, joined by ', '.\n\nfind-phrases marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-phrases купить write out.csv",
             "options": [
               {
                 "name": "--items",
-                "required": true,
                 "arguments": [
                   {
                     "name": "ITEMS",
@@ -1453,6 +1554,23 @@
                   }
                 ],
                 "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_items",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list. The same as --items ITEMS.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -1464,11 +1582,10 @@
           },
           {
             "name": "remove-phrases",
-            "description": "Phrases of a list, found as whole words («угловой диван» is not in «угловойдиван» or «угловой диван,»).\n\nWords compare in any case, ё as е; punctuation glued to a word counts. find, remove and extract take the same phrases, as `sk.markers(user=...)` does: left to right, for each word the longest phrase that starts there (in words, then in characters; a tie keeps the list order), and the words of a taken phrase start no other. remove keeps the case of the other words; extract gives the phrases as the list spells them, joined by ', '.\n\nremove-phrases removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-phrases --items купить write out.csv",
+            "description": "Phrases of a list, found as whole words («угловой диван» is not in «угловойдиван» or «угловой диван,»).\n\nWords compare in any case, ё as е; punctuation glued to a word counts. find, remove and extract take the same phrases, as `sk.markers(user=...)` does: left to right, for each word the longest phrase that starts there (in words, then in characters; a tie keeps the list order), and the words of a taken phrase start no other. remove keeps the case of the other words; extract gives the phrases as the list spells them, joined by ', '.\n\nremove-phrases removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-phrases купить write out.csv",
             "options": [
               {
                 "name": "--items",
-                "required": true,
                 "arguments": [
                   {
                     "name": "ITEMS",
@@ -1492,6 +1609,23 @@
                   }
                 ],
                 "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_items",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list. The same as --items ITEMS.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -1503,11 +1637,10 @@
           },
           {
             "name": "extract-phrases",
-            "description": "Phrases of a list, found as whole words («угловой диван» is not in «угловойдиван» or «угловой диван,»).\n\nWords compare in any case, ё as е; punctuation glued to a word counts. find, remove and extract take the same phrases, as `sk.markers(user=...)` does: left to right, for each word the longest phrase that starts there (in words, then in characters; a tie keeps the list order), and the words of a taken phrase start no other. remove keeps the case of the other words; extract gives the phrases as the list spells them, joined by ', '.\n\nextract-phrases keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-phrases --items купить write out.csv",
+            "description": "Phrases of a list, found as whole words («угловой диван» is not in «угловойдиван» or «угловой диван,»).\n\nWords compare in any case, ё as е; punctuation glued to a word counts. find, remove and extract take the same phrases, as `sk.markers(user=...)` does: left to right, for each word the longest phrase that starts there (in words, then in characters; a tie keeps the list order), and the words of a taken phrase start no other. remove keeps the case of the other words; extract gives the phrases as the list spells them, joined by ', '.\n\nextract-phrases keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-phrases купить write out.csv",
             "options": [
               {
                 "name": "--items",
-                "required": true,
                 "arguments": [
                   {
                     "name": "ITEMS",
@@ -1538,15 +1671,31 @@
                   }
                 ]
               }
+            ],
+            "arguments": [
+              {
+                "name": "positional_items",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list. The same as --items ITEMS.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
             ]
           },
           {
             "name": "keep-phrases",
-            "description": "Phrases of a list, found as whole words («угловой диван» is not in «угловойдиван» or «угловой диван,»).\n\nWords compare in any case, ё as е; punctuation glued to a word counts. find, remove and extract take the same phrases, as `sk.markers(user=...)` does: left to right, for each word the longest phrase that starts there (in words, then in characters; a tie keeps the list order), and the words of a taken phrase start no other. remove keeps the case of the other words; extract gives the phrases as the list spells them, joined by ', '.\n\nkeep-phrases keeps only the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv keep-phrases --items купить write out.csv",
+            "description": "Phrases of a list, found as whole words («угловой диван» is not in «угловойдиван» or «угловой диван,»).\n\nWords compare in any case, ё as е; punctuation glued to a word counts. find, remove and extract take the same phrases, as `sk.markers(user=...)` does: left to right, for each word the longest phrase that starts there (in words, then in characters; a tie keeps the list order), and the words of a taken phrase start no other. remove keeps the case of the other words; extract gives the phrases as the list spells them, joined by ', '.\n\nkeep-phrases keeps only the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv keep-phrases купить write out.csv",
             "options": [
               {
                 "name": "--items",
-                "required": true,
                 "arguments": [
                   {
                     "name": "ITEMS",
@@ -1561,15 +1710,31 @@
                   }
                 ]
               }
+            ],
+            "arguments": [
+              {
+                "name": "positional_items",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list. The same as --items ITEMS.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
             ]
           },
           {
             "name": "drop-phrases",
-            "description": "Phrases of a list, found as whole words («угловой диван» is not in «угловойдиван» or «угловой диван,»).\n\nWords compare in any case, ё as е; punctuation glued to a word counts. find, remove and extract take the same phrases, as `sk.markers(user=...)` does: left to right, for each word the longest phrase that starts there (in words, then in characters; a tie keeps the list order), and the words of a taken phrase start no other. remove keeps the case of the other words; extract gives the phrases as the list spells them, joined by ', '.\n\ndrop-phrases drops the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv drop-phrases --items купить write out.csv",
+            "description": "Phrases of a list, found as whole words («угловой диван» is not in «угловойдиван» or «угловой диван,»).\n\nWords compare in any case, ё as е; punctuation glued to a word counts. find, remove and extract take the same phrases, as `sk.markers(user=...)` does: left to right, for each word the longest phrase that starts there (in words, then in characters; a tie keeps the list order), and the words of a taken phrase start no other. remove keeps the case of the other words; extract gives the phrases as the list spells them, joined by ', '.\n\ndrop-phrases drops the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv drop-phrases купить write out.csv",
             "options": [
               {
                 "name": "--items",
-                "required": true,
                 "arguments": [
                   {
                     "name": "ITEMS",
@@ -1577,6 +1742,23 @@
                   }
                 ],
                 "description": "See the description above. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_items",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. Items: a comma list 'a,b', @FILE (one item per line) or @NAME of a list. The same as --items ITEMS.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -1626,11 +1808,10 @@
           },
           {
             "name": "find-chars",
-            "description": "The characters of one type.\n\nkind: \"latin\" (A-Z a-z), \"cyrillic\" (А..ӿ and Ё: not the capitals Є І Ї), \"digits\" (0-9), \"letters_digits\" (letters that have a case, and 0-9), \"punctuation\" (every other character but whitespace: also «-», «№» and letters without a case), \"upper\" (upper-case letters), \"ua\" (the Ukrainian letters і ї є ґ). remove cuts the characters out; a punctuation character leaves a space («Диван-кровать» → «Диван кровать»). extract keeps latin, cyrillic and digits with the whitespace between them («120x200» → «120200»); for the other kinds it gives the runs joined by a space.\n\nfind-chars marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-chars --kind latin write out.csv",
+            "description": "The characters of one type.\n\nkind: \"latin\" (A-Z a-z), \"cyrillic\" (А..ӿ and Ё: not the capitals Є І Ї), \"digits\" (0-9), \"letters_digits\" (letters that have a case, and 0-9), \"punctuation\" (every other character but whitespace: also «-», «№» and letters without a case), \"upper\" (upper-case letters), \"ua\" (the Ukrainian letters і ї є ґ). remove cuts the characters out; a punctuation character leaves a space («Диван-кровать» → «Диван кровать»). extract keeps latin, cyrillic and digits with the whitespace between them («120x200» → «120200»); for the other kinds it gives the runs joined by a space.\n\nfind-chars marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-chars latin write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -1667,6 +1848,32 @@
                   {
                     "name": "x-rb-type",
                     "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "latin",
+                  "cyrillic",
+                  "digits",
+                  "letters_digits",
+                  "punctuation",
+                  "upper",
+                  "ua"
+                ],
+                "description": "\"latin\" (A-Z a-z), \"cyrillic\" (А..ӿ and Ё: not the capitals Є І Ї), \"digits\" (0-9), \"letters_digits\" (letters that have a case, and 0-9), \"punctuation\" (every other character but whitespace: also «-», «№» and letters without a case), \"upper\" (upper-case letters), \"ua\" (the Ukrainian letters і ї є ґ). remove cuts the characters out; a punctuation character leaves a space («Диван-кровать» → «Диван кровать»). extract keeps latin, cyrillic and digits with the whitespace between them («120x200» → «120200»); for the other kinds it gives the runs joined by a space. The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
                   }
                 ]
               }
@@ -1674,11 +1881,10 @@
           },
           {
             "name": "remove-chars",
-            "description": "The characters of one type.\n\nkind: \"latin\" (A-Z a-z), \"cyrillic\" (А..ӿ and Ё: not the capitals Є І Ї), \"digits\" (0-9), \"letters_digits\" (letters that have a case, and 0-9), \"punctuation\" (every other character but whitespace: also «-», «№» and letters without a case), \"upper\" (upper-case letters), \"ua\" (the Ukrainian letters і ї є ґ). remove cuts the characters out; a punctuation character leaves a space («Диван-кровать» → «Диван кровать»). extract keeps latin, cyrillic and digits with the whitespace between them («120x200» → «120200»); for the other kinds it gives the runs joined by a space.\n\nremove-chars removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-chars --kind latin write out.csv",
+            "description": "The characters of one type.\n\nkind: \"latin\" (A-Z a-z), \"cyrillic\" (А..ӿ and Ё: not the capitals Є І Ї), \"digits\" (0-9), \"letters_digits\" (letters that have a case, and 0-9), \"punctuation\" (every other character but whitespace: also «-», «№» and letters without a case), \"upper\" (upper-case letters), \"ua\" (the Ukrainian letters і ї є ґ). remove cuts the characters out; a punctuation character leaves a space («Диван-кровать» → «Диван кровать»). extract keeps latin, cyrillic and digits with the whitespace between them («120x200» → «120200»); for the other kinds it gives the runs joined by a space.\n\nremove-chars removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-chars latin write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -1715,6 +1921,32 @@
                   {
                     "name": "x-rb-type",
                     "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "latin",
+                  "cyrillic",
+                  "digits",
+                  "letters_digits",
+                  "punctuation",
+                  "upper",
+                  "ua"
+                ],
+                "description": "\"latin\" (A-Z a-z), \"cyrillic\" (А..ӿ and Ё: not the capitals Є І Ї), \"digits\" (0-9), \"letters_digits\" (letters that have a case, and 0-9), \"punctuation\" (every other character but whitespace: also «-», «№» and letters without a case), \"upper\" (upper-case letters), \"ua\" (the Ukrainian letters і ї є ґ). remove cuts the characters out; a punctuation character leaves a space («Диван-кровать» → «Диван кровать»). extract keeps latin, cyrillic and digits with the whitespace between them («120x200» → «120200»); for the other kinds it gives the runs joined by a space. The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
                   }
                 ]
               }
@@ -1722,11 +1954,10 @@
           },
           {
             "name": "extract-chars",
-            "description": "The characters of one type.\n\nkind: \"latin\" (A-Z a-z), \"cyrillic\" (А..ӿ and Ё: not the capitals Є І Ї), \"digits\" (0-9), \"letters_digits\" (letters that have a case, and 0-9), \"punctuation\" (every other character but whitespace: also «-», «№» and letters without a case), \"upper\" (upper-case letters), \"ua\" (the Ukrainian letters і ї є ґ). remove cuts the characters out; a punctuation character leaves a space («Диван-кровать» → «Диван кровать»). extract keeps latin, cyrillic and digits with the whitespace between them («120x200» → «120200»); for the other kinds it gives the runs joined by a space.\n\nextract-chars keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-chars --kind latin write out.csv",
+            "description": "The characters of one type.\n\nkind: \"latin\" (A-Z a-z), \"cyrillic\" (А..ӿ and Ё: not the capitals Є І Ї), \"digits\" (0-9), \"letters_digits\" (letters that have a case, and 0-9), \"punctuation\" (every other character but whitespace: also «-», «№» and letters without a case), \"upper\" (upper-case letters), \"ua\" (the Ukrainian letters і ї є ґ). remove cuts the characters out; a punctuation character leaves a space («Диван-кровать» → «Диван кровать»). extract keeps latin, cyrillic and digits with the whitespace between them («120x200» → «120200»); for the other kinds it gives the runs joined by a space.\n\nextract-chars keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-chars latin write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -1766,15 +1997,40 @@
                   }
                 ]
               }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "latin",
+                  "cyrillic",
+                  "digits",
+                  "letters_digits",
+                  "punctuation",
+                  "upper",
+                  "ua"
+                ],
+                "description": "\"latin\" (A-Z a-z), \"cyrillic\" (А..ӿ and Ё: not the capitals Є І Ї), \"digits\" (0-9), \"letters_digits\" (letters that have a case, and 0-9), \"punctuation\" (every other character but whitespace: also «-», «№» and letters without a case), \"upper\" (upper-case letters), \"ua\" (the Ukrainian letters і ї є ґ). remove cuts the characters out; a punctuation character leaves a space («Диван-кровать» → «Диван кровать»). extract keeps latin, cyrillic and digits with the whitespace between them («120x200» → «120200»); for the other kinds it gives the runs joined by a space. The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
+                  }
+                ]
+              }
             ]
           },
           {
             "name": "keep-chars",
-            "description": "The characters of one type.\n\nkind: \"latin\" (A-Z a-z), \"cyrillic\" (А..ӿ and Ё: not the capitals Є І Ї), \"digits\" (0-9), \"letters_digits\" (letters that have a case, and 0-9), \"punctuation\" (every other character but whitespace: also «-», «№» and letters without a case), \"upper\" (upper-case letters), \"ua\" (the Ukrainian letters і ї є ґ). remove cuts the characters out; a punctuation character leaves a space («Диван-кровать» → «Диван кровать»). extract keeps latin, cyrillic and digits with the whitespace between them («120x200» → «120200»); for the other kinds it gives the runs joined by a space.\n\nkeep-chars keeps only the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv keep-chars --kind latin write out.csv",
+            "description": "The characters of one type.\n\nkind: \"latin\" (A-Z a-z), \"cyrillic\" (А..ӿ and Ё: not the capitals Є І Ї), \"digits\" (0-9), \"letters_digits\" (letters that have a case, and 0-9), \"punctuation\" (every other character but whitespace: also «-», «№» and letters without a case), \"upper\" (upper-case letters), \"ua\" (the Ukrainian letters і ї є ґ). remove cuts the characters out; a punctuation character leaves a space («Диван-кровать» → «Диван кровать»). extract keeps latin, cyrillic and digits with the whitespace between them («120x200» → «120200»); for the other kinds it gives the runs joined by a space.\n\nkeep-chars keeps only the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv keep-chars latin write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -1791,6 +2047,32 @@
                   }
                 ],
                 "description": "\"latin\" (A-Z a-z), \"cyrillic\" (А..ӿ and Ё: not the capitals Є І Ї), \"digits\" (0-9), \"letters_digits\" (letters that have a case, and 0-9), \"punctuation\" (every other character but whitespace: also «-», «№» and letters without a case), \"upper\" (upper-case letters), \"ua\" (the Ukrainian letters і ї є ґ). remove cuts the characters out; a punctuation character leaves a space («Диван-кровать» → «Диван кровать»). extract keeps latin, cyrillic and digits with the whitespace between them («120x200» → «120200»); for the other kinds it gives the runs joined by a space.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "latin",
+                  "cyrillic",
+                  "digits",
+                  "letters_digits",
+                  "punctuation",
+                  "upper",
+                  "ua"
+                ],
+                "description": "\"latin\" (A-Z a-z), \"cyrillic\" (А..ӿ and Ё: not the capitals Є І Ї), \"digits\" (0-9), \"letters_digits\" (letters that have a case, and 0-9), \"punctuation\" (every other character but whitespace: also «-», «№» and letters without a case), \"upper\" (upper-case letters), \"ua\" (the Ukrainian letters і ї є ґ). remove cuts the characters out; a punctuation character leaves a space («Диван-кровать» → «Диван кровать»). extract keeps latin, cyrillic and digits with the whitespace between them («120x200» → «120200»); for the other kinds it gives the runs joined by a space. The same as --kind KIND.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -1802,11 +2084,10 @@
           },
           {
             "name": "drop-chars",
-            "description": "The characters of one type.\n\nkind: \"latin\" (A-Z a-z), \"cyrillic\" (А..ӿ and Ё: not the capitals Є І Ї), \"digits\" (0-9), \"letters_digits\" (letters that have a case, and 0-9), \"punctuation\" (every other character but whitespace: also «-», «№» and letters without a case), \"upper\" (upper-case letters), \"ua\" (the Ukrainian letters і ї є ґ). remove cuts the characters out; a punctuation character leaves a space («Диван-кровать» → «Диван кровать»). extract keeps latin, cyrillic and digits with the whitespace between them («120x200» → «120200»); for the other kinds it gives the runs joined by a space.\n\ndrop-chars drops the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv drop-chars --kind latin write out.csv",
+            "description": "The characters of one type.\n\nkind: \"latin\" (A-Z a-z), \"cyrillic\" (А..ӿ and Ё: not the capitals Є І Ї), \"digits\" (0-9), \"letters_digits\" (letters that have a case, and 0-9), \"punctuation\" (every other character but whitespace: also «-», «№» and letters without a case), \"upper\" (upper-case letters), \"ua\" (the Ukrainian letters і ї є ґ). remove cuts the characters out; a punctuation character leaves a space («Диван-кровать» → «Диван кровать»). extract keeps latin, cyrillic and digits with the whitespace between them («120x200» → «120200»); for the other kinds it gives the runs joined by a space.\n\ndrop-chars drops the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv drop-chars latin write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -1830,15 +2111,40 @@
                   }
                 ]
               }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "latin",
+                  "cyrillic",
+                  "digits",
+                  "letters_digits",
+                  "punctuation",
+                  "upper",
+                  "ua"
+                ],
+                "description": "\"latin\" (A-Z a-z), \"cyrillic\" (А..ӿ and Ё: not the capitals Є І Ї), \"digits\" (0-9), \"letters_digits\" (letters that have a case, and 0-9), \"punctuation\" (every other character but whitespace: also «-», «№» and letters without a case), \"upper\" (upper-case letters), \"ua\" (the Ukrainian letters і ї є ґ). remove cuts the characters out; a punctuation character leaves a space («Диван-кровать» → «Диван кровать»). extract keeps latin, cyrillic and digits with the whitespace between them («120x200» → «120200»); for the other kinds it gives the runs joined by a space. The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
+                  }
+                ]
+              }
             ]
           },
           {
             "name": "remove-spaces",
-            "description": "The spaces to remove (remove only).\n\nkind: \"all\"; \"left\" and \"right\" (at that end only); \"both\" (at both ends); \"extra\" (runs collapsed to one space, none at the ends). \"left\", \"right\" and \"both\" keep the spaces inside.\n\nremove-spaces removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-spaces --kind all write out.csv",
+            "description": "The spaces to remove (remove only).\n\nkind: \"all\"; \"left\" and \"right\" (at that end only); \"both\" (at both ends); \"extra\" (runs collapsed to one space, none at the ends). \"left\", \"right\" and \"both\" keep the spaces inside.\n\nremove-spaces removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-spaces all write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -1876,15 +2182,38 @@
                   }
                 ]
               }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "all",
+                  "left",
+                  "right",
+                  "both",
+                  "extra"
+                ],
+                "description": "\"all\"; \"left\" and \"right\" (at that end only); \"both\" (at both ends); \"extra\" (runs collapsed to one space, none at the ends). \"left\", \"right\" and \"both\" keep the spaces inside. The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
+                  }
+                ]
+              }
             ]
           },
           {
             "name": "find-regex",
-            "description": "What the regular expression `pattern` matches in a phrase, case-sensitive, searched anywhere.\n\nfind: the pattern matches. remove: every match is cut out. extract: the first match, or with `all_matches=True` every match, joined by a space.\ninvert: the found part is the text the pattern does NOT match: remove keeps only the matches, joined with nothing between («диван 120x200» with \\d+ → «120200»); extract gives the text outside the matches («диван x»); find is True where such text is left.\n\nfind-regex marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-regex --pattern купить write out.csv",
+            "description": "What the regular expression `pattern` matches in a phrase, case-sensitive, searched anywhere.\n\nfind: the pattern matches. remove: every match is cut out. extract: the first match, or with `all_matches=True` every match, joined by a space.\ninvert: the found part is the text the pattern does NOT match: remove keeps only the matches, joined with nothing between («диван 120x200» with \\d+ → «120200»); extract gives the text outside the matches («диван x»); find is True where such text is left.\n\nfind-regex marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-regex купить write out.csv",
             "options": [
               {
                 "name": "--pattern",
-                "required": true,
                 "arguments": [
                   {
                     "name": "PATTERN",
@@ -1936,6 +2265,23 @@
                   }
                 ],
                 "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_pattern",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. The same as --pattern PATTERN.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -1947,11 +2293,10 @@
           },
           {
             "name": "remove-regex",
-            "description": "What the regular expression `pattern` matches in a phrase, case-sensitive, searched anywhere.\n\nfind: the pattern matches. remove: every match is cut out. extract: the first match, or with `all_matches=True` every match, joined by a space.\ninvert: the found part is the text the pattern does NOT match: remove keeps only the matches, joined with nothing between («диван 120x200» with \\d+ → «120200»); extract gives the text outside the matches («диван x»); find is True where such text is left.\n\nremove-regex removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-regex --pattern купить write out.csv",
+            "description": "What the regular expression `pattern` matches in a phrase, case-sensitive, searched anywhere.\n\nfind: the pattern matches. remove: every match is cut out. extract: the first match, or with `all_matches=True` every match, joined by a space.\ninvert: the found part is the text the pattern does NOT match: remove keeps only the matches, joined with nothing between («диван 120x200» with \\d+ → «120200»); extract gives the text outside the matches («диван x»); find is True where such text is left.\n\nremove-regex removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-regex купить write out.csv",
             "options": [
               {
                 "name": "--pattern",
-                "required": true,
                 "arguments": [
                   {
                     "name": "PATTERN",
@@ -2003,6 +2348,23 @@
                   }
                 ],
                 "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_pattern",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. The same as --pattern PATTERN.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -2014,11 +2376,10 @@
           },
           {
             "name": "extract-regex",
-            "description": "What the regular expression `pattern` matches in a phrase, case-sensitive, searched anywhere.\n\nfind: the pattern matches. remove: every match is cut out. extract: the first match, or with `all_matches=True` every match, joined by a space.\ninvert: the found part is the text the pattern does NOT match: remove keeps only the matches, joined with nothing between («диван 120x200» with \\d+ → «120200»); extract gives the text outside the matches («диван x»); find is True where such text is left.\n\nextract-regex keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-regex --pattern купить write out.csv",
+            "description": "What the regular expression `pattern` matches in a phrase, case-sensitive, searched anywhere.\n\nfind: the pattern matches. remove: every match is cut out. extract: the first match, or with `all_matches=True` every match, joined by a space.\ninvert: the found part is the text the pattern does NOT match: remove keeps only the matches, joined with nothing between («диван 120x200» with \\d+ → «120200»); extract gives the text outside the matches («диван x»); find is True where such text is left.\n\nextract-regex keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-regex купить write out.csv",
             "options": [
               {
                 "name": "--pattern",
-                "required": true,
                 "arguments": [
                   {
                     "name": "PATTERN",
@@ -2070,6 +2431,23 @@
                   }
                 ],
                 "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_pattern",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. The same as --pattern PATTERN.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -2081,11 +2459,10 @@
           },
           {
             "name": "keep-regex",
-            "description": "What the regular expression `pattern` matches in a phrase, case-sensitive, searched anywhere.\n\nfind: the pattern matches. remove: every match is cut out. extract: the first match, or with `all_matches=True` every match, joined by a space.\ninvert: the found part is the text the pattern does NOT match: remove keeps only the matches, joined with nothing between («диван 120x200» with \\d+ → «120200»); extract gives the text outside the matches («диван x»); find is True where such text is left.\n\nkeep-regex keeps only the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv keep-regex --pattern купить write out.csv",
+            "description": "What the regular expression `pattern` matches in a phrase, case-sensitive, searched anywhere.\n\nfind: the pattern matches. remove: every match is cut out. extract: the first match, or with `all_matches=True` every match, joined by a space.\ninvert: the found part is the text the pattern does NOT match: remove keeps only the matches, joined with nothing between («диван 120x200» with \\d+ → «120200»); extract gives the text outside the matches («диван x»); find is True where such text is left.\n\nkeep-regex keeps only the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv keep-regex купить write out.csv",
             "options": [
               {
                 "name": "--pattern",
-                "required": true,
                 "arguments": [
                   {
                     "name": "PATTERN",
@@ -2125,6 +2502,23 @@
                   {
                     "name": "x-rb-default",
                     "value": false
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_pattern",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. The same as --pattern PATTERN.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
                   }
                 ]
               }
@@ -2132,11 +2526,10 @@
           },
           {
             "name": "drop-regex",
-            "description": "What the regular expression `pattern` matches in a phrase, case-sensitive, searched anywhere.\n\nfind: the pattern matches. remove: every match is cut out. extract: the first match, or with `all_matches=True` every match, joined by a space.\ninvert: the found part is the text the pattern does NOT match: remove keeps only the matches, joined with nothing between («диван 120x200» with \\d+ → «120200»); extract gives the text outside the matches («диван x»); find is True where such text is left.\n\ndrop-regex drops the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv drop-regex --pattern купить write out.csv",
+            "description": "What the regular expression `pattern` matches in a phrase, case-sensitive, searched anywhere.\n\nfind: the pattern matches. remove: every match is cut out. extract: the first match, or with `all_matches=True` every match, joined by a space.\ninvert: the found part is the text the pattern does NOT match: remove keeps only the matches, joined with nothing between («диван 120x200» with \\d+ → «120200»); extract gives the text outside the matches («диван x»); find is True where such text is left.\n\ndrop-regex drops the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv drop-regex купить write out.csv",
             "options": [
               {
                 "name": "--pattern",
-                "required": true,
                 "arguments": [
                   {
                     "name": "PATTERN",
@@ -2179,15 +2572,31 @@
                   }
                 ]
               }
+            ],
+            "arguments": [
+              {
+                "name": "positional_pattern",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. The same as --pattern PATTERN.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
             ]
           },
           {
             "name": "remove-around",
-            "description": "The part of the phrase before (`after=False`) or after the first (`last=False`) or last occurrence of `pattern`.\n\nThe pattern is text as typed, found anywhere, also inside a word («в» is found in «диван»). remove finds the first occurrence in any case and the last one in the case written; extract matches the case written. ё = е. `include=True` adds the occurrence itself to the part. A phrase without the pattern has no part: remove leaves it, extract gives ''. Remove and extract only.\n\nremove-around removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-around --pattern купить write out.csv",
+            "description": "The part of the phrase before (`after=False`) or after the first (`last=False`) or last occurrence of `pattern`.\n\nThe pattern is text as typed, found anywhere, also inside a word («в» is found in «диван»). remove finds the first occurrence in any case and the last one in the case written; extract matches the case written. ё = е. `include=True` adds the occurrence itself to the part. A phrase without the pattern has no part: remove leaves it, extract gives ''. Remove and extract only.\n\nremove-around removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-around купить write out.csv",
             "options": [
               {
                 "name": "--pattern",
-                "required": true,
                 "arguments": [
                   {
                     "name": "PATTERN",
@@ -2253,6 +2662,23 @@
                   }
                 ],
                 "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_pattern",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. The same as --pattern PATTERN.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -2264,11 +2690,10 @@
           },
           {
             "name": "extract-around",
-            "description": "The part of the phrase before (`after=False`) or after the first (`last=False`) or last occurrence of `pattern`.\n\nThe pattern is text as typed, found anywhere, also inside a word («в» is found in «диван»). remove finds the first occurrence in any case and the last one in the case written; extract matches the case written. ё = е. `include=True` adds the occurrence itself to the part. A phrase without the pattern has no part: remove leaves it, extract gives ''. Remove and extract only.\n\nextract-around keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-around --pattern купить write out.csv",
+            "description": "The part of the phrase before (`after=False`) or after the first (`last=False`) or last occurrence of `pattern`.\n\nThe pattern is text as typed, found anywhere, also inside a word («в» is found in «диван»). remove finds the first occurrence in any case and the last one in the case written; extract matches the case written. ё = е. `include=True` adds the occurrence itself to the part. A phrase without the pattern has no part: remove leaves it, extract gives ''. Remove and extract only.\n\nextract-around keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-around купить write out.csv",
             "options": [
               {
                 "name": "--pattern",
-                "required": true,
                 "arguments": [
                   {
                     "name": "PATTERN",
@@ -2334,6 +2759,23 @@
                   }
                 ],
                 "description": "Write the result to a new column NAME and keep the working column as it is.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_pattern",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. The same as --pattern PATTERN.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -2407,11 +2849,10 @@
           },
           {
             "name": "remove-positions",
-            "description": "The first `count` characters of a phrase, or the last ones with `last=True` (remove and extract).\n\nremove gives '' when the phrase has `count` characters or fewer; extract then gives the whole phrase.\n\nremove-positions removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-positions --count 2 write out.csv",
+            "description": "The first `count` characters of a phrase, or the last ones with `last=True` (remove and extract).\n\nremove gives '' when the phrase has `count` characters or fewer; extract then gives the whole phrase.\n\nremove-positions removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-positions 2 write out.csv",
             "options": [
               {
                 "name": "--count",
-                "required": true,
                 "arguments": [
                   {
                     "name": "COUNT",
@@ -2453,6 +2894,23 @@
                   {
                     "name": "x-rb-type",
                     "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_count",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. The same as --count COUNT.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "int"
                   }
                 ]
               }
@@ -2460,11 +2918,10 @@
           },
           {
             "name": "extract-positions",
-            "description": "The first `count` characters of a phrase, or the last ones with `last=True` (remove and extract).\n\nremove gives '' when the phrase has `count` characters or fewer; extract then gives the whole phrase.\n\nextract-positions keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-positions --count 2 write out.csv",
+            "description": "The first `count` characters of a phrase, or the last ones with `last=True` (remove and extract).\n\nremove gives '' when the phrase has `count` characters or fewer; extract then gives the whole phrase.\n\nextract-positions keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-positions 2 write out.csv",
             "options": [
               {
                 "name": "--count",
-                "required": true,
                 "arguments": [
                   {
                     "name": "COUNT",
@@ -2509,15 +2966,31 @@
                   }
                 ]
               }
+            ],
+            "arguments": [
+              {
+                "name": "positional_count",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "See the description above. The same as --count COUNT.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "int"
+                  }
+                ]
+              }
             ]
           },
           {
             "name": "find-word-case",
-            "description": "Words by the case of their letters (find and extract only); digits and punctuation do not count.\n\nkind: \"lower\" (no capital letter: «x5»); \"Capital\" (each run of letters starts with a capital, the rest small: «Москве», not «iPhone» or «Из-за»); \"CAPS\" (no small letter: «BMW», «В»).\n\nfind-word-case marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-word-case --kind lower write out.csv",
+            "description": "Words by the case of their letters (find and extract only); digits and punctuation do not count.\n\nkind: \"lower\" (no capital letter: «x5»); \"Capital\" (each run of letters starts with a capital, the rest small: «Москве», not «iPhone» or «Из-за»); \"CAPS\" (no small letter: «BMW», «В»).\n\nfind-word-case marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-word-case lower write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -2550,6 +3023,28 @@
                   {
                     "name": "x-rb-type",
                     "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "lower",
+                  "Capital",
+                  "CAPS"
+                ],
+                "description": "\"lower\" (no capital letter: «x5»); \"Capital\" (each run of letters starts with a capital, the rest small: «Москве», not «iPhone» or «Из-за»); \"CAPS\" (no small letter: «BMW», «В»). The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
                   }
                 ]
               }
@@ -2557,11 +3052,10 @@
           },
           {
             "name": "extract-word-case",
-            "description": "Words by the case of their letters (find and extract only); digits and punctuation do not count.\n\nkind: \"lower\" (no capital letter: «x5»); \"Capital\" (each run of letters starts with a capital, the rest small: «Москве», not «iPhone» or «Из-за»); \"CAPS\" (no small letter: «BMW», «В»).\n\nextract-word-case keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-word-case --kind lower write out.csv",
+            "description": "Words by the case of their letters (find and extract only); digits and punctuation do not count.\n\nkind: \"lower\" (no capital letter: «x5»); \"Capital\" (each run of letters starts with a capital, the rest small: «Москве», not «iPhone» or «Из-за»); \"CAPS\" (no small letter: «BMW», «В»).\n\nextract-word-case keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-word-case lower write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -2597,15 +3091,36 @@
                   }
                 ]
               }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "lower",
+                  "Capital",
+                  "CAPS"
+                ],
+                "description": "\"lower\" (no capital letter: «x5»); \"Capital\" (each run of letters starts with a capital, the rest small: «Москве», not «iPhone» or «Из-за»); \"CAPS\" (no small letter: «BMW», «В»). The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
+                  }
+                ]
+              }
             ]
           },
           {
             "name": "keep-word-case",
-            "description": "Words by the case of their letters (find and extract only); digits and punctuation do not count.\n\nkind: \"lower\" (no capital letter: «x5»); \"Capital\" (each run of letters starts with a capital, the rest small: «Москве», not «iPhone» or «Из-за»); \"CAPS\" (no small letter: «BMW», «В»).\n\nkeep-word-case keeps only the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv keep-word-case --kind lower write out.csv",
+            "description": "Words by the case of their letters (find and extract only); digits and punctuation do not count.\n\nkind: \"lower\" (no capital letter: «x5»); \"Capital\" (each run of letters starts with a capital, the rest small: «Москве», not «iPhone» or «Из-за»); \"CAPS\" (no small letter: «BMW», «В»).\n\nkeep-word-case keeps only the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv keep-word-case lower write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -2618,6 +3133,28 @@
                   }
                 ],
                 "description": "\"lower\" (no capital letter: «x5»); \"Capital\" (each run of letters starts with a capital, the rest small: «Москве», not «iPhone» or «Из-за»); \"CAPS\" (no small letter: «BMW», «В»).",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "lower",
+                  "Capital",
+                  "CAPS"
+                ],
+                "description": "\"lower\" (no capital letter: «x5»); \"Capital\" (each run of letters starts with a capital, the rest small: «Москве», not «iPhone» or «Из-за»); \"CAPS\" (no small letter: «BMW», «В»). The same as --kind KIND.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -2629,11 +3166,10 @@
           },
           {
             "name": "drop-word-case",
-            "description": "Words by the case of their letters (find and extract only); digits and punctuation do not count.\n\nkind: \"lower\" (no capital letter: «x5»); \"Capital\" (each run of letters starts with a capital, the rest small: «Москве», not «iPhone» or «Из-за»); \"CAPS\" (no small letter: «BMW», «В»).\n\ndrop-word-case drops the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv drop-word-case --kind lower write out.csv",
+            "description": "Words by the case of their letters (find and extract only); digits and punctuation do not count.\n\nkind: \"lower\" (no capital letter: «x5»); \"Capital\" (each run of letters starts with a capital, the rest small: «Москве», not «iPhone» or «Из-за»); \"CAPS\" (no small letter: «BMW», «В»).\n\ndrop-word-case drops the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv drop-word-case lower write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -2653,15 +3189,36 @@
                   }
                 ]
               }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "lower",
+                  "Capital",
+                  "CAPS"
+                ],
+                "description": "\"lower\" (no capital letter: «x5»); \"Capital\" (each run of letters starts with a capital, the rest small: «Москве», not «iPhone» or «Из-за»); \"CAPS\" (no small letter: «BMW», «В»). The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
+                  }
+                ]
+              }
             ]
           },
           {
             "name": "find-word-content",
-            "description": "Words by what they hold; a word is tested as written, with its punctuation («красный,» does not end in «ный»).\n\nkind: \"starts\", \"ends\", \"contains\" (with `pattern`: a word part or a list of them, any one is enough; case and ё do not count); \"only_latin\" (a latin letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); \"has_latin\"; \"only_digits\" (a number: «2», «1,5», «-5»); \"has_digits\"; \"mixed\" (a digit and a letter: «iphone15»).\n\nfind-word-content marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-word-content --kind starts write out.csv",
+            "description": "Words by what they hold; a word is tested as written, with its punctuation («красный,» does not end in «ный»).\n\nkind: \"starts\", \"ends\", \"contains\" (with `pattern`: a word part or a list of them, any one is enough; case and ё do not count); \"only_latin\" (a latin letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); \"has_latin\"; \"only_digits\" (a number: «2», «1,5», «-5»); \"has_digits\"; \"mixed\" (a digit and a letter: «iphone15»).\n\nfind-word-content marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-word-content starts write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -2715,6 +3272,33 @@
                   {
                     "name": "x-rb-type",
                     "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "starts",
+                  "ends",
+                  "contains",
+                  "only_latin",
+                  "has_latin",
+                  "only_digits",
+                  "has_digits",
+                  "mixed"
+                ],
+                "description": "\"starts\", \"ends\", \"contains\" (with `pattern`: a word part or a list of them, any one is enough; case and ё do not count); \"only_latin\" (a latin letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); \"has_latin\"; \"only_digits\" (a number: «2», «1,5», «-5»); \"has_digits\"; \"mixed\" (a digit and a letter: «iphone15»). The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
                   }
                 ]
               }
@@ -2722,11 +3306,10 @@
           },
           {
             "name": "remove-word-content",
-            "description": "Words by what they hold; a word is tested as written, with its punctuation («красный,» does not end in «ный»).\n\nkind: \"starts\", \"ends\", \"contains\" (with `pattern`: a word part or a list of them, any one is enough; case and ё do not count); \"only_latin\" (a latin letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); \"has_latin\"; \"only_digits\" (a number: «2», «1,5», «-5»); \"has_digits\"; \"mixed\" (a digit and a letter: «iphone15»).\n\nremove-word-content removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-word-content --kind starts write out.csv",
+            "description": "Words by what they hold; a word is tested as written, with its punctuation («красный,» does not end in «ный»).\n\nkind: \"starts\", \"ends\", \"contains\" (with `pattern`: a word part or a list of them, any one is enough; case and ё do not count); \"only_latin\" (a latin letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); \"has_latin\"; \"only_digits\" (a number: «2», «1,5», «-5»); \"has_digits\"; \"mixed\" (a digit and a letter: «iphone15»).\n\nremove-word-content removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-word-content starts write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -2780,6 +3363,33 @@
                   {
                     "name": "x-rb-type",
                     "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "starts",
+                  "ends",
+                  "contains",
+                  "only_latin",
+                  "has_latin",
+                  "only_digits",
+                  "has_digits",
+                  "mixed"
+                ],
+                "description": "\"starts\", \"ends\", \"contains\" (with `pattern`: a word part or a list of them, any one is enough; case and ё do not count); \"only_latin\" (a latin letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); \"has_latin\"; \"only_digits\" (a number: «2», «1,5», «-5»); \"has_digits\"; \"mixed\" (a digit and a letter: «iphone15»). The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
                   }
                 ]
               }
@@ -2787,11 +3397,10 @@
           },
           {
             "name": "extract-word-content",
-            "description": "Words by what they hold; a word is tested as written, with its punctuation («красный,» does not end in «ный»).\n\nkind: \"starts\", \"ends\", \"contains\" (with `pattern`: a word part or a list of them, any one is enough; case and ё do not count); \"only_latin\" (a latin letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); \"has_latin\"; \"only_digits\" (a number: «2», «1,5», «-5»); \"has_digits\"; \"mixed\" (a digit and a letter: «iphone15»).\n\nextract-word-content keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-word-content --kind starts write out.csv",
+            "description": "Words by what they hold; a word is tested as written, with its punctuation («красный,» does not end in «ный»).\n\nkind: \"starts\", \"ends\", \"contains\" (with `pattern`: a word part or a list of them, any one is enough; case and ё do not count); \"only_latin\" (a latin letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); \"has_latin\"; \"only_digits\" (a number: «2», «1,5», «-5»); \"has_digits\"; \"mixed\" (a digit and a letter: «iphone15»).\n\nextract-word-content keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-word-content starts write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -2848,15 +3457,41 @@
                   }
                 ]
               }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "starts",
+                  "ends",
+                  "contains",
+                  "only_latin",
+                  "has_latin",
+                  "only_digits",
+                  "has_digits",
+                  "mixed"
+                ],
+                "description": "\"starts\", \"ends\", \"contains\" (with `pattern`: a word part or a list of them, any one is enough; case and ё do not count); \"only_latin\" (a latin letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); \"has_latin\"; \"only_digits\" (a number: «2», «1,5», «-5»); \"has_digits\"; \"mixed\" (a digit and a letter: «iphone15»). The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
+                  }
+                ]
+              }
             ]
           },
           {
             "name": "keep-word-content",
-            "description": "Words by what they hold; a word is tested as written, with its punctuation («красный,» does not end in «ный»).\n\nkind: \"starts\", \"ends\", \"contains\" (with `pattern`: a word part or a list of them, any one is enough; case and ё do not count); \"only_latin\" (a latin letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); \"has_latin\"; \"only_digits\" (a number: «2», «1,5», «-5»); \"has_digits\"; \"mixed\" (a digit and a letter: «iphone15»).\n\nkeep-word-content keeps only the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv keep-word-content --kind starts write out.csv",
+            "description": "Words by what they hold; a word is tested as written, with its punctuation («красный,» does not end in «ный»).\n\nkind: \"starts\", \"ends\", \"contains\" (with `pattern`: a word part or a list of them, any one is enough; case and ё do not count); \"only_latin\" (a latin letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); \"has_latin\"; \"only_digits\" (a number: «2», «1,5», «-5»); \"has_digits\"; \"mixed\" (a digit and a letter: «iphone15»).\n\nkeep-word-content keeps only the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv keep-word-content starts write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -2897,15 +3532,41 @@
                   }
                 ]
               }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "starts",
+                  "ends",
+                  "contains",
+                  "only_latin",
+                  "has_latin",
+                  "only_digits",
+                  "has_digits",
+                  "mixed"
+                ],
+                "description": "\"starts\", \"ends\", \"contains\" (with `pattern`: a word part or a list of them, any one is enough; case and ё do not count); \"only_latin\" (a latin letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); \"has_latin\"; \"only_digits\" (a number: «2», «1,5», «-5»); \"has_digits\"; \"mixed\" (a digit and a letter: «iphone15»). The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
+                  }
+                ]
+              }
             ]
           },
           {
             "name": "drop-word-content",
-            "description": "Words by what they hold; a word is tested as written, with its punctuation («красный,» does not end in «ный»).\n\nkind: \"starts\", \"ends\", \"contains\" (with `pattern`: a word part or a list of them, any one is enough; case and ё do not count); \"only_latin\" (a latin letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); \"has_latin\"; \"only_digits\" (a number: «2», «1,5», «-5»); \"has_digits\"; \"mixed\" (a digit and a letter: «iphone15»).\n\ndrop-word-content drops the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv drop-word-content --kind starts write out.csv",
+            "description": "Words by what they hold; a word is tested as written, with its punctuation («красный,» does not end in «ный»).\n\nkind: \"starts\", \"ends\", \"contains\" (with `pattern`: a word part or a list of them, any one is enough; case and ё do not count); \"only_latin\" (a latin letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); \"has_latin\"; \"only_digits\" (a number: «2», «1,5», «-5»); \"has_digits\"; \"mixed\" (a digit and a letter: «iphone15»).\n\ndrop-word-content drops the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv drop-word-content starts write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -2943,6 +3604,33 @@
                   {
                     "name": "x-rb-type",
                     "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "starts",
+                  "ends",
+                  "contains",
+                  "only_latin",
+                  "has_latin",
+                  "only_digits",
+                  "has_digits",
+                  "mixed"
+                ],
+                "description": "\"starts\", \"ends\", \"contains\" (with `pattern`: a word part or a list of them, any one is enough; case and ё do not count); \"only_latin\" (a latin letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); \"has_latin\"; \"only_digits\" (a number: «2», «1,5», «-5»); \"has_digits\"; \"mixed\" (a digit and a letter: «iphone15»). The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
                   }
                 ]
               }
@@ -3418,11 +4106,10 @@
           },
           {
             "name": "find-pos",
-            "description": "Words of one part of speech: \"noun\", \"adj\", \"verb\" or \"adverb\" (a participle is none of them).\n\nA word is looked up as written, with its punctuation («диван,» is not a noun). An adjective is a word coded «a», or a word with no code, a pronoun or a particle whose lemma ends like an adjective («какой»); a word with a capital is looked up by that rule only («Быстро» is an adjective, as in the add-in).\nlemmatizer: what gives the part of speech and the lemma of a word; None is the bundled !SEMTools dictionary.\n\nfind-pos marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-pos --kind noun write out.csv",
+            "description": "Words of one part of speech: \"noun\", \"adj\", \"verb\" or \"adverb\" (a participle is none of them).\n\nA word is looked up as written, with its punctuation («диван,» is not a noun). An adjective is a word coded «a», or a word with no code, a pronoun or a particle whose lemma ends like an adjective («какой»); a word with a capital is looked up by that rule only («Быстро» is an adjective, as in the add-in).\nlemmatizer: what gives the part of speech and the lemma of a word; None is the bundled !SEMTools dictionary.\n\nfind-pos marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-pos noun write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -3456,6 +4143,29 @@
                   {
                     "name": "x-rb-type",
                     "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "noun",
+                  "adj",
+                  "verb",
+                  "adverb"
+                ],
+                "description": "See the description above. The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
                   }
                 ]
               }
@@ -3463,11 +4173,10 @@
           },
           {
             "name": "remove-pos",
-            "description": "Words of one part of speech: \"noun\", \"adj\", \"verb\" or \"adverb\" (a participle is none of them).\n\nA word is looked up as written, with its punctuation («диван,» is not a noun). An adjective is a word coded «a», or a word with no code, a pronoun or a particle whose lemma ends like an adjective («какой»); a word with a capital is looked up by that rule only («Быстро» is an adjective, as in the add-in).\nlemmatizer: what gives the part of speech and the lemma of a word; None is the bundled !SEMTools dictionary.\n\nremove-pos removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-pos --kind noun write out.csv",
+            "description": "Words of one part of speech: \"noun\", \"adj\", \"verb\" or \"adverb\" (a participle is none of them).\n\nA word is looked up as written, with its punctuation («диван,» is not a noun). An adjective is a word coded «a», or a word with no code, a pronoun or a particle whose lemma ends like an adjective («какой»); a word with a capital is looked up by that rule only («Быстро» is an adjective, as in the add-in).\nlemmatizer: what gives the part of speech and the lemma of a word; None is the bundled !SEMTools dictionary.\n\nremove-pos removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-pos noun write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -3501,6 +4210,29 @@
                   {
                     "name": "x-rb-type",
                     "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "noun",
+                  "adj",
+                  "verb",
+                  "adverb"
+                ],
+                "description": "See the description above. The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
                   }
                 ]
               }
@@ -3508,11 +4240,10 @@
           },
           {
             "name": "extract-pos",
-            "description": "Words of one part of speech: \"noun\", \"adj\", \"verb\" or \"adverb\" (a participle is none of them).\n\nA word is looked up as written, with its punctuation («диван,» is not a noun). An adjective is a word coded «a», or a word with no code, a pronoun or a particle whose lemma ends like an adjective («какой»); a word with a capital is looked up by that rule only («Быстро» is an adjective, as in the add-in).\nlemmatizer: what gives the part of speech and the lemma of a word; None is the bundled !SEMTools dictionary.\n\nextract-pos keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-pos --kind noun write out.csv",
+            "description": "Words of one part of speech: \"noun\", \"adj\", \"verb\" or \"adverb\" (a participle is none of them).\n\nA word is looked up as written, with its punctuation («диван,» is not a noun). An adjective is a word coded «a», or a word with no code, a pronoun or a particle whose lemma ends like an adjective («какой»); a word with a capital is looked up by that rule only («Быстро» is an adjective, as in the add-in).\nlemmatizer: what gives the part of speech and the lemma of a word; None is the bundled !SEMTools dictionary.\n\nextract-pos keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-pos noun write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -3549,15 +4280,37 @@
                   }
                 ]
               }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "noun",
+                  "adj",
+                  "verb",
+                  "adverb"
+                ],
+                "description": "See the description above. The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
+                  }
+                ]
+              }
             ]
           },
           {
             "name": "keep-pos",
-            "description": "Words of one part of speech: \"noun\", \"adj\", \"verb\" or \"adverb\" (a participle is none of them).\n\nA word is looked up as written, with its punctuation («диван,» is not a noun). An adjective is a word coded «a», or a word with no code, a pronoun or a particle whose lemma ends like an adjective («какой»); a word with a capital is looked up by that rule only («Быстро» is an adjective, as in the add-in).\nlemmatizer: what gives the part of speech and the lemma of a word; None is the bundled !SEMTools dictionary.\n\nkeep-pos keeps only the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv keep-pos --kind noun write out.csv",
+            "description": "Words of one part of speech: \"noun\", \"adj\", \"verb\" or \"adverb\" (a participle is none of them).\n\nA word is looked up as written, with its punctuation («диван,» is not a noun). An adjective is a word coded «a», or a word with no code, a pronoun or a particle whose lemma ends like an adjective («какой»); a word with a capital is looked up by that rule only («Быстро» is an adjective, as in the add-in).\nlemmatizer: what gives the part of speech and the lemma of a word; None is the bundled !SEMTools dictionary.\n\nkeep-pos keeps only the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv keep-pos noun write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -3571,6 +4324,29 @@
                   }
                 ],
                 "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "noun",
+                  "adj",
+                  "verb",
+                  "adverb"
+                ],
+                "description": "See the description above. The same as --kind KIND.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -3582,11 +4358,10 @@
           },
           {
             "name": "drop-pos",
-            "description": "Words of one part of speech: \"noun\", \"adj\", \"verb\" or \"adverb\" (a participle is none of them).\n\nA word is looked up as written, with its punctuation («диван,» is not a noun). An adjective is a word coded «a», or a word with no code, a pronoun or a particle whose lemma ends like an adjective («какой»); a word with a capital is looked up by that rule only («Быстро» is an adjective, as in the add-in).\nlemmatizer: what gives the part of speech and the lemma of a word; None is the bundled !SEMTools dictionary.\n\ndrop-pos drops the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv drop-pos --kind noun write out.csv",
+            "description": "Words of one part of speech: \"noun\", \"adj\", \"verb\" or \"adverb\" (a participle is none of them).\n\nA word is looked up as written, with its punctuation («диван,» is not a noun). An adjective is a word coded «a», or a word with no code, a pronoun or a particle whose lemma ends like an adjective («какой»); a word with a capital is looked up by that rule only («Быстро» is an adjective, as in the add-in).\nlemmatizer: what gives the part of speech and the lemma of a word; None is the bundled !SEMTools dictionary.\n\ndrop-pos drops the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv drop-pos noun write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -3600,6 +4375,29 @@
                   }
                 ],
                 "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "noun",
+                  "adj",
+                  "verb",
+                  "adverb"
+                ],
+                "description": "See the description above. The same as --kind KIND.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -3871,11 +4669,10 @@
           },
           {
             "name": "find-cells",
-            "description": "A whole cell is found or not. remove clears a found cell to '' (\"empty\" drops the rows); extract keeps the cell, or '' if not found.\n\nkind: \"contains\", \"starts\", \"ends\" (with `items`: text parts, case and ё do not count; or with `prepositions=True`: the first, the last or any word is a bundled preposition, as written, «для,» is none); \"regex\" (with `pattern`); \"empty\" (no characters at all: a cell of spaces is not empty); by occurrence among the cells, in any case and ё as е: \"unique\" (once), \"repeated\" (more than once), \"first\", \"last\" occurrence. Empty cells are never repeats of each other.\n\nfind-cells marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-cells --kind contains write out.csv",
+            "description": "A whole cell is found or not. remove clears a found cell to '' (\"empty\" drops the rows); extract keeps the cell, or '' if not found.\n\nkind: \"contains\", \"starts\", \"ends\" (with `items`: text parts, case and ё do not count; or with `prepositions=True`: the first, the last or any word is a bundled preposition, as written, «для,» is none); \"regex\" (with `pattern`); \"empty\" (no characters at all: a cell of spaces is not empty); by occurrence among the cells, in any case and ё as е: \"unique\" (once), \"repeated\" (more than once), \"first\", \"last\" occurrence. Empty cells are never repeats of each other.\n\nfind-cells marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-cells contains write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -3960,6 +4757,34 @@
                   {
                     "name": "x-rb-type",
                     "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "contains",
+                  "starts",
+                  "ends",
+                  "regex",
+                  "empty",
+                  "unique",
+                  "repeated",
+                  "first",
+                  "last"
+                ],
+                "description": "\"contains\", \"starts\", \"ends\" (with `items`: text parts, case and ё do not count; or with `prepositions=True`: the first, the last or any word is a bundled preposition, as written, «для,» is none); \"regex\" (with `pattern`); \"empty\" (no characters at all: a cell of spaces is not empty); by occurrence among the cells, in any case and ё as е: \"unique\" (once), \"repeated\" (more than once), \"first\", \"last\" occurrence. Empty cells are never repeats of each other. The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
                   }
                 ]
               }
@@ -3967,11 +4792,10 @@
           },
           {
             "name": "remove-cells",
-            "description": "A whole cell is found or not. remove clears a found cell to '' (\"empty\" drops the rows); extract keeps the cell, or '' if not found.\n\nkind: \"contains\", \"starts\", \"ends\" (with `items`: text parts, case and ё do not count; or with `prepositions=True`: the first, the last or any word is a bundled preposition, as written, «для,» is none); \"regex\" (with `pattern`); \"empty\" (no characters at all: a cell of spaces is not empty); by occurrence among the cells, in any case and ё as е: \"unique\" (once), \"repeated\" (more than once), \"first\", \"last\" occurrence. Empty cells are never repeats of each other.\n\nremove-cells removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-cells --kind contains write out.csv",
+            "description": "A whole cell is found or not. remove clears a found cell to '' (\"empty\" drops the rows); extract keeps the cell, or '' if not found.\n\nkind: \"contains\", \"starts\", \"ends\" (with `items`: text parts, case and ё do not count; or with `prepositions=True`: the first, the last or any word is a bundled preposition, as written, «для,» is none); \"regex\" (with `pattern`); \"empty\" (no characters at all: a cell of spaces is not empty); by occurrence among the cells, in any case and ё as е: \"unique\" (once), \"repeated\" (more than once), \"first\", \"last\" occurrence. Empty cells are never repeats of each other.\n\nremove-cells removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-cells contains write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -4056,6 +4880,34 @@
                   {
                     "name": "x-rb-type",
                     "value": "str"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "contains",
+                  "starts",
+                  "ends",
+                  "regex",
+                  "empty",
+                  "unique",
+                  "repeated",
+                  "first",
+                  "last"
+                ],
+                "description": "\"contains\", \"starts\", \"ends\" (with `items`: text parts, case and ё do not count; or with `prepositions=True`: the first, the last or any word is a bundled preposition, as written, «для,» is none); \"regex\" (with `pattern`); \"empty\" (no characters at all: a cell of spaces is not empty); by occurrence among the cells, in any case and ё as е: \"unique\" (once), \"repeated\" (more than once), \"first\", \"last\" occurrence. Empty cells are never repeats of each other. The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
                   }
                 ]
               }
@@ -4063,11 +4915,10 @@
           },
           {
             "name": "extract-cells",
-            "description": "A whole cell is found or not. remove clears a found cell to '' (\"empty\" drops the rows); extract keeps the cell, or '' if not found.\n\nkind: \"contains\", \"starts\", \"ends\" (with `items`: text parts, case and ё do not count; or with `prepositions=True`: the first, the last or any word is a bundled preposition, as written, «для,» is none); \"regex\" (with `pattern`); \"empty\" (no characters at all: a cell of spaces is not empty); by occurrence among the cells, in any case and ё as е: \"unique\" (once), \"repeated\" (more than once), \"first\", \"last\" occurrence. Empty cells are never repeats of each other.\n\nextract-cells keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-cells --kind contains write out.csv",
+            "description": "A whole cell is found or not. remove clears a found cell to '' (\"empty\" drops the rows); extract keeps the cell, or '' if not found.\n\nkind: \"contains\", \"starts\", \"ends\" (with `items`: text parts, case and ё do not count; or with `prepositions=True`: the first, the last or any word is a bundled preposition, as written, «для,» is none); \"regex\" (with `pattern`); \"empty\" (no characters at all: a cell of spaces is not empty); by occurrence among the cells, in any case and ё as е: \"unique\" (once), \"repeated\" (more than once), \"first\", \"last\" occurrence. Empty cells are never repeats of each other.\n\nextract-cells keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-cells contains write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -4155,15 +5006,42 @@
                   }
                 ]
               }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "contains",
+                  "starts",
+                  "ends",
+                  "regex",
+                  "empty",
+                  "unique",
+                  "repeated",
+                  "first",
+                  "last"
+                ],
+                "description": "\"contains\", \"starts\", \"ends\" (with `items`: text parts, case and ё do not count; or with `prepositions=True`: the first, the last or any word is a bundled preposition, as written, «для,» is none); \"regex\" (with `pattern`); \"empty\" (no characters at all: a cell of spaces is not empty); by occurrence among the cells, in any case and ё as е: \"unique\" (once), \"repeated\" (more than once), \"first\", \"last\" occurrence. Empty cells are never repeats of each other. The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
+                  }
+                ]
+              }
             ]
           },
           {
             "name": "keep-cells",
-            "description": "A whole cell is found or not. remove clears a found cell to '' (\"empty\" drops the rows); extract keeps the cell, or '' if not found.\n\nkind: \"contains\", \"starts\", \"ends\" (with `items`: text parts, case and ё do not count; or with `prepositions=True`: the first, the last or any word is a bundled preposition, as written, «для,» is none); \"regex\" (with `pattern`); \"empty\" (no characters at all: a cell of spaces is not empty); by occurrence among the cells, in any case and ё as е: \"unique\" (once), \"repeated\" (more than once), \"first\", \"last\" occurrence. Empty cells are never repeats of each other.\n\nkeep-cells keeps only the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv keep-cells --kind contains write out.csv",
+            "description": "A whole cell is found or not. remove clears a found cell to '' (\"empty\" drops the rows); extract keeps the cell, or '' if not found.\n\nkind: \"contains\", \"starts\", \"ends\" (with `items`: text parts, case and ё do not count; or with `prepositions=True`: the first, the last or any word is a bundled preposition, as written, «для,» is none); \"regex\" (with `pattern`); \"empty\" (no characters at all: a cell of spaces is not empty); by occurrence among the cells, in any case and ё as е: \"unique\" (once), \"repeated\" (more than once), \"first\", \"last\" occurrence. Empty cells are never repeats of each other.\n\nkeep-cells keeps only the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv keep-cells contains write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -4235,15 +5113,42 @@
                   }
                 ]
               }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "contains",
+                  "starts",
+                  "ends",
+                  "regex",
+                  "empty",
+                  "unique",
+                  "repeated",
+                  "first",
+                  "last"
+                ],
+                "description": "\"contains\", \"starts\", \"ends\" (with `items`: text parts, case and ё do not count; or with `prepositions=True`: the first, the last or any word is a bundled preposition, as written, «для,» is none); \"regex\" (with `pattern`); \"empty\" (no characters at all: a cell of spaces is not empty); by occurrence among the cells, in any case and ё as е: \"unique\" (once), \"repeated\" (more than once), \"first\", \"last\" occurrence. Empty cells are never repeats of each other. The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
+                  }
+                ]
+              }
             ]
           },
           {
             "name": "drop-cells",
-            "description": "A whole cell is found or not. remove clears a found cell to '' (\"empty\" drops the rows); extract keeps the cell, or '' if not found.\n\nkind: \"contains\", \"starts\", \"ends\" (with `items`: text parts, case and ё do not count; or with `prepositions=True`: the first, the last or any word is a bundled preposition, as written, «для,» is none); \"regex\" (with `pattern`); \"empty\" (no characters at all: a cell of spaces is not empty); by occurrence among the cells, in any case and ё as е: \"unique\" (once), \"repeated\" (more than once), \"first\", \"last\" occurrence. Empty cells are never repeats of each other.\n\ndrop-cells drops the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv drop-cells --kind contains write out.csv",
+            "description": "A whole cell is found or not. remove clears a found cell to '' (\"empty\" drops the rows); extract keeps the cell, or '' if not found.\n\nkind: \"contains\", \"starts\", \"ends\" (with `items`: text parts, case and ё do not count; or with `prepositions=True`: the first, the last or any word is a bundled preposition, as written, «для,» is none); \"regex\" (with `pattern`); \"empty\" (no characters at all: a cell of spaces is not empty); by occurrence among the cells, in any case and ё as е: \"unique\" (once), \"repeated\" (more than once), \"first\", \"last\" occurrence. Empty cells are never repeats of each other.\n\ndrop-cells drops the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv drop-cells contains write out.csv",
             "options": [
               {
                 "name": "--kind",
-                "required": true,
                 "arguments": [
                   {
                     "name": "KIND",
@@ -4312,6 +5217,34 @@
                   {
                     "name": "x-rb-default",
                     "value": false
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "positional_kind",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "acceptedValues": [
+                  "contains",
+                  "starts",
+                  "ends",
+                  "regex",
+                  "empty",
+                  "unique",
+                  "repeated",
+                  "first",
+                  "last"
+                ],
+                "description": "\"contains\", \"starts\", \"ends\" (with `items`: text parts, case and ё do not count; or with `prepositions=True`: the first, the last or any word is a bundled preposition, as written, «для,» is none); \"regex\" (with `pattern`); \"empty\" (no characters at all: a cell of spaces is not empty); by occurrence among the cells, in any case and ё as е: \"unique\" (once), \"repeated\" (more than once), \"first\", \"last\" occurrence. Empty cells are never repeats of each other. The same as --kind KIND.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
                   }
                 ]
               }

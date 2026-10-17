@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} dupes [OPTIONS]
+ Usage: semkit read {IN} dupes [OPTIONS] [KIND]
 
  Duplicates by `kind`: exact, explicit (case, ё→е, spaces), implicit (other word order) or lemmas.
 
@@ -10,10 +10,14 @@
  The step marks the duplicates of the working column in a new column <column>_dupes; with --action
  drop it keeps only the first row of each group.
 
- Example: semkit read core.csv dupes --kind exact --action mark_except_first write out.csv
+ Example: semkit read core.csv dupes exact --action mark_except_first write out.csv
 
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   KIND      <exact|explicit|implicit|lemmas>  See the description above. The same as --kind      │
+│                                               KIND.                                              │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ *  --kind          <exact|explicit|implicit|lemmas>   See the description above. [required]      │
+│    --kind          KIND                               See the description above.                 │
 │ *  --action        <mark_except_first|mark_all|drop>  mark_except_first (a bool, the first of a  │
 │                                                       group is False), mark_all (every member of │
 │                                                       a group of 2+), drop (keep the first, drop │

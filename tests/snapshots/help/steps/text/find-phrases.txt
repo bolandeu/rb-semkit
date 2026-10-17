@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} find-phrases [OPTIONS]
+ Usage: semkit read {IN} find-phrases [OPTIONS] [ITEMS]
 
  Phrases of a list, found as whole words («угловой диван» is not in «угловойдиван» or «угловой
  диван,»).
@@ -13,14 +13,17 @@
  find-phrases marks the rows where the matcher finds something, in a new column <column>_find of
  true and false.
 
- Example: semkit read core.csv find-phrases --items купить write out.csv
+ Example: semkit read core.csv find-phrases купить write out.csv
 
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   ITEMS      <str>  See the description above. Items: a comma list 'a,b', @FILE (one item per    │
+│                     line) or @NAME of a list. The same as --items ITEMS.                         │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ *  --items        <str>  See the description above. Items: a comma list 'a,b', @FILE (one item   │
-│                          per line) or @NAME of a list.                                           │
-│                          [required]                                                              │
-│    --as           NAME   Write the result to a new column NAME and keep the working column as it │
-│                          is.                                                                     │
-│    --help                Show this message and exit.                                             │
+│ --items        ITEMS  See the description above. Items: a comma list 'a,b', @FILE (one item per  │
+│                       line) or @NAME of a list.                                                  │
+│ --as           NAME   Write the result to a new column NAME and keep the working column as it    │
+│                       is.                                                                        │
+│ --help                Show this message and exit.                                                │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

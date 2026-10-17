@@ -9,9 +9,6 @@ from ..pipeline.commands import step_command
 from ..pipeline.group import PipelineGroup
 from ..pipeline.tables import Source, Target
 
-# A step stops at the next step's name; write is last and takes its options after OUT.
-STEP_CONTEXT = {"allow_extra_args": True, "allow_interspersed_args": False}
-
 
 @output.guard
 def read(
@@ -61,7 +58,7 @@ app = typer.Typer(cls=PipelineGroup, help=read.__doc__)
 app.callback(invoke_without_command=True)(read)
 for area_steps in steps.areas().values():
     for step in area_steps:
-        app.command(step.name, context_settings=STEP_CONTEXT)(step_command(step))
+        app.command(step.name)(step_command(step))
 app.command("write")(write)
 
 
