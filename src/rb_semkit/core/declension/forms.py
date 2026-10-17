@@ -3,8 +3,11 @@
 A noun has 12 forms: the nominative it is given in, then the genitive, dative, accusative, instrumental and
 prepositional singular, then the six cases of the plural; the tables hold the 11 after the first. A noun form is
 the form of the word in the exceptions table, else the word with its last three letters replaced by the endings
-table; a word that ends in a consonant and has no ending there takes the usual ending of its consonant group (the
-accusative excepted: it comes from the table only). An adjective has the 11 forms of its own gender and four more:
+table; a word that ends in a consonant and has no ending there takes the usual ending of its consonant group. The
+accusative of a word the exceptions table lacks is its nominative, or its genitive when pymorphy3 takes it as
+animate; a singular in «-а», «-я» takes the endings table («книгу»), a feminine one in a consonant its nominative
+(«мать»). A hyphenated noun takes the form pymorphy3 gives («дивана-кровати», «интернет-магазина»), else the forms of
+its last part. An adjective has the 11 forms of its own gender and four more:
 the feminine nominative, genitive (also dative, instrumental and prepositional) and accusative and the neuter
 nominative (also accusative); the other neuter cases are the masculine ones. Words are looked up in lower case
 with ё as е; a form keeps the capitals of its word.
@@ -15,6 +18,7 @@ from __future__ import annotations
 import re
 
 from .. import datastore
+from ..morph.lemmatizer import noun_parse
 from ..text.base import choice
 
 TABLES = "declension/tables.json"
@@ -29,6 +33,10 @@ USUAL_ENDINGS = {
     **dict.fromkeys("жшчщ", ("а", "у", "а", "ем", "е", "и", "ей", "ам", "", "ами", "ах")),
 }
 ACCUSATIVES = frozenset({2, 8})  # the accusative singular and plural
+GENITIVE_OF = {2: 0, 8: 6}  # the form an animate noun takes for the accusative
+NOMINATIVE_OF = {2: None, 8: 5}  # the form an inanimate noun takes for the accusative
+PYMORPHY_CASES = ("nomn", "gent", "datv", "accs", "ablt", "loct")
+PYMORPHY_NUMBERS = ("sing", "plur")
 FEMININE = {"nominative": 11, "accusative": 13}  # the other feminine cases share form 12
 FEMININE_OBLIQUE = 12
 NEUTER_DIRECT = 14  # the neuter nominative and accusative
@@ -99,15 +107,55 @@ def _from_tables(word: str, index: int, exceptions: str, endings: str) -> str | 
     return None if row is None or not row[index] else word.lower()[: -len(key[-3:])] + row[index]
 
 
+def is_animate(noun: str) -> bool:
+    """pymorphy3 takes the noun as animate: «кот», «человек», but not «диван»."""
+    parse = noun_parse(noun.lower())
+    return parse is not None and "anim" in parse.tag
+
+
+def _compound_form(word: str, index: int) -> str | None:
+    """The form pymorphy3 gives a hyphenated noun; None when it gives none."""
+    parse = noun_parse(word.lower())
+    place = index + 1
+    found = None if parse is None else parse.inflect({PYMORPHY_CASES[place % 6], PYMORPHY_NUMBERS[place // 6]})
+    return None if found is None else found.word
+
+
+def _accusative(word: str, index: int) -> str | None:
+    """The accusative by animacy; None when it comes from the tables (a singular in «-а», «-я»)."""
+    singular = index == min(ACCUSATIVES)
+    if singular and word.lower().endswith(("а", "я")):
+        return None
+    parse = noun_parse(word.lower())
+    if parse is not None and "anim" in parse.tag and not (singular and "femn" in parse.tag):
+        return noun_form(word, GENITIVE_OF[index])
+    return noun_form(word, NOMINATIVE_OF[index])
+
+
+def _table_form(word: str, index: int) -> str | None:
+    """The form from the tables, or the usual ending of the consonant group; None when neither gives one."""
+    if index in ACCUSATIVES and table_key(word) not in _tables()["noun_exceptions"]:
+        return _accusative(word, index) or _from_tables(word, index, "noun_exceptions", "noun_endings")
+    form = _from_tables(word, index, "noun_exceptions", "noun_endings")
+    usual = USUAL_ENDINGS.get(word[-1:].lower())
+    if form is None and usual is not None:
+        form = word.lower() + usual[index]
+    return form
+
+
 def noun_form(word: str, index: int | None) -> str:
     """The noun form `index` of `word`; the word as it is when it is indeclinable or the tables lack it."""
     if index is None or is_indeclinable(word):
         return word
-    form = _from_tables(word, index, "noun_exceptions", "noun_endings")
-    usual = USUAL_ENDINGS.get(word[-1:].lower())
-    if form is None and usual is not None and index not in ACCUSATIVES:
-        form = word.lower() + usual[index]
+    form = _compound_form(word, index) if "-" in word else None
+    form = form or _table_form(word, index)
     return word if form is None else cased(word, form)
+
+
+def has_adjective_forms(word: str) -> bool:
+    """The adjective tables hold the word or its ending."""
+    key = table_key(word)
+    return key in _tables()["adjective_exceptions"] or key[-3:] in _tables()["adjective_endings"]
 
 
 def adjective_form(word: str, index: int | None) -> str:

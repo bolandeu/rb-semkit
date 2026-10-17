@@ -45,3 +45,10 @@ def test_a_pronoun_of_the_exceptions_and_an_unknown_ending() -> None:
 def test_an_unknown_gender_names_the_argument() -> None:
     with pytest.raises(InvalidArguments, match=r"^gender='common'; allowed: 'masculine', 'feminine', 'neuter'"):
         _declined("красный", "genitive", gender="common")
+
+
+def test_soft_ordinal_and_possessive_adjectives() -> None:
+    assert _declined("синий", "nominative", gender="neuter") == "синее"
+    assert _declined("третий", "nominative", gender="feminine") == "третья"
+    assert _declined("третий", "accusative", number="plural") == "третьи"
+    assert _declined("лисий", "nominative", number="plural") == "лисьи"

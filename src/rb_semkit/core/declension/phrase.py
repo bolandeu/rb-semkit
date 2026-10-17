@@ -8,57 +8,122 @@ from ..frame import Frame, map_unique
 from ..morph.functions import BUNDLED
 from ..normalize import norm_phrase
 from ..text.base import split_words
-from .forms import adjective_form, bundled_words, cased, form_index, is_abbreviation, noun_form, table_key
+from .forms import (
+    adjective_form,
+    adjective_index,
+    bundled_words,
+    cased,
+    form_index,
+    has_adjective_forms,
+    is_abbreviation,
+    is_animate,
+    noun_form,
+    table_key,
+)
 
 __all__ = ["decline"]
 
 # The parts of speech that do not decline: verb, adverb, preposition, conjunction, particle.
 NOT_DECLINED = frozenset({"v", "advb", "prep", "conj", "prt"})
+NOUN = "n"
+NOMINATIVE_PLURAL = form_index("nominative", "plural")
+# The nominatives of an adjective other than its lemma, the masculine singular.
+OTHER_NOMINATIVES = (("feminine", "singular"), ("neuter", "singular"), ("masculine", "plural"))
+
+
+def _same(word: str, other: str) -> bool:
+    return norm_phrase(word) == norm_phrase(other)
 
 
 class _Words:
     """The declined form of each distinct word, and whether it is a form other than its lemma, found once."""
 
-    def __init__(self, index: int | None) -> None:
-        self._index = index
-        self._forms: dict[str, str | None] = {}
+    def __init__(self, case: str, number: str) -> None:
+        self._case = case
+        self._number = number
+        self._forms: dict[tuple[str, bool], str | None] = {}
         self._inflected: dict[str, bool] = {}
 
     def inflected(self, word: str) -> bool:
-        """The word is not its own lemma: it stands in a case already («дачу»)."""
+        """The word is not its own lemma: it stands in a case already («дачу»), or in the plural («диваны»)."""
         if word not in self._inflected:
             key = word.lower()
-            self._inflected[word] = norm_phrase(BUNDLED.lemma(key)) != norm_phrase(key)
+            self._inflected[word] = not _same(BUNDLED.lemma(key), key)
         return self._inflected[word]
 
-    def form(self, word: str) -> str | None:
-        """The word in the case as an adjective, else as a noun in its lemma; None when it stays."""
-        if word not in self._forms:
-            self._forms[word] = self._declined(word)
-        return self._forms[word]
+    def form(self, word: str, *, animate_noun: bool = False) -> str | None:
+        """The word in the case as an adjective, else as a noun in a nominative; None when it stays.
 
-    def _declined(self, word: str) -> str | None:
+        animate_noun: the noun after the word is animate, so a masculine or plural adjective takes the genitive for
+        the accusative («рыжего кота»).
+        """
+        if (word, animate_noun) not in self._forms:
+            self._forms[word, animate_noun] = self._declined(word, animate_noun)
+        return self._forms[word, animate_noun]
+
+    def _declined(self, word: str, animate_noun: bool) -> str | None:
         key = word.lower()
         pos = BUNDLED.pos(key)
         if pos in NOT_DECLINED:
             return None
-        if pos != "n" and not is_abbreviation(key) and (form := adjective_form(key, self._index)) != key:
-            return cased(word, form)
-        if pos == "prn" or self.inflected(word):
-            return None
-        form = noun_form(key, self._index)
-        return None if form == key else cased(word, form)
+        form = self._adjective(key, animate_noun) if pos != NOUN and not is_abbreviation(key) else None
+        if form is None and pos != "prn":
+            form = self._noun(key)
+        return None if form is None or form == key else cased(word, form)
+
+    def _adjective(self, key: str, animate_noun: bool) -> str | None:
+        """The adjective form in its own gender and number («большая» → «большой»); None for no adjective in a
+        nominative."""
+        lemma = BUNDLED.lemma(key)
+        if _same(lemma, key) and has_adjective_forms(key):
+            gender, number = "masculine", "singular"
+        else:
+            found = [
+                (gender, number)
+                for gender, number in OTHER_NOMINATIVES
+                if has_adjective_forms(lemma)
+                and _same(adjective_form(lemma, adjective_index("nominative", gender, number)), key)
+            ]
+            if not found:
+                return None
+            (gender, number), key = found[0], lemma
+        number = "plural" if self._number == "plural" else number
+        animate = animate_noun and self._case == "accusative" and (gender == "masculine" or number == "plural")
+        return adjective_form(key, adjective_index("genitive" if animate else self._case, gender, number))
+
+    def _noun(self, key: str) -> str | None:
+        """The noun form of a word in the nominative, singular or plural; None for a word in another case."""
+        lemma = BUNDLED.lemma(key)
+        if _same(lemma, key):
+            return noun_form(key, form_index(self._case, self._number))
+        if _same(noun_form(lemma, NOMINATIVE_PLURAL), key):
+            return noun_form(lemma, form_index(self._case, "plural"))
+        return None
 
 
-def _phrase(words: list[str], declined: _Words) -> str:
+def _animate_nouns(words: list[str], case: str) -> list[bool]:
+    """For each word: in the accusative, the next noun after it is animate."""
+    found = [False] * len(words)
+    if case != "accusative":
+        return found
+    animate = False
+    for place in range(len(words) - 1, -1, -1):
+        found[place] = animate
+        if BUNDLED.pos(words[place].lower()) == NOUN:
+            animate = is_animate(words[place])
+    return found
+
+
+def _phrase(words: list[str], declined: _Words, case: str) -> str:
     result = []
+    animate_nouns = _animate_nouns(words, case)
     for place, word in enumerate(words):
         after = words[place + 1] if place + 1 < len(words) else None
         # a preposition or a pronoun governs the case of the next word; but not as the first word of the phrase:
         # «мой синий стол» declines as a whole
         governed = place > 1 and table_key(words[place - 1]) in bundled_words("governing")
         before_inflected = word.lower().endswith("ой") and after is not None and declined.inflected(after)
-        form = None if governed or before_inflected else declined.form(word)
+        form = None if governed or before_inflected else declined.form(word, animate_noun=animate_nouns[place])
         result.append(word if form is None else form)
     return " ".join(result)
 
@@ -81,6 +146,7 @@ def decline(
     word stays («чехол для телефон» → «чехла для телефон»; «мой синий стол» → «моего синего стола»). A word in «-ой»
     before a word in another case stays too («с большой скидкой»). A word keeps its capitals.
     """
-    declined = _Words(form_index(case, number))
+    form_index(case, number)  # the case and the number are checked before any phrase
+    declined = _Words(case, number)
     frame = Frame(data, column, inplace)
-    return frame.put(map_unique(frame.phrases, lambda phrase: _phrase(split_words(phrase), declined)), "decline")
+    return frame.put(map_unique(frame.phrases, lambda phrase: _phrase(split_words(phrase), declined, case)), "decline")

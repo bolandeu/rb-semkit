@@ -28,3 +28,21 @@ ref-lemmas-18	lemmatize	{}	кровать для детей от 3 лет	кро
 ref-lemmas-19	lemmatize	{}	ремонт квартир в спб под ключ	ремонт квартира в спб под ключ	ремонт квартира в спб под ключ			
 ref-lemmas-20	lemmatize	{}						
 ref-lemmas-21	lemmatize	{}	диван	диван	диван			
+lemma-fix-kafe	lemmatize	{}	кафе	кафа	кафе	Неверная лемма словаря исправлена	lemms.tsv gives кафе the lemma кафа (the town Kaffa)	
+lemma-fix-kupe	lemmatize	{}	купе	купа	купе	Неверная лемма словаря исправлена	lemms.tsv gives купе the lemma купа	
+lemma-fix-mini	lemmatize	{}	мини	минь	мини	Неверная лемма словаря исправлена	lemms.tsv gives мини the lemma минь	
+lemma-fix-shirina	lemmatize	{}	ширина	ширин	ширина	Неверная лемма словаря исправлена	lemms.tsv files every form of ширина under ширин	
+lemma-fix-shirinoj	lemmatize	{}	шириной	ширин	ширина	Неверная лемма словаря исправлена	lemms.tsv files every form of ширина under ширин	
+lemma-fix-spinu	lemmatize	{}	спину	спин	спина	Неверная лемма словаря исправлена	lemms.tsv files the forms of спина under спин	
+lemma-fix-ekokozha	lemmatize	{}	экокожа	экокожи	экокожа	Неверная лемма словаря исправлена	lemms.tsv files the forms of экокожа under экокожи	
+lemma-fix-podrostka	lemmatize	{}	подростка	подростковый	подросток	Неверная лемма словаря исправлена	lemms.tsv files the forms of подросток under the adjective подростковый	
+lemma-fix-askona	lemmatize	{}	аскона	аскон	аскона	Неверная лемма словаря исправлена	lemms.tsv files the forms of аскона under аскон	
+lemma-fix-nozhkah	lemmatize	{}	ножках	ножки	ножка	Неверная лемма словаря исправлена	lemms.tsv files the forms of ножка under its plural ножки	
+lemma-fix-petushkah	lemmatize	{}	петушках	петушок	петушки	Неверная лемма словаря исправлена	lemms.tsv has the rows Петушки and петушок; the last one wins the sorted VLOOKUP	
+lemma-fix-donecke	lemmatize	{}	донецке	донецкий	донецк	Неверная лемма словаря исправлена	lemms.tsv files the forms of донецк under the adjective донецкий	
+lemma-fix-veshhej	lemmatize	{}	вещей	вещий	вещь	Неверная лемма словаря исправлена	lemms.tsv gives вещей the lemma of the adjective вещий	
+lemma-fix-vremennogo	lemmatize	{}	временного	временной	временный	Неверная лемма словаря исправлена	lemms.tsv files the forms of временный under временной	
+lemma-fix-rus	lemmatize	{}	рус	русый	рус	Неверная лемма словаря исправлена	lemms.tsv gives рус the lemma русый	
+lemma-no-yo	lemmatize	{}	вперед	вперед	вперед			
+lemma-participle	lemmatize	{}	раскладывающийся	раскладывающийся	раскладывающийся			
+lemma-fix-verb	lemmatize	{}	раскладывается	раскладывающийся	раскладываться	Неверная лемма словаря исправлена	lemms.tsv files the verb forms of раскладываться under the participle раскладывающийся	

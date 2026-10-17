@@ -8,10 +8,12 @@ pos-verb-ending	part_of_speech	{}	зюзюкается	v	v
 pos-uyut	part_of_speech	{}	уют	n	n			
 pos-capital	part_of_speech	{}	Москве	n	n			
 pos-pronoun	part_of_speech	{}	какой	prn	prn			
-pos-unknown	part_of_speech	{}	бу	бу		у неё дефект или побочный эффект Excel	oa returns a key it does not find as the value, so an unknown word reads as its own code	
-pos-punctuation	part_of_speech	{}	диван,	диван,		у неё дефект или побочный эффект Excel	oa returns a key it does not find as the value, so «диван,» reads as its own code	
+pos-unknown	part_of_speech	{}	бу	бу	unkn	у неё дефект или побочный эффект Excel; Слово без части речи получает код unkn	oa returns a key it does not find as the value, so an unknown word reads as its own code	
+pos-punctuation	part_of_speech	{}	диван,	диван,	unkn	у неё дефект или побочный эффект Excel; Слово без части речи получает код unkn	oa returns a key it does not find as the value, so «диван,» reads as its own code	
 pos-pymorphy	part_of_speech	{}	икеа	икеа	n	Явное улучшение там, где Python может больше VBA	the dictionary lacks the word and oa returns it as is; semkit asks pymorphy3 next (ADR 0003)	
 pos-adjective-ending	part_of_speech	{}	зюзюкный	зюзюкный	a	у неё дефект или побочный эффект Excel	oa returns the unknown word as its own code; ··o then calls it an adjective by the lemma ending (adjSuffixes), which semkit gives as the code a	
 pos-yo	part_of_speech	{}	ёлки	ёлки	n	ё = е при сравнении	oa looks the word up as written, and the dictionary has no ё	
 pos-double-space	part_of_speech	{}	купить  диван	v  n	v n	фраза делится по любым пробелам, двойных пробелов в результатах нет	the word tests split by one space, so the empty word between two spaces gets the empty code	
 pos-column	part_of_speech	{}	купить |  | диван	v |  | n	v |  | n			
+pos-unknown-in-phrase	part_of_speech	{}	диван клик кляк купить	n n кляк v	n n unkn v	у неё дефект или побочный эффект Excel; Слово без части речи получает код unkn	oa returns the unknown word кляк as its own code	
+pos-negated-adjective	part_of_speech	{}	нераскладной	n	a	Прилагательное с «не-» — прилагательное	the dictionary codes нераскладной n, though раскладной is a	

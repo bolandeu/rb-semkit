@@ -3,13 +3,12 @@ complements («для гостиной»)."""
 
 from __future__ import annotations
 
-import re
-
 import pandas as pd
 
 from .. import datastore
 from ..morph.functions import BUNDLED
 from ..morph.lemmatizer import Lemmatizer, looks_like_adjective
+from ..patterns.complements import complement_end
 from ..text.base import bundled_list, choice, collapse, split_words, word_key
 from .common import WORD_ORDER, changed, one_word
 from .insert import WordMover
@@ -19,20 +18,13 @@ __all__ = ["fix_word_order"]
 # The form of the main word and the last letter of an adjective that agrees with it.
 FORMS = {"masculine": "й", "feminine": "я", "feminine_accusative": "ю", "plural": "е"}
 NOT_ADJECTIVES = frozenset({"n", "v", "advb", "p", "prep", "conj", "nv"})
-NOUN = "n"
 ADJECTIVE = "a"
-COMPLEMENT_WORDS = 5  # a complement is a preposition and up to this many words after it, up to its last noun
-_SIGNS = re.compile(r"[^\w\s]|_")
 
 
 def _start_words(form: str) -> list[str]:
     if form == "masculine":
         return bundled_list("phrase_start_words")
     return datastore.table(WORD_ORDER)[f"phrase_start_words_{form}"]
-
-
-def _is_noun(word: str, lemmatizer: Lemmatizer) -> bool:
-    return any(lemmatizer.pos(part) == NOUN for part in _SIGNS.sub(" ", word).split())
 
 
 def _is_adjective(word: str, lemmatizer: Lemmatizer) -> bool:
@@ -51,29 +43,30 @@ class _Order:
         self._mover = WordMover(_start_words(form))
         self._prepositions = frozenset(map(word_key, datastore.table(WORD_ORDER)["prepositions"]))
 
-    def _last_noun(self, words: list[str], start: int) -> int | None:
-        """The last noun of the words after the preposition at `start`, up to the next preposition or the main word."""
-        found = None
-        for index in range(start + 1, min(start + COMPLEMENT_WORDS + 1, len(words))):
-            if word_key(words[index]) in self._prepositions or word_key(words[index]) == self._main:
-                break
-            if _is_noun(words[index], self._lemmatizer):
-                found = index
-        return found
+    def _is_preposition(self, word: str) -> bool:
+        return word_key(word) in self._prepositions
+
+    def _stops(self, word: str) -> bool:
+        """A complement stops at the next preposition and at the main word."""
+        return self._is_preposition(word) or word_key(word) == self._main
 
     def _split(self, words: list[str]) -> tuple[list[str], list[str]]:
-        """The words of the phrase and its complements: each preposition with the words up to the last noun after it."""
+        """The words of the phrase and its complements: each preposition with the words of its complement."""
         rest: list[str] = []
         complements: list[str] = []
         index = 0
         while index < len(words):
-            last_noun = self._last_noun(words, index) if word_key(words[index]) in self._prepositions else None
-            if last_noun is None:
+            end = (
+                complement_end(words, index, self._stops, self._lemmatizer)
+                if self._is_preposition(words[index])
+                else None
+            )
+            if end is None:
                 rest.append(words[index])
                 index += 1
             else:
-                complements += words[index : last_noun + 1]
-                index = last_noun + 1
+                complements += words[index:end]
+                index = end
         return rest, complements
 
     def _adjectives_first(self, words: list[str]) -> list[str]:

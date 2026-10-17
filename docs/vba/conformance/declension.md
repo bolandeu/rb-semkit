@@ -7,12 +7,12 @@ edit it. The terms and the other areas: [the summary](../conformance.md).
 
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
-| [decline](#decline) | 8 | 5 | 3 | 0 |
-| [decline_adjective](#decline_adjective) | 9 | 8 | 1 | 0 |
-| [decline_full_name](#decline_full_name) | 7 | 2 | 5 | 0 |
-| [decline_noun](#decline_noun) | 10 | 4 | 6 | 0 |
+| [decline](#decline) | 22 | 7 | 15 | 0 |
+| [decline_adjective](#decline_adjective) | 13 | 8 | 5 | 0 |
+| [decline_full_name](#decline_full_name) | 14 | 2 | 12 | 0 |
+| [decline_noun](#decline_noun) | 16 | 5 | 11 | 0 |
 | [irrelevant_words](#irrelevant_words) | 7 | 2 | 5 | 0 |
-| **All** | **41** | **21** | **20** | **0** |
+| **All** | **72** | **24** | **48** | **0** |
 
 ## decline
 
@@ -20,7 +20,7 @@ decline. VBA, RibbonCallbacks.vba: «Просклонять › Все что с
 
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
-| `decline` | 8 | 5 | 3 | 0 |
+| `decline` | 22 | 7 | 15 | 0 |
 
 ### Deviations
 
@@ -29,6 +29,18 @@ decline. VBA, RibbonCallbacks.vba: «Просклонять › Все что с
 | decline-verb-stays | `"купить красный диван"` | `"купити красного дивана"` | `"купить красного дивана"` | «Все что склоняется» склоняет только существительные, прилагательные и местоимения по таблице прилагательных | dictRange is never Set, so aoa declines the verb as a noun: «купити» |
 | decline-plural | `"купить красный диван"` | `"купитей красных диванов"` | `"купить красных диванов"` | «Все что склоняется» склоняет только существительные, прилагательные и местоимения по таблице прилагательных | dictRange is never Set, so aoa declines the verb as a noun: «купитей» |
 | decline-noun-like-adjective | `"зной"` | `"зного"` | `"зноя"` | «Все что склоняется» склоняет только существительные, прилагательные и местоимения по таблице прилагательных | aoa tests the adjective ending first and the noun skip never works: «ной» gives «зного» |
+| decline-inflected | `"диваны для дачи"` | `"диваны для дачи"` | `"диванов для дачи"` | Фраза во множественном числе склоняется во множественном числе | aoa leaves a word that is not its lemma: диваны |
+| decline-accusative-inanimate | `"купить кожаный диван"` | `"купить кожаный дивана"` | `"купить кожаный диван"` | Винительный падеж неодушевлённого существительного — именительный | aoa takes the accusative from nounSuffixes, whose «ван» is animate («Иван») |
+| decline-accusative-oj | `"угловой диван"` | `"углового дивана"` | `"угловой диван"` | Винительный падеж неодушевлённого существительного — именительный | aoa takes the accusative from nounSuffixes, whose «вой» and «ван» are animate |
+| decline-accusative-adjective | `"красный диван"` | `"красный дивана"` | `"красный диван"` | Винительный падеж неодушевлённого существительного — именительный | aoa takes the accusative from nounSuffixes, whose «ван» is animate («Иван») |
+| decline-plural-genitive | `"угловые диваны"` | `"угловые диваны"` | `"угловых диванов"` | Фраза во множественном числе склоняется во множественном числе | aoa leaves a word that is not its lemma, and «вые» is no ending of adjSuffixes |
+| decline-plural-instrumental | `"угловые диваны"` | `"угловые диваны"` | `"угловыми диванами"` | Фраза во множественном числе склоняется во множественном числе | aoa leaves a word that is not its lemma, and «вые» is no ending of adjSuffixes |
+| decline-plural-ie-genitive | `"дизайнерские диваны"` | `"дизайнерские диваны"` | `"дизайнерских диванов"` | Фраза во множественном числе склоняется во множественном числе | aoa leaves a word that is not its lemma, and «кие» is no ending of adjSuffixes |
+| decline-plural-ie-instrumental | `"дизайнерские диваны"` | `"дизайнерские диваны"` | `"дизайнерскими диванами"` | Фраза во множественном числе склоняется во множественном числе | aoa leaves a word that is not its lemma, and «кие» is no ending of adjSuffixes |
+| decline-compound-genitive | `"диван-кровать угловой"` | `"диван-кровати углового"` | `"дивана-кровати углового"` | Сложное существительное через дефис склоняется целиком | aoa changes the last three letters of the word only |
+| decline-compound-prepositional | `"диван-кровать угловой"` | `"диван-кровати угловом"` | `"диване-кровати угловом"` | Сложное существительное через дефис склоняется целиком | aoa changes the last three letters of the word only |
+| decline-feminine-genitive | `"большая скидка"` | `"большей скидки"` | `"большой скидки"` | Прилагательное женского рода, среднего рода и множественного числа склоняется от своей леммы | aoa declines «большая» by the ending «шая» of adjSuffixes, as «хорошая» |
+| decline-feminine-prepositional | `"большая скидка"` | `"большей скидке"` | `"большой скидке"` | Прилагательное женского рода, среднего рода и множественного числа склоняется от своей леммы | aoa declines «большая» by the ending «шая» of adjSuffixes, as «хорошая» |
 
 ### xfail
 
@@ -40,13 +52,17 @@ decline_adjective. VBA, RibbonCallbacks.vba: «Просклонять › При
 
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
-| `decline_adjective` | 9 | 8 | 1 | 0 |
+| `decline_adjective` | 13 | 8 | 5 | 0 |
 
 ### Deviations
 
 | Case | Input | VBA | semkit | Rule | Why |
 |---|---|---|---|---|---|
 | adj-neuter-genitive | `"красный"` | `"красный"` | `"красного"` | Средний род прилагательного в косвенных падежах — формы прилагательного | the ср. род Род button runs the noun handler a–ka: «ный» is no noun ending, so the word stays |
+| adj-neuter-soft | `"синий"` | `"синое"` | `"синее"` | Ошибки таблиц склонения исправлены | the neuter of the ending «ний» in adjSuffixes is «ное» |
+| adj-feminine-third | `"третий"` | `"третьи"` | `"третья"` | Ошибки таблиц склонения исправлены | the feminine nominative of «третий» in adjExclusions2 is «третьи» |
+| adj-plural-accusative-third | `"третий"` | `"третьих"` | `"третьи"` | Ошибки таблиц склонения исправлены | the plural accusative of «третий» in adjExclusions2 is the animate «третьих» |
+| adj-plural-possessive | `"лисий"` | `"лисие"` | `"лисьи"` | Ошибки таблиц склонения исправлены | the plural of the ending «сий» in adjSuffixes is «сие» |
 
 ### xfail
 
@@ -58,7 +74,7 @@ decline_full_name. VBA, RibbonCallbacks.vba: «Просклонять › ФИО
 
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
-| `decline_full_name` | 7 | 2 | 5 | 0 |
+| `decline_full_name` | 14 | 2 | 12 | 0 |
 
 ### Deviations
 
@@ -69,6 +85,13 @@ decline_full_name. VBA, RibbonCallbacks.vba: «Просклонять › ФИО
 | fio-accusative-man | `"Иванов Сергей Петрович"` | `"Иванову Сергею Петро"` | `"Иванова Сергея Петровича"` | Винительный падеж ФИО — винительный; Существительное на согласную получает обычное окончание своей группы | a··o calls oak with ko 3 (the dative), and l– leaves the patronymic «Петро» |
 | fio-ij-oj | `"Толстой Дмитрий Ильич"` | `"Толстоя 'Дмитрия Ильича"` | `"Толстого Дмитрия Ильича"` | В ФИО нет апострофа; Мужская фамилия на «-ой» склоняется как прилагательное | ––o cuts «Дмитрий» by –·—, which puts «'» in front; mSurn has no «ой» and declines «Толстой» by the noun table |
 | fio-empty | `""` | `"!!!Это не ФИО, ФИО это 3 слова"` | `""` | Пустая ячейка ФИО остаётся пустой | oak writes its error text into an empty cell too |
+| fio-indeclinable | `"Белых Никита Юрьевич"` | `"Белыха Никиты Юрье"` | `"Белых Никиты Юрьевича"` | Фамилия на «-ых» и «-их» не склоняется; Существительное на согласную получает обычное окончание своей группы | mSurn has no «ых» and gives «Белых» the consonant ending; l– leaves the patronymic «Юрье» |
+| fio-indeclinable-dative | `"Черных Иван Петрович"` | `"Черныху Ивану Петро"` | `"Черных Ивану Петровичу"` | Фамилия на «-ых» и «-их» не склоняется; Существительное на согласную получает обычное окончание своей группы | mSurn has no «ых» and gives «Черных» the consonant ending; l– leaves the patronymic «Петро» |
+| fio-surname-a | `"Глинка Михаил Иванович"` | `"Глинка Михаила Ивано"` | `"Глинки Михаила Ивановича"` | Мужская фамилия на «-а» и «-я» склоняется как существительное; Существительное на согласную получает обычное окончание своей группы | mSurn keeps a surname in «а»; l– leaves the patronymic «Ивано» |
+| fio-surname-yo | `"Королёва Наталья Кузьминична"` | `"Королёва Натальи Кузьминичны"` | `"Королёвой Натальи Кузьминичны"` | Окончание фамилии сравнивается с ё как е | fSurn compares «ёва» with «ева» and keeps the surname |
+| fio-accusative-name | `"Абрамович Роман Аркадьевич"` | `"Абрамовичу Роману Аркадье"` | `"Абрамовича Романа Аркадьевича"` | Винительный падеж ФИО — винительный; Винительный падеж мужского имени, фамилии и отчества на согласную — как родительный; Существительное на согласную получает обычное окончание своей группы | the Вин button a··o calls oak with ko 3, the dative; nounExclusions2 gives the inanimate «роман» (a novel) |
+| fio-instrumental-ch | `"Абрамович Роман Аркадьевич"` | `"Абрамовичом Романом Аркадье"` | `"Абрамовичем Романом Аркадьевичем"` | Мужское имя и фамилия на согласную получают окончания своей группы; Существительное на согласную получает обычное окончание своей группы | ––o gives every consonant the ending «ом»; l– leaves the patronymic «Аркадье» |
+| fio-four-words | `"Мамедов Эльчин Гусейн оглы"` | `"!!!Это не ФИО, ФИО это 3 слова"` | `"Мамедов Эльчин Гусейн оглы"` | Пустая ячейка ФИО остаётся пустой, а значение не из трёх слов — как есть | oak writes its error text for a value that is not three words |
 
 ### xfail
 
@@ -80,7 +103,7 @@ decline_noun. VBA, RibbonCallbacks.vba: «Просклонять › Сущес�
 
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
-| `decline_noun` | 10 | 4 | 6 | 0 |
+| `decline_noun` | 16 | 5 | 11 | 0 |
 
 ### Deviations
 
@@ -92,6 +115,11 @@ decline_noun. VBA, RibbonCallbacks.vba: «Просклонять › Сущес�
 | noun-accusative-indeclinable | `"авиасалес"` | `"авиасалеса"` | `"авиасалес"` | Несклоняемое слово и аббревиатура не меняются ни в одном падеже | l– declines the accusative by the endings table before it tests nonDecl: «лес» → «леса» |
 | noun-capital | `"Павел"` | `"Па"` | `"Павла"` | Слово ищется в таблицах в нижнем регистре, форма сохраняет его заглавные; Существительное на согласную получает обычное окончание своей группы | l– looks «Павел» up as written and misses nounExclusions, then the consonant bug leaves «Па» |
 | noun-each-word | `"диван  стол"` | `"ди с"` | `"дивану столу"` | Существительное на согласную получает обычное окончание своей группы; фраза делится по любым пробелам, двойных пробелов в результатах нет | l– skips its consonant branch (Select Case True never equals InStr), so the empty cell of the endings table leaves the root only; ka keeps the empty word of the double space, a· collapses it |
+| noun-plural-stul | `"стул"` | `"с"` | `"стулья"` | Существительное на согласную получает обычное окончание своей группы; Ошибки таблиц склонения исправлены | l– leaves the root «с» for the empty cell of «тул»; the plural of стул is irregular |
+| noun-plural-chelovek | `"человек"` | `"чело"` | `"люди"` | Существительное на согласную получает обычное окончание своей группы; Ошибки таблиц склонения исправлены | l– leaves the root «чело» for the empty cell of «век»; the plural of человек is люди |
+| noun-plural-genitive-chelovek | `"человек"` | `"чело"` | `"людей"` | Существительное на согласную получает обычное окончание своей группы; Ошибки таблиц склонения исправлены | l– leaves the root «чело» for the empty cell of «век»; the plural of человек is люди |
+| noun-no-plural | `"мебель"` | `"мебели"` | `"мебель"` | Ошибки таблиц склонения исправлены | nounExclusions2 gives мебель a plural |
+| noun-accusative-inanimate | `"диван"` | `"дивана"` | `"диван"` | Винительный падеж неодушевлённого существительного — именительный | l– takes the accusative from nounSuffixes, whose «ван» is animate («Иван») |
 
 ### xfail
 

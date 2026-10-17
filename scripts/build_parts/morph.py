@@ -5,13 +5,15 @@
     morph.json      lemma_suffixes (lemmSuf), nouns_like_adjectives (nounsLikeAdj),
                     adjective_endings (the first column of adjSuffixes)
 
-Sources: `lemmas` (lemms.tsv) and `sheet_abc` (sheet `abc` of the add-in as TSV). The declension tables are the
-declension part's (scripts/build_parts/declension.py).
+Sources: `lemmas` (lemms.tsv) and `sheet_abc` (sheet `abc` of the add-in as TSV). The corrections of lemms.tsv are
+morph.toml next to this part: a corrected wordform takes the lemma and the part of speech written there instead of its
+rows (ADR 0003). The declension tables are the declension part's (scripts/build_parts/declension.py).
 """
 
 from __future__ import annotations
 
 import re
+import tomllib
 from pathlib import Path
 
 import marisa_trie  # ty: ignore[unresolved-import]  # a compiled extension without type stubs
@@ -30,6 +32,10 @@ JUNK_ROW = "junk row: the wordform is not letters (maybe joined by hyphens) or t
 REPEATED_WORDFORM = "a later row of the same wordform wins, as the add-in's sorted VLOOKUP"
 SAME_PAIR = "the same lemma and wordform as an earlier row once the lemma is lower case"
 YO_KEY = "a ё→е key for a word with ё"
+CORRECTIONS = Path(__file__).with_suffix(".toml")
+CORRECTED = "a corrected wordform: its line of morph.toml replaces it"
+
+Row = tuple[str, str, str]  # wordform, lemma, pos
 
 
 def yo_to_ye(text: str) -> str:
@@ -40,13 +46,29 @@ def _is_kept(wordform: str, pos: str) -> bool:
     return bool(pos) and WORDFORM.fullmatch(wordform) is not None
 
 
-def lemma_rows(path: Path) -> list[tuple[str, str, str]]:
+def lemma_rows(path: Path) -> list[Row]:
     """(wordform, lemma, pos) in source order: header and junk rows dropped, lower case."""
     rows = (line.split("\t") for line in read_lines(path)[1:])
     return [(wordform.lower(), lemma.lower(), pos) for wordform, lemma, pos in rows if _is_kept(wordform, pos)]
 
 
-def lemma_trie(rows: list[tuple[str, str, str]]) -> marisa_trie.BytesTrie:
+def corrections(path: Path = CORRECTIONS) -> dict[str, tuple[Row, str]]:
+    """Each corrected wordform: its row and the reason, from the lines of morph.toml."""
+    lines = tomllib.loads(path.read_text(encoding="utf-8"))["corrections"]
+    return {
+        wordform: ((wordform, line["lemma"], line["pos"]), line["why"])
+        for line in lines
+        for wordform in line["wordforms"]
+    }
+
+
+def corrected(rows: list[Row]) -> list[Row]:
+    """The rows of lemms.tsv without those of a corrected wordform, then a row per corrected wordform."""
+    found = corrections()
+    return [row for row in rows if row[0] not in found] + [row for row, _ in found.values()]
+
+
+def lemma_trie(rows: list[Row]) -> marisa_trie.BytesTrie:
     found: dict[str, str] = {}
     for wordform, lemma, pos in rows:  # a repeated wordform: the last row wins, as the add-in's sorted VLOOKUP
         found[wordform] = f"{lemma}\t{pos}"
@@ -55,7 +77,7 @@ def lemma_trie(rows: list[tuple[str, str, str]]) -> marisa_trie.BytesTrie:
     return marisa_trie.BytesTrie((key, value.encode()) for key, value in sorted(found.items()))
 
 
-def forms_trie(rows: list[tuple[str, str, str]]) -> marisa_trie.BytesTrie:
+def forms_trie(rows: list[Row]) -> marisa_trie.BytesTrie:
     pairs = {(key, wordform) for wordform, lemma, _ in rows for key in (lemma, yo_to_ye(lemma))}
     return marisa_trie.BytesTrie((lemma, wordform.encode()) for lemma, wordform in sorted(pairs))
 
@@ -83,7 +105,23 @@ def _lemma_entries(path: Path) -> dict[str, Entry]:
         seen.add((lemma, wordform))
     for lemma, wordform in sorted({(yo_to_ye(lemma), wordform) for lemma, wordform in seen} - seen):
         forms.add(f"{lemma}\t{wordform}", YO_KEY)
+    _corrections_entries(kept, lemmas, forms)
     return {"lemmas.marisa": lemmas, "forms.marisa": forms}
+
+
+def _corrections_entries(kept: list[Row], lemmas: Entry, forms: Entry) -> None:
+    """The rows and the pairs a correction replaces, as dropped, and those it brings, as added."""
+    winner = {wordform: (wordform, lemma, pos) for wordform, lemma, pos in kept}
+    pairs = {(wordform, lemma) for wordform, lemma, _ in kept}
+    for wordform, (row, why) in sorted(corrections().items()):
+        if winner.get(wordform) != row:
+            if wordform in winner:
+                lemmas.drop("\t".join(winner[wordform]), CORRECTED)
+            lemmas.add("\t".join(row), why)
+        for _, lemma in sorted(pair for pair in pairs if pair[0] == wordform and pair[1] != row[1]):
+            forms.drop(f"{lemma}\t{wordform}", CORRECTED)
+        if (wordform, row[1]) not in pairs:
+            forms.add(f"{row[1]}\t{wordform}", why)
 
 
 def manifest(sources: dict[str, Path]) -> dict[str, Entry]:
@@ -93,7 +131,7 @@ def manifest(sources: dict[str, Path]) -> dict[str, Entry]:
 
 
 def build(sources: dict[str, Path], out: Path) -> None:
-    rows = lemma_rows(sources["lemmas"])
+    rows = corrected(lemma_rows(sources["lemmas"]))
     sheet = read_sheet(sources["sheet_abc"])
     out.mkdir(parents=True, exist_ok=True)
     lemma_trie(rows).save(str(out / "lemmas.marisa"))

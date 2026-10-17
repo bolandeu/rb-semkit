@@ -13,3 +13,7 @@ adj-neuter-genitive	decline_adjective	{"case": "genitive", "gender": "neuter"}	�
 adj-plural-genitive	decline_adjective	{"case": "genitive", "number": "plural"}	красный	красных	красных			
 adj-capital	decline_adjective	{"case": "instrumental", "number": "plural"}	Красный	Красными	Красными			
 adj-exception	decline_adjective	{"case": "dative"}	этот	этому	этому			
+adj-neuter-soft	decline_adjective	{"case": "nominative", "gender": "neuter"}	синий	синое	синее	Ошибки таблиц склонения исправлены	the neuter of the ending «ний» in adjSuffixes is «ное»	
+adj-feminine-third	decline_adjective	{"case": "nominative", "gender": "feminine"}	третий	третьи	третья	Ошибки таблиц склонения исправлены	the feminine nominative of «третий» in adjExclusions2 is «третьи»	
+adj-plural-accusative-third	decline_adjective	{"case": "accusative", "number": "plural"}	третий	третьих	третьи	Ошибки таблиц склонения исправлены	the plural accusative of «третий» in adjExclusions2 is the animate «третьих»	
+adj-plural-possessive	decline_adjective	{"case": "nominative", "number": "plural"}	лисий	лисие	лисьи	Ошибки таблиц склонения исправлены	the plural of the ending «сий» in adjSuffixes is «сие»	

@@ -11,6 +11,7 @@ from __future__ import annotations
 from typing import Protocol
 
 import pymorphy3
+from pymorphy3.analyzer import Parse
 
 from .. import datastore
 from ..normalize import norm_phrase
@@ -24,7 +25,9 @@ FALLBACKS = ("pymorphy",)
 # The add-in's verb rule: these endings make a verb whatever the dictionary says; «уют» itself is a noun.
 VERB_ENDINGS = ("тся", "ься", "ают", "уют")
 NOT_VERBS = frozenset({"уют"})
-# pymorphy3 parts of speech as the dictionary's codes; one with no code there gives "".
+NEGATION = "не"  # a noun of the dictionary in «не-» whose rest is an adjective there is an adjective («нераскладной»)
+UNKNOWN = "unkn"  # the code of a word no rule gives a part of speech: «кляк», «15», «диван,»
+# pymorphy3 parts of speech as the dictionary's codes; one with no code there gives UNKNOWN.
 PYMORPHY_POS = {
     "NOUN": "n",
     "NUMR": "n",
@@ -64,13 +67,27 @@ def _from_dictionary(word: str) -> tuple[str, str] | None:
     return lemma, pos
 
 
+def _analyzer() -> pymorphy3.MorphAnalyzer:
+    return datastore.once("pymorphy3", pymorphy3.MorphAnalyzer)
+
+
+def noun_parse(word: str) -> Parse | None:
+    """The first parse of pymorphy3 that makes the word a noun (a guess for a word its dictionary lacks); None
+    without one. The declension takes the animacy and the gender from it, and the forms of a hyphenated noun."""
+    return next((parse for parse in _analyzer().parse(word) if parse.tag.POS == "NOUN"), None)
+
+
 def _from_pymorphy(word: str, *, guess: bool = False) -> tuple[str, str] | None:
-    """The best parse of pymorphy3: of a word its dictionary knows, or with `guess` of any word."""
-    analyzer = datastore.once("pymorphy3", pymorphy3.MorphAnalyzer)
+    """The best parse of pymorphy3: of a word its dictionary knows, or with `guess` of any word.
+
+    Its lemma has ё only where the word has it, as the dictionary («вперед» → «вперед», not «вперёд»).
+    """
+    analyzer = _analyzer()
     if not guess and not analyzer.word_is_known(word):
         return None
     best = analyzer.parse(word)[0]
-    return best.normal_form, PYMORPHY_POS.get(str(best.tag.POS), "")
+    lemma = best.normal_form if "ё" in word else norm_phrase(best.normal_form)
+    return lemma, PYMORPHY_POS.get(str(best.tag.POS), "")
 
 
 def _adjective_rule() -> tuple[frozenset[str], frozenset[str]]:
@@ -91,12 +108,19 @@ def _from_suffixes(word: str) -> tuple[str, str]:
     return lemma, "a" if looks_like_adjective(lemma) else ""
 
 
+def _is_negated_adjective(word: str, pos: str) -> bool:
+    rest = _from_dictionary(word.removeprefix(NEGATION)) if word.startswith(NEGATION) else None
+    return pos == "n" and rest is not None and rest[1] == "a"
+
+
 def _analyse(word: str, fallback: str | None) -> tuple[str, str]:
     guess = fallback == "pymorphy"  # pymorphy3 then gives every word a parse, and the suffix rule is never reached
     lemma, pos = _from_dictionary(word) or _from_pymorphy(word, guess=guess) or _from_suffixes(word)
     if word.endswith(VERB_ENDINGS) and word not in NOT_VERBS:
         pos = "v"
-    return lemma, pos
+    elif _is_negated_adjective(word, pos):
+        pos = "a"
+    return lemma, pos or UNKNOWN
 
 
 class SemtoolsLemmatizer:

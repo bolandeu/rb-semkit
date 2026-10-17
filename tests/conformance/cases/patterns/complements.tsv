@@ -8,3 +8,5 @@ compl-capital	complements.extract	{}	диван В Москве		В Москве
 compl-no-noun	complements.extract	{}	диван для					
 compl-adjective	complements.extract	{}	чехол для нового телефона	для нового телефона	для нового телефона			
 compl-last-noun	complements.extract	{}	кровать из массива дуба	из массива дуба	из массива дуба			
+compl-stops-at-complement	complements.extract	{}	купить диван в москве недорого распродажа	в москве недорого распродажа	в москве	Дополнение кончается на своём существительном и существительных в косвенном падеже сразу после него	collocs takes the words up to the last noun of the next five: распродажа	
+compl-nominative-after	complements.extract	{}	диван от производителя распродажа	от производителя распродажа	от производителя	Дополнение кончается на своём существительном и существительных в косвенном падеже сразу после него	collocs takes the words up to the last noun of the next five: распродажа	

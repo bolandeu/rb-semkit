@@ -7,10 +7,10 @@ edit it. The terms and the other areas: [the summary](../conformance.md).
 
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
-| [complements](#complements) | 6 | 5 | 1 | 0 |
-| [phrase_end](#phrase_end) | 11 | 6 | 5 | 0 |
+| [complements](#complements) | 8 | 5 | 3 | 0 |
+| [phrase_end](#phrase_end) | 12 | 6 | 6 | 0 |
 | [ready_pattern](#ready_pattern) | 18 | 8 | 10 | 0 |
-| **All** | **35** | **19** | **16** | **0** |
+| **All** | **38** | **19** | **19** | **0** |
 
 ## complements
 
@@ -18,13 +18,15 @@ complements. VBA, RibbonCallbacks.vba (docs/vba/matchers.md X3, docs/vba/analysi
 
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
-| `complements.extract` | 6 | 5 | 1 | 0 |
+| `complements.extract` | 8 | 5 | 3 | 0 |
 
 ### Deviations
 
 | Case | Input | VBA | semkit | Rule | Why |
 |---|---|---|---|---|---|
 | compl-capital | `"диван В Москве"` | `""` | `"В Москве"` | Предлог дополнения — в любом регистре, ё = е | collocs finds the preposition case-sensitively: «В» is none |
+| compl-stops-at-complement | `"купить диван в москве недорого распродажа"` | `"в москве недорого распродажа"` | `"в москве"` | Дополнение кончается на своём существительном и существительных в косвенном падеже сразу после него | collocs takes the words up to the last noun of the next five: распродажа |
+| compl-nominative-after | `"диван от производителя распродажа"` | `"от производителя распродажа"` | `"от производителя"` | Дополнение кончается на своём существительном и существительных в косвенном падеже сразу после него | collocs takes the words up to the last noun of the next five: распродажа |
 
 ### xfail
 
@@ -36,7 +38,7 @@ phrase_end. VBA, RibbonCallbacks.vba (docs/vba/matchers.md W1): «Предлог
 
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
-| `phrase_end.remove` | 11 | 6 | 5 | 0 |
+| `phrase_end.remove` | 12 | 6 | 6 | 0 |
 
 ### Deviations
 
@@ -47,6 +49,7 @@ phrase_end. VBA, RibbonCallbacks.vba (docs/vba/matchers.md W1): «Предлог
 | end-junk-g-kept | `"диван g"` | `"диван"` | `"диван g"` | Список предлогов чистый: «по» удаляется, латинская «g» — нет | prps holds the junk latin «g», so it is dropped as a preposition |
 | end-buy-two | `"диван купить недорого"` | `"диван купить"` | `"диван"` | Маркеры покупки в конце фразы удаляются, пока последнее слово не станет чистым, и маркер из нескольких слов тоже | remLWsales makes one pass: «купить» stays |
 | end-buy-phrase | `"диван по низкой цене"` | `"диван по низкой"` | `"диван"` | Маркеры покупки в конце фразы удаляются, пока последнее слово не станет чистым, и маркер из нескольких слов тоже | dLWrng compares the last word only, so a marker of several words never matches |
+| end-buy-after-preposition | `"диван с доставкой купить дешево"` | `"диван с доставкой купить"` | `"диван с доставкой"` | Маркеры покупки в конце фразы удаляются, пока последнее слово не станет чистым, и маркер из нескольких слов тоже; Маркер покупки после предлога остаётся | remLWsales makes one pass: «купить» stays |
 
 ### xfail
 
