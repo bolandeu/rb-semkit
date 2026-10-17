@@ -2,7 +2,7 @@
 id: SEMKIT-017
 title: 'Text metrics per text: characters, words, unique lemmas, water, classic and
   academic nausea, the top lemma'
-status: ideas
+status: queue
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -10,7 +10,7 @@ phase: null
 tests_hash: null
 publish_stage: null
 created_by: architect
-approved_by: null
+approved_by: human
 worker: claude-code
 type: feature
 owns_paths:
