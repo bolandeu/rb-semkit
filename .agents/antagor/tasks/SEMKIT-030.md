@@ -3,7 +3,7 @@ id: SEMKIT-030
 title: 'Morphology on a real core: correct lemmas, the accusative, plurals, compounds,
   adjectives, full names, word forms'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -25,6 +25,15 @@ owns_paths:
 - docs/vba/deviations/declension.md
 - docs/vba/deviations/patterns.md
 - docs/vba/deviations/morph.md
+- docs/vba/conformance/change.md
+- docs/vba/conformance/declension.md
+- docs/vba/conformance/morph.md
+- docs/vba/conformance/patterns.md
+- docs/vba/deviations/change.md
+- scripts/build_parts/declension.toml
+- scripts/build_parts/morph.toml
+- src/rb_semkit/core/change/word_order.py
+- src/rb_semkit/steps/morph.py
 test_paths:
 - tests/declension
 - tests/patterns
@@ -33,6 +42,11 @@ test_paths:
 - tests/conformance/cases/morph
 - tests/conformance/cases/declension
 - tests/conformance/cases/patterns
+- tests/conformance/cases/change/fix_word_order.tsv
+- tests/conformance/data_manifest/declension.json
+- tests/conformance/data_manifest/morph.json
+- tests/core/test_build_data.py
+- tests/steps/test_steps.py
 docs:
 - docs/adr/0003-morphology-engines.md
 - docs/vba/deviations/declension.md
@@ -60,7 +74,7 @@ translation: '**Морфология на реальном ядре.** Испр�
   ADR 0003. Справку и снимки не трогать.'
 ---
 
-The end-to-end check (docs/plans/e2e-quality.md, items 1-11) found the morphology gives wrong Russian on a real sofa core and a customs core. Fix the library behaviour so the words below come out right; each fixed word is a conformance case of its area (expected = the correct form, the add-in's value in vba, the rule and why per ADR 0005). Do not change the public docstrings: SEMKIT-033 updates them and the help snapshots after this task; when your fix changes a rule a docstring states, report it as an inbox finding (the function and the new rule). Behaviour only.
+The end-to-end check (docs/plans/e2e-quality.md, items 1-11) found the morphology gives wrong Russian on a real sofa core and a customs core. Fix the library behaviour so the words below come out right; each fixed word is a conformance case of its area (expected = the correct form, the add-in's value in vba, the rule and why per ADR 0005). Do not change the docstrings of the public sk functions (the step help is made from them): SEMKIT-033 updates them and the help snapshots after this task; when your fix changes a rule a docstring states, report it as an inbox finding (the function and the new rule). Module (file) docstrings are not frozen: keep each one naming what its file holds, new helpers too (the project's file docstring check). Behaviour only.
 
 Lemmatizer: the bundled dictionary answers first and gives wrong lemmas that pymorphy3 gets right. Correct them (a correction of the dictionary data or a rule for when pymorphy3 wins; record the rule in ADR 0003): кафе, купе, мини, ширина, шириной, спину, экокожа, подростка, аскона, ножках, петушках, донецке, вещей, временного (склад временного хранения), рус; раскладывающийся / раскладывается keep their own lemmas; a lemma has no ё where the word has none (вперед).
 
@@ -68,8 +82,13 @@ Declension of phrases: accusative of an inanimate noun is its nominative and the
 
 Word forms: the input word is not repeated (as the help says); an unknown word or a phrase gives an empty result, not an error about a text column. Part of speech: an unknown word gets a code (not an empty one, no double spaces). Complements: extract-complements stops at the complement (в москве недорого распродажа → в москве; от производителя распродажа → от производителя), fix-word-order follows. remove-phrase-end buy_markers leaves no hanging preposition (диван с доставкой купить дешево → диван с доставкой).
 
+ADR 0003: the declension has no modes auto / table / pymorphy in the code. Correct the ADR to the rule as it is after this task: the add-in tables decline; pymorphy3 gives the animacy of the accusative and declines a hyphenated noun; no modes.
+
+More table defects of the same kind as «третий» (one line each in the declension build): «второй» feminine nominative «вторая», masculine accusative «второй» (inanimate), plural accusative «вторые»; «голубой» and «рябой» dative «голубому» / «рябому», plural genitive «голубых» / «рябых».
+
 ## Acceptance
 
+- Given второй (feminine nominative, masculine accusative, plural accusative), голубой and рябой (dative, plural genitive), When decline-adjective runs, Then вторая, второй, вторые, голубому, рябому, голубых, рябых [check: tests/conformance/cases/declension]
 - Given the words кафе, купе, мини, ширина, шириной, спину, экокожа, подростка, аскона, ножках, петушках, донецке, вещей, временного, рус, вперед, When sk.lemmatize runs, Then the lemmas are кафе, купе, мини, ширина, ширина, спина, экокожа, подросток, аскона, ножка, петушки, донецк, вещь, временный, рус, вперед [check: tests/conformance/cases/morph]
 - Given раскладывающийся and раскладывается, When lemmatized, Then each keeps its own lemma (раскладывающийся, раскладываться) [check: tests/conformance/cases/morph]
 - Given купить кожаный диван, угловой диван, купить кота, When sk.decline runs to the accusative, Then купить кожаный диван, угловой диван, купить кота [check: tests/conformance/cases/declension]
@@ -100,3 +119,28 @@ ADR 0003 (dictionary, pymorphy3, tables), ADR 0005 (follow the add-in, fix expli
 
 - A new morphology engine (mystem, a model)
 - The step help, its snapshots, the docstrings and the guide: SEMKIT-033
+
+## Feedback
+
+### Attempt 1: file docstring
+
+- update the docstring of src/rb_semkit/core/morph/lemmatizer.py: +noun_parse
+- update the docstring of src/rb_semkit/core/patterns/complements.py: +complement_end
+
+### Answer to finding #1
+
+> SEMKIT-030 changed rules that public docstrings state (for SEMKIT-033): (1) decline_noun: the accusative is no longer from the tables only; an inanimate noun takes its nominative («диван» → «диван»), an animate one its genitive («кот» → «кота»), a singular in -а/-я the table form («книгу»); a hyphenated noun declines whole by pymorphy3 («диваном-кроватью»). The docstring still says «диван» → «дивана». (2) decline: a nominative plural phrase declines in the plural («угловые диваны» → «угловых диванов»); a feminine, neuter or plural adjective declines from its lemma («большая скидка» → «большой скидки»); the accusative agrees by animacy («купить кожаный диван», «рыжего кота»). (3) decline_full_name: a value that is not three words stays as it is (no InvalidArguments); surnames in -ых/-их stay; a man's surname in -а/-я declines («Глинки»). (4) part_of_speech and SemtoolsLemmatizer: a word with no part of speech gets the code «unkn», not «»; a не- noun of the dictionary whose rest is an adjective is «a». (5) complements and fix_word_order step 1: a complement ends at its first noun and the oblique nouns and adjectives right after it, not at the last noun among the next five. (6) phrase_end buy_markers: a marker right after a preposition stays («диван с доставкой купить» → «диван с доставкой»).
+
+Goes into SEMKIT-033's body.
+
+### Answer to finding #2
+
+> ADR 0003 says declension has the modes auto / table / pymorphy (auto: pymorphy3 when it knows the word). The code has no such mode: decline, decline_noun and decline_adjective use the add-in tables only; SEMKIT-030 added pymorphy3 only for animacy and hyphenated nouns. Decide: implement the modes, or correct ADR 0003.
+
+Correct ADR 0003 to the code: tables decline, pymorphy3 for animacy and hyphenated nouns, no modes; in this task's body now.
+
+### Answer to finding #3
+
+> Declension tables (sheet abc, adjective_exceptions) have more defects of the kind SEMKIT-030 fixed for «третий», not taken (out of the task): «второй» feminine nominative «вторые» and animate accusatives «второго» / «вторых»; «голубой» and «рябой» dative «голубого» / «рябого» and plural genitive «голубыъ» / «рябыъ». A fix is a line each in scripts/build_parts/declension.toml.
+
+Taken into this task: one line each, acceptance added.
