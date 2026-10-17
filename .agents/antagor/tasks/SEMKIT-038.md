@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-038
 title: nearest, the page vector and split-paragraphs
-status: queue
+status: in_progress
 attempts: 0
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: scope_held
 phase: null
 tests_hash: null
 publish_stage: null
@@ -16,8 +16,21 @@ owns_paths:
 - src/rb_semkit/core/nearest/
 - src/rb_semkit/steps/nearest.py
 - src/rb_semkit/core/relevance/
+- src/rb_semkit/data/text/paragraphs.toml
+- src/rb_semkit/data/vectors/page.toml
+- src/rb_semkit/steps/__init__.py
+- src/rb_semkit/steps/compare.py
+- src/rb_semkit/steps/relevance.py
+- src/rb_semkit/steps/vectors.py
 test_paths:
 - tests/nearest/
+- tests/snapshots/help/steps/nearest/nearest.txt
+- tests/snapshots/help/steps/nearest/split-paragraphs.txt
+- tests/snapshots/help/steps/relevance/assign-pages.txt
+- tests/snapshots/describe.json
+- tests/snapshots/help/read.txt
+- tests/steps/areas.py
+- tests/steps/test_steps.py
 docs: none
 tools: []
 worker_args: null
