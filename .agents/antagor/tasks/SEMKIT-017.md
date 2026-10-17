@@ -3,7 +3,7 @@ id: SEMKIT-017
 title: 'Text metrics per text: characters, words, unique lemmas, water, classic and
   academic nausea, the top lemma'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -15,8 +15,15 @@ worker: claude-code
 type: feature
 owns_paths:
 - src/rb_semkit/core/textstats/
+- README.md
+- docs/vba/conformance.md
+- docs/vba/conformance/textstats.md
+- src/rb_semkit/core/analysis/frequency.py
 test_paths:
 - tests/textstats/
+- tests/conformance/areas/textstats.py
+- tests/conformance/case_files.py
+- tests/conformance/cases/textstats/text_stats.tsv
 docs: none
 tools: []
 worker_args: null
@@ -39,7 +46,6 @@ translation: '**Метрики текста.** sk.text_stats: по каждом�
   самая частая лемма. Определения свои и записаны точно в справке; под цифры Адвего
   не подгоняем.'
 ---
-
 
 The usual SEO metrics of a text, the same numbers each run, over thousands of texts at once. Add sk.text_stats(data, *, lemmatizer=BUNDLED, column=None) -> DataFrame with the input index, one row per text (a cell is a text; an empty cell gives zeros): chars (all characters), chars_no_spaces, words, unique (distinct lemmas), water (share of stopwords among the words, 0..1), nausea_classic (square root of the count of the most frequent lemma that is no stopword, 2 decimals), nausea_academic (that count / words, 0..1), top (that lemma; a tie takes the first in the text), ttr (distinct lemmas / words that are no stopwords, 0..1), mtld (Measure of Textual Lexical Diversity, McCarthy and Jarvis 2010, threshold 0.72: read the lemmas without stopwords forward, count a factor each time the running type/token ratio falls to 0.72 or below and restart; the last partial run adds (1 - ttr) / (1 - 0.72); mtld = lemmas / factors; do it forward and backward and take lemmas / mean of the two factor counts, 2 decimals; 0 for under 2 lemmas), zipf (how well the lemma frequencies follow Zipf's law f(r) = C / r^s: a linear regression of log count on log rank over the lemmas without stopwords, R² x 100, 1 decimal; 0 for under 5 distinct lemmas). Units without a meaning (руб, рублей, шт, см, мм, мл, кг, кв, стр, ул) count as words but not as lemmas for top, nausea, ttr, mtld and zipf. No norms or verdicts («переспам»): semkit gives the numbers; the caller sets the norms. These are semkit's own definitions: write them in the docstring exactly as computed, so a reader can reproduce them (other services define water and nausea differently; do not chase any one of them). With a DataFrame and column= the metric columns are added after the column, as the other steps add theirs (see the Frame conventions in README «Output»).
 
@@ -72,3 +78,9 @@ Words of a text: drop the punctuation of sk.chars('punctuation') (reuse its defi
 
 - Readability indexes, spelling (SEMKIT-013 does typos), comparison with the core (SEMKIT-016).
 - Matching the numbers of a particular service (Advego, Text.ru).
+
+## Feedback
+
+### Attempt 1: file docstring
+
+- update the docstring of src/rb_semkit/core/analysis/frequency.py: +bundled_stopwords
