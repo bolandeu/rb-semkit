@@ -2,7 +2,7 @@
 id: SEMKIT-022
 title: Public word-keys helper of the analysis area; dir(rb_semkit) lists only the
   public names
-status: queue
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -18,6 +18,7 @@ owns_paths:
 - src/rb_semkit/core/analysis/__init__.py
 - src/rb_semkit/__init__.py
 - src/rb_semkit/core/corpus/
+- src/rb_semkit/core/compare/grams.py
 test_paths:
 - tests/core/test_public_names.py
 - tests/analysis/
