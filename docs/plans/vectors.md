@@ -39,3 +39,17 @@ Dictionary and word-vector synonyms are candidates only.
 - Default encoder: e5-small. Small cores, quality mode: USER-bge-m3 (better and 4x faster than Qwen3 here).
   Very large cores: potion.
 - Thresholds come from this label set; the label set goes into the repository as a quality test.
+
+## Scope (the Human, 2026-10-18)
+
+First epic: the base (`semkit models`, phrase vectors, the `--model` and `--threshold` options), duplicates by
+meaning, clustering by meaning, off-topic phrases, classifying a search query report against the core
+(minus candidates), assigning phrases to the site's pages.
+
+Second epic, built on the same base (not to be forgotten):
+- SEO: competing pages (cannibalization), core clusters no page or text covers (gaps), the main phrase of each
+  cluster as an H1/title candidate, page pairs for internal links.
+- Copywriting: coverage by meaning per paragraph, paragraphs off the text's topic, the meaning of paragraphs
+  against competitor texts.
+- Ads: small ad groups of one intent, how an ad text fits each phrase of its group, the landing page per phrase.
+- Synonym candidates for words (RuWordNet + word vectors), coverage of a text by meaning.
