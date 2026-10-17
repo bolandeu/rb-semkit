@@ -57,10 +57,15 @@ def _prepare(options: dict) -> Prepared:
     return run
 
 
+def refining_options(options: dict) -> tuple[list[str], pd.DataFrame | None]:
+    """The non-refining words (the bundled lists and --neutral) and the synonyms table that the options name."""
+    synonyms = None if options["synonyms"] is None else as_table(table_of(options["synonyms"], "synonyms"), "synonyms")
+    return [item for name in BUNDLED_NEUTRAL for item in wordlists.resolve(name)] + (options["neutral"] or []), synonyms
+
+
 def _prepare_meaning(options: dict) -> Prepared:
     found_encoder, threshold = by_meaning(options)
-    synonyms = None if options["synonyms"] is None else as_table(table_of(options["synonyms"], "synonyms"), "synonyms")
-    neutral = [item for name in BUNDLED_NEUTRAL for item in wordlists.resolve(name)] + (options["neutral"] or [])
+    neutral, synonyms = refining_options(options)
 
     def run(table, column):
         found = dupes_meaning(

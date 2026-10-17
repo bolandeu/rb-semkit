@@ -37,6 +37,7 @@ NOT_CASED = {
     "edges",
     "parse_html",
     "headings",
+    "ad_groups",  # semkit's own, by vectors: no add-in function
     "word_list",  # semkit's own: the word lists, not a function of the add-in
 }
 CASES = all_cases()
