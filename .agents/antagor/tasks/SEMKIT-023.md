@@ -3,7 +3,7 @@ id: SEMKIT-023
 title: 'CLI pipeline core: read, chained steps, write; the step table and its generator;
   the text, dupes and n-gram steps'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -168,3 +168,12 @@ Accepted with a guard: bound typer to the current minor in pyproject (>=0.27,<0.
 ### Blocked: needs_scope (entries [{'n': 1, 'text': "SEMKIT-023 acceptance asks the --json error envelope to carry code, message and hint; the project envelope (output.emit_error, SKILL.md 'Errors') carries code, message and action, and SKILL.md is out "}, {'n': 2, 'text': "The E-003 goal writes 'drop-words @minus/universal remove-chars punctuation' (required arguments positional); SEMKIT-023 acceptance writes 'remove-words --items купить' and 'drop-words --items @stop.t"}])
 
 Answers in inbox #1-#4: keep action; both positional first argument and --NAME; dataio required (ADR 0001 updated); pin typer to the current minor.
+
+### Attempt 1: file docstring
+
+- add a docstring to src/rb_semkit/cli.py: what it holds and why
+- add a docstring to src/rb_semkit/commands/read.py: what it holds and why
+- add a docstring to src/rb_semkit/core/errors.py: what it holds and why
+- update the docstring of src/rb_semkit/core/frame.py: +text_columns
+- update the docstring of src/rb_semkit/core/markers/lists.py: +phrases
+- update the docstring of src/rb_semkit/core/text/base.py: +verbs
