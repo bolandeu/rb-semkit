@@ -10,3 +10,5 @@ dist/
 htmlcov/
 # mutmut's working copy and results (uv run --group mutation mutmut run)
 mutants/
+.DS_Store
+Thumbs.db
