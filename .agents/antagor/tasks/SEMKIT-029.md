@@ -33,10 +33,18 @@ checks:
 resident: null
 tool: null
 pr: null
+translation: '**Тест конфига Antagor.** Тест ждёт в .agents/antagor/.gitignore ровно
+  state/ и receipts/, а обновление Antagor добавило scratch/ — гейт красный. Проверять,
+  что state/ и receipts/ есть; свои строки Antagor добавлять может.'
 ---
 
-x
+tests/test_scripts.py::test_antagor_project_config asserts .agents/antagor/.gitignore is exactly ['state/', 'receipts/']. The Antagor upgrade added 'scratch/', so the gate is red on main. Assert that state/ and receipts/ are among the lines and let Antagor add its own, as the same test does for the publish keys.
+
+## Read first
+
+- `tests/test_scripts.py`
+- `.agents/antagor/.gitignore` — read only, Antagor writes it
 
 ## Out of scope
 
-- x
+- Any change to other tests.
