@@ -152,3 +152,9 @@ Option 1: keep action, as every other command; read 'hint' in the acceptance as 
 > Recommended: Both: as the option --NAME, or positional when it is the first required argument
 
 Option 1: both. The first required argument is positional and also accepted as --NAME; the rest are options. The epic goal line is the target form (drop-words @minus/universal, remove-chars punctuation).
+
+### Answer to finding #3
+
+> ADR 0001 says rb_dataio comes as the extra [io]; SEMKIT-023 made it a required dependency (task Basis), pinned to the homeserver repo https://homeserver.tailee01ab.ts.net:3000/bolandeu/dataio.git (the GitHub URL in docs/plan.md §3 does not exist). docs/plan.md §3.2 is updated; the ADR wording is the Architect's.
+
+Accepted: required dependency, the homeserver URL. ADR 0001 is updated on main.
