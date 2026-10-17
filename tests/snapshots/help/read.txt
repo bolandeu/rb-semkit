@@ -294,6 +294,8 @@
 │                        column per metric, a row per text.                                        │
 │ cluster-meaning        Clusters of phrases by meaning: phrases of close vectors share a cluster; │
 │                        every phrase gets one.                                                    │
+│ synonym-candidates     Synonym candidates for the words of the core, from a thesaurus            │
+│                        (RuWordNet) and word vectors (navec).                                     │
 │ write                  Write the current table to OUT: the last step of a pipeline.              │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

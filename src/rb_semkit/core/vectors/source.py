@@ -1,4 +1,5 @@
-"""Where `models pull` gets the files of an encoder: the Hugging Face hub (`SOURCE`).
+"""Where `models pull` gets the files of a model (`SOURCE`): the Hugging Face hub for an encoder, an address for word
+data.
 
 A source resolves a model (a hub model gets the hub's latest revision, its runtime, pooling and files) and downloads
 its files into a folder; whatever it raises stops the pull.
@@ -9,11 +10,13 @@ from __future__ import annotations
 import dataclasses
 import json
 import shutil
+import urllib.request
 from pathlib import Path
 from typing import Protocol
 
 from ..errors import InvalidArguments
-from .registry import Model, Pooling
+from . import registry
+from .registry import ENCODERS, Model, Pooling
 
 ONNX_FILES = ("onnx/model.onnx", "model.onnx")
 STATIC_FILES = ("config.json", "model.safetensors", "tokenizer.json")
@@ -69,4 +72,35 @@ class HubSource:
         return "cls" if config.get("pooling_mode_cls_token") else "mean"
 
 
-SOURCE: Source = HubSource()
+class UrlSource:
+    """Word data: each file is at `<repo>/<path>`; the address is pinned by the checksum of the file."""
+
+    def resolve(self, model: Model) -> Model:
+        return model
+
+    def download(self, model: Model, into: Path) -> None:
+        for path in model.files:
+            (into / path).parent.mkdir(parents=True, exist_ok=True)
+            with (
+                urllib.request.urlopen(f"{model.repo}/{path}", timeout=registry.bundled().words.timeout) as response,  # noqa: S310
+                (into / path).open("wb") as file,
+            ):
+                shutil.copyfileobj(response, file)
+
+
+class RoutedSource:
+    """An encoder from the hub, word data from its address."""
+
+    hub, url = HubSource(), UrlSource()
+
+    def resolve(self, model: Model) -> Model:
+        return self._of(model).resolve(model)
+
+    def download(self, model: Model, into: Path) -> None:
+        self._of(model).download(model, into)
+
+    def _of(self, model: Model) -> Source:
+        return self.hub if model.runtime in ENCODERS else self.url
+
+
+SOURCE: Source = RoutedSource()

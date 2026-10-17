@@ -50,6 +50,34 @@ threshold = 0.9
 "model.safetensors" = "14b5eb39cb4ce5666da8ad1f3dc6be4346e9b2d601c073302fa0a31bf7943397"
 "tokenizer.json" = "19f1909063da3cfe3bd83a782381f040dccea475f4816de11116444a73e1b6a1"
 
+# Word data, pulled the same way (ADR 0009) for `synonym-candidates`; `repo` is the address of their files.
+# thesaurus: RuWordNet 2.0 (2021) as the SQLite file of python-ruwordnet, release 0.0.4.
+# word-vectors: navec, the pack hudlit_v1_12B_500K_300d_100q of natasha (500 000 words, 300 numbers each).
+# Only the sha256 of their files pins them: both addresses serve a fixed file, so the revision is a label.
+[models.ruwordnet]
+repo = "https://github.com/avidale/python-ruwordnet/releases/download/0.0.4"
+revision = "2021"
+runtime = "thesaurus"
+
+[models.ruwordnet.files]
+"ruwordnet-2021.db" = "584892becc590ab287aa5eb407204962f8ccb58283482fbbbe9e1a75b6d1bd53"
+
+[models.navec]
+repo = "https://storage.yandexcloud.net/natasha-navec/packs"
+revision = "hudlit_v1_12B_500K_300d_100q"
+runtime = "word-vectors"
+
+[models.navec.files]
+"navec_hudlit_v1_12B_500K_300d_100q.tar" = "0a89ec8198d0ae9ee3bbb31bbf2c0115bf033e56a337b74d6ca1fe5623165446"
+
+# The word data: `top` neighbours of a word by navec; `pool` raw neighbours are looked up for each one it gives (the
+# rest are forms of a word already taken); `block` words are compared at once; a download waits `timeout` seconds.
+[words]
+top = 10
+pool = 10
+block = 20000
+timeout = 60
+
 # The vector index: exact search up to `exact_limit` phrases, HNSW above (faiss; built on one thread, so the same
 # phrases give the same index). `neighbours`: the nearest phrases looked up for each phrase.
 # `hnsw_links`, `hnsw_build`, `hnsw_search`: the links of a node, and the candidates kept while building and searching.

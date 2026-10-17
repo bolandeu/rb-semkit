@@ -30,4 +30,5 @@ AREAS = {
     "summary": ["summary"],
     "textstats": ["text-stats"],
     "vectors": ["cluster-meaning"],
+    "word_vectors": ["synonym-candidates"],
 }  # fmt: skip

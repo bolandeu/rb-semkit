@@ -57,6 +57,11 @@ _Avoid_: embedding in product text (say vector), semantics (the semantic core is
 The model that turns a phrase into its phrase vector, chosen by name; downloaded once into the cache.
 _Avoid_: LLM, neural net
 
+**Word data** (данные слов):
+The thesaurus RuWordNet and the word vectors navec; models of the same cache as the encoders, pulled once. The ground
+of `synonym-candidates`: a candidate is a word they propose as a synonym, for the Human to pick.
+_Avoid_: dictionary, словарь (a dictionary is a marker list or the bundled lemma dictionary)
+
 **Non-refining word** (неуточняющее слово):
 A word that does not change what a phrase asks for: a commercial word (недорого, распродажа, от производителя,
 с доставкой, цены). A refining word (type, mechanism, size, material, room, brand, used, another city) makes
