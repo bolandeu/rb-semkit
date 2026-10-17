@@ -60,6 +60,7 @@ translation: '**Морфология на реальном ядре.** Испр�
   ADR 0003. Справку и снимки не трогать.'
 ---
 
+
 The end-to-end check (docs/plans/e2e-quality.md, items 1-11) found the morphology gives wrong Russian on a real sofa core and a customs core. Fix the library behaviour so the words below come out right; each fixed word is a conformance case of its area (expected = the correct form, the add-in's value in vba, the rule and why per ADR 0005). Keep the public docstrings as they are (the step help and its snapshots are SEMKIT-034's); behaviour only.
 
 Lemmatizer: the bundled dictionary answers first and gives wrong lemmas that pymorphy3 gets right. Correct them (a correction of the dictionary data or a rule for when pymorphy3 wins; record the rule in ADR 0003): кафе, купе, мини, ширина, шириной, спину, экокожа, подростка, аскона, ножках, петушках, донецке, вещей, временного (склад временного хранения), рус; раскладывающийся / раскладывается keep their own lemmas; a lemma has no ё where the word has none (вперед).
@@ -74,7 +75,7 @@ Word forms: the input word is not repeated (as the help says); an unknown word o
 - Given раскладывающийся and раскладывается, When lemmatized, Then each keeps its own lemma (раскладывающийся, раскладываться) [check: tests/conformance/cases/morph]
 - Given купить кожаный диван, угловой диван, купить кота, When sk.decline runs to the accusative, Then купить кожаный диван, угловой диван, купить кота [check: tests/conformance/cases/declension]
 - Given угловые диваны and дизайнерские диваны, When declined to the genitive and the instrumental, Then угловых диванов, угловыми диванами, дизайнерских диванов, дизайнерскими диванами [check: tests/conformance/cases/declension]
-- Given диван-кровать угловой, большая скидка, нераскладной диван, When declined to the genitive and the prepositional, Then дивана-кровати углового, большой скидки, нераскладного дивана, о диване-кровати угловом form диване-кровати угловом, большой скидке, нераскладном диване [check: tests/conformance/cases/declension]
+- Given диван-кровать угловой, большая скидка, нераскладной диван, When declined to the genitive and the prepositional, Then дивана-кровати углового, большой скидки, нераскладного дивана, and диване-кровати угловом, большой скидке, нераскладном диване [check: tests/conformance/cases/declension]
 - Given синий (neuter nominative), третий (feminine nominative, plural accusative), лисий (plural nominative), стул and человек (plural nominative), When decline-adjective / decline-noun run, Then синее, третья, третьи, лисьи, стулья, люди [check: tests/conformance/cases/declension]
 - Given Белых Никита Юрьевич, Глинка Михаил Иванович, Королёва Наталья Кузьминична, Абрамович Роман Аркадьевич, Мамедов Эльчин Гусейн оглы, When sk.decline_full_name runs (genitive, accusative, instrumental), Then Белых Никиты Юрьевича, Глинки Михаила Ивановича, Королёвой Натальи Кузьминичны, Абрамовича Романа Аркадьевича, Абрамовичем Романом Аркадьевичем, and the five-word name stays as it is without an error [check: tests/declension]
 - Given the word диван and the unknown word тиктокер, When sk.wordforms runs, Then диван is not among its forms and тиктокер gives an empty result [check: tests/core/test_wordforms_vba.py]
