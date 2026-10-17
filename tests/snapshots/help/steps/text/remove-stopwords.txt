@@ -1,0 +1,20 @@
+
+ Usage: semkit read {IN} remove-stopwords [OPTIONS]
+
+ The function words with no search intent (prepositions, conjunctions, particles); remove only.
+
+ A word is compared as written: «и,» with its comma is no stopword. Case and ё do not count.
+ extra: your own words, taken together with the bundled list.
+
+ remove-stopwords removes what the matcher finds from the working column.
+
+ Example: semkit read core.csv remove-stopwords write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --extra        <str>  your own words, taken together with the bundled list. Items: a comma list  │
+│                       'a,b', @FILE (one item per line) or @NAME of a list.                       │
+│ --as           NAME   Write the result to a new column NAME and keep the working column as it    │
+│                       is.                                                                        │
+│ --help                Show this message and exit.                                                │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

@@ -1,0 +1,23 @@
+
+ Usage: semkit read {IN} remove-positions [OPTIONS] [COUNT]
+
+ The first `count` characters of a phrase, or the last ones with `last=True` (remove and extract).
+
+ remove gives '' when the phrase has `count` characters or fewer; extract then gives the whole
+ phrase.
+
+ remove-positions removes what the matcher finds from the working column.
+
+ Example: semkit read core.csv remove-positions 2 write out.csv
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   COUNT      <int>  See the description above. The same as --count COUNT.                        │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --count        COUNT  See the description above.                                                 │
+│ --last                See the description above.                                                 │
+│ --as           NAME   Write the result to a new column NAME and keep the working column as it    │
+│                       is.                                                                        │
+│ --help                Show this message and exit.                                                │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

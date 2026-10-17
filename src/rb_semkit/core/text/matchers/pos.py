@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from typing import Literal, get_args
 
 from ...morph import Lemmatizer
 from ...morph.functions import BUNDLED
@@ -14,11 +15,12 @@ __all__ = ["pos"]
 CODES = {"noun": "n", "verb": "v", "adverb": "advb"}
 # `··o` (line 1439): a word with one of these codes is no adjective, whatever its lemma looks like
 NOT_ADJECTIVES = frozenset({"n", "v", "advb", "p", "prep", "conj", "nv"})
-KINDS = ("noun", "adj", "verb", "adverb")
+PartOfSpeech = Literal["noun", "adj", "verb", "adverb"]
+KINDS = get_args(PartOfSpeech)
 
 
 class Pos(WordMatcher):
-    def __init__(self, kind: str, lemmatizer: Lemmatizer | None) -> None:
+    def __init__(self, kind: PartOfSpeech, lemmatizer: Lemmatizer | None) -> None:
         self._lemmatizer = lemmatizer or BUNDLED
         self._test: Callable[[str], bool] = (
             self._is_adjective if choice("kind", kind, KINDS) == "adj" else self._has_code(CODES[kind])
@@ -41,7 +43,7 @@ class Pos(WordMatcher):
         return [self._test(word) for word in words]
 
 
-def pos(kind: str, *, lemmatizer: Lemmatizer | None = None) -> Pos:
+def pos(kind: PartOfSpeech, *, lemmatizer: Lemmatizer | None = None) -> Pos:
     """Words of one part of speech: "noun", "adj", "verb" or "adverb" (a participle is none of them).
 
     A word is looked up as written, with its punctuation («диван,» is not a noun). An adjective is a word coded «a»,

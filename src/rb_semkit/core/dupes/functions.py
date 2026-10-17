@@ -8,6 +8,7 @@ An empty phrase (no words) has no key, so it is never a duplicate of anything.
 from __future__ import annotations
 
 from collections.abc import Callable
+from typing import Literal, get_args
 
 import pandas as pd
 
@@ -18,7 +19,9 @@ from ..morph.lemmatizer import Lemmatizer
 from ..normalize import norm_phrase
 from ..text.base import split_words
 
-ACTIONS = ("mark_except_first", "mark_all", "drop")
+DupeKind = Literal["exact", "explicit", "implicit", "lemmas"]
+Action = Literal["mark_except_first", "mark_all", "drop"]
+ACTIONS = get_args(Action)
 
 
 def _exact(phrase: str) -> str:
@@ -40,13 +43,13 @@ def _lemma_key(lemmatizer: Lemmatizer) -> Callable[[str], str]:
     return key
 
 
-def key_function(kind: str, lemmatizer: Lemmatizer | None) -> Callable[[str], str]:
+def key_function(kind: DupeKind, lemmatizer: Lemmatizer | None) -> Callable[[str], str]:
     simple = {"exact": _exact, "explicit": _explicit, "implicit": _implicit}
     if kind in simple:
         return simple[kind]
     if kind == "lemmas":
         return _lemma_key(lemmatizer or BUNDLED)
-    allowed = ", ".join([*simple, "lemmas"])
+    allowed = ", ".join(get_args(DupeKind))
     raise InvalidArguments(f"kind: {kind!r} is not a kind of duplicates; allowed: {allowed}.")
 
 
@@ -61,8 +64,8 @@ def _marks(keys: pd.Series, action: str, against_keys: pd.Series | None) -> pd.S
 def dupes(
     data: pd.Series | pd.DataFrame,
     *,
-    kind: str,
-    action: str,
+    kind: DupeKind,
+    action: Action,
     against: pd.Series | None = None,
     lemmatizer: Lemmatizer | None = None,
     column: str | None = None,

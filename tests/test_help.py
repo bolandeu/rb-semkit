@@ -9,7 +9,8 @@ tested like an API:
   `Example: semkit <command> ...` line, every parameter has non-empty help,
   every group has a description;
 - snapshots: `<command> --help` is stored in tests/snapshots/help/<command>.txt
-  (syrupy). A changed help text fails until the snapshot is refreshed with
+  (syrupy); a step of the pipeline in tests/snapshots/help/steps/<area>/<step>.txt, one folder per
+  module of the step table, and its help is that of `semkit read IN <step>`. A changed help text fails until the snapshot is refreshed with
   `uv run pytest --snapshot-update`, which puts the new text in the diff.
   A new command fails until its snapshot exists; a removed one leaves an
   orphan file that fails too.
@@ -17,6 +18,7 @@ tested like an API:
 
 from __future__ import annotations
 
+import functools
 import inspect
 import typing
 from collections.abc import Callable, Iterator
@@ -28,13 +30,15 @@ from syrupy.extensions.single_file import SingleFileSnapshotExtension, WriteMode
 from typer.models import ParameterInfo
 from typer.testing import CliRunner
 
-from rb_semkit import output
+from rb_semkit import output, steps
 from rb_semkit.cli import app
 
 CLI = "semkit"
 SNAPSHOT_DIR = Path(__file__).parent / "snapshots" / "help"
 # Fixed width and no colour so the rendering doesn't depend on the terminal running the tests.
 HELP_ENV = {"COLUMNS": "100", "NO_COLOR": "1", "TERM": "dumb"}
+PIPELINE = "read"  # its commands follow IN on the command line: `read IN <step> --help`
+STEP_AREAS = {step.name: area for area, area_steps in steps.areas().items() for step in area_steps}
 
 
 def _commands(group: typer.Typer, prefix: tuple[str, ...] = ()) -> Iterator[tuple[tuple[str, ...], Callable]]:
@@ -63,8 +67,21 @@ def _slug(path: tuple[str, ...]) -> str:
     return "-".join(path)
 
 
+def help_argv(path: tuple[str, ...]) -> list[str]:
+    """The command line that shows the help of `path`."""
+    in_pipeline = path[0] == PIPELINE and len(path) > 1
+    return [PIPELINE, "IN", *path[1:], "--help"] if in_pipeline else [*path, "--help"]
+
+
+def _snapshot_file(path: tuple[str, ...]) -> Path:
+    """Where the help of `path` is kept, without the extension."""
+    if path[0] == PIPELINE and path[-1] in STEP_AREAS:
+        return SNAPSHOT_DIR / "steps" / STEP_AREAS[path[-1]] / path[-1]
+    return SNAPSHOT_DIR / _slug(path)
+
+
 def _render_help(path: tuple[str, ...]) -> str:
-    result = CliRunner().invoke(app, [*path, "--help"], env=HELP_ENV, prog_name=CLI)
+    result = CliRunner().invoke(app, help_argv(path), env=HELP_ENV, prog_name=CLI)
     assert result.exit_code == 0, result.output
     # Trailing padding isn't content; keeping it out keeps the diffs readable.
     return "\n".join(line.rstrip() for line in result.output.splitlines()) + "\n"
@@ -85,14 +102,23 @@ class HelpSnapshot(SingleFileSnapshotExtension):
         return str(index)
 
 
+@functools.cache
+def _snapshot_in(folder: Path) -> type[HelpSnapshot]:
+    """The snapshot extension of the help pages kept in `folder`."""
+    return type(
+        HelpSnapshot.__name__, (HelpSnapshot,), {"dirname": classmethod(lambda cls, *, test_location: str(folder))}
+    )
+
+
 @pytest.mark.parametrize("path", HELP_PAGES, ids=_slug)
 def test_help_snapshot(path: tuple[str, ...], snapshot) -> None:
-    assert _render_help(path) == snapshot(extension_class=HelpSnapshot, name=_slug(path))
+    file = _snapshot_file(path)
+    assert _render_help(path) == snapshot(extension_class=_snapshot_in(file.parent), name=file.name)
 
 
 def test_no_orphan_help_snapshots() -> None:
-    stored = {p.stem for p in SNAPSHOT_DIR.glob("*.txt")}
-    expected = {_slug(path) for path in HELP_PAGES}
+    stored = {p.with_suffix("") for p in SNAPSHOT_DIR.rglob("*.txt")}
+    expected = {_snapshot_file(path) for path in HELP_PAGES}
     assert stored <= expected, f"snapshots for commands that no longer exist: {sorted(stored - expected)}"
 
 
@@ -102,6 +128,11 @@ def test_command_docstring_has_summary_and_example(path: tuple[str, ...]) -> Non
     assert doc.strip(), f"`{_slug(path)}` has no docstring — it is the command's --help text"
     invocation = f"{CLI} {' '.join(path)}"
     examples = [line for line in doc.splitlines() if line.startswith("Example:")]
+    if path[0] == PIPELINE:  # a step stands after IN: `semkit read core.csv <step> ... write out.csv`
+        assert any(f"{CLI} {PIPELINE} " in line and f" {path[-1]} " in line for line in examples), (
+            f"`{_slug(path)}` docstring needs an `Example: {{cli}} {PIPELINE} IN {path[-1]} ...` line"
+        )
+        return
     assert any(invocation in line for line in examples), (
         f"`{_slug(path)}` docstring needs an `Example: {{cli}} {' '.join(path)} ...` line"
     )

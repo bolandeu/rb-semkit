@@ -1,0 +1,28 @@
+
+ Usage: semkit read {IN} remove-around [OPTIONS] [PATTERN]
+
+ The part of the phrase before (`after=False`) or after the first (`last=False`) or last occurrence
+ of `pattern`.
+
+ The pattern is text as typed, found anywhere, also inside a word («в» is found in «диван»). remove
+ finds the first occurrence in any case and the last one in the case written; extract matches the
+ case written. ё = е. `include=True` adds the occurrence itself to the part. A phrase without the
+ pattern has no part: remove leaves it, extract gives ''. Remove and extract only.
+
+ remove-around removes what the matcher finds from the working column.
+
+ Example: semkit read core.csv remove-around купить write out.csv
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   PATTERN      <str>  See the description above. The same as --pattern PATTERN.                  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --pattern        PATTERN  See the description above.                                             │
+│ --after                   See the description above.                                             │
+│ --include                 See the description above.                                             │
+│ --last                    See the description above.                                             │
+│ --as             NAME     Write the result to a new column NAME and keep the working column as   │
+│                           it is.                                                                 │
+│ --help                    Show this message and exit.                                            │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

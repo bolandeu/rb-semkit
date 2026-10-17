@@ -73,7 +73,7 @@ def test_bare_invocation_shows_help_and_exits_zero() -> None:
     assert "Usage:" in result.output
 
 
-@pytest.mark.parametrize("group", ["config", "skill", "auth"])
+@pytest.mark.parametrize("group", ["config", "skill", "auth", "read"])
 def test_bare_group_shows_help_and_exits_zero(group: str) -> None:
     result = invoke(group)
     assert result.exit_code == 0

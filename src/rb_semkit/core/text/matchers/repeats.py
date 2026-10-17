@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from typing import Literal, get_args
 
 from ...morph import Lemmatizer
 from ...morph.functions import BUNDLED
@@ -11,9 +12,11 @@ from . import classes
 
 __all__ = ["repeats"]
 
-MODES = ("exact", "wordforms")
+Mode = Literal["exact", "wordforms"]
+Scope = Literal["all", "adjacent", "en", "ru", "numbers"]
+MODES = get_args(Mode)
 # Which words can repeat: the VBA tests the earlier word of a pair, which equals the later one.
-SCOPES: dict[str, Callable[[str], object]] = {
+SCOPES: dict[Scope, Callable[[str], object]] = {
     "all": bool,
     "adjacent": bool,
     "en": classes.has_latin,
@@ -25,9 +28,9 @@ SCOPES: dict[str, Callable[[str], object]] = {
 class Repeats(WordMatcher):
     extract = Matcher.extract
 
-    def __init__(self, mode: str, scope: str, lemmatizer: Lemmatizer | None) -> None:
+    def __init__(self, mode: Mode, scope: Scope, lemmatizer: Lemmatizer | None) -> None:
         self._wordforms = choice("mode", mode, MODES) == "wordforms"
-        self._scope = choice("scope", scope, tuple(SCOPES))
+        self._scope = choice("scope", scope, get_args(Scope))
         self._lemmatizer = lemmatizer or BUNDLED
 
     def _key(self, word: str) -> str:
@@ -48,7 +51,7 @@ class Repeats(WordMatcher):
         return picks
 
 
-def repeats(mode: str = "exact", *, scope: str = "all", lemmatizer: Lemmatizer | None = None) -> Repeats:
+def repeats(mode: Mode = "exact", *, scope: Scope = "all", lemmatizer: Lemmatizer | None = None) -> Repeats:
     """Words that repeat an earlier word of the phrase (find and remove; remove keeps the first one).
 
     mode: "exact" — the same word (case and ё do not count, punctuation does: «диван, диван» has no repeat);

@@ -7,7 +7,7 @@ readme = "README.md"
 authors = [{ name = "net.paradox" }]
 requires-python = ">=3.11"
 dependencies = [
-    "typer>=0.12",
+    "typer>=0.27,<0.28",  # the pipeline group uses its Click (pipeline/group.py): an upgrade is a deliberate change
     "pydantic>=2.6",
     "rich>=13.7",
     "platformdirs>=4.2",
@@ -17,6 +17,7 @@ dependencies = [
     "pymorphy3>=2.0.6",
     "pandas>=3.0.6",
     "pyahocorasick>=2.3.1",
+    "rb-dataio>=0.1.21,<0.2",
 ]
 
 [project.scripts]
@@ -36,6 +37,10 @@ source = "uv-dynamic-versioning"
 vcs = "git"
 style = "pep440"
 fallback-version = "0.0.0"
+
+[tool.uv.sources]
+# The CLI reads and writes every table through dataio (docs/plan.md §3, ADR 0001).
+rb-dataio = { git = "https://homeserver.tailee01ab.ts.net:3000/bolandeu/dataio.git", tag = "v0.1.21" }
 
 [tool.uv]
 # Rebuild the editable install when a commit or tag moves, so `--version` follows the tag.
@@ -93,6 +98,7 @@ addopts = "--cov --cov-report=term-missing:skip-covered"
 # (standard §7), not in syrupy's own `__snapshots__/<test file>/` layout, so
 # syrupy warns it "can not relate" each file to its test. It can — by name.
 filterwarnings = ["ignore:(?s).*Can not relate snapshot:UserWarning"]
+markers = ["speed: a timed run over a big input, within the budget of the benchmark"]
 
 [tool.mutmut]
 source_paths = ["src/rb_semkit"]

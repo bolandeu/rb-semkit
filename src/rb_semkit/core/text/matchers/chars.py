@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import re
 from collections.abc import Callable
-from typing import NamedTuple
+from typing import Literal, NamedTuple, get_args
 
 import pandas as pd
 
@@ -29,7 +29,8 @@ class Kind(NamedTuple):
     glued: bool = False
 
 
-KINDS = {
+CharKind = Literal["latin", "cyrillic", "digits", "letters_digits", "punctuation", "upper", "ua"]
+KINDS: dict[CharKind, Kind] = {
     "latin": Kind(lambda: classes.LATIN, glued=True),
     "cyrillic": Kind(lambda: classes.CYRILLIC, glued=True),
     "digits": Kind(lambda: classes.DIGITS, glued=True),
@@ -41,8 +42,8 @@ KINDS = {
 
 
 class Chars(Matcher):
-    def __init__(self, kind: str) -> None:
-        self._kind = KINDS[choice("kind", kind, tuple(KINDS))]
+    def __init__(self, kind: CharKind) -> None:
+        self._kind = KINDS[choice("kind", kind, get_args(CharKind))]
         body = self._kind.body()
         inside, outside = (f"[^{body}]", f"[{body}]") if self._kind.negated else (f"[{body}]", f"[^{body}]")
         self._inside = re.compile(f"{inside}+")
@@ -59,7 +60,7 @@ class Chars(Matcher):
         return map_unique(phrases, lambda phrase: collapse(self._outside.sub(gap, phrase)))
 
 
-def chars(kind: str) -> Chars:
+def chars(kind: CharKind) -> Chars:
     """The characters of one type.
 
     kind: "latin" (A-Z a-z), "cyrillic" (А..ӿ and Ё: not the capitals Є І Ї), "digits" (0-9), "letters_digits"

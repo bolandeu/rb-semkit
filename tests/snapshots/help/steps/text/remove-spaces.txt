@@ -1,0 +1,26 @@
+
+ Usage: semkit read {IN} remove-spaces [OPTIONS] [KIND]
+
+ The spaces to remove (remove only).
+
+ kind: "all"; "left" and "right" (at that end only); "both" (at both ends); "extra" (runs collapsed
+ to one space, none at the ends). "left", "right" and "both" keep the spaces inside.
+
+ remove-spaces removes what the matcher finds from the working column.
+
+ Example: semkit read core.csv remove-spaces all write out.csv
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   KIND      <all|left|right|both|extra>  "all"; "left" and "right" (at that end only); "both"    │
+│                                          (at both ends); "extra" (runs collapsed to one space,   │
+│                                          none at the ends). "left", "right" and "both" keep the  │
+│                                          spaces inside. The same as --kind KIND.                 │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --kind        KIND  "all"; "left" and "right" (at that end only); "both" (at both ends); "extra" │
+│                     (runs collapsed to one space, none at the ends). "left", "right" and "both"  │
+│                     keep the spaces inside.                                                      │
+│ --as          NAME  Write the result to a new column NAME and keep the working column as it is.  │
+│ --help              Show this message and exit.                                                  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

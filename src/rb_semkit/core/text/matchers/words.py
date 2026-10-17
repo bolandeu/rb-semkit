@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal, get_args
 
 from ...normalize import norm_phrase
 from ..base import WordMatcher, choice, word_key, word_list
@@ -13,8 +13,10 @@ if TYPE_CHECKING:
 
 __all__ = ["words"]
 
-MODES = ("any", "all")
-PLACES = ("anywhere", "start", "end")
+Mode = Literal["any", "all"]
+Where = Literal["anywhere", "start", "end"]
+MODES = get_args(Mode)
+PLACES = get_args(Where)
 
 
 class Words(WordMatcher):
@@ -22,8 +24,8 @@ class Words(WordMatcher):
         self,
         items: str | Iterable[str],
         *,
-        mode: str = "any",
-        where: str = "anywhere",
+        mode: Mode = "any",
+        where: Where = "anywhere",
         ignore_punct: bool = False,
         lemmatizer: Lemmatizer | None = None,
     ) -> None:
@@ -58,8 +60,8 @@ class Words(WordMatcher):
 def words(
     items: str | Iterable[str],
     *,
-    mode: str = "any",
-    where: str = "anywhere",
+    mode: Mode = "any",
+    where: Where = "anywhere",
     ignore_punct: bool = False,
     lemmatizer: Lemmatizer | None = None,
 ) -> Words:

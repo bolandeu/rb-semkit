@@ -1,0 +1,24 @@
+
+ Usage: semkit read {IN} keep-pos [OPTIONS] [KIND]
+
+ Words of one part of speech: "noun", "adj", "verb" or "adverb" (a participle is none of them).
+
+ A word is looked up as written, with its punctuation («диван,» is not a noun). An adjective is a
+ word coded «a», or a word with no code, a pronoun or a particle whose lemma ends like an adjective
+ («какой»); a word with a capital is looked up by that rule only («Быстро» is an adjective, as in
+ the add-in).
+ lemmatizer: what gives the part of speech and the lemma of a word; None is the bundled !SEMTools
+ dictionary.
+
+ keep-pos keeps only the rows where the matcher finds something in the working column.
+
+ Example: semkit read core.csv keep-pos noun write out.csv
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   KIND      <noun|adj|verb|adverb>  See the description above. The same as --kind KIND.          │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --kind        KIND  See the description above.                                                   │
+│ --help              Show this message and exit.                                                  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

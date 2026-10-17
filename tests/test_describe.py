@@ -26,6 +26,8 @@ from typer.testing import CliRunner
 from rb_semkit.cli import app
 from rb_semkit.core import errors, opencli
 
+from .test_help import help_argv
+
 CLI = "semkit"
 SCHEMA = json.loads((Path(__file__).parent / "data" / "opencli.schema.json").read_text())
 HELP_ENV = {"COLUMNS": "200", "NO_COLOR": "1", "TERM": "dumb"}
@@ -82,7 +84,7 @@ def test_lists_exactly_the_registered_commands() -> None:
 
 @pytest.mark.parametrize("path", sorted(COMMANDS), ids="-".join)
 def test_options_are_the_real_ones(path: tuple[str, ...]) -> None:
-    result = runner.invoke(app, [*path, "--help"], env=HELP_ENV, prog_name=CLI)
+    result = runner.invoke(app, help_argv(path), env=HELP_ENV, prog_name=CLI)
     assert result.exit_code == 0, result.output
     for option in COMMANDS[path].get("options", []):
         if not option.get("hidden"):

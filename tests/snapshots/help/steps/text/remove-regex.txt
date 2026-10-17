@@ -1,0 +1,30 @@
+
+ Usage: semkit read {IN} remove-regex [OPTIONS] [PATTERN]
+
+ What the regular expression `pattern` matches in a phrase, case-sensitive, searched anywhere.
+
+ find: the pattern matches. remove: every match is cut out. extract: the first match, or with
+ `all_matches=True` every match, joined by a space.
+ invert: the found part is the text the pattern does NOT match: remove keeps only the matches,
+ joined with nothing between («диван 120x200» with \d+ → «120200»); extract gives the text outside
+ the matches («диван x»); find is True where such text is left.
+
+ remove-regex removes what the matcher finds from the working column.
+
+ Example: semkit read core.csv remove-regex купить write out.csv
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   PATTERN      <str>  See the description above. The same as --pattern PATTERN.                  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --pattern            PATTERN  See the description above.                                         │
+│ --all-matches                 See the description above.                                         │
+│ --invert                      the found part is the text the pattern does NOT match: remove      │
+│                               keeps only the matches, joined with nothing between («диван        │
+│                               120x200» with \d+ → «120200»); extract gives the text outside the  │
+│                               matches («диван x»); find is True where such text is left.         │
+│ --as                 NAME     Write the result to a new column NAME and keep the working column  │
+│                               as it is.                                                          │
+│ --help                        Show this message and exit.                                        │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
