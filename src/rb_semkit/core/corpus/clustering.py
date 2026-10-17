@@ -6,7 +6,7 @@ from collections import Counter
 
 import pandas as pd
 
-from ..analysis.frequency import _word_keys
+from ..analysis.frequency import word_keys
 from ..frame import Frame
 from ..text.base import split_words, whole_number
 
@@ -29,7 +29,7 @@ def cluster_by_frequency(
     whole_number("threshold", threshold)
     frame = Frame(data, column, inplace)
     phrases = frame.phrases
-    keys = _word_keys(phrases, lemmatizer=None, stopwords=False)
+    keys = word_keys(phrases, lemmatizer=None, stopwords=False)
     spelling: dict[str, str] = {}  # each key as its word first stands in the core, in lower case
     word_sets = {}
     for phrase in phrases.unique():

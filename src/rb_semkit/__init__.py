@@ -58,4 +58,4 @@ def __getattr__(name: str) -> Any:
 
 
 def __dir__() -> list[str]:
-    return sorted(set(globals()) | set(_public_names()))
+    return sorted(_public_names())

@@ -7,7 +7,7 @@ from typing import NamedTuple
 
 import pandas as pd
 
-from ..analysis.frequency import _word_keys, ngrams
+from ..analysis.frequency import ngrams, word_keys
 from ..frame import Frame
 from ..morph import Lemmatizer
 from ..morph.functions import BUNDLED
@@ -29,7 +29,7 @@ def _keys(argument: str, words: str | Iterable[str], lemmatizer: Lemmatizer | No
     listed = [words] if isinstance(words, str) else list(words)
     if not listed:
         return frozenset()
-    found = _word_keys(pd.Series(word_list(argument, listed)), lemmatizer=lemmatizer, stopwords=True)
+    found = word_keys(pd.Series(word_list(argument, listed)), lemmatizer=lemmatizer, stopwords=True)
     return frozenset(key for key, _, _ in found.values())
 
 
@@ -54,7 +54,7 @@ def split_by_words(
     phrases = frame.phrases
     by = lemmatizer if lemmas else None
     good_keys, bad_keys = _keys("good", good, by), _keys("bad", bad, by)
-    keys = _word_keys(phrases, lemmatizer=by, stopwords=True)
+    keys = word_keys(phrases, lemmatizer=by, stopwords=True)
 
     def part(phrase: str) -> str:
         words = {keys[word][0] for word in split_words(phrase)}
