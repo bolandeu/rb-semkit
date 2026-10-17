@@ -1,0 +1,9 @@
+# replace_words. VBA, RibbonCallbacks.vba (docs/vba/change.md 4.1–4.3): word to word a–ko (L2228); list to list with the new case a–k– (L1760) by ReplacePhrases (L3471–3483), keeping the case a–k–2 (L1761) by ReplacePhrasesCS (L3484–3496) with CheckCase (L3390) and AdjustCase (L3391). The two columns of the selected range are pairs here.
+case_id	function	call	input	vba	expected	rule	why	xfail
+replace-words-word	replace_words	{"pairs": {"диван": "софа"}}	Диван угловой диван,	софа угловой диван,	софа угловой диван,			
+replace-words-longest	replace_words	{"pairs": {"стиральная машинка": "стиральная машина", "машинка": "машина"}}	Стиральная машинка купить | машинка детская	стиральная машина купить | машина детская	стиральная машина купить | машина детская			
+replace-words-keep	replace_words	{"pairs": {"стиральная машинка": "стиральная машина"}, "case": "keep"}	Стиральная машинка купить | СТИРАЛЬНАЯ МАШИНКА | стиральная машинка	Стиральная машина купить | СТИРАЛЬНАЯ МАШИНА | стиральная машина	Стиральная машина купить | СТИРАЛЬНАЯ МАШИНА | стиральная машина			
+replace-words-keep-digits	replace_words	{"pairs": {"12 стульев": "Дюжина Стульев"}, "case": "keep"}	купить 12 стульев	купить дюжина стульев	купить дюжина стульев			
+replace-words-delete	replace_words	{"pairs": {"купить": ""}}	диван купить москва	диван  москва	диван москва	фраза делится по любым пробелам, двойных пробелов в результатах нет	the empty replacement leaves two spaces: « диван  москва »	
+replace-words-yo	replace_words	{"pairs": {"ёлка": "ель"}}	искусственная елка	искусственная елка	искусственная ель	ё = е при сравнении	the LCase key «ёлка» is not «елка»	
+replace-words-spaces	replace_words	{"pairs": {"диван": "софа"}}	купить  диван	купить  софа	купить софа	фраза делится по любым пробелам, двойных пробелов в результатах нет	Split on single spaces keeps the empty token of the double space	

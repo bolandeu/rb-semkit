@@ -117,9 +117,6 @@ def test_gitattributes_marks_all_built_data_as_generated() -> None:
     lines = (ROOT / ".gitattributes").read_text().splitlines()
 
     marked = {line.split()[0] for line in lines if line.endswith("linguist-generated")}
-    assert marked == {
-        "src/rb_semkit/data/morph/**",
-        "src/rb_semkit/data/text/**",
-        "src/rb_semkit/data/markers/**",
-    }
+    parts = (ROOT / "scripts" / "build_parts").glob("[!_]*.py")  # one data folder per build part
+    assert marked == {f"src/rb_semkit/data/{part.stem}/**" for part in parts}
     assert "ADR 0002" in lines[0]

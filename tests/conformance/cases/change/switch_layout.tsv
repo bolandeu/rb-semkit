@@ -1,0 +1,9 @@
+# switch_layout. VBA, RibbonCallbacks.vba (docs/vba/change.md 6.6): to ru —··k (L2837) by okok (L1615); to en sem_revr (L2838) by revraskl (L1616).
+case_id	function	call	input	vba	expected	rule	why	xfail
+layout-ru	switch_layout	{"to": "ru"}	ghbdtn	привет	привет			
+layout-ru-comma	switch_layout	{"to": "ru"}	Ghbdtn, vbh	Приветб мир	Приветб мир			
+layout-ru-z	switch_layout	{"to": "ru"}	zyltrc	zндекс	яндекс	Клавиша «z» в раскладке — это «я»	the key of «я» in the literal is «·», so «z» stays	
+layout-en	switch_layout	{"to": "en"}	привет	ghbdtn	ghbdtn			
+layout-en-ya	switch_layout	{"to": "en"}	яндекс	·yltrc	zyltrc	Клавиша «z» в раскладке — это «я»	«я» becomes the 33rd char of the literal, «·»	
+layout-en-shifted	switch_layout	{"to": "en"}	Бык	,sr	<sr	Заглавная буква на клавише знака даёт знак с Shift	«Б» becomes UCase(«,»), which is «,»	
+layout-ru-shifted	switch_layout	{"to": "ru"}	<sr	<ык	Бык	Заглавная буква на клавише знака даёт знак с Shift	«<» is not in the literal and stays	

@@ -1,0 +1,7 @@
+# reverse. VBA, RibbonCallbacks.vba (docs/vba/change.md 5.2–5.3): chars a·1— (L2604) by StrReverse; words —ka· (L2292) by ka–– (L1819).
+case_id	function	call	input	vba	expected	rule	why	xfail
+reverse-chars	reverse		абв 12	21 вба	21 вба			
+reverse-chars-spaces	reverse	{"what": "chars"}	 ab	ba 	ba 			
+reverse-words	reverse	{"what": "words"}	купить диван москва	москва диван купить	москва диван купить			
+reverse-words-spaces	reverse	{"what": "words"}	купить  диван	диван  купить	диван купить	фраза делится по любым пробелам, двойных пробелов в результатах нет	Split on single spaces: the empty token of the double space is reversed too	
+reverse-words-one	reverse	{"what": "words"}	диван	диван	диван			

@@ -1,0 +1,21 @@
+# match_type. VBA, RibbonCallbacks.vba (docs/vba/change.md 7.1–7.7): broad a—·1 (L1610) by a·k (L1325); plus_every_word —·a· (L1891) by ·—1 (L2658); broad_modifier —·a— (L1935), then oo·— (L2279); stopword_modifier —·aa (L1846) by oa–· (L1009), the modifier from an InputBox; fixed_forms a·11 (L2747) by оо·· (L1318); quoted_fixed_forms a·—1 (L1800) by oo—a (L1320); quoted_fixed_order a·–1 (L2707) by oo–· (L1321); brackets a–·1 (L2817) by ·1l (L1316); quotes –a·1 (L2809) by oo­ (L1315); antisemantic antisem (L1010).
+case_id	function	call	input	vba	expected	rule	why	xfail
+match-broad	match_type	{"kind": "broad"}	"[!купить +в москве]" -бесплатно	купить в москве -бесплатно	купить в москве -бесплатно			
+match-broad-plus	match_type	{"kind": "broad"}	c++ курсы	c курсы	c курсы			
+match-plus-every-word	match_type	{"kind": "plus_every_word"}	купить диван в москве	+купить +диван +в +москве	+купить +диван +в +москве			
+match-plus-every-word-minus	match_type	{"kind": "plus_every_word"}	купить !диван -бесплатно	+купить +!диван +-бесплатно	+купить !диван -бесплатно	Слово с оператором («+», «!», «-») не получает второй оператор	every token gets «+»: «+!диван», «+-бесплатно»	
+match-broad-modifier	match_type	{"kind": "broad_modifier"}	купить диван в москве	+купить +диван в +москве	+купить +диван в +москве			
+match-broad-modifier-case	match_type	{"kind": "broad_modifier"}	Купить В Москве	+Купить +В +Москве	+Купить В +Москве	стоп-слова без учёта регистра	oo·— takes «+» off a stopword in lower case only: «+В» stays	
+match-stopword-modifier	match_type	{"kind": "stopword_modifier"}	диван в москве для дачи	диван +в москве +для дачи	диван +в москве +для дачи			
+match-stopword-modifier-bang	match_type	{"kind": "stopword_modifier", "modifier": "!"}	диван +в москве для дачи	диван +в москве !для дачи	диван +в москве !для дачи			
+match-fixed-forms	match_type	{"kind": "fixed_forms"}	купить  диван	!купить !диван	!купить !диван			
+match-fixed-forms-empty	match_type	{"kind": "fixed_forms"}		!		Пустая фраза остаётся пустой	«!» & the Join of no tokens gives «!»	
+match-fixed-forms-operators	match_type	{"kind": "fixed_forms"}	купить +в москве -бесплатно	!купить !+в !москве !-бесплатно	!купить +в !москве -бесплатно	Слово с оператором («+», «!», «-») не получает второй оператор	every token gets «!»: «!+в», «!-бесплатно»	
+match-quoted-fixed-forms	match_type	{"kind": "quoted_fixed_forms"}	купить  диван	"!купить !диван"	"!купить !диван"			
+match-quoted-fixed-order	match_type	{"kind": "quoted_fixed_order"}	купить диван	"[!купить !диван]"	"[!купить !диван]"			
+match-quoted-fixed-order-empty	match_type	{"kind": "quoted_fixed_order"}		"[!]"		Пустая фраза остаётся пустой	the Join of no tokens inside «"[!» and «]"» gives «"[!]"»	
+match-brackets	match_type	{"kind": "brackets"}	купить диван | 	[купить диван] | 	[купить диван] | 			
+match-brackets-minus	match_type	{"kind": "brackets"}	купить диван -бесплатно	[купить диван -бесплатно]	[купить диван] -бесплатно	Минус-слова остаются вне скобок и кавычек	·1l puts the whole cell inside the brackets	
+match-quotes	match_type	{"kind": "quotes"}	купить диван	"купить диван"	"купить диван"			
+match-antisemantic	match_type	{"kind": "antisemantic"}	диван в москве	[диван] в [москве]	[диван] в [москве]			
+match-antisemantic-spaces	match_type	{"kind": "antisemantic"}	диван  в москве -бесплатно	[диван] [] в [москве] [-бесплатно]	[диван] в [москве] -бесплатно	фраза делится по любым пробелам, двойных пробелов в результатах нет; Слово с оператором («+», «!», «-») не получает второй оператор	the empty token of the double space becomes «[]», and the minus-word gets brackets	

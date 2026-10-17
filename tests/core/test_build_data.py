@@ -22,6 +22,8 @@ BUILT_FILES = (
     "morph/morph.json",
     "text/lists.json",
     "declension/tables.json",
+    "change/translit.json",
+    "change/word_order.json",
 )
 SOURCES = tomllib.loads(CONFIG.read_text())["sources"]
 SANDBOX_ABSENT = not all(Path(path).exists() for path in SOURCES.values())
@@ -72,7 +74,7 @@ def test_the_committed_manifests_are_what_the_script_builds(built: Path) -> None
 
 
 def test_json_files_are_compact_and_the_declension_tables_are_not_in_morph(built: Path) -> None:
-    for name in ("morph/morph.json", "text/lists.json", "declension/tables.json"):
+    for name in (name for name in BUILT_FILES if name.endswith(".json")):
         assert len((built / name).read_text().splitlines()) == 1, name
     assert not (built / "morph/decline.json").exists()
 

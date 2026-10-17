@@ -1,0 +1,7 @@
+# hash_text. VBA, RibbonCallbacks.vba (docs/vba/change.md 8.3): md5 (L1912) and sha256 (L1913) by zHashSel (L1914–1920) and zHash (L3259): the UTF-8 bytes, lower-case hex.
+case_id	function	call	input	vba	expected	rule	why	xfail
+hash-md5	hash_text		abc	900150983cd24fb0d6963f7d28e17f72	900150983cd24fb0d6963f7d28e17f72			
+hash-sha256	hash_text	{"algorithm": "sha256"}	abc	ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad	ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad			
+hash-md5-empty	hash_text	{"algorithm": "md5"}		d41d8cd98f00b204e9800998ecf8427e	d41d8cd98f00b204e9800998ecf8427e			
+hash-md5-cyrillic	hash_text		диван	291f377694d12bc58c0d7210f54c9e7c	291f377694d12bc58c0d7210f54c9e7c			
+hash-sha256-cyrillic	hash_text	{"algorithm": "sha256"}	диван	83722f041ea2b871b81319127a927f240afa05839e01a1c388dacb416656e924	83722f041ea2b871b81319127a927f240afa05839e01a1c388dacb416656e924			

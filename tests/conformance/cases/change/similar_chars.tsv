@@ -1,0 +1,7 @@
+# similar_chars. VBA, RibbonCallbacks.vba (docs/vba/change.md 6.7): to en ao·· (L2945) by ok·a (L1896); to ru ao·o (L1660) by ok·— (L2146); 19 pairs.
+case_id	function	call	input	vba	expected	rule	why	xfail
+similar-en	similar_chars	{"to": "en"}	Москва	Mockвa	Mockвa			
+similar-ru	similar_chars	{"to": "ru"}	CTO	СТО	СТО			
+similar-en-not-all	similar_chars	{"to": "en"}	мТУ	мTУ	мTУ			
+similar-ru-word	similar_chars	{"to": "ru"}	KAMA3	КАМА3	КАМА3			
+similar-en-one-letter	similar_chars	{"to": "en"}	диван	дивaн	дивaн			
