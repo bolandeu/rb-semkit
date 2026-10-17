@@ -23,6 +23,7 @@ AREAS = {
     "listtools": ["compare-lists"],
     "markers": ["drop-markers", "extract-markers", "find-markers", "keep-markers", "remove-markers"],
     "morph": ["lemmatize", "part-of-speech", "wordforms"],
+    "relevance": ["assign-pages", "classify-queries", "off-topic"],
     "serp": ["cluster-serp"],
     "split": ["split-text"],
     "textstats": ["text-stats"],

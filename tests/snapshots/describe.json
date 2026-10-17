@@ -5492,6 +5492,232 @@
             ]
           },
           {
+            "name": "off-topic",
+            "description": "The distance of each phrase of the core from the centre of the core, by meaning.\n\nthreshold: the similarity from 0 to 1 a phrase needs to the centre to be on topic.\n\nThe centre is the mean of the phrase vectors of the core, each weighed by its frequency with freq and by 1 without it; with seed, the mean of the phrase vectors of the seed phrases. The columns: off_topic_score (1 minus the similarity of the phrase to the centre, from 0 to 1, 4 places) and off_topic (yes when the similarity is below the threshold, else no); an empty cell gets none. No row is dropped.\n\nmodel: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.\nfreq: the column of the frequencies of the phrases in the current table; the centre of the core weighs each phrase by it. Without it, every phrase weighs the same.\nseed: the phrases whose centre is the topic, in place of the core: a list of your own as @FILE or @NAME, or comma-separated.\n\nThe step adds the columns off_topic_score and off_topic right after the working column; the rows stay.\n\nExample: semkit read core.csv off-topic --freq freq write out.csv",
+            "options": [
+              {
+                "name": "--threshold",
+                "arguments": [
+                  {
+                    "name": "THRESHOLD",
+                    "required": true
+                  }
+                ],
+                "description": "the similarity from 0 to 1 a phrase needs to the centre to be on topic.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "float"
+                  }
+                ]
+              },
+              {
+                "name": "--freq",
+                "arguments": [
+                  {
+                    "name": "FREQ",
+                    "required": true
+                  }
+                ],
+                "description": "the column of the frequencies of the phrases in the current table; the centre of the core weighs each phrase by it. Without it, every phrase weighs the same.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--seed",
+                "arguments": [
+                  {
+                    "name": "SEED",
+                    "required": true
+                  }
+                ],
+                "description": "the phrases whose centre is the topic, in place of the core: a list of your own as @FILE or @NAME, or comma-separated. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--model",
+                "arguments": [
+                  {
+                    "name": "MODEL",
+                    "required": true
+                  }
+                ],
+                "description": "the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "e5-small"
+                  }
+                ]
+              }
+            ],
+            "metadata": [
+              {
+                "name": "x-rb-kind",
+                "value": "change"
+              }
+            ]
+          },
+          {
+            "name": "classify-queries",
+            "description": "The nearest phrase of the core for each query of a search query report, by meaning.\n\nthreshold: the similarity from 0 to 1 a query needs to its nearest phrase to be a target.\n\nThe columns: nearest_phrase (the first of two equally near), similarity (4 places) and target (yes when the similarity is at the threshold or above, else no); an empty cell gets none. No row is dropped.\n\nagainst: a file with the core, one phrase per row, in its first text column; the file is read like `read` does.\nmodel: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.\n\nThe step takes the working column as the queries of a search query report and adds the columns nearest_phrase, similarity and target right after it; the rows stay.\n\nExample: semkit read phrases.csv classify-queries --against core.csv write out.csv",
+            "options": [
+              {
+                "name": "--against",
+                "arguments": [
+                  {
+                    "name": "AGAINST",
+                    "required": true
+                  }
+                ],
+                "description": "a file with the core, one phrase per row, in its first text column; the file is read like `read` does.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--threshold",
+                "arguments": [
+                  {
+                    "name": "THRESHOLD",
+                    "required": true
+                  }
+                ],
+                "description": "the similarity from 0 to 1 a query needs to its nearest phrase to be a target.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "float"
+                  }
+                ]
+              },
+              {
+                "name": "--model",
+                "arguments": [
+                  {
+                    "name": "MODEL",
+                    "required": true
+                  }
+                ],
+                "description": "the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "e5-small"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "AGAINST",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "a file with the core, one phrase per row, in its first text column; the file is read like `read` does. The same as --against AGAINST.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "metadata": [
+              {
+                "name": "x-rb-kind",
+                "value": "change"
+              }
+            ]
+          },
+          {
+            "name": "assign-pages",
+            "description": "The best two pages of the site for each phrase of the core, by meaning.\n\nThe columns: best_page, best_similarity, second_page and second_similarity (4 places); the second page and its similarity are empty when the table has one page; an empty cell gets none. No row is dropped.\n\npages: a file with the pages of the site; the file is read like `read` does. Its columns: url, and text (the text of the page: its title, H1 and body). A text longer than the input of the model is cut by the encoder.\nmodel: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.\n\nThe step adds the columns best_page, best_similarity, second_page and second_similarity right after the working column; the rows stay.\n\nExample: semkit read core.csv assign-pages --pages pages.csv write out.csv",
+            "options": [
+              {
+                "name": "--pages",
+                "arguments": [
+                  {
+                    "name": "PAGES",
+                    "required": true
+                  }
+                ],
+                "description": "a file with the pages of the site; the file is read like `read` does. Its columns: url, and text (the text of the page: its title, H1 and body). A text longer than the input of the model is cut by the encoder.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--model",
+                "arguments": [
+                  {
+                    "name": "MODEL",
+                    "required": true
+                  }
+                ],
+                "description": "the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "e5-small"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "PAGES",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "a file with the pages of the site; the file is read like `read` does. Its columns: url, and text (the text of the page: its title, H1 and body). A text longer than the input of the model is cut by the encoder. The same as --pages PAGES.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "metadata": [
+              {
+                "name": "x-rb-kind",
+                "value": "change"
+              }
+            ]
+          },
+          {
             "name": "cluster-serp",
             "description": "Cluster the phrases of a SERP table (columns phrase, position, url) by the common URLs of their tops.\n\nmethod: \"soft\" grows a cluster around its center: a phrase joins when it shares enough URLs with the center; \"hard\" lets a phrase join only when it shares enough URLs with every member of the cluster.\ncommon: how many URLs two phrases must share.\ntop: how many first positions of each phrase count.\n\nOne row per phrase: phrase, cluster (1 = the largest), center (the first phrase of the cluster) and common (URLs shared with the center; the center gets the size of its own top).\n\nfreq: a file with the phrases in its first text column and their frequencies in --freq-column; the file is read like `read` does.\nfreq_column: the column of the frequencies in the --freq file; by default the first column of numbers.\n\nThe step reads the current table, a SERP with the columns phrase, position and url; the table of the clusters replaces it, its column phrase is the working one.\n\nExample: semkit read serp.csv cluster-serp --freq freq.csv write out.csv",
             "options": [

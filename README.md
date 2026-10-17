@@ -81,8 +81,8 @@ Columns keep the types of the file (numbers stay numbers). Every step, option an
 before the input is read; a refusal exits 2 and names the step and the option. `--as NAME` writes a change to a new
 column NAME, which the next steps work on. `--lemmas` on a words or phrases step compares lemmas, as the bundled
 lists hold them. `--json`, `--quiet` and `--dry-run` go before the steps: `semkit --json read …` prints one envelope
-`{"ok": true, "output", "rows", "written", "steps"}`, `--quiet` hides the lines on stderr, `--dry-run` runs the steps
-and writes nothing (it also keeps `init`, `config set`, `skill install`, `lists add` and `lists rm` from writing).
+`{"ok": true, "output", "rows", "written", "steps"}` (`steps`: one summary per step, with a `note` when the step tells
+more), `--quiet` hides the lines on stderr, `--dry-run` runs the steps and writes nothing (it also keeps `init`, `config set`, `skill install`, `lists add` and `lists rm` from writing).
 `--trace FILE` records every cell a step changed (row 1 is the first row under the header), `write OUT --overwrite`
 replaces an existing file (and an existing trace).
 
