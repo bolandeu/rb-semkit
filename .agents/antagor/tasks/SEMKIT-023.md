@@ -193,3 +193,9 @@ Minor remarks of the review: optional, if they do not widen the task:
 - [minor] [wrong] The `--json` error envelope keeps the key `action`, not `hint`. This follows the Architect's answer to question #1 (option 1), so it is not a defect. SKILL.md still has no word on it; that file is out of scope. Noted only.
 - [minor] [extra] `--trace` also records the dropped rows of a filter step (`after` is null). The task says «a row-level JSONL journal (row, step, column, before, after)». This fits the journal, so I do not count it.
 - [minor] [missing] The speed test passes, but the bench part has no number of its own: it uses the global `--limit` of 120 s. The task says «within the library budget plus read and write». Name the budget of the pipeline part, or state that the global limit is the budget.
+
+### Answer to gap #5
+
+> .agents/antagor/.gitignore does not ignore scratch/, but the antagor submit example writes the worker report to .agents/antagor/scratch/report.md, so it gets committed (SEMKIT-023 attempt 2, blocker C6). Ignore scratch/ or move the report path out of the tree.
+
+An Antagor idea: the generated .gitignore must ignore scratch/ (project test pins that file, so the fix is in Antagor).
