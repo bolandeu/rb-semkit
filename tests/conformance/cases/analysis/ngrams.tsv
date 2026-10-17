@@ -7,7 +7,7 @@ ngrams-occurrences	ngrams	{"n": 1}	диван диван угловой	дива
 ngrams-case-yo	ngrams	{"n": 1}	Ёлка | ёлка | елка	ёлка=2 | елка=1	елка=3	ё = е при сравнении	ak— keys by LCase and keeps ё	
 ngrams-three	ngrams	{"n": 3}	купить угловой диван недорого	купить угловой диван=1 | угловой диван недорого=1	купить угловой диван=1 | угловой диван недорого=1			
 ngrams-empty	ngrams	{"n": 1}	 | диван	диван=1	диван=1			
-ngrams-punctuation	ngrams	{"n": 1}	диван, кресло | диван	диван,=1 | кресло=1 | диван=1	диван=1 | диван,=1 | кресло=1	n-граммы сортируются по убыванию счёта	ak— writes the n-grams in the order they first appear	
+ngrams-punctuation	ngrams	{"n": 1}	диван, кресло | диван	диван,=1 | кресло=1 | диван=1	диван=2 | кресло=1	n-граммы сортируются по убыванию счёта; Знаки по краям слова — не часть n-граммы	ak— writes the n-grams in the order they first appear and splits a phrase by spaces only, so «диван,» is a gram of its own	
 ngrams-lemmas	ngrams	{"n": 1, "lemmas": true}	купила диваны | купить диван	купить=2 | диван=2	диван=2 | купить=2	n-граммы сортируются по убыванию счёта	ak— writes the n-grams in the order they first appear	
 ngrams-lemmas-capital	ngrams	{"n": 1, "lemmas": true}	москве | москва	москва=2	москва=2			
 ngrams-lemmas-2	ngrams	{"n": 2, "lemmas": true}	купила красные диваны	купить красный=1 | красный диван=1	красный диван=1 | купить красный=1	n-граммы сортируются по убыванию счёта	ak— writes the n-grams in the order they first appear	

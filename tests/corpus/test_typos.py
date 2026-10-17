@@ -17,14 +17,14 @@ def test_a_rare_word_near_a_frequent_one_is_a_typo_and_the_frequent_one_is_its_c
 
 
 def test_a_word_not_frequent_enough_against_it_is_no_typo() -> None:
-    core = pd.Series(["стол", "стол купить", "стул"])
+    core = pd.Series(["стол", "стол купить", "стлл"])
 
     assert sk.is_typo(core).tolist() == [False, False, False]
     assert sk.is_typo(core, provider=sk.CoreSpelling(ratio=2)).tolist() == [False, False, True]
 
 
 def test_a_short_word_allows_fewer_edits() -> None:
-    core = pd.Series([f"кот {tail}" for tail in TAILS] + ["кит", "кто"])
+    core = pd.Series([f"кот {tail}" for tail in TAILS] + ["кйт", "ктто"])
 
     assert sk.is_typo(core, provider=sk.CoreSpelling(ratio=2)).tolist()[-2:] == [True, False]
 
@@ -42,6 +42,41 @@ def test_the_correction_keeps_the_other_words_and_the_phrase_of_a_table() -> Non
 
     assert result.columns.tolist() == ["phrase", "phrase_typo_correction", "freq"]
     assert result["phrase_typo_correction"].iloc[-1] == "купить диван"
+
+
+CORRECT = [
+    "купить диван в москве",
+    "диван купить москва",
+    "угловые диваны",
+    "купить недорогой диван",
+    "купить диван дешево",
+    "купить диван не дорого",
+    "кровать трансформер с диваном",
+    "матрас для дивана",
+]
+SOFA_CORE = pd.Series(
+    [*CORRECT, *(f"диван {tail} в москве" for tail in TAILS), *(f"угловой диван {tail}" for tail in TAILS)]
+)
+
+
+def test_a_known_word_form_is_no_typo_however_rare() -> None:
+    assert not sk.is_typo(SOFA_CORE).any()
+    assert sk.typo_correction(SOFA_CORE).tolist() == SOFA_CORE.tolist()
+
+
+def test_a_real_misspelling_among_known_forms_is_still_marked_and_corrected() -> None:
+    core = pd.concat([SOFA_CORE, pd.Series(["купить диавн в мосвке"])], ignore_index=True)
+
+    assert sk.is_typo(core).tolist() == [False] * len(SOFA_CORE) + [True]
+    assert sk.typo_correction(core).iloc[-1] == "купить диван в москве"
+
+
+def test_a_word_pymorphy3_knows_and_an_abbreviation_are_no_typos() -> None:
+    core = pd.Series(
+        [*(f"диван {tail} пружинным блоком спб" for tail in TAILS), "диван на пружинном блоке", "купить диван с нпб"]
+    )
+
+    assert not sk.is_typo(core).any()
 
 
 class FakeSpelling:

@@ -12,7 +12,7 @@ edit it. The terms and the other areas: [the summary](../conformance.md).
 | [drop_minus_words](#drop_minus_words) | 6 | 3 | 3 | 0 |
 | [drop_modifiers](#drop_modifiers) | 5 | 4 | 1 | 0 |
 | [extract_utm](#extract_utm) | 7 | 1 | 6 | 0 |
-| [fix_word_order](#fix_word_order) | 8 | 4 | 4 | 0 |
+| [fix_word_order](#fix_word_order) | 8 | 3 | 5 | 0 |
 | [guillemets](#guillemets) | 5 | 3 | 2 | 0 |
 | [hash_text](#hash_text) | 5 | 5 | 0 | 0 |
 | [insert](#insert) | 6 | 6 | 0 | 0 |
@@ -28,7 +28,7 @@ edit it. The terms and the other areas: [the summary](../conformance.md).
 | [split_digits](#split_digits) | 6 | 3 | 3 | 0 |
 | [switch_layout](#switch_layout) | 9 | 3 | 6 | 0 |
 | [translit](#translit) | 9 | 4 | 5 | 0 |
-| **All** | **179** | **102** | **77** | **0** |
+| **All** | **179** | **101** | **78** | **0** |
 
 ## change_case
 
@@ -145,7 +145,7 @@ fix_word_order. VBA, RibbonCallbacks.vba (docs/vba/change.md 3.3–3.4): with co
 
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
-| `fix_word_order` | 8 | 4 | 4 | 0 |
+| `fix_word_order` | 8 | 3 | 5 | 0 |
 
 ### Deviations
 
@@ -154,6 +154,7 @@ fix_word_order. VBA, RibbonCallbacks.vba (docs/vba/change.md 3.3–3.4): with co
 | order-plural | `"диваны купить недорогие"` | `"купить недорогие диваны "` | `"купить недорогие диваны"` | Без дополнений фраза не кончается пробелом | BKM returns Trim(r) & " " & Trim(ex): with no complements a space ends it |
 | order-no-complement | `"диван угловой"` | `"угловой диван "` | `"угловой диван"` | Без дополнений фраза не кончается пробелом | BKP returns Trim(r) & " " & Trim(ex): with no complements a space ends it |
 | order-main-word | `"для гостиной диван раскладной"` | `"раскладной для гостиной диван"` | `"раскладной диван для гостиной"` | Главное слово не уходит в дополнение | BKP resets the main word to "", so «для» takes «гостиной диван»: «диван» is the last noun of the scan |
+| order-no-main-word | `"для гостиной диван раскладной"` | `"раскладной для гостиной диван"` | `"раскладной диван для гостиной"` | Дополнение в порядке слов выделяется так же, как в «Дополнениях с предлогами» | BKP takes the words up to the last noun of the next five, so «для» takes «гостиной диван» |
 | order-feminine-accusative | `"кровать купить двуспальную"` | `"купить двуспальную кровать "` | `"купить двуспальную кровать"` | Без дополнений фраза не кончается пробелом | BKF2 returns Trim(r) & " " & Trim(ex): with no complements a space ends it |
 
 ### xfail

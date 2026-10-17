@@ -3006,6 +3006,20 @@
                 ]
               },
               {
+                "name": "--unsure",
+                "description": "See the description above.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
                 "name": "--as",
                 "arguments": [
                   {

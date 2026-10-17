@@ -98,9 +98,10 @@ def test_row_counts(built: Path) -> None:
     morph = json.loads((built / "morph/morph.json").read_text())
     lists = json.loads((built / "text/lists.json").read_text())
 
-    # 845 374 source rows minus 6 junk rows (a number, «од?оклассники», 4 without a POS), 397 repeated wordforms
-    assert len(lemmas) == 844_971
-    assert len(set(forms.keys())) == 169_933  # lower-cased lemmas
+    # 845 374 source rows minus 6 junk rows (a number, «од?оклассники», 4 without a POS), 397 repeated wordforms,
+    # plus 4 wordforms of the corrections (morph.toml) that lemms.tsv lacks
+    assert len(lemmas) == 844_975
+    assert len(set(forms.keys())) == 169_939  # lower-cased lemmas, the corrected ones too
     assert len(morph["lemma_suffixes"]) == 256
     assert len(morph["nouns_like_adjectives"]) == 417
     assert len(morph["adjective_endings"]) == 89  # the first column of adjSuffixes

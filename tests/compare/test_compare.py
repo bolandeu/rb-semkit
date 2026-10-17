@@ -84,6 +84,15 @@ def test_compare_stats_gives_a_row_per_numeric_metric() -> None:
     assert (words["delta"], words["verdict"]) == (1, "above")
 
 
+def test_compare_stats_keeps_integer_metrics_integers() -> None:
+    table = sk.compare_stats(MINE, COMPETITORS).set_index("metric")
+
+    chars = table.loc["chars"]
+    assert [type(chars[column]) for column in ("mine", "median", "min", "max", "delta")] == [int] * 5
+    assert (chars["mine"], chars["median"], chars["min"], chars["max"]) == (18, 10, 9, 22)
+    assert isinstance(table.loc["water", "mine"], float)
+
+
 def test_compare_stats_verdict_below_and_within() -> None:
     table = sk.compare_stats("а б", ["а б в г", "а б в г", "а б в г"]).set_index("metric")
 

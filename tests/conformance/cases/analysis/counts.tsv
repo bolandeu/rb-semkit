@@ -15,5 +15,6 @@ counts-number	counts	{"what": "number"}	диван | стол | диван | д�
 counts-number-case	counts	{"what": "number"}	диван | Диван	1 | 2	1 | 2			
 counts-share	counts	{"what": "share", "weight": "freq"}	диван [50] | стол [30] | стул [20]	0.5 | 0.8 | 1	0.5 | 0.8 | 1			
 counts-share-unsorted	counts	{"what": "share", "weight": "freq"}	стул [20] | диван [50] | стол [30]	0.2 | 0.7 | 1	0.2 | 0.7 | 1			
+counts-share-rounded	counts	{"what": "share", "weight": "freq"}	диван [1] | стол [1] | стул [1]	0.333333333333333 | 0.666666666666667 | 1	0.3333 | 0.6667 | 1	Доля округляется до 4 знаков	–koo writes the share unrounded	
 counts-abc	counts	{"what": "abc", "weight": "freq"}	диван [50] | стол [30] | стул [15] | шкаф [5]	A | A | B | C	A | A | B | C			
 counts-abc-unsorted	counts	{"what": "abc", "weight": "freq"}	шкаф [5] | диван [50] | стул [15] | стол [30]	C | A | B | A	C | A | B | A			

@@ -10,8 +10,10 @@ import pandas as pd
 from ..analysis.frequency import ngrams
 from ..errors import InvalidArguments
 from ..frame import Frame
+from ..normalize import norm_phrase
 from ..split import split_text
 from ..text.base import split_words
+from ..text.words import has_lemma
 
 DECIMALS = 4
 
@@ -38,12 +40,22 @@ def texts_of(data: pd.Series | pd.DataFrame | list[str] | tuple[str, ...], colum
     return Frame(series, column).phrases.tolist()
 
 
+def _lemma_words(phrase: str) -> str:
+    return " ".join(word for word in split_words(phrase) if has_lemma(norm_phrase(word)))
+
+
 class TextCounts:
-    """The grams of one text with their counts, and its words (stopwords included), as the n-grams count them."""
+    """The grams of one text with their counts, and its words (stopwords included), as the n-grams count them.
+
+    With `lemmas`, a word without a lemma («г», «руб»: `text.words.has_lemma`) is a word of the text but in no gram.
+    """
 
     def __init__(self, text: str, *, n: int, lemmas: bool, stopwords: bool) -> None:
         phrases = split_text(pd.Series([text], dtype=object))
         self.words = sum(len(split_words(phrase)) for phrase in phrases)
+        if lemmas:
+            phrases = phrases.map(_lemma_words)
+            phrases = phrases[phrases != ""]
         if phrases.empty:
             self.counts = pd.Series(dtype="int64")
         else:

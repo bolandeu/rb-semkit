@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import math
-import re
 from collections import Counter
 
 import pandas as pd
@@ -13,7 +12,7 @@ from ..frame import Frame, map_unique
 from ..morph import Lemmatizer
 from ..morph.functions import BUNDLED
 from ..normalize import norm_phrase
-from ..text.matchers import classes
+from ..text.words import has_lemma, text_words
 from .metrics import mtld, zipf
 
 COLUMNS = [
@@ -29,20 +28,12 @@ COLUMNS = [
     "mtld",
     "zipf",
 ]
-# Units without a meaning of their own: words, but no lemmas.
-UNITS = frozenset({"руб", "рублей", "шт", "см", "мм", "мл", "кг", "кв", "стр", "ул"})
 
 
-def _word_pattern() -> re.Pattern[str]:
-    """A word: the characters sk.chars('punctuation') keeps (letters with a case, digits), hyphens inside the word too."""
-    body = f"[{classes.cased() + classes.DIGITS}]+"
-    return re.compile(f"{body}(?:-{body})*")
-
-
-def _metrics(text: str, pattern: re.Pattern[str], lemma_of: dict[str, str], stopwords: frozenset[str]) -> list:
-    keys = [norm_phrase(word) for word in pattern.findall(text)]
+def _metrics(text: str, lemma_of: dict[str, str], stopwords: frozenset[str]) -> list:
+    keys = [norm_phrase(word) for word in text_words(text)]
     content = [key for key in keys if key not in stopwords]
-    lemmas = [lemma_of[key] for key in content if key not in UNITS]
+    lemmas = [lemma_of[key] for key in content if has_lemma(key)]
     counts = Counter(lemmas)
     top = max(counts, key=counts.__getitem__) if counts else ""
     biggest = counts[top] if counts else 0
@@ -94,10 +85,10 @@ def text_stats(
     No norms and no verdicts: the caller sets them.
     """
     frame = Frame(data, column)
-    texts, stopwords, pattern = frame.phrases, bundled_stopwords(), _word_pattern()
-    words = {norm_phrase(word) for text in texts.unique() for word in pattern.findall(text)}
+    texts, stopwords = frame.phrases, bundled_stopwords()
+    words = {norm_phrase(word) for text in texts.unique() for word in text_words(text)}
     lemma_of = {word: lemmatizer.lemma(word) for word in words - stopwords}
-    rows = map_unique(texts, lambda text: _metrics(text, pattern, lemma_of, stopwords))
+    rows = map_unique(texts, lambda text: _metrics(text, lemma_of, stopwords))
     table = pd.DataFrame(rows.tolist(), columns=COLUMNS, index=texts.index)
     if isinstance(data, pd.Series):
         return table

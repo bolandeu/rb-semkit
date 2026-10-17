@@ -20,13 +20,15 @@ class Kind(NamedTuple):
 
     `body` is a regex class body, `negated` takes every character outside it. remove leaves `gap` for each run of
     the class. extract keeps the class and the whitespace with nothing between («Wi-Fi» → «WiFi») when `glued`,
-    else the runs of the class joined by a space.
+    else the runs of the class joined by a space. With `numbers_whole`, a point or a comma between two digits is
+    part of the number, not of the class («2.5», «541,67»).
     """
 
     body: Callable[[], str]
     negated: bool = False
     gap: str = ""
     glued: bool = False
+    numbers_whole: bool = False
 
 
 CharKind = Literal["latin", "cyrillic", "digits", "letters_digits", "punctuation", "upper", "ua"]
@@ -35,7 +37,7 @@ KINDS: dict[CharKind, Kind] = {
     "cyrillic": Kind(lambda: classes.CYRILLIC, glued=True),
     "digits": Kind(lambda: classes.DIGITS, glued=True),
     "letters_digits": Kind(lambda: classes.cased() + classes.DIGITS),
-    "punctuation": Kind(lambda: classes.cased() + classes.DIGITS + r"\s", negated=True, gap=" "),
+    "punctuation": Kind(lambda: classes.cased() + classes.DIGITS + r"\s", negated=True, gap=" ", numbers_whole=True),
     "upper": Kind(classes.upper),
     "ua": Kind(lambda: "іїєґІЇЄҐ"),
 }
@@ -46,6 +48,8 @@ class Chars(Matcher):
         self._kind = KINDS[choice("kind", kind, get_args(CharKind))]
         body = self._kind.body()
         inside, outside = (f"[^{body}]", f"[{body}]") if self._kind.negated else (f"[{body}]", f"[^{body}]")
+        if self._kind.numbers_whole:
+            inside, outside = f"(?:(?!{classes.NUMBER_MARK}){inside})", f"(?:{outside}|{classes.NUMBER_MARK})"
         self._inside = re.compile(f"{inside}+")
         self._outside = re.compile(rf"[^{body}\s]+" if self._kind.glued else f"{outside}+")
 

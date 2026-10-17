@@ -23,6 +23,7 @@
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --synonyms        SYNONYMS  a file with the columns word and synonyms, as the step `synonyms`    │
 │                             gives; the file is read like `read` does.                            │
+│ --unsure                    See the description above.                                           │
 │ --as              NAME      Write the result to a new column NAME and keep the working column as │
 │                             it is.                                                               │
 │ --help                      Show this message and exit.                                          │

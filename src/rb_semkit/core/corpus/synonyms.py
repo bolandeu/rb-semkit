@@ -28,6 +28,7 @@ SYNONYM_COLUMNS = ["word", "sure", "synonyms"]
 NO_MATCH = ("", "-")
 _OPERATORS = re.compile(r'[+!"\[\]]')  # the match operators of a search ad: +word, !word, "phrase", [order]
 MINUS = " -"
+SURE_TEXTS = frozenset({"true", "1", "истина"})  # a `sure` cell of a table read from a file: True, TRUE, ИСТИНА
 QUOTE = '"'
 
 
@@ -76,11 +77,23 @@ def synonyms(report: pd.DataFrame, *, lemmatizer: Lemmatizer = BUNDLED) -> pd.Da
     return pd.DataFrame([row for row in rows if row[2]], columns=SYNONYM_COLUMNS).astype({"sure": bool})
 
 
+def _is_sure(value: object) -> bool:
+    return value if isinstance(value, bool) else str(value).strip().lower() in SURE_TEXTS
+
+
+def _taken(table: pd.DataFrame, *, unsure: bool) -> pd.DataFrame:
+    """The word and synonyms of the rows to add: the sure ones, and the unsure ones (`sure` False) with `unsure`; a
+    table without the column `sure` is all sure."""
+    rows = table if unsure or "sure" not in table.columns else table[table["sure"].map(_is_sure).astype(bool)]
+    return rows[["word", "synonyms"]].fillna("").astype(str)
+
+
 def add_minus_words(
     data: pd.Series | pd.DataFrame,
     table: pd.DataFrame,
     *,
     lemmatizer: Lemmatizer = BUNDLED,
+    unsure: bool = False,
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
@@ -97,7 +110,7 @@ def add_minus_words(
         return norm_phrase(lemmatizer.lemma(norm_phrase(word)))
 
     by_word: dict[str, list[str]] = {}
-    for word, listed in table[["word", "synonyms"]].fillna("").astype(str).itertuples(index=False):
+    for word, listed in _taken(table, unsure=unsure).itertuples(index=False):
         for initial in split_words(_words(word)):
             by_word.setdefault(key(initial), []).extend(split_words(listed))
 

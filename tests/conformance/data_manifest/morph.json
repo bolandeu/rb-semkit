@@ -2,7 +2,7 @@
  "morph/forms.marisa": {
   "source": "lemms.tsv: every row as a lemma and its wordform",
   "source_items": 845374,
-  "bundled_items": 845215,
+  "bundled_items": 845217,
   "dropped": [
    {
     "item": "0,0000001\t1e-07\tфыва",
@@ -639,14 +639,631 @@
    {
     "item": "ясный\tясным",
     "reason": "the same lemma and wordform as an earlier row once the lemma is lower case"
+   },
+   {
+    "item": "аскон\tаскона",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "аскон\tасконе",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "аскон\tаскону",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "аскон\tасконы",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "вещий\tвещей",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "вещий\tвещи",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "временной\tвременная",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "временной\tвременного",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "временной\tвременное",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "временной\tвременном",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "временной\tвременную",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "временной\tвременные",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "временной\tвременным",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "временной\tвременными",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "временной\tвременных",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "донецкий\tдонецк",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "донецкий\tдонецка",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "донецкий\tдонецке",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "донецкий\tдонецку",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "кафа\tкафе",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "купа\tкупе",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "минь\tмини",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ножки\tножек",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ножки\tножка",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ножки\tножкам",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ножки\tножками",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ножки\tножках",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ножки\tножке",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ножки\tножки",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ножки\tножкой",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ножки\tножкою",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ножки\tножку",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "петушок\tпетушках",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "подростковый\tподростка",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "подростковый\tподросткам",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "подростковый\tподростками",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "подростковый\tподростках",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "подростковый\tподростке",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "подростковый\tподростки",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "подростковый\tподростков",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "подростковый\tподростком",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "подростковый\tподростку",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "подростковый\tподросток",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "раскладывающийся\tраскладывается",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "раскладывающийся\tраскладывайся",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "раскладывающийся\tраскладывалась",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "раскладывающийся\tраскладывались",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "раскладывающийся\tраскладывалось",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "раскладывающийся\tраскладывать",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "раскладывающийся\tраскладываюсь",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "раскладывающийся\tраскладываются",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "раскладывающийся\tраскладываясь",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "русый\tрус",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "спин\tспина",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "спин\tспинам",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "спин\tспинами",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "спин\tспинах",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "спин\tспине",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "спин\tспиной",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "спин\tспиною",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "спин\tспину",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "спин\tспины",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ширин\tширин",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ширин\tширина",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ширин\tширинам",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ширин\tширинами",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ширин\tширинах",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ширин\tширине",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ширин\tшириной",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ширин\tшириною",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ширин\tширину",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ширин\tширины",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "экокожи\tэкокожа",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "экокожи\tэкокоже",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "экокожи\tэкокожей",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "экокожи\tэкокожи",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
    }
   ],
-  "added": []
+  "added": [
+   {
+    "item": "аскона\tаскона",
+    "reason": "lemms.tsv: the lemma аскон; асконой is missing"
+   },
+   {
+    "item": "аскона\tасконе",
+    "reason": "lemms.tsv: the lemma аскон; асконой is missing"
+   },
+   {
+    "item": "аскона\tасконой",
+    "reason": "lemms.tsv: the lemma аскон; асконой is missing"
+   },
+   {
+    "item": "аскона\tаскону",
+    "reason": "lemms.tsv: the lemma аскон; асконой is missing"
+   },
+   {
+    "item": "аскона\tасконы",
+    "reason": "lemms.tsv: the lemma аскон; асконой is missing"
+   },
+   {
+    "item": "вещь\tвещей",
+    "reason": "lemms.tsv: the lemma of the adjective вещий"
+   },
+   {
+    "item": "вещь\tвещи",
+    "reason": "lemms.tsv: the lemma of the adjective вещий"
+   },
+   {
+    "item": "временный\tвременная",
+    "reason": "lemms.tsv: the lemma временной"
+   },
+   {
+    "item": "временный\tвременного",
+    "reason": "lemms.tsv: the lemma временной"
+   },
+   {
+    "item": "временный\tвременное",
+    "reason": "lemms.tsv: the lemma временной"
+   },
+   {
+    "item": "временный\tвременном",
+    "reason": "lemms.tsv: the lemma временной"
+   },
+   {
+    "item": "временный\tвременную",
+    "reason": "lemms.tsv: the lemma временной"
+   },
+   {
+    "item": "временный\tвременные",
+    "reason": "lemms.tsv: the lemma временной"
+   },
+   {
+    "item": "временный\tвременным",
+    "reason": "lemms.tsv: the lemma временной"
+   },
+   {
+    "item": "временный\tвременными",
+    "reason": "lemms.tsv: the lemma временной"
+   },
+   {
+    "item": "временный\tвременных",
+    "reason": "lemms.tsv: the lemma временной"
+   },
+   {
+    "item": "донецк\tдонецка",
+    "reason": "lemms.tsv: the lemma of the adjective донецкий; донецком is missing"
+   },
+   {
+    "item": "донецк\tдонецке",
+    "reason": "lemms.tsv: the lemma of the adjective донецкий; донецком is missing"
+   },
+   {
+    "item": "донецк\tдонецком",
+    "reason": "lemms.tsv: the lemma of the adjective донецкий; донецком is missing"
+   },
+   {
+    "item": "донецк\tдонецку",
+    "reason": "lemms.tsv: the lemma of the adjective донецкий; донецком is missing"
+   },
+   {
+    "item": "кафе\tкафе",
+    "reason": "lemms.tsv: the lemma кафа (the town Kaffa)"
+   },
+   {
+    "item": "купе\tкупе",
+    "reason": "lemms.tsv: the lemma купа"
+   },
+   {
+    "item": "мини\tмини",
+    "reason": "lemms.tsv: the lemma минь"
+   },
+   {
+    "item": "ножка\tножек",
+    "reason": "lemms.tsv: the lemma ножки, the plural"
+   },
+   {
+    "item": "ножка\tножка",
+    "reason": "lemms.tsv: the lemma ножки, the plural"
+   },
+   {
+    "item": "ножка\tножкам",
+    "reason": "lemms.tsv: the lemma ножки, the plural"
+   },
+   {
+    "item": "ножка\tножками",
+    "reason": "lemms.tsv: the lemma ножки, the plural"
+   },
+   {
+    "item": "ножка\tножках",
+    "reason": "lemms.tsv: the lemma ножки, the plural"
+   },
+   {
+    "item": "ножка\tножке",
+    "reason": "lemms.tsv: the lemma ножки, the plural"
+   },
+   {
+    "item": "ножка\tножки",
+    "reason": "lemms.tsv: the lemma ножки, the plural"
+   },
+   {
+    "item": "ножка\tножкой",
+    "reason": "lemms.tsv: the lemma ножки, the plural"
+   },
+   {
+    "item": "ножка\tножкою",
+    "reason": "lemms.tsv: the lemma ножки, the plural"
+   },
+   {
+    "item": "ножка\tножку",
+    "reason": "lemms.tsv: the lemma ножки, the plural"
+   },
+   {
+    "item": "подросток\tподростка",
+    "reason": "lemms.tsv: the lemma of the adjective подростковый"
+   },
+   {
+    "item": "подросток\tподросткам",
+    "reason": "lemms.tsv: the lemma of the adjective подростковый"
+   },
+   {
+    "item": "подросток\tподростками",
+    "reason": "lemms.tsv: the lemma of the adjective подростковый"
+   },
+   {
+    "item": "подросток\tподростках",
+    "reason": "lemms.tsv: the lemma of the adjective подростковый"
+   },
+   {
+    "item": "подросток\tподростке",
+    "reason": "lemms.tsv: the lemma of the adjective подростковый"
+   },
+   {
+    "item": "подросток\tподростки",
+    "reason": "lemms.tsv: the lemma of the adjective подростковый"
+   },
+   {
+    "item": "подросток\tподростков",
+    "reason": "lemms.tsv: the lemma of the adjective подростковый"
+   },
+   {
+    "item": "подросток\tподростком",
+    "reason": "lemms.tsv: the lemma of the adjective подростковый"
+   },
+   {
+    "item": "подросток\tподростку",
+    "reason": "lemms.tsv: the lemma of the adjective подростковый"
+   },
+   {
+    "item": "подросток\tподросток",
+    "reason": "lemms.tsv: the lemma of the adjective подростковый"
+   },
+   {
+    "item": "раскладываться\tраскладывается",
+    "reason": "lemms.tsv: the lemma of the participle раскладывающийся"
+   },
+   {
+    "item": "раскладываться\tраскладывайся",
+    "reason": "lemms.tsv: the lemma of the participle раскладывающийся"
+   },
+   {
+    "item": "раскладываться\tраскладывалась",
+    "reason": "lemms.tsv: the lemma of the participle раскладывающийся"
+   },
+   {
+    "item": "раскладываться\tраскладывались",
+    "reason": "lemms.tsv: the lemma of the participle раскладывающийся"
+   },
+   {
+    "item": "раскладываться\tраскладывалось",
+    "reason": "lemms.tsv: the lemma of the participle раскладывающийся"
+   },
+   {
+    "item": "раскладывать\tраскладывать",
+    "reason": "lemms.tsv: the lemma of the participle раскладывающийся"
+   },
+   {
+    "item": "раскладываться\tраскладываюсь",
+    "reason": "lemms.tsv: the lemma of the participle раскладывающийся"
+   },
+   {
+    "item": "раскладываться\tраскладываются",
+    "reason": "lemms.tsv: the lemma of the participle раскладывающийся"
+   },
+   {
+    "item": "раскладывающийся\tраскладывающийся",
+    "reason": "lemms.tsv: missing"
+   },
+   {
+    "item": "раскладываться\tраскладываясь",
+    "reason": "lemms.tsv: the lemma of the participle раскладывающийся"
+   },
+   {
+    "item": "рус\tрус",
+    "reason": "lemms.tsv: the lemma русый"
+   },
+   {
+    "item": "спина\tспина",
+    "reason": "lemms.tsv: the lemma спин"
+   },
+   {
+    "item": "спина\tспинам",
+    "reason": "lemms.tsv: the lemma спин"
+   },
+   {
+    "item": "спина\tспинами",
+    "reason": "lemms.tsv: the lemma спин"
+   },
+   {
+    "item": "спина\tспинах",
+    "reason": "lemms.tsv: the lemma спин"
+   },
+   {
+    "item": "спина\tспине",
+    "reason": "lemms.tsv: the lemma спин"
+   },
+   {
+    "item": "спина\tспиной",
+    "reason": "lemms.tsv: the lemma спин"
+   },
+   {
+    "item": "спина\tспиною",
+    "reason": "lemms.tsv: the lemma спин"
+   },
+   {
+    "item": "спина\tспину",
+    "reason": "lemms.tsv: the lemma спин"
+   },
+   {
+    "item": "спина\tспины",
+    "reason": "lemms.tsv: the lemma спин"
+   },
+   {
+    "item": "ширина\tширин",
+    "reason": "lemms.tsv: the lemma ширин"
+   },
+   {
+    "item": "ширина\tширина",
+    "reason": "lemms.tsv: the lemma ширин"
+   },
+   {
+    "item": "ширина\tширинам",
+    "reason": "lemms.tsv: the lemma ширин"
+   },
+   {
+    "item": "ширина\tширинами",
+    "reason": "lemms.tsv: the lemma ширин"
+   },
+   {
+    "item": "ширина\tширинах",
+    "reason": "lemms.tsv: the lemma ширин"
+   },
+   {
+    "item": "ширина\tширине",
+    "reason": "lemms.tsv: the lemma ширин"
+   },
+   {
+    "item": "ширина\tшириной",
+    "reason": "lemms.tsv: the lemma ширин"
+   },
+   {
+    "item": "ширина\tшириною",
+    "reason": "lemms.tsv: the lemma ширин"
+   },
+   {
+    "item": "ширина\tширину",
+    "reason": "lemms.tsv: the lemma ширин"
+   },
+   {
+    "item": "ширина\tширины",
+    "reason": "lemms.tsv: the lemma ширин"
+   },
+   {
+    "item": "экокожа\tэкокожа",
+    "reason": "lemms.tsv: the lemma экокожи; экокожу is missing"
+   },
+   {
+    "item": "экокожа\tэкокоже",
+    "reason": "lemms.tsv: the lemma экокожи; экокожу is missing"
+   },
+   {
+    "item": "экокожа\tэкокожей",
+    "reason": "lemms.tsv: the lemma экокожи; экокожу is missing"
+   },
+   {
+    "item": "экокожа\tэкокожи",
+    "reason": "lemms.tsv: the lemma экокожи; экокожу is missing"
+   },
+   {
+    "item": "экокожа\tэкокожу",
+    "reason": "lemms.tsv: the lemma экокожи; экокожу is missing"
+   }
+  ]
  },
  "morph/lemmas.marisa": {
   "source": "lemms.tsv: every row",
   "source_items": 845374,
-  "bundled_items": 844971,
+  "bundled_items": 844975,
   "dropped": [
    {
     "item": "0,0000001\t1e-07\tфыва",
@@ -2259,9 +2876,634 @@
    {
     "item": "ясным\tясный\tn",
     "reason": "a later row of the same wordform wins, as the add-in's sorted VLOOKUP"
+   },
+   {
+    "item": "аскона\tаскон\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "асконе\tаскон\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "аскону\tаскон\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "асконы\tаскон\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "вещей\tвещий\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "вещи\tвещий\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "временная\tвременной\ta",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "временного\tвременной\ta",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "временное\tвременной\ta",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "временном\tвременной\ta",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "временную\tвременной\ta",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "временные\tвременной\ta",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "временным\tвременной\ta",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "временными\tвременной\ta",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "временных\tвременной\ta",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "донецк\tдонецкий\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "донецка\tдонецкий\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "донецке\tдонецкий\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "донецку\tдонецкий\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "кафе\tкафа\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "купе\tкупа\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "мини\tминь\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ножек\tножки\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ножка\tножки\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ножкам\tножки\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ножками\tножки\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ножках\tножки\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ножке\tножки\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ножки\tножки\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ножкой\tножки\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ножкою\tножки\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ножку\tножки\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "петушках\tпетушок\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "подростка\tподростковый\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "подросткам\tподростковый\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "подростками\tподростковый\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "подростках\tподростковый\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "подростке\tподростковый\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "подростки\tподростковый\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "подростков\tподростковый\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "подростком\tподростковый\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "подростку\tподростковый\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "подросток\tподростковый\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "раскладывается\tраскладывающийся\tv",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "раскладывайся\tраскладывающийся\tv",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "раскладывалась\tраскладывающийся\tv",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "раскладывались\tраскладывающийся\tv",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "раскладывалось\tраскладывающийся\tv",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "раскладывать\tраскладывающийся\tv",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "раскладываюсь\tраскладывающийся\tv",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "раскладываются\tраскладывающийся\tv",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "раскладываясь\tраскладывающийся\tv",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "рус\tрусый\ta",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "спина\tспин\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "спинам\tспин\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "спинами\tспин\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "спинах\tспин\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "спине\tспин\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "спиной\tспин\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "спиною\tспин\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "спину\tспин\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "спины\tспин\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ширин\tширин\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ширина\tширин\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ширинам\tширин\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ширинами\tширин\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ширинах\tширин\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ширине\tширин\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "шириной\tширин\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "шириною\tширин\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ширину\tширин\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "ширины\tширин\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "экокожа\tэкокожи\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "экокоже\tэкокожи\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "экокожей\tэкокожи\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "экокожи\tэкокожи\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
    }
   ],
-  "added": []
+  "added": [
+   {
+    "item": "аскона\tаскона\tn",
+    "reason": "lemms.tsv: the lemma аскон; асконой is missing"
+   },
+   {
+    "item": "асконе\tаскона\tn",
+    "reason": "lemms.tsv: the lemma аскон; асконой is missing"
+   },
+   {
+    "item": "асконой\tаскона\tn",
+    "reason": "lemms.tsv: the lemma аскон; асконой is missing"
+   },
+   {
+    "item": "аскону\tаскона\tn",
+    "reason": "lemms.tsv: the lemma аскон; асконой is missing"
+   },
+   {
+    "item": "асконы\tаскона\tn",
+    "reason": "lemms.tsv: the lemma аскон; асконой is missing"
+   },
+   {
+    "item": "вещей\tвещь\tn",
+    "reason": "lemms.tsv: the lemma of the adjective вещий"
+   },
+   {
+    "item": "вещи\tвещь\tn",
+    "reason": "lemms.tsv: the lemma of the adjective вещий"
+   },
+   {
+    "item": "временная\tвременный\ta",
+    "reason": "lemms.tsv: the lemma временной"
+   },
+   {
+    "item": "временного\tвременный\ta",
+    "reason": "lemms.tsv: the lemma временной"
+   },
+   {
+    "item": "временное\tвременный\ta",
+    "reason": "lemms.tsv: the lemma временной"
+   },
+   {
+    "item": "временном\tвременный\ta",
+    "reason": "lemms.tsv: the lemma временной"
+   },
+   {
+    "item": "временную\tвременный\ta",
+    "reason": "lemms.tsv: the lemma временной"
+   },
+   {
+    "item": "временные\tвременный\ta",
+    "reason": "lemms.tsv: the lemma временной"
+   },
+   {
+    "item": "временным\tвременный\ta",
+    "reason": "lemms.tsv: the lemma временной"
+   },
+   {
+    "item": "временными\tвременный\ta",
+    "reason": "lemms.tsv: the lemma временной"
+   },
+   {
+    "item": "временных\tвременный\ta",
+    "reason": "lemms.tsv: the lemma временной"
+   },
+   {
+    "item": "донецк\tдонецк\tn",
+    "reason": "lemms.tsv: the lemma of the adjective донецкий; донецком is missing"
+   },
+   {
+    "item": "донецка\tдонецк\tn",
+    "reason": "lemms.tsv: the lemma of the adjective донецкий; донецком is missing"
+   },
+   {
+    "item": "донецке\tдонецк\tn",
+    "reason": "lemms.tsv: the lemma of the adjective донецкий; донецком is missing"
+   },
+   {
+    "item": "донецком\tдонецк\tn",
+    "reason": "lemms.tsv: the lemma of the adjective донецкий; донецком is missing"
+   },
+   {
+    "item": "донецку\tдонецк\tn",
+    "reason": "lemms.tsv: the lemma of the adjective донецкий; донецком is missing"
+   },
+   {
+    "item": "кафе\tкафе\tn",
+    "reason": "lemms.tsv: the lemma кафа (the town Kaffa)"
+   },
+   {
+    "item": "купе\tкупе\tn",
+    "reason": "lemms.tsv: the lemma купа"
+   },
+   {
+    "item": "мини\tмини\tn",
+    "reason": "lemms.tsv: the lemma минь"
+   },
+   {
+    "item": "ножек\tножка\tn",
+    "reason": "lemms.tsv: the lemma ножки, the plural"
+   },
+   {
+    "item": "ножка\tножка\tn",
+    "reason": "lemms.tsv: the lemma ножки, the plural"
+   },
+   {
+    "item": "ножкам\tножка\tn",
+    "reason": "lemms.tsv: the lemma ножки, the plural"
+   },
+   {
+    "item": "ножками\tножка\tn",
+    "reason": "lemms.tsv: the lemma ножки, the plural"
+   },
+   {
+    "item": "ножках\tножка\tn",
+    "reason": "lemms.tsv: the lemma ножки, the plural"
+   },
+   {
+    "item": "ножке\tножка\tn",
+    "reason": "lemms.tsv: the lemma ножки, the plural"
+   },
+   {
+    "item": "ножки\tножка\tn",
+    "reason": "lemms.tsv: the lemma ножки, the plural"
+   },
+   {
+    "item": "ножкой\tножка\tn",
+    "reason": "lemms.tsv: the lemma ножки, the plural"
+   },
+   {
+    "item": "ножкою\tножка\tn",
+    "reason": "lemms.tsv: the lemma ножки, the plural"
+   },
+   {
+    "item": "ножку\tножка\tn",
+    "reason": "lemms.tsv: the lemma ножки, the plural"
+   },
+   {
+    "item": "петушках\tпетушки\tn",
+    "reason": "lemms.tsv: the rows Петушки and петушок, the last one wins"
+   },
+   {
+    "item": "подростка\tподросток\tn",
+    "reason": "lemms.tsv: the lemma of the adjective подростковый"
+   },
+   {
+    "item": "подросткам\tподросток\tn",
+    "reason": "lemms.tsv: the lemma of the adjective подростковый"
+   },
+   {
+    "item": "подростками\tподросток\tn",
+    "reason": "lemms.tsv: the lemma of the adjective подростковый"
+   },
+   {
+    "item": "подростках\tподросток\tn",
+    "reason": "lemms.tsv: the lemma of the adjective подростковый"
+   },
+   {
+    "item": "подростке\tподросток\tn",
+    "reason": "lemms.tsv: the lemma of the adjective подростковый"
+   },
+   {
+    "item": "подростки\tподросток\tn",
+    "reason": "lemms.tsv: the lemma of the adjective подростковый"
+   },
+   {
+    "item": "подростков\tподросток\tn",
+    "reason": "lemms.tsv: the lemma of the adjective подростковый"
+   },
+   {
+    "item": "подростком\tподросток\tn",
+    "reason": "lemms.tsv: the lemma of the adjective подростковый"
+   },
+   {
+    "item": "подростку\tподросток\tn",
+    "reason": "lemms.tsv: the lemma of the adjective подростковый"
+   },
+   {
+    "item": "подросток\tподросток\tn",
+    "reason": "lemms.tsv: the lemma of the adjective подростковый"
+   },
+   {
+    "item": "раскладывается\tраскладываться\tv",
+    "reason": "lemms.tsv: the lemma of the participle раскладывающийся"
+   },
+   {
+    "item": "раскладывайся\tраскладываться\tv",
+    "reason": "lemms.tsv: the lemma of the participle раскладывающийся"
+   },
+   {
+    "item": "раскладывалась\tраскладываться\tv",
+    "reason": "lemms.tsv: the lemma of the participle раскладывающийся"
+   },
+   {
+    "item": "раскладывались\tраскладываться\tv",
+    "reason": "lemms.tsv: the lemma of the participle раскладывающийся"
+   },
+   {
+    "item": "раскладывалось\tраскладываться\tv",
+    "reason": "lemms.tsv: the lemma of the participle раскладывающийся"
+   },
+   {
+    "item": "раскладывать\tраскладывать\tv",
+    "reason": "lemms.tsv: the lemma of the participle раскладывающийся"
+   },
+   {
+    "item": "раскладываюсь\tраскладываться\tv",
+    "reason": "lemms.tsv: the lemma of the participle раскладывающийся"
+   },
+   {
+    "item": "раскладываются\tраскладываться\tv",
+    "reason": "lemms.tsv: the lemma of the participle раскладывающийся"
+   },
+   {
+    "item": "раскладывающийся\tраскладывающийся\tp",
+    "reason": "lemms.tsv: missing"
+   },
+   {
+    "item": "раскладываясь\tраскладываться\tv",
+    "reason": "lemms.tsv: the lemma of the participle раскладывающийся"
+   },
+   {
+    "item": "рус\tрус\ta",
+    "reason": "lemms.tsv: the lemma русый"
+   },
+   {
+    "item": "спина\tспина\tn",
+    "reason": "lemms.tsv: the lemma спин"
+   },
+   {
+    "item": "спинам\tспина\tn",
+    "reason": "lemms.tsv: the lemma спин"
+   },
+   {
+    "item": "спинами\tспина\tn",
+    "reason": "lemms.tsv: the lemma спин"
+   },
+   {
+    "item": "спинах\tспина\tn",
+    "reason": "lemms.tsv: the lemma спин"
+   },
+   {
+    "item": "спине\tспина\tn",
+    "reason": "lemms.tsv: the lemma спин"
+   },
+   {
+    "item": "спиной\tспина\tn",
+    "reason": "lemms.tsv: the lemma спин"
+   },
+   {
+    "item": "спиною\tспина\tn",
+    "reason": "lemms.tsv: the lemma спин"
+   },
+   {
+    "item": "спину\tспина\tn",
+    "reason": "lemms.tsv: the lemma спин"
+   },
+   {
+    "item": "спины\tспина\tn",
+    "reason": "lemms.tsv: the lemma спин"
+   },
+   {
+    "item": "ширин\tширина\tn",
+    "reason": "lemms.tsv: the lemma ширин"
+   },
+   {
+    "item": "ширина\tширина\tn",
+    "reason": "lemms.tsv: the lemma ширин"
+   },
+   {
+    "item": "ширинам\tширина\tn",
+    "reason": "lemms.tsv: the lemma ширин"
+   },
+   {
+    "item": "ширинами\tширина\tn",
+    "reason": "lemms.tsv: the lemma ширин"
+   },
+   {
+    "item": "ширинах\tширина\tn",
+    "reason": "lemms.tsv: the lemma ширин"
+   },
+   {
+    "item": "ширине\tширина\tn",
+    "reason": "lemms.tsv: the lemma ширин"
+   },
+   {
+    "item": "шириной\tширина\tn",
+    "reason": "lemms.tsv: the lemma ширин"
+   },
+   {
+    "item": "шириною\tширина\tn",
+    "reason": "lemms.tsv: the lemma ширин"
+   },
+   {
+    "item": "ширину\tширина\tn",
+    "reason": "lemms.tsv: the lemma ширин"
+   },
+   {
+    "item": "ширины\tширина\tn",
+    "reason": "lemms.tsv: the lemma ширин"
+   },
+   {
+    "item": "экокожа\tэкокожа\tn",
+    "reason": "lemms.tsv: the lemma экокожи; экокожу is missing"
+   },
+   {
+    "item": "экокоже\tэкокожа\tn",
+    "reason": "lemms.tsv: the lemma экокожи; экокожу is missing"
+   },
+   {
+    "item": "экокожей\tэкокожа\tn",
+    "reason": "lemms.tsv: the lemma экокожи; экокожу is missing"
+   },
+   {
+    "item": "экокожи\tэкокожа\tn",
+    "reason": "lemms.tsv: the lemma экокожи; экокожу is missing"
+   },
+   {
+    "item": "экокожу\tэкокожа\tn",
+    "reason": "lemms.tsv: the lemma экокожи; экокожу is missing"
+   }
+  ]
  },
  "morph/morph.json:adjective_endings": {
   "source": "sheet abc AD2:AD90 (adjective_endings)",

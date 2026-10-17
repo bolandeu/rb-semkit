@@ -32,9 +32,10 @@ class Pos(WordMatcher):
     def _is_adjective(self, word: str) -> bool:
         """The code «a»; else, but for the codes of NOT_ADJECTIVES, a lemma that ends like an adjective.
 
-        The add-in looks the word up as written, so a word with a capital has no code and goes to the lemma rule.
+        A word with a capital is looked up in lower case, as for the other parts of speech (the add-in looks it up as
+        written, finds no code and takes «Быстро» for an adjective and an adverb at once).
         """
-        code = self._lemmatizer.pos(word) if word == word.lower() else ""
+        code = self._lemmatizer.pos(word.lower())
         if code == "a":
             return True
         return code not in NOT_ADJECTIVES and looks_like_adjective(self._lemmatizer.lemma(word.lower()))

@@ -20,6 +20,7 @@ class PhraseEnd(Matcher):
             self._keys = frozenset(word_key(word) for word in bundled_list("stopwords") + bundled_list("prepositions"))
             self._trailing = self._function_words
         else:
+            self._prepositions = frozenset(word_key(word) for word in bundled_list("prepositions"))
             self._trailing = self._buy_markers
 
     def _function_words(self, words: list[str]) -> int:
@@ -29,13 +30,16 @@ class PhraseEnd(Matcher):
             count += 1
         return count
 
-    @staticmethod
-    def _buy_markers(words: list[str]) -> int:
-        """How many words at the end are buy markers, a marker of several words taken whole."""
+    def _buy_markers(self, words: list[str]) -> int:
+        """How many words at the end are buy markers, a marker of several words taken whole; a marker right after a
+        preposition stays with it («с доставкой»)."""
         markers = bundled(BUY_MARKERS)
         count = 0
         while ends := [hit for hit in markers.hits(words[: len(words) - count]) if hit.stop == len(words) - count]:
-            count += max(hit.stop - hit.start for hit in ends)
+            start = min(hit.start for hit in ends)
+            if start > 0 and word_key(words[start - 1]) in self._prepositions:
+                break
+            count = len(words) - start
         return count
 
     def remove(self, phrases: pd.Series) -> pd.Series:

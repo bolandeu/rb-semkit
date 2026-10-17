@@ -1,0 +1,23 @@
+# Corrections of the lemma dictionary lemms.tsv (scripts/build_parts/morph.py, ADR 0003): each wordform takes the
+# lemma and the part of speech of its line instead of its rows in lemms.tsv, or is added when lemms.tsv lacks it.
+# why: what lemms.tsv gives. A wordform is in one line only.
+
+corrections = [
+  { lemma = "кафе", pos = "n", wordforms = ["кафе"], why = "lemms.tsv: the lemma кафа (the town Kaffa)" },
+  { lemma = "купе", pos = "n", wordforms = ["купе"], why = "lemms.tsv: the lemma купа" },
+  { lemma = "мини", pos = "n", wordforms = ["мини"], why = "lemms.tsv: the lemma минь" },
+  { lemma = "ширина", pos = "n", wordforms = ["ширин", "ширина", "ширинам", "ширинами", "ширинах", "ширине", "шириной", "шириною", "ширину", "ширины"], why = "lemms.tsv: the lemma ширин" },
+  { lemma = "спина", pos = "n", wordforms = ["спина", "спинам", "спинами", "спинах", "спине", "спиной", "спиною", "спину", "спины"], why = "lemms.tsv: the lemma спин" },
+  { lemma = "экокожа", pos = "n", wordforms = ["экокожа", "экокоже", "экокожей", "экокожи", "экокожу"], why = "lemms.tsv: the lemma экокожи; экокожу is missing" },
+  { lemma = "подросток", pos = "n", wordforms = ["подросток", "подростка", "подростку", "подростком", "подростке", "подростки", "подростков", "подросткам", "подростками", "подростках"], why = "lemms.tsv: the lemma of the adjective подростковый" },
+  { lemma = "аскона", pos = "n", wordforms = ["аскона", "асконе", "аскону", "асконы", "асконой"], why = "lemms.tsv: the lemma аскон; асконой is missing" },
+  { lemma = "ножка", pos = "n", wordforms = ["ножек", "ножка", "ножкам", "ножками", "ножках", "ножке", "ножки", "ножкой", "ножкою", "ножку"], why = "lemms.tsv: the lemma ножки, the plural" },
+  { lemma = "петушки", pos = "n", wordforms = ["петушках"], why = "lemms.tsv: the rows Петушки and петушок, the last one wins" },
+  { lemma = "донецк", pos = "n", wordforms = ["донецк", "донецка", "донецке", "донецку", "донецком"], why = "lemms.tsv: the lemma of the adjective донецкий; донецком is missing" },
+  { lemma = "вещь", pos = "n", wordforms = ["вещей", "вещи"], why = "lemms.tsv: the lemma of the adjective вещий" },
+  { lemma = "временный", pos = "a", wordforms = ["временная", "временного", "временное", "временном", "временную", "временные", "временным", "временными", "временных"], why = "lemms.tsv: the lemma временной" },
+  { lemma = "рус", pos = "a", wordforms = ["рус"], why = "lemms.tsv: the lemma русый" },
+  { lemma = "раскладываться", pos = "v", wordforms = ["раскладывается", "раскладывайся", "раскладывалась", "раскладывались", "раскладывалось", "раскладываюсь", "раскладываются", "раскладываясь"], why = "lemms.tsv: the lemma of the participle раскладывающийся" },
+  { lemma = "раскладывать", pos = "v", wordforms = ["раскладывать"], why = "lemms.tsv: the lemma of the participle раскладывающийся" },
+  { lemma = "раскладывающийся", pos = "p", wordforms = ["раскладывающийся"], why = "lemms.tsv: missing" },
+]

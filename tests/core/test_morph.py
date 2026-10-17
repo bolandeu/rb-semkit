@@ -50,9 +50,10 @@ def test_pos_rules_of_the_add_in() -> None:
     assert lemmatizer.pos("уют") == "n"  # the word «уют» itself is not a verb
     assert lemmatizer.lemma("зюзюкового") == "зюзюковый"  # unknown word: «вого» → «вый» by lemmSuf
     assert lemmatizer.pos("зюзюкового") == "a"  # and its lemma has an adjective ending
-    assert lemmatizer.pos("волнослой") == ""  # an adjective ending, but listed in nounsLikeAdj
-    assert lemmatizer.pos("зюзюкалками") == ""  # unknown word, no rule
-    assert lemmatizer.pos("15") == ""
+    assert lemmatizer.pos("волнослой") == "unkn"  # an adjective ending, but listed in nounsLikeAdj
+    assert lemmatizer.pos("зюзюкалками") == "unkn"  # unknown word, no rule
+    assert lemmatizer.pos("15") == "unkn"
+    assert lemmatizer.pos("нераскладной") == "a"  # the dictionary says n; «раскладной» is an adjective
 
 
 def test_a_wordform_with_yo_finds_its_ye_spelling() -> None:

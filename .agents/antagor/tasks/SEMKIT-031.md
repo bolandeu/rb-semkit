@@ -2,7 +2,7 @@
 id: SEMKIT-031
 title: 'Text rules on a real page: one word splitter, split-text at sentences not
   dashes, no false typos, abbreviations no lemmas'
-status: queue
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -27,6 +27,11 @@ owns_paths:
 - docs/vba/deviations/corpus.md
 - docs/vba/deviations/text.md
 - docs/vba/deviations/analysis.md
+- docs/vba/conformance.md
+- docs/vba/conformance/analysis.md
+- docs/vba/conformance/corpus.md
+- docs/vba/conformance/text.md
+- src/rb_semkit/core/morph/lemmatizer.py
 test_paths:
 - tests/split
 - tests/textstats
@@ -38,6 +43,8 @@ test_paths:
 - tests/conformance/cases/text
 - tests/conformance/cases/corpus
 - tests/conformance/cases/analysis
+- tests/snapshots/describe.json
+- tests/snapshots/help/steps/corpus/add-minus-words.txt
 docs:
 - docs/vba/deviations/corpus.md
 tools: []
@@ -118,3 +125,27 @@ ADR 0005 for ported functions; semkit's own functions (split_text, text_stats, c
 - Morphology (lemmas, declension): SEMKIT-030
 - The step help, its snapshots, the docstrings and the guide: SEMKIT-033
 - A new spelling service
+
+## Feedback
+
+### Answer to question #1
+
+> find-pos: the bundled !SEMTools dictionary codes лучше as a noun and покрывало as a verb (pymorphy3: comparative adjective, noun); the codes come from the lemmatizer (morph, SEMKIT-030), and a general 'pymorphy3 wins' rule breaks 15 of 29 disagreeing words of the sofa core (белые, угловой, дорогой become nouns).
+> Question: Where do the wrong part-of-speech codes of лучше and покрывало get fixed?
+> Options:
+> 1. SEMKIT-030 adds them to its correction of the dictionary data (code and lemma per word); find-pos follows without own code; SEMKIT-031 does the capital rule only
+> 2. SEMKIT-031 adds a small code correction table read by the pos matcher only (data/text)
+> 3. SEMKIT-031 edits the morph dictionary data now, before SEMKIT-030
+> Recommended: SEMKIT-030 adds them to its correction of the dictionary data (code and lemma per word); find-pos follows without own code; SEMKIT-031 does the capital rule only
+
+Option 1: the codes of лучше and покрывало are fixed in the dictionary correction of SEMKIT-030's mechanism; as 030 is already running, SEMKIT-033 adds the two entries after it. SEMKIT-031 does the capital rule only; drop the лучше / покрывало part of its find-pos acceptance (the Быстро part stays).
+
+### Answer to finding #2
+
+> SEMKIT-031 changed rules that public docstrings state (for SEMKIT-033): (1) sk.split_text: a dash between words (— – -) and the point of an abbreviation of data/text/words.toml (г. ул. т. е. тел. руб.) do not cut a phrase; both are dropped (module doc said «т.д.» splits). (2) sk.text_stats: no lemma for top/nausea/ttr/mtld/zipf = every single-letter word + abbreviations and units of data/text/words.toml (рублей, см, мм, мл, кг; шт, кв, стр, ул, руб are abbreviations); words count numbers with inner . , - as one word and keep an apostrophe inside a word. (3) sk.coverage: exact and lemmas cross any punctuation inside a sentence (dash, comma), never a sentence end (. ! ? …, not an abbreviation point); any_order stays inside one split_text phrase; density rounded to 4 decimals. (4) sk.compare_grams / sk.bm25: with lemmas, a word without a lemma (single letter, abbreviation, unit) is in no gram but counts in the words of a text. (5) sk.compare_stats: integer metrics (chars, chars_no_spaces, words, unique) stay integers where whole; the docstring says 'rounded to 4 decimals'. (6) sk.ngrams / sk.bigrams: words are those of split_text (punctuation at word edges is dropped, ★ is no gram, 31.03.2026 one word). (7) sk.counts share / share_of_total: rounded to 4 decimals. (8) sk.CoreSpelling / is_typo / typo_correction: a stopword or a wordform the !SEMTools dictionary or pymorphy3 knows is never a typo; a correction starts with the same letter as the word. (9) sk.add_minus_words: new argument unsure=False (CLI --unsure, help now 'See the description above.'): only rows with sure True are added unless unsure; a table without the column sure is all sure; a sure cell read from a file as text (True/TRUE/ИСТИНА/1) counts. (10) sk.pos: a capitalised word is looked up in lower case (the docstring says «Быстро» is an adjective as in the add-in). (11) sk.chars('punctuation'): a point or comma between two digits is no punctuation (2.5, 541,67 stay).
+
+Goes into SEMKIT-033's body (the docstring rules changed by 031) before 033 starts.
+
+### Blocked: needs_scope (entries [{'n': 1, 'text': 'find-pos: the bundled !SEMTools dictionary codes лучше as a noun and покрывало as a verb (pymorphy3: comparative adjective, noun); the codes come from the lemmatizer (morph, SEMKIT-030), and a general'}])
+
+No scope for src/rb_semkit/core/morph/lemmatizer.py: it is SEMKIT-030's. Drop that change (inbox #1: the лучше / покрывало codes go to SEMKIT-033 through 030's dictionary correction). Keep the capital rule in the pos matcher; drop the лучше / покрывало part of the find-pos acceptance, keep Быстро.

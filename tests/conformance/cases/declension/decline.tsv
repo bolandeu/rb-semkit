@@ -11,4 +11,18 @@ decline-capital	decline	{"case": "dative"}	Москва	Москве	Москв�
 decline-pronoun	decline	{"case": "genitive"}	этот диван	этого дивана	этого дивана			
 decline-noun-like-adjective	decline	{"case": "genitive"}	зной	зного	зноя	«Все что склоняется» склоняет только существительные, прилагательные и местоимения по таблице прилагательных	aoa tests the adjective ending first and the noun skip never works: «ной» gives «зного»	
 decline-adverb	decline	{"case": "dative"}	диван недорого	дивану недорого	дивану недорого			
-decline-inflected	decline	{"case": "genitive"}	диваны для дачи	диваны для дачи	диваны для дачи			
+decline-inflected	decline	{"case": "genitive"}	диваны для дачи	диваны для дачи	диванов для дачи	Фраза во множественном числе склоняется во множественном числе	aoa leaves a word that is not its lemma: диваны	
+decline-accusative-inanimate	decline	{"case": "accusative"}	купить кожаный диван	купить кожаный дивана	купить кожаный диван	Винительный падеж неодушевлённого существительного — именительный	aoa takes the accusative from nounSuffixes, whose «ван» is animate («Иван»)	
+decline-accusative-oj	decline	{"case": "accusative"}	угловой диван	углового дивана	угловой диван	Винительный падеж неодушевлённого существительного — именительный	aoa takes the accusative from nounSuffixes, whose «вой» and «ван» are animate	
+decline-accusative-animate	decline	{"case": "accusative"}	купить кота	купить кота	купить кота			
+decline-accusative-adjective	decline	{"case": "accusative"}	красный диван	красный дивана	красный диван	Винительный падеж неодушевлённого существительного — именительный	aoa takes the accusative from nounSuffixes, whose «ван» is animate («Иван»)	
+decline-plural-genitive	decline	{"case": "genitive"}	угловые диваны	угловые диваны	угловых диванов	Фраза во множественном числе склоняется во множественном числе	aoa leaves a word that is not its lemma, and «вые» is no ending of adjSuffixes	
+decline-plural-instrumental	decline	{"case": "instrumental"}	угловые диваны	угловые диваны	угловыми диванами	Фраза во множественном числе склоняется во множественном числе	aoa leaves a word that is not its lemma, and «вые» is no ending of adjSuffixes	
+decline-plural-ie-genitive	decline	{"case": "genitive"}	дизайнерские диваны	дизайнерские диваны	дизайнерских диванов	Фраза во множественном числе склоняется во множественном числе	aoa leaves a word that is not its lemma, and «кие» is no ending of adjSuffixes	
+decline-plural-ie-instrumental	decline	{"case": "instrumental"}	дизайнерские диваны	дизайнерские диваны	дизайнерскими диванами	Фраза во множественном числе склоняется во множественном числе	aoa leaves a word that is not its lemma, and «кие» is no ending of adjSuffixes	
+decline-compound-genitive	decline	{"case": "genitive"}	диван-кровать угловой	диван-кровати углового	дивана-кровати углового	Сложное существительное через дефис склоняется целиком	aoa changes the last three letters of the word only	
+decline-compound-prepositional	decline	{"case": "prepositional"}	диван-кровать угловой	диван-кровати угловом	диване-кровати угловом	Сложное существительное через дефис склоняется целиком	aoa changes the last three letters of the word only	
+decline-feminine-genitive	decline	{"case": "genitive"}	большая скидка	большей скидки	большой скидки	Прилагательное женского рода, среднего рода и множественного числа склоняется от своей леммы	aoa declines «большая» by the ending «шая» of adjSuffixes, as «хорошая»	
+decline-feminine-prepositional	decline	{"case": "prepositional"}	большая скидка	большей скидке	большой скидке	Прилагательное женского рода, среднего рода и множественного числа склоняется от своей леммы	aoa declines «большая» by the ending «шая» of adjSuffixes, as «хорошая»	
+decline-negated-genitive	decline	{"case": "genitive"}	нераскладной диван	нераскладного дивана	нераскладного дивана			
+decline-negated-prepositional	decline	{"case": "prepositional"}	нераскладной диван	нераскладном диване	нераскладном диване			

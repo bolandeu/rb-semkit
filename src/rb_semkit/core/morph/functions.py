@@ -12,6 +12,7 @@ import pandas as pd
 
 from ..errors import InvalidArguments
 from ..frame import Frame, map_unique
+from ..normalize import norm_phrase
 from ..text.base import choice, split_words
 from .lemmatizer import FALLBACKS, Lemmatizer, SemtoolsLemmatizer
 
@@ -81,4 +82,5 @@ def wordforms(word: str, *, lemmatizer: Lemmatizer = BUNDLED) -> list[str]:
     As «Генерация всех словоформ»: the forms of the lemma of the word in lower case; the input word is not repeated
     (ADR 0005).
     """
-    return sorted(set(lemmatizer.forms(lemmatizer.lemma(word))))
+    key = norm_phrase(word)
+    return sorted({form for form in lemmatizer.forms(lemmatizer.lemma(word)) if norm_phrase(form) != key})
