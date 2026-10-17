@@ -2,7 +2,7 @@
 id: SEMKIT-014
 title: 'Text to phrases: split each cell at sentence and clause punctuation into phrase
   rows'
-status: publish
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
