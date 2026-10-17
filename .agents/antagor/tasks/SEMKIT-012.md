@@ -2,7 +2,7 @@
 id: SEMKIT-012
 title: 'Morphology block: declension of nouns, adjectives and full names, irrelevant
   words, the pymorphy fallback, ready patterns and prepositional complements'
-status: in_review
+status: publish
 attempts: 2
 blocked: false
 blocked_reason: null
