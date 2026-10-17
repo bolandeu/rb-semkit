@@ -1,3 +1,9 @@
+"""`config list`, `config get KEY` and `config set KEY VALUE`: the project's config.toml by dotted key.
+
+The keys and the form of each value come from `core.models`; a value of the wrong form exits 2. `config set` writes
+nothing under --dry-run, and the version gate lets `config` through, so cli.min_version can be lowered.
+"""
+
 from __future__ import annotations
 
 import json

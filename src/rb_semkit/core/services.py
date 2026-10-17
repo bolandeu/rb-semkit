@@ -1,5 +1,9 @@
 """The project: where it is (the folder with `.rb_semkit/`), its config file and its own word-list folder, and the
-config's load, save and check against the installed CLI version."""
+config's load, save and check against the installed CLI version.
+
+`check_project_compat` is the version gate of `output.guard` (all commands but `output.UNGATED`): the project at or
+above a folder must not need a newer CLI than the installed one.
+"""
 
 from __future__ import annotations
 

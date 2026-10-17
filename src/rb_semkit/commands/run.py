@@ -1,3 +1,8 @@
+"""`run`: a placeholder for the main operation of a CLI of the family; here it does nothing.
+
+It is hidden from the help (`HIDDEN`) so the help shows only commands that do something; the pipeline is `read`.
+"""
+
 from __future__ import annotations
 
 import typer

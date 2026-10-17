@@ -1,3 +1,10 @@
+"""What every command shares: the common options, the `guard` that turns a CliError into an exit code and a
+message, the version gate, and the result as a human line or the --json envelope.
+
+One place for these keeps the shape of the output and the exit codes the same for every command. `human` renders the
+lines for people, `json` writes the envelope.
+"""
+
 from __future__ import annotations
 
 import contextlib

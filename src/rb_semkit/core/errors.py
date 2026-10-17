@@ -2,6 +2,7 @@
 
 Each error carries a stable code, a message, an optional action (how to recover) and an exit code; `output.guard`
 turns it into a stderr line or, with --json, the error envelope. InvalidArguments is a usage error (exit 2).
+ConfigInvalid: the project's config.toml cannot be read. Unhealthy: `doctor` found a failed check (exit 1).
 """
 
 from __future__ import annotations

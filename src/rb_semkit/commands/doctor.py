@@ -1,3 +1,9 @@
+"""`doctor`: the checks of readiness (Python, CLI version, project, config, credentials, external programs).
+
+The report is printed whether or not a check fails; a failed check makes the exit non-zero (Unhealthy), so a script
+can rely on the exit code.
+"""
+
 from __future__ import annotations
 
 import importlib

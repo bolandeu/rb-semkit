@@ -1,3 +1,8 @@
+"""`skill install`: copy the bundled SKILL.md into the skill folder of an AI tool (user or project level).
+
+An agent then finds the guide of this CLI without `--ai`; --dry-run writes nothing.
+"""
+
 from __future__ import annotations
 
 from importlib import resources

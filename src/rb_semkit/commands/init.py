@@ -1,3 +1,8 @@
+"""`init`: make the folder a project: `.rb_semkit/config.toml` in it (`core.services`).
+
+An existing project is kept unless --force; --dry-run writes nothing.
+"""
+
 from __future__ import annotations
 
 from pathlib import Path

@@ -1,3 +1,9 @@
+"""`auth status`: the health of each provider's credential, never its value.
+
+Every CLI of the family has this command (a cross-tool contract); this CLI has no credentials, so it reports an empty
+list and exits 0. The credentials package is found at run time, so the file has no template logic.
+"""
+
 from __future__ import annotations
 
 import importlib
