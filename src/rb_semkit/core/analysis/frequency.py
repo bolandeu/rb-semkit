@@ -2,6 +2,8 @@
 
 A phrase becomes its words (case and ё folded, stopwords dropped on request, then lemmas on request); a shape turns
 the words into grams; the grams of all phrases are counted, and summed by the weight of their phrase.
+
+`bundled_stopwords` gives the stopword list of these steps to other areas (text_stats uses it for water and nausea).
 """
 
 from __future__ import annotations
