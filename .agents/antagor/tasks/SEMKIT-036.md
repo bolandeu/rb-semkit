@@ -2,7 +2,7 @@
 id: SEMKIT-036
 title: 'off-topic, classify-queries, assign-pages: phrases against the core, a query
   report and the site pages by meaning'
-status: queue
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -29,6 +29,7 @@ test_paths:
 - tests/snapshots/help/read.txt
 - tests/steps/areas.py
 - tests/steps/test_steps.py
+- tests/steps/fixtures/page_texts.csv
 docs: none
 tools: []
 worker_args: null
