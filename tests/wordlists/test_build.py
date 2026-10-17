@@ -135,3 +135,21 @@ def test_the_names_in_the_scheme_of_the_task(home: Path) -> None:
     assert {f"minus/{kind}" for kind in ("universal", "computer", "free", "cheap", "handmade", "abusive")} <= names
     assert {"combine/russia-cities-500k", "combine/spb-metro", "combine/tourism", "combine/tourism/czech"} <= names
     assert {f"markers/{name}" for name in ("geo", "mosmetro", "cars", "names")} <= names
+
+
+def test_an_item_the_manifest_line_drops_is_not_built_and_the_entry_says_why(part: ModuleType, tmp_path: Path) -> None:
+    source = _sources(tmp_path / "src", {"minus/A.txt": "купить\nскачать\n".encode()})
+    line = _line("minus/a", "minus/A.txt") | {"drop": {"купить": "a commercial core buys"}}
+
+    part.write_lists([line], source, tmp_path / "data")
+
+    built = gzip.decompress((tmp_path / "data" / "wordlists" / "minus" / "a.txt.gz").read_bytes())
+    assert built.decode("utf-8") == "скачать\n"
+    assert part.entry(line, source).dropped == [{"item": "купить", "reason": "a commercial core buys"}]
+
+
+def test_the_universal_minus_list_holds_no_buy_word() -> None:
+    items = bundled.items("minus/universal")
+
+    assert "купить" not in items
+    assert "скачать" in items

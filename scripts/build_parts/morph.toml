@@ -20,4 +20,6 @@ corrections = [
   { lemma = "раскладываться", pos = "v", wordforms = ["раскладывается", "раскладывайся", "раскладывалась", "раскладывались", "раскладывалось", "раскладываюсь", "раскладываются", "раскладываясь"], why = "lemms.tsv: the lemma of the participle раскладывающийся" },
   { lemma = "раскладывать", pos = "v", wordforms = ["раскладывать"], why = "lemms.tsv: the lemma of the participle раскладывающийся" },
   { lemma = "раскладывающийся", pos = "p", wordforms = ["раскладывающийся"], why = "lemms.tsv: missing" },
+  { lemma = "хороший", pos = "advb", wordforms = ["лучше"], why = "lemms.tsv: the part of speech n; хуже, its pair, is advb" },
+  { lemma = "покрывало", pos = "n", wordforms = ["покрывала", "покрывалам", "покрывале", "покрывало", "покрывалом", "покрывалу"], why = "lemms.tsv: the part of speech v (покрывалами and покрывалах are n)" },
 ]

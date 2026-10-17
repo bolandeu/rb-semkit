@@ -138,17 +138,24 @@ def ngrams(
 ) -> pd.DataFrame:
     """Every run of `n` words over all phrases, counted: a table ngram, count, docs, sum and forms.
 
-    count: occurrences. docs: in how many distinct index values (texts, when `sk.split_text` cut the phrases) the gram
-    occurs at least once; the add-in has no such column, it is a semkit addition, so the conformance cases compare
-    count and sum only. sum: with `weight`. forms: with `lemmas`, the word forms met for the gram, most frequent first,
-    joined by ', ' («диваны, диван»); for a gram of several words its distinct spellings, at most 5.
+    The column count holds the occurrences; docs, in how many texts (rows of the input before split-text cut them)
+    the gram occurs at least once; sum, with `weight`, the weight; forms, with `lemmas`, the word forms met for the
+    gram, most frequent first, joined by ', ' («диваны, диван»), for a gram of several words its distinct spellings,
+    at most 5.
 
-    Sorted by count, biggest first, then by ngram. Words are compared by case and ё.
-    lemmas: count lemmas of the words («диваны» is «диван»), by `lemmatizer`.
-    stopwords: False makes the runs of words that are no stopwords; a stopword between two of them stays inside the
-    gram («купить диван в москве» gives «купить диван» and «диван в москве»), as «Биграмм без учета стоп-слов»;
-    stopwords are found in any case (ADR 0005).
-    weight: a numeric column of the table; `sum` adds its value once per occurrence.
+    The words are those of split-text: punctuation at the edges of a word is dropped («руб.» is «руб»), a sign such
+    as ★ is no word, a number with inner points, commas or hyphens is one word («31.03.2026»). Sorted by count,
+    biggest first, then by ngram. Words are compared in any case and with ё as е.
+    n: how many words in a gram.
+    lemmas: count lemmas of the words («диваны» is «диван»).
+    stopwords: on, every word counts; off (--no-stopwords), the grams are made of the words that are no stopwords,
+    and a stopword between two of them stays inside the gram («купить диван в москве» gives «купить диван» and
+    «диван в москве»); stopwords are found in any case.
+    weight: a column of numbers of the table (a frequency); sum adds its value once per occurrence.
+    lemmatizer: what gives the lemmas.
+
+    ADR 0005: the add-in has no column docs, a semkit addition, so the conformance cases compare count and sum only;
+    stopwords off is the add-in's «Биграмм без учета стоп-слов»; stopwords are found in any case.
     """
     return _tally(
         data,
@@ -172,7 +179,11 @@ def bigrams(
 ) -> pd.DataFrame:
     """Pairs of words of a phrase in any order, counted: «купить диван» and «диван купить» both give «диван+купить».
 
-    Per phrase the words are sorted and a repeated word counts once. The table and its arguments are those of `ngrams`.
+    Per phrase the words are sorted and a repeated word counts once. The table is that of ngrams.
+    lemmas: count lemmas of the words («диваны» is «диван»).
+    stopwords: on, every word counts; off (--no-stopwords), only the words that are no stopwords make pairs.
+    weight: a column of numbers of the table (a frequency); sum adds its value once per occurrence.
+    lemmatizer: what gives the lemmas.
     """
     return _tally(
         data,

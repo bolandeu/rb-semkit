@@ -87,10 +87,12 @@ def nearest_parents(
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """The parent from `parents` with the most words for each phrase, or "" when it has none.
+    """The parent from a list with the most words for each phrase, or an empty cell when it has none.
+
+    parents: the phrases that may be parents; a parent is a phrase whose words all stand in the phrase.
 
     Between parents with as many words, the one whose words stand later in the phrase wins («a b c»: «b c» before
-    «a c»), then the first in the list. Empty items of `parents` are skipped.
+    «a c»), then the first in the list. Empty items of the list are skipped.
     """
     subsets = Subsets(_items("parents", parents))
 
@@ -114,7 +116,11 @@ def first_parents(
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """The first item of `parents` that is a parent of the phrase, or "" when none is. Empty items are skipped."""
+    """The first item of a list that is a parent of the phrase, or an empty cell when none is.
+
+    parents: the phrases that may be parents, in the order to try; a parent is a phrase whose words all stand in the
+    phrase. Empty items are skipped.
+    """
     subsets = Subsets(_items("parents", parents))
 
     def first(phrase: str) -> str:
@@ -131,7 +137,11 @@ def first_children(
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """The first item of `children` that is a child of the phrase, or "" when none is; an empty phrase has none."""
+    """The first item of a list that is a child of the phrase, or an empty cell when none is; an empty phrase has none.
+
+    children: the phrases that may be children, in the order to try; a child is a phrase that holds every word of the
+    phrase.
+    """
     items = _items("children", children)
     by_words = {item.words: number for number, item in enumerate(items)}
     holding: dict[str, list[int]] = defaultdict(list)
@@ -166,12 +176,15 @@ def basis_phrases(
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """Each phrase that is a basis of the core, or "" for the others: a basis holds no smaller phrase of the core.
+    """Each phrase that is a basis of the core, or an empty cell for the others: a basis holds no smaller phrase of the core.
 
     A phrase is a basis when it is the first with its set of words and no other phrase of the core has some of its
-    words only: «купить диван», «диван», «диван купить» → «», «диван», «». Words are compared by case and ё.
-    lemmas: compare the lemmas of the words («диваны» is «диван»), by `lemmatizer`.
-    stopwords: False leaves the stopwords out of the comparison; a phrase of stopwords only keeps them.
+    words only: «купить диван», «диван», «диван купить» → «», «диван», «». Words are compared in any case and with ё
+    as е.
+    lemmas: compare the lemmas of the words («диваны» is «диван»).
+    stopwords: on, the stopwords count; off (--no-stopwords), they are left out of the comparison, and a phrase of
+    stopwords only keeps them.
+    lemmatizer: what gives the lemmas.
     """
     frame = Frame(data, column, inplace)
     phrases = frame.phrases

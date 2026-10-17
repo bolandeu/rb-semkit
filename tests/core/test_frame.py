@@ -119,8 +119,8 @@ def test_pipe_chains_verbs_over_one_column() -> None:
         (lambda df: sk.find(df["phrase"], sk.words("бу"), column="phrase"), "column", "DataFrame"),
         (lambda df: sk.find(df["phrase"], sk.words("бу"), inplace=True), "inplace", "DataFrame"),
         (lambda df: sk.find(df, "бу", column="phrase"), "matcher", "sk.words"),
-        (lambda df: sk.find(df, sk.words([]), column="phrase"), "words", "one word"),
-        (lambda df: sk.find(df, sk.words(["купить диван"]), column="phrase"), "words", "one word"),
+        (lambda df: sk.find(df, sk.words([]), column="phrase"), "items", "one word"),
+        (lambda df: sk.find(df, sk.words(["купить диван"]), column="phrase"), "items", "one word"),
         (lambda df: sk.find(df, sk.words("бу", mode="some"), column="phrase"), "mode", "'any', 'all'"),
         (
             lambda df: sk.find(df, sk.words("бу", where="middle"), column="phrase"),

@@ -10,6 +10,7 @@ from __future__ import annotations
 from collections import Counter, defaultdict
 from collections.abc import Callable, Iterator
 from dataclasses import dataclass, field
+from typing import Literal, get_args
 
 import pandas as pd
 
@@ -21,7 +22,8 @@ from ..normalize import norm_phrase
 from ..text.base import split_words
 from ..text.words import Cut, ends_phrase, ends_sentence, pieces
 
-MODES = ("exact", "lemmas", "any_order")
+Mode = Literal["exact", "lemmas", "any_order"]
+MODES = get_args(Mode)
 COLUMNS = ["phrase", "count", "docs", "density", "first"]
 DECIMALS = 4
 
@@ -112,25 +114,32 @@ def coverage(
     core: pd.Series | pd.DataFrame,
     texts: pd.Series | pd.DataFrame,
     *,
-    mode: str = "exact",
+    mode: Mode = "exact",
     lemmatizer: Lemmatizer = BUNDLED,
     column: str | None = None,
     text_column: str | None = None,
 ) -> pd.DataFrame:
     """Every distinct core phrase checked against the texts: a table phrase, count, docs, density and first.
 
-    The rows follow the core order; a phrase that is not found stays with count 0, as the missing phrases are the point.
-    count: occurrences in all texts; one phrase does not overlap itself, and each phrase is counted on its own.
-    docs: the texts that hold the phrase at least once.
-    density: count x words of the phrase / words of all texts, a share from 0 to 1.
-    first: the number of the word (1-based, all words of the text counted) where the phrase first starts, in the
-    first text that holds it; empty when count is 0.
-    mode: 'exact' — the words of the phrase in a row, case and ё folded; 'lemmas' — the same by lemmas of both sides,
-    by `lemmatizer`; 'any_order' — the lemmas of the phrase all inside one piece of text (one `split_text` phrase),
-    in any order; a piece with them is one occurrence.
-    core, column: the core phrases, a Series or a DataFrame with `column`. texts, text_column: the texts, one per row.
+    mode: 'exact' — the words of the phrase in a row, case and ё folded; 'lemmas' — the same by lemmas of both sides;
+    'any_order' — the lemmas of the phrase all inside one piece of text (one phrase of split-text), in any order; a
+    piece with them is one occurrence.
+    core: the core phrases.
+    column: the column of the core phrases.
+    texts: the texts, one per row.
+    text_column: the column of the texts.
+    lemmatizer: what gives the lemmas.
+
+    exact and lemmas cross any punctuation inside a sentence («хранения — это» is «хранения это», a comma too), never a
+    sentence end (. ! ? …; the point of an abbreviation such as «г.» is none). The rows follow the core order; a phrase
+    that is not found stays with count 0, as the missing phrases are the point. The columns:
+    - count: occurrences in all texts; one phrase does not overlap itself, and each phrase is counted on its own;
+    - docs: the texts that hold the phrase at least once;
+    - density: count x words of the phrase / words of all texts, a share from 0 to 1, rounded to 4 decimals;
+    - first: the number of the word (1-based, all words of the text counted) where the phrase first starts, in the
+      first text that holds it; empty when count is 0.
     """
-    mode = _checked_mode(mode)
+    _checked_mode(mode)
     core_phrases = Frame(core, column).phrases
     text_rows = Frame(texts, text_column, argument="text_column").phrases.reset_index(drop=True)
     key = _key_of(mode, lemmatizer)

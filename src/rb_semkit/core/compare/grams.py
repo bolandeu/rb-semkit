@@ -24,13 +24,21 @@ def compare_grams(
 ) -> pd.DataFrame:
     """How the grams of my text differ from the competitors' texts: a row per gram met in any competitor.
 
-    mine: one text (a str). competitors: texts one per row (a Series, or a DataFrame with `column`).
+    mine: my text, one text.
+    competitors: the texts of the competitors, one per row.
+
     The density of a gram in a text is its count / the words of that text; a competitor without the gram counts as 0.
-    Grams are those of sk.ngrams (`n`, `lemmas`, `stopwords`).
-    Columns: ngram. docs: competitors that hold it. docs_share: docs / competitors, 0..1. median, min, max: the density
-    in the competitors. mine: its density in my text. verdict: 'below', 'within' or 'above', mine against
-    median x (1 ± tolerance); when the median is 0, 'within' if mine is 0, else 'above'.
-    Densities are rounded to 4 decimals. Sorted by median, biggest first, then ngram. The only norm is the median.
+    Grams are those of ngrams. With lemmas, a word without a lemma (a single letter, an abbreviation or a unit: «г»,
+    «руб», «см») is in no gram, but counts in the words of a text.
+    n: how many words in a gram.
+    lemmas: compare lemmas of the words («диваны» is «диван»).
+    stopwords: on, every word makes grams; off (the default), only the words that are no stopwords.
+    tolerance: how far from the median a density is still within, a share of the median (0.3 is ±30 %).
+
+    The columns: ngram; docs, the competitors that hold it; docs_share, docs / competitors, 0..1; median, min, max, the
+    density in the competitors; mine, its density in my text; verdict, «below», «within» or «above», mine against
+    median x (1 ± tolerance), and when the median is 0, «within» if mine is 0, else «above». Densities are rounded to 4
+    decimals. Sorted by median, biggest first, then ngram. The only norm is the median.
     """
     text, others = checked_text(mine), texts_of(competitors, column, "competitors")
     counts = partial(TextCounts, n=checked_n(n), lemmas=lemmas, stopwords=stopwords)

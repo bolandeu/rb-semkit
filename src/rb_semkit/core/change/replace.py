@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import re
 from collections.abc import Callable, Mapping
+from typing import Literal, get_args
 
 import pandas as pd
 
@@ -14,8 +15,10 @@ from .common import adjusted, capitalised, changed, split_edges, text_pairs
 
 __all__ = ["replace_text", "replace_words"]
 
-CASES = ("new", "keep")
-BY = ("substring", "phrase", "regex")
+Case = Literal["new", "keep"]
+By = Literal["substring", "phrase", "regex"]
+CASES = get_args(Case)
+BY = get_args(By)
 _YO = "[её]"
 
 
@@ -51,13 +54,14 @@ def replace_words(
     data: pd.Series | pd.DataFrame,
     pairs: Mapping[str, str],
     *,
-    case: str = "new",
+    case: Case = "new",
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """Whole words and phrases of the phrase replaced by `pairs` (what to find → its replacement); case and ё do not
-    count. Longer phrases go first: {"стиральная машинка": "стиральная машина", "машинка": "машина"}. An empty
-    replacement deletes the words.
+    """Whole words and phrases of the phrase replaced by pairs (what to find → its replacement); case and ё do not count.
+    Longer phrases go first: «стиральная машинка» → «стиральная машина» before «машинка» → «машина». Punctuation at the
+    edges of the found words stays around the replacement («диван,» → «софа,»); an empty replacement deletes the words
+    with that punctuation («купить диван, недорого» → «купить недорого»).
 
     case: "new" — the replacement as given; "keep" — in the case of the first word it replaces (lower, capitalised,
     upper; a word of mixed case keeps the replacement as given).
@@ -127,18 +131,20 @@ def replace_text(
     data: pd.Series | pd.DataFrame,
     pairs: Mapping[str, str],
     *,
-    by: str = "substring",
+    by: By = "substring",
     first_only: bool = False,
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """The phrase changed by `pairs`, one after the other (a later pair works on the result of the earlier ones):
+    """The phrase changed by pairs, one after the other (a later pair works on the result of the earlier ones).
 
-    - by="substring": every occurrence of the text, in any case and ё as е, becomes the replacement as given;
-    - by="phrase": a phrase equal to the text (case, ё and extra spaces do not count) becomes the replacement in the
+    by: what a pair finds:
+    - "substring": every occurrence of the text, in any case and ё as е, becomes the replacement as given;
+    - "phrase": a phrase equal to the text (case, ё and extra spaces do not count) becomes the replacement in the
       case of the phrase: lower, capitalised or upper («МОСКВА» → «САНКТ-ПЕТЕРБУРГ»);
-    - by="regex": each match of the pattern (cyrillic letters are word chars) becomes the replacement, with `\\1` and
-      `\\g<name>` for the groups; first_only: only the first match.
+    - "regex": each match of the pattern (cyrillic letters are word chars) becomes the replacement, with `\\1` and
+      `\\g<name>` for the groups.
+    first_only: with "regex", only the first match.
     """
     listed = text_pairs("pairs", pairs)
     choice("by", by, BY)

@@ -56,9 +56,10 @@ class CoreSpelling:
 
     A word is misspelt when another word stands in at least `ratio` times as many phrases and differs from it by a
     few edits (Levenshtein): up to `distance`, and fewer for a short word, one per two letters after the first
-    («диавн» → «диван» is 2 edits, «кит» → «кот» 1). A word with a digit is never misspelt. The correction is the
-    nearest such word, then the most frequent, then the first alphabetically; words are compared by case and ё, and
-    the correction is in lower case, spelt as it first stands in the phrases.
+    («диавн» → «диван» is 2 edits, «кит» → «кот» 1). A word with a digit, a stopword and a wordform the !SEMTools
+    dictionary or pymorphy3 knows are never misspelt. The correction starts with the same letter as the word; it is
+    the nearest such word, then the most frequent, then the first alphabetically; words are compared by case and ё,
+    and the correction is in lower case, spelt as it first stands in the phrases.
     """
 
     name = "core"
@@ -136,10 +137,14 @@ def is_typo(
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """TRUE for a phrase with a misspelt word, FALSE for the others.
+    """true for a phrase with a misspelt word, false for the others.
 
-    provider: what finds the misspelt words. CoreSpelling (the default) learns the words from the phrases given, so
-    give it the whole core; sk.LanguageTool asks a spelling server.
+    By default the words are learnt from the phrases given, so give the whole core: a word is misspelt when another word
+    stands in at least 10 times as many phrases and differs from it by a few edits (up to 2, and one per two letters
+    after the first for a short word: «диавн» → «диван»). A word with a digit, a stopword and a wordform the !SEMTools
+    dictionary or pymorphy3 knows («москве», «угловые») are never misspelt; a correction starts with the same letter
+    as the word.
+    provider: what finds the misspelt words: the core itself (the default), or a spelling server (LanguageTool).
     """
     frame = Frame(data, column, inplace)
     phrases, found = _misspellings(frame, provider)
@@ -155,7 +160,9 @@ def typo_correction(
 ) -> pd.Series | pd.DataFrame:
     """Each phrase with its misspelt words replaced by their most likely corrections («купить диавн» → «купить диван»).
 
-    A phrase with no misspelt word, or none the provider can correct, stays as it is. provider: as for `is_typo`.
+    The misspelt words are those of is-typo; the correction is the nearest such word, then the most frequent, starting
+    with the same letter. A phrase with no misspelt word, or none that can be corrected, stays as it is.
+    provider: what finds the misspelt words, as for is_typo.
     """
     frame = Frame(data, column, inplace)
     phrases, found = _misspellings(frame, provider)

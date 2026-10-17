@@ -33,7 +33,7 @@ from .. import output
 from ..core import wordlists
 from ..core.errors import InvalidArguments
 from ..core.version import cli_name
-from ..steps import ARGUMENT_LINE, LIST_ITEM, Step, argument_names, doc_lines, parameter_names
+from ..steps import ARGUMENT_LINE, LIST_ITEM, Prepared, Step, argument_names, doc_lines, parameter_names
 from .items import SYNTAX, items
 from .state import Planned
 
@@ -215,11 +215,29 @@ def step_options(function: Callable[..., Any]) -> list[StepOption]:
 
 
 def _help(step: Step, options: list[StepOption]) -> str:
+    """The help of the step without the lines on arguments it has no option for, then its example."""
     given = step.example
     if given is None:
         given = " ".join(option.example() for option in options if option.default is ...)
     command = " ".join(part for part in ("{cli} read", step.source, step.name, given, "write out.csv") if part)
-    return f"{step.help()}\n\nExample: {command}"
+    return f"{shown_help(step, options)}\n\nExample: {command}"
+
+
+def shown_help(step: Step, options: list[StepOption]) -> str:
+    """The help of the step as the command line shows it: no line explains an argument the step has no option for."""
+    names = {option.name for option in options}
+    paragraphs = []
+    for paragraph in step.help().split("\n\n"):
+        lines = [line for line in paragraph.splitlines() if _for_options(line, names)]
+        if lines:
+            paragraphs.append("\n".join(lines))
+    return "\n\n".join(paragraphs)
+
+
+def _for_options(line: str, names: Collection[str]) -> bool:
+    """Whether a line of the help is no explanation of arguments, or explains an option among `names`."""
+    found = ARGUMENT_LINE.match(line)
+    return not found or any(name in names for name in argument_names(found))
 
 
 def _option_parameters(option: StepOption) -> list[inspect.Parameter]:
@@ -258,6 +276,37 @@ def _parameters(step: Step, options: list[StepOption]) -> list[inspect.Parameter
     return [context, *found]
 
 
+def _in_cli_terms(message: str, options: list[StepOption]) -> str:
+    """A message of the library with its argument names as the options of the command line: «mode='x'» → «--mode 'x'»."""
+    for option in options:
+        flag = option.flag().split("/")[0]
+        message = re.sub(rf"(?<![\w-]){option.name}=", f"{flag} ", message)
+        message = re.sub(rf"^`?{option.name}`?:", f"{flag}:", message)
+    return message
+
+
+def _refused(step: Step, options: list[StepOption], error: InvalidArguments) -> InvalidArguments:
+    """An error of the step as the command line names it: the step, its options, an action in CLI terms."""
+    message = _in_cli_terms(error.message, options)
+    named = [flag for option in options if (flag := option.flag().split("/")[0]) in message]
+    action = help_hint(step.name)
+    if named:
+        action = f"Give {', '.join(named)} a value the message allows. {action}"
+    return InvalidArguments(f"{step.name}: {message}", action=error.action or action)
+
+
+def _reported_run(step: Step, options: list[StepOption], prepared: Prepared) -> Prepared:
+    """The prepared step; an error it raises on the table names the step and its options."""
+
+    def run(table, column):
+        try:
+            return prepared(table, column)
+        except InvalidArguments as error:
+            raise _refused(step, options, error) from None
+
+    return run
+
+
 def step_command(step: Step) -> Callable[..., Planned]:
     """The command of `step`: it checks its options and gives the step planned, or a usage error naming it."""
     options = step_options(step.function)
@@ -265,13 +314,14 @@ def step_command(step: Step) -> Callable[..., Planned]:
     def command(ctx: typer.Context, as_column: str | None = None, **values: Any) -> Planned:
         try:
             arguments = {option.name: option.value(values) for option in options}
-            return Planned(step, step.prepare(arguments), as_column)
+            return Planned(step, _reported_run(step, options, step.prepare(arguments)), as_column)
         except InvalidArguments as error:
-            raise InvalidArguments(f"{step.name}: {error.message}", action=help_hint(step.name)) from None
+            raise _refused(step, options, error) from None
 
     parameters = _parameters(step, options)
     command.__signature__ = inspect.Signature(parameters)  # ty: ignore[unresolved-attribute]
     command.__annotations__ = {parameter.name: parameter.annotation for parameter in parameters}
     command.__name__ = command.__qualname__ = step.name.replace("-", "_")
     command.__doc__ = _help(step, options)
+    command.opencli_metadata = {"x-rb-kind": step.kind}  # ty: ignore[unresolved-attribute]
     return output.guard(command)

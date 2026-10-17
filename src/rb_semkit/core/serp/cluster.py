@@ -8,12 +8,14 @@ index url -> phrases, so only phrases that share a URL are ever compared. `soft`
 from __future__ import annotations
 
 from collections import Counter, defaultdict
+from typing import Literal, get_args
 
 import pandas as pd
 
 from ..errors import InvalidArguments
 
-METHODS = ("soft", "hard")
+Method = Literal["soft", "hard"]
+METHODS = get_args(Method)
 SERP_COLUMNS = ("phrase", "position", "url")
 COLUMNS = ["phrase", "cluster", "center", "common"]
 _URL_HEAD = r"^\s*(?:[a-z][a-z0-9+.-]*://)?(?:www\.)?"
@@ -123,17 +125,23 @@ def _hard(order: list[str], links: dict[str, set[str]]) -> list[list[str]]:
 def cluster_serp(
     serp: pd.DataFrame,
     *,
-    method: str = "soft",
+    method: Method = "soft",
     common: int = 3,
     top: int = 10,
     freq: pd.DataFrame | pd.Series | None = None,
 ) -> pd.DataFrame:
-    """Cluster the phrases of `serp` (columns phrase, position, url) by common URLs of their tops.
+    """Cluster the phrases of a SERP table (columns phrase, position, url) by the common URLs of their tops.
 
-    Returns one row per phrase: phrase, cluster (1 = the largest), center (the first phrase of the cluster) and
-    common (URLs shared with the center; the center gets the size of its own top). `freq` (a Series indexed by
-    phrase, or a DataFrame with the columns phrase and freq) orders the phrases; without it the phrase with the
-    most links to the others goes first, ties by phrase.
+    serp: the SERP table, one row per phrase and position.
+    method: "soft" grows a cluster around its center: a phrase joins when it shares enough URLs with the center;
+    "hard" lets a phrase join only when it shares enough URLs with every member of the cluster.
+    common: how many URLs two phrases must share.
+    top: how many first positions of each phrase count.
+    freq: the frequency of each phrase; the most frequent phrase goes first. Without it the phrase with the most
+    links to the others goes first, ties by phrase.
+
+    One row per phrase: phrase, cluster (1 = the largest), center (the first phrase of the cluster) and common (URLs
+    shared with the center; the center gets the size of its own top).
     """
     _checked(serp, method, common, top)
     tops = _tops(serp, top)

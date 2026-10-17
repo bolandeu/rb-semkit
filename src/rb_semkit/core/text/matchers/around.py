@@ -59,12 +59,15 @@ class Around(Matcher):
 
 
 def around(pattern: str, *, after: bool = False, include: bool = False, last: bool = False) -> Around:
-    """The part of the phrase before (`after=False`) or after the first (`last=False`) or last occurrence of `pattern`.
+    """The part of the phrase before or after the first or the last occurrence of a text. Remove and extract only.
 
-    The pattern is text as typed, found anywhere, also inside a word («в» is found in «диван»). remove finds the
-    first occurrence in any case and the last one in the case written; extract matches the case written. ё = е.
-    `include=True` adds the occurrence itself to the part. A phrase without the pattern has no part: remove leaves
-    it, extract gives ''. Remove and extract only.
+    pattern: the text as typed, found anywhere, also inside a word («в» is found in «диван»); not a regular expression.
+    after: the part after the occurrence; by default the part before it.
+    last: the last occurrence; by default the first.
+    include: the occurrence itself belongs to the part.
+
+    remove finds the first occurrence in any case and the last one in the case written; extract matches the case
+    written; ё = е. A phrase without the text has no part: remove leaves it, extract gives an empty cell.
 
     ADR 0005: ё = е; no double spaces in the results, none at the edges.
     """

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Literal, get_args
+
 import numpy as np
 import pandas as pd
 
@@ -11,12 +13,13 @@ from ..normalize import norm_phrase
 from ..text.base import split_words
 from .weights import weights_of
 
-WHAT = ("words", "chars", "count", "number", "share", "share_of_total", "abc")
+What = Literal["words", "chars", "count", "number", "share", "share_of_total", "abc"]
+WHAT = get_args(What)
 NEEDS_WEIGHT = ("share", "share_of_total", "abc")
 # ABC classes: the upper bound of the cumulative share, and the class below it.
 ABC_BOUNDS = ((0.8, "A"), (0.95, "B"))
 ABC_REST = "C"
-DECIMALS = 4  # of a share, as the densities of sk.compare_grams and sk.coverage
+DECIMALS = 4  # of a share, as the densities of compare_grams and coverage
 
 
 def _abc(share: float) -> str:
@@ -46,21 +49,22 @@ def _weight_count(what: str, weights: pd.Series) -> pd.Series:
 
 def counts(
     data: pd.Series | pd.DataFrame,
-    what: str,
+    what: What,
     *,
     weight: str | None = None,
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """One count per phrase, as a Series or a new column `<column>_<what>`.
+    """One count per phrase, in a new column `<column>_<what>`.
 
     what: "words" and "chars" — the words and the characters of the phrase; "count" — how many times the same
     phrase stands in the core; "number" — which occurrence of it this row is (1 for the first).
-    Phrases are the same by case and ё (ADR 0005); an empty cell has no count (empty value).
+    Phrases are the same in any case and with ё as е; an empty cell has no count (an empty value).
     "share" — the cumulative share of the sum of `weight` (0..1) in row order; "share_of_total" — the
-    value over the sum; both are empty when the sum is 0.
+    value over the sum; both are rounded to 4 decimals and empty when the sum is 0.
     "abc" — the class by the cumulative share from the heaviest phrase down: "A" up to 80 %, "B" up to
     95 %, "C" the rest. "share", "share_of_total" and "abc" need `weight`.
+    weight: the column of numbers to share (a frequency), for "share", "share_of_total" and "abc".
     """
     if what not in WHAT:
         raise InvalidArguments(f"what={what!r}; allowed: {', '.join(repr(item) for item in WHAT)}.")

@@ -21,9 +21,12 @@ class Positions(SpanMatcher):
 
 
 def positions(count: int, *, last: bool = False) -> Positions:
-    """The first `count` characters of a phrase, or the last ones with `last=True` (remove and extract).
+    """The first characters of a phrase, or the last ones (remove and extract).
 
-    remove gives '' when the phrase has `count` characters or fewer; extract then gives the whole phrase.
+    count: how many characters.
+    last: the last characters; by default the first.
+
+    remove gives an empty cell when the phrase has that many characters or fewer; extract then gives the whole phrase.
 
     ADR 0005: no double spaces in the results, none at the edges.
     """

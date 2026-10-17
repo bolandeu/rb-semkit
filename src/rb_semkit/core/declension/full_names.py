@@ -2,15 +2,18 @@
 
 from __future__ import annotations
 
+from typing import Literal, get_args
+
 import pandas as pd
 
 from ..frame import Frame, map_unique
 from ..text.base import choice
-from .forms import CASES, USUAL_ENDINGS, noun_exception, noun_form, table_key
+from .forms import USUAL_ENDINGS, noun_exception, noun_form, table_key
 
 __all__ = ["decline_full_name"]
 
-NAME_CASES = CASES[1:]
+NameCase = Literal["genitive", "dative", "accusative", "instrumental", "prepositional"]
+NAME_CASES = get_args(NameCase)
 GENITIVE, ACCUSATIVE = NAME_CASES.index("genitive"), NAME_CASES.index("accusative")
 Forms = tuple[str, str, str, str, str]  # the genitive, dative, accusative, instrumental and prepositional
 # Endings of a surname and their forms, ё as е; the first ending the surname has wins.
@@ -94,7 +97,7 @@ def _declined(full_name: str, case: int) -> str:
 
 def decline_full_name(
     data: pd.Series | pd.DataFrame,
-    case: str,
+    case: NameCase,
     *,
     column: str | None = None,
     inplace: bool = False,
@@ -102,10 +105,11 @@ def decline_full_name(
     """A full name «Фамилия Имя Отчество» declined: «Иванов Сергей Петрович» genitive → «Иванова Сергея Петровича».
 
     case: "genitive", "dative", "accusative", "instrumental" or "prepositional".
+
     A full name that ends in «-на» or «-зы» is a woman's («Петрова Анна Ивановна» → «Петровой Анны Ивановны»).
-    The surname declines by its ending («-ов», «-ин», «-ой», «-ская»…), the name and the patronymic as nouns; the
-    result has a capital in each word. An empty cell stays empty; any other value that is not three words raises
-    InvalidArguments.
+    The surname declines by its ending («-ов», «-ин», «-ой», «-ская»…), the name and the patronymic as nouns; a surname
+    in «-ых» or «-их» stays («Белых»), a man's surname in «-а» or «-я» declines («Глинка» → «Глинки»). The result has
+    a capital in each word. An empty cell and a value that is not three words stay as they are.
     """
     index = NAME_CASES.index(choice("case", case, NAME_CASES))
     frame = Frame(data, column, inplace)

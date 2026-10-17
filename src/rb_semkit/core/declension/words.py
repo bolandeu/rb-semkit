@@ -5,16 +5,16 @@ from __future__ import annotations
 import pandas as pd
 
 from ..morph.functions import word_by_word
-from .forms import adjective_form, adjective_index, form_index, noun_form
+from .forms import Case, Gender, Number, adjective_form, adjective_index, form_index, noun_form
 
 __all__ = ["decline_adjective", "decline_noun"]
 
 
 def decline_noun(
     data: pd.Series | pd.DataFrame,
-    case: str,
+    case: Case,
     *,
-    number: str = "singular",
+    number: Number = "singular",
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
@@ -22,10 +22,12 @@ def decline_noun(
 
     case: "nominative", "genitive", "dative", "accusative", "instrumental" or "prepositional".
     number: "singular" or "plural" (12 forms in all; the nominative singular is the word itself).
-    Every word is taken as a noun; for a phrase of mixed words use `decline`. A word with a capital keeps it
+
+    Every word is taken as a noun; for a phrase of mixed words use decline. A word with a capital keeps it
     («Москва» → «Москвы»); an indeclinable word («кафе»), an abbreviation («МТС») and a word the tables lack stay.
-    The accusative comes from the tables only, by the word or its last three letters: «парк» → «парк», but
-    «диван» → «дивана» (as «Иван»).
+    The accusative goes by animacy: an inanimate noun takes its nominative («диван» → «диван»), an animate one its
+    genitive («кот» → «кота»), a singular in «-а» or «-я» the form of the tables («книга» → «книгу»). A hyphenated noun
+    declines whole («диван-кровать» instrumental → «диваном-кроватью»).
     """
     index = form_index(case, number)
     return word_by_word(data, lambda word: noun_form(word, index), "decline_noun", column, inplace)
@@ -33,17 +35,19 @@ def decline_noun(
 
 def decline_adjective(
     data: pd.Series | pd.DataFrame,
-    case: str,
+    case: Case,
     *,
-    gender: str = "masculine",
-    number: str = "singular",
+    gender: Gender = "masculine",
+    number: Number = "singular",
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
     """Each word of a phrase, an adjective in the masculine nominative singular, declined: «красный» → «красного».
 
     case: "nominative", "genitive", "dative", "accusative", "instrumental" or "prepositional".
-    gender: "masculine", "feminine" or "neuter", for the singular. number: "singular" or "plural".
+    gender: "masculine", "feminine" or "neuter", for the singular.
+    number: "singular" or "plural".
+
     16 forms in all: «красный», «красного», «красному», «красный», «красным», «красном»; «красная», «красной»,
     «красную»; «красное»; «красные», «красных», «красным», «красные», «красными», «красных». The masculine
     accusative is the inanimate one. A word with a capital keeps it; a word whose ending the tables lack stays.

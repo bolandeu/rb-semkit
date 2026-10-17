@@ -44,13 +44,15 @@ class Regex(Matcher):
 
 
 def regex(pattern: str, *, all_matches: bool = False, invert: bool = False) -> Regex:
-    """What the regular expression `pattern` matches in a phrase, case-sensitive, searched anywhere.
+    """What a regular expression matches in a phrase, case-sensitive, searched anywhere.
 
-    find: the pattern matches. remove: every match is cut out. extract: the first match, or with `all_matches=True`
-    every match, joined by a space.
-    invert: the found part is the text the pattern does NOT match: remove keeps only the matches, joined with
-    nothing between («диван 120x200» with \\d+ → «120200»); extract gives the text outside the matches («диван x»);
-    find is True where such text is left.
+    pattern: the regular expression; \\w, \\b and \\d take Cyrillic letters too.
+    all_matches: extract gives every match, joined by a space; by default the first.
+    invert: the found part is the text the pattern does not match: remove keeps only the matches, joined with nothing
+    between («диван 120x200» with \\d+ → «120200»); extract gives the text outside the matches («диван x»); find marks
+    the phrases where such text is left.
+
+    find marks the phrases where the pattern matches; remove cuts out every match; extract gives the first match.
 
     ADR 0005: \\w, \\b and \\d understand Cyrillic (Unicode); no double spaces in the results.
     """

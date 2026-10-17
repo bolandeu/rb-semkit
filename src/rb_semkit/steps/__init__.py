@@ -32,10 +32,11 @@ from types import FunctionType
 from typing import Any, Literal
 
 import pandas as pd
+from pandas.api import types
 
 from ..core.errors import InvalidArguments
 from ..core.frame import Frame, text_columns
-from ..pipeline.tables import STDIO, Source
+from ..pipeline.tables import STDIO, Source, exists
 
 Kind = Literal["change", "filter", "report"]
 # A docstring line that explains arguments of the function: «mode: …», «`action`: …», «core, column: …», «first / last: …».
@@ -44,6 +45,7 @@ ARGUMENT_LINE = re.compile(rf"^(?P<names>{ARGUMENT_NAMES}): ")
 # An explanation of another argument inside a line, after the end of a sentence: «… is bad. good: a phrase …».
 INLINE_ARGUMENT = re.compile(rf"(?<=[.;]) (?P<names>{ARGUMENT_NAMES}): ")
 LIST_ITEM = re.compile(r"^(?:[-*]|\d+[.)]) ")
+DIGIT_GROUPS = r"(?<=\d)[ \u00a0\u202f](?=\d{3}\b)"  # the spaces between groups of digits: «1 000»
 
 
 @dataclass(frozen=True)
@@ -145,7 +147,8 @@ class Adapted:
 
     `parameters` changes the signature: a name mapped to None is taken off (the step fills it from the current table),
     one mapped to a Parameter is replaced by it (a file option instead of a table), a name that is new is added at the
-    end. `docs` are lines on the new arguments («name: text»), added to the docstring for the help of their options.
+    end. `docs` are lines on the new arguments («name: text»), added to the docstring for the help of their options;
+    they replace the lines of the docstring on the same arguments.
     """
 
     def __init__(self, function: FunctionType, parameters: Mapping[str, inspect.Parameter | None], *docs: str) -> None:
@@ -156,11 +159,34 @@ class Adapted:
         self.__globals__ = getattr(function, "__globals__", {})  # the names the annotations are resolved in
         self.__name__ = function.__name__
         self.__module__ = function.__module__
-        self.__doc__ = "\n\n".join([inspect.cleandoc(function.__doc__ or ""), "\n".join(docs)])
+        self.__doc__ = "\n\n".join([_without_arguments(function, _explained(docs)), "\n".join(docs)])
         self.__signature__ = signature.replace(parameters=[*(p for p in kept if p), *added])
 
     def __call__(self, *args: Any, **kwargs: Any) -> Any:
         return self.__wrapped__(*args, **kwargs)
+
+
+def _explained(docs: Collection[str]) -> set[str]:
+    """The arguments the lines `docs` explain."""
+    return {name for line in docs for doc in line.splitlines() if (found := ARGUMENT_LINE.match(doc))
+            for name in argument_names(found)}  # fmt: skip
+
+
+def _without_arguments(function: Callable[..., Any], names: Collection[str]) -> str:
+    """The docstring of `function` without the lines that explain only arguments of `names`."""
+    paragraphs = inspect.cleandoc(function.__doc__ or "").split("\n\n")
+    parameters = parameter_names(function)
+    kept = []
+    for paragraph in paragraphs:
+        lines = [line for line in doc_lines(paragraph, parameters) if not _explains_only(line, names)]
+        if lines:
+            kept.append("\n".join(lines))
+    return "\n\n".join(kept)
+
+
+def _explains_only(line: str, names: Collection[str]) -> bool:
+    found = ARGUMENT_LINE.match(line)
+    return bool(found) and set(argument_names(found)) <= set(names)
 
 
 def option(name: str, annotation: Any = str, default: Any = inspect.Parameter.empty) -> inspect.Parameter:
@@ -173,10 +199,24 @@ def slug(function: FunctionType) -> str:
     return function.__name__.replace("_", "-")
 
 
+def flag(name: str) -> str:
+    """The option of the command line for the argument `name`: text_column → --text-column."""
+    return "--" + name.replace("_", "-")
+
+
 def table_of(path: str, option_name: str) -> pd.DataFrame:
-    """The table in the file `path`, read as `read` does (types inferred, text columns text); '-' is the pipeline's input, so refused."""
+    """The table in the file `path`, read as `read` does (types inferred, text columns text).
+
+    '-' is the pipeline's input, so refused; so is a file that does not exist.
+    """
     if path == STDIO:
-        raise InvalidArguments(f"{option_name}: '-' is not allowed here; allowed: a file.")
+        raise InvalidArguments(
+            f"{flag(option_name)} -: '-' is the input of the pipeline.", action=f"Give {flag(option_name)} a file."
+        )
+    if not exists(path):
+        raise InvalidArguments(
+            f"{flag(option_name)} {path} does not exist.", action=f"Give {flag(option_name)} a file that exists."
+        )
     return Source(path).read()
 
 
@@ -184,7 +224,9 @@ def first_text(table: pd.DataFrame, option_name: str) -> str:
     """The first text column of a table read from a file."""
     found = text_columns(table)
     if not found:
-        raise InvalidArguments(f"{option_name}: the file has no text column; allowed: a file with one.")
+        raise InvalidArguments(
+            f"{flag(option_name)}: the file has no text column.", action="Give a file with a column of text."
+        )
     return found[0]
 
 
@@ -201,16 +243,44 @@ def as_table(table: pd.DataFrame, option_name: str) -> pd.DataFrame:
 def pairs_of(table: pd.DataFrame, option_name: str) -> dict[str, str]:
     """The first column of a table read from a file mapped to its second."""
     if len(table.columns) < 2:
-        raise InvalidArguments(f"{option_name}: the file has {len(table.columns)} column; allowed: two columns.")
+        raise InvalidArguments(
+            f"{flag(option_name)}: the file has {len(table.columns)} column.", action="Give a file of two columns."
+        )
     return dict(zip(table.iloc[:, 0], table.iloc[:, 1], strict=True))
 
 
 def scores_of(table: pd.DataFrame, option_name: str) -> dict[str, float]:
     """The first column of a table read from a file mapped to the numbers of its second."""
-    try:
-        return {word: float(score) for word, score in pairs_of(table, option_name).items()}
-    except ValueError:
-        raise InvalidArguments(f"{option_name}: the second column holds text that is not a number.") from None
+    pairs_of(table, option_name)
+    scores = numbers_of(table.iloc[:, 1], f"{flag(option_name)} {table.columns[1]}")
+    return dict(zip(table.iloc[:, 0], scores.fillna(0).astype(float), strict=True))
+
+
+def numbers_of(values: pd.Series, where: str) -> pd.Series:
+    """The cells as numbers: «5,5» is 5.5 and «1 000» is 1000; an empty cell stays empty.
+
+    A cell of other text is refused, naming `where` (the option and the column), its row (1 is the first row under the
+    header) and its value.
+    """
+    if types.is_numeric_dtype(values):
+        return values
+    text = values.astype(object).where(values.notna(), "").astype(str).str.strip()
+    plain = text.str.replace(DIGIT_GROUPS, "", regex=True)
+    plain = plain.where(plain.str.contains(".", regex=False), plain.str.replace(",", ".", regex=False))
+    found = pd.to_numeric(plain.mask(plain == ""), errors="coerce")
+    bad = found.isna() & (plain != "")
+    if bad.any():
+        row = bad.idxmax()
+        raise InvalidArguments(
+            f"{where}: row {_row_number(values, row)} holds {text[row]!r}, not a number.",
+            action="Correct the cell, or name a column of numbers.",
+        )
+    return found
+
+
+def _row_number(values: pd.Series, label: Any) -> int:
+    """The row of a cell as the file counts it: 1 for the first row under the header."""
+    return int(label) + 1 if types.is_integer(label) else values.index.get_loc(label) + 1
 
 
 def joined(table: pd.DataFrame, column: str) -> str:

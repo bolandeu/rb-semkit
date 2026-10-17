@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import re
 from collections.abc import Callable
+from typing import Literal, get_args
 
 import pandas as pd
 
@@ -13,7 +14,8 @@ from .common import changed, pairs_table
 
 __all__ = ["chpu", "guillemets", "similar_chars", "switch_layout", "translit"]
 
-LANGUAGES = ("en", "ru")
+Language = Literal["en", "ru"]
+LANGUAGES = get_args(Language)
 QUOTE = '"'
 OPENING, CLOSING = "«", "»"
 _WORD = re.compile(r"\S+")
@@ -78,11 +80,15 @@ def _to_cyrillic(phrase: str) -> str:
 
 
 def translit(
-    data: pd.Series | pd.DataFrame, *, to: str, column: str | None = None, inplace: bool = False
+    data: pd.Series | pd.DataFrame, *, to: Language, column: str | None = None, inplace: bool = False
 ) -> pd.Series | pd.DataFrame:
-    """Letters of one alphabet written in the other: to="en" — «Щука жёлтая» → «Schuka zheltaya», a word in capitals
-    stays in capitals («ЖУК» → «ZHUK»); to="ru" — by letter groups, «Yandex» → «Яндекс», «Jeep» → «Джееп»,
-    «ob'em» → «обэм». The other chars stay."""
+    """Letters of one alphabet written in the other. The other chars stay.
+
+    to: "en" — «Щука жёлтая» → «Schuka zheltaya», a word in capitals stays in capitals («ЖУК» → «ZHUK»); "ru" — by
+    letter groups, «Yandex» → «Яндекс», «Jeep» → «Джееп», «ob'em» → «обэм»: shch is щ, ts is ц, yy is ый
+    («krasnyy» → «красный»), y after a vowel and before no vowel is й («Moy» → «Мой», «dayte» → «дайте»); a word in
+    capitals is read by the groups of small letters and stays in capitals («ZHUK» → «ЖУК»). ь and ъ are dropped in
+    "en" and е and ё both give e, so "ru" cannot bring them back («den» → «ден»)."""
     choice("to", to, LANGUAGES)
     return changed(data, _to_latin if to == "en" else _to_cyrillic, "translit", column, inplace)
 
@@ -122,11 +128,13 @@ def _translated(name: str, build: Callable[[], dict[int, str]]) -> Callable[[str
 
 
 def switch_layout(
-    data: pd.Series | pd.DataFrame, *, to: str, column: str | None = None, inplace: bool = False
+    data: pd.Series | pd.DataFrame, *, to: Language, column: str | None = None, inplace: bool = False
 ) -> pd.Series | pd.DataFrame:
-    """Text typed in the wrong keyboard layout, retyped on the same keys of the other: to="ru" — «ghbdtn, vbh» →
-    «приветб мир», «z» → «я»; to="en" — «привет» → «ghbdtn», a capital on a sign key gives its shifted sign
-    («Б» → «<», «Ё» → «~»)."""
+    """Text typed in the wrong keyboard layout, retyped on the same keys of the other.
+
+    to: "ru" — «ghbdtn, vbh» → «приветб мир», «z» → «я»; "en" — «привет» → «ghbdtn», a capital on a sign key gives
+    its shifted sign («Б» → «<», «Ё» → «~»). The signs of the Russian layout go to the English keys and back:
+    «.» is «/», «,» is «?», «:» is «^», «;» is «$», «?» is «&», «"» is «@», «№» is «#», «/» is «|»."""
     choice("to", to, LANGUAGES)
     return changed(
         data, _translated(f"change/layout_{to}", lambda: _layout_table(to)), "switch_layout", column, inplace
@@ -139,10 +147,12 @@ def _similar_table(to: str) -> dict[int, str]:
 
 
 def similar_chars(
-    data: pd.Series | pd.DataFrame, *, to: str, column: str | None = None, inplace: bool = False
+    data: pd.Series | pd.DataFrame, *, to: Language, column: str | None = None, inplace: bool = False
 ) -> pd.Series | pd.DataFrame:
-    """The letters that look alike in both alphabets (а a, В B, Н H, р p, с c, у y, х x…) in the alphabet `to`:
-    to="en" — «Москва» → «Mockвa»; to="ru" — «CTO» → «СТО». The other letters stay."""
+    """The letters that look alike in both alphabets (а a, В B, Н H, р p, с c, у y, х x…) in one alphabet. The other
+    letters stay.
+
+    to: the alphabet: "en" — «Москва» → «Mockвa»; "ru" — «CTO» → «СТО»."""
     choice("to", to, LANGUAGES)
     return changed(
         data, _translated(f"change/similar_{to}", lambda: _similar_table(to)), "similar_chars", column, inplace

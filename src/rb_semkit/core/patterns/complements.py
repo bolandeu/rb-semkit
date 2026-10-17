@@ -88,6 +88,8 @@ def complements() -> Complements:
     «для детей, с доставкой».
 
     A complement is a preposition of the bundled list complement_prepositions («для», «с», «в» and others; any case,
-    ё as е) and the words after it up to the last noun among the next five words, before the next preposition. A preposition with no noun after it gives nothing.
+    ё as е) and the words after it up to its first noun and the oblique nouns and adjectives right after that noun
+    («стол из массива дуба белый» → «из массива дуба»), before the next preposition. A preposition with no noun after it
+    gives nothing.
     """
     return Complements()

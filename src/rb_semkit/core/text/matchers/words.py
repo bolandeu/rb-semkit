@@ -5,8 +5,7 @@ from __future__ import annotations
 from collections.abc import Iterable
 from typing import TYPE_CHECKING, Literal, get_args
 
-from ...normalize import norm_phrase
-from ..base import WordMatcher, choice, word_key, word_list
+from ..base import WordMatcher, choice, lemma_key, word_list
 
 if TYPE_CHECKING:
     from ...morph import Lemmatizer
@@ -29,7 +28,7 @@ class Words(WordMatcher):
         ignore_punct: bool = False,
         lemmatizer: Lemmatizer | None = None,
     ) -> None:
-        listed = word_list("words", items)
+        listed = word_list("items", items)
         self._mode = choice("mode", mode, MODES)
         self._where = choice("where", where, PLACES)
         self._ignore_punct = ignore_punct
@@ -37,10 +36,7 @@ class Words(WordMatcher):
         self._keys = frozenset(self._key(item) for item in listed)
 
     def _key(self, word: str) -> str:
-        key = word_key(word, ignore_punct=self._ignore_punct)
-        if self._lemmatizer is None or not key:
-            return key
-        return norm_phrase(self._lemmatizer.lemma(key))
+        return lemma_key(word, self._lemmatizer, ignore_punct=self._ignore_punct)
 
     def _places(self, count: int) -> range:
         if self._where == "start":
@@ -65,12 +61,13 @@ def words(
     ignore_punct: bool = False,
     lemmatizer: Lemmatizer | None = None,
 ) -> Words:
-    """Whole words of a phrase equal to `items`, compared by case and ё (`norm_phrase`).
+    """Whole words of a phrase equal to the items of a list, compared in any case and with ё as е.
 
+    items: the words to find.
     mode: "any" — any of the words; "all" — only phrases holding every one of them.
     where: "anywhere", "start" (the first word only) or "end" (the last word only).
     ignore_punct: punctuation at the edges of a word does not count («диван,» is «диван»).
-    lemmatizer: compare lemmas («диваны» is «диван»); None compares the words as they are.
+    lemmatizer: compare the lemmas it gives («диваны» is «диван»); not given, the words are compared as they are.
 
     ADR 0005: ё = е; split on any whitespace; blank list items are refused.
     """

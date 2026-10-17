@@ -31,12 +31,16 @@ def compare_stats(
     tolerance: float = 0.3,
     column: str | None = None,
 ) -> pd.DataFrame:
-    """The numeric metrics of sk.text_stats, mine against the competitors: a row per metric.
+    """The metrics of text-stats, mine against the competitors: a row per metric.
 
-    mine: one text (a str). competitors: texts one per row (a Series, or a DataFrame with `column`).
-    Columns: metric. mine. median, min, max: the metric over the competitors. delta: mine - median.
-    verdict: 'below', 'within' or 'above', mine against median x (1 ± tolerance); when the median is 0, 'within' if
-    mine is 0, else 'above'. Numbers are rounded to 4 decimals. The only norm is the median.
+    mine: my text, one text.
+    competitors: the texts of the competitors, one per row.
+    tolerance: how far from the median a metric is still within, a share of the median (0.3 is ±30 %).
+
+    The columns: metric; mine; median, min, max, the metric over the competitors; delta, mine - median; verdict,
+    «below», «within» or «above», mine against median x (1 ± tolerance), and when the median is 0, «within» if mine is
+    0, else «above». Numbers are rounded to 4 decimals; the counts (chars, chars_no_spaces, words, unique) stay whole
+    numbers where they are whole. The only norm is the median.
     """
     text, others = checked_text(mine), texts_of(competitors, column, "competitors")
     limit = checked_number(tolerance, "tolerance")

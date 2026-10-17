@@ -70,10 +70,14 @@ def dupes(
     lemmatizer: Lemmatizer | None = None,
     column: str | None = None,
 ) -> pd.Series | pd.DataFrame:
-    """Duplicates by `kind`: exact, explicit (case, ё→е, spaces), implicit (other word order) or lemmas.
+    """Duplicates of the phrases, by kind.
 
-    `action`: mark_except_first (a bool, the first of a group is False), mark_all (every member of a group of 2+),
-    drop (keep the first, drop the rest). With `against` a phrase is a duplicate when its key is in that Series.
+    kind: exact (the same text), explicit (the same in any case, with ё as е and any spaces), implicit (the same words in
+    another order) or lemmas (the same lemmas in any order).
+    action: mark_except_first (true for each duplicate, false for the first of its group), mark_all (true for every
+    member of a group of 2 or more), drop (keep the first, drop the rest).
+    against: other phrases; with them a phrase is a duplicate when it stands among them.
+    lemmatizer: what gives the lemmas.
     """
     key_of = key_function(kind, lemmatizer)
     if action not in ACTIONS:

@@ -2962,6 +2962,10 @@
     "reason": "a corrected wordform: its line of morph.toml replaces it"
    },
    {
+    "item": "лучше\tхороший\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
     "item": "мини\tминь\tn",
     "reason": "a corrected wordform: its line of morph.toml replaces it"
    },
@@ -3047,6 +3051,30 @@
    },
    {
     "item": "подросток\tподростковый\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "покрывала\tпокрывало\tv",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "покрывалам\tпокрывало\tv",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "покрывале\tпокрывало\tv",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "покрывало\tпокрывало\tv",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "покрывалом\tпокрывало\tv",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "покрывалу\tпокрывало\tv",
     "reason": "a corrected wordform: its line of morph.toml replaces it"
    },
    {
@@ -3276,6 +3304,10 @@
     "reason": "lemms.tsv: the lemma купа"
    },
    {
+    "item": "лучше\tхороший\tadvb",
+    "reason": "lemms.tsv: the part of speech n; хуже, its pair, is advb"
+   },
+   {
     "item": "мини\tмини\tn",
     "reason": "lemms.tsv: the lemma минь"
    },
@@ -3362,6 +3394,30 @@
    {
     "item": "подросток\tподросток\tn",
     "reason": "lemms.tsv: the lemma of the adjective подростковый"
+   },
+   {
+    "item": "покрывала\tпокрывало\tn",
+    "reason": "lemms.tsv: the part of speech v (покрывалами and покрывалах are n)"
+   },
+   {
+    "item": "покрывалам\tпокрывало\tn",
+    "reason": "lemms.tsv: the part of speech v (покрывалами and покрывалах are n)"
+   },
+   {
+    "item": "покрывале\tпокрывало\tn",
+    "reason": "lemms.tsv: the part of speech v (покрывалами and покрывалах are n)"
+   },
+   {
+    "item": "покрывало\tпокрывало\tn",
+    "reason": "lemms.tsv: the part of speech v (покрывалами and покрывалах are n)"
+   },
+   {
+    "item": "покрывалом\tпокрывало\tn",
+    "reason": "lemms.tsv: the part of speech v (покрывалами and покрывалах are n)"
+   },
+   {
+    "item": "покрывалу\tпокрывало\tn",
+    "reason": "lemms.tsv: the part of speech v (покрывалами and покрывалах are n)"
    },
    {
     "item": "раскладывается\tраскладываться\tv",

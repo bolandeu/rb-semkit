@@ -22,7 +22,7 @@ from .. import output
 from ..core.errors import InvalidArguments
 from ..core.version import cli_name
 from .commands import help_hint
-from .run import run
+from .run import SHAPE, run
 
 
 @contextmanager
@@ -53,7 +53,12 @@ class PipelineGroup(TyperGroup):
 
     def parse_args(self, ctx: Context, args: list[str]) -> list[str]:
         if not args:
-            output.help_if_no_command(cast(typer.Context, ctx))
+            output.emit_error(
+                cast(typer.Context, ctx),
+                InvalidArguments(
+                    f"read: IN not given; {SHAPE}.", action=f"Run '{cli_name()} read --help' for an example."
+                ),
+            )
         end = _end(self, args, self.commands)
         with _reported(ctx):
             Command.parse_args(self, ctx, args[:end])

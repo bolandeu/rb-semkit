@@ -10,6 +10,8 @@ from ..morph.lemmatizer import NOUN
 from ..normalize import norm_phrase
 from ..text.base import split_words
 from .forms import (
+    Case,
+    Number,
     adjective_form,
     adjective_index,
     bundled_words,
@@ -130,19 +132,24 @@ def _phrase(words: list[str], declined: _Words, case: str) -> str:
 
 def decline(
     data: pd.Series | pd.DataFrame,
-    case: str,
+    case: Case,
     *,
-    number: str = "singular",
+    number: Number = "singular",
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
     """Every word of a phrase that declines, to the case: «купить красный диван» genitive → «купить красного дивана».
 
     case: "nominative", "genitive", "dative", "accusative", "instrumental" or "prepositional".
-    number: "singular" or "plural".
+    number: "singular" or "plural"; a phrase in the nominative plural declines in the plural anyway («угловые диваны»
+    → «угловых диванов»).
+
     An adjective and a noun in its lemma decline; a verb, an adverb, a preposition, a conjunction, a particle, an
     indeclinable word and a word already in another case («на дачу») stay; a pronoun declines only as an adjective
-    («этот» → «этого», «он» stays). A word right after a preposition or a possessive pronoun that is not the first
+    («этот» → «этого», «он» stays). A feminine, neuter or plural adjective declines from its lemma («большая скидка» →
+    «большой скидки»); a hyphenated noun declines whole («диван-кровать» → «дивана-кровати»). The accusative agrees
+    by animacy: an inanimate noun and its adjective keep the nominative («купить кожаный диван»), an animate one takes
+    the genitive («купить рыжего кота»). A word right after a preposition or a possessive pronoun that is not the first
     word stays («чехол для телефон» → «чехла для телефон»; «мой синий стол» → «моего синего стола»). A word in «-ой»
     before a word in another case stays too («с большой скидкой»). A word keeps its capitals.
     """

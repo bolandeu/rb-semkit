@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import re
 from collections.abc import Callable, Iterable
-from typing import NamedTuple
+from typing import Literal, NamedTuple, get_args
 
 import pandas as pd
 
@@ -18,10 +18,11 @@ from .common import capitalised, changed, each_word, split_edges
 
 __all__ = ["change_case"]
 
-KINDS = (
-    *("lower", "upper", "title", "sentence", "sentence_lower", "latin_title", "latin_upper"),
-    *("list_title", "list_upper", "toponyms", "abbreviations"),
-)
+Kind = Literal[
+    "lower", "upper", "title", "sentence", "sentence_lower", "latin_title", "latin_upper",
+    "list_title", "list_upper", "toponyms", "abbreviations",
+]  # fmt: skip
+KINDS = get_args(Kind)
 LIST_KINDS = ("list_title", "list_upper")
 TOPONYMS = "geo"
 HYPHEN = "-"
@@ -134,14 +135,15 @@ def _change(kind: str, words: Iterable[str] | None) -> Callable[[str], str]:
 
 def change_case(
     data: pd.Series | pd.DataFrame,
-    kind: str,
+    kind: Kind,
     *,
     words: Iterable[str] | None = None,
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """The phrase in another case, by `kind`:
+    """The phrase in another case.
 
+    kind: the case to give:
     - "lower", "upper": the whole phrase;
     - "title": every word capitalised, the rest lower; a letter after a digit or a sign starts a word too
       («иван-петров 5g» → «Иван-Петров 5G»);
@@ -151,9 +153,12 @@ def change_case(
     - "latin_upper": a word with a latin letter in upper case whole («wi-fi-роутер» → «WI-FI-РОУТЕР»);
     - "list_title", "list_upper": the words of `words` capitalised or upper (case and ё do not count);
     - "toponyms": the place names of the bundled geo list as the list spells them («нижний новгород» →
-      «Нижний Новгород»), the longest name from each word;
+      «Нижний Новгород»), the longest name from each word; punctuation at the edges of a word is ignored and kept
+      («в москве,» → «в Москве,»), and a hyphen splits a word («ростов-на-дону» → «Ростов-на-Дону»);
     - "abbreviations": a word of 2 to 5 consonants, or 3 to 5 vowels, upper («hp», «ооо»), then each word of the
       bundled abbreviations as the list spells it («спб» → «СПб», «usb» → «USB», «СМ» → «см»).
+
+    words: the words for "list_title" and "list_upper".
 
     The word kinds split the phrase on any whitespace and join the words by one space.
     """

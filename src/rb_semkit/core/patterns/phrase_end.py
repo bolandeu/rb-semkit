@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Literal, get_args
+
 import pandas as pd
 
 from ..frame import map_unique
@@ -10,7 +12,8 @@ from ..text.base import Matcher, bundled_list, choice, split_words, word_key
 
 __all__ = ["phrase_end"]
 
-KINDS = ("prepositions", "buy_markers")
+Kind = Literal["prepositions", "buy_markers"]
+KINDS = get_args(Kind)
 BUY_MARKERS = "sale"  # the bundled marker list of buy and sale words
 
 
@@ -50,12 +53,12 @@ class PhraseEnd(Matcher):
         return map_unique(phrases, cut)
 
 
-def phrase_end(kind: str) -> PhraseEnd:
+def phrase_end(kind: Kind) -> PhraseEnd:
     """The words at the end of a phrase, cut until the last word is clean; remove only.
 
     kind: "prepositions" (prepositions and the other function words of the stopword list: «диван в и» → «диван»)
     or "buy_markers" (the words of the bundled list «sale», whole phrases of it too: «диван купить недорого» →
-    «диван»). Words compare in any case, ё as е, as written («для,» with its comma stays). A phrase of such words
-    only becomes ''.
+    «диван»; a marker right after a preposition stays: «диван с доставкой купить» → «диван с доставкой»). Words compare
+    in any case, ё as е, as written («для,» with its comma stays). A phrase of such words only becomes an empty cell.
     """
     return PhraseEnd(kind)

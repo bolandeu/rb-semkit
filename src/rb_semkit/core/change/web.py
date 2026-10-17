@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import re
+from typing import Literal, get_args
 from urllib.parse import unquote_plus
 
 import pandas as pd
@@ -14,8 +15,10 @@ from .common import changed
 __all__ = ["extract_utm", "hash_text", "remove_utm"]
 
 UTM_PREFIX = "utm_"
-TAGS = ("source", "medium", "campaign", "term", "content")
-ALGORITHMS = ("md5", "sha256")
+Tag = Literal["source", "medium", "campaign", "term", "content"]
+Algorithm = Literal["md5", "sha256"]
+TAGS = get_args(Tag)
+ALGORITHMS = get_args(Algorithm)
 QUERY, PARAMETER, FRAGMENT = "?", "&", "#"
 
 
@@ -38,11 +41,14 @@ def remove_utm(
 
 
 def extract_utm(
-    data: pd.Series | pd.DataFrame, tag: str, *, column: str | None = None, inplace: bool = False
+    data: pd.Series | pd.DataFrame, tag: Tag, *, column: str | None = None, inplace: bool = False
 ) -> pd.Series | pd.DataFrame:
-    """The value of the UTM tag `tag` (source, medium, campaign, term, content) of the URL, URL-decoded:
-    «?utm_source=%D0%AF%D0%BD%D0%B4%D0%B5%D0%BA%D1%81» → «Яндекс», «+» as a space. The name counts in any case; the
-    first tag of that name wins; no such tag gives an empty string."""
+    """The value of a UTM tag of the URL, URL-decoded: «?utm_source=%D0%AF%D0%BD%D0%B4%D0%B5%D0%BA%D1%81» → «Яндекс», «+»
+    as a space. Only the part before «#» is searched; the name counts in any case; the first tag of that name wins; no
+    such tag gives an empty cell.
+
+    tag: the name of the tag without utm_: source, medium, campaign, term or content.
+    """
     choice("tag", tag, TAGS)
     pattern = re.compile(rf"(?:^|[?&]){UTM_PREFIX}{tag}=([^&#]*)", re.IGNORECASE)
 
@@ -54,10 +60,13 @@ def extract_utm(
 
 
 def hash_text(
-    data: pd.Series | pd.DataFrame, *, algorithm: str = "md5", column: str | None = None, inplace: bool = False
+    data: pd.Series | pd.DataFrame, *, algorithm: Algorithm = "md5", column: str | None = None, inplace: bool = False
 ) -> pd.Series | pd.DataFrame:
-    """The hash of the text as lower-case hex, of its UTF-8 bytes: algorithm "md5" or "sha256". An empty text has a
-    hash too (md5 «d41d8cd98f00b204e9800998ecf8427e»)."""
+    """The hash of the text as lower-case hex, of its UTF-8 bytes. An empty text has a hash too (md5
+    «d41d8cd98f00b204e9800998ecf8427e»).
+
+    algorithm: "md5" or "sha256".
+    """
     choice("algorithm", algorithm, ALGORITHMS)
     return changed(
         data,

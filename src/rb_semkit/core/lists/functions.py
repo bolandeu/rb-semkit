@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from typing import Literal, get_args
 
 import pandas as pd
 
@@ -14,7 +15,8 @@ from ..errors import InvalidArguments
 from ..frame import Frame, map_unique
 from ..morph.lemmatizer import Lemmatizer
 
-OPS = ("both", "either", "first", "second")
+Op = Literal["both", "either", "first", "second"]
+OPS = get_args(Op)
 
 
 def _keyed(phrases: pd.Series, key_of: Callable[[str], str]) -> pd.DataFrame:
@@ -28,17 +30,24 @@ def compare_lists(
     first: pd.Series | pd.DataFrame,
     second: pd.Series | pd.DataFrame,
     *,
-    op: str = "both",
+    op: Op = "both",
     kind: DupeKind = "exact",
     lemmatizer: Lemmatizer | None = None,
     column: str | None = None,
     second_column: str | None = None,
 ) -> pd.Series:
-    """The phrases of two lists by `op`: both (of `first` that are in `second`), either (`first`, then `second`),
-    first (only in `first`), second (only in `second`).
+    """The phrases of two lists, by an operation.
 
-    The same phrase is the same key of `dupes` for `kind`. A phrase keeps the spelling of its first occurrence and
-    comes once; the order is the input order. Empty cells are never phrases.
+    op: both (the phrases of the first list that are in the second), either (the first list, then the second), first
+    (only in the first list), second (only in the second).
+    kind: when two phrases are the same, as for dupes: exact, explicit, implicit or lemmas.
+    first: the first list.
+    second: the second list.
+    second_column: the column of the phrases of the second list.
+    lemmatizer: what gives the lemmas.
+
+    A phrase keeps the spelling of its first occurrence and comes once; the order is the input order. Empty cells are
+    never phrases.
     """
     if op not in OPS:
         raise InvalidArguments(f"op: {op!r} is not an operation; allowed: {', '.join(OPS)}.")

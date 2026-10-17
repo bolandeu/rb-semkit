@@ -49,9 +49,11 @@ class WordContent(WordMatcher):
 def word_content(kind: ContentKind, pattern: str | Iterable[str] | None = None) -> WordContent:
     """Words by what they hold; a word is tested as written, with its punctuation («красный,» does not end in «ный»).
 
-    kind: "starts", "ends", "contains" (with `pattern`: a word part or a list of them, any one is enough; case and
-    ё do not count); "only_latin" (a latin letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); "has_latin";
-    "only_digits" (a number: «2», «1,5», «-5»); "has_digits"; "mixed" (a digit and a letter: «iphone15»).
+    kind: "starts", "ends", "contains" (with pattern); "only_latin" (a latin letter, no digit and no Russian letter:
+    «IKEA», «Wi-Fi»); "has_latin"; "only_digits" (a number: «2», «1,5», «-5»); "has_digits"; "mixed" (a digit and
+    a letter: «iphone15»).
+    pattern: for "starts", "ends" and "contains", a word part or a list of them, any one is enough; case and ё do not
+    count.
 
     ADR 0005: ё = е in the patterns; split on any whitespace; blank list items are refused.
     """

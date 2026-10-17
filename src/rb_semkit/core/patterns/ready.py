@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import NamedTuple
+from typing import Literal, NamedTuple
 
 from ..text.base import choice
 from ..text.matchers.regex import Regex
@@ -16,7 +16,8 @@ class Ready(NamedTuple):
     sep: str = " "
 
 
-READY = {
+Kind = Literal["domain", "email", "phone", "date_ddmmyyyy", "date_yyyymmdd"]
+READY: dict[Kind, Ready] = {
     "domain": Ready(
         r"(?!-)(?:(?:[a-zA-Z\d][a-zA-Z\d-]{0,61})?[a-zA-Z\d]\.){1,126}(?!\d+)[a-zA-Z\d]{1,63}", all_matches=True
     ),
@@ -28,7 +29,7 @@ READY = {
 
 
 class ReadyPattern(Regex):
-    def __init__(self, kind: str) -> None:
+    def __init__(self, kind: Kind) -> None:
         ready = READY[choice("kind", kind, tuple(READY))]
         super().__init__(ready.pattern, all_matches=ready.all_matches, invert=False)
         self._sep = ready.sep
@@ -38,7 +39,7 @@ class ReadyPattern(Regex):
         return self._sep.join(matches if self._all else matches[:1])
 
 
-def ready_pattern(kind: str) -> ReadyPattern:
+def ready_pattern(kind: Kind) -> ReadyPattern:
     """A ready regular expression, found anywhere in a phrase, case-sensitive.
 
     kind: "domain" (Latin domains with subdomains: «www.example.com»; extract gives all, joined by a space),
@@ -46,6 +47,8 @@ def ready_pattern(kind: str) -> ReadyPattern:
     "date_ddmmyyyy" (the first date as 05.11.2023, 05-11-2023, 05/11/2023 or 05112023) or "date_yyyymmdd" (as
     2023-11-05 … 20231105). A date has the same separator twice, or none, and is never part of a longer number; its
     day and month are not checked (39.19.2999 is found).
-    find: the pattern is there. remove: every match is cut out. extract: as above, '' where none.
+
+    find marks where the pattern is; remove cuts out every match; extract keeps what is said above, an empty cell where
+    there is none.
     """
     return ReadyPattern(kind)

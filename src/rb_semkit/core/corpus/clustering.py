@@ -20,11 +20,13 @@ def cluster_by_frequency(
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """The cluster of each phrase: its words that stand in at least `threshold` phrases of the core.
+    """The cluster of each phrase: its words that stand in at least a number of phrases of the core.
 
-    A word counts once per phrase; words are compared by case and ё; stopwords are left out. The cluster lists its
-    words in lower case, the most frequent first, then alphabetically, so «купить диван» and «диван купить» make one
-    cluster. A phrase with no such word gets "".
+    threshold: the fewest phrases a word must stand in to name a cluster.
+
+    A word counts once per phrase; words are compared in any case and with ё as е; stopwords are left out. The cluster
+    lists its words in lower case, the most frequent first, then alphabetically, so «купить диван» and «диван купить»
+    make one cluster. A phrase with no such word gets an empty cell.
     """
     whole_number("threshold", threshold)
     frame = Frame(data, column, inplace)

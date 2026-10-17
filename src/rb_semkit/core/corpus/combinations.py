@@ -27,7 +27,7 @@ def permutations(data: pd.Series | pd.DataFrame, *, limit: int = LIMIT, column: 
     """Every order of the words of each phrase, the phrases one after another: «a b c» → «a b c», «a c b», «b a c»…
 
     A phrase of n words gives n! phrases, a repeated word too; an empty phrase gives one empty phrase.
-    limit: the most phrases the result may hold; a larger result raises InvalidArguments before any is made.
+    limit: the most phrases the result may hold; a larger result is refused before any is made.
     """
     words = [split_words(phrase) for phrase in Frame(data, column).phrases]
     _within(sum(math.factorial(len(phrase)) for phrase in words), limit)
@@ -37,8 +37,8 @@ def permutations(data: pd.Series | pd.DataFrame, *, limit: int = LIMIT, column: 
 def ordered_pairs(data: pd.Series | pd.DataFrame, *, limit: int = LIMIT, column: str | None = None) -> pd.DataFrame:
     """Every ordered pair of two different items of a list: a table first, second («a», «b» → a b, b a).
 
-    Each item counts once, in the order of its first row; empty cells are no items.
-    limit: the most pairs the result may hold; a larger result raises InvalidArguments before any is made.
+    Each item counts once, in the order of its first row; empty cells are no items. n items give n x (n - 1) pairs.
+    limit: the most pairs the result may hold; a larger result is refused before any is made.
     """
     items = [item for item in dict.fromkeys(Frame(data, column).phrases) if item]
     _within(len(items) * (len(items) - 1), limit)
@@ -47,11 +47,11 @@ def ordered_pairs(data: pd.Series | pd.DataFrame, *, limit: int = LIMIT, column:
 
 
 def linear_combinations(lists: pd.DataFrame, *, limit: int = LIMIT) -> pd.DataFrame:
-    """Every combination of one item from each column of `lists`, one column per list (the Cartesian product).
+    """Every combination of one item from each column of the table, one column per list (the Cartesian product).
 
     The first column changes slowest: купить, заказать × диван, стол → купить диван, купить стол, заказать диван…
-    The empty cells of a column are skipped, so the lists may differ in length; a column with no items raises
-    InvalidArguments. limit: the most rows the result may hold.
+    The empty cells of a column are skipped, so the lists may differ in length; a column with no items is refused.
+    limit: the most rows the result may hold; a larger result is refused before any is made.
     """
     if not isinstance(lists, pd.DataFrame) or lists.columns.empty:
         raise InvalidArguments("lists: no table with columns; allowed: a DataFrame, one column per list.")

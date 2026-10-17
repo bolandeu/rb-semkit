@@ -17,7 +17,7 @@ from . import bundled
 from .folders import Folder, list_names, list_path, read_list, search_folders
 
 BUNDLED = "bundled"
-CLOSE_NAMES = 3
+CLOSE_NAMES = 10  # the names an unknown name is shown, the closest first
 
 
 @dataclass(frozen=True)
@@ -45,9 +45,12 @@ def _find(name: str, folders: list[Folder]) -> tuple[WordList, list[str]] | None
 def _get(name: str, start: Path | None) -> tuple[WordList, list[str]]:
     found = _find(name, search_folders(start))
     if found is None:
-        close = difflib.get_close_matches(name, [info.name for info in names(start)], n=CLOSE_NAMES)
-        hint = f" Close names: {', '.join(close)}." if close else ""
-        raise InvalidArguments(f"{name}: no such list.{hint}", action=f"Run '{cli_name()} lists' for every list.")
+        every = [info.name for info in names(start)]
+        closest = sorted(every, key=lambda other: -difflib.SequenceMatcher(None, name, other).ratio())[:CLOSE_NAMES]
+        raise InvalidArguments(
+            f"{name}: no such list; the lists closest to it: {', '.join(closest)}.",
+            action=f"Run '{cli_name()} lists' for every list.",
+        )
     return found
 
 

@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+import contextlib
 import functools
+import io
 import logging
+import os
 import sys
 import weakref
 from collections.abc import Callable
@@ -94,9 +97,13 @@ def group(help_text: str) -> typer.Typer:
 
 
 def emit_success(ctx: typer.Context, payload: dict, render_human: Callable[[dict], None]) -> None:
+    """The result of a command: the envelope `{"ok": true, <payload>}` with --json, else `render_human`.
+
+    --quiet does not hide the result: it hides only the extra lines (progress, --verbose).
+    """
     if ctx.obj.get("json"):
         json_output.emit({"ok": True, **payload})
-    elif not ctx.obj.get("quiet"):
+    else:
         render_human(payload)
 
 
@@ -115,8 +122,7 @@ def emit_report(
     if ctx.obj.get("json"):
         json_output.emit({"ok": False, "error": problem.to_dict(), **payload})
     else:
-        if not ctx.obj.get("quiet"):
-            render_human(payload)
+        render_human(payload)
         human.err_console.print(f"[red]Error:[/red] {problem.message}")
         if problem.action:
             human.err_console.print(f"[dim]{problem.action}[/dim]")
@@ -175,6 +181,14 @@ def require_confirmation(ctx: typer.Context, description: str, confirm: bool) ->
         raise Aborted(description)
 
 
+def _quiet_stdout() -> None:
+    """Point stdout at the null device, so that Python's flush at exit finds no closed pipe."""
+    with contextlib.suppress(BrokenPipeError, ValueError):
+        sys.stdout.flush()
+    with contextlib.suppress(OSError, ValueError, io.UnsupportedOperation):  # stdout is no file (a test runner)
+        os.dup2(os.open(os.devnull, os.O_WRONLY), sys.stdout.fileno())
+
+
 def guard(func: Callable) -> Callable:
     """Route any error raised by a command through emit_error.
 
@@ -196,6 +210,9 @@ def guard(func: Callable) -> Callable:
             return func(ctx, *args, **kwargs)
         except CliError as exc:
             emit_error(ctx, exc)
+        except BrokenPipeError:
+            _quiet_stdout()  # the reader of stdout has gone (`| head`): the end, not an error
+            raise typer.Exit(0) from None
         except (typer.Exit, typer.Abort):
             raise  # already a controlled exit — don't wrap it
         except Exception as exc:

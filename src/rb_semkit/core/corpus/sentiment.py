@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 import math
-from collections.abc import Mapping
+from collections.abc import Callable, Mapping
 from numbers import Real
+from typing import Literal
 
 import pandas as pd
 
@@ -15,7 +16,12 @@ from ..text.base import choice, split_words
 
 __all__ = ["sentiment"]
 
-STATISTICS = {"mean": lambda found: sum(found) / len(found), "min": min, "max": max}
+Statistic = Literal["mean", "min", "max"]
+STATISTICS: dict[Statistic, Callable[[list[float]], float]] = {
+    "mean": lambda found: sum(found) / len(found),
+    "min": min,
+    "max": max,
+}
 
 
 def _scores(scores: Mapping[str, float]) -> dict[str, float]:
@@ -34,15 +40,15 @@ def sentiment(
     data: pd.Series | pd.DataFrame,
     scores: Mapping[str, float],
     *,
-    what: str = "mean",
+    what: Statistic = "mean",
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """The score of each phrase by the words of `scores` it holds: their mean, min or max.
+    """The score of each phrase by the scored words it holds: their mean, min or max.
 
-    scores: a dictionary word → number, e.g. {"отличный": 5, "плохой": -3}; words match in any case and with ё = е,
-    and a word repeated in the phrase counts each time. what: "mean", "min" or "max". A phrase with no scored word
-    gets an empty value.
+    scores: a dictionary word → number («отличный» 5, «плохой» -3); words match in any case and with ё = е, and a word
+    repeated in the phrase counts each time.
+    what: "mean", "min" or "max" of the scores of the words. A phrase with no scored word gets an empty value.
     """
     statistic = STATISTICS[choice("what", what, tuple(STATISTICS))]
     keyed = _scores(scores)
