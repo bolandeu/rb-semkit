@@ -3,7 +3,7 @@ id: SEMKIT-018
 title: 'Clustering by a given SERP table: soft and hard, by the number of common URLs
   in the top'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -17,6 +17,7 @@ owns_paths:
 - src/rb_semkit/core/serp/
 test_paths:
 - tests/serp/
+- tests/conformance/test_cases.py
 docs:
 - docs/adr/0005-port-vba-fix-defects.md
 - docs/adr/
@@ -42,7 +43,6 @@ translation: '**Группировка по готовой таблице выд
   (ADR 0005): там баллы за позиции и цепочки (A и C вместе через B без общих URL)
   — кластеры расползаются.'
 ---
-
 
 semkit clusters a SERP table it is given; it never fetches search results (another tool collects them). Add sk.cluster_serp(serp, *, method='soft', common=3, top=10, freq=None) -> DataFrame. serp: a DataFrame with the columns phrase, position (1 = first), url; one row per URL of a phrase's top; positions above top are ignored; URLs compare after trimming the scheme, 'www.' and a trailing slash. freq: an optional DataFrame or Series phrase -> frequency (the soft centers come from it; without it the phrase with the most links to the others is first, ties by phrase). method 'soft': phrases in descending frequency; an unassigned phrase becomes a center; each unassigned phrase with at least `common` URLs in common with the center joins it. method 'hard': phrases in descending frequency; a phrase joins the first cluster where it has at least `common` common URLs with every member, else it starts a new one. Output: one row per phrase of the input: phrase, cluster (1, 2, … largest cluster first, ties by the center's frequency), center (the first phrase of its cluster), common (URLs in common with the center; the center gets its own top size). A phrase without results is a cluster of one. ADR 0005 deviation to write: the add-in links two phrases by a position-weighted score (bonuses 5 4 3 2 1, threshold 24) and takes connected components (single linkage), so A and C land together through B without one common URL and clusters chain; semkit uses the standard soft and hard methods by common URLs instead, as SEO tools do.
 
@@ -72,3 +72,9 @@ The input handling and errors of the other areas (Frame, sk.InvalidArguments); t
 
 - Fetching search results (another tool; the serp CLI).
 - Clustering by embeddings; the add-in's position-weighted single-linkage method.
+
+## Feedback
+
+### Attempt 1: decision not recorded
+
+no new decision file in docs/adr/ (NNNN-slug.md, format in docs/adr/README.md)

@@ -1,0 +1,13 @@
+# textstats. No VBA handler: text_stats is semkit's own set of text metrics (SEMKIT-017), defined in its docstring; the `vba` column repeats `expected`.
+# Counted by hand: the sample has 7 words, the stopwords и and в (2/7), the lemma диван three times (sqrt 3 = 1.73, 3/7).
+case_id	function	call	input	vba	expected	rule	why	xfail
+textstats-words	text_stats	{"metric": "words"}	Диван купить. Диван и диваны в Москве!	7	7			
+textstats-water	text_stats	{"metric": "water"}	Диван купить. Диван и диваны в Москве!	0.285714	0.285714			
+textstats-nausea-classic	text_stats	{"metric": "nausea_classic"}	Диван купить. Диван и диваны в Москве!	1.73	1.73			
+textstats-nausea-academic	text_stats	{"metric": "nausea_academic"}	Диван купить. Диван и диваны в Москве!	0.428571	0.428571			
+textstats-top-tie-units	text_stats	{"metric": "top"}	диван 5000 руб руб руб	диван	диван			
+textstats-ttr-units	text_stats	{"metric": "ttr"}	диван 5000 руб руб руб	1	1			
+textstats-empty	text_stats	{"metric": "words"}		0	0			
+textstats-hyphen	text_stats	{"metric": "words"}	Кресло-кровать, диван!	2	2			
+textstats-mtld	text_stats	{"metric": "mtld"}	диван стол диван стол	4	4			
+textstats-chars-no-spaces	text_stats	{"metric": "chars_no_spaces"}	диван  стол	9	9			
