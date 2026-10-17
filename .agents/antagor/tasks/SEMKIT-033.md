@@ -2,7 +2,7 @@
 id: SEMKIT-033
 title: 'CLI that tells the truth: --as, errors, lemma matching of lists, help and
   guide in CLI terms, top-level commands; the e2e run on a real core in the gate'
-status: ideas
+status: queue
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -10,7 +10,7 @@ phase: null
 tests_hash: null
 publish_stage: null
 created_by: architect
-approved_by: null
+approved_by: human
 worker: claude-code
 type: bugfix
 owns_paths:
