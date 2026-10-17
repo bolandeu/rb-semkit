@@ -7,7 +7,7 @@
 
  The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
- Example: semkit read core.csv switch-layout купить write out.csv
+ Example: semkit read core.csv switch-layout en write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   TO      <str>  See the description above. The same as --to TO.                                 │

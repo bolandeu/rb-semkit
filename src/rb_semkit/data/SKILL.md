@@ -54,8 +54,11 @@ The matchers (`words`, `phrases`, `stopwords`, `chars`, `spaces`, `regex`, `arou
 ## Items and lists
 
 An option that takes items takes a comma list `a,b`, `@FILE` (one item per line) or `@NAME` of a list
-(`@stopwords`, the marker lists such as `@geo`). A name that is neither a file nor a list is refused with the names
-that exist. The first required argument of a step may be given without its flag: `remove-chars punctuation` is
+(`@minus/universal`, `@stop/wordstat`, `@markers/geo`). `semkit lists` shows every list with its source and size; a
+name that is neither a file nor a list is refused with the names that exist. The lists `minus/*` hold phrases: they
+go to `drop-phrases` (`keep-phrases`…), not to `drop-words`, which takes single words only (`@stop/wordstat`). The
+lists of your own are `.txt` files, one item per line, in a folder: set `SEMKIT_LISTS=DIR` (folders separated as in
+PATH) or the config key `lists = [paths]`, and `@sub/name` is the file `DIR/sub/name.txt`. The first required argument of a step may be given without its flag: `remove-chars punctuation` is
 `remove-chars --kind punctuation`.
 
 ## A second table
@@ -74,10 +77,20 @@ A step that needs a second input reads it from a file, like `read` does (any for
 Each command line below runs on the files of `tests/steps/fixtures/`; the lines under it are what it writes to
 stdout (JSONL, one row per line).
 
-Clean a core: drop the phrases with minus-words, remove punctuation and extra spaces, drop the duplicates by lemmas.
+Clean a core: drop the phrases with the universal minus-words (a list of phrases, so `drop-phrases`), remove
+punctuation and extra spaces, drop the duplicates by lemmas.
 
 ```console
-$ semkit read core.csv drop-words --items @minus.txt remove-chars punctuation remove-spaces extra dupes --kind lemmas --action drop write -
+$ semkit read core.csv drop-phrases @minus/universal remove-chars punctuation remove-spaces extra dupes --kind lemmas --action drop write -
+{"phrase": "Диван кровать 2 м", "freq": "5"}
+{"phrase": "углы", "freq": "1"}
+```
+
+The same with a list of your own: a folder `lists/` with the file `lists/niche/minus.txt` (single words, one per line)
+is `@niche/minus` once `SEMKIT_LISTS=lists` is set. Single words go to `drop-words`.
+
+```console
+$ SEMKIT_LISTS=lists semkit read core.csv drop-words @niche/minus remove-chars punctuation remove-spaces extra dupes --kind lemmas --action drop write -
 {"phrase": "Диван кровать 2 м", "freq": "5"}
 {"phrase": "купить диван", "freq": "4"}
 {"phrase": "купить диван в москве", "freq": "2"}

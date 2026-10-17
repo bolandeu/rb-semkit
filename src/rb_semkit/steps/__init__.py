@@ -13,6 +13,10 @@ names it, `changing` checks its options on no phrases at all); `Adapted` shows a
 with other arguments (`option` makes the parameter), for a table or a file in place of an argument; a file option is
 read by `table_of` and turned into the argument by `as_table`, `pairs_of`, `scores_of` or `texts_of` (`first_text`
 names the column of the texts); `joined` gives the working column as one text.
+
+The help of a step is made from the docstring: `doc_lines` joins the lines of a paragraph but keeps the items of a list
+and the explanations of arguments as lines of their own, `argument_names` gives the arguments such an explanation is
+for, and `parameter_names` the arguments of a function (and of the function an `Adapted` one wraps).
 """
 
 from __future__ import annotations
@@ -22,7 +26,7 @@ import importlib
 import inspect
 import pkgutil
 import re
-from collections.abc import Callable, Mapping
+from collections.abc import Callable, Collection, Mapping
 from dataclasses import dataclass
 from types import FunctionType
 from typing import Any, Literal
@@ -34,8 +38,12 @@ from ..core.frame import Frame, text_columns
 from ..pipeline.tables import STDIO, Source
 
 Kind = Literal["change", "filter", "report"]
-# A docstring line that explains an argument of the function: «mode: …», «`action`: …».
-ARGUMENT_LINE = re.compile(r"^`?(\w+)`?: ")
+# A docstring line that explains arguments of the function: «mode: …», «`action`: …», «core, column: …», «first / last: …».
+ARGUMENT_NAMES = r"`?\w+`?(?:(?:, | / )`?\w+`?)*"
+ARGUMENT_LINE = re.compile(rf"^(?P<names>{ARGUMENT_NAMES}): ")
+# An explanation of another argument inside a line, after the end of a sentence: «… is bad. good: a phrase …».
+INLINE_ARGUMENT = re.compile(rf"(?<=[.;]) (?P<names>{ARGUMENT_NAMES}): ")
+LIST_ITEM = re.compile(r"^(?:[-*]|\d+[.)]) ")
 
 
 @dataclass(frozen=True)
@@ -72,6 +80,8 @@ class Step:
     note: what the step does with the function, the last paragraph of the help.
     new_column: for a change, the suffix of the column it adds next to the working column (`<column>_find`);
     None rewrites the working column.
+    source, example: the file the `Example:` line of the help reads, and the text after the step name in it; None
+    gives the example from the required options (a file option shows a file, a list option a bundled list).
     """
 
     name: str
@@ -80,25 +90,54 @@ class Step:
     prepare: Callable[[dict[str, Any]], Prepared]
     note: str
     new_column: str | None = None
+    source: str = "core.csv"
+    example: str | None = None
 
     def help(self) -> str:
         """The docstring of the function without its porting notes (paragraphs «ADR …»), then the note.
 
-        The lines of a paragraph are joined, so the help wraps to the terminal; a line on an argument stays its own.
+        The lines of a paragraph are joined, so the help wraps to the terminal; a line on an argument and an item of a
+        list stay their own.
         """
         paragraphs = inspect.cleandoc(self.function.__doc__ or "").split("\n\n")
-        kept = [_reflowed(text) for text in paragraphs if not text.startswith("ADR ")]
+        names = parameter_names(self.function)
+        kept = ["\n".join(doc_lines(text, names)) for text in paragraphs if not text.startswith("ADR ")]
         return "\n\n".join([*kept, self.note])
 
 
-def _reflowed(paragraph: str) -> str:
+def parameter_names(function: Callable[..., Any]) -> set[str]:
+    """The arguments of a function and of the function it adapts."""
+    return set(inspect.signature(function).parameters) | set(inspect.signature(inspect.unwrap(function)).parameters)
+
+
+def doc_lines(paragraph: str, parameters: Collection[str]) -> list[str]:
+    """The lines of a docstring paragraph as the help shows them.
+
+    A line goes on the line before it, unless it starts an item of a list or the explanation of arguments; so does
+    the explanation of an argument of `parameters` that follows the end of a sentence.
+    """
     lines: list[str] = []
     for line in paragraph.splitlines():
-        if lines and not ARGUMENT_LINE.match(line):
-            lines[-1] += f" {line.strip()}"
+        text = line.strip()
+        if lines and not (ARGUMENT_LINE.match(text) or LIST_ITEM.match(text)):
+            lines[-1] += f" {text}"
         else:
-            lines.append(line.strip())
-    return "\n".join(lines)
+            lines.append(text)
+    return [part for line in lines for part in _argument_parts(line, parameters)]
+
+
+def argument_names(found: re.Match[str]) -> list[str]:
+    """The names an explanation of arguments (ARGUMENT_LINE or INLINE_ARGUMENT) is for."""
+    return [name.strip("`") for name in re.split(r", | / ", found["names"])]
+
+
+def _argument_parts(line: str, parameters: Collection[str]) -> list[str]:
+    parts, start = [], 0
+    for found in INLINE_ARGUMENT.finditer(line):
+        if all(name in parameters for name in argument_names(found)):
+            parts.append(line[start : found.start()])
+            start = found.start() + 1
+    return [*parts, line[start:]]
 
 
 class Adapted:
@@ -201,10 +240,12 @@ def changing(
 CHANGE_NOTE = "The step rewrites the working column; with --as NAME it writes the result to a new column NAME."
 
 
-def change_step(function: FunctionType, *, new_column: str | None = None) -> Step:
+def change_step(
+    function: FunctionType, *, new_column: str | None = None, source: str = "core.csv", example: str | None = None
+) -> Step:
     """The change step of a function that takes phrases and gives phrases (or one value per phrase)."""
     note = CHANGE_NOTE if new_column is None else f"The step writes its result to a new column <column>_{new_column}."
-    return Step(slug(function), function, "change", changing(function), note, new_column)
+    return Step(slug(function), function, "change", changing(function), note, new_column, source, example)
 
 
 @functools.cache

@@ -13,7 +13,7 @@
  find-phrases marks the rows where the matcher finds something, in a new column <column>_find of
  true and false.
 
- Example: semkit read core.csv find-phrases купить write out.csv
+ Example: semkit read core.csv find-phrases @minus/universal write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   ITEMS      <str>  See the description above. Items: a comma list 'a,b', @FILE (one item per    │

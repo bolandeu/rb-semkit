@@ -14,9 +14,9 @@
  starts, in the first text that holds it; empty when count is 0.
  mode: 'exact' — the words of the phrase in a row, case and ё folded; 'lemmas' — the same by lemmas
  of both sides, by `lemmatizer`; 'any_order' — the lemmas of the phrase all inside one piece of
- text (one `split_text` phrase), in any order; a piece with them is one occurrence. core, column:
- the core phrases, a Series or a DataFrame with `column`. texts, text_column: the texts, one per
- row.
+ text (one `split_text` phrase), in any order; a piece with them is one occurrence.
+ core, column: the core phrases, a Series or a DataFrame with `column`.
+ texts, text_column: the texts, one per row.
 
  against: a file with the texts, one per row; the file is read like `read` does. The texts are in
  --text-column, by default the first text column of the file.
@@ -24,7 +24,7 @@
  The step takes the working column as the core; the table phrase, count, docs, density and first
  replaces the current one.
 
- Example: semkit read core.csv coverage купить write out.csv
+ Example: semkit read core.csv coverage --against texts.csv write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   AGAINST      <str>  a file with the texts, one per row; the file is read like `read` does. The │
@@ -39,11 +39,9 @@
 │                               'lemmas' — the same by lemmas of both sides, by `lemmatizer`;      │
 │                               'any_order' — the lemmas of the phrase all inside one piece of     │
 │                               text (one `split_text` phrase), in any order; a piece with them is │
-│                               one occurrence. core, column: the core phrases, a Series or a      │
-│                               DataFrame with `column`. texts, text_column: the texts, one per    │
-│                               row.                                                               │
+│                               one occurrence.                                                    │
 │                               [default: exact]                                                   │
-│ --text-column        <str>    See the description above.                                         │
+│ --text-column        <str>    the texts, one per row.                                            │
 │ --help                        Show this message and exit.                                        │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

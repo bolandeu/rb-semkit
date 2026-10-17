@@ -5,13 +5,14 @@
  pass.
 
  lists: names of the bundled lists (geo, mosmetro, districts, MO, citiesRu, questions, fun, DIY,
- edu, game, sale, rent, reviews, color, material, origin, cars, names). user: your own lists,
- `{"name": ["phrase", …]}`. A word glued to punctuation is not matched («москве,»). find, remove
- and extract take the same markers: left to right, for each word the longest item that starts there
- (in words, then in characters; a tie keeps the list order: the lists in the given order, user
- lists last), and the words of a taken item start no other («Нижний Новгород», not «Нижний
- Новгород, Новгород»). extract gives them as the list spells them («Москве»; «как сделать», not
- «как»), in word order, joined by `sep`. remove keeps the case of the other words.
+ edu, game, sale, rent, reviews, color, material, origin, cars, names).
+ user: your own lists, `{"name": ["phrase", …]}`. A word glued to punctuation is not matched
+ («москве,»). find, remove and extract take the same markers: left to right, for each word the
+ longest item that starts there (in words, then in characters; a tie keeps the list order: the
+ lists in the given order, user lists last), and the words of a taken item start no other («Нижний
+ Новгород», not «Нижний Новгород, Новгород»). extract gives them as the list spells them («Москве»;
+ «как сделать», not «как»), in word order, joined by `sep`. remove keeps the case of the other
+ words.
  with_prepositions: only the markers right after a toponym preposition («в», «во», «на», «по»,
  «из», «до», «г», «и»; as written, «в,» is none) count, and the preposition goes with them; a
  marker without one stays. A preposition takes the longest item right after it, as above. remove
@@ -20,23 +21,13 @@
  find-markers marks the rows where the matcher finds something, in a new column <column>_find of
  true and false.
 
- Example: semkit read core.csv find-markers write out.csv
+ Example: semkit read core.csv find-markers --lists geo write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --lists                    <str>  names of the bundled lists (geo, mosmetro, districts, MO,      │
 │                                   citiesRu, questions, fun, DIY, edu, game, sale, rent, reviews, │
-│                                   color, material, origin, cars, names). user: your own lists,   │
-│                                   `{"name": ["phrase", …]}`. A word glued to punctuation is not  │
-│                                   matched («москве,»). find, remove and extract take the same    │
-│                                   markers: left to right, for each word the longest item that    │
-│                                   starts there (in words, then in characters; a tie keeps the    │
-│                                   list order: the lists in the given order, user lists last),    │
-│                                   and the words of a taken item start no other («Нижний          │
-│                                   Новгород», not «Нижний Новгород, Новгород»). extract gives     │
-│                                   them as the list spells them («Москве»; «как сделать», not     │
-│                                   «как»), in word order, joined by `sep`. remove keeps the case  │
-│                                   of the other words. Items: a comma list 'a,b', @FILE (one item │
-│                                   per line) or @NAME of a list.                                  │
+│                                   color, material, origin, cars, names). Items: a comma list     │
+│                                   'a,b', @FILE (one item per line) or @NAME of a list.           │
 │ --with-prepositions               only the markers right after a toponym preposition («в», «во», │
 │                                   «на», «по», «из», «до», «г», «и»; as written, «в,» is none)    │
 │                                   count, and the preposition goes with them; a marker without    │

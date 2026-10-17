@@ -6,7 +6,8 @@
 
  The first column changes slowest: купить, заказать × диван, стол → купить диван, купить стол,
  заказать диван… The empty cells of a column are skipped, so the lists may differ in length; a
- column with no items raises InvalidArguments. limit: the most rows the result may hold.
+ column with no items raises InvalidArguments.
+ limit: the most rows the result may hold.
 
  The step makes a table of its result; it replaces the current table, its first text column is the
  working one.
@@ -14,7 +15,7 @@
  Example: semkit read core.csv linear-combinations write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --limit        <int>  See the description above. [default: 1048576]                              │
+│ --limit        <int>  the most rows the result may hold. [default: 1048576]                      │
 │ --help                Show this message and exit.                                                │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

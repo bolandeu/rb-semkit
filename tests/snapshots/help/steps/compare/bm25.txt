@@ -14,7 +14,7 @@
  new column <column>_bm25; to rank my text among the competitors, put all the texts in the working
  column.
 
- Example: semkit read core.csv bm25 купить write out.csv
+ Example: semkit read core.csv bm25 'купить диван' write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   QUERY      <str>  See the description above. The same as --query QUERY.                        │

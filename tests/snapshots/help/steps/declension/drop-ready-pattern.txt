@@ -13,7 +13,7 @@
 
  drop-ready-pattern drops the rows where the matcher finds something in the working column.
 
- Example: semkit read core.csv drop-ready-pattern купить write out.csv
+ Example: semkit read core.csv drop-ready-pattern domain write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <str>  "domain" (Latin domains with subdomains: «www.example.com»; extract gives     │

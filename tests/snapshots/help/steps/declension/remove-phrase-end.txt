@@ -10,7 +10,7 @@
 
  remove-phrase-end removes what the matcher finds from the working column.
 
- Example: semkit read core.csv remove-phrase-end купить write out.csv
+ Example: semkit read core.csv remove-phrase-end prepositions write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <str>  "prepositions" (prepositions and the other function words of the stopword     │

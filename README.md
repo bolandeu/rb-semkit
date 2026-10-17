@@ -52,8 +52,13 @@ works on the working column (`--column`, by default the first text column), a se
 (`src/rb_semkit/data/SKILL.md` shows their output; the tests run them):
 
 ```bash
-# clean a core: drop minus-words, remove punctuation and extra spaces, drop duplicates by lemmas
-semkit read core.csv drop-words --items @minus.txt remove-chars punctuation remove-spaces extra \
+# clean a core: drop the phrases with the universal minus-words (a list of phrases: drop-phrases; single words
+# go to drop-words), remove punctuation and extra spaces, drop duplicates by lemmas
+semkit read core.csv drop-phrases @minus/universal remove-chars punctuation remove-spaces extra \
+  dupes --kind lemmas --action drop write clean.csv
+
+# the same with your own list: lists/niche/minus.txt (one word per line) is @niche/minus; `semkit lists` shows the names
+SEMKIT_LISTS=lists semkit read core.csv drop-words @niche/minus remove-chars punctuation remove-spaces extra \
   dupes --kind lemmas --action drop write clean.csv
 
 # the frequency dictionary of an article

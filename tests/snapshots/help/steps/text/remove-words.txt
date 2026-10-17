@@ -10,7 +10,7 @@
 
  remove-words removes what the matcher finds from the working column.
 
- Example: semkit read core.csv remove-words купить write out.csv
+ Example: semkit read core.csv remove-words @stop/wordstat write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   ITEMS      <str>  See the description above. Items: a comma list 'a,b', @FILE (one item per    │

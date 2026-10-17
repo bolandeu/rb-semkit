@@ -11,7 +11,7 @@
 
  drop-regex drops the rows where the matcher finds something in the working column.
 
- Example: semkit read core.csv drop-regex купить write out.csv
+ Example: semkit read core.csv drop-regex '\d+' write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   PATTERN      <str>  See the description above. The same as --pattern PATTERN.                  │

@@ -14,7 +14,7 @@
  find-ready-pattern marks the rows where the matcher finds something, in a new column <column>_find
  of true and false.
 
- Example: semkit read core.csv find-ready-pattern купить write out.csv
+ Example: semkit read core.csv find-ready-pattern domain write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <str>  "domain" (Latin domains with subdomains: «www.example.com»; extract gives     │

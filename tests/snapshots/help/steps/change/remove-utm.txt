@@ -7,7 +7,7 @@
 
  The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
- Example: semkit read core.csv remove-utm write out.csv
+ Example: semkit read urls.csv remove-utm write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --as          NAME  Write the result to a new column NAME and keep the working column as it is.  │

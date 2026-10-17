@@ -12,7 +12,7 @@
 
  keep-cells keeps only the rows where the matcher finds something in the working column.
 
- Example: semkit read core.csv keep-cells contains write out.csv
+ Example: semkit read core.csv keep-cells contains --items @minus/universal write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <contains|starts|ends|regex|empty|unique|  "contains", "starts", "ends" (with        │

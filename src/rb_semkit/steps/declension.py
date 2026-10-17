@@ -19,7 +19,8 @@ def _prepare_irrelevant(options: dict) -> Prepared:
 
 
 STEPS = [
-    *(change_step(function) for function in (decline, decline_noun, decline_adjective, decline_full_name)),
+    *(change_step(function) for function in (decline, decline_noun, decline_adjective)),
+    change_step(decline_full_name, source="names.csv"),
     Step(
         "irrelevant-words",
         irrelevant_words,
@@ -27,5 +28,7 @@ STEPS = [
         _prepare_irrelevant,
         "The step reads the working column; the table replaces the current one, its column word is the working one.",
     ),
-    *(step for factory in (ready_pattern, complements, phrase_end) for step in matcher_steps(factory)),
+    *matcher_steps(ready_pattern, "domain"),
+    *matcher_steps(complements),
+    *matcher_steps(phrase_end, "prepositions"),
 ]

@@ -13,7 +13,7 @@
 
  The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
- Example: semkit read core.csv replace-words купить write out.csv
+ Example: semkit read core.csv replace-words --pairs pairs.csv write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   PAIRS      <str>  a file of two columns, what to find and its replacement; the first row is    │

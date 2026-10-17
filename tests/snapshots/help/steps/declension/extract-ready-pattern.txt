@@ -14,7 +14,7 @@
  extract-ready-pattern keeps only what the matcher finds in the working column; an empty cell where
  it finds nothing.
 
- Example: semkit read core.csv extract-ready-pattern купить write out.csv
+ Example: semkit read core.csv extract-ready-pattern domain write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <str>  "domain" (Latin domains with subdomains: «www.example.com»; extract gives     │

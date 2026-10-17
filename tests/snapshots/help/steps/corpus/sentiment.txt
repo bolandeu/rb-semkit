@@ -4,15 +4,15 @@
  The score of each phrase by the words of `scores` it holds: their mean, min or max.
 
  scores: a dictionary word → number, e.g. {"отличный": 5, "плохой": -3}; words match in any case
- and with ё = е, and a word repeated in the phrase counts each time. what: "mean", "min" or "max".
- A phrase with no scored word gets an empty value.
+ and with ё = е, and a word repeated in the phrase counts each time.
+ what: "mean", "min" or "max". A phrase with no scored word gets an empty value.
 
  dictionary: a file of two columns, a word and its score; the first row is the header, the file is
  read like `read` does.
 
  The step writes the scores to a new column <column>_sentiment.
 
- Example: semkit read core.csv sentiment купить write out.csv
+ Example: semkit read core.csv sentiment --dictionary dictionary.csv write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   DICTIONARY      <str>  a file of two columns, a word and its score; the first row is the       │
@@ -22,7 +22,9 @@
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --dictionary        DICTIONARY  a file of two columns, a word and its score; the first row is    │
 │                                 the header, the file is read like `read` does.                   │
-│ --what              <str>       See the description above. [default: mean]                       │
+│ --what              <str>       "mean", "min" or "max". A phrase with no scored word gets an     │
+│                                 empty value.                                                     │
+│                                 [default: mean]                                                  │
 │ --as                NAME        Write the result to a new column NAME and keep the working       │
 │                                 column as it is.                                                 │
 │ --help                          Show this message and exit.                                      │

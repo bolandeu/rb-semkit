@@ -12,7 +12,7 @@
 
  remove-phrases removes what the matcher finds from the working column.
 
- Example: semkit read core.csv remove-phrases купить write out.csv
+ Example: semkit read core.csv remove-phrases @minus/universal write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   ITEMS      <str>  See the description above. Items: a comma list 'a,b', @FILE (one item per    │

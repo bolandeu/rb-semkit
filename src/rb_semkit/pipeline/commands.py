@@ -16,9 +16,12 @@ from __future__ import annotations
 
 import collections.abc
 import inspect
+import re
+import shlex
 import typing
-from collections.abc import Callable
+from collections.abc import Callable, Collection
 from dataclasses import dataclass, replace
+from itertools import takewhile
 from types import NoneType, UnionType
 from typing import Any, Literal
 
@@ -30,14 +33,33 @@ from .. import output
 from ..core import wordlists
 from ..core.errors import InvalidArguments
 from ..core.version import cli_name
-from ..steps import ARGUMENT_LINE, Step
+from ..steps import ARGUMENT_LINE, LIST_ITEM, Step, argument_names, doc_lines, parameter_names
 from .items import SYNTAX, items
 from .state import Planned
 
 TABLE_ARGUMENTS = frozenset({"data", "column", "inplace"})
 PLAIN_TYPES = (bool, int, float, str)
 ITEM_TYPES = (collections.abc.Iterable, list, tuple)
-EXAMPLE_VALUES = {str: "купить", int: "2", float: "0.5"}
+# The files of tests/steps/fixtures that an example reads, by the option that takes the file.
+FILE_EXAMPLES = {
+    "against": "texts.csv",
+    "competitors": "competitors.csv",
+    "freq": "freq.csv",
+    "pairs": "pairs.csv",
+    "synonyms": "synonyms.csv",
+    "dictionary": "dictionary.csv",
+}
+LIST_EXAMPLE = "@minus/universal"
+NAME_EXAMPLES = {
+    "what": "words",
+    "to": "en",
+    "tag": "source",
+    "pattern": r"\d+",
+    "query": "купить диван",
+    "case": "genitive",
+    "word": "диван",
+}
+PLAIN_EXAMPLES = {str: "купить", int: "2", float: "0.5"}
 AS_HELP = "Write the result to a new column NAME and keep the working column as it is."
 MISSING_HELP = "See the description above."
 POSITIONAL_PREFIX = "positional_"  # the parameter of the command that takes the first required argument positionally
@@ -85,9 +107,17 @@ class StepOption:
         return argument if option is None else option
 
     def example(self) -> str:
+        """The option as a runnable example: a file shows a file, a list a bundled list, a choice one of its values."""
         choices = typing.get_args(self.annotation) if typing.get_origin(self.annotation) is Literal else ()
-        value = choices[0] if choices else EXAMPLE_VALUES[str if self.takes_items else self.annotation]
-        return str(value) if self.positional else f"{self.flag()} {value}"
+        file = FILE_EXAMPLES.get(self.name)
+        value = file or (choices[0] if choices else self._example_value())
+        text = str(value) if re.fullmatch(r"[\w@/.,+=:-]+", str(value)) else shlex.quote(str(value))
+        return text if self.positional and not file else f"{self.flag()} {text}"
+
+    def _example_value(self) -> Any:
+        if self.takes_items:
+            return LIST_EXAMPLE
+        return NAME_EXAMPLES.get(self.name) or PLAIN_EXAMPLES[self.annotation]
 
 
 class ListsHelp(TyperCommand):
@@ -146,18 +176,15 @@ def _union_type(members: tuple[Any, ...]) -> tuple[Any, bool]:
     return single | None, takes_items
 
 
-def _option_help(doc: str, name: str) -> str:
-    """The line of `doc` that starts with `name:`, and the lines after it up to a blank one or another such line."""
-    lines = doc.splitlines()
-    for index, line in enumerate(lines):
-        start = ARGUMENT_LINE.match(line)
-        if start and start.group(1) == name:
-            found = [line[start.end() :]]
-            for following in lines[index + 1 :]:
-                if not following.strip() or ARGUMENT_LINE.match(following):
-                    break
-                found.append(following.strip())
-            return " ".join(found)
+def _option_help(doc: str, name: str, parameters: Collection[str]) -> str:
+    """The text of the line of `doc` that names `name` («name: …», «name, other: …»), with the items of a list after it."""
+    for paragraph in doc.split("\n\n"):
+        lines = doc_lines(paragraph, parameters)
+        for index, line in enumerate(lines):
+            start = ARGUMENT_LINE.match(line)
+            if start and name in argument_names(start):
+                items = takewhile(LIST_ITEM.match, lines[index + 1 :])
+                return "\n".join([line[start.end() :], *items])
     return ""
 
 
@@ -169,7 +196,7 @@ def _step_option(function: Callable[..., Any], parameter: inspect.Parameter) -> 
         return None
     if annotation is None:
         raise TypeError(f"{function!r}: the required argument {parameter.name!r} has no command-line form")
-    text = _option_help(inspect.getdoc(function) or "", parameter.name) or MISSING_HELP
+    text = _option_help(inspect.getdoc(function) or "", parameter.name, parameter_names(function)) or MISSING_HELP
     help_text = f"{text} {SYNTAX}" if takes_items else text
     return StepOption(parameter.name, annotation, ... if required else parameter.default, takes_items, help_text)
 
@@ -188,8 +215,11 @@ def step_options(function: Callable[..., Any]) -> list[StepOption]:
 
 
 def _help(step: Step, options: list[StepOption]) -> str:
-    required = "".join(f" {option.example()}" for option in options if option.default is ...)
-    return f"{step.help()}\n\nExample: {{cli}} read core.csv {step.name}{required} write out.csv"
+    given = step.example
+    if given is None:
+        given = " ".join(option.example() for option in options if option.default is ...)
+    command = " ".join(part for part in ("{cli} read", step.source, step.name, given, "write out.csv") if part)
+    return f"{step.help()}\n\nExample: {command}"
 
 
 def _option_parameters(option: StepOption) -> list[inspect.Parameter]:

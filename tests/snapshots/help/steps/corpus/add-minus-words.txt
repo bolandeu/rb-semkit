@@ -14,7 +14,7 @@
 
  The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
- Example: semkit read core.csv add-minus-words купить write out.csv
+ Example: semkit read core.csv add-minus-words --synonyms synonyms.csv write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   SYNONYMS      <str>  a file with the columns word and synonyms, as the step `synonyms` gives;  │

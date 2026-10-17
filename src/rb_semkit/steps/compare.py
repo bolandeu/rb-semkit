@@ -29,7 +29,7 @@ def _comparison(function: FunctionType) -> Step:
         return lambda table, column: Report(function(joined(table, column), competitors, **arguments))
 
     adapted = Adapted(function, {"mine": None, "competitors": option("competitors")}, COMPETITORS_DOC)
-    return Step(slug(function), adapted, "report", prepare, NOTE)
+    return Step(slug(function), adapted, "report", prepare, NOTE, source="--whole mine.txt")
 
 
 def _prepare_bm25(options: dict) -> Prepared:

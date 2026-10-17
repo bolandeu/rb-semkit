@@ -11,7 +11,7 @@
 
  remove-word-content removes what the matcher finds from the working column.
 
- Example: semkit read core.csv remove-word-content starts write out.csv
+ Example: semkit read core.csv remove-word-content starts --pattern куп write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <starts|ends|contains|only_latin|has_lat  "starts", "ends", "contains" (with         │

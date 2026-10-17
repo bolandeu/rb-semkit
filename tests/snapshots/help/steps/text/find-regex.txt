@@ -12,7 +12,7 @@
  find-regex marks the rows where the matcher finds something, in a new column <column>_find of true
  and false.
 
- Example: semkit read core.csv find-regex купить write out.csv
+ Example: semkit read core.csv find-regex '\d+' write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   PATTERN      <str>  See the description above. The same as --pattern PATTERN.                  │

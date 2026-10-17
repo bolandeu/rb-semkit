@@ -12,7 +12,7 @@
  find-word-content marks the rows where the matcher finds something, in a new column <column>_find
  of true and false.
 
- Example: semkit read core.csv find-word-content starts write out.csv
+ Example: semkit read core.csv find-word-content starts --pattern куп write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <starts|ends|contains|only_latin|has_lat  "starts", "ends", "contains" (with         │

@@ -11,7 +11,7 @@
 
  remove-regex removes what the matcher finds from the working column.
 
- Example: semkit read core.csv remove-regex купить write out.csv
+ Example: semkit read core.csv remove-regex '\d+' write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   PATTERN      <str>  See the description above. The same as --pattern PATTERN.                  │

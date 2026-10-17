@@ -32,6 +32,7 @@ from typer.testing import CliRunner
 
 from rb_semkit import output, steps
 from rb_semkit.cli import app
+from rb_semkit.pipeline.commands import step_options
 
 CLI = "semkit"
 SNAPSHOT_DIR = Path(__file__).parent / "snapshots" / "help"
@@ -178,3 +179,40 @@ def test_help_keeps_brackets() -> None:
     probe.command("other")(output.guard(cmd))
     result = CliRunner().invoke(probe, ["cmd", "--help"], env=HELP_ENV)
     assert "[[tool.rb.external]], see [x]." in result.output
+
+
+def _step(name: str) -> steps.Step:
+    return next(step for area in steps.areas().values() for step in area if step.name == name)
+
+
+def _option_help(step: str, option: str) -> str:
+    return next(o.help for o in step_options(_step(step).function) if o.name == option)
+
+
+def test_the_help_of_an_option_holds_only_its_own_text() -> None:
+    assert _option_help("coverage", "mode").endswith("a piece with them is one occurrence.")
+    assert "core" not in _option_help("coverage", "mode")
+    assert _option_help("coverage", "text_column") == "the texts, one per row."
+    assert _option_help("split-by-words", "bad").startswith("a phrase with any of these words is bad. Items:")
+    assert _option_help("split-by-words", "good").startswith("a phrase that is not bad and has only these words")
+    assert "Every other phrase" not in _option_help("split-by-words", "bad")
+    lists = _option_help("find-markers", "lists")
+    assert (
+        lists.startswith("names of the bundled lists (geo,") and "user:" not in lists and "your own lists" not in lists
+    )
+    assert "A word glued" not in _option_help("find-markers", "with_prepositions")
+
+
+def test_the_bullets_of_a_docstring_stay_lines_of_the_help() -> None:
+    result = CliRunner().invoke(app, help_argv((PIPELINE, "change-case")), env=HELP_ENV, prog_name=CLI)
+
+    lines = [line.strip() for line in result.output.splitlines()]
+    assert '- "lower", "upper": the whole phrase;' in lines
+    starts = [line for line in lines if line.startswith("- ")]
+    assert len(starts) == 8
+    assert any(line.startswith('- "toponyms": the place names') for line in starts)
+
+
+def test_arguments_named_with_a_slash_each_hold_their_own_text() -> None:
+    assert _option_help("find-word-position", "nth") == "the N-th word."
+    assert _option_help("find-word-position", "first").startswith("the first or last N words.")
