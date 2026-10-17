@@ -41,6 +41,14 @@ LAYOUT_FIXED = "the key of «я» fixed to «z»"
 # The shifted keys of the letters of the Russian layout that sit on punctuation keys of the English one.
 SHIFTED_KEYS = (("<", "Б"), (">", "Ю"), (":", "Ж"), ('"', "Э"), ("{", "Х"), ("}", "Ъ"), ("~", "Ё"))
 SHIFTED_ADDED = "a shifted key: the add-in maps only the unshifted punctuation keys"
+# The letter groups of the latin translit that the add-in lacks, so that «ZHUK», «Tsoy», «shchuka» read back.
+TRANSLIT_ADDED = (("Shch", "Щ"), ("shch", "щ"), ("Ts", "Ц"), ("ts", "ц"), ("yy", "ый"))
+TRANSLIT_ADDED_WHY = "a letter group of the latin translit that reads back to its cyrillic letters"
+# The signs of the Russian layout, by the key of the English layout that types them.
+SIGN_KEYS = (("/", "."), ("?", ","), ("^", ":"), ("$", ";"), ("&", "?"), ("@", '"'), ("#", "№"), ("|", "/"))
+SIGN_KEYS_ADDED = "a sign of the Russian layout: the add-in maps only the letter keys and the unshifted sign keys"
+PHONETIC_WORDS_ADDED = {"f": {"ikea": "икеа"}}
+PHONETIC_WORDS_ADDED_WHY = "a brand that the letter groups read wrong («ikea» as «ики»)"
 LATIN_C = "a latin «c» in a Russian value: the next table turns it into «к»"
 LATIN_C_FIXED = "the latin «c» of the value fixed to «с»"
 PHONETIC_TABLES = {
@@ -100,12 +108,14 @@ def _phonetic_name(key: str) -> str:
     return f"phonetic_{kind}" if kind == "words" else f"phonetic_{kind}_{key[1:]}"
 
 
-def _phonetic_pairs(english: list[str], russian: list[str]) -> list[list[str]]:
-    """A key keeps its first place and its last value, as a dictionary filled in order; a latin «c» is fixed."""
+def _phonetic_pairs(key: str, english: list[str], russian: list[str]) -> list[list[str]]:
+    """A key keeps its first place and its last value, as a dictionary filled in order; a latin «c» is fixed; the
+    added words follow."""
     values: dict[str, str] = {}
-    for key, value in zip(english, russian, strict=True):
-        values[key] = value.replace("c", "с")
-    return [[key, value] for key, value in values.items()]
+    for word, value in zip(english, russian, strict=True):
+        values[word] = value.replace("c", "с")
+    values |= PHONETIC_WORDS_ADDED.get(key, {})
+    return [[word, value] for word, value in values.items()]
 
 
 def _phonetic_entry(path: Path, key: str, english: list[str], russian: list[str]) -> Entry:
@@ -117,6 +127,8 @@ def _phonetic_entry(path: Path, key: str, english: list[str], russian: list[str]
         elif "c" in value:
             entry.drop(f"{word}\t{value}", LATIN_C)
             entry.add(f"{word}\t{value.replace('c', 'с')}", LATIN_C_FIXED)
+    for word, value in PHONETIC_WORDS_ADDED.get(key, {}).items():
+        entry.add(f"{word}\t{value}", PHONETIC_WORDS_ADDED_WHY)
     return entry
 
 
@@ -138,7 +150,7 @@ def _chpu_entry(sheet: list[list[str]]) -> Entry:
 
 def _layout(source: str) -> list[list[str]]:
     pairs = [[LAYOUT_FIX[1] if key == LAYOUT_FIX[0] else key, value] for key, value in _vba_pairs(source, "layout")]
-    return pairs + [list(pair) for pair in SHIFTED_KEYS]
+    return pairs + [list(pair) for pair in (*SHIFTED_KEYS, *SIGN_KEYS)]
 
 
 def _layout_entry(source: str, path: Path) -> Entry:
@@ -150,6 +162,8 @@ def _layout_entry(source: str, path: Path) -> Entry:
             entry.add(f"{LAYOUT_FIX[1]}\t{value}", LAYOUT_FIXED)
     for key, value in SHIFTED_KEYS:
         entry.add(f"{key}\t{value}", SHIFTED_ADDED)
+    for key, value in SIGN_KEYS:
+        entry.add(f"{key}\t{value}", SIGN_KEYS_ADDED)
     return entry
 
 
@@ -191,6 +205,8 @@ def manifest(sources: dict[str, Path]) -> dict[str, Entry]:
         f"translit.json:{name}": _vba_entry(vba, vba_path, name, len(_vba_pairs(vba, name)))
         for name in ("translit_ru_en", "translit_en_ru", "similar_chars")
     }
+    for source, target in TRANSLIT_ADDED:
+        entries["translit.json:translit_en_ru"].add(f"{source}\t{target}", TRANSLIT_ADDED_WHY)
     entries["translit.json:layout"] = _layout_entry(vba, vba_path)
     entries["translit.json:chpu"] = _chpu_entry(sheet)
     for key, (english, russian) in _phonetic_literals(vba).items():
@@ -211,7 +227,8 @@ def build(sources: dict[str, Path], out: Path) -> None:
     sheet = read_sheet(sources["sheet_abc"])
     vba = "\n".join(read_lines(sources["vba"]))
     translit = {name: _vba_pairs(vba, name) for name in ("translit_ru_en", "translit_en_ru", "similar_chars")}
+    translit["translit_en_ru"] = [list(pair) for pair in TRANSLIT_ADDED] + translit["translit_en_ru"]
     translit |= {"layout": _layout(vba), "chpu": _chpu(sheet)}
-    translit |= {_phonetic_name(key): _phonetic_pairs(*pair) for key, pair in _phonetic_literals(vba).items()}
+    translit |= {_phonetic_name(key): _phonetic_pairs(key, *pair) for key, pair in _phonetic_literals(vba).items()}
     write_json(out / "translit.json", translit)
     write_json(out / "word_order.json", {"prepositions": _prepositions(vba), **_declined_lists(sheet)})

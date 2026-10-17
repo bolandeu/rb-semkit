@@ -37,3 +37,11 @@ def test_extract_gives_the_url_decoded_value_only() -> None:
 
     assert sk.extract_utm(urls, "source").tolist() == ["Яндекс", "ya", "", ""]
     assert sk.extract_utm(urls, "term").tolist() == ["", "", "купить диван", ""]
+
+
+def test_a_tag_in_the_fragment_is_no_utm_tag_for_both_functions() -> None:
+    url = pd.Series(["https://site.ru/?utm_source=vk#utm_medium=x"])
+
+    assert sk.extract_utm(url, "medium").tolist() == [""]
+    assert sk.remove_utm(url).tolist() == ["https://site.ru/#utm_medium=x"]
+    assert sk.extract_utm(url, "source").tolist() == ["vk"]

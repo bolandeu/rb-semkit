@@ -7,28 +7,28 @@ edit it. The terms and the other areas: [the summary](../conformance.md).
 
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
-| [change_case](#change_case) | 24 | 18 | 6 | 0 |
+| [change_case](#change_case) | 26 | 17 | 9 | 0 |
 | [chpu](#chpu) | 5 | 0 | 5 | 0 |
 | [drop_minus_words](#drop_minus_words) | 6 | 3 | 3 | 0 |
 | [drop_modifiers](#drop_modifiers) | 5 | 4 | 1 | 0 |
-| [extract_utm](#extract_utm) | 6 | 1 | 5 | 0 |
+| [extract_utm](#extract_utm) | 7 | 1 | 6 | 0 |
 | [fix_word_order](#fix_word_order) | 8 | 4 | 4 | 0 |
 | [guillemets](#guillemets) | 5 | 3 | 2 | 0 |
 | [hash_text](#hash_text) | 5 | 5 | 0 | 0 |
 | [insert](#insert) | 6 | 6 | 0 | 0 |
-| [match_type](#match_type) | 19 | 12 | 7 | 0 |
+| [match_type](#match_type) | 27 | 12 | 15 | 0 |
 | [move_words](#move_words) | 6 | 4 | 2 | 0 |
-| [phonetic](#phonetic) | 7 | 5 | 2 | 0 |
-| [remove_utm](#remove_utm) | 7 | 5 | 2 | 0 |
+| [phonetic](#phonetic) | 8 | 5 | 3 | 0 |
+| [remove_utm](#remove_utm) | 8 | 6 | 2 | 0 |
 | [replace_text](#replace_text) | 10 | 5 | 5 | 0 |
-| [replace_words](#replace_words) | 7 | 4 | 3 | 0 |
+| [replace_words](#replace_words) | 8 | 3 | 5 | 0 |
 | [reverse](#reverse) | 5 | 4 | 1 | 0 |
 | [similar_chars](#similar_chars) | 5 | 5 | 0 | 0 |
 | [sort_words](#sort_words) | 5 | 5 | 0 | 0 |
-| [split_digits](#split_digits) | 5 | 3 | 2 | 0 |
-| [switch_layout](#switch_layout) | 7 | 3 | 4 | 0 |
-| [translit](#translit) | 6 | 5 | 1 | 0 |
-| **All** | **159** | **104** | **55** | **0** |
+| [split_digits](#split_digits) | 6 | 3 | 3 | 0 |
+| [switch_layout](#switch_layout) | 9 | 3 | 6 | 0 |
+| [translit](#translit) | 9 | 4 | 5 | 0 |
+| **All** | **179** | **102** | **77** | **0** |
 
 ## change_case
 
@@ -36,7 +36,7 @@ change_case. VBA, RibbonCallbacks.vba (docs/vba/change.md 1.1–1.10): lower a�
 
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
-| `change_case` | 24 | 18 | 6 | 0 |
+| `change_case` | 26 | 17 | 9 | 0 |
 
 ### Deviations
 
@@ -46,8 +46,11 @@ change_case. VBA, RibbonCallbacks.vba (docs/vba/change.md 1.1–1.10): lower a�
 | case-sentence-backslash | `"a\b"` | `"AB"` | `"A\b"` | Предложение начинается после «.», «!» или «?» и пробелов за ними | the backslash is a split point of ooo­ and is lost; each part gets its first char upper |
 | case-sentence-lower-glued | `"Да.ДА"` | `"да.да"` | `"да.дА"` | Строчное начало предложения меняет одну первую букву | o·a– lowers the first two chars of each part: «ДА» → «да» |
 | case-list-yo | `"искусственная елка"` | `"искусственная елка"` | `"искусственная ЕЛКА"` | ё = е при сравнении | kko compares UCase as typed: «ЕЛКА» is not «ЁЛКА» |
+| case-toponyms-moscow | `"доставка москва  и санкт-петербург"` | `"доставка Москва и санкт-петербург"` | `"доставка Москва и Санкт-Петербург"` | Топоним находится вместе с дефисами и знаками на краях слов | the add-in compares «санкт-петербург» with its hyphen as one word that the list lacks |
 | case-toponyms-yo | `"отели в орел"` | `"отели в Орел"` | `"отели в Орёл"` | ё = е при сравнении | the geo list holds «Орёл» before «Орел»; semkit takes both as one name and its first spelling |
 | case-abbreviations-pollution | `"2шт ао2"` | `"2ШТ ао2"` | `"2ШТ АО2"` | Признак аббревиатуры не зависит от соседних слов | the first char «2» of «2шт» enters the class dictionary with no class, and inside «ао2» it makes the vowel word mixed |
+| case-toponyms-hyphen | `"диван ростов-на-дону"` | `"диван ростов-на-дону"` | `"диван Ростов-на-Дону"` | Топоним находится вместе с дефисами и знаками на краях слов | the list holds «Ростов на Дону» and the add-in compares a word with its hyphens as one |
+| case-toponyms-punct | `"купить диван в москве. отзывы!"` | `"купить диван в москве. отзывы!"` | `"купить диван в Москве. отзывы!"` | Топоним находится вместе с дефисами и знаками на краях слов | the add-in compares «москве.» with its point, so the name is not found |
 
 ### xfail
 
@@ -119,7 +122,7 @@ extract_utm. VBA, RibbonCallbacks.vba (docs/vba/change.md 8.2): source –aa— 
 
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
-| `extract_utm` | 6 | 1 | 5 | 0 |
+| `extract_utm` | 7 | 1 | 6 | 0 |
 
 ### Deviations
 
@@ -130,6 +133,7 @@ extract_utm. VBA, RibbonCallbacks.vba (docs/vba/change.md 8.2): source –aa— 
 | utm-extract-decoded | `"?utm_source=%D0%AF%D0%BD%D0%B4%D0%B5%D0%BA%D1%81"` | `"utm_source=%D0%AF%D0%BD%D0%B4%D0%B5%D0%BA%D1%81"` | `"Яндекс"` | Извлечение UTM-метки даёт только значение, раскодированное из URL | extrUTM returns the whole match and does not URL-decode the value |
 | utm-extract-case | `"https://site.ru/?UTM_CAMPAIGN=sale"` | `""` | `"sale"` | UTM-метка — параметр с именем на «utm_» в любом регистре | «UTM_CAMPAIGN» does not match the case-sensitive «utm_campaign» |
 | utm-extract-content | `"https://site.ru/?utm_content=banner#top"` | `"utm_content=banner"` | `"banner"` | Извлечение UTM-метки даёт только значение, раскодированное из URL | extrUTM returns the whole match, with «utm_content=» |
+| utm-extract-fragment | `"https://site.ru/?utm_source=vk#utm_medium=x"` | `"utm_medium=x"` | `""` | Метка во фрагменте после «#» не UTM-метка | extrUTM searches the whole string, the fragment too |
 
 ### xfail
 
@@ -213,7 +217,7 @@ match_type. VBA, RibbonCallbacks.vba (docs/vba/change.md 7.1–7.7): broad a—�
 
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
-| `match_type` | 19 | 12 | 7 | 0 |
+| `match_type` | 27 | 12 | 15 | 0 |
 
 ### Deviations
 
@@ -226,6 +230,14 @@ match_type. VBA, RibbonCallbacks.vba (docs/vba/change.md 7.1–7.7): broad a—�
 | match-quoted-fixed-order-empty | `""` | `""[!]""` | `""` | Пустая фраза остаётся пустой | the Join of no tokens inside «"[!» and «]"» gives «"[!]"» |
 | match-brackets-minus | `"купить диван -бесплатно"` | `"[купить диван -бесплатно]"` | `"[купить диван] -бесплатно"` | Минус-слова остаются вне скобок и кавычек | ·1l puts the whole cell inside the brackets |
 | match-antisemantic-spaces | `"диван  в москве -бесплатно"` | `"[диван] [] в [москве] [-бесплатно]"` | `"[диван] в [москве] -бесплатно"` | фраза делится по любым пробелам, двойных пробелов в результатах нет; Слово с оператором («+», «!», «-») не получает второй оператор | the empty token of the double space becomes «[]», and the minus-word gets brackets |
+| match-quoted-plus | `""купить диван" -бесплатно"` | `"+"купить +диван" +-бесплатно"` | `""+купить +диван" -бесплатно"` | Фраза в кавычках или скобках не оборачивается второй раз, а оператор встаёт внутри; Слово с оператором («+», «!», «-») не получает второй оператор | the operator and the wrap go on the words as they are: «+"купить», «[[диван]]»; every token gets «+»: «+-бесплатно» |
+| match-bracketed-plus | `"[диван в икеа] -бу"` | `"+[диван +в +икеа] +-бу"` | `"[+диван +в +икеа] -бу"` | Фраза в кавычках или скобках не оборачивается второй раз, а оператор встаёт внутри; Слово с оператором («+», «!», «-») не получает второй оператор | the operator and the wrap go on the words as they are: «+"купить», «[[диван]]»; every token gets «+»: «+-бу» |
+| match-quoted-fixed | `""купить диван" -бесплатно"` | `"!"купить !диван" !-бесплатно"` | `""!купить !диван" -бесплатно"` | Фраза в кавычках или скобках не оборачивается второй раз, а оператор встаёт внутри; Слово с оператором («+», «!», «-») не получает второй оператор | the operator and the wrap go on the words as they are: «+"купить», «[[диван]]»; every token gets «!»: «!-бесплатно» |
+| match-bracketed-fixed | `"[диван в икеа] -бу"` | `"![диван !в !икеа] !-бу"` | `"[!диван !в !икеа] -бу"` | Фраза в кавычках или скобках не оборачивается второй раз, а оператор встаёт внутри; Слово с оператором («+», «!», «-») не получает второй оператор | the operator and the wrap go on the words as they are: «+"купить», «[[диван]]»; every token gets «!»: «!-бу» |
+| match-quoted-quotes | `""купить диван" -бесплатно"` | `"""купить диван" -бесплатно""` | `""купить диван" -бесплатно"` | Фраза в кавычках или скобках не оборачивается второй раз, а оператор встаёт внутри; Минус-слова остаются вне скобок и кавычек | the operator and the wrap go on the words as they are: «+"купить», «[[диван]]»; ·1l puts the whole cell inside the quotes |
+| match-quoted-brackets | `""купить диван" -бесплатно"` | `"["купить диван" -бесплатно]"` | `"[купить диван] -бесплатно"` | Фраза в кавычках или скобках не оборачивается второй раз, а оператор встаёт внутри; Минус-слова остаются вне скобок и кавычек | the operator and the wrap go on the words as they are: «+"купить», «[[диван]]»; the whole cell goes inside the brackets |
+| match-bracketed-quotes | `"[диван в икеа] -бу"` | `""[диван в икеа] -бу""` | `""диван в икеа" -бу"` | Фраза в кавычках или скобках не оборачивается второй раз, а оператор встаёт внутри; Минус-слова остаются вне скобок и кавычек | the operator and the wrap go on the words as they are: «+"купить», «[[диван]]»; the whole cell goes inside the quotes |
+| match-bracketed-brackets | `"[диван в икеа] -бу"` | `"[[диван в икеа] -бу]"` | `"[диван в икеа] -бу"` | Фраза в кавычках или скобках не оборачивается второй раз, а оператор встаёт внутри; Минус-слова остаются вне скобок и кавычек | the operator and the wrap go on the words as they are: «+"купить», «[[диван]]»; the whole cell goes inside the brackets |
 
 ### xfail
 
@@ -256,7 +268,7 @@ phonetic. VBA, RibbonCallbacks.vba (docs/vba/change.md 6.4): SEM_rT (L2426) by r
 
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
-| `phonetic` | 7 | 5 | 2 | 0 |
+| `phonetic` | 8 | 5 | 3 | 0 |
 
 ### Deviations
 
@@ -264,6 +276,7 @@ phonetic. VBA, RibbonCallbacks.vba (docs/vba/change.md 6.4): SEM_rT (L2426) by r
 |---|---|---|---|---|---|
 | phonetic-latin-c | `"pictures"` | `"пикчерк"` | `"пикчерс"` | В фонетических таблицах латинская «c» в русских значениях заменена на «с» | s5 maps «tures» to «черc» with a latin «c», which a1 turns into «к» |
 | phonetic-spaces | `"apple  iphone"` | `"эпл  айфон"` | `"эпл айфон"` | фраза делится по любым пробелам, двойных пробелов в результатах нет | Split(s & " ") keeps the empty token: the two spaces stay |
+| phonetic-brand | `"IKEA"` | `"ИКИ"` | `"ИКЕА"` | Бренд читается по слову таблицы | the letter groups read «ea» as «и»; the add-in has no word for the brand |
 
 ### xfail
 
@@ -275,7 +288,7 @@ remove_utm. VBA, RibbonCallbacks.vba (docs/vba/change.md 8.1): a·aa (L2686) by 
 
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
-| `remove_utm` | 7 | 5 | 2 | 0 |
+| `remove_utm` | 8 | 6 | 2 | 0 |
 
 ### Deviations
 
@@ -316,15 +329,17 @@ replace_words. VBA, RibbonCallbacks.vba (docs/vba/change.md 4.1–4.3): word to 
 
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
-| `replace_words` | 7 | 4 | 3 | 0 |
+| `replace_words` | 8 | 3 | 5 | 0 |
 
 ### Deviations
 
 | Case | Input | VBA | semkit | Rule | Why |
 |---|---|---|---|---|---|
+| replace-words-word | `"Диван угловой диван,"` | `"софа угловой диван,"` | `"софа угловой софа,"` | Слово со знаками на краях заменяется, знаки остаются | the add-in compares «диван,» with its comma, so the word is not found |
 | replace-words-delete | `"диван купить москва"` | `"диван  москва"` | `"диван москва"` | фраза делится по любым пробелам, двойных пробелов в результатах нет | the empty replacement leaves two spaces: « диван  москва » |
 | replace-words-yo | `"искусственная елка"` | `"искусственная елка"` | `"искусственная ель"` | ё = е при сравнении | the LCase key «ёлка» is not «елка» |
 | replace-words-spaces | `"купить  диван"` | `"купить  софа"` | `"купить софа"` | фраза делится по любым пробелам, двойных пробелов в результатах нет | Split on single spaces keeps the empty token of the double space |
+| replace-words-punct | `"швейная машинка, дешево"` | `"швейная машинка, дешево"` | `"швейная машина, недорого"` | Слово со знаками на краях заменяется, знаки остаются | the add-in compares «машинка,» with its comma, so the word is not found |
 
 ### xfail
 
@@ -386,7 +401,7 @@ split_digits. VBA, RibbonCallbacks.vba (docs/vba/change.md 5.1): a—–1 (L2853
 
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
-| `split_digits` | 5 | 3 | 2 | 0 |
+| `split_digits` | 6 | 3 | 3 | 0 |
 
 ### Deviations
 
@@ -394,6 +409,7 @@ split_digits. VBA, RibbonCallbacks.vba (docs/vba/change.md 5.1): a—–1 (L2853
 |---|---|---|---|---|---|
 | split-digits-apart | `"iphone 13 pro"` | `"iphone  13  pro"` | `"iphone 13 pro"` | Разделитель ставится только между цифрами и текстом, которые стоят слитно | the runs «iphone », «13», « pro» joined by a space give double spaces |
 | split-digits-apart-sep | `"iphone 13pro"` | `"iphone \|13\|pro"` | `"iphone 13\|pro"` | Разделитель ставится только между цифрами и текстом, которые стоят слитно | the space stays inside the run «iphone » |
+| split-digits-size | `"диван 140х200 ps5"` | `"диван 140 х 200 ps 5"` | `"диван 140х200 ps 5"` | Размер NxM остаётся целым | the add-in splits every digit run from the text, the «х» of a size too |
 
 ### xfail
 
@@ -405,7 +421,7 @@ switch_layout. VBA, RibbonCallbacks.vba (docs/vba/change.md 6.6): to ru —··k
 
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
-| `switch_layout` | 7 | 3 | 4 | 0 |
+| `switch_layout` | 9 | 3 | 6 | 0 |
 
 ### Deviations
 
@@ -415,6 +431,8 @@ switch_layout. VBA, RibbonCallbacks.vba (docs/vba/change.md 6.6): to ru —··k
 | layout-en-ya | `"яндекс"` | `"·yltrc"` | `"zyltrc"` | Клавиша «z» в раскладке — это «я» | «я» becomes the 33rd char of the literal, «·» |
 | layout-en-shifted | `"Бык"` | `",sr"` | `"<sr"` | Заглавная буква на клавише знака даёт знак с Shift | «Б» becomes UCase(«,»), which is «,» |
 | layout-ru-shifted | `"<sr"` | `"<ык"` | `"Бык"` | Заглавная буква на клавише знака даёт знак с Shift | «<» is not in the literal and stays |
+| layout-ru-signs | `"Хрущёвка, «ж»: Б. ю?"` | `"[heo`drf, «;»: ,. .?"` | `"{heo`drf? «;»^ </ .&"` | Знак русской раскладки — другой знак английской | the add-in maps no sign of the Russian layout: «,» stays «,», so «б» and «,» are one key back |
+| layout-en-signs | `"f/ ?, d^ $ &"` | `"а/ ?б в^ $ &"` | `"а. ,б в: ; ?"` | Знак русской раскладки — другой знак английской | the add-in maps no shifted sign of the English layout to a sign of the Russian one |
 
 ### xfail
 
@@ -426,13 +444,17 @@ translit. VBA, RibbonCallbacks.vba (docs/vba/change.md 6.2–6.3): to en aa·o (
 
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
-| `translit` | 6 | 5 | 1 | 0 |
+| `translit` | 9 | 4 | 5 | 0 |
 
 ### Deviations
 
 | Case | Input | VBA | semkit | Rule | Why |
 |---|---|---|---|---|---|
 | translit-en-caps | `"ЖУК ЩИ"` | `"ZhUK SchI"` | `"ZHUK SCHI"` | Слово заглавными в транслите остаётся заглавным | StrConv ProperCase writes «Ж» as «Zh» and «Щ» as «Sch» inside a word in capitals |
+| translit-ru-shch | `"Shch yel"` | `"Шч ыел"` | `"Щ ыел"` | Транслит на кириллицу обращает транслит на латиницу, где таблица однозначна | the table has no «shch», so «Sh» and «ch» read apart |
+| translit-ru-caps | `"ZHUK ZHKKH"` | `"ЗХУК ЗХККХ"` | `"ЖУК ЖКХ"` | Транслит на кириллицу обращает транслит на латиницу, где таблица однозначна | a word in capitals has no «ZH» or «KH» in the table, so the letters read one by one |
+| translit-ru-ts-ay | `"Tsoy Chayka"` | `"Тсой Чаыка"` | `"Цой Чайка"` | Транслит на кириллицу обращает транслит на латиницу, где таблица однозначна | the table has no «ts», and «y» after a vowel is «ы» |
+| translit-ru-signs | `"shchuka syomnyy"` | `"шчука сёмныы"` | `"щука сёмный"` | Транслит на кириллицу обращает транслит на латиницу, где таблица однозначна | the table has no «shch», and «yy» reads as «ыы» |
 
 ### xfail
 

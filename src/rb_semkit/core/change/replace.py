@@ -10,7 +10,7 @@ import pandas as pd
 from ..errors import InvalidArguments
 from ..normalize import norm_phrase
 from ..text.base import choice, compiled, split_words
-from .common import adjusted, capitalised, changed, text_pairs
+from .common import adjusted, capitalised, changed, split_edges, text_pairs
 
 __all__ = ["replace_text", "replace_words"]
 
@@ -29,16 +29,20 @@ def _by_length(pairs: list[tuple[str, str]]) -> dict[int, dict[str, str]]:
 
 
 def _replaced_words(words: list[str], length: int, table: dict[str, str], keep_case: bool) -> list[str]:
-    """Each run of `length` words found in `table`, left to right, replaced by its words."""
+    """Each run of `length` words found in `table` without the punctuation at its edges, left to right, replaced by
+    its words; the punctuation stays around them, unless the replacement is empty."""
     result: list[str] = []
     index = 0
     while index < len(words):
-        replacement = table.get(norm_phrase(" ".join(words[index : index + length])))
+        prefix, core, suffix = split_edges(" ".join(words[index : index + length]))
+        replacement = table.get(norm_phrase(core))
         if replacement is None:
             result.append(words[index])
             index += 1
             continue
-        result += split_words(adjusted(replacement, words[index]) if keep_case else replacement)
+        if keep_case:
+            replacement = adjusted(replacement, split_edges(words[index])[1])
+        result += split_words(prefix + replacement + suffix if replacement else "")
         index += length
     return result
 

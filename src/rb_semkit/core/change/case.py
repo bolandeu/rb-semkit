@@ -4,15 +4,17 @@ from __future__ import annotations
 
 import re
 from collections.abc import Callable, Iterable
+from typing import NamedTuple
 
 import pandas as pd
 
+from .. import datastore
 from ..errors import InvalidArguments
-from ..markers.lists import bundled
+from ..markers.lists import phrases
 from ..normalize import norm_phrase
 from ..text.base import bundled_list, choice, split_words, word_key, word_list
-from ..text.matchers.phrases import choose
-from .common import capitalised, changed, each_word
+from ..text.matchers.phrases import PhraseList, choose
+from .common import capitalised, changed, each_word, split_edges
 
 __all__ = ["change_case"]
 
@@ -22,6 +24,7 @@ KINDS = (
 )
 LIST_KINDS = ("list_title", "list_upper")
 TOPONYMS = "geo"
+HYPHEN = "-"
 # A sentence starts the text or follows «.», «!» or «?»; spaces may stand before its first letter or digit.
 _SENTENCE_START = re.compile(r"(?:^|[.!?])\s*(\w)")
 _LATIN_WORD_START = re.compile(r"(?<!\S)[a-z]")
@@ -46,11 +49,45 @@ def _listed(words: Iterable[str], change: Callable[[str], str]) -> Callable[[str
     return each_word(lambda word: change(word) if word_key(word) in keys else word)
 
 
+class _Part(NamedTuple):
+    """A word of a name, or a piece of a hyphenated word, with the punctuation around it and what joins it to the next."""
+
+    prefix: str
+    text: str
+    suffix: str
+    joiner: str
+
+
+def _geo() -> PhraseList:
+    """The bundled place names with a hyphen read as a space: «Ростов на Дону» is also «ростов-на-дону»."""
+    return datastore.once(
+        "change/geo_names",
+        lambda: PhraseList(TOPONYMS, [name.replace(HYPHEN, " ") for name in phrases(TOPONYMS)]),
+    )
+
+
+def _parts(phrase: str) -> list[_Part]:
+    parts: list[_Part] = []
+    for word in split_words(phrase):
+        prefix, core, suffix = split_edges(word)
+        pieces = core.split(HYPHEN) if core and "" not in core.split(HYPHEN) else [core or word]
+        last = len(pieces) - 1
+        parts += [
+            _Part(prefix if not index else "", piece, suffix if index == last else "", " " if index == last else HYPHEN)
+            for index, piece in enumerate(pieces)
+        ]
+    return parts
+
+
 def _toponyms(phrase: str) -> str:
-    words = split_words(phrase)
-    for hit in reversed(choose(bundled(TOPONYMS).hits(words))):
-        words[hit.start : hit.stop] = [hit.spelling]
-    return " ".join(words)
+    parts = _parts(phrase)
+    for hit in reversed(choose(_geo().hits([part.text for part in parts]))):
+        names = hit.spelling.split(" ")
+        if len(names) == hit.stop - hit.start:
+            parts[hit.start : hit.stop] = [
+                part._replace(text=name) for part, name in zip(parts[hit.start : hit.stop], names, strict=True)
+            ]
+    return "".join(f"{part.prefix}{part.text}{part.suffix}{part.joiner}" for part in parts)[:-1]
 
 
 def _looks_like_abbreviation(word: str) -> bool:

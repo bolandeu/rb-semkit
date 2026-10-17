@@ -55,3 +55,22 @@ def test_drop_minus_words_keeps_a_dash_between_words() -> None:
     result = sk.drop_minus_words(pd.Series(["купить диван -бесплатно -скачать", "диван - кровать"]))
 
     assert result.tolist() == ["купить диван", "диван - кровать"]
+
+
+@pytest.mark.parametrize(
+    ("phrase", "kind", "expected"),
+    [
+        ('"купить диван" -бесплатно', "plus_every_word", '"+купить +диван" -бесплатно'),
+        ('"купить диван" -бесплатно', "fixed_forms", '"!купить !диван" -бесплатно'),
+        ('"купить диван" -бесплатно', "quotes", '"купить диван" -бесплатно'),
+        ('"купить диван" -бесплатно', "brackets", "[купить диван] -бесплатно"),
+        ("[диван в икеа] -бу", "plus_every_word", "[+диван +в +икеа] -бу"),
+        ("[диван в икеа] -бу", "fixed_forms", "[!диван !в !икеа] -бу"),
+        ("[диван в икеа] -бу", "brackets", "[диван в икеа] -бу"),
+        ("[диван в икеа] -бу", "quotes", '"диван в икеа" -бу'),
+        ('"[!диван !в]" -бу', "quoted_fixed_order", '"[!диван !в]" -бу'),
+        ("[диван в икеа] -бу", "antisemantic", "[диван] в [икеа] -бу"),
+    ],
+)
+def test_a_phrase_with_quotes_or_brackets_is_not_wrapped_again(phrase: str, kind: str, expected: str) -> None:
+    assert _one(phrase, kind) == expected

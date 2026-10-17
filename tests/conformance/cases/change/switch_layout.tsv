@@ -7,3 +7,5 @@ layout-en	switch_layout	{"to": "en"}	привет	ghbdtn	ghbdtn
 layout-en-ya	switch_layout	{"to": "en"}	яндекс	·yltrc	zyltrc	Клавиша «z» в раскладке — это «я»	«я» becomes the 33rd char of the literal, «·»	
 layout-en-shifted	switch_layout	{"to": "en"}	Бык	,sr	<sr	Заглавная буква на клавише знака даёт знак с Shift	«Б» becomes UCase(«,»), which is «,»	
 layout-ru-shifted	switch_layout	{"to": "ru"}	<sr	<ык	Бык	Заглавная буква на клавише знака даёт знак с Shift	«<» is not in the literal and stays	
+layout-ru-signs	switch_layout	{"to": "en"}	Хрущёвка, «ж»: Б. ю?	[heo`drf, «;»: ,. .?	{heo`drf? «;»^ </ .&	Знак русской раскладки — другой знак английской	the add-in maps no sign of the Russian layout: «,» stays «,», so «б» and «,» are one key back	
+layout-en-signs	switch_layout	{"to": "ru"}	f/ ?, d^ $ &	а/ ?б в^ $ &	а. ,б в: ; ?	Знак русской раскладки — другой знак английской	the add-in maps no shifted sign of the English layout to a sign of the Russian one	

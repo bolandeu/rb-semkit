@@ -7,3 +7,4 @@ utm-remove-middle	remove_utm		https://site.ru/?id=5&utm_term=x&page=2	https://si
 utm-remove-none	remove_utm		https://site.ru/page?id=5	https://site.ru/page?id=5	https://site.ru/page?id=5			
 utm-remove-fragment-amp	remove_utm		https://site.ru/?utm_source=ya#a&b	https://site.ru/#a?b	https://site.ru/#a&b	Удаление UTM-меток оставляет правильные «?» и «&»	with no «?» left, the first «&» of the string, in the fragment, becomes «?»	
 utm-remove-first-then-amp	remove_utm		https://site.ru/?utm_source=ya&id=5&p=2	https://site.ru/?id=5&p=2	https://site.ru/?id=5&p=2			
+utm-remove-fragment-tag	remove_utm		https://site.ru/?utm_source=vk#utm_medium=x	https://site.ru/#utm_medium=x	https://site.ru/#utm_medium=x			

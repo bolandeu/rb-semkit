@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import pandas as pd
+import pytest
 
 import rb_semkit as sk
 
@@ -32,3 +33,22 @@ def test_translit_to_cyrillic_goes_by_letter_groups() -> None:
 
 def test_phonetic_reads_english_words_in_russian_and_keeps_their_case() -> None:
     assert _one(sk.phonetic, "Dreamline iphone XIAOMI") == "Дримлайн айфон СЯОМИ"
+
+
+@pytest.mark.parametrize("word", ["ЖУК", "ЖКХ", "Цой", "Чайка", "щука", "Жук", "диван"])
+def test_translit_to_cyrillic_reverses_translit_to_latin(word: str) -> None:
+    latin = _one(sk.translit, word, to="en")
+
+    assert _one(sk.translit, latin, to="ru") == word
+
+
+def test_translit_to_cyrillic_reads_a_word_in_capitals_by_its_letter_groups() -> None:
+    assert _one(sk.translit, "ZHUK SHCHUKA", to="ru") == "ЖУК ЩУКА"
+
+
+def test_translit_to_cyrillic_cannot_restore_the_signs() -> None:
+    assert _one(sk.translit, _one(sk.translit, "съёмный", to="en"), to="ru") == "сыемный"
+
+
+def test_phonetic_reads_a_brand_by_its_word() -> None:
+    assert _one(sk.phonetic, "IKEA Ikea") == "ИКЕА Икеа"

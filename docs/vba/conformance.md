@@ -19,7 +19,7 @@ A value is in quotes; « | » separates the cells of a whole-column input or res
 | Area | Functions | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|---|
 | [analysis](conformance/analysis.md) | 3 | 41 | 26 | 15 | 0 |
-| [change](conformance/change.md) | 21 | 159 | 104 | 55 | 0 |
+| [change](conformance/change.md) | 21 | 179 | 102 | 77 | 0 |
 | [corpus](conformance/corpus.md) | 15 | 93 | 47 | 46 | 0 |
 | [declension](conformance/declension.md) | 5 | 41 | 21 | 20 | 0 |
 | [dupes](conformance/dupes.md) | 1 | 102 | 89 | 13 | 0 |
@@ -27,4 +27,4 @@ A value is in quotes; « | » separates the cells of a whole-column input or res
 | [morph](conformance/morph.md) | 3 | 45 | 27 | 18 | 0 |
 | [patterns](conformance/patterns.md) | 3 | 35 | 19 | 16 | 0 |
 | [text](conformance/text.md) | 14 | 260 | 219 | 41 | 0 |
-| **All** | **66** | **820** | **587** | **233** | **0** |
+| **All** | **66** | **840** | **585** | **255** | **0** |

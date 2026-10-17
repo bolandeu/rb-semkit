@@ -6,3 +6,4 @@ utm-extract-decoded	extract_utm	{"tag": "source"}	?utm_source=%D0%AF%D0%BD%D0%B4
 utm-extract-case	extract_utm	{"tag": "campaign"}	https://site.ru/?UTM_CAMPAIGN=sale		sale	UTM-метка — параметр с именем на «utm_» в любом регистре	«UTM_CAMPAIGN» does not match the case-sensitive «utm_campaign»	
 utm-extract-none	extract_utm	{"tag": "term"}	https://site.ru/?id=5					
 utm-extract-content	extract_utm	{"tag": "content"}	https://site.ru/?utm_content=banner#top	utm_content=banner	banner	Извлечение UTM-метки даёт только значение, раскодированное из URL	extrUTM returns the whole match, with «utm_content=»	
+utm-extract-fragment	extract_utm	{"tag": "medium"}	https://site.ru/?utm_source=vk#utm_medium=x	utm_medium=x		Метка во фрагменте после «#» не UTM-метка	extrUTM searches the whole string, the fragment too	
