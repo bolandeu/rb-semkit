@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-042
 title: 'parse-html and headings: pages as HTML into columns and their heading structure'
-status: queue
+status: in_progress
 attempts: 0
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: scope_held
 phase: null
 tests_hash: null
 publish_stage: null
@@ -15,8 +15,23 @@ type: feature
 owns_paths:
 - src/rb_semkit/core/html/
 - src/rb_semkit/steps/html.py
+- src/rb_semkit/core/frame.py
+- pyproject.toml
+- src/rb_semkit/core/textstats/functions.py
+- src/rb_semkit/data/SKILL.md
+- src/rb_semkit/pipeline/state.py
+- src/rb_semkit/steps/__init__.py
+- uv.lock
 test_paths:
 - tests/html/
+- tests/conformance/test_cases.py
+- tests/snapshots/help/steps/html/headings.txt
+- tests/snapshots/help/steps/html/parse-html.txt
+- tests/steps/fixtures/pages.csv
+- tests/snapshots/describe.json
+- tests/snapshots/help/read.txt
+- tests/steps/areas.py
+- tests/steps/test_steps.py
 docs: none
 tools: []
 worker_args: null
