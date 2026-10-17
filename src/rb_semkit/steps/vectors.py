@@ -7,8 +7,6 @@ the threshold they name; both refuse before the input is read.
 
 from __future__ import annotations
 
-from pathlib import Path
-
 import pandas as pd
 
 from ..core.errors import InvalidArguments
@@ -16,7 +14,7 @@ from ..core.frame import Frame
 from ..core.vectors import encoder, registry
 from ..core.vectors.cluster import cluster_meaning
 from ..core.vectors.encoder import Encoder
-from . import Adapted, Columns, Prepared, Step, numbers_of, option
+from . import Adapted, Columns, Prepared, Step, numbers_of, option, prepared_for
 
 MEANING = {
     "encoder": None,
@@ -37,7 +35,7 @@ def by_meaning(options: dict) -> tuple[Encoder, float]:
     """The encoder and the threshold the options --model and --threshold name."""
     model = registry.model(options["model"])
     threshold = registry.threshold(model, options["threshold"])
-    return encoder.encoder_for(model, Path.cwd()), threshold
+    return encoder.encoder_for(model, prepared_for()), threshold
 
 
 def _frequencies(table: pd.DataFrame, name: str) -> pd.Series:
