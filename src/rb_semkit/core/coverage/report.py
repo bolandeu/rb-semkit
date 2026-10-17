@@ -1,8 +1,8 @@
 """coverage: the SEO check of texts against a core, one row per core phrase.
 
-The texts are cut into pieces with `split_text`, so a phrase never matches across a sentence end or punctuation.
-The pieces are indexed by word, and every phrase is looked up by its words: the text is scanned once, not once per
-phrase.
+The texts are cut into pieces: sentences (`text.words.ends_sentence`), so an occurrence crosses a dash or a comma but
+never a sentence end; for 'any_order' the phrases of `split_text` (`text.words.ends_phrase`). The pieces are indexed by
+word, and every phrase is looked up by its words: the text is scanned once, not once per phrase.
 """
 
 from __future__ import annotations
@@ -18,11 +18,12 @@ from ..frame import Frame
 from ..morph import Lemmatizer
 from ..morph.functions import BUNDLED
 from ..normalize import norm_phrase
-from ..split import split_text
 from ..text.base import split_words
+from ..text.words import Cut, ends_phrase, ends_sentence, pieces
 
 MODES = ("exact", "lemmas", "any_order")
 COLUMNS = ["phrase", "count", "docs", "density", "first"]
+DECIMALS = 4
 
 Piece = tuple[int, int, list[str]]  # the text number, the words before the piece in its text, the keys of its words
 
@@ -65,15 +66,15 @@ def _key_of(mode: str, lemmatizer: Lemmatizer) -> Callable[[str], str]:
     return lambda word: lemmatizer.lemma(norm_phrase(word))
 
 
-def _pieces(texts: pd.Series, key: Callable[[str], str]) -> Iterator[Piece]:
+def _pieces(texts: pd.Series, key: Callable[[str], str], cuts: Cut) -> Iterator[Piece]:
     """The pieces of every text in order, each with its words as keys; a word is keyed once however often it occurs."""
     keys: dict[str, str] = {}
-    seen: Counter[int] = Counter()
-    pieces = split_text(texts)
-    for doc, piece in zip(pieces.index.astype(int).tolist(), pieces, strict=True):
-        words = [keys[word] if word in keys else keys.setdefault(word, key(word)) for word in split_words(piece)]
-        yield doc, seen[doc], words
-        seen[doc] += len(words)
+    for doc, text in enumerate(texts):
+        seen = 0
+        for piece in pieces(text, cuts):
+            words = [keys[word] if word in keys else keys.setdefault(word, key(word)) for word in piece]
+            yield doc, seen, words
+            seen += len(words)
 
 
 def _in_a_row(pieces: list[Piece], phrases: list[list[str]], tally: _Tally) -> None:
@@ -135,11 +136,15 @@ def coverage(
     key = _key_of(mode, lemmatizer)
     distinct = list(dict.fromkeys(core_phrases))
     phrases = [[key(word) for word in split_words(phrase)] for phrase in distinct]
-    pieces = list(_pieces(text_rows, key))
+    any_order = mode == "any_order"
+    found = list(_pieces(text_rows, key, ends_phrase if any_order else ends_sentence))
     tally = _Tally(len(distinct))
-    (_in_any_order if mode == "any_order" else _in_a_row)(pieces, phrases, tally)
-    total = sum(len(keys) for _, _, keys in pieces)
-    density = [count * len(words) / total if total else 0.0 for count, words in zip(tally.count, phrases, strict=True)]
+    (_in_any_order if any_order else _in_a_row)(found, phrases, tally)
+    total = sum(len(keys) for _, _, keys in found)
+    density = [
+        round(count * len(words) / total, DECIMALS) if total else 0.0
+        for count, words in zip(tally.count, phrases, strict=True)
+    ]
     return pd.DataFrame(
         {
             "phrase": distinct,

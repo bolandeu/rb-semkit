@@ -7,7 +7,7 @@ pos-find-noun	pos.find	{"kind": "noun"}	купить красный диван	T
 pos-find-adj	pos.find	{"kind": "adj"}	купить красный диван	TRUE	TRUE			
 pos-find-verb	pos.find	{"kind": "verb"}	купить красный диван	TRUE	TRUE			
 pos-find-adverb	pos.find	{"kind": "adverb"}	купить красный диван	FALSE	FALSE			
-pos-find-adj-capital	pos.find	{"kind": "adj"}	Быстро купить	TRUE	TRUE			
+pos-find-adj-capital	pos.find	{"kind": "adj"}	Быстро купить	TRUE	FALSE	Слово с заглавной буквы ищется в нижнем регистре	··o looks the word up as written: a capitalised word has no code and passes the lemma rule, so «Быстро» is an adjective and an adverb at once	
 pos-find-noun-punct	pos.find	{"kind": "noun"}	диван, кресло	TRUE	TRUE			
 pos-find-verb-ending	pos.find	{"kind": "verb"}	кровать раскладывается	TRUE	TRUE			
 pos-remove-noun	pos.remove	{"kind": "noun"}	купить красный диван быстро	купить красный быстро	купить красный быстро			

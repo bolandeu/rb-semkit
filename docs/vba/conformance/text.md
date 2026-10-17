@@ -9,9 +9,9 @@ edit it. The terms and the other areas: [the summary](../conformance.md).
 |---|---|---|---|---|
 | [around](#around) | 21 | 14 | 7 | 0 |
 | [cells](#cells) | 25 | 21 | 4 | 0 |
-| [chars](#chars) | 32 | 27 | 5 | 0 |
+| [chars](#chars) | 33 | 27 | 6 | 0 |
 | [phrases](#phrases) | 16 | 10 | 6 | 0 |
-| [pos](#pos) | 17 | 17 | 0 | 0 |
+| [pos](#pos) | 17 | 16 | 1 | 0 |
 | [positions](#positions) | 11 | 9 | 2 | 0 |
 | [regex](#regex) | 16 | 10 | 6 | 0 |
 | [repeats](#repeats) | 17 | 15 | 2 | 0 |
@@ -21,7 +21,7 @@ edit it. The terms and the other areas: [the summary](../conformance.md).
 | [word_content](#word_content) | 20 | 19 | 1 | 0 |
 | [word_position](#word_position) | 23 | 21 | 2 | 0 |
 | [words](#words) | 18 | 15 | 3 | 0 |
-| **All** | **260** | **219** | **41** | **0** |
+| **All** | **261** | **218** | **43** | **0** |
 
 ## around
 
@@ -79,7 +79,7 @@ chars. VBA, RibbonCallbacks.vba (docs/vba/matchers.md F1, R1, X1). find: —·k�
 |---|---|---|---|---|
 | `chars.extract` | 8 | 8 | 0 | 0 |
 | `chars.find` | 16 | 14 | 2 | 0 |
-| `chars.remove` | 8 | 5 | 3 | 0 |
+| `chars.remove` | 9 | 5 | 4 | 0 |
 
 ### Deviations
 
@@ -90,6 +90,7 @@ chars. VBA, RibbonCallbacks.vba (docs/vba/matchers.md F1, R1, X1). find: —·k�
 | chars-remove-latin | `"Диван IKEA Ektorp"` | `"Диван  "` | `"Диван"` | фраза делится по любым пробелам, двойных пробелов в результатах нет | ak·— cuts [a-zA-Z] and does not trim: two spaces stay at the end |
 | chars-remove-cyrillic | `"Диван IKEA"` | `" IKEA"` | `"IKEA"` | фраза делится по любым пробелам, двойных пробелов в результатах нет | ak–· cuts the Cyrillic letters and does not trim: the space before «IKEA» stays |
 | chars-remove-digits-word | `"диван 2 местный"` | `"диван  местный"` | `"диван местный"` | фраза делится по любым пробелам, двойных пробелов в результатах нет | aokk cuts [0-9] and does not trim: a word of digits leaves a double space |
+| chars-remove-punctuation-number | `"диван 2.5 м, 140х200!"` | `"диван 2 5 м 140х200"` | `"диван 2.5 м 140х200"` | Точка и запятая внутри числа — не знак препинания | aok— takes every character but a letter, a digit and a space for punctuation, so «2.5» becomes «2 5» |
 
 ### xfail
 
@@ -127,12 +128,14 @@ pos. VBA, RibbonCallbacks.vba (docs/vba/matchers.md S9, F2, R2, X2). find: —k�
 | Function | Cases | As the VBA | Deviations | xfail |
 |---|---|---|---|---|
 | `pos.extract` | 5 | 5 | 0 | 0 |
-| `pos.find` | 7 | 7 | 0 | 0 |
+| `pos.find` | 7 | 6 | 1 | 0 |
 | `pos.remove` | 5 | 5 | 0 | 0 |
 
 ### Deviations
 
-None.
+| Case | Input | VBA | semkit | Rule | Why |
+|---|---|---|---|---|---|
+| pos-find-adj-capital | `"Быстро купить"` | `"TRUE"` | `"FALSE"` | Слово с заглавной буквы ищется в нижнем регистре | ··o looks the word up as written: a capitalised word has no code and passes the lemma rule, so «Быстро» is an adjective and an adverb at once |
 
 ### xfail
 

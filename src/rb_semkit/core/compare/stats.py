@@ -8,6 +8,20 @@ from ..textstats import text_stats
 from .shared import DECIMALS, checked_number, checked_text, texts_of, verdicts
 
 COLUMNS = ["metric", "mine", "median", "min", "max", "delta", "verdict"]
+NUMBERS = ["mine", "median", "min", "max", "delta"]
+
+
+def _whole(value: float) -> int | float:
+    return int(value) if float(value).is_integer() else float(value)
+
+
+def _integers_kept(table: pd.DataFrame, metrics: pd.DataFrame) -> pd.DataFrame:
+    """The numbers of an integer metric (chars, words…) as integers where they are whole; the median of an even
+    number of competitors may be a half."""
+    counted = table["metric"].isin(metrics.select_dtypes("integer").columns).to_numpy()
+    numbers = table[NUMBERS].astype(object)
+    numbers.loc[counted] = numbers.loc[counted].map(_whole)
+    return table.assign(**numbers)
 
 
 def compare_stats(
@@ -41,4 +55,4 @@ def compare_stats(
         },
         columns=COLUMNS,
     )
-    return table
+    return _integers_kept(table, metrics)

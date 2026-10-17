@@ -37,5 +37,6 @@ chars-remove-cyrillic-capital-ye	chars.remove	{"kind": "cyrillic"}	IKEA Є	IKEA 
 chars-remove-digits	chars.remove	{"kind": "digits"}	120x200	x	x			
 chars-remove-digits-word	chars.remove	{"kind": "digits"}	диван 2 местный	диван  местный	диван местный	фраза делится по любым пробелам, двойных пробелов в результатах нет	aokk cuts [0-9] and does not trim: a word of digits leaves a double space	
 chars-remove-punctuation	chars.remove	{"kind": "punctuation"}	Диван-кровать, 2 шт.!	Диван кровать 2 шт	Диван кровать 2 шт			
+chars-remove-punctuation-number	chars.remove	{"kind": "punctuation"}	диван 2.5 м, 140х200!	диван 2 5 м 140х200	диван 2.5 м 140х200	Точка и запятая внутри числа — не знак препинания	aok— takes every character but a letter, a digit and a space for punctuation, so «2.5» becomes «2 5»	
 chars-remove-punctuation-quotes	chars.remove	{"kind": "punctuation"}	«ИКЕА»	ИКЕА	ИКЕА			
 chars-remove-punctuation-cjk	chars.remove	{"kind": "punctuation"}	диван 中文	диван	диван			

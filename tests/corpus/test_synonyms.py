@@ -90,6 +90,25 @@ def test_the_minus_words_of_a_table_column() -> None:
     assert rows(result) == [("Диван -софа -тахта", 3)]
 
 
+CHECKED = pd.DataFrame({"word": ["диван", "диван"], "sure": [True, False], "synonyms": ["софа", "тахта"]})
+
+
+def test_only_the_sure_synonyms_are_added_by_default() -> None:
+    assert sk.add_minus_words(pd.Series(["купить диван"]), CHECKED).tolist() == ["купить диван -софа"]
+
+
+def test_the_unsure_synonyms_are_added_when_asked() -> None:
+    result = sk.add_minus_words(pd.Series(["купить диван"]), CHECKED, unsure=True)
+
+    assert result.tolist() == ["купить диван -софа -тахта"]
+
+
+def test_the_sure_column_of_a_table_read_from_a_file_is_text() -> None:
+    read = CHECKED.astype({"sure": str})
+
+    assert sk.add_minus_words(pd.Series(["купить диван"]), read).tolist() == ["купить диван -софа"]
+
+
 def test_a_synonyms_table_without_its_columns_is_refused() -> None:
     with pytest.raises(sk.InvalidArguments, match="synonyms"):
         sk.add_minus_words(pd.Series(["диван"]), pd.DataFrame({"word": ["диван"]}))

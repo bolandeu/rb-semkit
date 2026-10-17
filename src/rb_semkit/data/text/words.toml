@@ -1,0 +1,12 @@
+# The word rules of the text functions (split_text, text_stats, coverage, compare_grams): semkit's own, not the add-in's.
+
+# A point after one of these words does not end a sentence or a phrase: «г. Краснознаменск», «ул. Березовая»,
+# «т. е.», «тел. 275-30-85». A word of a unit at a sentence end («200 см.») is not here: its point ends the sentence.
+abbreviations = [
+    "г", "гг", "д", "е", "м", "п", "т", "ул", "пер", "пр", "просп", "наб", "пл", "обл", "корп", "стр", "кв", "эт",
+    "тел", "руб", "коп", "тыс", "млн", "млрд", "шт", "др",
+]
+
+# Units without a meaning of their own: words of a text, but no lemmas of the text metrics and compare_grams, like
+# the abbreviations above and every single-letter word.
+units = ["рублей", "см", "мм", "мл", "кг"]
