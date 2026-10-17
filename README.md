@@ -35,6 +35,9 @@ sk.pipe(df, "phrase").remove(sk.words("бу")).remove(sk.words("купить")).
 - Lemmas: the !SEMTools dictionary, then pymorphy3, then the add-in's suffix table; `fallback="pymorphy"` gives
   every word missing from the dictionary the pymorphy3 guess instead; any object with
   `lemma(word)`, `pos(word)` and `forms(lemma)` works as `lemmatizer=`.
+- `sk.text_stats(data, lemmatizer=..., column=None)`: per text, `chars`, `chars_no_spaces`, `words`, `unique`, `water`,
+  `nausea_classic`, `nausea_academic`, `top`, `ttr`, `mtld`, `zipf` (definitions in the docstring); with `column=` the
+  metric columns follow `column`.
 - Wrong input raises `sk.InvalidArguments`, naming the argument and the allowed values.
 
 The bundled data (`src/rb_semkit/data/`) is built from the !SEMTools sources (paths in

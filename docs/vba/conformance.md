@@ -23,4 +23,5 @@ A value is in quotes; « | » separates the cells of a whole-column input or res
 | [markers](conformance/markers.md) | 1 | 44 | 35 | 9 | 0 |
 | [morph](conformance/morph.md) | 3 | 45 | 27 | 18 | 0 |
 | [text](conformance/text.md) | 14 | 260 | 219 | 41 | 0 |
-| **All** | **22** | **492** | **396** | **96** | **0** |
+| [textstats](conformance/textstats.md) | 1 | 10 | 10 | 0 | 0 |
+| **All** | **23** | **502** | **406** | **96** | **0** |
