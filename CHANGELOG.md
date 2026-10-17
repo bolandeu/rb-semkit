@@ -5,6 +5,15 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.15 — 2026-10-17
+
+### E-002 — semkit: the rest of the library — change, declension, analysis and the later functions
+
+import rb_semkit gives every function of the add-in's menus except Mystem: each follows the VBA algorithm, the broken ones work as intended, and the conformance report lists for each function where it follows the VBA, where it differs and why.
+Time: 1.5h since the epic was approved
+
+- Public word-keys helper of the analysis area; dir(rb_semkit) lists only the public names (SEMKIT-022)
+
 ## v0.1.14 — 2026-10-17
 
 ### E-002 — semkit: the rest of the library — change, declension, analysis and the later functions

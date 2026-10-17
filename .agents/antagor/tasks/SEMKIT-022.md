@@ -2,7 +2,7 @@
 id: SEMKIT-022
 title: Public word-keys helper of the analysis area; dir(rb_semkit) lists only the
   public names
-status: publish
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
