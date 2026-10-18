@@ -2,7 +2,7 @@
 id: SEMKIT-051
 title: 'synonym-candidates: synonyms of any number of words, both ways (a word, a
   phrase), from the thesaurus'
-status: in_review
+status: publish
 attempts: 0
 blocked: false
 blocked_reason: null
