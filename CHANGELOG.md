@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.42 — 2026-10-18
+
+### Outside epics
+
+- nearest --to TEXT: the texts to match given on the command line instead of a file (SEMKIT-052)
+
 ## v0.1.41 — 2026-10-18
 
 ### Outside epics

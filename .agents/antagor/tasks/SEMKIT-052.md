@@ -2,7 +2,7 @@
 id: SEMKIT-052
 title: 'nearest --to TEXT: the texts to match given on the command line instead of
   a file'
-status: publish
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
