@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.43 — 2026-10-18
+
+### Outside epics
+
+- Help standard and semkit docs: a deterministic human document of every command and step for InSpectra (SEMKIT-054)
+
 ## v0.1.42 — 2026-10-18
 
 ### Outside epics
