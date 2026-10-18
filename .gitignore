@@ -5,7 +5,6 @@ __pycache__/
 .ruff_cache/
 dist/
 *.egg-info/
-.python-version
 .coverage
 htmlcov/
 # mutmut's working copy and results (uv run --group mutation mutmut run)

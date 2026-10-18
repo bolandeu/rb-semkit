@@ -34,6 +34,7 @@ ONE_COLUMN_FORMATS = ("txt",)
 REMOTE = re.compile(r"^[a-z][a-z0-9+.-]*://", re.IGNORECASE)  # a URL or a gsheet:// address: dataio checks it
 # The parts of a dataio action that name its Python arguments, not the options of the command line.
 PYTHON_HINTS = ("format=", "sep=", "encoding=")
+REFUSED = "INVALID_ARGUMENTS"  # the code of a dataio error for a wrong argument: exit 2
 
 
 def _cli_action(error: rb_dataio.DataioError, action: str) -> str:
@@ -44,11 +45,15 @@ def _cli_action(error: rb_dataio.DataioError, action: str) -> str:
 
 @contextmanager
 def _dataio(action: str, exit_code: int = 1) -> Generator[None]:
-    """A DataioError as a CliError with its code and message; `action` replaces an action in Python terms."""
+    """A DataioError as a CliError with its code and message; `action` replaces an action in Python terms.
+
+    A wrong argument (`INVALID_ARGUMENTS`) exits 2.
+    """
     try:
         yield
     except rb_dataio.DataioError as error:
-        raise CliError(error.code, error.message, action=_cli_action(error, action), exit_code=exit_code) from None
+        code = 2 if error.code == REFUSED else exit_code
+        raise CliError(error.code, error.message, action=_cli_action(error, action), exit_code=code) from None
 
 
 def as_text(values: pd.Series) -> pd.Series:
@@ -140,7 +145,7 @@ class Source:
         if self.address == STDIO:
             return None
         with _dataio(READ_ACTION, exit_code=2):
-            return list(rb_dataio.read(self.address, limit=0).columns)
+            return list(rb_dataio.read(self._address(), limit=0).columns)
 
     def read(self) -> pd.DataFrame:
         """The table; with `texts` a row of the column `phrase` for each; with `whole` the input as one cell of `text`."""
@@ -153,8 +158,14 @@ class Source:
                 table = _read_stdin()
         else:
             with _dataio(READ_ACTION, exit_code=2):
-                table = rb_dataio.read(self.address)
+                table = rb_dataio.read(self._address())
         return self._typed(table)
+
+    def _address(self) -> str:
+        """The address of the input; `check` has refused a pipeline without one."""
+        if self.address is None:
+            raise InvalidArguments("read: IN not given.", action="Name a table IN, or give phrases with --text.")
+        return self.address
 
     def _typed(self, table: pd.DataFrame) -> pd.DataFrame:
         """The text columns as `str`, NaN as ''; a column of numbers that a cell padded with spaces made text, numbers."""
@@ -196,6 +207,8 @@ class Target:
 
     address: str
     overwrite: bool = False
+    columns: list[str] | None = None
+    rename: dict[str, str] | None = None
 
     def check(self) -> None:
         """Refuse an OUT that exists without --overwrite, whose folder does not exist or whose format is unknown."""
@@ -229,18 +242,19 @@ class Target:
     def write(self, table: pd.DataFrame) -> None:
         if self.address == STDIO:
             with _dataio(WRITE_ACTION):
-                rb_dataio.write(table, STDIO, format=STREAM_FORMAT)
+                rb_dataio.write(table, STDIO, format=STREAM_FORMAT, columns=self.columns, rename=self.rename)
             return
-        if self.format() in ONE_COLUMN_FORMATS and len(table.columns) > 1:
+        width = len(self.columns) if self.columns else len(table.columns)
+        if self.format() in ONE_COLUMN_FORMATS and width > 1:
             raise InvalidArguments(
-                f"write: OUT {self.address} holds one column, the table has {len(table.columns)}.",
+                f"write: OUT {self.address} holds one column, the table has {width}.",
                 action="Write to another format (.csv, .xlsx, .jsonl…), or keep one column before write.",
             )
         path = Path(self.address)
         with tempfile.TemporaryDirectory(dir=path.parent, prefix=f".{path.name}.") as folder:
             part = Path(folder) / path.name
             with _dataio(WRITE_ACTION):
-                rb_dataio.write(table, part, backup=False)
+                rb_dataio.write(table, part, backup=False, columns=self.columns, rename=self.rename)
             os.replace(part, path)
 
 

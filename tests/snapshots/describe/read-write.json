@@ -1,6 +1,6 @@
 {
   "name": "write",
-  "description": "Write the current table to OUT: the last step of a pipeline.\n\nThe file is written whole or not at all: a failed step or write leaves it as it was. With --dry-run nothing is written. A closed output (`| head`) ends the pipeline quietly.\n\nExample: semkit read core.csv dupes --kind exact --action drop write out.csv --overwrite",
+  "description": "Write the current table to OUT: the last step of a pipeline.\n\nThe file is written whole or not at all: a failed step or write leaves it as it was. With --dry-run nothing is written. A closed output (`| head`) ends the pipeline quietly.\n\n--columns and --rename choose, order and name the output columns; a name the table lacks, or two columns with one name, is refused (exit 2) with the columns there are.\n\nExample: semkit read core.csv dupes --kind exact --action drop write out.csv --overwrite\n\nChosen columns, renamed: semkit read phrases.csv nearest --to Q write - --columns phrase,similarity --rename similarity=сходство",
   "options": [
     {
       "name": "--overwrite",
@@ -13,6 +13,46 @@
         {
           "name": "x-rb-default",
           "value": false
+        }
+      ]
+    },
+    {
+      "name": "--columns",
+      "arguments": [
+        {
+          "name": "NAME,NAME",
+          "required": true
+        }
+      ],
+      "description": "The columns to write, in this order: a comma list, repeatable. By default all, as the steps made them.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        },
+        {
+          "name": "x-rb-multiple",
+          "value": true
+        }
+      ]
+    },
+    {
+      "name": "--rename",
+      "arguments": [
+        {
+          "name": "OLD=NEW",
+          "required": true
+        }
+      ],
+      "description": "Write the column OLD under the name NEW, repeatable; applied after --columns, so OLD is a name the selection keeps. A swap a=b, b=a is allowed.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        },
+        {
+          "name": "x-rb-multiple",
+          "value": true
         }
       ]
     }

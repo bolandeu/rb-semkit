@@ -11,6 +11,7 @@ from pathlib import Path
 import typer
 
 from .. import output, steps
+from ..core.errors import InvalidArguments
 from ..pipeline.commands import ListsHelp, step_command, takes_items
 from ..pipeline.group import PipelineGroup
 from ..pipeline.tables import Source, Target
@@ -46,14 +47,32 @@ def write(
     ctx: typer.Context,
     target: str = typer.Argument(..., metavar="OUT", help="The file to write, its format by its extension; '-' for JSONL on stdout."),
     overwrite: bool = typer.Option(False, "--overwrite", help="Replace OUT when it exists."),
+    columns: list[str] = typer.Option(None, "--columns", metavar="NAME,NAME", help="The columns to write, in this order: a comma list, repeatable. By default all, as the steps made them."),
+    rename: list[str] = typer.Option(None, "--rename", metavar="OLD=NEW", help="Write the column OLD under the name NEW, repeatable; applied after --columns, so OLD is a name the selection keeps. A swap a=b, b=a is allowed."),
 ) -> Target:  # fmt: skip
     """Write the current table to OUT: the last step of a pipeline.
 
     The file is written whole or not at all: a failed step or write leaves it as it was. With --dry-run nothing is written. A closed output (`| head`) ends the pipeline quietly.
 
+    --columns and --rename choose, order and name the output columns; a name the table lacks, or two columns with one name, is refused (exit 2) with the columns there are.
+
     Example: {cli} read core.csv dupes --kind exact --action drop write out.csv --overwrite
+
+    Chosen columns, renamed: {cli} read phrases.csv nearest --to Q write - --columns phrase,similarity --rename similarity=сходство
     """
-    return Target(target, overwrite)
+    names = [name.strip() for value in columns or () for name in value.split(",")]
+    return Target(target, overwrite, names or None, _renames(rename) or None)
+
+
+def _renames(pairs: list[str] | None) -> dict[str, str]:
+    """`OLD=NEW` pairs as a mapping; the pair is split on its first '='."""
+    renames = {}
+    for pair in pairs or ():
+        old, found, new = pair.partition("=")
+        if not found:
+            raise InvalidArguments(f"write: --rename {pair}: no '='.", action="Give --rename OLD=NEW.")
+        renames[old] = new
+    return renames
 
 
 app = typer.Typer(cls=PipelineGroup, help=read.__doc__)
