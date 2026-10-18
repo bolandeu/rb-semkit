@@ -13,14 +13,14 @@ from ..core.relevance.classify import classify_queries
 from ..core.relevance.off_topic import off_topic
 from ..core.relevance.pages import assign_pages, check_pages
 from . import Adapted, Columns, Prepared, Step, first_text, option, table_of
-from .vectors import MEANING, MODEL_DOC, by_meaning, encoder_of, frequencies
+from .vectors import MEANING, MODEL_DOC, PAGE_NOTE, by_meaning, frequencies, page_encoder_of
 
 AGAINST_DOC = (
     "against: a file with the core, one phrase per row, in its first text column; the file is read like `read` does."
 )
 PAGES_DOC = (
     "pages: a file with the pages of the site; the file is read like `read` does. Its columns: url, and text (the"
-    " text of the page: its title, H1 and body). A text longer than the input of the model is cut by the encoder."
+    " text of the page: its title, H1 and body), and title and h1 when it has them."
 )
 FREQ_DOC = (
     "freq: the column of the frequencies of the phrases in the current table; the centre of the core weighs each"
@@ -53,7 +53,7 @@ def _prepare_classify_queries(options: dict) -> Prepared:
 
 
 def _prepare_assign_pages(options: dict) -> Prepared:
-    found_encoder = encoder_of(options)
+    found_encoder = page_encoder_of(options)
     pages = table_of(options["pages"], "pages")
     check_pages(pages)
     return lambda table, column: Columns(assign_pages(Frame(table, column).phrases, pages=pages, encoder=found_encoder))
@@ -85,8 +85,8 @@ STEPS = [
         Adapted(assign_pages, {**MEANING, "pages": option("pages"), "threshold": None}, PAGES_DOC, MODEL_DOC),
         "change",
         _prepare_assign_pages,
-        "The step adds the columns best_page, best_similarity, second_page and second_similarity right after the working"
-        " column; the rows stay.",
+        f"{PAGE_NOTE}\n\nThe step adds the columns best_page, best_similarity, second_page and second_similarity right"
+        " after the working column; the rows stay.",
         example="--pages page_texts.csv",
         columns=True,
     ),

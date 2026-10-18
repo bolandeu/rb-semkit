@@ -6,23 +6,24 @@ import numpy as np
 import pandas as pd
 
 from ..errors import InvalidArguments
-from ..vectors.encoder import Encoder
-from .vectors import DIGITS, encoded, nearest
+from .page import PageEncoder
+from .vectors import DIGITS, nearest
 
 PAGE_COLUMNS = ("url", "text")
 
 
-def assign_pages(data: pd.Series, *, pages: pd.DataFrame, encoder: Encoder) -> pd.DataFrame:
+def assign_pages(data: pd.Series, *, pages: pd.DataFrame, encoder: PageEncoder) -> pd.DataFrame:
     """The best two pages of the site for each phrase of the core, by meaning.
 
-    pages: a table with the columns url and text (the text of the page: its title, H1 and body).
+    pages: a table with the columns url and text (the text of the page: its title, H1 and body), and title and h1 when
+    it has them; each page gets its page vector.
 
     The columns: best_page, best_similarity, second_page and second_similarity (4 places); the second page and its
     similarity are empty when the table has one page; an empty cell gets none. No row is dropped.
     """
     check_pages(pages)
-    vectors, found = encoded(encoder, data)
-    page_vectors, _ = encoded(encoder, pages["text"])
+    vectors, found = encoder.encode(data)
+    page_vectors, _ = encoder.encode(pages["text"], pages)
     ids, similarities = nearest(vectors, page_vectors, 2)
     urls = np.append(pages["url"].astype(str).to_numpy(), "")  # the id -1 of a missing page is the last one
     table = pd.DataFrame(index=data.index)

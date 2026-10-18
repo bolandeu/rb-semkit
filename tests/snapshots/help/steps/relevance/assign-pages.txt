@@ -8,11 +8,14 @@
  dropped.
 
  pages: a file with the pages of the site; the file is read like `read` does. Its columns: url, and
- text (the text of the page: its title, H1 and body). A text longer than the input of the model is
- cut by the encoder.
+ text (the text of the page: its title, H1 and body), and title and h1 when it has them.
  model: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or
  hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of
  the model; a hub model has none.
+
+ A text longer than the input of the model is cut into pieces the model takes whole; its vector is
+ the mean of the vectors of its pieces. When the table of the texts has the columns title and h1,
+ its vector is the weighted mean of the text (weight 1), the title (2) and the h1 (1.5).
 
  The step adds the columns best_page, best_similarity, second_page and second_similarity right
  after the working column; the rows stay.
@@ -21,14 +24,13 @@
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   PAGES      <str>  a file with the pages of the site; the file is read like `read` does. Its    │
-│                     columns: url, and text (the text of the page: its title, H1 and body). A     │
-│                     text longer than the input of the model is cut by the encoder. The same as   │
-│                     --pages PAGES.                                                               │
+│                     columns: url, and text (the text of the page: its title, H1 and body), and   │
+│                     title and h1 when it has them. The same as --pages PAGES.                    │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --pages        PAGES  a file with the pages of the site; the file is read like `read` does. Its  │
-│                       columns: url, and text (the text of the page: its title, H1 and body). A   │
-│                       text longer than the input of the model is cut by the encoder.             │
+│                       columns: url, and text (the text of the page: its title, H1 and body), and │
+│                       title and h1 when it has them.                                             │
 │ --model        <str>  the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, │
 │                       potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold │
 │                       the step takes the threshold of the model; a hub model has none.           │

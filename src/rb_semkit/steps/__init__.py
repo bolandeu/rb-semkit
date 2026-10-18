@@ -12,7 +12,7 @@ Helpers for the area modules: `change_step` and `changing` make a change step of
 names it, `changing` checks its options on no phrases at all); `Adapted` shows a function to the command generator
 with other arguments (`option` makes the parameter), for a table or a file in place of an argument; a file option is
 read by `table_of` and turned into the argument by `as_table`, `pairs_of` or `scores_of` (`first_text`
-names the column of the texts); `joined` gives the working column as one text.
+names the column of the texts, `texts_column` the one of a table of pages); `joined` gives the working column as one text.
 
 The project of the CLI (the option --project, else the current folder): the command prepares each step inside
 `project_start`, and a step that looks up the project (the models.dir of the config, a word list) asks `prepared_for`.
@@ -40,6 +40,7 @@ from typing import Any, Literal
 import pandas as pd
 from pandas.api import types
 
+from ..core.compare.grams import URL
 from ..core.errors import InvalidArguments
 from ..core.frame import Frame, text_columns
 from ..pipeline.tables import STDIO, Source, exists
@@ -262,6 +263,11 @@ def first_text(table: pd.DataFrame, option_name: str) -> str:
             f"{flag(option_name)}: the file has no text column.", action="Give a file with a column of text."
         )
     return found[0]
+
+
+def texts_column(table: pd.DataFrame, option_name: str) -> str:
+    """The first text column that is no url column: a table of pages holds the url before the text."""
+    return next((name for name in text_columns(table) if name != URL), first_text(table, option_name))
 
 
 def as_table(table: pd.DataFrame, option_name: str) -> pd.DataFrame:

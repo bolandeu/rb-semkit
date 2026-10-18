@@ -5914,6 +5914,133 @@
             ]
           },
           {
+            "name": "nearest",
+            "description": "For each row of the table, the rows of another table nearest it by meaning, in a long report.\n\ntop: the matches of each row, the nearest first: a whole number from 1.\nthreshold: the similarity from 0 to 1 a match needs to stay; without it every match stays.\n\nThe texts of both tables get the page vector. The report has a row for each match of each row: the text of the row (in a column named as the working one), match, rank (1 for the nearest), similarity (4 places), and url (of the match) when the against table has a url column. A row with no match left (an empty cell, or every match below the threshold) keeps one row with an empty match.\n\nagainst: a file with the texts to match, one per row; the file is read like `read` does.\nagainst_column: the column of the texts in --against; by default its first text column that is no url column.\nmodel: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub.\n\nA text longer than the input of the model is cut into pieces the model takes whole; its vector is the mean of the vectors of its pieces. When the table of the texts has the columns title and h1, its vector is the weighted mean of the text (weight 1), the title (2) and the h1 (1.5).\n\nThe step takes the working column as the texts to match; the report replaces the current table.\n\nExample: semkit read core.csv nearest --against page_texts.csv --top 2 write out.csv",
+            "options": [
+              {
+                "name": "--against",
+                "arguments": [
+                  {
+                    "name": "AGAINST",
+                    "required": true
+                  }
+                ],
+                "description": "a file with the texts to match, one per row; the file is read like `read` does.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--against-column",
+                "arguments": [
+                  {
+                    "name": "AGAINST_COLUMN",
+                    "required": true
+                  }
+                ],
+                "description": "the column of the texts in --against; by default its first text column that is no url column.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--top",
+                "arguments": [
+                  {
+                    "name": "TOP",
+                    "required": true
+                  }
+                ],
+                "description": "the matches of each row, the nearest first: a whole number from 1.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "int"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": 1
+                  }
+                ]
+              },
+              {
+                "name": "--threshold",
+                "arguments": [
+                  {
+                    "name": "THRESHOLD",
+                    "required": true
+                  }
+                ],
+                "description": "the similarity from 0 to 1 a match needs to stay; without it every match stays.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "float"
+                  }
+                ]
+              },
+              {
+                "name": "--model",
+                "arguments": [
+                  {
+                    "name": "MODEL",
+                    "required": true
+                  }
+                ],
+                "description": "the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "e5-small"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "AGAINST",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "a file with the texts to match, one per row; the file is read like `read` does. The same as --against AGAINST.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "metadata": [
+              {
+                "name": "x-rb-kind",
+                "value": "report"
+              }
+            ]
+          },
+          {
+            "name": "split-paragraphs",
+            "description": "Texts into their paragraphs: a report of one row per paragraph.\n\nA paragraph is a block between empty lines; the lines of a block are joined by a space. A heading line (a short line without a sentence end: . ! ? …, followed by text) is a paragraph of its own. Spaces at the ends are trimmed; an empty text gives no rows. The columns: url, number (from 1 in each text) and paragraph.\n\nA heading line has up to 12 words. The step takes a text file read with --whole, or a table of url and text: its working column as the texts (the first other text column when it is the url column) and its url column; the report replaces the current table.\n\nExample: semkit read --whole article.txt split-paragraphs write out.csv",
+            "metadata": [
+              {
+                "name": "x-rb-kind",
+                "value": "report"
+              }
+            ]
+          },
+          {
             "name": "off-topic",
             "description": "The distance of each phrase of the core from the centre of the core, by meaning.\n\nthreshold: the similarity from 0 to 1 a phrase needs to the centre to be on topic.\n\nThe centre is the mean of the phrase vectors of the core, each weighed by its frequency with freq and by 1 without it; with seed, the mean of the phrase vectors of the seed phrases. The columns: off_topic_score (1 minus the similarity of the phrase to the centre, from 0 to 1, 4 places) and off_topic (yes when the similarity is below the threshold, else no); an empty cell gets none. No row is dropped.\n\nmodel: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.\nfreq: the column of the frequencies of the phrases in the current table; the centre of the core weighs each phrase by it. Without it, every phrase weighs the same.\nseed: the phrases whose centre is the topic, in place of the core: a list of your own as @FILE or @NAME, or comma-separated.\n\nThe step adds the columns off_topic_score and off_topic right after the working column; the rows stay.\n\nExample: semkit read core.csv off-topic --freq freq write out.csv",
             "options": [
@@ -6076,7 +6203,7 @@
           },
           {
             "name": "assign-pages",
-            "description": "The best two pages of the site for each phrase of the core, by meaning.\n\nThe columns: best_page, best_similarity, second_page and second_similarity (4 places); the second page and its similarity are empty when the table has one page; an empty cell gets none. No row is dropped.\n\npages: a file with the pages of the site; the file is read like `read` does. Its columns: url, and text (the text of the page: its title, H1 and body). A text longer than the input of the model is cut by the encoder.\nmodel: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.\n\nThe step adds the columns best_page, best_similarity, second_page and second_similarity right after the working column; the rows stay.\n\nExample: semkit read core.csv assign-pages --pages page_texts.csv write out.csv",
+            "description": "The best two pages of the site for each phrase of the core, by meaning.\n\nThe columns: best_page, best_similarity, second_page and second_similarity (4 places); the second page and its similarity are empty when the table has one page; an empty cell gets none. No row is dropped.\n\npages: a file with the pages of the site; the file is read like `read` does. Its columns: url, and text (the text of the page: its title, H1 and body), and title and h1 when it has them.\nmodel: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.\n\nA text longer than the input of the model is cut into pieces the model takes whole; its vector is the mean of the vectors of its pieces. When the table of the texts has the columns title and h1, its vector is the weighted mean of the text (weight 1), the title (2) and the h1 (1.5).\n\nThe step adds the columns best_page, best_similarity, second_page and second_similarity right after the working column; the rows stay.\n\nExample: semkit read core.csv assign-pages --pages page_texts.csv write out.csv",
             "options": [
               {
                 "name": "--pages",
@@ -6086,7 +6213,7 @@
                     "required": true
                   }
                 ],
-                "description": "a file with the pages of the site; the file is read like `read` does. Its columns: url, and text (the text of the page: its title, H1 and body). A text longer than the input of the model is cut by the encoder.",
+                "description": "a file with the pages of the site; the file is read like `read` does. Its columns: url, and text (the text of the page: its title, H1 and body), and title and h1 when it has them.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -6123,7 +6250,7 @@
                   "minimum": 0,
                   "maximum": 1
                 },
-                "description": "a file with the pages of the site; the file is read like `read` does. Its columns: url, and text (the text of the page: its title, H1 and body). A text longer than the input of the model is cut by the encoder. The same as --pages PAGES.",
+                "description": "a file with the pages of the site; the file is read like `read` does. Its columns: url, and text (the text of the page: its title, H1 and body), and title and h1 when it has them. The same as --pages PAGES.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
