@@ -5,6 +5,10 @@ it parses every step of the command line first, then reads the input and runs th
 line is cut at each word that names a step (but not at the value of an option: `--items dupes`), so the options and
 the positional argument of a step come in any order. A usage error of read or of a step is reported as a CliError
 naming the step (with --json, the error envelope).
+
+Two helpers serve every chain of read steps, the command line and a scenario (`pipeline.scenarios`) alike: `reported`
+turns a usage error into that CliError, and `planned` invokes each parsed step and gives the steps checked, ready for
+`run`.
 """
 
 from __future__ import annotations
