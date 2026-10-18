@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.39 — 2026-10-18
+
+### Outside epics
+
+- linear-combinations joins each combination into a phrase column; a step agree puts the words of a phrase in agreement (SEMKIT-050)
+
 ## v0.1.38 — 2026-10-18
 
 ### Outside epics
