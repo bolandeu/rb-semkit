@@ -5,6 +5,15 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.34 — 2026-10-18
+
+### E-006 — Vectors: primitives by meaning for SEO, texts and ads
+
+semkit has the atomic commands nearest, split-paragraphs, coverage-meaning, ad-groups and synonym-candidates; long texts are compared by a page vector. The scenarios built from them (core gaps, competing pages, internal links, ad fit, competitor topics) are recorded in the vectors plan for later.
+Time: 2.3h since the epic was approved
+
+- coverage-meaning: core phrases a text covers by meaning (SEMKIT-039)
+
 ## v0.1.33 — 2026-10-18
 
 ### E-006 — Vectors: primitives by meaning for SEO, texts and ads
