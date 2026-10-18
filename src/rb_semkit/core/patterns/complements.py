@@ -84,12 +84,14 @@ class Complements(Matcher):
 
 
 def complements() -> Complements:
-    """Prepositional complements of a phrase, joined by ", "; extract only: «диван для детей с доставкой» →
-    «для детей, с доставкой».
+    """The prepositional complements of a phrase, joined by «, »; extract only.
 
     A complement is a preposition of the bundled list complement_prepositions («для», «с», «в» and others; any case,
     ё as е) and the words after it up to its first noun and the oblique nouns and adjectives right after that noun
     («стол из массива дуба белый» → «из массива дуба»), before the next preposition. A preposition with no noun after it
     gives nothing.
+
+    Example: {cli} read --text "диван для детей с доставкой" --text "стол из массива дуба белый" extract-complements write -
+    -> для детей, с доставкой; из массива дуба
     """
     return Complements()

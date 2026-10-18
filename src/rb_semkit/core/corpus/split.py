@@ -52,6 +52,9 @@ def split_by_words(
     Every other phrase, an empty one too, is the rest. Words are compared in any case and with ё as е. The parts keep
     the rows of the input in its order. The frequency dictionary is the ngrams table of the rest (of lemmas with
     lemmas), to choose the next good and bad words.
+
+    Example: {cli} read --text "купить диван" --text "купить стол" --text "диван" split-by-words --good "купить,диван" --bad стол --keep good write -
+    -> купить диван; диван
     """
     frame = Frame(data, column)
     phrases = frame.phrases

@@ -29,6 +29,9 @@ def permutations(data: pd.Series | pd.DataFrame, *, limit: int = LIMIT, column: 
 
     A phrase of n words gives n! phrases, a repeated word too; an empty phrase gives one empty phrase.
     limit: the most phrases the result may hold; a larger result is refused before any is made.
+
+    Example: {cli} read --text "купить диван" permutations write -
+    -> купить диван; диван купить
     """
     words = [split_words(phrase) for phrase in Frame(data, column).phrases]
     _within(sum(math.factorial(len(phrase)) for phrase in words), limit)
@@ -40,6 +43,9 @@ def ordered_pairs(data: pd.Series | pd.DataFrame, *, limit: int = LIMIT, column:
 
     Each item counts once, in the order of its first row; empty cells are no items. n items give n x (n - 1) pairs.
     limit: the most pairs the result may hold; a larger result is refused before any is made.
+
+    Example: {cli} read --text "диван" --text "кресло" ordered-pairs write -
+    -> диван, кресло; кресло, диван
     """
     items = [item for item in dict.fromkeys(Frame(data, column).phrases) if item]
     _within(len(items) * (len(items) - 1), limit)
@@ -56,6 +62,9 @@ def linear_combinations(lists: pd.DataFrame, *, limit: int = LIMIT) -> pd.DataFr
     The empty cells of a column are skipped, so the lists may differ in length; a column with no items is refused, and
     so is a column named phrase.
     limit: the most rows the result may hold; a larger result is refused before any is made.
+
+    Example: {cli} read combine.csv linear-combinations write -
+    -> купить диван, купить, диван; купить кресло, купить, кресло; заказать диван, заказать, диван; заказать кресло, заказать, кресло
     """
     if not isinstance(lists, pd.DataFrame) or lists.columns.empty:
         raise InvalidArguments("lists: no table with columns; allowed: a DataFrame, one column per list.")

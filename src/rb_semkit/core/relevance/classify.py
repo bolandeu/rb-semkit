@@ -18,6 +18,9 @@ def classify_queries(data: pd.Series, *, against: pd.Series, encoder: Encoder, t
 
     The columns: nearest_phrase (the first of two equally near), similarity (4 places) and target (yes when the
     similarity is at the threshold or above, else no); an empty cell gets none. No row is dropped.
+
+    Example: {cli} read --text "купить диван" classify-queries --against core.csv write -
+    -> купить диван, купить диван, 1.0, yes
     """
     phrases = pd.Series(pd.unique(against.fillna("").astype(str).loc[lambda cells: cells != ""]), dtype=object)
     if phrases.empty:

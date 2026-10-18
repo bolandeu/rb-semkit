@@ -1,6 +1,6 @@
 {
   "name": "find-words",
-  "description": "Whole words of a phrase equal to the items of a list, compared in any case and with ё as е.\n\nitems: the words to find.\nmode: \"any\" — any of the words; \"all\" — only phrases holding every one of them.\nwhere: \"anywhere\", \"start\" (the first word only) or \"end\" (the last word only).\nignore_punct: punctuation at the edges of a word does not count («диван,» is «диван»).\n\nlemmas: compare the lemmas of the words (the bundled dictionary): «дешевые диваны» is «дешевый диван».\n\nfind-words marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-words @stop/wordstat write out.csv",
+  "description": "Whole words of a phrase equal to the items of a list, compared in any case and with ё as е.\n\nitems: the words to find.\nmode: \"any\" — any of the words; \"all\" — only phrases holding every one of them.\nwhere: \"anywhere\", \"start\" (the first word only) or \"end\" (the last word only).\nignore_punct: punctuation at the edges of a word does not count («диван,» is «диван»).\n\nExample: semkit read --text \"купить диван\" --text \"кресло\" find-words диван write -\n-> купить диван, true; кресло, false\n\nlemmas: compare the lemmas of the words (the bundled dictionary): «дешевые диваны» is «дешевый диван».\n\nfind-words marks the rows where the matcher finds something, in a new column <column>_find of true and false.",
   "options": [
     {
       "name": "--items",

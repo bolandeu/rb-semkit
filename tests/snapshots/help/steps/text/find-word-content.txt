@@ -10,10 +10,11 @@
  pattern: for "starts", "ends" and "contains", a word part or a list of them, any one is enough;
  case and ё do not count.
 
+ Example: semkit read --text "диван ikea" --text "кресло" find-word-content only_latin write -
+ -> диван ikea, true; кресло, false
+
  find-word-content marks the rows where the matcher finds something, in a new column <column>_find
  of true and false.
-
- Example: semkit read core.csv find-word-content starts --pattern куп write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <starts|ends|contains|only_latin|has_lat  "starts", "ends", "contains" (with         │

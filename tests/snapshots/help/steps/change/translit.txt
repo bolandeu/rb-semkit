@@ -1,7 +1,9 @@
 
  Usage: semkit read [IN] translit [OPTIONS] [TO]
 
- Letters of one alphabet written in the other. The other chars stay.
+ Letters of one alphabet written in the other.
+
+ The other chars stay.
 
  to: "en" — «Щука жёлтая» → «Schuka zheltaya», a word in capitals stays in capitals («ЖУК» →
  «ZHUK»); "ru" — by letter groups, «Yandex» → «Яндекс», «Jeep» → «Джееп», «ob'em» → «обэм»: shch is
@@ -10,9 +12,12 @@
  capitals («ZHUK» → «ЖУК»). ь and ъ are dropped in "en" and е and ё both give e, so "ru" cannot
  bring them back («den» → «ден»).
 
- The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
+ Example: semkit read --text "купить диван" translit en write -
+ -> kupit divan
+ Example: semkit read --text "Yandex" translit ru write -
+ -> Яндекс
 
- Example: semkit read core.csv translit en write out.csv
+ The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   TO      <en|ru>  "en" — «Щука жёлтая» → «Schuka zheltaya», a word in capitals stays in         │

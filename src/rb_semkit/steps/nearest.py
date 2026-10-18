@@ -25,9 +25,7 @@ AGAINST_DOC = (
     " Give it or --to, not both."
 )
 TO_DOC = "to: a text to match; repeat it for each text, the nearest of them first. It stands for an against file of one column text."
-AGAINST_COLUMN_DOC = (
-    "against_column: the column of the texts in --against; by default the column text, else its first text column that is no url column."
-)
+AGAINST_COLUMN_DOC = "against_column: the column of the texts in --against; by default the column text, else its first text column that is no url column."
 
 
 def _against_table(options: dict) -> pd.DataFrame:
@@ -96,7 +94,6 @@ STEPS = [
         f"{PAGE_NOTE}\n\nThe step takes the working column as the texts to match; the report replaces the current table."
         " To match with a few texts, give them with --to instead of a file: `semkit read phrases.csv nearest --to"
         ' "растаможка авто" --threshold 0.85`.',
-        example="--against page_texts.csv --top 2",
     ),
     Step(
         "split-paragraphs",
@@ -106,6 +103,5 @@ STEPS = [
         f"A heading line has up to {heading_words()} words. The step takes a text file read with --whole, or a table of"
         " url and text: its working column as the texts (the first other text column when it is the url column) and"
         " its url column; the report replaces the current table.",
-        source="--whole article.txt",
     ),
 ]

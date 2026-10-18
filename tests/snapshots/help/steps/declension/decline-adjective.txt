@@ -1,8 +1,10 @@
 
  Usage: semkit read [IN] decline-adjective [OPTIONS] [CASE]
 
- Each word of a phrase, an adjective in the masculine nominative singular, declined: «красный» →
- «красного».
+ Each word of a phrase, taken as an adjective in the masculine nominative singular, put in the
+ given case.
+
+ The word «красный» in the genitive is «красного».
 
  case: "nominative", "genitive", "dative", "accusative", "instrumental" or "prepositional".
  gender: "masculine", "feminine" or "neuter", for the singular.
@@ -13,9 +15,12 @@
  «красных». The masculine accusative is the inanimate one. A word with a capital keeps it; a word
  whose ending the tables lack stays.
 
- The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
+ Example: semkit read --text "красный" --text "новый" decline-adjective genitive write -
+ -> красного; нового
+ Example: semkit read --text "красный" decline-adjective dative --number plural write -
+ -> красным
 
- Example: semkit read core.csv decline-adjective nominative write out.csv
+ The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   CASE      <nominative|genitive|dative|accusative|i  "nominative", "genitive", "dative",        │

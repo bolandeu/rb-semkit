@@ -1,6 +1,6 @@
 {
   "name": "extract-words",
-  "description": "Whole words of a phrase equal to the items of a list, compared in any case and with ё as е.\n\nitems: the words to find.\nmode: \"any\" — any of the words; \"all\" — only phrases holding every one of them.\nwhere: \"anywhere\", \"start\" (the first word only) or \"end\" (the last word only).\nignore_punct: punctuation at the edges of a word does not count («диван,» is «диван»).\n\nlemmas: compare the lemmas of the words (the bundled dictionary): «дешевые диваны» is «дешевый диван».\n\nextract-words keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-words @stop/wordstat write out.csv",
+  "description": "Whole words of a phrase equal to the items of a list, compared in any case and with ё as е.\n\nitems: the words to find.\nmode: \"any\" — any of the words; \"all\" — only phrases holding every one of them.\nwhere: \"anywhere\", \"start\" (the first word only) or \"end\" (the last word only).\nignore_punct: punctuation at the edges of a word does not count («диван,» is «диван»).\n\nExample: semkit read --text \"купить диван недорого\" extract-words диван,недорого write -\n-> диван недорого\n\nlemmas: compare the lemmas of the words (the bundled dictionary): «дешевые диваны» is «дешевый диван».\n\nextract-words keeps only what the matcher finds in the working column; an empty cell where it finds nothing.",
   "options": [
     {
       "name": "--items",

@@ -6,9 +6,11 @@
  parents: the phrases that may be parents, in the order to try; a parent is a phrase whose words
  all stand in the phrase. Empty items are skipped.
 
- The step writes its result to a new column <column>_parent.
+ Example: semkit read --text "купить диван" --text "угловой диван" first-parents "диван,купить
+ диван" write -
+ -> купить диван, диван; угловой диван, диван
 
- Example: semkit read core.csv first-parents 'диван,купить диван' write out.csv
+ The step writes its result to a new column <column>_parent.
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   PARENTS      <str>  the phrases that may be parents, in the order to try; a parent is a phrase │

@@ -7,9 +7,11 @@
  children: the phrases that may be children, in the order to try; a child is a phrase that holds
  every word of the phrase.
 
- The step writes its result to a new column <column>_child.
+ Example: semkit read --text "диван" --text "кресло" first-children "купить диван в москве,угловой
+ диван" write -
+ -> диван, купить диван в москве; кресло,
 
- Example: semkit read core.csv first-children 'купить диван в москве,угловой диван' write out.csv
+ The step writes its result to a new column <column>_child.
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   CHILDREN      <str>  the phrases that may be children, in the order to try; a child is a       │

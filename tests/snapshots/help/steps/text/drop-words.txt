@@ -8,12 +8,13 @@
  where: "anywhere", "start" (the first word only) or "end" (the last word only).
  ignore_punct: punctuation at the edges of a word does not count («диван,» is «диван»).
 
+ Example: semkit read --text "купить диван" --text "кресло" drop-words диван write -
+ -> кресло
+
  lemmas: compare the lemmas of the words (the bundled dictionary): «дешевые диваны» is «дешевый
  диван».
 
  drop-words drops the rows where the matcher finds something in the working column.
-
- Example: semkit read core.csv drop-words @stop/wordstat write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   ITEMS      <str>  the words to find. Items: a comma list 'a,b', @FILE (one item per line, or   │

@@ -96,9 +96,9 @@ def fix_word_order(
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """The words of the phrase in the order of a search query: «диван для гостиной раскладной кожаный» → «кожаный
-    раскладной диван для гостиной».
+    """The words of the phrase in the order of a search query.
 
+    «диван для гостиной раскладной кожаный» → «кожаный раскладной диван для гостиной». Three things happen:
     1. The complements go to the end: a preposition (для, с, без, в, из, на…) with the words after it up to its first
        noun and the oblique nouns and adjectives right after that noun («из массива дуба»), stopping at the next
        preposition or at the main word.
@@ -106,13 +106,16 @@ def fix_word_order(
     3. The words of the bundled list of words that start a query (где, купить, недорогой, кожаный…, in that form)
        go first, in the order of the list.
 
+    The words are joined by one space.
+
     form: the form of the adjectives of step 2: masculine («кожаный»), feminine («кожаная»), feminine_accusative
     («кожаную»), plural («кожаные»).
     main_word: the object of the query, one word (case and ё do not count): a complement never takes it.
     complements: on, all three steps; off (--no-complements), only step 3.
     lemmatizer: what gives the parts of speech.
 
-    The words are joined by one space.
+    Example: {cli} read --text "диван для гостиной раскладной кожаный" fix-word-order write -
+    -> кожаный раскладной диван для гостиной
     """
     choice("form", form, tuple(FORMS))
     order = _Order(form, main_word, complements, lemmatizer)

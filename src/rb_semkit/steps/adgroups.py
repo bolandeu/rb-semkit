@@ -67,7 +67,6 @@ STEPS = [
         "change",
         _prepare,
         "The step adds the columns ad_group and ad_group_name right after the working column; the rows stay.",
-        example="--max-size 20 --freq freq",
         columns=True,
     )
 ]

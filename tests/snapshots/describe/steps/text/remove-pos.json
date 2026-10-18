@@ -1,6 +1,6 @@
 {
   "name": "remove-pos",
-  "description": "Words of one part of speech (a participle is none of them).\n\nkind: \"noun\", \"adj\", \"verb\" or \"adverb\".\n\nA word is looked up as written, with its punctuation («диван,» is not a noun). An adjective is a word coded «a», or a word with no code, a pronoun or a particle whose lemma ends like an adjective («какой»); a word with a capital is looked up in lower case («Быстро» is an adverb, not an adjective).\n\nremove-pos removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-pos noun write out.csv",
+  "description": "Words of one part of speech (a participle is none of them).\n\nkind: \"noun\", \"adj\", \"verb\" or \"adverb\".\n\nA word is looked up as written, with its punctuation («диван,» is not a noun). An adjective is a word coded «a», or a word with no code, a pronoun or a particle whose lemma ends like an adjective («какой»); a word with a capital is looked up in lower case («Быстро» is an adverb, not an adjective).\n\nExample: semkit read --text \"купить красный диван\" remove-pos adj write -\n-> купить диван\n\nremove-pos removes what the matcher finds from the working column.",
   "options": [
     {
       "name": "--kind",

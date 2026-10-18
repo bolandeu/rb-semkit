@@ -60,6 +60,15 @@ def repeats(mode: Mode = "exact", *, scope: Scope = "all", lemmatizer: Lemmatize
     letter («iphone13», «wi-fi-роутер»); only "numbers" («2», «1,5»).
     lemmatizer: what gives the lemmas for "wordforms"; not given, the bundled one.
 
+    Example: {cli} read --text "диван купить диван" --text "кресло" find-repeats write -
+    -> диван купить диван, true; кресло, false
+    Example: {cli} read --text "диван купить диван" remove-repeats write -
+    -> диван купить
+    Example: {cli} read --text "диван купить диван" --text "кресло" keep-repeats write -
+    -> диван купить диван
+    Example: {cli} read --text "диван купить диван" --text "кресло" drop-repeats write -
+    -> кресло
+
     ADR 0005: ё = е; split on any whitespace; lemmas in lower case.
     """
     return Repeats(mode, scope, lemmatizer)

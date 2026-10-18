@@ -28,6 +28,7 @@ import functools
 import importlib
 import inspect
 import pkgutil
+import re
 from collections.abc import Callable, Collection, Iterator, Mapping
 from contextlib import contextmanager
 from contextvars import ContextVar
@@ -40,7 +41,7 @@ import pandas as pd
 from pandas.api import types
 
 from ..core.compare.grams import URL
-from ..core.docs import ARGUMENT_LINE, argument_names, doc_lines
+from ..core.docs import ARGUMENT_LINE, EXAMPLE, RESULT, argument_names, doc_lines
 from ..core.errors import InvalidArguments
 from ..core.frame import Frame, text_columns
 from ..core.relevance.page import TEXT
@@ -117,8 +118,6 @@ class Step:
     note: what the step does with the function, the last paragraph of the help.
     new_column: for a change, the suffix of the column it adds next to the working column (`<column>_find`);
     None rewrites the working column.
-    source, example: the file the `Example:` line of the help reads, and the text after the step name in it; None
-    gives the example from the required options (a file option shows a file, a list option a bundled list).
     columns: a change that adds several columns (`Columns`); it takes no --as.
     """
 
@@ -128,8 +127,6 @@ class Step:
     prepare: Callable[[dict[str, Any]], Prepared]
     note: str
     new_column: str | None = None
-    source: str = "core.csv"
-    example: str | None = None
     columns: bool = False
 
     def help(self) -> str:
@@ -140,8 +137,21 @@ class Step:
         """
         paragraphs = inspect.cleandoc(self.function.__doc__ or "").split("\n\n")
         names = parameter_names(self.function)
-        kept = ["\n".join(doc_lines(text, names)) for text in paragraphs if not text.startswith("ADR ")]
-        return "\n\n".join([*kept, self.note])
+        kept = ["\n".join(self._own(doc_lines(text, names))) for text in paragraphs if not text.startswith("ADR ")]
+        return "\n\n".join([*(text for text in kept if text), self.note])
+
+    def _own(self, lines: list[str]) -> list[str]:
+        """The lines without the examples (and their results) of the other steps that share this docstring."""
+        named = re.compile(rf"(?<![\w-]){re.escape(self.name)}(?![\w-])")
+        own, shown = [], True
+        for line in lines:
+            if line.startswith(EXAMPLE):
+                shown = bool(named.search(line))
+            elif not line.startswith(RESULT):
+                shown = True
+            if shown:
+                own.append(line)
+        return own
 
 
 def parameter_names(function: Callable[..., Any]) -> set[str]:
@@ -320,12 +330,10 @@ def changing(
 CHANGE_NOTE = "The step rewrites the working column; with --as NAME it writes the result to a new column NAME."
 
 
-def change_step(
-    function: FunctionType, *, new_column: str | None = None, source: str = "core.csv", example: str | None = None
-) -> Step:
+def change_step(function: FunctionType, *, new_column: str | None = None) -> Step:
     """The change step of a function that takes phrases and gives phrases (or one value per phrase)."""
     note = CHANGE_NOTE if new_column is None else f"The step writes its result to a new column <column>_{new_column}."
-    return Step(slug(function), function, "change", changing(function), note, new_column, source, example)
+    return Step(slug(function), function, "change", changing(function), note, new_column)
 
 
 @functools.cache

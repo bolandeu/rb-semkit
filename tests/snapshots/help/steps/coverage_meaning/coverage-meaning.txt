@@ -10,6 +10,12 @@
  cluster_covered. A phrase with no words, or a text with no paragraphs, gives an empty paragraph,
  no similarity and covered no.
 
+ Example: semkit read --text "купить диван" --text "кресло" coverage-meaning article.txt
+ --threshold 0.5 write -
+ -> купить диван, , 1, Купить диван в Москве. Диван угловой, диван недорогой. Углы дивана и
+ кресла., 0.7356, yes; кресло, , 1, Купить диван в Москве. Диван угловой, диван недорогой. Углы
+ дивана и кресла., -0.2111, no
+
  text: a text file (.txt), or a table of url and text, that is cut into paragraphs like
  `split-paragraphs` does; the table file is read like `read` does.
  cluster: the column of the clusters of the phrases in the current table (as `cluster-meaning`
@@ -20,8 +26,6 @@
 
  The step takes the working column as the core and adds the columns url, number, paragraph,
  similarity and covered (and cluster_covered) right after it; the rows stay.
-
- Example: semkit read core.csv coverage-meaning --text article.txt write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   TEXT      <str>  a text file (.txt), or a table of url and text, that is cut into paragraphs   │

@@ -1,6 +1,6 @@
 {
   "name": "cluster-by-frequency",
-  "description": "The cluster of each phrase: its words that stand in at least a number of phrases of the core.\n\nthreshold: the fewest phrases a word must stand in to name a cluster.\n\nA word counts once per phrase; words are compared in any case and with ё as е; stopwords are left out. The cluster lists its words in lower case, the most frequent first, then alphabetically, so «купить диван» and «диван купить» make one cluster. A phrase with no such word gets an empty cell.\n\nThe step writes its result to a new column <column>_cluster.\n\nExample: semkit read core.csv cluster-by-frequency 2 write out.csv",
+  "description": "The cluster of each phrase: its words that stand in at least a number of phrases of the core.\n\nthreshold: the fewest phrases a word must stand in to name a cluster.\n\nA word counts once per phrase; words are compared in any case and with ё as е; stopwords are left out. The cluster lists its words in lower case, the most frequent first, then alphabetically, so «купить диван» and «диван купить» make one cluster. A phrase with no such word gets an empty cell.\n\nExample: semkit read --text \"купить диван\" --text \"диван купить\" --text \"купить кресло\" cluster-by-frequency 2 write -\n-> купить диван, купить диван; диван купить, купить диван; купить кресло, купить\n\nThe step writes its result to a new column <column>_cluster.",
   "options": [
     {
       "name": "--threshold",

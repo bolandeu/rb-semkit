@@ -10,9 +10,10 @@
  («какой»); a word with a capital is looked up in lower case («Быстро» is an adverb, not an
  adjective).
 
- remove-pos removes what the matcher finds from the working column.
+ Example: semkit read --text "купить красный диван" remove-pos adj write -
+ -> купить диван
 
- Example: semkit read core.csv remove-pos noun write out.csv
+ remove-pos removes what the matcher finds from the working column.
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <noun|adj|verb|adverb>  "noun", "adj", "verb" or "adverb". The same as --kind KIND.  │

@@ -11,10 +11,11 @@
 
  remove gives the other words.
 
+ Example: semkit read --text "купить диван" --text "кресло" find-word-position --nth 2 write -
+ -> купить диван, true; кресло, false
+
  find-word-position marks the rows where the matcher finds something, in a new column <column>_find
  of true and false.
-
- Example: semkit read core.csv find-word-position --nth 3 write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --first            <int>  the first or last N words.                                             │

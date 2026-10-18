@@ -1,13 +1,15 @@
 
  Usage: semkit read [IN] chpu [OPTIONS]
 
- The phrase as a ЧПУ (a human-readable URL part): latin letters and digits in lower case, cyrillic
- in translit, accented letters as plain ones; the spaces and signs between words become one «-»,
- none at the edges: «Диван-кровать 2 м!» → «divan-krovat-2-m», «Щётка  ёж» → «schetka-ezh».
+ The phrase as a ЧПУ (a human-readable URL part).
+
+ Latin letters and digits go in lower case, cyrillic in translit, accented letters as plain ones.
+ The spaces and signs between words become one «-», none at the edges.
+
+ Example: semkit read --text "Диван-кровать 2 м!" --text "Щётка  ёж" chpu write -
+ -> divan-krovat-2-m; schetka-ezh
 
  The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
-
- Example: semkit read core.csv chpu write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --as          NAME  Write the result to a new column NAME and keep the working column as it is.  │

@@ -9,9 +9,10 @@
  Characters inside a word stay («wi-fi»); a word of only those characters disappears. The result
  has single spaces, none at the edges.
 
- remove-edges removes what the matcher finds from the working column.
+ Example: semkit read --text "!диван! кресло?" remove-edges --start "!" --end "!?" write -
+ -> диван кресло
 
- Example: semkit read core.csv remove-edges --end '!' write out.csv
+ remove-edges removes what the matcher finds from the working column.
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --start        <str>  characters cut from the start of a word, any run of them.                  │

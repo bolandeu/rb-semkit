@@ -27,6 +27,9 @@ def cluster_by_frequency(
     A word counts once per phrase; words are compared in any case and with ё as е; stopwords are left out. The cluster
     lists its words in lower case, the most frequent first, then alphabetically, so «купить диван» and «диван купить»
     make one cluster. A phrase with no such word gets an empty cell.
+
+    Example: {cli} read --text "купить диван" --text "диван купить" --text "купить кресло" cluster-by-frequency 2 write -
+    -> купить диван, купить диван; диван купить, купить диван; купить кресло, купить
     """
     whole_number("threshold", threshold)
     frame = Frame(data, column, inplace)

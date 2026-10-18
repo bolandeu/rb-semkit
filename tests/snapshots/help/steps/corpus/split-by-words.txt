@@ -11,11 +11,13 @@
  The parts keep the rows of the input in its order. The frequency dictionary is the ngrams table of
  the rest (of lemmas with lemmas), to choose the next good and bad words.
 
+ Example: semkit read --text "купить диван" --text "купить стол" --text "диван" split-by-words
+ --good "купить,диван" --bad стол --keep good write -
+ -> купить диван; диван
+
  keep: the part of the core to keep: the good phrases, the bad ones or the rest.
 
  The step keeps only the rows of the part named by --keep.
-
- Example: semkit read core.csv split-by-words good --good 'купить,диван' write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KEEP      <good|bad|rest>  the part of the core to keep: the good phrases, the bad ones or the │

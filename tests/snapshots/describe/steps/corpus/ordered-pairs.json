@@ -1,6 +1,6 @@
 {
   "name": "ordered-pairs",
-  "description": "Every ordered pair of two different items of a list: a table first, second («a», «b» → a b, b a).\n\nEach item counts once, in the order of its first row; empty cells are no items. n items give n x (n - 1) pairs.\nlimit: the most pairs the result may hold; a larger result is refused before any is made.\n\nThe step makes a table of its result; it replaces the current table, its first text column is the working one.\n\nExample: semkit read core.csv ordered-pairs --limit 1000 write out.csv",
+  "description": "Every ordered pair of two different items of a list: a table first, second («a», «b» → a b, b a).\n\nEach item counts once, in the order of its first row; empty cells are no items. n items give n x (n - 1) pairs.\nlimit: the most pairs the result may hold; a larger result is refused before any is made.\n\nExample: semkit read --text \"диван\" --text \"кресло\" ordered-pairs write -\n-> диван, кресло; кресло, диван\n\nThe step makes a table of its result; it replaces the current table, its first text column is the working one.",
   "options": [
     {
       "name": "--limit",

@@ -1,6 +1,6 @@
 {
   "name": "sort-words",
-  "description": "The words of the phrase sorted by their character codes, joined by one space: digits, then latin capitals, latin small letters, cyrillic capitals, cyrillic small letters; «Ё» before «А» and «ё» after «я».\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv sort-words write out.csv",
+  "description": "The words of the phrase sorted by their character codes, joined by one space.\n\nThe order is digits, then latin capitals, latin small letters, cyrillic capitals, cyrillic small letters; «Ё» goes before «А» and «ё» after «я».\n\nExample: semkit read --text \"москва купить диван\" sort-words write -\n-> диван купить москва\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.",
   "options": [
     {
       "name": "--as",

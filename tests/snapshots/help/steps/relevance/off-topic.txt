@@ -11,6 +11,9 @@
  off_topic (yes when the similarity is below the threshold, else no); an empty cell gets none. No
  row is dropped.
 
+ Example: semkit read --text "купить диван" off-topic write -
+ -> купить диван, 0.0, no
+
  model: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or
  hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of
  the model; a hub model has none.
@@ -21,8 +24,6 @@
 
  The step adds the columns off_topic_score and off_topic right after the working column; the rows
  stay.
-
- Example: semkit read core.csv off-topic --freq freq write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --threshold        <float>  the similarity from 0 to 1 a phrase needs to the centre to be on     │

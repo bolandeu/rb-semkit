@@ -71,6 +71,9 @@ def synonym_candidates(
     unit of the one phrase of the core, in its order; the first row holds the units, the rows under them their
     candidates. More than one phrase, or together with as_synonyms, is refused.
     lemmatizer: what gives the lemmas.
+
+    Example: {cli} read --text "растаможка" --text "таможенное оформление" synonym-candidates --source ruwordnet write -
+    -> растаможка, таможенное оформление, ruwordnet, 1.0, true; таможенное оформление, растаможка, ruwordnet, 1.0, true
     """
     if isinstance(top, bool) or not isinstance(top, int) or top < 1:
         raise InvalidArguments(f"top={top!r}; allowed: an integer of 1 or more.")

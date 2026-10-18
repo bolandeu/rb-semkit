@@ -35,6 +35,15 @@ def word_case(kind: Case) -> WordCase:
     kind: "lower" (no capital letter: «x5»); "Capital" (each run of letters starts with a capital, the rest small:
     «Москве», not «iPhone» or «Из-за»); "CAPS" (no small letter: «BMW», «В»).
 
+    Example: {cli} read --text "купить IKEA Диван" --text "кресло" find-word-case CAPS write -
+    -> купить IKEA Диван, true; кресло, false
+    Example: {cli} read --text "купить Диван в Москве" extract-word-case Capital write -
+    -> Диван Москве
+    Example: {cli} read --text "купить Диван" --text "кресло" keep-word-case Capital write -
+    -> купить Диван
+    Example: {cli} read --text "купить Диван" --text "кресло" drop-word-case Capital write -
+    -> кресло
+
     ADR 0005: split on any whitespace.
     """
     return WordCase(kind)

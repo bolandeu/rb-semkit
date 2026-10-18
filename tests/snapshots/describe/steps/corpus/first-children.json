@@ -1,6 +1,6 @@
 {
   "name": "first-children",
-  "description": "The first item of a list that is a child of the phrase, or an empty cell when none is; an empty phrase has none.\n\nchildren: the phrases that may be children, in the order to try; a child is a phrase that holds every word of the phrase.\n\nThe step writes its result to a new column <column>_child.\n\nExample: semkit read core.csv first-children 'купить диван в москве,угловой диван' write out.csv",
+  "description": "The first item of a list that is a child of the phrase, or an empty cell when none is; an empty phrase has none.\n\nchildren: the phrases that may be children, in the order to try; a child is a phrase that holds every word of the phrase.\n\nExample: semkit read --text \"диван\" --text \"кресло\" first-children \"купить диван в москве,угловой диван\" write -\n-> диван, купить диван в москве; кресло,\n\nThe step writes its result to a new column <column>_child.",
   "options": [
     {
       "name": "--children",

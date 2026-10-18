@@ -6,10 +6,11 @@
  kind: "lower" (no capital letter: «x5»); "Capital" (each run of letters starts with a capital, the
  rest small: «Москве», not «iPhone» or «Из-за»); "CAPS" (no small letter: «BMW», «В»).
 
+ Example: semkit read --text "купить Диван в Москве" extract-word-case Capital write -
+ -> Диван Москве
+
  extract-word-case keeps only what the matcher finds in the working column; an empty cell where it
  finds nothing.
-
- Example: semkit read core.csv extract-word-case Capital write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <lower|Capital|CAPS>  "lower" (no capital letter: «x5»); "Capital" (each run of      │

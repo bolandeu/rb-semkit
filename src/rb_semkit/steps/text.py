@@ -59,17 +59,6 @@ MATCHERS: tuple[MatcherFactory, ...] = (
     ByLemmas(words), ByLemmas(phrases), stopwords, chars, spaces, regex, around, edges, positions,
     word_case, word_content, word_position, pos, repeats, cells,
 )  # fmt: skip
-# The text after the step name in the example of the help, by the name of a matcher whose required option the
-# generator cannot fill.
-EXAMPLES = {
-    "words": "@stop/wordstat",
-    "word_content": "starts --pattern куп",
-    "word_position": "--nth 3",
-    "word_case": "Capital",
-    "around": "' в ' --after --include",
-    "edges": "--end '!'",
-    "cells": "contains --items бесплатно,скачать",
-}
 VERB_NOTES = {
     "find": "marks the rows where the matcher finds something, in a new column <column>_find of true and false.",
     "remove": "removes what the matcher finds from the working column.",
@@ -101,7 +90,7 @@ def _matcher(factory: MatcherFactory, options: dict, name: str) -> Matcher:
         raise InvalidArguments(error.message, action=f"Use {instead} for phrases of several words.") from None
 
 
-def _verb_step(factory: MatcherFactory, verb: str, example: str | None) -> Step:
+def _verb_step(factory: MatcherFactory, verb: str) -> Step:
     name = f"{verb}-{_slug(factory)}"
 
     def prepare(options: dict) -> Prepared:
@@ -109,10 +98,10 @@ def _verb_step(factory: MatcherFactory, verb: str, example: str | None) -> Step:
         return lambda table, column: Change(apply(Frame(table, column).phrases))
 
     new_column = "find" if verb == "find" else None
-    return Step(name, factory, "change", prepare, f"{name} {VERB_NOTES[verb]}", new_column, example=example)
+    return Step(name, factory, "change", prepare, f"{name} {VERB_NOTES[verb]}", new_column)
 
 
-def _filter_step(factory: MatcherFactory, action: Literal["keep", "drop"], example: str | None) -> Step:
+def _filter_step(factory: MatcherFactory, action: Literal["keep", "drop"]) -> Step:
     name = f"{action}-{_slug(factory)}"
 
     def prepare(options: dict) -> Prepared:
@@ -124,18 +113,14 @@ def _filter_step(factory: MatcherFactory, action: Literal["keep", "drop"], examp
 
         return run
 
-    return Step(name, factory, "filter", prepare, f"{name} {FILTER_NOTES[action]}", example=example)
+    return Step(name, factory, "filter", prepare, f"{name} {FILTER_NOTES[action]}")
 
 
-def matcher_steps(factory: MatcherFactory, example: str | None = None) -> list[Step]:
-    """The steps of a matcher: a verb step for each verb it supports, and the keep and drop filters if it can find.
-
-    `example` is the text after the step name in the example of their help, for a matcher whose required option the
-    generator cannot fill.
-    """
+def matcher_steps(factory: MatcherFactory) -> list[Step]:
+    """The steps of a matcher: a verb step for each verb it supports, and the keep and drop filters if it can find."""
     supported = verbs(_matcher_type(factory))
-    filters = [_filter_step(factory, action, example) for action in ("keep", "drop")] if "find" in supported else []
-    return [*(_verb_step(factory, verb, example) for verb in supported), *filters]
+    filters = [_filter_step(factory, action) for action in ("keep", "drop")] if "find" in supported else []
+    return [*(_verb_step(factory, verb) for verb in supported), *filters]
 
 
-STEPS = [step for factory in MATCHERS for step in matcher_steps(factory, EXAMPLES.get(factory.__name__))]
+STEPS = [step for factory in MATCHERS for step in matcher_steps(factory)]

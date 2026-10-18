@@ -114,8 +114,9 @@ def cells(
     pattern: str | None = None,
     prepositions: bool = False,
 ) -> Cells:
-    """A whole cell is found or not. remove clears a found cell (with "empty", it drops the rows); extract keeps the cell,
-    or an empty cell if not found.
+    """Whole cells that are found or not.
+
+    remove clears a found cell (with "empty", it drops the rows); extract keeps the cell, or an empty cell if not found.
 
     kind: "contains", "starts", "ends" (with items: text parts, case and ё do not count; or with prepositions: the
     first, the last or any word is a bundled preposition, as written, «для,» is none); "regex" (with pattern); "empty"
@@ -125,6 +126,17 @@ def cells(
     items: the text parts for "contains", "starts" and "ends".
     pattern: the regular expression for "regex".
     prepositions: for "contains", "starts" and "ends", look for a bundled preposition instead of items.
+
+    Example: {cli} read --text "купить диван" --text "кресло" find-cells contains --items диван write -
+    -> купить диван, true; кресло, false
+    Example: {cli} read --text "купить диван" --text "кресло" remove-cells contains --items диван write -
+    -> ; кресло
+    Example: {cli} read --text "купить диван" --text "кресло" extract-cells contains --items диван write -
+    -> купить диван;
+    Example: {cli} read --text "купить диван" --text "кресло" keep-cells contains --items диван write -
+    -> купить диван
+    Example: {cli} read --text "купить диван" --text "кресло" drop-cells contains --items диван write -
+    -> кресло
 
     ADR 0005: ё = е; empty cells are never duplicates; regex classes understand Cyrillic (Unicode); the fixed
     preposition list («по», no «g»); blank list items are refused.

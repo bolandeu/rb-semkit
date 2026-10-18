@@ -20,6 +20,9 @@ def assign_pages(data: pd.Series, *, pages: pd.DataFrame, encoder: PageEncoder) 
 
     The columns: best_page, best_similarity, second_page and second_similarity (4 places); the second page and its
     similarity are empty when the table has one page; an empty cell gets none. No row is dropped.
+
+    Example: {cli} read --text "угловые диваны угловой диван" assign-pages --pages one_page.csv write -
+    -> угловые диваны угловой диван, /uglovye, 1.0, ,
     """
     check_pages(pages)
     vectors, found = encoder.encode(data)

@@ -8,9 +8,12 @@
  frequent, starting with the same letter. A phrase with no misspelt word, or none that can be
  corrected, stays as it is.
 
- The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
+ Example: semkit read core.csv typo-correction write -
+ -> Диван-кровать 2 м!, 5; купить диван, 4; Диван купить, 3; купить   диван в москве!, 2; углы, 1;
+ диван бесплатно, 6; диван www.sofa.ru диван, 7; отличный диван "Лион", 3; диван120см, 2; чехол на
+ диван, 1; купить диван в москве, 2; диван купить, 1; угловой диван, 2; диван недорого, 1
 
- Example: semkit read core.csv typo-correction write out.csv
+ The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --as          NAME  Write the result to a new column NAME and keep the working column as it is.  │

@@ -99,6 +99,13 @@ def match_type(
 ) -> pd.Series | pd.DataFrame:
     """The phrase with the operators of a match type.
 
+    A word that has an operator keeps it, and no other is added; the minus-words keep their place, and the kinds that
+    wrap the phrase put them after it («"купить диван" -бесплатно»). A phrase already in quotes or brackets is not
+    wrapped again: the operators of a word go inside the pair («"+купить +диван"»); "brackets", "quotes" and the quoted
+    kinds put their own wrap in place of the old one («"купить диван"» → «[купить диван]»), and "antisemantic" drops the
+    old wrap. Stopwords are found in any case. An empty phrase stays empty; the words are joined by one space ("broad"
+    keeps the spaces as they are).
+
     kind: the match type:
     - "broad": «A в Б», every «+», «!», «[», «]» and «"» taken out;
     - "plus_every_word": «+A +в +Б»; "broad_modifier": «+A в +Б», the stopwords plain;
@@ -110,12 +117,10 @@ def match_type(
     - "antisemantic": «[A] в [Б]», each word but the stopwords in brackets.
     modifier: the operator of "stopword_modifier": "+" or "!".
 
-    A word that has an operator keeps it, and no other is added; the minus-words keep their place, and the kinds that
-    wrap the phrase put them after it («"купить диван" -бесплатно»). A phrase already in quotes or brackets is not
-    wrapped again: the operators of a word go inside the pair («"+купить +диван"»); "brackets", "quotes" and the quoted
-    kinds put their own wrap in place of the old one («"купить диван"» → «[купить диван]»), and "antisemantic" drops the
-    old wrap. Stopwords are found in any case. An empty phrase stays empty; the words are joined by one space ("broad"
-    keeps the spaces as they are).
+    Example: {cli} read --text "купить диван в москве" match-type quotes write -
+    -> "купить диван в москве"
+    Example: {cli} read --text "купить диван в москве" match-type stopword_modifier write -
+    -> купить диван +в москве
     """
     choice("kind", kind, KINDS)
     choice("modifier", modifier, MODIFIERS)
@@ -125,16 +130,27 @@ def match_type(
 def drop_modifiers(
     data: pd.Series | pd.DataFrame, *, column: str | None = None, inplace: bool = False
 ) -> pd.Series | pd.DataFrame:
-    """The «+» or «!» of each stopword taken off, in any case: «+купить +в !москве +для дачи» → «+купить в !москве
-    для дачи». The words are joined by one space."""
+    """The phrase without the «+» or «!» of its stopwords, in any case.
+
+    «+купить +в !москве +для дачи» → «+купить в !москве для дачи». The words are joined by one space.
+
+    Example: {cli} read --text "+купить +в !москве +для дачи" drop-modifiers write -
+    -> +купить в !москве для дачи
+    """
     return changed(data, each_word(_without_stopword_modifier), "drop_modifiers", column, inplace)
 
 
 def drop_minus_words(
     data: pd.Series | pd.DataFrame, *, column: str | None = None, inplace: bool = False
 ) -> pd.Series | pd.DataFrame:
-    """The phrase without its minus-words: «купить диван -бесплатно -скачать» → «купить диван». A lone «-» between
-    words is a dash and stays («диван - кровать»). The words are joined by one space."""
+    """The phrase without its minus-words.
+
+    «купить диван -бесплатно -скачать» → «купить диван». A lone «-» between words is a dash and stays («диван -
+    кровать»). The words are joined by one space.
+
+    Example: {cli} read --text "купить диван -бесплатно -скачать" drop-minus-words write -
+    -> купить диван
+    """
     return changed(
         data,
         lambda phrase: " ".join(word for word in split_words(phrase) if not _is_minus_word(word)),

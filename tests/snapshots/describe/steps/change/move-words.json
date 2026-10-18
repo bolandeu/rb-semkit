@@ -1,6 +1,6 @@
 {
   "name": "move-words",
-  "description": "Words found in the phrase moved to its start or end, in the order and the spelling of the list: «диван угловой купить» with купить,угловой → «купить угловой диван». Case and ё do not count; the first word equal to an item moves.\n\nwords: the words to move.\nto: where they go: \"start\" or \"end\".\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv move-words @stop/wordstat write out.csv",
+  "description": "The phrase with the listed words moved to its start or end.\n\nThe words keep the order and the spelling of the list: «диван угловой купить» with купить,угловой → «купить угловой диван». Case and ё do not count; the first word equal to an item moves.\n\nwords: the words to move.\nto: where they go: \"start\" or \"end\".\n\nExample: semkit read --text \"диван угловой купить\" move-words купить,угловой write -\n-> купить угловой диван\nExample: semkit read --text \"диван угловой купить\" move-words диван --to end write -\n-> угловой купить диван\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.",
   "options": [
     {
       "name": "--words",

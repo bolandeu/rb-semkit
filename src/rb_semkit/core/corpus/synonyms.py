@@ -57,6 +57,9 @@ def synonyms(report: pd.DataFrame, *, lemmatizer: Lemmatizer = BUNDLED) -> pd.Da
     is the one of the condition. Words are compared as lemmas, in any case and with ё = е; minus-words, operators
     (+ ! " [ ]) and stopwords are left out. The sure rows come first, each part in the order of the report.
     lemmatizer: what gives the lemmas.
+
+    Example: {cli} read report.csv synonyms write -
+    -> диван, true, софа
     """
     require_columns(report, "report", REPORT_COLUMNS)
     texts = report[list(REPORT_COLUMNS)].fillna("").astype(str)
@@ -108,6 +111,9 @@ def add_minus_words(
     unsure: also add the synonyms to check (sure is false); by default only the sure ones. A sure cell read from a
     file as text counts as sure when it is true (in any case), ИСТИНА or 1.
     lemmatizer: what gives the lemmas.
+
+    Example: {cli} read --text "купить диван" add-minus-words synonyms.csv write -
+    -> купить диван -софа
     """
     require_columns(table, "table", ["word", "synonyms"])
 

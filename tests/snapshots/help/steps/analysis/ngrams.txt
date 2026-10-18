@@ -19,10 +19,13 @@
  gives «купить диван» and «диван в москве»); stopwords are found in any case.
  weight: a column of numbers of the table (a frequency); sum adds its value once per occurrence.
 
+ Example: semkit read --text "купить диван" --text "купить диван недорого" ngrams write -
+ -> диван, 2, 2; купить, 2, 2; недорого, 1, 1
+ Example: semkit read --text "купить диван" --text "купить диван недорого" ngrams -n 2 write -
+ -> купить диван, 2, 2; диван недорого, 1, 1
+
  The step counts the working column; the table replaces the current one, its column ngram is the
  working one.
-
- Example: semkit read core.csv ngrams write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │              -n                    <int>  how many words in a gram. [default: 1]                 │

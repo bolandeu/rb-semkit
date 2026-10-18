@@ -66,6 +66,17 @@ def word_position(
 
     remove gives the other words.
 
+    Example: {cli} read --text "купить диван" --text "кресло" find-word-position --nth 2 write -
+    -> купить диван, true; кресло, false
+    Example: {cli} read --text "купить диван недорого" remove-word-position --first 1 write -
+    -> диван недорого
+    Example: {cli} read --text "купить диван недорого" extract-word-position --last 1 write -
+    -> недорого
+    Example: {cli} read --text "купить диван" --text "кресло" keep-word-position --nth 2 write -
+    -> купить диван
+    Example: {cli} read --text "купить диван" --text "кресло" drop-word-position --nth 2 write -
+    -> кресло
+
     ADR 0005: split on any whitespace, so empty words never count.
     """
     return WordPosition(

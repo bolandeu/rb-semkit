@@ -95,6 +95,9 @@ def text_stats(
       biggest count), so f(r) = C / r^s fits; 0 for under 5 distinct lemmas.
 
     No norms and no verdicts: the caller sets them.
+
+    Example: {cli} read --text "Купить диван в Москве. Диван угловой, диван недорогой." text-stats write -
+    -> Купить диван в Москве. Диван угловой, диван недорогой., 54, 47, 8, 5, 0.125, 1.73, 0.375, диван, 0.7142857142857143, 7.0, 70.9
     """
     skip = Skip.of(no_digits, exclude)
     frame = Frame(data, column)

@@ -29,6 +29,9 @@ def coverage_meaning(
     The report has a row for each phrase, in its order and with its index: url and number (of the paragraph), the
     paragraph, similarity (4 places) and covered (yes or no); with clusters also cluster_covered. A phrase with no
     words, or a text with no paragraphs, gives an empty paragraph, no similarity and covered no.
+
+    Example: {cli} read --text "купить диван" --text "кресло" coverage-meaning article.txt --threshold 0.5 write -
+    -> купить диван, , 1, Купить диван в Москве. Диван угловой, диван недорогой. Углы дивана и кресла., 0.7356, yes; кресло, , 1, Купить диван в Москве. Диван угловой, диван недорогой. Углы дивана и кресла., -0.2111, no
     """
     vectors, has_words = encoder.encode(phrases)
     best, similarity = _best(vectors, paragraphs, encoder)

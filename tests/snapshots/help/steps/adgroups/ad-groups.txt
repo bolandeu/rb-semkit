@@ -10,6 +10,9 @@
  order of their first rows. The columns: ad_group and ad_group_name; every phrase gets them, an
  empty cell gets none.
 
+ Example: semkit read --text "купить диван" --text "диван купить" --text "кресло" ad-groups write -
+ -> купить диван, 1, купить диван; диван купить, 1, купить диван; кресло, 2, кресло
+
  max_size: the most phrases in an ad group, 1 or more; a larger group is split by vector. Without
  it no group is split.
  freq: the column of the frequencies of the phrases in the current table; the ad group is named
@@ -28,8 +31,6 @@
 
  The step adds the columns ad_group and ad_group_name right after the working column; the rows
  stay.
-
- Example: semkit read core.csv ad-groups --max-size 20 --freq freq write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --threshold        <float>  the similarity from 0 to 1 two phrases need to be one intent, for    │

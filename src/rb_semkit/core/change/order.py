@@ -23,11 +23,17 @@ _DIGIT_EDGE = re.compile(r"(?<=\d)(?=[^\d\s])|(?<=[^\d\s])(?=\d)|(?P<size>\d+(?:
 def split_digits(
     data: pd.Series | pd.DataFrame, *, sep: str = " ", column: str | None = None, inplace: bool = False
 ) -> pd.Series | pd.DataFrame:
-    """A separator between digits and the text glued to them: «iphone13pro» → «iphone 13 pro». Digits and text already
-    apart stay as they are; a size N×M (the x latin or cyrillic, in any case) stays whole («диван140х200» → «диван
-    140х200»).
+    """The phrase with a separator between digits and the text glued to them.
+
+    «iphone13pro» → «iphone 13 pro». Digits and text already apart stay as they are; a size N×M (the x latin or
+    cyrillic, in any case) stays whole («диван140х200» → «диван 140х200»).
 
     sep: the separator; with "|" «a1b22» → «a|1|b|22».
+
+    Example: {cli} read --text "iphone13pro" --text "диван140х200" split-digits write -
+    -> iphone 13 pro; диван 140х200
+    Example: {cli} read --text "a1b22" split-digits --sep "|" write -
+    -> a|1|b|22
     """
     if not isinstance(sep, str):
         raise InvalidArguments(f"sep={sep!r}; allowed: a text.")
@@ -47,6 +53,11 @@ def reverse(
 
     what: "chars" — its characters («абв 12» → «21 вба»); "words" — its words, joined by one space («купить диван
     москва» → «москва диван купить»).
+
+    Example: {cli} read --text "абв 12" reverse write -
+    -> 21 вба
+    Example: {cli} read --text "купить диван москва" reverse --what words write -
+    -> москва диван купить
     """
     choice("what", what, WHAT)
     if what == "chars":
@@ -57,6 +68,12 @@ def reverse(
 def sort_words(
     data: pd.Series | pd.DataFrame, *, column: str | None = None, inplace: bool = False
 ) -> pd.Series | pd.DataFrame:
-    """The words of the phrase sorted by their character codes, joined by one space: digits, then latin capitals,
-    latin small letters, cyrillic capitals, cyrillic small letters; «Ё» before «А» and «ё» after «я»."""
+    """The words of the phrase sorted by their character codes, joined by one space.
+
+    The order is digits, then latin capitals, latin small letters, cyrillic capitals, cyrillic small letters; «Ё» goes
+    before «А» and «ё» after «я».
+
+    Example: {cli} read --text "москва купить диван" sort-words write -
+    -> диван купить москва
+    """
     return changed(data, lambda phrase: " ".join(sorted(split_words(phrase))), "sort_words", column, inplace)

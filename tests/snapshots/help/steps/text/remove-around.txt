@@ -1,8 +1,9 @@
 
  Usage: semkit read [IN] remove-around [OPTIONS] [PATTERN]
 
- The part of the phrase before or after the first or the last occurrence of a text. Remove and
- extract only.
+ The part of the phrase before or after the first or the last occurrence of a text.
+
+ Remove and extract only.
 
  pattern: the text as typed, found anywhere, also inside a word («в» is found in «диван»); not a
  regular expression.
@@ -14,9 +15,10 @@
  matches the case written; ё = е. A phrase without the text has no part: remove leaves it, extract
  gives an empty cell.
 
- remove-around removes what the matcher finds from the working column.
+ Example: semkit read --text "купить диван в москве" remove-around " в " --after write -
+ -> купить диван в
 
- Example: semkit read core.csv remove-around ' в ' --after --include write out.csv
+ remove-around removes what the matcher finds from the working column.
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   PATTERN      <str>  the text as typed, found anywhere, also inside a word («в» is found in     │

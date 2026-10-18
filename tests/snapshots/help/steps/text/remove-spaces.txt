@@ -6,9 +6,10 @@
  kind: "all"; "left" and "right" (at that end only); "both" (at both ends); "extra" (runs collapsed
  to one space, none at the ends). "left", "right" and "both" keep the spaces inside.
 
- remove-spaces removes what the matcher finds from the working column.
+ Example: semkit read --text "  купить   диван " remove-spaces extra write -
+ -> купить диван
 
- Example: semkit read core.csv remove-spaces all write out.csv
+ remove-spaces removes what the matcher finds from the working column.
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <all|left|right|both|extra>  "all"; "left" and "right" (at that end only); "both"    │

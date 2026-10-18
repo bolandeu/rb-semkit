@@ -40,7 +40,9 @@ class ReadyPattern(Regex):
 
 
 def ready_pattern(kind: Kind) -> ReadyPattern:
-    """A ready regular expression, found anywhere in a phrase, case-sensitive.
+    """A ready regular expression for a domain, e-mail, phone or date, found anywhere in a phrase.
+
+    The match is case-sensitive.
 
     kind: "domain" (Latin domains with subdomains: «www.example.com»; extract gives all, joined by a space),
     "email" (the first e-mail), "phone" (Russian numbers from +7 or 8: «8 (999) 123-45-67»; all, joined by ", "),
@@ -50,5 +52,16 @@ def ready_pattern(kind: Kind) -> ReadyPattern:
 
     find marks where the pattern is; remove cuts out every match; extract keeps what is said above, an empty cell where
     there is none.
+
+    Example: {cli} read --text "диван на сайте www.sofa.ru" --text "купить диван" find-ready-pattern domain write -
+    -> диван на сайте www.sofa.ru, true; купить диван, false
+    Example: {cli} read --text "диван на сайте www.sofa.ru" remove-ready-pattern domain write -
+    -> диван на сайте
+    Example: {cli} read --text "диван на сайте www.sofa.ru" extract-ready-pattern domain write -
+    -> www.sofa.ru
+    Example: {cli} read --text "диван на сайте www.sofa.ru" --text "купить диван" keep-ready-pattern domain write -
+    -> диван на сайте www.sofa.ru
+    Example: {cli} read --text "диван на сайте www.sofa.ru" --text "купить диван" drop-ready-pattern domain write -
+    -> купить диван
     """
     return ReadyPattern(kind)

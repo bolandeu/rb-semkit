@@ -6,9 +6,10 @@
  A word is compared as written: «и,» with its comma is no stopword. Case and ё do not count.
  extra: your own words, taken together with the bundled list.
 
- remove-stopwords removes what the matcher finds from the working column.
+ Example: semkit read --text "купить диван в москве" remove-stopwords write -
+ -> купить диван москве
 
- Example: semkit read core.csv remove-stopwords write out.csv
+ remove-stopwords removes what the matcher finds from the working column.
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --extra        <str>  your own words, taken together with the bundled list. Items: a comma list  │

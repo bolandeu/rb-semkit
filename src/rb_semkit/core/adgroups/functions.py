@@ -87,6 +87,9 @@ def ad_groups(
     `max_size` phrases nearest to it, and so on, so the same input gives the same groups. Equal phrases are one phrase.
     The groups are numbered from 1 in the order of their first rows. The columns: ad_group and ad_group_name; every
     phrase gets them, an empty cell gets none.
+
+    Example: {cli} read --text "купить диван" --text "диван купить" --text "кресло" ad-groups write -
+    -> купить диван, 1, купить диван; диван купить, 1, купить диван; кресло, 2, кресло
     """
     if max_size is not None and max_size < 1:
         raise InvalidArguments(f"--max-size {max_size}: a group holds at least 1 phrase.", action="Give 1 or more.")

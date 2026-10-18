@@ -3,6 +3,14 @@
 
  The phrase with the operators of a match type.
 
+ A word that has an operator keeps it, and no other is added; the minus-words keep their place, and
+ the kinds that wrap the phrase put them after it («"купить диван" -бесплатно»). A phrase already
+ in quotes or brackets is not wrapped again: the operators of a word go inside the pair («"+купить
+ +диван"»); "brackets", "quotes" and the quoted kinds put their own wrap in place of the old one
+ («"купить диван"» → «[купить диван]»), and "antisemantic" drops the old wrap. Stopwords are found
+ in any case. An empty phrase stays empty; the words are joined by one space ("broad" keeps the
+ spaces as they are).
+
  kind: the match type:
  - "broad": «A в Б», every «+», «!», «[», «]» and «"» taken out;
  - "plus_every_word": «+A +в +Б»; "broad_modifier": «+A в +Б», the stopwords plain;
@@ -15,17 +23,12 @@
  - "antisemantic": «[A] в [Б]», each word but the stopwords in brackets.
  modifier: the operator of "stopword_modifier": "+" or "!".
 
- A word that has an operator keeps it, and no other is added; the minus-words keep their place, and
- the kinds that wrap the phrase put them after it («"купить диван" -бесплатно»). A phrase already
- in quotes or brackets is not wrapped again: the operators of a word go inside the pair («"+купить
- +диван"»); "brackets", "quotes" and the quoted kinds put their own wrap in place of the old one
- («"купить диван"» → «[купить диван]»), and "antisemantic" drops the old wrap. Stopwords are found
- in any case. An empty phrase stays empty; the words are joined by one space ("broad" keeps the
- spaces as they are).
+ Example: semkit read --text "купить диван в москве" match-type quotes write -
+ -> "купить диван в москве"
+ Example: semkit read --text "купить диван в москве" match-type stopword_modifier write -
+ -> купить диван +в москве
 
  The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
-
- Example: semkit read core.csv match-type quotes write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <broad|broad_modifier|plus_every_word|st  the match type: - "broad": «A в Б», every  │

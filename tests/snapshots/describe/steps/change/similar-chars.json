@@ -1,6 +1,6 @@
 {
   "name": "similar-chars",
-  "description": "The letters that look alike in both alphabets (а a, В B, Н H, р p, с c, у y, х x…) in one alphabet. The other letters stay.\n\nto: the alphabet: \"en\" — «Москва» → «Mockвa»; \"ru\" — «CTO» → «СТО».\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv similar-chars en write out.csv",
+  "description": "The phrase with the letters that look alike in both alphabets (а a, В B, Н H, р p, с c, у y, х x…) in one alphabet.\n\nThe other letters stay.\n\nto: the alphabet: \"en\" — «Москва» → «Mockвa»; \"ru\" — «CTO» → «СТО».\n\nExample: semkit read --text \"Москва\" similar-chars en write -\n-> Mockвa\nExample: semkit read --text \"CTO\" similar-chars ru write -\n-> СТО\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.",
   "options": [
     {
       "name": "--to",

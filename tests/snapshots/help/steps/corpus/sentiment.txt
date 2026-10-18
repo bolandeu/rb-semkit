@@ -6,12 +6,14 @@
  what: "mean", "min" or "max" of the scores of the words. A phrase with no scored word gets an
  empty value.
 
+ Example: semkit read --text "отличный диван" --text "плохой диван" --text "диван" sentiment
+ dictionary.csv write -
+ -> отличный диван, 5.0; плохой диван, -3.0; диван,
+
  dictionary: a file of two columns, a word and its score; the first row is the header, the file is
  read like `read` does.
 
  The step writes the scores to a new column <column>_sentiment.
-
- Example: semkit read core.csv sentiment --dictionary dictionary.csv write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   DICTIONARY      <str>  a file of two columns, a word and its score; the first row is the       │

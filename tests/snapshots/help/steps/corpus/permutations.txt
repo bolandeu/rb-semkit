@@ -7,10 +7,11 @@
  A phrase of n words gives n! phrases, a repeated word too; an empty phrase gives one empty phrase.
  limit: the most phrases the result may hold; a larger result is refused before any is made.
 
+ Example: semkit read --text "купить диван" permutations write -
+ -> купить диван; диван купить
+
  The step makes a table of its result; it replaces the current table, its first text column is the
  working one.
-
- Example: semkit read core.csv permutations --limit 1000 write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --limit        <int>  the most phrases the result may hold; a larger result is refused before    │

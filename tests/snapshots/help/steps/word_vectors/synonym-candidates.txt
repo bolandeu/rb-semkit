@@ -25,6 +25,11 @@
  the rows under them their candidates. More than one phrase, or together with as_synonyms, is
  refused.
 
+ Example: semkit read --text "растаможка" --text "таможенное оформление" synonym-candidates
+ --source ruwordnet write -
+ -> растаможка, таможенное оформление, ruwordnet, 1.0, true; таможенное оформление, растаможка,
+ ruwordnet, 1.0, true
+
  source: the data to take candidates from, pulled once with `semkit models pull NAME`: ruwordnet
  (the thesaurus), navec (the word vectors) or both.
 
@@ -32,8 +37,6 @@
  working one. Its candidates are for the Human to pick; the picked go to --synonyms of the steps
  that take them. A candidate may have several words, and so may a unit; --as-synonyms keeps the
  words of one word only.
-
- Example: semkit read customs.csv synonym-candidates --all --source ruwordnet write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --top                <int>                   how many of the nearest words the word vectors give │

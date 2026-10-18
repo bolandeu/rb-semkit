@@ -1,6 +1,6 @@
 {
   "name": "split-digits",
-  "description": "A separator between digits and the text glued to them: «iphone13pro» → «iphone 13 pro». Digits and text already apart stay as they are; a size N×M (the x latin or cyrillic, in any case) stays whole («диван140х200» → «диван 140х200»).\n\nsep: the separator; with \"|\" «a1b22» → «a|1|b|22».\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv split-digits write out.csv",
+  "description": "The phrase with a separator between digits and the text glued to them.\n\n«iphone13pro» → «iphone 13 pro». Digits and text already apart stay as they are; a size N×M (the x latin or cyrillic, in any case) stays whole («диван140х200» → «диван 140х200»).\n\nsep: the separator; with \"|\" «a1b22» → «a|1|b|22».\n\nExample: semkit read --text \"iphone13pro\" --text \"диван140х200\" split-digits write -\n-> iphone 13 pro; диван 140х200\nExample: semkit read --text \"a1b22\" split-digits --sep \"|\" write -\n-> a|1|b|22\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.",
   "options": [
     {
       "name": "--sep",

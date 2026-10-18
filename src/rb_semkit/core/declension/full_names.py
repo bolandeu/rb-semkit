@@ -102,7 +102,9 @@ def decline_full_name(
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """A full name «Фамилия Имя Отчество» declined: «Иванов Сергей Петрович» genitive → «Иванова Сергея Петровича».
+    """A full name «Фамилия Имя Отчество» put in the given case.
+
+    The name «Иванов Сергей Петрович» in the genitive is «Иванова Сергея Петровича».
 
     case: "genitive", "dative", "accusative", "instrumental" or "prepositional".
 
@@ -110,6 +112,11 @@ def decline_full_name(
     The surname declines by its ending («-ов», «-ин», «-ой», «-ская»…), the name and the patronymic as nouns; a surname
     in «-ых» or «-их» stays («Белых»), a man's surname in «-а» or «-я» declines («Глинка» → «Глинки»). The result has
     a capital in each word. An empty cell and a value that is not three words stay as they are.
+
+    Example: {cli} read --text "Иванов Сергей Петрович" decline-full-name genitive write -
+    -> Иванова Сергея Петровича
+    Example: {cli} read --text "Петрова Анна Ивановна" decline-full-name instrumental write -
+    -> Петровой Анной Ивановной
     """
     index = NAME_CASES.index(choice("case", case, NAME_CASES))
     frame = Frame(data, column, inplace)

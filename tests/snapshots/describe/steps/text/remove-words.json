@@ -1,6 +1,6 @@
 {
   "name": "remove-words",
-  "description": "Whole words of a phrase equal to the items of a list, compared in any case and with ё as е.\n\nitems: the words to find.\nmode: \"any\" — any of the words; \"all\" — only phrases holding every one of them.\nwhere: \"anywhere\", \"start\" (the first word only) or \"end\" (the last word only).\nignore_punct: punctuation at the edges of a word does not count («диван,» is «диван»).\n\nlemmas: compare the lemmas of the words (the bundled dictionary): «дешевые диваны» is «дешевый диван».\n\nremove-words removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-words @stop/wordstat write out.csv",
+  "description": "Whole words of a phrase equal to the items of a list, compared in any case and with ё as е.\n\nitems: the words to find.\nmode: \"any\" — any of the words; \"all\" — only phrases holding every one of them.\nwhere: \"anywhere\", \"start\" (the first word only) or \"end\" (the last word only).\nignore_punct: punctuation at the edges of a word does not count («диван,» is «диван»).\n\nExample: semkit read --text \"купить диван недорого\" remove-words купить,недорого write -\n-> диван\n\nlemmas: compare the lemmas of the words (the bundled dictionary): «дешевые диваны» is «дешевый диван».\n\nremove-words removes what the matcher finds from the working column.",
   "options": [
     {
       "name": "--items",

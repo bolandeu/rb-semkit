@@ -24,9 +24,9 @@ def parse_html(
     drop_attributes: bool = False,
     column: str | None = None,
 ) -> pd.DataFrame:
-    """The pages of the column as columns: text, links, all, main, title, description, h1. One row per page.
+    """The pages of the column as columns: text, links, all, main, title, description, h1.
 
-    A cell is the HTML of one page. A cell that is empty or has no tag (a plain text) gets empty columns. The columns
+    One row per page. A cell is the HTML of one page. A cell that is empty or has no tag (a plain text) gets empty columns. The columns
     are added right after the column of the pages.
 
     The page must hold its text in its HTML: a page built by JavaScript has none, so give the rendered HTML.
@@ -40,6 +40,9 @@ def parse_html(
 
     drop_noindex: leave out the text of <noindex> (the tag and the <!--noindex--> comments); by default it counts.
     drop_attributes: leave out the alt and title attributes; by default their text counts.
+
+    Example: {cli} read --text "<title>Диваны</title><h1>Диваны</h1><p>Купить диван</p>" parse-html write -
+    -> <title>Диваны</title><h1>Диваны</h1><p>Купить диван</p>, Диваны Купить диван, , Диваны Купить диван, Диваны Купить диван, Диваны, , Диваны
     """
 
     def page_of(cell: str) -> tuple:

@@ -38,5 +38,8 @@ def edges(start: str = "", end: str = "") -> Edges:
 
     Characters inside a word stay («wi-fi»); a word of only those characters disappears. The result has single spaces,
     none at the edges.
+
+    Example: {cli} read --text "!диван! кресло?" remove-edges --start "!" --end "!?" write -
+    -> диван кресло
     """
     return Edges(start, end)

@@ -28,6 +28,9 @@ def stopwords(extra: Iterable[str] | None = None) -> Stopwords:
     A word is compared as written: «и,» with its comma is no stopword. Case and ё do not count.
     extra: your own words, taken together with the bundled list.
 
+    Example: {cli} read --text "купить диван в москве" remove-stopwords write -
+    -> купить диван москве
+
     ADR 0005: stopwords in any case; ё = е; split on any whitespace; no double spaces; the junk word «g» dropped.
     """
     return Stopwords(extra)

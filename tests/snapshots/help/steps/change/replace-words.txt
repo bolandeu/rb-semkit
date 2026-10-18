@@ -1,21 +1,23 @@
 
  Usage: semkit read [IN] replace-words [OPTIONS] [PAIRS]
 
- Whole words and phrases of the phrase replaced by pairs (what to find → its replacement); case and
- ё do not count. Longer phrases go first: «стиральная машинка» → «стиральная машина» before
- «машинка» → «машина». Punctuation at the edges of the found words stays around the replacement
- («диван,» → «софа,»); an empty replacement deletes the words with that punctuation («купить диван,
- недорого» → «купить недорого»).
+ The phrase with whole words and phrases replaced by pairs (what to find → its replacement).
+
+ Case and ё do not count. Longer phrases go first: «стиральная машинка» → «стиральная машина»
+ before «машинка» → «машина». Punctuation at the edges of the found words stays around the
+ replacement («диван,» → «софа,»); an empty replacement deletes the words with that punctuation
+ («купить диван, недорого» → «купить недорого»).
 
  case: "new" — the replacement as given; "keep" — in the case of the first word it replaces (lower,
  capitalised, upper; a word of mixed case keeps the replacement as given).
+
+ Example: semkit read --text "купить диван, недорого" replace-words pairs.csv write -
+ -> купить софа, недорого
 
  pairs: a file of two columns, what to find and its replacement; the first row is the header, the
  file is read like `read` does.
 
  The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
-
- Example: semkit read core.csv replace-words --pairs pairs.csv write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   PAIRS      <str>  a file of two columns, what to find and its replacement; the first row is    │

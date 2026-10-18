@@ -33,6 +33,9 @@ def split_paragraphs(data: pd.Series, *, urls: pd.Series | None = None) -> pd.Da
     A paragraph is a block between empty lines; the lines of a block are joined by a space. A heading line (a short
     line without a sentence end: . ! ? …, followed by text) is a paragraph of its own. Spaces at the ends are trimmed;
     an empty text gives no rows. The columns: url, number (from 1 in each text) and paragraph.
+
+    Example: {cli} read --whole article.txt split-paragraphs write -
+    -> , 1, Купить диван в Москве. Диван угловой, диван недорогой. Углы дивана и кресла.
     """
     given = pd.Series("", index=data.index) if urls is None else urls.reindex(data.index).fillna("").astype(str)
     rows = [

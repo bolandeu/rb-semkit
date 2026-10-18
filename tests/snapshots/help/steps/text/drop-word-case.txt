@@ -6,9 +6,10 @@
  kind: "lower" (no capital letter: «x5»); "Capital" (each run of letters starts with a capital, the
  rest small: «Москве», not «iPhone» or «Из-за»); "CAPS" (no small letter: «BMW», «В»).
 
- drop-word-case drops the rows where the matcher finds something in the working column.
+ Example: semkit read --text "купить Диван" --text "кресло" drop-word-case Capital write -
+ -> кресло
 
- Example: semkit read core.csv drop-word-case Capital write out.csv
+ drop-word-case drops the rows where the matcher finds something in the working column.
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <lower|Capital|CAPS>  "lower" (no capital letter: «x5»); "Capital" (each run of      │

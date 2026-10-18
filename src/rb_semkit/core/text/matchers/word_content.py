@@ -55,6 +55,17 @@ def word_content(kind: ContentKind, pattern: str | Iterable[str] | None = None) 
     pattern: for "starts", "ends" and "contains", a word part or a list of them, any one is enough; case and ё do not
     count.
 
+    Example: {cli} read --text "диван ikea" --text "кресло" find-word-content only_latin write -
+    -> диван ikea, true; кресло, false
+    Example: {cli} read --text "диван ikea" remove-word-content only_latin write -
+    -> диван
+    Example: {cli} read --text "диван ikea" extract-word-content only_latin write -
+    -> ikea
+    Example: {cli} read --text "диван ikea" --text "кресло" keep-word-content only_latin write -
+    -> диван ikea
+    Example: {cli} read --text "диван ikea" --text "кресло" drop-word-content only_latin write -
+    -> кресло
+
     ADR 0005: ё = е in the patterns; split on any whitespace; blank list items are refused.
     """
     return WordContent(kind, pattern)

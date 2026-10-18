@@ -54,6 +54,17 @@ def regex(pattern: str, *, all_matches: bool = False, invert: bool = False) -> R
 
     find marks the phrases where the pattern matches; remove cuts out every match; extract gives the first match.
 
+    Example: {cli} read --text "диван 120x200" --text "кресло" find-regex "\\d+" write -
+    -> диван 120x200, true; кресло, false
+    Example: {cli} read --text "диван 120x200" remove-regex "\\d+x\\d+" write -
+    -> диван
+    Example: {cli} read --text "диван 120x200" extract-regex "\\d+x\\d+" write -
+    -> 120x200
+    Example: {cli} read --text "диван 120x200" --text "кресло" keep-regex "\\d+" write -
+    -> диван 120x200
+    Example: {cli} read --text "диван 120x200" --text "кресло" drop-regex "\\d+" write -
+    -> кресло
+
     ADR 0005: \\w, \\b and \\d understand Cyrillic (Unicode); no double spaces in the results.
     """
     return Regex(pattern, all_matches=all_matches, invert=invert)

@@ -31,6 +31,9 @@ def bm25(
     query: the query, a phrase.
     k1: how fast the score of a term saturates with its count (usually 1.2..2).
     b: how much the length of a text lowers the score, 0..1 (0: not at all).
+
+    Example: {cli} read texts.csv bm25 "угловой диван" write -
+    -> Диван угловой и кресло. Купить диван недорого., 0.8806; Кресло и диван, диван кожаный., 0.2784
     """
     if not isinstance(query, str):
         raise InvalidArguments(f"query is a {type(query).__name__}; allowed: a text (a str).")

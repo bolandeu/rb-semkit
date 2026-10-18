@@ -76,6 +76,17 @@ def chars(kind: CharKind) -> Chars:
     extract keeps latin, cyrillic and digits with the whitespace between them («120x200» → «120200»); for the other
     kinds it gives the runs joined by a space.
 
+    Example: {cli} read --text "диван 120x200" --text "кресло" find-chars digits write -
+    -> диван 120x200, true; кресло, false
+    Example: {cli} read --text "диван 120x200" remove-chars digits write -
+    -> диван x
+    Example: {cli} read --text "диван 120x200" extract-chars digits write -
+    -> 120200
+    Example: {cli} read --text "диван 120x200" --text "кресло" keep-chars digits write -
+    -> диван 120x200
+    Example: {cli} read --text "диван 120x200" --text "кресло" drop-chars digits write -
+    -> кресло
+
     ADR 0005: whitespace of any kind counts as a space; no double spaces in the results; ua is the letters і ї є ґ,
     not the add-in's 31-item list, whose endings catch Russian words («кровати»).
     """

@@ -6,6 +6,13 @@
  action: mark_except_first (true for each duplicate, false for the first of its group), mark_all
  (true for every member of a group of 2 or more), drop (keep the first, drop the rest).
 
+ Example: semkit read --text "купить диван" --text "диван купить" --text "кресло" dupes lemmas
+ --action mark_except_first write -
+ -> купить диван, false; диван купить, true; кресло, false
+ Example: semkit read --text "купить диван" --text "диван купить" --text "кресло" dupes implicit
+ --action drop write -
+ -> купить диван; кресло
+
  kind: exact (the same text), explicit (the same in any case, with ё as е and any spaces), implicit
  (the same words in another order), lemmas (the same lemmas in any order) or meaning (close phrase
  vectors, and the words that differ are only non-refining words, synonyms or the home city).
@@ -25,8 +32,6 @@
  drop it keeps only the first row of each group. With --kind meaning it also adds the columns
  dupe_of (the first row of the group, the phrase kept) and similarity (the cosine to it) next to
  it.
-
- Example: semkit read core.csv dupes lemmas --action mark_except_first write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <exact|explicit|implicit|lemmas|meaning>  exact (the same text), explicit (the same  │

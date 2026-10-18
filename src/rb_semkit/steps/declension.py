@@ -32,14 +32,13 @@ def _prepare_irrelevant(options: dict) -> Prepared:
 
 STEPS = [
     *(change_step(function) for function in (decline, decline_noun, decline_adjective)),
-    change_step(decline_full_name, source="names.csv"),
+    change_step(decline_full_name),
     Step(
         "agree",
         agree,
         "change",
         _prepare_agree,
         f"{CHANGE_NOTE} The column agree_note goes right after it.",
-        source="combinations.csv",
     ),
     Step(
         "irrelevant-words",
@@ -48,7 +47,7 @@ STEPS = [
         _prepare_irrelevant,
         "The step reads the working column; the table replaces the current one, its column word is the working one.",
     ),
-    *matcher_steps(ready_pattern, "domain"),
+    *matcher_steps(ready_pattern),
     *matcher_steps(complements),
-    *matcher_steps(phrase_end, "prepositions"),
+    *matcher_steps(phrase_end),
 ]

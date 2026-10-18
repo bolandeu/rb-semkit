@@ -11,10 +11,11 @@
 
  remove gives the other words.
 
+ Example: semkit read --text "купить диван недорого" extract-word-position --last 1 write -
+ -> недорого
+
  extract-word-position keeps only what the matcher finds in the working column; an empty cell where
  it finds nothing.
-
- Example: semkit read core.csv extract-word-position --nth 3 write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --first            <int>  the first or last N words.                                             │

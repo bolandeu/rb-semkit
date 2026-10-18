@@ -6,9 +6,12 @@
  what: "chars" — its characters («абв 12» → «21 вба»); "words" — its words, joined by one space
  («купить диван москва» → «москва диван купить»).
 
- The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
+ Example: semkit read --text "абв 12" reverse write -
+ -> 21 вба
+ Example: semkit read --text "купить диван москва" reverse --what words write -
+ -> москва диван купить
 
- Example: semkit read core.csv reverse write out.csv
+ The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --what        <chars|words>  "chars" — its characters («абв 12» → «21 вба»); "words" — its       │

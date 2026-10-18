@@ -1,6 +1,6 @@
 {
   "name": "extract-positions",
-  "description": "The first characters of a phrase, or the last ones (remove and extract).\n\ncount: how many characters.\nlast: the last characters; by default the first.\n\nremove gives an empty cell when the phrase has that many characters or fewer; extract then gives the whole phrase.\n\nextract-positions keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-positions 2 write out.csv",
+  "description": "The first characters of a phrase, or the last ones (remove and extract).\n\ncount: how many characters.\nlast: the last characters; by default the first.\n\nremove gives an empty cell when the phrase has that many characters or fewer; extract then gives the whole phrase.\n\nExample: semkit read --text \"купить диван\" extract-positions 6 write -\n-> купить\n\nextract-positions keeps only what the matcher finds in the working column; an empty cell where it finds nothing.",
   "options": [
     {
       "name": "--count",

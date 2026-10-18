@@ -28,6 +28,9 @@ def cluster_meaning(
     first row. A phrase without neighbours is a cluster of one. Equal phrases are one phrase. The clusters are numbered
     in the order of their first rows. The columns: cluster, cluster_name and similarity (of the phrase to the name of
     its cluster, 4 places); an empty cell gets none. The table tells the index it searched in `attrs["index"]`.
+
+    Example: {cli} read --text "купить диван" --text "кошачий корм" --text "купить диван" cluster-meaning write -
+    -> купить диван, 1, купить диван, 1.0; кошачий корм, 2, кошачий корм, 1.0; купить диван, 1, купить диван, 1.0
     """
     texts = data.fillna("").astype(str)
     phrases = pd.Index(pd.unique(texts[texts != ""]))

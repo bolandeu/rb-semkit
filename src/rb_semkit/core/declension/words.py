@@ -18,7 +18,9 @@ def decline_noun(
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """Each word of a phrase, a noun in the nominative singular, declined: «диван» genitive → «дивана».
+    """Each word of a phrase, taken as a noun in the nominative singular, put in the given case.
+
+    The word «диван» in the genitive is «дивана».
 
     case: "nominative", "genitive", "dative", "accusative", "instrumental" or "prepositional".
     number: "singular" or "plural" (12 forms in all; the nominative singular is the word itself).
@@ -28,6 +30,9 @@ def decline_noun(
     The accusative goes by animacy: an inanimate noun takes its nominative («диван» → «диван»), an animate one its
     genitive («кот» → «кота»), a singular in «-а» or «-я» the form of the tables («книга» → «книгу»). A hyphenated noun
     declines whole («диван-кровать» instrumental → «диваном-кроватью»).
+
+    Example: {cli} read --text "диван" --text "кот" decline-noun genitive write -
+    -> дивана; кота
     """
     index = form_index(case, number)
     return word_by_word(data, lambda word: noun_form(word, index), "decline_noun", column, inplace)
@@ -42,7 +47,9 @@ def decline_adjective(
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """Each word of a phrase, an adjective in the masculine nominative singular, declined: «красный» → «красного».
+    """Each word of a phrase, taken as an adjective in the masculine nominative singular, put in the given case.
+
+    The word «красный» in the genitive is «красного».
 
     case: "nominative", "genitive", "dative", "accusative", "instrumental" or "prepositional".
     gender: "masculine", "feminine" or "neuter", for the singular.
@@ -51,6 +58,11 @@ def decline_adjective(
     16 forms in all: «красный», «красного», «красному», «красный», «красным», «красном»; «красная», «красной»,
     «красную»; «красное»; «красные», «красных», «красным», «красные», «красными», «красных». The masculine
     accusative is the inanimate one. A word with a capital keeps it; a word whose ending the tables lack stays.
+
+    Example: {cli} read --text "красный" --text "новый" decline-adjective genitive write -
+    -> красного; нового
+    Example: {cli} read --text "красный" decline-adjective dative --number plural write -
+    -> красным
     """
     index = adjective_index(case, gender, number)
     return word_by_word(data, lambda word: adjective_form(word, index), "decline_adjective", column, inplace)

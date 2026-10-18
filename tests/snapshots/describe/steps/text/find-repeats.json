@@ -1,6 +1,6 @@
 {
   "name": "find-repeats",
-  "description": "Words that repeat an earlier word of the phrase (find and remove; remove keeps the first one).\n\nmode: \"exact\" — the same word (case and ё do not count, punctuation does: «диван, диван» has no repeat); \"wordforms\" — the same lemma.\nscope: \"all\" words; only \"adjacent\" repeats («диван диван»); only words with a latin (\"en\") or a cyrillic (\"ru\") letter («iphone13», «wi-fi-роутер»); only \"numbers\" («2», «1,5»).\n\nfind-repeats marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-repeats write out.csv",
+  "description": "Words that repeat an earlier word of the phrase (find and remove; remove keeps the first one).\n\nmode: \"exact\" — the same word (case and ё do not count, punctuation does: «диван, диван» has no repeat); \"wordforms\" — the same lemma.\nscope: \"all\" words; only \"adjacent\" repeats («диван диван»); only words with a latin (\"en\") or a cyrillic (\"ru\") letter («iphone13», «wi-fi-роутер»); only \"numbers\" («2», «1,5»).\n\nExample: semkit read --text \"диван купить диван\" --text \"кресло\" find-repeats write -\n-> диван купить диван, true; кресло, false\n\nfind-repeats marks the rows where the matcher finds something, in a new column <column>_find of true and false.",
   "options": [
     {
       "name": "--mode",

@@ -13,9 +13,10 @@
  кровать»). extract keeps latin, cyrillic and digits with the whitespace between them («120x200» →
  «120200»); for the other kinds it gives the runs joined by a space.
 
- drop-chars drops the rows where the matcher finds something in the working column.
+ Example: semkit read --text "диван 120x200" --text "кресло" drop-chars digits write -
+ -> кресло
 
- Example: semkit read core.csv drop-chars latin write out.csv
+ drop-chars drops the rows where the matcher finds something in the working column.
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <latin|cyrillic|digits|letters_digits|pun  "latin" (A-Z a-z), "cyrillic" (А..ӿ and   │

@@ -60,5 +60,10 @@ def phrase_end(kind: Kind) -> PhraseEnd:
     or "buy_markers" (the words of the bundled list «sale», whole phrases of it too: «диван купить недорого» →
     «диван»; a marker right after a preposition stays: «диван с доставкой купить» → «диван с доставкой»). Words compare
     in any case, ё as е, as written («для,» with its comma stays). A phrase of such words only becomes an empty cell.
+
+    Example: {cli} read --text "диван в и" remove-phrase-end prepositions write -
+    -> диван
+    Example: {cli} read --text "диван купить недорого" --text "диван с доставкой купить" remove-phrase-end buy_markers write -
+    -> диван; диван с доставкой
     """
     return PhraseEnd(kind)

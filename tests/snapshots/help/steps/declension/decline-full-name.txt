@@ -1,8 +1,9 @@
 
  Usage: semkit read [IN] decline-full-name [OPTIONS] [CASE]
 
- A full name «Фамилия Имя Отчество» declined: «Иванов Сергей Петрович» genitive → «Иванова Сергея
- Петровича».
+ A full name «Фамилия Имя Отчество» put in the given case.
+
+ The name «Иванов Сергей Петрович» in the genitive is «Иванова Сергея Петровича».
 
  case: "genitive", "dative", "accusative", "instrumental" or "prepositional".
 
@@ -12,9 +13,12 @@
  declines («Глинка» → «Глинки»). The result has a capital in each word. An empty cell and a value
  that is not three words stay as they are.
 
- The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
+ Example: semkit read --text "Иванов Сергей Петрович" decline-full-name genitive write -
+ -> Иванова Сергея Петровича
+ Example: semkit read --text "Петрова Анна Ивановна" decline-full-name instrumental write -
+ -> Петровой Анной Ивановной
 
- Example: semkit read names.csv decline-full-name genitive write out.csv
+ The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   CASE      <genitive|dative|accusative|instrumental|  "genitive", "dative", "accusative",       │

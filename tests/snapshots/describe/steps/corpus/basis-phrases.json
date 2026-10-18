@@ -1,6 +1,6 @@
 {
   "name": "basis-phrases",
-  "description": "Each phrase that is a basis of the core, or an empty cell for the others: a basis holds no smaller phrase of the core.\n\nA phrase is a basis when it is the first with its set of words and no other phrase of the core has some of its words only: «купить диван», «диван», «диван купить» → «», «диван», «». Words are compared in any case and with ё as е.\nlemmas: compare the lemmas of the words («диваны» is «диван»).\nstopwords: on, the stopwords count; off (--no-stopwords), they are left out of the comparison, and a phrase of stopwords only keeps them.\n\nThe step writes its result to a new column <column>_basis.\n\nExample: semkit read core.csv basis-phrases write out.csv",
+  "description": "Each phrase that is a basis of the core, or an empty cell for the others: a basis holds no smaller phrase of the core.\n\nA phrase is a basis when it is the first with its set of words and no other phrase of the core has some of its words only: «купить диван», «диван», «диван купить» → «», «диван», «». Words are compared in any case and with ё as е.\nlemmas: compare the lemmas of the words («диваны» is «диван»).\nstopwords: on, the stopwords count; off (--no-stopwords), they are left out of the comparison, and a phrase of stopwords only keeps them.\n\nExample: semkit read --text \"купить диван\" --text \"диван\" --text \"диван купить\" basis-phrases write -\n-> купить диван, ; диван, диван; диван купить,\n\nThe step writes its result to a new column <column>_basis.",
   "options": [
     {
       "name": "--lemmas",

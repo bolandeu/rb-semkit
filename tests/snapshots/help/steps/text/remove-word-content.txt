@@ -10,9 +10,10 @@
  pattern: for "starts", "ends" and "contains", a word part or a list of them, any one is enough;
  case and ё do not count.
 
- remove-word-content removes what the matcher finds from the working column.
+ Example: semkit read --text "диван ikea" remove-word-content only_latin write -
+ -> диван
 
- Example: semkit read core.csv remove-word-content starts --pattern куп write out.csv
+ remove-word-content removes what the matcher finds from the working column.
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <starts|ends|contains|only_latin|has_lat  "starts", "ends", "contains" (with         │

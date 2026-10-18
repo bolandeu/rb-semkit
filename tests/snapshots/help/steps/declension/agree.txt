@@ -1,7 +1,9 @@
 
  Usage: semkit read [IN] agree [OPTIONS]
 
- The words of each phrase put in agreement: «растаможить машина» → «растаможить машину».
+ The words of each phrase put in agreement.
+
+ The phrase «растаможить машина» becomes «растаможить машину».
 
  The rules go by neighbouring words, with no syntax parser:
  - a verb, then a noun group: the group in the accusative, by animacy as decline does («купить
@@ -28,10 +30,11 @@
  a step by meaning (`semkit read variants.csv linear-combinations agree nearest --against
  page_texts.csv`).
 
+ Example: semkit read --text "купить рыжий кот" --text "машина купить" agree write -
+ -> купить рыжего кота, ; машина купить, no rule for «машина купить»
+
  The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
  The column agree_note goes right after it.
-
- Example: semkit read combinations.csv agree write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --as          NAME  Write the result to a new column NAME and keep the working column as it is.  │

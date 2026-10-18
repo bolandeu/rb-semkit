@@ -48,6 +48,9 @@ def compare_lists(
 
     A phrase keeps the spelling of its first occurrence and comes once; the order is the input order. Empty cells are
     never phrases.
+
+    Example: {cli} read phrases.csv compare-lists second.csv write -
+    -> купить диван; кресло; диван недорого
     """
     if op not in OPS:
         raise InvalidArguments(f"op: {op!r} is not an operation; allowed: {', '.join(OPS)}.")

@@ -1,6 +1,6 @@
 {
   "name": "reverse",
-  "description": "The phrase backwards.\n\nwhat: \"chars\" — its characters («абв 12» → «21 вба»); \"words\" — its words, joined by one space («купить диван москва» → «москва диван купить»).\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv reverse write out.csv",
+  "description": "The phrase backwards.\n\nwhat: \"chars\" — its characters («абв 12» → «21 вба»); \"words\" — its words, joined by one space («купить диван москва» → «москва диван купить»).\n\nExample: semkit read --text \"абв 12\" reverse write -\n-> 21 вба\nExample: semkit read --text \"купить диван москва\" reverse --what words write -\n-> москва диван купить\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.",
   "options": [
     {
       "name": "--what",

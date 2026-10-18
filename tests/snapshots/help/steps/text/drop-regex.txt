@@ -12,9 +12,10 @@
  find marks the phrases where the pattern matches; remove cuts out every match; extract gives the
  first match.
 
- drop-regex drops the rows where the matcher finds something in the working column.
+ Example: semkit read --text "диван 120x200" --text "кресло" drop-regex "\d+" write -
+ -> кресло
 
- Example: semkit read core.csv drop-regex '\d+' write out.csv
+ drop-regex drops the rows where the matcher finds something in the working column.
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   PATTERN      <str>  the regular expression; \w, \b and \d take Cyrillic letters too. The same  │

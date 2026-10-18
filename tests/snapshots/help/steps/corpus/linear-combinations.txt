@@ -11,10 +11,12 @@
  refused, and so is a column named phrase.
  limit: the most rows the result may hold; a larger result is refused before any is made.
 
+ Example: semkit read combine.csv linear-combinations write -
+ -> купить диван, купить, диван; купить кресло, купить, кресло; заказать диван, заказать, диван;
+ заказать кресло, заказать, кресло
+
  The step makes a table of its result; it replaces the current table, its first text column is the
  working one.
-
- Example: semkit read combine.csv linear-combinations --limit 1000 write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --limit        <int>  the most rows the result may hold; a larger result is refused before any   │

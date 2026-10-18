@@ -63,7 +63,5 @@ STEPS = [
         _prepare,
         "The step reads the current table, a SERP with the columns phrase, position and url; the table of the"
         " clusters replaces it, its column phrase is the working one.",
-        source="serp.csv",
-        example="--freq freq.csv",
     )
 ]

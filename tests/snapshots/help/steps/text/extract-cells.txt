@@ -1,8 +1,10 @@
 
  Usage: semkit read [IN] extract-cells [OPTIONS] [KIND]
 
- A whole cell is found or not. remove clears a found cell (with "empty", it drops the rows);
- extract keeps the cell, or an empty cell if not found.
+ Whole cells that are found or not.
+
+ remove clears a found cell (with "empty", it drops the rows); extract keeps the cell, or an empty
+ cell if not found.
 
  kind: "contains", "starts", "ends" (with items: text parts, case and ё do not count; or with
  prepositions: the first, the last or any word is a bundled preposition, as written, «для,» is
@@ -14,10 +16,12 @@
  prepositions: for "contains", "starts" and "ends", look for a bundled preposition instead of
  items.
 
+ Example: semkit read --text "купить диван" --text "кресло" extract-cells contains --items диван
+ write -
+ -> купить диван;
+
  extract-cells keeps only what the matcher finds in the working column; an empty cell where it
  finds nothing.
-
- Example: semkit read core.csv extract-cells contains --items бесплатно,скачать write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <contains|starts|ends|regex|empty|unique|  "contains", "starts", "ends" (with items: │

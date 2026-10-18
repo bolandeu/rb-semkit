@@ -12,9 +12,10 @@
  find marks the phrases where the pattern matches; remove cuts out every match; extract gives the
  first match.
 
- keep-regex keeps only the rows where the matcher finds something in the working column.
+ Example: semkit read --text "диван 120x200" --text "кресло" keep-regex "\d+" write -
+ -> диван 120x200
 
- Example: semkit read core.csv keep-regex '\d+' write out.csv
+ keep-regex keeps only the rows where the matcher finds something in the working column.
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   PATTERN      <str>  the regular expression; \w, \b and \d take Cyrillic letters too. The same  │

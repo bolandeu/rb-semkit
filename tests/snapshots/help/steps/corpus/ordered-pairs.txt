@@ -7,10 +7,11 @@
  (n - 1) pairs.
  limit: the most pairs the result may hold; a larger result is refused before any is made.
 
+ Example: semkit read --text "диван" --text "кресло" ordered-pairs write -
+ -> диван, кресло; кресло, диван
+
  The step makes a table of its result; it replaces the current table, its first text column is the
  working one.
-
- Example: semkit read core.csv ordered-pairs --limit 1000 write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --limit        <int>  the most pairs the result may hold; a larger result is refused before any  │

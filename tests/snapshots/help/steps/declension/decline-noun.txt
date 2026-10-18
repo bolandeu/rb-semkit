@@ -1,7 +1,9 @@
 
  Usage: semkit read [IN] decline-noun [OPTIONS] [CASE]
 
- Each word of a phrase, a noun in the nominative singular, declined: «диван» genitive → «дивана».
+ Each word of a phrase, taken as a noun in the nominative singular, put in the given case.
+
+ The word «диван» in the genitive is «дивана».
 
  case: "nominative", "genitive", "dative", "accusative", "instrumental" or "prepositional".
  number: "singular" or "plural" (12 forms in all; the nominative singular is the word itself).
@@ -13,9 +15,10 @@
  form of the tables («книга» → «книгу»). A hyphenated noun declines whole («диван-кровать»
  instrumental → «диваном-кроватью»).
 
- The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
+ Example: semkit read --text "диван" --text "кот" decline-noun genitive write -
+ -> дивана; кота
 
- Example: semkit read core.csv decline-noun nominative write out.csv
+ The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   CASE      <nominative|genitive|dative|accusative|i  "nominative", "genitive", "dative",        │

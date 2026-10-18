@@ -203,7 +203,9 @@ def _agreement(phrase: str) -> tuple[str, str]:
 
 
 def agree(data: pd.Series | pd.DataFrame, *, column: str | None = None) -> pd.DataFrame:
-    """The words of each phrase put in agreement: «растаможить машина» → «растаможить машину».
+    """The words of each phrase put in agreement.
+
+    The phrase «растаможить машина» becomes «растаможить машину».
 
     The rules go by neighbouring words, with no syntax parser:
     - a verb, then a noun group: the group in the accusative, by animacy as decline does («купить рыжий кот» →
@@ -225,6 +227,9 @@ def agree(data: pd.Series | pd.DataFrame, *, column: str | None = None) -> pd.Da
     reason a phrase stays as it is (empty when it agrees); the two columns go right after the column of the phrases.
     A core from word variants: linear-combinations, then agree, then a step by meaning (`semkit read variants.csv
     linear-combinations agree nearest --against page_texts.csv`).
+
+    Example: {cli} read --text "купить рыжий кот" --text "машина купить" agree write -
+    -> купить рыжего кота, ; машина купить, no rule for «машина купить»
     """
     frame = Frame(data, column)
     found = map_unique(frame.phrases, _agreement)

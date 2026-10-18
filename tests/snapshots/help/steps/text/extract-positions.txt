@@ -9,10 +9,11 @@
  remove gives an empty cell when the phrase has that many characters or fewer; extract then gives
  the whole phrase.
 
+ Example: semkit read --text "купить диван" extract-positions 6 write -
+ -> купить
+
  extract-positions keeps only what the matcher finds in the working column; an empty cell where it
  finds nothing.
-
- Example: semkit read core.csv extract-positions 2 write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   COUNT      <int>  how many characters. The same as --count COUNT.                              │

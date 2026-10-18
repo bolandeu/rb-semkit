@@ -18,7 +18,6 @@ from __future__ import annotations
 import collections.abc
 import inspect
 import re
-import shlex
 import typing
 from collections.abc import Callable, Collection
 from dataclasses import dataclass, replace
@@ -33,7 +32,7 @@ from typer.core import TyperCommand
 
 from .. import output
 from ..core import wordlists
-from ..core.docs import ARGUMENT_LINE, LIST_ITEM, argument_names, doc_lines
+from ..core.docs import ARGUMENT_LINE, EXAMPLE, LIST_ITEM, argument_names, doc_lines
 from ..core.errors import InvalidArguments
 from ..core.version import cli_name
 from ..steps import POSITIONAL, REPEATED, Prepared, Step, parameter_names, project_start
@@ -43,26 +42,6 @@ from .state import Planned
 TABLE_ARGUMENTS = frozenset({"data", "column", "inplace"})
 PLAIN_TYPES = (bool, int, float, str)
 ITEM_TYPES = (collections.abc.Iterable, list, tuple)
-# The files of tests/steps/fixtures that an example reads, by the option that takes the file.
-FILE_EXAMPLES = {
-    "against": "texts.csv",
-    "competitors": "competitors.csv",
-    "freq": "freq.csv",
-    "pairs": "pairs.csv",
-    "synonyms": "synonyms.csv",
-    "dictionary": "dictionary.csv",
-}
-LIST_EXAMPLE = "@minus/universal"
-NAME_EXAMPLES = {
-    "what": "words",
-    "to": "en",
-    "tag": "source",
-    "pattern": r"\d+",
-    "query": "купить диван",
-    "case": "genitive",
-    "word": "диван",
-}
-PLAIN_EXAMPLES = {str: "купить", int: "2", float: "0.5"}
 AS_HELP = "Write the result to a new column NAME and keep the working column as it is."
 MISSING_HELP = "See the description above."
 POSITIONAL_PREFIX = "positional_"  # the parameter of the command that takes the first required argument positionally
@@ -120,19 +99,6 @@ class StepOption:
                 f"{self.metavar()}: not given; allowed: {self.metavar()} or {self.flag()} {self.metavar()}."
             )
         return argument if option is None else option
-
-    def example(self) -> str:
-        """The option as a runnable example: a file shows a file, a list a bundled list, a choice one of its values."""
-        choices = typing.get_args(self.annotation) if typing.get_origin(self.annotation) is Literal else ()
-        file = FILE_EXAMPLES.get(self.name)
-        value = file or (choices[0] if choices else self._example_value())
-        text = str(value) if re.fullmatch(r"[\w@/.,+=:-]+", str(value)) else shlex.quote(str(value))
-        return text if self.positional and not file else f"{self.flag()} {text}"
-
-    def _example_value(self) -> Any:
-        if self.takes_items:
-            return LIST_EXAMPLE
-        return NAME_EXAMPLES.get(self.name) or PLAIN_EXAMPLES[self.annotation]
 
 
 class ListsHelp(TyperCommand):
@@ -236,15 +202,6 @@ def step_options(function: Callable[..., Any]) -> list[StepOption]:
     return found
 
 
-def _help(step: Step, options: list[StepOption]) -> str:
-    """The help of the step without the lines on arguments it has no option for, then its example."""
-    given = step.example
-    if given is None:
-        given = " ".join(option.example() for option in options if option.default is ...)
-    command = " ".join(part for part in ("{cli} read", step.source, step.name, given, "write out.csv") if part)
-    return f"{shown_help(step, options)}\n\nExample: {command}"
-
-
 def shown_help(step: Step, options: list[StepOption]) -> str:
     """The help of the step as the command line shows it: no line explains an argument the step has no option for."""
     names = {option.name for option in options}
@@ -259,7 +216,7 @@ def shown_help(step: Step, options: list[StepOption]) -> str:
 def _for_options(line: str, names: Collection[str]) -> bool:
     """Whether a line of the help is no explanation of arguments, or explains an option among `names`."""
     found = ARGUMENT_LINE.match(line)
-    return not found or any(name in names for name in argument_names(found))
+    return line.startswith(EXAMPLE) or not found or any(name in names for name in argument_names(found))
 
 
 def _option_parameters(option: StepOption) -> list[inspect.Parameter]:
@@ -347,6 +304,6 @@ def step_command(step: Step) -> Callable[..., Planned]:
     command.__signature__ = inspect.Signature(parameters)  # ty: ignore[unresolved-attribute]
     command.__annotations__ = {parameter.name: parameter.annotation for parameter in parameters}
     command.__name__ = command.__qualname__ = step.name.replace("-", "_")
-    command.__doc__ = _help(step, options)
+    command.__doc__ = shown_help(step, options)
     command.opencli_metadata = {"x-rb-kind": step.kind}  # ty: ignore[unresolved-attribute]
     return output.guard(command)

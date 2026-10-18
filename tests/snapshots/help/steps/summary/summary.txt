@@ -9,10 +9,11 @@
  a numeric column is refused. parse-html, then text-stats, then summary gives the table «all pages:
  mean, median».
 
+ Example: semkit read freq.csv summary write -
+ -> freq, 3, 7.6667, 8, 5, 10
+
  The step reports on the whole current table, whatever the working column is; its table replaces
  the current one.
-
- Example: semkit read core.csv summary write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --help          Show this message and exit.                                                      │

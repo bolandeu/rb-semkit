@@ -12,6 +12,10 @@
  no match left (an empty cell, or every match below the threshold) keeps one row with an empty
  match.
 
+ Example: semkit read --text "кошачий корм" --text "угловой диван" nearest --to "угловой диван"
+ --threshold 0.99 write -
+ -> кошачий корм, , , ; угловой диван, угловой диван, 1, 1.0
+
  against: a file with the texts to match, one per row; the file is read like `read` does. Give it
  or --to, not both.
  to: a text to match; repeat it for each text, the nearest of them first. It stands for an against
@@ -28,8 +32,6 @@
  The step takes the working column as the texts to match; the report replaces the current table. To
  match with a few texts, give them with --to instead of a file: `semkit read phrases.csv nearest
  --to "растаможка авто" --threshold 0.85`.
-
- Example: semkit read core.csv nearest --against page_texts.csv --top 2 write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   AGAINST      <str>  a file with the texts to match, one per row; the file is read like `read`  │

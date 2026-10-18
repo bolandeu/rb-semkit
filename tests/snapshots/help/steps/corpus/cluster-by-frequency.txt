@@ -9,9 +9,11 @@
  out. The cluster lists its words in lower case, the most frequent first, then alphabetically, so
  «купить диван» and «диван купить» make one cluster. A phrase with no such word gets an empty cell.
 
- The step writes its result to a new column <column>_cluster.
+ Example: semkit read --text "купить диван" --text "диван купить" --text "купить кресло"
+ cluster-by-frequency 2 write -
+ -> купить диван, купить диван; диван купить, купить диван; купить кресло, купить
 
- Example: semkit read core.csv cluster-by-frequency 2 write out.csv
+ The step writes its result to a new column <column>_cluster.
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   THRESHOLD      <int>  the fewest phrases a word must stand in to name a cluster. The same as   │

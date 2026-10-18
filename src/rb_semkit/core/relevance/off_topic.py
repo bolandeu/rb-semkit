@@ -30,6 +30,9 @@ def off_topic(
     it; with seed, the mean of the phrase vectors of the seed phrases. The columns: off_topic_score (1 minus the
     similarity of the phrase to the centre, from 0 to 1, 4 places) and off_topic (yes when the similarity is below the
     threshold, else no); an empty cell gets none. No row is dropped.
+
+    Example: {cli} read --text "купить диван" off-topic write -
+    -> купить диван, 0.0, no
     """
     vectors, found = encoded(encoder, data)
     if seed is None:
