@@ -18,9 +18,12 @@ owns_paths:
 - src/rb_semkit/core/vectors/
 - src/rb_semkit/steps/vectors.py
 - src/rb_semkit/steps/coverage_meaning.py
-- src/rb_semkit/steps/ad_groups.py
+- src/rb_semkit/steps/adgroups.py
+- src/rb_semkit/core/adgroups/functions.py
+- src/rb_semkit/commands/models.py
 - docs/plans/vectors.md
 - tests/snapshots/
+- tests/conftest.py
 test_paths:
 - tests/vectors/
 docs:
