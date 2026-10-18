@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.47 — 2026-10-18
+
+### Outside epics
+
+- semkit docs: examples without the command path, inherited options only (InSpectra rules of the template) (SEMKIT-058)
+
 ## v0.1.46 — 2026-10-18
 
 ### Outside epics
