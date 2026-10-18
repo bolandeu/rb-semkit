@@ -5,9 +5,9 @@ a new area needs no edit here (a module without `STEPS`, as `docs_hook`, is no a
 library function whose signature gives the options and whose docstring gives the help, the kind of the step and how to
 prepare it from the options.
 
-Kinds: change (writes the working column, or new columns), filter (keeps or drops rows), report (its table becomes
-the current one). A prepared step takes the current table and the working column and gives its outcome: `Change`,
-`Columns`, `Keep` or `Report`.
+Kinds: change (writes the working column, or new columns), filter (keeps, drops or reorders rows, or switches the
+working column), report (its table becomes the current one). A prepared step takes the current table and the working
+column and gives its outcome: `Change`, `Columns`, `Keep`, `View` or `Report`.
 
 Helpers for the area modules: `change_step` and `changing` make a change step of a function over phrases (`slug`
 names it, `changing` checks its options on no phrases at all); `Adapted` shows a function to the command generator
@@ -105,7 +105,15 @@ class Report:
     table: pd.DataFrame
 
 
-Outcome = Change | Columns | Keep | Report
+@dataclass(frozen=True)
+class View:
+    """The same cells of the table, maybe in another order of rows, and the working column of the next steps."""
+
+    table: pd.DataFrame
+    column: str
+
+
+Outcome = Change | Columns | Keep | View | Report
 Prepared = Callable[[pd.DataFrame, str], Outcome]
 
 

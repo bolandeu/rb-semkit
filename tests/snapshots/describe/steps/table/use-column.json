@@ -1,0 +1,45 @@
+{
+  "name": "use-column",
+  "description": "The column that the next steps work on; the table does not change.\n\nA column that is not in the table is refused, naming the columns there are.\n\nname: the column to work on.\n\nExample: semkit read matches.csv use-column match drop-cells empty write -\n-> купить диван, диван купить, 0.95; стол, столик, 0.9\n\nThe step changes no cell and no row: the column NAME is the working column of the next steps. With drop-cells empty after it, the rows with an empty cell in NAME are dropped.",
+  "options": [
+    {
+      "name": "--name",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "the column to work on.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "NAME",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "description": "the column to work on. The same as --name NAME.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "filter"
+    }
+  ]
+}
