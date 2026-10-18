@@ -46,10 +46,9 @@ resident: null
 tool: null
 pr: null
 translation: 'Стандарт справки шага + команда semkit docs: детерминированно собирает
-  из кода OpenCLI-файл для InSpectra — команды наверху, описание без строк опций,
-  примеры отдельным полем (с коротким результатом), значения по умолчанию и допустимые,
-  у каждого шага вход read (IN, --text, ''-''); --html рендерит через inspectra; тест
-  стандарта со списком пока не приведённых шагов.'
+  из кода OpenCLI-файл для InSpectra (команды наверху, описание без строк опций, примеры
+  отдельным полем с коротким результатом, значения по умолчанию и допустимые, у каждого
+  шага вход read). HTML не делает — его собирает общая обёртка для всех CLI.'
 ---
 
 The help in a browser (InSpectra over an OpenCLI file) is hard to read: semkit describe nests the commands under command (InSpectra reads them at the root, so it shows nothing without a jq rewrite); a step page is one paragraph that repeats each option's explanation; the example sits at the end of the text, not in the OpenCLI examples field; defaults and allowed values are not shown, and every option shows as repeatable (<TOP...>); a step page and its composer do not show the input of read (IN, --text, '-' for JSONL), so the generated command is «semkit read synonym-candidates» with no input. describe is a cross-tool contract (core/opencli.py header), so it stays as it is; the human document is a new command.
@@ -61,7 +60,7 @@ The help in a browser (InSpectra over an OpenCLI file) is hard to read: semkit d
  - default, allowed values (Literal/enum) and whether an option repeats come from the signature, never from the text;
  - Example lines (one or more): «Example: <command>», optionally followed by «→ <short result>» on the next line («→ растаможка автомобиля»); they go to the examples field;
  - the input of read is shown on every step: IN (a file of any format), --text TEXT (repeatable), '-' (JSONL on stdin), and write OUT optional (without it a table on the terminal).
-2. A command semkit docs: writes the human document, an OpenCLI file with the commands at the root (opencli, info, commands, options, arguments, examples), step descriptions and examples split as the standard says, defaults and allowed values in the option descriptions, arity maximum 1 for an option that does not repeat, and each read step carrying the arguments and options of read (IN, --text, --column, --whole) so the composer builds «semkit read IN step …». --out FILE (default opencli-docs.json); --html [DIR] also renders the HTML with inspectra when it is installed (DIR by default the env var SEMKIT_DOCS_DIR, else the user cache folder of semkit, docs/; not a project config key, since the config is per project and the document is one per machine; the folder is replaced whole), --open opens its index.html in the browser (else exit 1 naming the install command, dotnet tool install -g InSpectra.Gen, and DOTNET_ROOT).
+2. A command semkit docs: writes the human document, an OpenCLI file with the commands at the root (opencli, info, commands, options, arguments, examples), step descriptions and examples split as the standard says, defaults and allowed values in the option descriptions, arity maximum 1 for an option that does not repeat, and each read step carrying the arguments and options of read (IN, --text, --column, --whole) so the composer builds «semkit read IN step …». --out FILE writes it to a file, else stdout. Rendering the HTML is not semkit's job: the Human renders the file with InSpectra by a shell wrapper shared by all the CLIs.
 3. A test of the standard (tests/steps/test_help_standard.py): for every step, summary present and one line, at least one Example, every option explained, no option line left in the description; the steps that do not meet it yet are listed in one allowlist in the test with a comment, so that SEMKIT task 2 of this pair empties it. Running semkit docs twice gives the same bytes.
 
 ## Acceptance
@@ -70,14 +69,12 @@ The help in a browser (InSpectra over an OpenCLI file) is hard to read: semkit d
 - Given the synonym-candidates step, When semkit docs runs, Then its description has no option line and no Example line, its examples field holds the example, --top shows default 10, --source shows ruwordnet|navec|both, and --top has arity maximum 1 [check: tests/docs_cmd/]
 - Given any read step in d.json, When it is read, Then it carries IN, --text, --column and --whole of read [check: tests/docs_cmd/]
 - Given semkit docs run twice, When the files are compared, Then they are byte for byte the same [check: tests/docs_cmd/]
-- Given semkit docs --html with SEMKIT_DOCS_DIR set, When it runs with a fake inspectra, Then the HTML goes to that folder [check: tests/docs_cmd/]
-- Given semkit docs --html DIR without inspectra on PATH, When it runs, Then it exits 1 naming the install command [check: tests/docs_cmd/]
 - Given semkit describe, When it runs, Then its output is unchanged (snapshots) [check: tests/test_describe.py]
 - Given every step, When the help standard test runs, Then each step meets the standard or is in the allowlist [check: tests/steps/test_help_standard.py]
 
 ## How to test
 
-Integration through the semkit CLI runner: build the document, read it as JSON and check the fields; no inspectra in the tests (the --html path checked by its refusal and by a fake inspectra on PATH).
+Integration through the semkit CLI runner: build the document, read it as JSON and check the fields; no inspectra in the tests.
 
 ## Basis
 
