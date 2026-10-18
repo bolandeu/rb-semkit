@@ -2,7 +2,7 @@
 id: SEMKIT-049
 title: 'read --text: phrases from the command line; a pipeline without write prints
   a table'
-status: ideas
+status: queue
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -10,7 +10,7 @@ phase: null
 tests_hash: null
 publish_stage: null
 created_by: architect
-approved_by: null
+approved_by: architect
 worker: claude-code
 type: feature
 owns_paths:
