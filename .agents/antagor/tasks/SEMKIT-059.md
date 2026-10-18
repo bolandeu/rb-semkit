@@ -88,3 +88,11 @@ pipeline/tables.py (the write step and its call of dataio.write); the dataio v0.
 ## Feedback
 
 ### Blocked: environment_broken (checks ['uv run --extra vectors pytest'])
+
+### Attempt 0 (not counted): main moved and conflicts with the work
+
+`main` changed since your work began, and merging it conflicts in:
+
+- `CHANGELOG.md`
+
+Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).
