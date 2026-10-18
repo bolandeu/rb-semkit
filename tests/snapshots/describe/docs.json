@@ -1,6 +1,6 @@
 {
   "name": "docs",
-  "description": "Write the help of every command and step as one document for people: OpenCLI with the commands at the root.\n\nThe document follows the help standard: each command has its summary, description and examples apart, each option ends with its default and allowed values, and each step shows the input of read. The same version writes the same bytes. A viewer such as InSpectra renders it as HTML.\n\nExample: semkit docs --out docs.json",
+  "description": "Write the help of every command and step as one document for people: OpenCLI with the commands at the root.\n\nThe document follows the help standard: each command has its summary, description and examples apart, each option ends with its default and allowed values, and each step page shows how to give the step its input. The same version writes the same bytes. A viewer such as InSpectra renders it as HTML.\n\nExample: semkit docs --out docs.json",
   "options": [
     {
       "name": "--out",

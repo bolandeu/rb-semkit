@@ -11,6 +11,12 @@ The changelog is written by `antagor publish`; don't edit it by hand.
 
 - semkit run NAME: named scenarios of semkit's own steps, bundled or in the project folder, with parameters, --set and help; the first bundled scenario intent-synonyms (SEMKIT-057)
 
+## v0.1.47 — 2026-10-18
+
+### Outside epics
+
+- semkit docs: examples without the command path, inherited options only (InSpectra rules of the template) (SEMKIT-058)
+
 ## v0.1.46 — 2026-10-18
 
 ### Outside epics

@@ -17,7 +17,6 @@ from rb_semkit.cli import app
 from rb_semkit.core.docs import ARGUMENT_LINE, argument_names
 
 STEPS = {step.name: step for area in steps.areas().values() for step in area}
-INPUT_OF_READ = 3  # --text, --column, --whole: the options of read that each step carries first
 
 
 def _invoke(*args: str) -> dict:
@@ -53,12 +52,12 @@ def _values_line(option: dict) -> str:
 def _problems(name: str) -> list[str]:
     page, options = DOCS[name], DESCRIBE[name].get("options", [])
     found = []
-    summary = page["description"].split("\n\n")[0]
+    summary = page["description"].split("\n\n")[1]  # the first paragraph is the Input line
     if not summary or (inspect.getdoc(STEPS[name].function) or "").splitlines()[0] != summary:
         found.append("the summary is not the first line of the docstring")
     if not 1 <= len(page.get("examples", [])) <= 3:
         found.append("not one to three examples")
-    shown = {option["name"]: option for option in page["options"][INPUT_OF_READ:]}
+    shown = {option["name"]: option for option in page.get("options", [])}
     for option in options:
         lines = shown[option["name"]]["description"].splitlines()
         values = _values_line(option)

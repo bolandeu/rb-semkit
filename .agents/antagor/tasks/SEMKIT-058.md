@@ -2,7 +2,7 @@
 id: SEMKIT-058
 title: 'semkit docs: examples without the command path, inherited options only (InSpectra
   rules of the template)'
-status: in_review
+status: done
 attempts: 1
 blocked: false
 blocked_reason: null
