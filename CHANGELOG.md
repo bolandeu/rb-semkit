@@ -5,6 +5,33 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.32 — 2026-10-18
+
+### E-006 — Vectors: primitives by meaning for SEO, texts and ads
+
+semkit has the atomic commands nearest, split-paragraphs, coverage-meaning, ad-groups and synonym-candidates; long texts are compared by a page vector. The scenarios built from them (core gaps, competing pages, internal links, ad fit, competitor topics) are recorded in the vectors plan for later.
+Time: 2h since the epic was approved
+
+- ad-groups: small ad groups of one intent (SEMKIT-040)
+
+## v0.1.31 — 2026-10-18
+
+### E-006 — Vectors: primitives by meaning for SEO, texts and ads
+
+semkit has the atomic commands nearest, split-paragraphs, coverage-meaning, ad-groups and synonym-candidates; long texts are compared by a page vector. The scenarios built from them (core gaps, competing pages, internal links, ad fit, competitor topics) are recorded in the vectors plan for later.
+Time: 1.8h since the epic was approved
+
+- synonym-candidates: RuWordNet and navec pulled as models (SEMKIT-041)
+
+## v0.1.30 — 2026-10-18
+
+### E-005 — Vectors: the base and the steps by meaning
+
+With the vectors extra installed and a model pulled once (semkit models pull), the Human runs dupes --kind meaning, cluster-meaning, off-topic, classify-queries and assign-pages in a pipeline and gets candidate columns with a similarity; nothing is dropped by these steps; a checked-in quality test on 200 labelled phrase pairs shows the default model and threshold separate same and different intents.
+Time: 1.7h since the epic was approved
+
+- off-topic, classify-queries, assign-pages: phrases against the core, a query report and the site pages by meaning (SEMKIT-036)
+
 ## v0.1.29 — 2026-10-18
 
 ### E-005 — Vectors: the base and the steps by meaning

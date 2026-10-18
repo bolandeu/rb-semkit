@@ -1,7 +1,8 @@
 """Shared fixtures: a test sees only the word lists it sets up, never the ones of the machine it runs on; the steps by
-meaning get a small deterministic encoder in place of the real models, so no test downloads or loads one.
+meaning get a small deterministic encoder in place of the real models, and the step by words a small thesaurus and
+small word vectors, so no test downloads or loads a real one.
 
-A test marked `real_encoder` gets the encoders as semkit opens them: the vectors extra, the cache, the model files.
+A test marked `real_encoder` gets the models as semkit opens them: the vectors extra, the cache, the model files.
 """
 
 from __future__ import annotations
@@ -15,6 +16,9 @@ import pytest
 
 from rb_semkit.core.vectors import encoder
 from rb_semkit.core.vectors.registry import Model
+from rb_semkit.core.word_vectors.navec import WordVectors
+from rb_semkit.core.word_vectors.thesaurus import Thesaurus
+from rb_semkit.steps import word_vectors
 
 WORD_DIMENSIONS = 64
 
@@ -49,3 +53,15 @@ def _test_encoder(request: pytest.FixtureRequest, monkeypatch: pytest.MonkeyPatc
         return WordEncoder()
 
     monkeypatch.setattr(encoder, "encoder_for", opened)
+
+
+@pytest.fixture(autouse=True)
+def _test_word_data(request: pytest.FixtureRequest, monkeypatch: pytest.MonkeyPatch) -> None:
+    """A thesaurus where диван and чехол are synonyms, and word vectors where they are close."""
+    if request.node.get_closest_marker("real_encoder"):
+        return
+    words = ["<unk>", "<pad>", "диван", "чехол"]
+    codes = np.array([[[0, 0], [0, 0], [1, 0], [0.8, 0.6]]], dtype=np.float32)
+    vectors = WordVectors(words, np.arange(len(words), dtype=np.uint8).reshape(-1, 1), codes)
+    monkeypatch.setattr(word_vectors, "open_thesaurus", lambda start: Thesaurus([("1", "ДИВАН"), ("1", "ЧЕХОЛ")]))
+    monkeypatch.setattr(word_vectors, "open_word_vectors", lambda start: vectors)

@@ -1,8 +1,10 @@
-"""The encoders semkit knows, by short name, and the settings of the steps by meaning: the package settings file
+"""The models semkit knows, by short name, and the settings of the steps by meaning: the package settings file
 `data/vectors/models.toml` (`bundled()`).
 
-`model(name)` takes a short name (e5-small, bge-m3, potion) or `hf:<id>` of any model of the Hugging Face hub; an
-unknown name is refused with the names it takes. `threshold(model, given)` is the similarity a step by meaning uses.
+A model is an encoder (e5-small, bge-m3, potion) or word data (ruwordnet, navec), pulled into the same cache.
+`model(name)` takes a short name or `hf:<id>` of any encoder of the Hugging Face hub; an unknown name is refused with
+the names it takes. `encoder(name)` is the same for a step by meaning: word data is refused there.
+`threshold(model, given)` is the similarity a step by meaning uses.
 """
 
 from __future__ import annotations
@@ -20,27 +22,30 @@ SETTINGS = "vectors/models.toml"
 HUB = "hf:"
 HUB_FORM = "hf:<id>"
 
-Runtime = Literal["onnx", "static"]
+Runtime = Literal["onnx", "static", "thesaurus", "word-vectors"]
+ENCODERS = ("onnx", "static")  # the runtimes of an encoder; the others are word data
 Pooling = Literal["mean", "cls"]
 
 
 @dataclass(frozen=True)
 class Model:
-    """An encoder as `models pull` fetches it and a step opens it.
+    """A model as `models pull` fetches it and a step opens it.
 
+    repo: the repo of the Hugging Face hub; for word data, the address its files are fetched from, as `<repo>/<path>`.
     files: the path of each file in the repo and its sha256; an empty checksum is not pinned (a hub model).
     revision: None for a hub model until it is pulled (the hub's latest revision); its runtime is known only then.
-    threshold: None for a hub model: a step needs --threshold.
+    pooling, prefix, max_tokens, threshold: of an encoder. The threshold is None for a hub model: a step needs
+    --threshold.
     """
 
     name: str
     repo: str
     revision: str | None
     runtime: Runtime
-    pooling: Pooling
-    prefix: str
-    max_tokens: int
-    threshold: float | None
+    pooling: Pooling = "mean"
+    prefix: str = ""
+    max_tokens: int = 0
+    threshold: float | None = None
     files: Mapping[str, str] = field(default_factory=dict)
 
     @property
@@ -59,10 +64,23 @@ class IndexSettings:
 
 
 @dataclass(frozen=True)
+class WordSettings:
+    """The settings of the word data. top: the neighbours of a word a step gives. pool: the neighbours looked up for
+    each one it gives, as the rest are forms of a word already taken. block: the words compared at once.
+    timeout: the seconds a download waits for the address."""
+
+    top: int
+    pool: int
+    block: int
+    timeout: int
+
+
+@dataclass(frozen=True)
 class Registry:
     default: str
     models: Mapping[str, Model]
     index: IndexSettings
+    words: WordSettings
     batch: int
     max_tokens: int  # of a hub model
 
@@ -73,7 +91,8 @@ def bundled() -> Registry:
     values = tomllib.loads((datastore.DATA_DIR / SETTINGS).read_text(encoding="utf-8"))
     models = {name: Model(name=name, **entry) for name, entry in values["models"].items()}
     encoder = values["encoder"]
-    return Registry(values["default"], models, IndexSettings(**values["index"]), **encoder)
+    index, words = IndexSettings(**values["index"]), WordSettings(**values["words"])
+    return Registry(values["default"], models, index, words, **encoder)
 
 
 def default_name() -> str:
@@ -81,14 +100,23 @@ def default_name() -> str:
 
 
 def model(name: str) -> Model:
-    """The encoder of `name`: a short name of the registry, or hf:<id> of a model of the hub."""
+    """The model of `name`: a short name of the registry, or hf:<id> of an encoder of the hub."""
     known = bundled().models
     if name in known:
         return known[name]
     repo = name.removeprefix(HUB)
     if name.startswith(HUB) and repo.count("/") == 1 and all(repo.split("/")):
         return Model(name, repo, None, "onnx", "mean", "", bundled().max_tokens, None)
-    raise InvalidArguments(f"model={name!r}: no such encoder; allowed: {', '.join([*known, HUB_FORM])}.")
+    raise InvalidArguments(f"model={name!r}: no such model; allowed: {', '.join([*known, HUB_FORM])}.")
+
+
+def encoder(name: str) -> Model:
+    """The encoder of `name`; word data is refused with the encoders."""
+    found = model(name)
+    if found.runtime not in ENCODERS:
+        names = [known.name for known in bundled().models.values() if known.runtime in ENCODERS]
+        raise InvalidArguments(f"model={name!r}: word data, not an encoder; allowed: {', '.join([*names, HUB_FORM])}.")
+    return found
 
 
 def threshold(model: Model, given: float | None) -> float:

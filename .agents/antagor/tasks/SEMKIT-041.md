@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-041
 title: 'synonym-candidates: RuWordNet and navec pulled as models'
-status: in_progress
+status: done
 attempts: 0
-blocked: true
-blocked_reason: scope_held
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -102,3 +102,17 @@ The model registry and the models command of E-005 (add the two word data to the
 
 - choosing synonyms automatically (candidates only)
 - other thesauri or languages
+
+## Feedback
+
+### Blocked: scope_held (holders ['SEMKIT-035', 'SEMKIT-036'], paths ['src/rb_semkit/data/SKILL.md', 'src/rb_semkit/steps/vectors.py', 'tests/snapshots/describe.json', 'tests/snapshots/help/read.txt', 'tests/steps/areas.py', 'tests/steps/test_steps.py'])
+
+SEMKIT-035, SEMKIT-036 finished; your kept work on src/rb_semkit/data/SKILL.md, src/rb_semkit/steps/vectors.py, tests/snapshots/describe.json, tests/snapshots/help/read.txt, tests/steps/areas.py, tests/steps/test_steps.py is back in the worktree; main is merged into your branch where it merges clean
+
+`main` changed since your work began, and merging it conflicts in:
+
+- `src/rb_semkit/data/SKILL.md`
+- `src/rb_semkit/steps/vectors.py`
+- `tests/steps/test_steps.py`
+
+Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).

@@ -220,12 +220,35 @@ searched (`index: exact`, or `index: hnsw` above about 300 000 phrases; both giv
 `--json` it is the `note` of the step's summary. A model not pulled is `MODEL_NOT_PULLED` (exit 1, the action is the
 pull command); an unknown `--model` or a `--threshold` out of 0–1 is exit 2.
 
+`ad-groups` gives every phrase an `ad_group` number and an `ad_group_name`: phrases that are duplicates by meaning of
+each other (the rule of `dupes --kind meaning`, with its `--neutral`, `--synonyms`, `--home`) share a group, taken
+transitively. `--max-size N` (1 or more) splits a larger group by vector, the nearest phrases together; the name is the
+most frequent phrase with `--freq COLUMN`, else the first one.
+
 `dupes --kind meaning` marks a phrase as a duplicate of an earlier one when their vectors are close and the words that
 differ are only non-refining words (the bundled list `@meaning/neutral`, plus your own `--neutral @FILE`), synonyms
 (`--synonyms FILE` of word and synonyms, as the step `synonyms` gives), another form or order of a word, or the home
 city (`--home NAME`). A refinement (type, size, material, brand, another city) is another intent, however close the
 vectors. It adds `<column>_dupes`, `dupe_of` (the first phrase of the group) and `similarity` (the cosine to it);
 `--action drop` keeps the first row of each group.
+
+### Synonym candidates
+
+`synonym-candidates` proposes synonyms for the words of the core (by lemmas; stopwords and words with digits are
+skipped), for you to pick. It needs two word data, pulled once like an encoder: `semkit models pull ruwordnet` (the
+thesaurus RuWordNet) and `semkit models pull navec` (word vectors); `models list` and `models remove` handle them too.
+
+```bash
+semkit read core.csv synonym-candidates write candidates.csv
+semkit read core.csv synonym-candidates --source ruwordnet --as-synonyms write synonyms.csv
+```
+
+The report has the columns `word`, `candidate`, `source` (`ruwordnet` or `navec`), `score` (1 for a thesaurus
+synonym, the cosine for navec) and `in_core`. By default only candidates that occur in the core are given; `--all`
+gives every candidate. `--source ruwordnet|navec|both` picks the data, `--top` limits the navec candidates per word.
+`--as-synonyms` gives the file of synonyms instead (`word`, `synonyms`) that `--synonyms` of the steps reads
+(`add-minus-words`): edit it down to the picked words first. A data not pulled is `MODEL_NOT_PULLED` (exit 1, the
+action is the pull command).
 
 ## Errors
 

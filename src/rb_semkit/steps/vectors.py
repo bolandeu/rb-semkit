@@ -43,7 +43,7 @@ PAGE_NOTE = (
 
 def encoder_of(options: dict) -> Encoder:
     """The encoder the option --model names."""
-    return encoder.encoder_for(registry.model(options["model"]), prepared_for())
+    return encoder.encoder_for(registry.encoder(options["model"]), prepared_for())
 
 
 def page_encoder_of(options: dict) -> PageEncoder:
@@ -53,7 +53,7 @@ def page_encoder_of(options: dict) -> PageEncoder:
 
 def by_meaning(options: dict) -> tuple[Encoder, float]:
     """The encoder and the threshold the options --model and --threshold name."""
-    threshold = registry.threshold(registry.model(options["model"]), options["threshold"])
+    threshold = registry.threshold(registry.encoder(options["model"]), options["threshold"])
     return encoder_of(options), threshold
 
 

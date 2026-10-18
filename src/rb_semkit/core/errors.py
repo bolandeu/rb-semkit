@@ -260,12 +260,12 @@ class VectorsNotInstalled(CliError):
 
 
 class ModelNotPulled(CliError):
-    """A step by meaning names an encoder that is not in the cache; steps never download one (ADR 0009)."""
+    """A step by meaning or by words needs a model (an encoder or word data) that is not in the cache; steps never download one (ADR 0009)."""
 
     def __init__(self, name: str, folder: str) -> None:
         super().__init__(
             "MODEL_NOT_PULLED",
-            f"The encoder {name} is not in {folder}.",
+            f"The model {name} is not in {folder}.",
             action=f"Run '{_CLI} models pull {name}' once, then retry.",
             exit_code=1,
         )

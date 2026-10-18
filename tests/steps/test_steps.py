@@ -282,6 +282,8 @@ COMMANDS = {
     "wordforms": ["phrases.csv", "wordforms", "диван"],
     "cluster-serp": ["serp.csv", "cluster-serp"],
     "cluster-meaning": ["core.csv", "cluster-meaning"],
+    "ad-groups": ["core.csv", "ad-groups"],
+    "synonym-candidates": ["core.csv", "synonym-candidates"],
     "assign-pages": ["core.csv", "assign-pages", "--pages", "page_texts.csv"],
     "classify-queries": ["phrases.csv", "classify-queries", "--against", "core.csv"],
     "off-topic": ["core.csv", "off-topic", "--threshold", "0.5"],

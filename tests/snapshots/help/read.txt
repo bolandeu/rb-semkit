@@ -38,6 +38,8 @@
 │ --help                  Show this message and exit.                                              │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Commands ───────────────────────────────────────────────────────────────────────────────────────╮
+│ ad-groups              Small ad groups of one intent: phrases that are duplicates by meaning of  │
+│                        each other share a group.                                                 │
 │ ngrams                 Every run of `n` words over all phrases, counted: a table ngram, count,   │
 │                        docs, sum and forms.                                                      │
 │ bigrams                Pairs of words of a phrase in any order, counted: «купить диван» and      │
@@ -297,6 +299,8 @@
 │                        column per metric, a row per text.                                        │
 │ cluster-meaning        Clusters of phrases by meaning: phrases of close vectors share a cluster; │
 │                        every phrase gets one.                                                    │
+│ synonym-candidates     Synonym candidates for the words of the core, from a thesaurus            │
+│                        (RuWordNet) and word vectors (navec).                                     │
 │ write                  Write the current table to OUT: the last step of a pipeline.              │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

@@ -1,8 +1,7 @@
 
  Usage: semkit models pull [OPTIONS] {name}
 
- Download an encoder once into the cache, at its pinned revision, and check the checksum of each
- file.
+ Download a model once into the cache, at its pinned revision, and check the checksum of each file.
 
  A model already in the cache is not downloaded again.
  A pull that fails keeps nothing of the model and exits 5; run it again.
@@ -12,8 +11,8 @@
  Example: semkit models pull e5-small
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
-│ *    name      <str>  The encoder: e5-small, bge-m3, potion, or hf:<id> of a model of the        │
-│                       Hugging Face hub.                                                          │
+│ *    name      <str>  The model: the encoder e5-small, bge-m3, potion, or hf:<id> of a model of  │
+│                       the Hugging Face hub; the word data ruwordnet or navec.                    │
 │                       [required]                                                                 │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮

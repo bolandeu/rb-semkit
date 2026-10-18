@@ -2,7 +2,7 @@
 id: SEMKIT-036
 title: 'off-topic, classify-queries, assign-pages: phrases against the core, a query
   report and the site pages by meaning'
-status: queue
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -29,6 +29,7 @@ test_paths:
 - tests/snapshots/help/read.txt
 - tests/steps/areas.py
 - tests/steps/test_steps.py
+- tests/steps/fixtures/page_texts.csv
 docs: none
 tools: []
 worker_args: null
@@ -118,3 +119,9 @@ SEMKIT-035, SEMKIT-043, SEMKIT-045 finished; your kept work on README.md, src/rb
 - `tests/steps/fixtures/pages.csv`
 
 Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).
+
+### Answer to finding #1
+
+> SEMKIT-036: the default --threshold of a model (e5-small 0.97) is a same-intent similarity of two phrases. off-topic uses it as the similarity of a phrase to the centre of the core, where cosines are lower, so without --threshold most phrases get off_topic yes. Consider a separate default for off-topic in models.toml.
+
+Taken into the thresholds task (per-step defaults in models.toml)

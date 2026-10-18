@@ -958,11 +958,11 @@
       },
       {
         "name": "models",
-        "description": "Encoders of the steps by meaning: pull one once into the cache, list them, remove one. The cache is the system cache, or the folder of the config key models.dir.",
+        "description": "Models of the steps by meaning and by words (encoders, word data): pull one once into the cache, list them, remove one. The cache is the system cache, or the folder of the config key models.dir.",
         "commands": [
           {
             "name": "pull",
-            "description": "Download an encoder once into the cache, at its pinned revision, and check the checksum of each file.\n\nA model already in the cache is not downloaded again.\nA pull that fails keeps nothing of the model and exits 5; run it again.\nA hub model (hf:<id>) is fetched at its latest revision: an ONNX export with tokenizer.json, or a model2vec model.\n\nExample: semkit models pull e5-small",
+            "description": "Download a model once into the cache, at its pinned revision, and check the checksum of each file.\n\nA model already in the cache is not downloaded again.\nA pull that fails keeps nothing of the model and exits 5; run it again.\nA hub model (hf:<id>) is fetched at its latest revision: an ONNX export with tokenizer.json, or a model2vec model.\n\nExample: semkit models pull e5-small",
             "options": [
               {
                 "name": "--json",
@@ -1001,7 +1001,7 @@
                   "minimum": 1,
                   "maximum": 1
                 },
-                "description": "The encoder: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub.",
+                "description": "The model: the encoder e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub; the word data ruwordnet or navec.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -1013,7 +1013,7 @@
           },
           {
             "name": "list",
-            "description": "Every encoder semkit knows and every hub model pulled: its repo, revision, whether it is pulled, its size in bytes, its default threshold and its folder.\n\nExample: semkit models list --json",
+            "description": "Every model semkit knows (encoders and word data) and every hub model pulled: its repo, revision, whether it is pulled, its size in bytes, its default threshold and its folder.\n\nExample: semkit models list --json",
             "options": [
               {
                 "name": "--json",
@@ -1047,7 +1047,7 @@
           },
           {
             "name": "remove",
-            "description": "Remove an encoder from the cache.\n\nA model that is not pulled is refused with exit 2 and the pulled ones.\nWith --dry-run nothing is removed: it says which folder it would remove.\n\nExample: semkit models remove e5-small",
+            "description": "Remove a model from the cache.\n\nA model that is not pulled is refused with exit 2 and the pulled ones.\nWith --dry-run nothing is removed: it says which folder it would remove.\n\nExample: semkit models remove e5-small",
             "options": [
               {
                 "name": "--json",
@@ -1100,7 +1100,7 @@
                   "minimum": 1,
                   "maximum": 1
                 },
-                "description": "The pulled encoder to remove, as `models list` names it.",
+                "description": "The pulled model to remove, as `models list` names it.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -1223,6 +1223,134 @@
           }
         ],
         "commands": [
+          {
+            "name": "ad-groups",
+            "description": "Small ad groups of one intent: phrases that are duplicates by meaning of each other share a group.\n\nTwo phrases of the same refining words and close vectors (the rule of `dupes_meaning`) are one intent, and a chain of such pairs makes one group. A group of more than `max_size` phrases is split: the first phrase left takes the `max_size` phrases nearest to it, and so on, so the same input gives the same groups. Equal phrases are one phrase. The groups are numbered from 1 in the order of their first rows. The columns: ad_group and ad_group_name; every phrase gets them, an empty cell gets none.\n\nmax_size: the most phrases in an ad group, 1 or more; a larger group is split by vector. Without it no group is split.\nfreq: the column of the frequencies of the phrases in the current table; the ad group is named after its most frequent phrase. Without it, after its first phrase.\nneutral: the Human's non-refining words for --kind meaning, as @FILE or @NAME of a list; they add to the bundled list @meaning/neutral. Words are compared by lemma.\nsynonyms: a file with the columns word and synonyms, as the step `synonyms` gives, for --kind meaning; a word and its synonyms are the same word. The file is read like `read` does.\nhome: the name of the home city for --kind meaning; its word is non-refining, another city's is not.\nthreshold: the similarity from 0 to 1 two phrases need to be one intent, for --kind meaning. Without it the threshold of the model.\nmodel: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.\n\nThe step adds the columns ad_group and ad_group_name right after the working column; the rows stay.\n\nExample: semkit read core.csv ad-groups --max-size 20 --freq freq write out.csv",
+            "options": [
+              {
+                "name": "--threshold",
+                "arguments": [
+                  {
+                    "name": "THRESHOLD",
+                    "required": true
+                  }
+                ],
+                "description": "the similarity from 0 to 1 two phrases need to be one intent, for --kind meaning. Without it the threshold of the model.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "float"
+                  }
+                ]
+              },
+              {
+                "name": "--max-size",
+                "arguments": [
+                  {
+                    "name": "MAX_SIZE",
+                    "required": true
+                  }
+                ],
+                "description": "the most phrases in an ad group, 1 or more; a larger group is split by vector. Without it no group is split.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "int"
+                  }
+                ]
+              },
+              {
+                "name": "--freq",
+                "arguments": [
+                  {
+                    "name": "FREQ",
+                    "required": true
+                  }
+                ],
+                "description": "the column of the frequencies of the phrases in the current table; the ad group is named after its most frequent phrase. Without it, after its first phrase.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--neutral",
+                "arguments": [
+                  {
+                    "name": "NEUTRAL",
+                    "required": true
+                  }
+                ],
+                "description": "the Human's non-refining words for --kind meaning, as @FILE or @NAME of a list; they add to the bundled list @meaning/neutral. Words are compared by lemma. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--synonyms",
+                "arguments": [
+                  {
+                    "name": "SYNONYMS",
+                    "required": true
+                  }
+                ],
+                "description": "a file with the columns word and synonyms, as the step `synonyms` gives, for --kind meaning; a word and its synonyms are the same word. The file is read like `read` does.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--home",
+                "arguments": [
+                  {
+                    "name": "HOME",
+                    "required": true
+                  }
+                ],
+                "description": "the name of the home city for --kind meaning; its word is non-refining, another city's is not.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--model",
+                "arguments": [
+                  {
+                    "name": "MODEL",
+                    "required": true
+                  }
+                ],
+                "description": "the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "e5-small"
+                  }
+                ]
+              }
+            ],
+            "metadata": [
+              {
+                "name": "x-rb-kind",
+                "value": "change"
+              }
+            ]
+          },
           {
             "name": "ngrams",
             "description": "Every run of `n` words over all phrases, counted: a table ngram, count, docs, sum and forms.\n\nThe column count holds the occurrences; docs, in how many texts (rows of the input before split-text cut them) the gram occurs at least once; sum, with `weight`, the weight; forms, with `lemmas`, the word forms met for the gram, most frequent first, joined by ', ' («диваны, диван»), for a gram of several words its distinct spellings, at most 5.\n\nThe words are those of split-text: punctuation at the edges of a word is dropped («руб.» is «руб»), a sign such as ★ is no word, a number with inner points, commas or hyphens is one word («31.03.2026»). Sorted by count, biggest first, then by ngram. Words are compared in any case and with ё as е.\nn: how many words in a gram.\nlemmas: count lemmas of the words («диваны» is «диван»).\nstopwords: on, every word counts; off (--no-stopwords), the grams are made of the words that are no stopwords, and a stopword between two of them stays inside the gram («купить диван в москве» gives «купить диван» and «диван в москве»); stopwords are found in any case.\nweight: a column of numbers of the table (a frequency); sum adds its value once per occurrence.\n\nThe step counts the working column; the table replaces the current one, its column ngram is the working one.\n\nExample: semkit read core.csv ngrams write out.csv",
@@ -11122,6 +11250,91 @@
               {
                 "name": "x-rb-kind",
                 "value": "change"
+              }
+            ]
+          },
+          {
+            "name": "synonym-candidates",
+            "description": "Synonym candidates for the words of the core, from a thesaurus (RuWordNet) and word vectors (navec).\n\nA candidate is a proposal for the Human to pick, not a synonym: the thesaurus gives the words of the same synset (score 1), the word vectors the nearest words (the score is the cosine, 4 places). The step works on lemmas; stopwords and words with digits are skipped, and so are candidates of several words. The report has one row for each candidate: word, candidate, source, score and in_core (whether the candidate is a word of the core), words in the order of the core, each with the candidates of the thesaurus first, then of the vectors from the nearest.\ntop: how many of the nearest words the word vectors give for each word.\nall: give every candidate. By default only the candidates that occur in the core.\nas_synonyms: the report as the file the steps with `--synonyms` read: the columns word and synonyms (the candidates of a word joined by a space), one row for each word that has some.\n\nsource: the data to take candidates from, pulled once with `semkit models pull NAME`: ruwordnet (the thesaurus), navec (the word vectors) or both.\n\nThe step makes a table of its result; it replaces the current table, its first text column is the working one. Its candidates are for the Human to pick; the picked go to --synonyms of the steps that take them.\n\nExample: semkit read core.csv synonym-candidates write out.csv",
+            "options": [
+              {
+                "name": "--top",
+                "arguments": [
+                  {
+                    "name": "TOP",
+                    "required": true
+                  }
+                ],
+                "description": "how many of the nearest words the word vectors give for each word.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "int"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": 10
+                  }
+                ]
+              },
+              {
+                "name": "--all",
+                "description": "give every candidate. By default only the candidates that occur in the core.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--as-synonyms",
+                "description": "the report as the file the steps with `--synonyms` read: the columns word and synonyms (the candidates of a word joined by a space), one row for each word that has some.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--source",
+                "arguments": [
+                  {
+                    "name": "SOURCE",
+                    "required": true,
+                    "acceptedValues": [
+                      "ruwordnet",
+                      "navec",
+                      "both"
+                    ]
+                  }
+                ],
+                "description": "the data to take candidates from, pulled once with `semkit models pull NAME`: ruwordnet (the thesaurus), navec (the word vectors) or both.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "both"
+                  }
+                ]
+              }
+            ],
+            "metadata": [
+              {
+                "name": "x-rb-kind",
+                "value": "report"
               }
             ]
           },
