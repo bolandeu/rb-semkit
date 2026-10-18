@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.40 — 2026-10-18
+
+### Outside epics
+
+- decline: a noun already in the genitive inside a group is declined again (продукции → продукций) (SEMKIT-053)
+
 ## v0.1.39 — 2026-10-18
 
 ### Outside epics
