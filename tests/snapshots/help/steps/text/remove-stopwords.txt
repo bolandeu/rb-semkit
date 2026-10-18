@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} remove-stopwords [OPTIONS]
+ Usage: semkit read [IN] remove-stopwords [OPTIONS]
 
  The function words with no search intent (prepositions, conjunctions, particles); remove only.
 

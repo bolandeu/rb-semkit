@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} sentiment [OPTIONS] [DICTIONARY]
+ Usage: semkit read [IN] sentiment [OPTIONS] [DICTIONARY]
 
  The score of each phrase by the scored words it holds: their mean, min or max.
 

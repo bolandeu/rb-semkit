@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} write [OPTIONS] {OUT}
+ Usage: semkit read [IN] write [OPTIONS] {OUT}
 
  Write the current table to OUT: the last step of a pipeline.
 

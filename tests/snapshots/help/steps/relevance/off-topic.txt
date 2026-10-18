@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} off-topic [OPTIONS]
+ Usage: semkit read [IN] off-topic [OPTIONS]
 
  The distance of each phrase of the core from the centre of the core, by meaning.
 

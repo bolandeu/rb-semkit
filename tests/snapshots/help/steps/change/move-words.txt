@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} move-words [OPTIONS] [WORDS]
+ Usage: semkit read [IN] move-words [OPTIONS] [WORDS]
 
  Words found in the phrase moved to its start or end, in the order and the spelling of the list:
  «диван угловой купить» with купить,угловой → «купить угловой диван». Case and ё do not count; the

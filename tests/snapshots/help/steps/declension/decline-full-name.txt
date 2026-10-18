@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} decline-full-name [OPTIONS] [CASE]
+ Usage: semkit read [IN] decline-full-name [OPTIONS] [CASE]
 
  A full name «Фамилия Имя Отчество» declined: «Иванов Сергей Петрович» genitive → «Иванова Сергея
  Петровича».

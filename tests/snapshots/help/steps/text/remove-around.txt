@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} remove-around [OPTIONS] [PATTERN]
+ Usage: semkit read [IN] remove-around [OPTIONS] [PATTERN]
 
  The part of the phrase before or after the first or the last occurrence of a text. Remove and
  extract only.

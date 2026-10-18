@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} cluster-meaning [OPTIONS]
+ Usage: semkit read [IN] cluster-meaning [OPTIONS]
 
  Clusters of phrases by meaning: phrases of close vectors share a cluster; every phrase gets one.
 

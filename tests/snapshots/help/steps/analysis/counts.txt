@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} counts [OPTIONS] [WHAT]
+ Usage: semkit read [IN] counts [OPTIONS] [WHAT]
 
  One count per phrase, in a new column `<column>_<what>`.
 

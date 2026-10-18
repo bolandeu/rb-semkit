@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} drop-minus-words [OPTIONS]
+ Usage: semkit read [IN] drop-minus-words [OPTIONS]
 
  The phrase without its minus-words: «купить диван -бесплатно -скачать» → «купить диван». A lone
  «-» between words is a dash and stays («диван - кровать»). The words are joined by one space.

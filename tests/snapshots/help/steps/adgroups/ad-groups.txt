@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} ad-groups [OPTIONS]
+ Usage: semkit read [IN] ad-groups [OPTIONS]
 
  Small ad groups of one intent: phrases that are duplicates by meaning of each other share a group.
 

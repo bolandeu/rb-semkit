@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} coverage [OPTIONS] [AGAINST]
+ Usage: semkit read [IN] coverage [OPTIONS] [AGAINST]
 
  Every distinct core phrase checked against the texts: a table phrase, count, docs, density and
  first.

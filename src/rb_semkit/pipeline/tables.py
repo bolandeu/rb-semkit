@@ -28,6 +28,7 @@ from ..core.frame import text_columns
 STDIO = "-"
 STREAM_FORMAT = "jsonl"
 WHOLE_COLUMN = "text"
+TEXT_COLUMN = "phrase"
 BOM = "﻿"
 ONE_COLUMN_FORMATS = ("txt",)
 REMOTE = re.compile(r"^[a-z][a-z0-9+.-]*://", re.IGNORECASE)  # a URL or a gsheet:// address: dataio checks it
@@ -103,16 +104,26 @@ def _check_trace(trace: Path, *, overwrite: bool) -> None:
 class Source:
     """The input of a pipeline and how it is read."""
 
-    address: str
+    address: str | None
     column: str | None = None
     whole: bool = False
     trace: Path | None = None
+    texts: tuple[str, ...] = ()
 
     def check(self, *, overwrite: bool) -> None:
-        """Refuse an IN that does not exist, and a trace file that exists (without `overwrite`) or has no folder."""
+        """Refuse an IN that does not exist or comes with --text, and a trace file that exists (without `overwrite`) or has no folder."""
         if self.trace is not None:
             _check_trace(self.trace, overwrite=overwrite)
-        if not exists(self.address):
+        if self.address is not None and self.texts:
+            raise InvalidArguments(
+                "read: IN and --text together.", action="Name a table IN, or give phrases with --text, not both."
+            )
+        if self.address is None and not self.texts:
+            raise InvalidArguments(
+                "read: IN not given; a pipeline is 'read IN STEP… write OUT'.",
+                action="Name a table IN, or give phrases with --text.",
+            )
+        if self.address is not None and not exists(self.address):
             raise CliError(
                 "SOURCE_NOT_FOUND",
                 f"read: IN {self.address} does not exist.",
@@ -122,6 +133,8 @@ class Source:
 
     def columns(self) -> list[str] | None:
         """The columns of the input without its rows; None for stdin, which can be read once only."""
+        if self.texts:
+            return [TEXT_COLUMN]
         if self.whole:
             return [WHOLE_COLUMN]
         if self.address == STDIO:
@@ -130,7 +143,9 @@ class Source:
             return list(rb_dataio.read(self.address, limit=0).columns)
 
     def read(self) -> pd.DataFrame:
-        """The table; with `whole` the text of the input as one cell of the column `text`."""
+        """The table; with `texts` a row of the column `phrase` for each; with `whole` the input as one cell of `text`."""
+        if self.texts:
+            return pd.DataFrame({TEXT_COLUMN: list(self.texts)})
         if self.whole:
             return pd.DataFrame({WHOLE_COLUMN: [self._text()]})
         if self.address == STDIO:
@@ -155,7 +170,7 @@ class Source:
         """
         if self.address == STDIO:
             return sys.stdin.read().removeprefix(BOM)
-        return Path(self.address).read_text(encoding="utf-8-sig")
+        return Path(str(self.address)).read_text(encoding="utf-8-sig")
 
 
 READ_ACTION = "Check that IN is a table file of a format dataio reads (csv, tsv, xlsx, json, jsonl, parquet, txt)."

@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} split-digits [OPTIONS]
+ Usage: semkit read [IN] split-digits [OPTIONS]
 
  A separator between digits and the text glued to them: «iphone13pro» → «iphone 13 pro». Digits and
  text already apart stay as they are; a size N×M (the x latin or cyrillic, in any case) stays whole

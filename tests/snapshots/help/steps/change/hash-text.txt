@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} hash-text [OPTIONS]
+ Usage: semkit read [IN] hash-text [OPTIONS]
 
  The hash of the text as lower-case hex, of its UTF-8 bytes. An empty text has a hash too (md5
  «d41d8cd98f00b204e9800998ecf8427e»).

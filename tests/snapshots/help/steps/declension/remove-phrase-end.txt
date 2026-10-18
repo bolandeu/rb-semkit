@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} remove-phrase-end [OPTIONS] [KIND]
+ Usage: semkit read [IN] remove-phrase-end [OPTIONS] [KIND]
 
  The words at the end of a phrase, cut until the last word is clean; remove only.
 

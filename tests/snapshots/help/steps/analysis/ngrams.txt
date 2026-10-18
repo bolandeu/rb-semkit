@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} ngrams [OPTIONS]
+ Usage: semkit read [IN] ngrams [OPTIONS]
 
  Every run of `n` words over all phrases, counted: a table ngram, count, docs, sum and forms.
 

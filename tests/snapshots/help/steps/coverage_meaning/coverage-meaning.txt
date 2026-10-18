@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} coverage-meaning [OPTIONS] [TEXT]
+ Usage: semkit read [IN] coverage-meaning [OPTIONS] [TEXT]
 
  For each core phrase, the paragraph nearest it by meaning, and whether the text covers the phrase.
 

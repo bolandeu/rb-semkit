@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} decline-noun [OPTIONS] [CASE]
+ Usage: semkit read [IN] decline-noun [OPTIONS] [CASE]
 
  Each word of a phrase, a noun in the nominative singular, declined: «диван» genitive → «дивана».
 

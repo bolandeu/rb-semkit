@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} extract-regex [OPTIONS] [PATTERN]
+ Usage: semkit read [IN] extract-regex [OPTIONS] [PATTERN]
 
  What a regular expression matches in a phrase, case-sensitive, searched anywhere.
 

@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} assign-pages [OPTIONS] [PAGES]
+ Usage: semkit read [IN] assign-pages [OPTIONS] [PAGES]
 
  The best two pages of the site for each phrase of the core, by meaning.
 

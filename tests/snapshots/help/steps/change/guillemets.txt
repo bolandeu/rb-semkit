@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} guillemets [OPTIONS]
+ Usage: semkit read [IN] guillemets [OPTIONS]
 
  Straight double quotes as «ёлочки», opening and closing in turn: «диван "Честер" купить» → «диван
  «Честер» купить». A phrase with quotes loses the spaces at its edges.

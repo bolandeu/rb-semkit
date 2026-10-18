@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} drop-word-case [OPTIONS] [KIND]
+ Usage: semkit read [IN] drop-word-case [OPTIONS] [KIND]
 
  Words by the case of their letters (find and extract only); digits and punctuation do not count.
 

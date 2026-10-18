@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} wordforms [OPTIONS] [WORD]
+ Usage: semkit read [IN] wordforms [OPTIONS] [WORD]
 
  Every wordform of the lemma of a word, alphabetical, each once: «диваны» → «диван», «дивана», …
 

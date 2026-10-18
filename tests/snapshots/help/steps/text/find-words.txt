@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} find-words [OPTIONS] [ITEMS]
+ Usage: semkit read [IN] find-words [OPTIONS] [ITEMS]
 
  Whole words of a phrase equal to the items of a list, compared in any case and with ё as е.
 

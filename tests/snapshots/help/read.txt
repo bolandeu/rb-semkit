@@ -1,5 +1,5 @@
 
- Usage: semkit read [OPTIONS] {IN} COMMAND [ARGS]...
+ Usage: semkit read [OPTIONS] [IN] COMMAND [ARGS]...
 
  Read a table, run the steps in the order written, write the result: one pipeline.
 
@@ -7,8 +7,9 @@
  writes a new column NAME, which the next steps work on), a filter keeps or drops rows, a report
  (n-grams) makes its table the current one and its first text column the working one. After each
  step one line goes to stderr: the step, the rows before and after it, the cells it changed; the
- last line says how many rows went where. Every step and option is checked before the input is
- read.
+ last line says how many rows went where. A pipeline that ends without write prints the result as a
+ table in the terminal; with --json, or when stdout is not a terminal, it writes JSONL to stdout as
+ `write -` does. Every step and option is checked before the input is read.
 
  Columns are read with the types of the file: numbers stay numbers, a text column is text and its
  empty cell an empty text. A column of numbers with spaces around a cell is numbers too. A column
@@ -20,12 +21,17 @@
  Example: semkit read core.csv remove-words --items купить dupes --kind lemmas --action drop write
  out.csv
 
+ Phrases from the command line, the result as a table: semkit read --text "растаможка авто"
+ synonym-candidates --all
+
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
-│ *    IN      <str>  The table to read: a file of any format dataio reads, or '-' for JSONL on    │
-│                     stdin.                                                                       │
-│                     [required]                                                                   │
+│   IN      <str>  The table to read: a file of any format dataio reads, or '-' for JSONL on       │
+│                  stdin. Left out with --text.                                                    │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --text           TEXT   A phrase from the command line, repeatable: the table has one column     │
+│                         phrase and a row for each --text, in the order given. IN is then left    │
+│                         out.                                                                     │
 │ --column         <str>  The working column the steps read and change; by default the first text  │
 │                         column.                                                                  │
 │ --whole                 Read a text file as one cell of the column text (an article).            │

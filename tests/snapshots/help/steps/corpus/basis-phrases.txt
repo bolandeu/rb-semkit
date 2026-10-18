@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} basis-phrases [OPTIONS]
+ Usage: semkit read [IN] basis-phrases [OPTIONS]
 
  Each phrase that is a basis of the core, or an empty cell for the others: a basis holds no smaller
  phrase of the core.

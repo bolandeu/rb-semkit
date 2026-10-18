@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} insert [OPTIONS]
+ Usage: semkit read [IN] insert [OPTIONS]
 
  Text at the start and at the end of the phrase, as given; an empty phrase gets them too.
 

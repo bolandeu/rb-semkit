@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} remove-edges [OPTIONS]
+ Usage: semkit read [IN] remove-edges [OPTIONS]
 
  The characters to cut from the edges of each word (remove only).
 

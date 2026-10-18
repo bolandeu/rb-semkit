@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} bm25 [OPTIONS] [QUERY]
+ Usage: semkit read [IN] bm25 [OPTIONS] [QUERY]
 
  Okapi BM25 of each text for a query: one score per text, rounded to 4 decimals.
 

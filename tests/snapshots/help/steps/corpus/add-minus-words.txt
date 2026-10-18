@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} add-minus-words [OPTIONS] [SYNONYMS]
+ Usage: semkit read [IN] add-minus-words [OPTIONS] [SYNONYMS]
 
  Each phrase with the synonyms of its words appended as minus-words: «купить диван» → «купить диван
  -софа».

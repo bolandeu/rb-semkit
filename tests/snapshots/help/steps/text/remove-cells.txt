@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} remove-cells [OPTIONS] [KIND]
+ Usage: semkit read [IN] remove-cells [OPTIONS] [KIND]
 
  A whole cell is found or not. remove clears a found cell (with "empty", it drops the rows);
  extract keeps the cell, or an empty cell if not found.

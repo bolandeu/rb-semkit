@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} decline-adjective [OPTIONS] [CASE]
+ Usage: semkit read [IN] decline-adjective [OPTIONS] [CASE]
 
  Each word of a phrase, an adjective in the masculine nominative singular, declined: «красный» →
  «красного».

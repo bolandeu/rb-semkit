@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} translit [OPTIONS] [TO]
+ Usage: semkit read [IN] translit [OPTIONS] [TO]
 
  Letters of one alphabet written in the other. The other chars stay.
 

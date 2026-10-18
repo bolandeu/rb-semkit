@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} similar-chars [OPTIONS] [TO]
+ Usage: semkit read [IN] similar-chars [OPTIONS] [TO]
 
  The letters that look alike in both alphabets (а a, В B, Н H, р p, с c, у y, х x…) in one
  alphabet. The other letters stay.

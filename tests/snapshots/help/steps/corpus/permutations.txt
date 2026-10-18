@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} permutations [OPTIONS]
+ Usage: semkit read [IN] permutations [OPTIONS]
 
  Every order of the words of each phrase, the phrases one after another: «a b c» → «a b c», «a c
  b», «b a c»…

@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} switch-layout [OPTIONS] [TO]
+ Usage: semkit read [IN] switch-layout [OPTIONS] [TO]
 
  Text typed in the wrong keyboard layout, retyped on the same keys of the other.
 

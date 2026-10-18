@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} typo-correction [OPTIONS]
+ Usage: semkit read [IN] typo-correction [OPTIONS]
 
  Each phrase with its misspelt words replaced by their most likely corrections («купить диавн» →
  «купить диван»).

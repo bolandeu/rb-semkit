@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} synonym-candidates [OPTIONS]
+ Usage: semkit read [IN] synonym-candidates [OPTIONS]
 
  Synonym candidates for the words of the core, from a thesaurus (RuWordNet) and word vectors
  (navec).

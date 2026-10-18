@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} match-type [OPTIONS] [KIND]
+ Usage: semkit read [IN] match-type [OPTIONS] [KIND]
 
  The phrase with the operators of a match type.
 

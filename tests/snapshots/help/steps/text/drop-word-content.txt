@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} drop-word-content [OPTIONS] [KIND]
+ Usage: semkit read [IN] drop-word-content [OPTIONS] [KIND]
 
  Words by what they hold; a word is tested as written, with its punctuation («красный,» does not
  end in «ный»).

@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} sort-words [OPTIONS]
+ Usage: semkit read [IN] sort-words [OPTIONS]
 
  The words of the phrase sorted by their character codes, joined by one space: digits, then latin
  capitals, latin small letters, cyrillic capitals, cyrillic small letters; «Ё» before «А» and «ё»

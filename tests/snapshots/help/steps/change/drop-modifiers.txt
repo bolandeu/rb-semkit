@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} drop-modifiers [OPTIONS]
+ Usage: semkit read [IN] drop-modifiers [OPTIONS]
 
  The «+» or «!» of each stopword taken off, in any case: «+купить +в !москве +для дачи» → «+купить
  в !москве для дачи». The words are joined by one space.

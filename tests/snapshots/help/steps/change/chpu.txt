@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} chpu [OPTIONS]
+ Usage: semkit read [IN] chpu [OPTIONS]
 
  The phrase as a ЧПУ (a human-readable URL part): latin letters and digits in lower case, cyrillic
  in translit, accented letters as plain ones; the spaces and signs between words become one «-»,
