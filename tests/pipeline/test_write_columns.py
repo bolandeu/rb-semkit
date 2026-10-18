@@ -60,3 +60,23 @@ def test_write_without_the_options_writes_every_column(core_csv: Path) -> None:
     result = semkit("read", str(core_csv), "write", "-")
 
     assert [list(row) for row in jsonl(result.stdout)] == [["phrase", "freq"]] * len(CORE)
+
+
+def test_a_refused_column_gets_its_own_action_line(core_csv: Path, tmp_path: Path) -> None:
+    out = tmp_path / "out.csv"
+
+    result = semkit("--json", "read", str(core_csv), "write", str(out), "--columns", "nosuch")
+
+    error = json.loads(result.stdout)["error"]
+    assert result.exit_code == 2
+    assert error["action"] == "Give --columns and --rename the names of the columns the message lists."
+
+
+def test_a_write_to_a_missing_folder_still_names_the_folder(core_csv: Path, tmp_path: Path) -> None:
+    out = tmp_path / "nosuch" / "out.csv"
+
+    result = semkit("--json", "read", str(core_csv), "write", str(out))
+
+    error = json.loads(result.stdout)["error"]
+    assert result.exit_code != 0
+    assert "folder" in error["action"]
