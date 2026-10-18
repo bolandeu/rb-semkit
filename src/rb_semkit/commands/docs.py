@@ -8,6 +8,7 @@ import typer
 
 from .. import output
 from ..core import docs as document
+from ..core.errors import InvalidArguments
 from ..steps.docs_hook import ReadSteps
 
 
@@ -17,6 +18,7 @@ def docs(
     out: Path = typer.Option(None, "--out", metavar="FILE", help="Write the document to FILE (replaced when it exists); by default to stdout."),
     json_output: bool = output.JsonOption,
     quiet: bool = output.QuietOption,
+    verbose: bool = output.VerboseOption,
 ) -> None:  # fmt: skip
     """Write the help of every command and step as one document for people: OpenCLI with the commands at the root.
 
@@ -29,5 +31,7 @@ def docs(
     if out is None:
         typer.echo(text, nl=False)
         return
-    out.write_text(text, encoding="utf-8")
-    output.emit_success(ctx, {"path": str(out)}, lambda data: output.human.echo(f"Wrote {data['path']}"))
+    try:
+        out.write_text(text, encoding="utf-8")
+    except OSError as exc:
+        raise InvalidArguments(f"Cannot write {out}: {exc.strerror}.") from exc

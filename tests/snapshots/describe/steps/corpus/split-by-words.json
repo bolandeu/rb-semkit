@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "GOOD",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "a phrase that is not bad and has only these words is good. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",
@@ -23,7 +26,10 @@
       "arguments": [
         {
           "name": "BAD",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "a phrase with any of these words is bad. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",
@@ -54,6 +60,9 @@
         {
           "name": "KEEP",
           "required": true,
+          "arity": {
+            "maximum": 1
+          },
           "acceptedValues": [
             "good",
             "bad",

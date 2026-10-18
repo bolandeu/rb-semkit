@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "SEP",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the separator; with \"|\" «a1b22» → «a|1|b|22».",
@@ -27,7 +30,10 @@
       "arguments": [
         {
           "name": "NAME",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "Write the result to a new column NAME and keep the working column as it is.",

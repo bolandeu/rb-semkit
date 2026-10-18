@@ -21,7 +21,10 @@
       "arguments": [
         {
           "name": "EXCLUDE",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "words to leave out the same way, as written, with case and ё folded, not by lemma («года» does not leave out «год»). Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",

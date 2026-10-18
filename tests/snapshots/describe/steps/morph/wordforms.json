@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "WORD",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the word, in any form. The forms are those of its lemma, in lower case; the word itself is not repeated («диван» gives «дивана», «диване», … but not «диван»). A word the dictionary lacks gives no forms.",

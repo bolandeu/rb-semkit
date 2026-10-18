@@ -21,7 +21,10 @@
       "arguments": [
         {
           "name": "PROVIDER",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "Report only this provider, or one target as <kind>:<target> (default: all).",

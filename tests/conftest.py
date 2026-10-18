@@ -8,8 +8,10 @@ A test marked `real_encoder` gets the models as semkit opens them: the vectors e
 from __future__ import annotations
 
 import os
+import subprocess
+import sys
 import zlib
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from pathlib import Path
 
 import numpy as np
@@ -28,6 +30,9 @@ from rb_semkit.core.vectors.registry import Model  # noqa: E402
 from rb_semkit.core.word_vectors.navec import WordVectors  # noqa: E402
 from rb_semkit.core.word_vectors.thesaurus import Thesaurus  # noqa: E402
 from rb_semkit.steps import word_vectors  # noqa: E402
+
+# Typer reads these once, at import, and then forces terminal output — what a CI runner sets.
+CI_ENV = {"GITHUB_ACTIONS": "true", "FORCE_COLOR": "1", "PY_COLORS": "1"}
 
 WORD_DIMENSIONS = 64
 
@@ -94,3 +99,19 @@ def _test_word_data(request: pytest.FixtureRequest, monkeypatch: pytest.MonkeyPa
         ),
     )
     monkeypatch.setattr(word_vectors, "open_word_vectors", lambda start: vectors)
+
+
+@pytest.fixture
+def same_in_ci(request: pytest.FixtureRequest) -> Callable[[str], None]:
+    """Rerun this file's tests matching `-k` under CI_ENV in a fresh interpreter: the only way to set a value read at import."""
+    if request.config.getoption("--snapshot-update"):
+        pytest.skip("the snapshots are being written; there is nothing to compare yet")
+
+    def run(selection: str) -> None:
+        options = ["-k", selection, "-p", "no:cacheprovider", "--no-cov", "-q"]
+        command = [sys.executable, "-m", "pytest", str(request.path), *options]
+        env = {**os.environ, **CI_ENV}
+        result = subprocess.run(command, env=env, capture_output=True, text=True, check=False)  # noqa: S603
+        assert result.returncode == 0, result.stdout[-3000:]
+
+    return run

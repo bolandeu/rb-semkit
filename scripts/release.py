@@ -5,8 +5,8 @@
 
 Tagging and the changelog belong to `antagor publish --bump`, not to this script.
 
-This local gate is the authoritative check (tools/docs/standard-release.md
-§3): agents run `--check` before committing, CI (if any) runs `--check`,
+This local gate is the authoritative check (CLI standard,
+architecture.md §8): agents run `--check` before committing, CI (if any) runs `--check`,
 and nothing is released unless it passes on the machine cutting the release.
 Gate steps, in order — the first failure stops everything and prints that
 step's name and output, then `release: code failed` (exit 1) or, when only
@@ -19,7 +19,7 @@ the vulnerability audit failed, `release: audit failed` (exit 3):
     existing tests (never fails: lists every test that existed at the last tag
     and has since changed or gone — a changed or removed test function, changed
     module-level code of a test file, a changed snapshot or data file; each goes
-    into the release report with its reason, `tools/dev` reject it without one) ·
+    into the release report with its reason, the review rejects it without one) ·
     external dependencies (every program src/ runs is declared in
     [[tool.rb.external]] and vice versa) ·
     build the wheel and install
@@ -232,7 +232,7 @@ def check_existing_tests() -> str:
     """Tests the last release had that are changed or gone now: a test is not edited to fit the code.
 
     Never fails — a requirement can change. The list goes into the release
-    report, each entry with its reason (tools/dev docs/testing.md, "TDD").
+    report, each entry with its reason (TDD).
     """
     versions = tags()
     if not versions:

@@ -8,6 +8,9 @@
         {
           "name": "KIND",
           "required": true,
+          "arity": {
+            "maximum": 1
+          },
           "acceptedValues": [
             "broad",
             "broad_modifier",
@@ -36,6 +39,9 @@
         {
           "name": "MODIFIER",
           "required": true,
+          "arity": {
+            "maximum": 1
+          },
           "acceptedValues": [
             "+",
             "!"
@@ -59,7 +65,10 @@
       "arguments": [
         {
           "name": "NAME",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "Write the result to a new column NAME and keep the working column as it is.",

@@ -8,7 +8,7 @@ pinned by tag) can't rely on the lock file, so it checks at runtime:
 
 A missing or too old CLI fails with DEPENDENCY_TOO_OLD (exit 1) naming what is
 installed, what is needed and how to fix it — not with a confusing error from
-deep inside the other tool. See tools/docs/standard-release.md §5.
+deep inside the other tool. See the CLI standard, architecture.md §8.
 """
 
 from __future__ import annotations

@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "START",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "characters cut from the start of a word, any run of them.",
@@ -27,7 +30,10 @@
       "arguments": [
         {
           "name": "END",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "characters cut from the end of a word, any run of them.",
@@ -47,7 +53,10 @@
       "arguments": [
         {
           "name": "NAME",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "Write the result to a new column NAME and keep the working column as it is.",

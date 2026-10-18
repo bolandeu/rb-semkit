@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "THRESHOLD",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the similarity from 0 to 1 two phrases need to be one intent, for --kind meaning. Without it the threshold of the model.",
@@ -23,7 +26,10 @@
       "arguments": [
         {
           "name": "MAX_SIZE",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the most phrases in an ad group, 1 or more; a larger group is split by vector. Without it no group is split.",
@@ -39,7 +45,10 @@
       "arguments": [
         {
           "name": "FREQ",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the column of the frequencies of the phrases in the current table; the ad group is named after its most frequent phrase. Without it, after its first phrase.",
@@ -55,7 +64,10 @@
       "arguments": [
         {
           "name": "NEUTRAL",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the Human's non-refining words for --kind meaning, as @FILE or @NAME of a list; they add to the bundled list @meaning/neutral. Words are compared by lemma. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",
@@ -71,7 +83,10 @@
       "arguments": [
         {
           "name": "SYNONYMS",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "a file with the columns word and synonyms, as the step `synonyms` gives, for --kind meaning; a word and its synonyms are the same word. The file is read like `read` does.",
@@ -87,7 +102,10 @@
       "arguments": [
         {
           "name": "HOME",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the name of the home city for --kind meaning; its word is non-refining, another city's is not.",
@@ -103,7 +121,10 @@
       "arguments": [
         {
           "name": "MODEL",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.",

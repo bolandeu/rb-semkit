@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "AGAINST",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "a file with the second list, one phrase per row; the file is read like `read` does. The phrases are in --second-column, by default the first text column of the file.",
@@ -24,6 +27,9 @@
         {
           "name": "OP",
           "required": true,
+          "arity": {
+            "maximum": 1
+          },
           "acceptedValues": [
             "both",
             "either",
@@ -50,6 +56,9 @@
         {
           "name": "KIND",
           "required": true,
+          "arity": {
+            "maximum": 1
+          },
           "acceptedValues": [
             "exact",
             "explicit",
@@ -75,7 +84,10 @@
       "arguments": [
         {
           "name": "SECOND_COLUMN",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the column of the phrases of the second list.",

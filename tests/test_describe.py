@@ -18,7 +18,7 @@ import copy
 import enum
 import json
 import re
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 from pathlib import Path
 
 import jsonschema
@@ -133,6 +133,10 @@ def _root_snapshot() -> str:
     return _rendered(document)
 
 
+def test_describe_is_the_same_in_ci(same_in_ci: Callable[[str], None]) -> None:
+    same_in_ci("_snapshot")
+
+
 def test_root_snapshot(snapshot) -> None:
     assert _root_snapshot() == snapshot(extension_class=snapshot_in(SNAPSHOT_DIR, "json"), name=ROOT.name)
 
@@ -187,6 +191,8 @@ def test_parameter_shapes() -> None:
     assert _meta(options["--color"])["x-rb-default"] == "red"
     assert _meta(options["--out"])["x-rb-default"] == "out"
     assert _meta(options["--tag"])["x-rb-multiple"] is True
+    assert options["--color"]["arguments"][0]["arity"] == {"maximum": 1}
+    assert "arity" not in options["--tag"]["arguments"][0]
     assert options["--secret"]["hidden"] is True
     assert options["--force"]["aliases"] == ["--no-force"] and "arguments" not in options["--force"]
     assert options["--name"]["required"] is True

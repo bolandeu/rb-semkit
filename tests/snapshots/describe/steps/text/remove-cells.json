@@ -8,6 +8,9 @@
         {
           "name": "KIND",
           "required": true,
+          "arity": {
+            "maximum": 1
+          },
           "acceptedValues": [
             "contains",
             "starts",
@@ -34,7 +37,10 @@
       "arguments": [
         {
           "name": "ITEMS",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the text parts for \"contains\", \"starts\" and \"ends\". Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",
@@ -50,7 +56,10 @@
       "arguments": [
         {
           "name": "PATTERN",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the regular expression for \"regex\".",
@@ -80,7 +89,10 @@
       "arguments": [
         {
           "name": "NAME",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "Write the result to a new column NAME and keep the working column as it is.",

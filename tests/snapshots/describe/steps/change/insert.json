@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "BEFORE",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the text at the start («купить » gives «купить диван»).",
@@ -27,7 +30,10 @@
       "arguments": [
         {
           "name": "AFTER",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the text at the end («диван» with « в москве» gives «диван в москве»).",
@@ -61,7 +67,10 @@
       "arguments": [
         {
           "name": "NAME",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "Write the result to a new column NAME and keep the working column as it is.",

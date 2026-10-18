@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "AGAINST",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "a file with the texts to match, one per row; the file is read like `read` does. Give it or --to, not both.",
@@ -23,7 +26,10 @@
       "arguments": [
         {
           "name": "AGAINST_COLUMN",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the column of the texts in --against; by default the column text, else its first text column that is no url column.",
@@ -39,7 +45,10 @@
       "arguments": [
         {
           "name": "TOP",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the matches of each row, the nearest first: a whole number from 1.",
@@ -59,7 +68,10 @@
       "arguments": [
         {
           "name": "THRESHOLD",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the similarity from 0 to 1 a match needs to stay; without it every match stays.",
@@ -95,7 +107,10 @@
       "arguments": [
         {
           "name": "MODEL",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub.",

@@ -27,7 +27,10 @@
       "arguments": [
         {
           "name": "COLUMN",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "The working column the steps read and change; by default the first text column.",
@@ -57,7 +60,10 @@
       "arguments": [
         {
           "name": "FILE",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "Write every cell a step changes and every row it drops to FILE as JSONL: row (1 is the first row under the header), step, column, before, after. An existing FILE needs --overwrite.",

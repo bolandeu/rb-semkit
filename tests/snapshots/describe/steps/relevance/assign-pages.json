@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "PAGES",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "a file with the pages of the site; the file is read like `read` does. Its columns: url, and text (the text of the page: its title, H1 and body), and title and h1 when it has them.",
@@ -23,7 +26,10 @@
       "arguments": [
         {
           "name": "MODEL",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.",

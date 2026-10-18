@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "PAIRS",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "a file of two columns, what to find and its replacement; the first row is the header, the file is read like `read` does.",
@@ -24,6 +27,9 @@
         {
           "name": "BY",
           "required": true,
+          "arity": {
+            "maximum": 1
+          },
           "acceptedValues": [
             "substring",
             "phrase",
@@ -62,7 +68,10 @@
       "arguments": [
         {
           "name": "NAME",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "Write the result to a new column NAME and keep the working column as it is.",

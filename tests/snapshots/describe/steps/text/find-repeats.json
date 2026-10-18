@@ -8,6 +8,9 @@
         {
           "name": "MODE",
           "required": true,
+          "arity": {
+            "maximum": 1
+          },
           "acceptedValues": [
             "exact",
             "wordforms"
@@ -32,6 +35,9 @@
         {
           "name": "SCOPE",
           "required": true,
+          "arity": {
+            "maximum": 1
+          },
           "acceptedValues": [
             "all",
             "adjacent",
@@ -58,7 +64,10 @@
       "arguments": [
         {
           "name": "NAME",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "Write the result to a new column NAME and keep the working column as it is.",

@@ -12,9 +12,11 @@
  Example: semkit docs --out docs.json
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --out          FILE  Write the document to FILE (replaced when it exists); by default to stdout. │
-│ --json               Emit machine-readable JSON output.                                          │
-│ --quiet              Suppress non-essential output.                                              │
-│ --help               Show this message and exit.                                                 │
+│ --out            FILE  Write the document to FILE (replaced when it exists); by default to       │
+│                        stdout.                                                                   │
+│ --json                 Emit machine-readable JSON output.                                        │
+│ --quiet                Suppress non-essential output.                                            │
+│ --verbose              Emit extra diagnostic output.                                             │
+│ --help                 Show this message and exit.                                               │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

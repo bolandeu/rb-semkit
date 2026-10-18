@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "SYNONYMS",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "a file with the columns word and synonyms, as the step `synonyms` gives; the file is read like `read` does.",
@@ -37,7 +40,10 @@
       "arguments": [
         {
           "name": "NAME",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "Write the result to a new column NAME and keep the working column as it is.",

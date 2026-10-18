@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "THRESHOLD",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the similarity from 0 to 1 a phrase needs to the phrase that starts a cluster to join it.",
@@ -23,7 +26,10 @@
       "arguments": [
         {
           "name": "FREQ",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the column of the frequencies of the phrases in the current table; the cluster is named after its most frequent phrase. Without it, after the phrase nearest the centre of the cluster (the mean of its vectors).",
@@ -39,7 +45,10 @@
       "arguments": [
         {
           "name": "MODEL",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the cluster threshold of the model (the threshold of the model when it has none of its own); a hub model has none.",

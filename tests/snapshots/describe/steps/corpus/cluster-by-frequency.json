@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "THRESHOLD",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the fewest phrases a word must stand in to name a cluster.",
@@ -23,7 +26,10 @@
       "arguments": [
         {
           "name": "NAME",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "Write the result to a new column NAME and keep the working column as it is.",

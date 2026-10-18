@@ -98,7 +98,9 @@ def option(param: Any) -> dict:
     if param.required:
         out["required"] = True
     if not param.is_flag and not param.count:
-        value = {"name": param.metavar or (param.name or "value").upper(), "required": True}
+        value: dict[str, Any] = {"name": param.metavar or (param.name or "value").upper(), "required": True}
+        if not param.multiple:
+            value["arity"] = {"maximum": 1}
         if choices := _choices(param.type):
             value["acceptedValues"] = choices
         out["arguments"] = [value]

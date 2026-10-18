@@ -24,7 +24,7 @@ class ReadSteps(docs.Hook):
     """The steps of read, whose examples in the docstring are full commands «<cli> read <input> <step> …»."""
 
     def __init__(self, root: Any) -> None:
-        self.read = root.commands[PIPELINE]
+        self.read = root.commands.get(PIPELINE)
         self.steps = {step.name for found in areas().values() for step in found}
         self.program = cli_name()
 

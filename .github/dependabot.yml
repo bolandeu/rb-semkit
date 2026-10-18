@@ -1,4 +1,4 @@
-# One grouped PR per ecosystem per month (tools/docs/standard-release.md §6).
+# One grouped PR per ecosystem per month (CLI standard, architecture.md §8).
 version: 2
 updates:
   - package-ecosystem: "uv"

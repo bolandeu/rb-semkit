@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "FIRST",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the first or last N words.",
@@ -23,7 +26,10 @@
       "arguments": [
         {
           "name": "LAST",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the first or last N words.",
@@ -39,7 +45,10 @@
       "arguments": [
         {
           "name": "NTH",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the N-th word.",
@@ -69,7 +78,10 @@
       "arguments": [
         {
           "name": "AT_MOST",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the leading words while they hold half the characters of the phrase at most, or N characters at most, and always the first word («купить диван недорого», 12 characters at most → «купить диван»).",
@@ -85,7 +97,10 @@
       "arguments": [
         {
           "name": "NAME",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "Write the result to a new column NAME and keep the working column as it is.",
