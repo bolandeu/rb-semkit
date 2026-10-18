@@ -139,6 +139,8 @@
 │                        max.                                                                      │
 │ coverage               Every distinct core phrase checked against the texts: a table phrase,     │
 │                        count, docs, density and first.                                           │
+│ coverage-meaning       For each core phrase, the paragraph nearest it by meaning, and whether    │
+│                        the text covers the phrase.                                               │
 │ decline                Every word of a phrase that declines, to the case: «купить красный диван» │
 │                        genitive → «купить красного дивана».                                      │
 │ decline-noun           Each word of a phrase, a noun in the nominative singular, declined:       │

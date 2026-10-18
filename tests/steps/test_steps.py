@@ -225,6 +225,7 @@ COMMANDS = {
     "compare-lists": ["phrases.csv", "compare-lists", "--against", "second.csv"],
     "compare-stats": ["--whole", "mine.txt", "compare-stats", "--competitors", "competitors.csv"],
     "coverage": ["phrases.csv", "coverage", "--against", "competitors.csv"],
+    "coverage-meaning": ["core.csv", "coverage-meaning", "--text", "article.txt"],
     "decline": ["phrases.csv", "decline", "genitive"],
     "decline-adjective": ["phrases.csv", "decline-adjective", "genitive"],
     "decline-full-name": ["names.csv", "decline-full-name", "genitive"],
