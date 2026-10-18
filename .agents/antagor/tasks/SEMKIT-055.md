@@ -2,7 +2,7 @@
 id: SEMKIT-055
 title: 'Every step''s docstring to the help standard: one-line summary, option lines,
   short examples with results'
-status: in_review
+status: publish
 attempts: 0
 blocked: false
 blocked_reason: null
