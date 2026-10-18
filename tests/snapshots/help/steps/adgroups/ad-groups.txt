@@ -1,0 +1,83 @@
+
+ Usage: semkit read {IN} ad-groups [OPTIONS]
+
+ Small ad groups of one intent: phrases that are duplicates by meaning of each other share a group.
+
+ Two phrases of the same refining words and close vectors (the rule of `dupes_meaning`) are one
+ intent, and a chain of such pairs makes one group. A group of more than `max_size` phrases is
+ split: the first phrase left takes the `max_size` phrases nearest to it, and so on, so the same
+ input gives the same groups. Equal phrases are one phrase. The groups are numbered from 1 in the
+ order of their first rows. The columns: ad_group and ad_group_name; every phrase gets them, an
+ empty cell gets none.
+
+ max_size: the most phrases in an ad group, 1 or more; a larger group is split by vector. Without
+ it no group is split.
+ freq: the column of the frequencies of the phrases in the current table; the ad group is named
+ after its most frequent phrase. Without it, after its first phrase.
+ neutral: the Human's non-refining words for --kind meaning, as @FILE or @NAME of a list; they add
+ to the bundled list @meaning/neutral. Words are compared by lemma.
+ synonyms: a file with the columns word and synonyms, as the step `synonyms` gives, for --kind
+ meaning; a word and its synonyms are the same word. The file is read like `read` does.
+ home: the name of the home city for --kind meaning; its word is non-refining, another city's is
+ not.
+ threshold: the similarity from 0 to 1 two phrases need to be one intent, for --kind meaning.
+ Without it the threshold of the model.
+ model: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or
+ hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of
+ the model; a hub model has none.
+
+ The step adds the columns ad_group and ad_group_name right after the working column; the rows
+ stay.
+
+ Example: semkit read core.csv ad-groups --max-size 20 --freq freq write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --threshold        <float>  the similarity from 0 to 1 two phrases need to be one intent, for    │
+│                             --kind meaning. Without it the threshold of the model.               │
+│ --max-size         <int>    the most phrases in an ad group, 1 or more; a larger group is split  │
+│                             by vector. Without it no group is split.                             │
+│ --freq             <str>    the column of the frequencies of the phrases in the current table;   │
+│                             the ad group is named after its most frequent phrase. Without it,    │
+│                             after its first phrase.                                              │
+│ --neutral          <str>    the Human's non-refining words for --kind meaning, as @FILE or @NAME │
+│                             of a list; they add to the bundled list @meaning/neutral. Words are  │
+│                             compared by lemma. Items: a comma list 'a,b', @FILE (one item per    │
+│                             line, or the first column of a table) or @NAME of a list.            │
+│ --synonyms         <str>    a file with the columns word and synonyms, as the step `synonyms`    │
+│                             gives, for --kind meaning; a word and its synonyms are the same      │
+│                             word. The file is read like `read` does.                             │
+│ --home             <str>    the name of the home city for --kind meaning; its word is            │
+│                             non-refining, another city's is not.                                 │
+│ --model            <str>    the encoder, pulled once with `semkit models pull NAME`: e5-small,   │
+│                             bge-m3, potion, or hf:<id> of a model of the Hugging Face hub.       │
+│                             Without --threshold the step takes the threshold of the model; a hub │
+│                             model has none.                                                      │
+│                             [default: e5-small]                                                  │
+│ --help                      Show this message and exit.                                          │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+ Lists for @NAME: @combine/kiev-region-towns, @combine/leningrad-region-villages,
+ @combine/moscow-hotels, @combine/moscow-metro, @combine/moscow-region-villages,
+ @combine/realty-object, @combine/realty-service, @combine/review, @combine/russia-cities-100k,
+ @combine/russia-cities-250k, @combine/russia-cities-500k, @combine/shop, @combine/spb-hotels,
+ @combine/spb-metro, @combine/tourism, @combine/tourism/austria, @combine/tourism/baltic,
+ @combine/tourism/benelux, @combine/tourism/bulgaria, @combine/tourism/canada,
+ @combine/tourism/caribbean, @combine/tourism/china, @combine/tourism/croatia,
+ @combine/tourism/cyprus, @combine/tourism/czech, @combine/tourism/egypt, @combine/tourism/france,
+ @combine/tourism/germany, @combine/tourism/greece, @combine/tourism/hungary,
+ @combine/tourism/india, @combine/tourism/indonesia, @combine/tourism/israel,
+ @combine/tourism/italy, @combine/tourism/malaysia, @combine/tourism/mexico,
+ @combine/tourism/montenegro, @combine/tourism/poland, @combine/tourism/portugal,
+ @combine/tourism/scandinavia, @combine/tourism/spain, @combine/tourism/switzerland,
+ @combine/tourism/thailand, @combine/tourism/turkey, @combine/tourism/uae, @combine/tourism/uk,
+ @combine/tourism/usa, @combine/ukraine-cities-100k, @combine/ukraine-cities-250k, @markers/DIY,
+ @markers/MO, @markers/cars, @markers/citiesRu, @markers/color, @markers/districts, @markers/edu,
+ @markers/fun, @markers/game, @markers/geo, @markers/material, @markers/mosmetro, @markers/names,
+ @markers/origin, @markers/questions, @markers/rent, @markers/reviews, @markers/sale,
+ @meaning/neutral, @minus/abusive, @minus/adult-hard, @minus/adult-soft, @minus/belarus-cities,
+ @minus/cheap, @minus/computer, @minus/countries, @minus/ex-ussr-cities, @minus/free,
+ @minus/handmade, @minus/kazakhstan-cities, @minus/moscow-region-cities, @minus/russia-cities,
+ @minus/ukraine-cities, @minus/universal, @minus/world-cities, @stop/semtools, @stop/wordstat. Run
+ 'semkit lists' for their sources and descriptions.
+
+

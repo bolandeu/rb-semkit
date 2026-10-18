@@ -1,4 +1,7 @@
-"""cluster_meaning: phrases grouped by the similarity of their phrase vectors, with no SERP."""
+"""cluster_meaning: phrases grouped by the similarity of their phrase vectors, with no SERP.
+
+`frequencies` gives the frequency of each distinct phrase; `ad_groups` reuses it.
+"""
 
 from __future__ import annotations
 
@@ -30,7 +33,7 @@ def cluster_meaning(
     phrases = pd.Index(pd.unique(texts[texts != ""]))
     vectors = np.ascontiguousarray(encoder.encode(list(phrases)), dtype=np.float32)
     labels, kind = _clusters(vectors, threshold) if len(phrases) else (np.zeros(0, dtype=np.int64), index.index_kind(0))
-    names = _names(vectors, labels, None if freq is None else _frequencies(texts, freq, phrases))
+    names = _names(vectors, labels, None if freq is None else frequencies(texts, freq, phrases))
     rows = phrases.get_indexer(texts)
     found = rows >= 0
     name_rows = names[labels[rows[found]]]
@@ -64,7 +67,7 @@ def _clusters(vectors: np.ndarray, threshold: float) -> tuple[np.ndarray, index.
     return numbers[starts].to_numpy(), found.kind
 
 
-def _frequencies(texts: pd.Series, freq: pd.Series, phrases: pd.Index) -> np.ndarray:
+def frequencies(texts: pd.Series, freq: pd.Series, phrases: pd.Index) -> np.ndarray:
     """The frequency of each phrase: the sum over its rows."""
     given = pd.to_numeric(freq.reindex(texts.index), errors="coerce").fillna(0)
     return given.groupby(texts.to_numpy()).sum().reindex(phrases).to_numpy()
