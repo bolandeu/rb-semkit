@@ -1,8 +1,9 @@
 """The step table: the library functions the pipeline runs, one entry per step (ADR 0008).
 
 Each area keeps its entries in its own module of this package, as the list `STEPS`; `areas()` finds the modules, so
-a new area needs no edit here. An entry names the step, the library function whose signature gives the options and
-whose docstring gives the help, the kind of the step and how to prepare it from the options.
+a new area needs no edit here (a module without `STEPS`, as `docs_hook`, is no area). An entry names the step, the
+library function whose signature gives the options and whose docstring gives the help, the kind of the step and how to
+prepare it from the options.
 
 Kinds: change (writes the working column, or new columns), filter (keeps or drops rows), report (its table becomes
 the current one). A prepared step takes the current table and the working column and gives its outcome: `Change`,
@@ -17,9 +18,8 @@ names the column of the texts, `texts_column` the one of a table of pages); `joi
 The project of the CLI (the option --project, else the current folder): the command prepares each step inside
 `project_start`, and a step that looks up the project (the models.dir of the config, a word list) asks `prepared_for`.
 
-The help of a step is made from the docstring: `doc_lines` joins the lines of a paragraph but keeps the items of a list
-and the explanations of arguments as lines of their own, `argument_names` gives the arguments such an explanation is
-for, and `parameter_names` the arguments of a function (and of the function an `Adapted` one wraps).
+The help of a step is made from the docstring, split as `core.docs` splits it (`doc_lines`, `argument_names`);
+`parameter_names` gives the arguments of a function (and of the function an `Adapted` one wraps).
 """
 
 from __future__ import annotations
@@ -28,7 +28,6 @@ import functools
 import importlib
 import inspect
 import pkgutil
-import re
 from collections.abc import Callable, Collection, Iterator, Mapping
 from contextlib import contextmanager
 from contextvars import ContextVar
@@ -41,6 +40,7 @@ import pandas as pd
 from pandas.api import types
 
 from ..core.compare.grams import URL
+from ..core.docs import ARGUMENT_LINE, argument_names, doc_lines
 from ..core.errors import InvalidArguments
 from ..core.frame import Frame, text_columns
 from ..core.relevance.page import TEXT
@@ -52,12 +52,6 @@ REPEATED = "repeated"
 POSITIONAL = "positional"
 # The folder the project of the CLI is looked up from while a step is prepared: the --project option, else the current folder.
 _PROJECT_START: ContextVar[Path | None] = ContextVar("project_start", default=None)
-# A docstring line that explains arguments of the function: «mode: …», «`action`: …», «core, column: …», «first / last: …».
-ARGUMENT_NAMES = r"`?\w+`?(?:(?:, | / )`?\w+`?)*"
-ARGUMENT_LINE = re.compile(rf"^(?P<names>{ARGUMENT_NAMES}): ")
-# An explanation of another argument inside a line, after the end of a sentence: «… is bad. good: a phrase …».
-INLINE_ARGUMENT = re.compile(rf"(?<=[.;]) (?P<names>{ARGUMENT_NAMES}): ")
-LIST_ITEM = re.compile(r"^(?:[-*]|\d+[.)]) ")
 DIGIT_GROUPS = r"(?<=\d)[ \u00a0\u202f](?=\d{3}\b)"  # the spaces between groups of digits: «1 000»
 
 
@@ -153,36 +147,6 @@ class Step:
 def parameter_names(function: Callable[..., Any]) -> set[str]:
     """The arguments of a function and of the function it adapts."""
     return set(inspect.signature(function).parameters) | set(inspect.signature(inspect.unwrap(function)).parameters)
-
-
-def doc_lines(paragraph: str, parameters: Collection[str]) -> list[str]:
-    """The lines of a docstring paragraph as the help shows them.
-
-    A line goes on the line before it, unless it starts an item of a list or the explanation of arguments; so does
-    the explanation of an argument of `parameters` that follows the end of a sentence.
-    """
-    lines: list[str] = []
-    for line in paragraph.splitlines():
-        text = line.strip()
-        if lines and not (ARGUMENT_LINE.match(text) or LIST_ITEM.match(text)):
-            lines[-1] += f" {text}"
-        else:
-            lines.append(text)
-    return [part for line in lines for part in _argument_parts(line, parameters)]
-
-
-def argument_names(found: re.Match[str]) -> list[str]:
-    """The names an explanation of arguments (ARGUMENT_LINE or INLINE_ARGUMENT) is for."""
-    return [name.strip("`") for name in re.split(r", | / ", found["names"])]
-
-
-def _argument_parts(line: str, parameters: Collection[str]) -> list[str]:
-    parts, start = [], 0
-    for found in INLINE_ARGUMENT.finditer(line):
-        if all(name in parameters for name in argument_names(found)):
-            parts.append(line[start : found.start()])
-            start = found.start() + 1
-    return [*parts, line[start:]]
 
 
 class Adapted:
@@ -366,10 +330,11 @@ def change_step(
 
 @functools.cache
 def areas() -> dict[str, tuple[Step, ...]]:
-    """The steps of each area, by the name of its module, sorted by name."""
+    """The steps of each area, by the name of its module, sorted by name; a module without `STEPS` is no area."""
     found = {}
     for module in sorted(info.name for info in pkgutil.iter_modules(__path__)):
-        found[module] = tuple(importlib.import_module(f"{__name__}.{module}").STEPS)
+        if (listed := getattr(importlib.import_module(f"{__name__}.{module}"), "STEPS", None)) is not None:
+            found[module] = tuple(listed)
     return found
 
 

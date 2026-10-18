@@ -307,5 +307,7 @@ Error envelope with `--json`: `{"ok": false, "error": {"code", "message", "actio
     6  CLI too old for this project → uv tool upgrade rb-semkit
 
 Only exit 5 is worth an automatic retry. `semkit doctor --json` reports the environment when something looks off;
-`semkit describe --json` is the whole CLI, every step and option, as one machine-readable document. The global
+`semkit describe --json` is the whole CLI, every step and option, as one machine-readable document; `semkit docs --out
+FILE` writes the same help for people (each step with the input of read, each option ending with «Default: … Allowed:
+…»), for a viewer such as InSpectra. The global
 `--dry-run` also keeps `init`, `config set`, `skill install`, `lists add` and `lists rm` from writing.
