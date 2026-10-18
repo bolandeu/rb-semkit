@@ -6,20 +6,38 @@ left out. Both give a report that replaces the current table.
 
 from __future__ import annotations
 
+from typing import Annotated
+
 import pandas as pd
 
 from ..core.compare.grams import URL
+from ..core.errors import InvalidArguments
 from ..core.frame import Frame
 from ..core.nearest.matches import check_top, nearest
 from ..core.nearest.paragraphs import heading_words, split_paragraphs
+from ..core.relevance.page import TEXT
 from ..core.vectors import registry
-from . import Adapted, Prepared, Report, Step, option, table_of, texts_column
+from . import POSITIONAL, REPEATED, Adapted, Prepared, Report, Step, option, table_of, texts_column
 from .vectors import ENCODER_DOC, PAGE_NOTE, page_encoder_of
 
-AGAINST_DOC = "against: a file with the texts to match, one per row; the file is read like `read` does."
+AGAINST_DOC = (
+    "against: a file with the texts to match, one per row; the file is read like `read` does."
+    " Give it or --to, not both."
+)
+TO_DOC = "to: a text to match; repeat it for each text, the nearest of them first. It stands for an against file of one column text."
 AGAINST_COLUMN_DOC = (
     "against_column: the column of the texts in --against; by default the column text, else its first text column that is no url column."
 )
+
+
+def _against_table(options: dict) -> pd.DataFrame:
+    """The table of the texts to match: the file --against, or the texts of --to as a table of one column text."""
+    path, texts = options["against"], options["to"]
+    if path is not None and texts:
+        raise InvalidArguments("--to and AGAINST/--against: given together; allowed: one of them.")
+    if path is None and not texts:
+        raise InvalidArguments("AGAINST: not given; allowed: AGAINST, --against AGAINST or --to TEXT.")
+    return table_of(path, "against") if texts is None else pd.DataFrame({TEXT: texts})
 
 
 def _prepare_nearest(options: dict) -> Prepared:
@@ -27,7 +45,7 @@ def _prepare_nearest(options: dict) -> Prepared:
     if options["threshold"] is not None:
         registry.threshold(registry.model(options["model"]), options["threshold"])
     found_encoder = page_encoder_of(options)
-    against = table_of(options["against"], "against")
+    against = _against_table(options)
     against_column = options["against_column"] or texts_column(against, "against")
     Frame(against, against_column, argument="against_column")  # refuses a column it lacks or one not of text
     top, threshold = options["top"], options["threshold"]
@@ -63,17 +81,21 @@ STEPS = [
             nearest,
             {
                 "encoder": None,
-                "against": option("against"),
+                "against": option("against", Annotated[str | None, POSITIONAL], None),
+                "to": option("to", Annotated[list[str] | None, REPEATED], None),
                 "against_column": option("against_column", str | None, None),
                 "model": option("model", str, registry.default_name()),
             },
             AGAINST_DOC,
+            TO_DOC,
             AGAINST_COLUMN_DOC,
             ENCODER_DOC,
         ),
         "report",
         _prepare_nearest,
-        f"{PAGE_NOTE}\n\nThe step takes the working column as the texts to match; the report replaces the current table.",
+        f"{PAGE_NOTE}\n\nThe step takes the working column as the texts to match; the report replaces the current table."
+        " To match with a few texts, give them with --to instead of a file: `semkit read phrases.csv nearest --to"
+        ' "растаможка авто" --threshold 0.85`.',
         example="--against page_texts.csv --top 2",
     ),
     Step(

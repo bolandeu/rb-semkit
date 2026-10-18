@@ -230,6 +230,13 @@ semkit read core.csv cluster-meaning --freq freq write clusters.csv
 semkit read variants.csv linear-combinations agree nearest --against page_texts.csv --top 2 write matches.csv
 ```
 
+`nearest` takes the texts to match from a file (`--against`) or from the command line: `--to TEXT`, once for each text,
+in place of a file (not together with one; exit 2). `--top`, `--threshold` and `--model` work the same.
+
+```bash
+semkit read phrases.csv nearest --to "растаможка авто" --threshold 0.85 write matches.csv
+```
+
 `--model NAME` names the encoder (default `e5-small`); `--threshold` is the similarity from 0 to 1 of one intent, by
 default the threshold of the model (a hub model has none: give it); `cluster-meaning` takes the cluster threshold of
 the model (e5-small 0.975) and, without one, its threshold. The steps add columns and drop no row: their columns are

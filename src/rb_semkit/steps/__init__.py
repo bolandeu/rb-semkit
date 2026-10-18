@@ -47,6 +47,9 @@ from ..core.relevance.page import TEXT
 from ..pipeline.tables import STDIO, Source, exists
 
 Kind = Literal["change", "filter", "report"]
+# Markers for `Annotated` in the annotation of `option`: a repeatable option (--to A --to B) and a positional one that is not required.
+REPEATED = "repeated"
+POSITIONAL = "positional"
 # The folder the project of the CLI is looked up from while a step is prepared: the --project option, else the current folder.
 _PROJECT_START: ContextVar[Path | None] = ContextVar("project_start", default=None)
 # A docstring line that explains arguments of the function: «mode: …», «`action`: …», «core, column: …», «first / last: …».

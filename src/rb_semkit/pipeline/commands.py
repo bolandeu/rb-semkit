@@ -35,7 +35,18 @@ from .. import output
 from ..core import wordlists
 from ..core.errors import InvalidArguments
 from ..core.version import cli_name
-from ..steps import ARGUMENT_LINE, LIST_ITEM, Prepared, Step, argument_names, doc_lines, parameter_names, project_start
+from ..steps import (
+    ARGUMENT_LINE,
+    LIST_ITEM,
+    POSITIONAL,
+    REPEATED,
+    Prepared,
+    Step,
+    argument_names,
+    doc_lines,
+    parameter_names,
+    project_start,
+)
 from .items import SYNTAX, items
 from .state import Planned
 
@@ -76,7 +87,8 @@ class StepOption:
     default: Any  # ... when the option is required
     takes_items: bool
     help: str
-    positional: bool = False  # the first required argument: also taken positionally, so neither form is required
+    positional: bool = False  # the first required argument, or a marked one: also taken positionally, so neither form is required
+    repeated: bool = False  # given once for each item (--to A --to B): a list of the texts as they are
 
     def flag(self) -> str:
         name = self.name.replace("_", "-")
@@ -90,6 +102,8 @@ class StepOption:
     def value(self, values: dict[str, Any], start: Path) -> Any:
         """The value the function takes for what the command line gave, as the option or positionally."""
         given = self._given(values)
+        if self.repeated:
+            return list(given) if given else None
         if not self.takes_items or given is None:
             return given
         try:
@@ -107,6 +121,8 @@ class StepOption:
                 f"{self.flag()}: given twice, as {self.metavar()} {argument!r} and as {self.flag()} {option!r};"
                 " allowed: one of them."
             )
+        if option is None and argument is None and self.default is not ...:
+            return None
         if option is None and argument is None:
             raise InvalidArguments(
                 f"{self.metavar()}: not given; allowed: {self.metavar()} or {self.flag()} {self.metavar()}."
@@ -197,7 +213,11 @@ def _option_help(doc: str, name: str, parameters: Collection[str]) -> str:
 
 def _step_option(function: Callable[..., Any], parameter: inspect.Parameter) -> StepOption | None:
     """The option of one argument of `function`; None for an argument the command line does not give."""
+    marks = typing.get_args(parameter.annotation)[1:] if typing.get_origin(parameter.annotation) is typing.Annotated else ()
     annotation, takes_items = _command_line_type(_resolved(function, parameter.annotation))
+    repeated = REPEATED in marks
+    if repeated:
+        annotation, takes_items = list[str] | None, False
     required = parameter.default is inspect.Parameter.empty
     if parameter.name in TABLE_ARGUMENTS or (annotation is None and not required):
         return None
@@ -205,11 +225,12 @@ def _step_option(function: Callable[..., Any], parameter: inspect.Parameter) -> 
         raise TypeError(f"{function!r}: the required argument {parameter.name!r} has no command-line form")
     text = _option_help(inspect.getdoc(function) or "", parameter.name, parameter_names(function)) or MISSING_HELP
     help_text = f"{text} {SYNTAX}" if takes_items else text
-    return StepOption(parameter.name, annotation, ... if required else parameter.default, takes_items, help_text)
+    default = ... if required else parameter.default
+    return StepOption(parameter.name, annotation, default, takes_items, help_text, POSITIONAL in marks, repeated)
 
 
 def step_options(function: Callable[..., Any]) -> list[StepOption]:
-    """The options of the step whose function is `function`; the first required one is also positional."""
+    """The options of the step whose function is `function`; the first required one (and one marked) is also positional."""
     found = [
         option
         for parameter in inspect.signature(function).parameters.values()
