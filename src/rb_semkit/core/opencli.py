@@ -13,6 +13,10 @@ programs, word lists (`word_lists`) and template version.
 The output is a cross-tool contract like `auth status`: tests/test_describe.py
 validates it against the OpenCLI schema and snapshots it. Changing or removing
 anything in it is a breaking change (conventions.md).
+
+`core.docs` (the help document for people) reuses the reading: `info()` gives the
+document's `info`, `option` and `argument` the entry of a Click option or argument,
+`jsonable` a value as JSON holds it, `cleaned` a help text as the docstring wrote it.
 """
 
 from __future__ import annotations
