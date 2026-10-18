@@ -2,7 +2,7 @@
 id: SEMKIT-046
 title: Test snapshots and step lists split by step, so tasks that add steps do not
   wait for each other
-status: in_review
+status: publish
 attempts: 0
 blocked: false
 blocked_reason: null
