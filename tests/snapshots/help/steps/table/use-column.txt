@@ -1,0 +1,23 @@
+
+ Usage: semkit read [IN] use-column [OPTIONS] [NAME]
+
+ The column that the next steps work on; the table does not change.
+
+ A column that is not in the table is refused, naming the columns there are.
+
+ name: the column to work on.
+
+ Example: semkit read matches.csv use-column match drop-cells empty write -
+ -> купить диван, диван купить, 0.95; стол, столик, 0.9
+
+ The step changes no cell and no row: the column NAME is the working column of the next steps. With
+ drop-cells empty after it, the rows with an empty cell in NAME are dropped.
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   NAME      <str>  the column to work on. The same as --name NAME.                               │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --name        NAME  the column to work on.                                                       │
+│ --help              Show this message and exit.                                                  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

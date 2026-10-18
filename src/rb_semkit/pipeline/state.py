@@ -17,7 +17,7 @@ from pandas.api import types
 
 from ..core.errors import InvalidArguments
 from ..core.frame import text_columns
-from ..steps import Change, Columns, Keep, Prepared, Report, Step
+from ..steps import Change, Columns, Keep, Prepared, Report, Step, View
 from .tables import as_text, numbers
 
 
@@ -126,6 +126,9 @@ class State:
                 changed = sum(self._add(planned.step.name, str(name), values) for name, values in table.items())
             case Keep(rows):
                 self._keep(planned.step.name, rows.to_numpy())
+            case View(table, column):
+                self.table = table
+                self.column = column
             case Report(table):
                 self.table = table
                 self.column = _working_column(table)

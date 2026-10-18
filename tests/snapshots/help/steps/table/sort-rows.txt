@@ -1,0 +1,25 @@
+
+ Usage: semkit read [IN] sort-rows [OPTIONS]
+
+ The rows in the order of a column, numbers as numbers, texts in the alphabet order (ё after е).
+
+ Equal rows keep their order, empty cells come last (also with desc). With several columns the
+ first wins and each next one breaks the ties. A column that is not in the table is refused, naming
+ the columns there are.
+
+ by: the column to order by; repeat it for each next column.
+ desc: the biggest first, the texts from the end.
+
+ Example: semkit read freq.csv sort-rows --by freq write -
+ -> кресло, 5; купить диван, 8; диван купить, 10
+ Example: semkit read freq.csv sort-rows --by freq --desc write -
+ -> диван купить, 10; купить диван, 8; кресло, 5
+
+ The step changes no cell. The working column stays the same.
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --by          <str>  the column to order by; repeat it for each next column.                     │
+│ --desc               the biggest first, the texts from the end.                                  │
+│ --help               Show this message and exit.                                                 │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

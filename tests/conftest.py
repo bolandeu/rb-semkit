@@ -63,12 +63,16 @@ def _test_word_data(request: pytest.FixtureRequest, monkeypatch: pytest.MonkeyPa
     words = ["<unk>", "<pad>", "диван", "чехол"]
     codes = np.array([[[0, 0], [0, 0], [1, 0], [0.8, 0.6]]], dtype=np.float32)
     vectors = WordVectors(words, np.arange(len(words), dtype=np.uint8).reshape(-1, 1), codes)
-    monkeypatch.setattr(word_vectors, "open_thesaurus", lambda start: Thesaurus(
+    monkeypatch.setattr(
+        word_vectors,
+        "open_thesaurus",
+        lambda start: Thesaurus(
             [
                 ("1", "ДИВАН", "ДИВАН"),
                 ("1", "ЧЕХОЛ", "ЧЕХОЛ"),
                 ("2", "РАСТАМОЖКА", "РАСТАМОЖКА"),
                 ("2", "ТАМОЖЕННОЕ ОФОРМЛЕНИЕ", "ТАМОЖЕННЫЙ ОФОРМЛЕНИЕ"),
             ]
-        ))
+        ),
+    )
     monkeypatch.setattr(word_vectors, "open_word_vectors", lambda start: vectors)

@@ -3,7 +3,7 @@ id: SEMKIT-058
 title: 'semkit docs: examples without the command path, inherited options only (InSpectra
   rules of the template)'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -19,8 +19,11 @@ owns_paths:
 - docs/help-standard.md
 - tests/docs_cmd/
 - tests/snapshots/
+- src/rb_semkit/commands/docs.py
 test_paths:
 - tests/docs_cmd/
+- tests/steps/test_examples.py
+- tests/steps/test_help_standard.py
 docs:
 - docs/help-standard.md
 tools: []
@@ -69,3 +72,39 @@ core/docs.py and steps/docs_hook.py of SEMKIT-054; the decision of cli-generator
 ## Out of scope
 
 - The step docstrings themselves (SEMKIT-055 keeps full commands in Example lines); a new --in option of read; rendering HTML.
+
+## Feedback
+
+### Attempt 1: checks failed
+
+- `uv run --extra vectors pytest` (exit 1)
+
+```
+9-72, 79, 82-88, 97, 100, 103
+src/rb_semkit/core/version.py                    46      7    85%   60-61, 65, 72-73, 93-94
+src/rb_semkit/core/word_vectors/navec.py         69      1    99%   91
+src/rb_semkit/core/wordlists/folders.py          36      1    97%   51
+src/rb_semkit/output/__init__.py                122      9    93%   99, 143, 187, 211-214, 257-258
+src/rb_semkit/output/human.py                    27      1    96%   31
+src/rb_semkit/pipeline/commands.py              192      4    98%   135-136, 169, 185
+src/rb_semkit/pipeline/state.py                 132      4    97%   56, 103, 138, 154
+src/rb_semkit/pipeline/tables.py                147      8    95%   57, 72, 122, 137, 139, 141, 172, 213
+src/rb_semkit/steps/__init__.py                 178      3    98%   183, 244, 266
+src/rb_semkit/steps/docs_hook.py                 35      1    97%   43
+src/rb_semkit/steps/markers.py                   31      2    94%   36, 42
+src/rb_semkit/steps/serp.py                      25      5    80%   23, 28-34
+src/rb_semkit/steps/text.py                      70      1    99%   88
+---------------------------------------------------------------------------
+TOTAL                                          7031    201    97%
+
+128 files skipped due to complete coverage.
+Required test coverage of 90.0% reached. Total coverage: 97.14%
+--------------------------- snapshot report summary ----------------------------
+1 snapshot failed. 318 snapshots passed.
+=========================== short test summary info ============================
+FAILED tests/test_describe.py::test_command_snapshot[docs] - assert [+ receiv...
+=========== 1 failed, 5842 passed, 26 warnings in 204.31s (0:03:24) ============
+/Users/bolandau/Work/tools/semkit.worktrees/SEMKIT-058/.venv/lib/python3.14/site-packages/_pytest/unraisableexception.py:33: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x138a65120>
+  gc.collect()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+```
