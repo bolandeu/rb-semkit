@@ -1,5 +1,6 @@
-"""Encoders of the steps by meaning: `models pull NAME` downloads one once into the cache, `models list` shows them,
-`models remove NAME` takes one out (`core/vectors/cache`, ADR 0009). They need the vectors extra."""
+"""Models of the steps by meaning and by words: `models pull NAME` downloads one once into the cache, `models list`
+shows them, `models remove NAME` takes one out (`core/vectors/cache`, ADR 0009). They need the vectors extra.
+A model is an encoder or word data (ruwordnet, navec)."""
 
 from __future__ import annotations
 
@@ -13,11 +14,14 @@ from .. import output
 from ..core.vectors import cache
 
 app = output.group(
-    "Encoders of the steps by meaning: pull one once into the cache, list them, remove one."
-    " The cache is the system cache, or the folder of the config key models.dir."
+    "Models of the steps by meaning and by words (encoders, word data): pull one once into the cache, list them,"
+    " remove one. The cache is the system cache, or the folder of the config key models.dir."
 )
 
-NAME_HELP = "The encoder: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub."
+NAME_HELP = (
+    "The model: the encoder e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub;"
+    " the word data ruwordnet or navec."
+)
 MEGABYTE = 1_000_000
 
 
@@ -58,7 +62,7 @@ def pull(
     json_output: bool = output.JsonOption,
     quiet: bool = output.QuietOption,
 ) -> None:
-    """Download an encoder once into the cache, at its pinned revision, and check the checksum of each file.
+    """Download a model once into the cache, at its pinned revision, and check the checksum of each file.
 
     A model already in the cache is not downloaded again.
     A pull that fails keeps nothing of the model and exits 5; run it again.
@@ -90,7 +94,7 @@ def list_models(
     json_output: bool = output.JsonOption,
     quiet: bool = output.QuietOption,
 ) -> None:
-    """Every encoder semkit knows and every hub model pulled: its repo, revision, whether it is pulled, its size in bytes, its default threshold and its folder.
+    """Every model semkit knows (encoders and word data) and every hub model pulled: its repo, revision, whether it is pulled, its size in bytes, its default threshold and its folder.
 
     Example: {cli} models list --json
     """  # fmt: skip
@@ -101,12 +105,12 @@ def list_models(
 @output.guard
 def remove(
     ctx: typer.Context,
-    name: str = typer.Argument(..., help="The pulled encoder to remove, as `models list` names it."),
+    name: str = typer.Argument(..., help="The pulled model to remove, as `models list` names it."),
     json_output: bool = output.JsonOption,
     quiet: bool = output.QuietOption,
     dry_run: bool = output.DryRunOption,
 ) -> None:
-    """Remove an encoder from the cache.
+    """Remove a model from the cache.
 
     A model that is not pulled is refused with exit 2 and the pulled ones.
     With --dry-run nothing is removed: it says which folder it would remove.

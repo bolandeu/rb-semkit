@@ -1,8 +1,8 @@
 
  Usage: semkit models list [OPTIONS]
 
- Every encoder semkit knows and every hub model pulled: its repo, revision, whether it is pulled,
- its size in bytes, its default threshold and its folder.
+ Every model semkit knows (encoders and word data) and every hub model pulled: its repo, revision,
+ whether it is pulled, its size in bytes, its default threshold and its folder.
 
  Example: semkit models list --json
 

@@ -1,0 +1,69 @@
+
+ Usage: semkit read {IN} off-topic [OPTIONS]
+
+ The distance of each phrase of the core from the centre of the core, by meaning.
+
+ threshold: the similarity from 0 to 1 a phrase needs to the centre to be on topic.
+
+ The centre is the mean of the phrase vectors of the core, each weighed by its frequency with freq
+ and by 1 without it; with seed, the mean of the phrase vectors of the seed phrases. The columns:
+ off_topic_score (1 minus the similarity of the phrase to the centre, from 0 to 1, 4 places) and
+ off_topic (yes when the similarity is below the threshold, else no); an empty cell gets none. No
+ row is dropped.
+
+ model: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or
+ hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of
+ the model; a hub model has none.
+ freq: the column of the frequencies of the phrases in the current table; the centre of the core
+ weighs each phrase by it. Without it, every phrase weighs the same.
+ seed: the phrases whose centre is the topic, in place of the core: a list of your own as @FILE or
+ @NAME, or comma-separated.
+
+ The step adds the columns off_topic_score and off_topic right after the working column; the rows
+ stay.
+
+ Example: semkit read core.csv off-topic --freq freq write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --threshold        <float>  the similarity from 0 to 1 a phrase needs to the centre to be on     │
+│                             topic.                                                               │
+│ --freq             <str>    the column of the frequencies of the phrases in the current table;   │
+│                             the centre of the core weighs each phrase by it. Without it, every   │
+│                             phrase weighs the same.                                              │
+│ --seed             <str>    the phrases whose centre is the topic, in place of the core: a list  │
+│                             of your own as @FILE or @NAME, or comma-separated. Items: a comma    │
+│                             list 'a,b', @FILE (one item per line, or the first column of a       │
+│                             table) or @NAME of a list.                                           │
+│ --model            <str>    the encoder, pulled once with `semkit models pull NAME`: e5-small,   │
+│                             bge-m3, potion, or hf:<id> of a model of the Hugging Face hub.       │
+│                             Without --threshold the step takes the threshold of the model; a hub │
+│                             model has none.                                                      │
+│                             [default: e5-small]                                                  │
+│ --help                      Show this message and exit.                                          │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+ Lists for @NAME: @combine/kiev-region-towns, @combine/leningrad-region-villages,
+ @combine/moscow-hotels, @combine/moscow-metro, @combine/moscow-region-villages,
+ @combine/realty-object, @combine/realty-service, @combine/review, @combine/russia-cities-100k,
+ @combine/russia-cities-250k, @combine/russia-cities-500k, @combine/shop, @combine/spb-hotels,
+ @combine/spb-metro, @combine/tourism, @combine/tourism/austria, @combine/tourism/baltic,
+ @combine/tourism/benelux, @combine/tourism/bulgaria, @combine/tourism/canada,
+ @combine/tourism/caribbean, @combine/tourism/china, @combine/tourism/croatia,
+ @combine/tourism/cyprus, @combine/tourism/czech, @combine/tourism/egypt, @combine/tourism/france,
+ @combine/tourism/germany, @combine/tourism/greece, @combine/tourism/hungary,
+ @combine/tourism/india, @combine/tourism/indonesia, @combine/tourism/israel,
+ @combine/tourism/italy, @combine/tourism/malaysia, @combine/tourism/mexico,
+ @combine/tourism/montenegro, @combine/tourism/poland, @combine/tourism/portugal,
+ @combine/tourism/scandinavia, @combine/tourism/spain, @combine/tourism/switzerland,
+ @combine/tourism/thailand, @combine/tourism/turkey, @combine/tourism/uae, @combine/tourism/uk,
+ @combine/tourism/usa, @combine/ukraine-cities-100k, @combine/ukraine-cities-250k, @markers/DIY,
+ @markers/MO, @markers/cars, @markers/citiesRu, @markers/color, @markers/districts, @markers/edu,
+ @markers/fun, @markers/game, @markers/geo, @markers/material, @markers/mosmetro, @markers/names,
+ @markers/origin, @markers/questions, @markers/rent, @markers/reviews, @markers/sale,
+ @meaning/neutral, @minus/abusive, @minus/adult-hard, @minus/adult-soft, @minus/belarus-cities,
+ @minus/cheap, @minus/computer, @minus/countries, @minus/ex-ussr-cities, @minus/free,
+ @minus/handmade, @minus/kazakhstan-cities, @minus/moscow-region-cities, @minus/russia-cities,
+ @minus/ukraine-cities, @minus/universal, @minus/world-cities, @stop/semtools, @stop/wordstat. Run
+ 'semkit lists' for their sources and descriptions.
+
+

@@ -24,10 +24,12 @@ AREAS = {
     "listtools": ["compare-lists"],
     "markers": ["drop-markers", "extract-markers", "find-markers", "keep-markers", "remove-markers"],
     "morph": ["lemmatize", "part-of-speech", "wordforms"],
+    "relevance": ["assign-pages", "classify-queries", "off-topic"],
     "serp": ["cluster-serp"],
     "split": ["split-text"],
     "summary": ["summary"],
     "textstats": ["text-stats"],
     "vectors": ["cluster-meaning"],
     "adgroups": ["ad-groups"],
+    "word_vectors": ["synonym-candidates"],
 }  # fmt: skip

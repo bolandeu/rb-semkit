@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-041
 title: 'synonym-candidates: RuWordNet and navec pulled as models'
-status: queue
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -16,8 +16,25 @@ owns_paths:
 - src/rb_semkit/core/word_vectors/
 - src/rb_semkit/steps/word_vectors.py
 - src/rb_semkit/core/vectors/
+- CONTEXT.md
+- pyproject.toml
+- src/rb_semkit/commands/models.py
+- src/rb_semkit/core/errors.py
+- src/rb_semkit/data/vectors/models.toml
+- src/rb_semkit/data/SKILL.md
+- src/rb_semkit/steps/vectors.py
 test_paths:
 - tests/word_vectors/
+- tests/conftest.py
+- tests/snapshots/help/models-list.txt
+- tests/snapshots/help/models-pull.txt
+- tests/snapshots/help/models-remove.txt
+- tests/snapshots/help/models.txt
+- tests/snapshots/help/steps/word_vectors/synonym-candidates.txt
+- tests/snapshots/describe.json
+- tests/snapshots/help/read.txt
+- tests/steps/areas.py
+- tests/steps/test_steps.py
 docs: none
 tools: []
 worker_args: null
@@ -85,3 +102,17 @@ The model registry and the models command of E-005 (add the two word data to the
 
 - choosing synonyms automatically (candidates only)
 - other thesauri or languages
+
+## Feedback
+
+### Blocked: scope_held (holders ['SEMKIT-035', 'SEMKIT-036'], paths ['src/rb_semkit/data/SKILL.md', 'src/rb_semkit/steps/vectors.py', 'tests/snapshots/describe.json', 'tests/snapshots/help/read.txt', 'tests/steps/areas.py', 'tests/steps/test_steps.py'])
+
+SEMKIT-035, SEMKIT-036 finished; your kept work on src/rb_semkit/data/SKILL.md, src/rb_semkit/steps/vectors.py, tests/snapshots/describe.json, tests/snapshots/help/read.txt, tests/steps/areas.py, tests/steps/test_steps.py is back in the worktree; main is merged into your branch where it merges clean
+
+`main` changed since your work began, and merging it conflicts in:
+
+- `src/rb_semkit/data/SKILL.md`
+- `src/rb_semkit/steps/vectors.py`
+- `tests/steps/test_steps.py`
+
+Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).

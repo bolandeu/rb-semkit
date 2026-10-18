@@ -958,11 +958,11 @@
       },
       {
         "name": "models",
-        "description": "Encoders of the steps by meaning: pull one once into the cache, list them, remove one. The cache is the system cache, or the folder of the config key models.dir.",
+        "description": "Models of the steps by meaning and by words (encoders, word data): pull one once into the cache, list them, remove one. The cache is the system cache, or the folder of the config key models.dir.",
         "commands": [
           {
             "name": "pull",
-            "description": "Download an encoder once into the cache, at its pinned revision, and check the checksum of each file.\n\nA model already in the cache is not downloaded again.\nA pull that fails keeps nothing of the model and exits 5; run it again.\nA hub model (hf:<id>) is fetched at its latest revision: an ONNX export with tokenizer.json, or a model2vec model.\n\nExample: semkit models pull e5-small",
+            "description": "Download a model once into the cache, at its pinned revision, and check the checksum of each file.\n\nA model already in the cache is not downloaded again.\nA pull that fails keeps nothing of the model and exits 5; run it again.\nA hub model (hf:<id>) is fetched at its latest revision: an ONNX export with tokenizer.json, or a model2vec model.\n\nExample: semkit models pull e5-small",
             "options": [
               {
                 "name": "--json",
@@ -1001,7 +1001,7 @@
                   "minimum": 1,
                   "maximum": 1
                 },
-                "description": "The encoder: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub.",
+                "description": "The model: the encoder e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub; the word data ruwordnet or navec.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -1013,7 +1013,7 @@
           },
           {
             "name": "list",
-            "description": "Every encoder semkit knows and every hub model pulled: its repo, revision, whether it is pulled, its size in bytes, its default threshold and its folder.\n\nExample: semkit models list --json",
+            "description": "Every model semkit knows (encoders and word data) and every hub model pulled: its repo, revision, whether it is pulled, its size in bytes, its default threshold and its folder.\n\nExample: semkit models list --json",
             "options": [
               {
                 "name": "--json",
@@ -1047,7 +1047,7 @@
           },
           {
             "name": "remove",
-            "description": "Remove an encoder from the cache.\n\nA model that is not pulled is refused with exit 2 and the pulled ones.\nWith --dry-run nothing is removed: it says which folder it would remove.\n\nExample: semkit models remove e5-small",
+            "description": "Remove a model from the cache.\n\nA model that is not pulled is refused with exit 2 and the pulled ones.\nWith --dry-run nothing is removed: it says which folder it would remove.\n\nExample: semkit models remove e5-small",
             "options": [
               {
                 "name": "--json",
@@ -1100,7 +1100,7 @@
                   "minimum": 1,
                   "maximum": 1
                 },
-                "description": "The pulled encoder to remove, as `models list` names it.",
+                "description": "The pulled model to remove, as `models list` names it.",
                 "metadata": [
                   {
                     "name": "x-rb-type",
@@ -5910,6 +5910,232 @@
               {
                 "name": "x-rb-kind",
                 "value": "report"
+              }
+            ]
+          },
+          {
+            "name": "off-topic",
+            "description": "The distance of each phrase of the core from the centre of the core, by meaning.\n\nthreshold: the similarity from 0 to 1 a phrase needs to the centre to be on topic.\n\nThe centre is the mean of the phrase vectors of the core, each weighed by its frequency with freq and by 1 without it; with seed, the mean of the phrase vectors of the seed phrases. The columns: off_topic_score (1 minus the similarity of the phrase to the centre, from 0 to 1, 4 places) and off_topic (yes when the similarity is below the threshold, else no); an empty cell gets none. No row is dropped.\n\nmodel: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.\nfreq: the column of the frequencies of the phrases in the current table; the centre of the core weighs each phrase by it. Without it, every phrase weighs the same.\nseed: the phrases whose centre is the topic, in place of the core: a list of your own as @FILE or @NAME, or comma-separated.\n\nThe step adds the columns off_topic_score and off_topic right after the working column; the rows stay.\n\nExample: semkit read core.csv off-topic --freq freq write out.csv",
+            "options": [
+              {
+                "name": "--threshold",
+                "arguments": [
+                  {
+                    "name": "THRESHOLD",
+                    "required": true
+                  }
+                ],
+                "description": "the similarity from 0 to 1 a phrase needs to the centre to be on topic.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "float"
+                  }
+                ]
+              },
+              {
+                "name": "--freq",
+                "arguments": [
+                  {
+                    "name": "FREQ",
+                    "required": true
+                  }
+                ],
+                "description": "the column of the frequencies of the phrases in the current table; the centre of the core weighs each phrase by it. Without it, every phrase weighs the same.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--seed",
+                "arguments": [
+                  {
+                    "name": "SEED",
+                    "required": true
+                  }
+                ],
+                "description": "the phrases whose centre is the topic, in place of the core: a list of your own as @FILE or @NAME, or comma-separated. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--model",
+                "arguments": [
+                  {
+                    "name": "MODEL",
+                    "required": true
+                  }
+                ],
+                "description": "the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "e5-small"
+                  }
+                ]
+              }
+            ],
+            "metadata": [
+              {
+                "name": "x-rb-kind",
+                "value": "change"
+              }
+            ]
+          },
+          {
+            "name": "classify-queries",
+            "description": "The nearest phrase of the core for each query of a search query report, by meaning.\n\nthreshold: the similarity from 0 to 1 a query needs to its nearest phrase to be a target.\n\nThe columns: nearest_phrase (the first of two equally near), similarity (4 places) and target (yes when the similarity is at the threshold or above, else no); an empty cell gets none. No row is dropped.\n\nagainst: a file with the core, one phrase per row, in its first text column; the file is read like `read` does.\nmodel: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.\n\nThe step takes the working column as the queries of a search query report and adds the columns nearest_phrase, similarity and target right after it; the rows stay.\n\nExample: semkit read phrases.csv classify-queries --against core.csv write out.csv",
+            "options": [
+              {
+                "name": "--against",
+                "arguments": [
+                  {
+                    "name": "AGAINST",
+                    "required": true
+                  }
+                ],
+                "description": "a file with the core, one phrase per row, in its first text column; the file is read like `read` does.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--threshold",
+                "arguments": [
+                  {
+                    "name": "THRESHOLD",
+                    "required": true
+                  }
+                ],
+                "description": "the similarity from 0 to 1 a query needs to its nearest phrase to be a target.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "float"
+                  }
+                ]
+              },
+              {
+                "name": "--model",
+                "arguments": [
+                  {
+                    "name": "MODEL",
+                    "required": true
+                  }
+                ],
+                "description": "the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "e5-small"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "AGAINST",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "a file with the core, one phrase per row, in its first text column; the file is read like `read` does. The same as --against AGAINST.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "metadata": [
+              {
+                "name": "x-rb-kind",
+                "value": "change"
+              }
+            ]
+          },
+          {
+            "name": "assign-pages",
+            "description": "The best two pages of the site for each phrase of the core, by meaning.\n\nThe columns: best_page, best_similarity, second_page and second_similarity (4 places); the second page and its similarity are empty when the table has one page; an empty cell gets none. No row is dropped.\n\npages: a file with the pages of the site; the file is read like `read` does. Its columns: url, and text (the text of the page: its title, H1 and body). A text longer than the input of the model is cut by the encoder.\nmodel: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.\n\nThe step adds the columns best_page, best_similarity, second_page and second_similarity right after the working column; the rows stay.\n\nExample: semkit read core.csv assign-pages --pages page_texts.csv write out.csv",
+            "options": [
+              {
+                "name": "--pages",
+                "arguments": [
+                  {
+                    "name": "PAGES",
+                    "required": true
+                  }
+                ],
+                "description": "a file with the pages of the site; the file is read like `read` does. Its columns: url, and text (the text of the page: its title, H1 and body). A text longer than the input of the model is cut by the encoder.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              },
+              {
+                "name": "--model",
+                "arguments": [
+                  {
+                    "name": "MODEL",
+                    "required": true
+                  }
+                ],
+                "description": "the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "e5-small"
+                  }
+                ]
+              }
+            ],
+            "arguments": [
+              {
+                "name": "PAGES",
+                "required": false,
+                "arity": {
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "description": "a file with the pages of the site; the file is read like `read` does. Its columns: url, and text (the text of the page: its title, H1 and body). A text longer than the input of the model is cut by the encoder. The same as --pages PAGES.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "str"
+                  }
+                ]
+              }
+            ],
+            "metadata": [
+              {
+                "name": "x-rb-kind",
+                "value": "change"
               }
             ]
           },
@@ -10897,6 +11123,91 @@
               {
                 "name": "x-rb-kind",
                 "value": "change"
+              }
+            ]
+          },
+          {
+            "name": "synonym-candidates",
+            "description": "Synonym candidates for the words of the core, from a thesaurus (RuWordNet) and word vectors (navec).\n\nA candidate is a proposal for the Human to pick, not a synonym: the thesaurus gives the words of the same synset (score 1), the word vectors the nearest words (the score is the cosine, 4 places). The step works on lemmas; stopwords and words with digits are skipped, and so are candidates of several words. The report has one row for each candidate: word, candidate, source, score and in_core (whether the candidate is a word of the core), words in the order of the core, each with the candidates of the thesaurus first, then of the vectors from the nearest.\ntop: how many of the nearest words the word vectors give for each word.\nall: give every candidate. By default only the candidates that occur in the core.\nas_synonyms: the report as the file the steps with `--synonyms` read: the columns word and synonyms (the candidates of a word joined by a space), one row for each word that has some.\n\nsource: the data to take candidates from, pulled once with `semkit models pull NAME`: ruwordnet (the thesaurus), navec (the word vectors) or both.\n\nThe step makes a table of its result; it replaces the current table, its first text column is the working one. Its candidates are for the Human to pick; the picked go to --synonyms of the steps that take them.\n\nExample: semkit read core.csv synonym-candidates write out.csv",
+            "options": [
+              {
+                "name": "--top",
+                "arguments": [
+                  {
+                    "name": "TOP",
+                    "required": true
+                  }
+                ],
+                "description": "how many of the nearest words the word vectors give for each word.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "int"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": 10
+                  }
+                ]
+              },
+              {
+                "name": "--all",
+                "description": "give every candidate. By default only the candidates that occur in the core.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--as-synonyms",
+                "description": "the report as the file the steps with `--synonyms` read: the columns word and synonyms (the candidates of a word joined by a space), one row for each word that has some.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "boolean"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": false
+                  }
+                ]
+              },
+              {
+                "name": "--source",
+                "arguments": [
+                  {
+                    "name": "SOURCE",
+                    "required": true,
+                    "acceptedValues": [
+                      "ruwordnet",
+                      "navec",
+                      "both"
+                    ]
+                  }
+                ],
+                "description": "the data to take candidates from, pulled once with `semkit models pull NAME`: ruwordnet (the thesaurus), navec (the word vectors) or both.",
+                "metadata": [
+                  {
+                    "name": "x-rb-type",
+                    "value": "choice"
+                  },
+                  {
+                    "name": "x-rb-default",
+                    "value": "both"
+                  }
+                ]
+              }
+            ],
+            "metadata": [
+              {
+                "name": "x-rb-kind",
+                "value": "report"
               }
             ]
           },

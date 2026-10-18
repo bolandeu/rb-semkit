@@ -111,7 +111,7 @@ addopts = "--cov --cov-report=term-missing:skip-covered"
 filterwarnings = ["ignore:(?s).*Can not relate snapshot:UserWarning"]
 markers = [
     "speed: a timed run over a big input, within the budget of the benchmark",
-    "real_encoder: the encoders as semkit opens them (the vectors extra, the cache), not the test encoder",
+    "real_encoder: the models as semkit opens them (the vectors extra, the cache), not the test encoder and word data",
 ]
 
 [tool.mutmut]

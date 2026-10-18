@@ -15,8 +15,18 @@ type: feature
 owns_paths:
 - src/rb_semkit/core/adgroups/
 - src/rb_semkit/steps/adgroups.py
+- src/rb_semkit/steps/dupes.py
+- src/rb_semkit/core/vectors/cluster.py
+- src/rb_semkit/data/SKILL.md
+- src/rb_semkit/steps/vectors.py
 test_paths:
 - tests/adgroups/
+- tests/conformance/test_cases.py
+- tests/snapshots/help/steps/adgroups/ad-groups.txt
+- tests/snapshots/describe.json
+- tests/snapshots/help/read.txt
+- tests/steps/areas.py
+- tests/steps/test_steps.py
 docs: none
 tools: []
 worker_args: null
@@ -79,3 +89,17 @@ Reuse the pair rule of dupes --kind meaning (do not copy it); the base of E-005.
 
 - ad fit and landing pages (scenarios of the vectors plan; landing pages are assign-pages)
 - changes to dupes
+
+## Feedback
+
+### Blocked: scope_held (holders ['SEMKIT-036', 'SEMKIT-041'], paths ['src/rb_semkit/core/vectors/cluster.py', 'src/rb_semkit/data/SKILL.md', 'src/rb_semkit/steps/vectors.py', 'tests/snapshots/describe.json', 'tests/snapshots/help/read.txt', 'tests/steps/areas.py', 'tests/steps/test_steps.py'])
+
+SEMKIT-036, SEMKIT-041 finished; your kept work on src/rb_semkit/core/vectors/cluster.py, src/rb_semkit/data/SKILL.md, src/rb_semkit/steps/vectors.py, tests/snapshots/describe.json, tests/snapshots/help/read.txt, tests/steps/areas.py, tests/steps/test_steps.py is back in the worktree; main is merged into your branch where it merges clean
+
+`main` changed since your work began, and merging it conflicts in:
+
+- `src/rb_semkit/steps/vectors.py`
+- `tests/steps/areas.py`
+- `tests/steps/test_steps.py`
+
+Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).

@@ -10,7 +10,7 @@ from ..core.adgroups import ad_groups
 from ..core.frame import Frame
 from . import Adapted, Columns, Prepared, Step, option
 from .dupes import HOME_DOC, NEUTRAL_DOC, SYNONYMS_DOC, THRESHOLD_DOC, refining_options
-from .vectors import MEANING, MODEL_DOC, by_meaning, frequencies_of
+from .vectors import MEANING, MODEL_DOC, by_meaning, frequencies
 
 MAX_SIZE_DOC = (
     "max_size: the most phrases in an ad group, 1 or more; a larger group is split by vector. Without it no group is"
@@ -27,7 +27,7 @@ def _prepare(options: dict) -> Prepared:
     neutral, synonyms = refining_options(options)
 
     def run(table: pd.DataFrame, column: str) -> Columns:
-        freq = None if options["freq"] is None else frequencies_of(table, options["freq"])
+        freq = None if options["freq"] is None else frequencies(table, options["freq"])
         found = ad_groups(
             Frame(table, column).phrases,
             encoder=found_encoder,

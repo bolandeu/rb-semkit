@@ -2,7 +2,7 @@
 id: SEMKIT-035
 title: 'dupes --kind meaning: duplicates by meaning with non-refining words, synonyms
   and the home city'
-status: queue
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -24,6 +24,8 @@ owns_paths:
 - scripts/build_parts/wordlists.toml
 - src/rb_semkit/data/SKILL.md
 - src/rb_semkit/pipeline/commands.py
+- CHANGELOG.md
+- src/rb_semkit/core/textstats/functions.py
 test_paths:
 - tests/dupes/
 - tests/wordlists/
@@ -58,6 +60,13 @@ test_paths:
 - tests/snapshots/help/steps/text/remove-word-content.txt
 - tests/snapshots/help/steps/text/remove-words.txt
 - tests/snapshots/describe.json
+- tests/conformance/test_cases.py
+- tests/snapshots/help/read.txt
+- tests/snapshots/help/steps/compare/compare-grams.txt
+- tests/snapshots/help/steps/compare/compare-stats.txt
+- tests/snapshots/help/steps/textstats/text-stats.txt
+- tests/steps/areas.py
+- tests/steps/test_steps.py
 docs: none
 tools: []
 worker_args: null
