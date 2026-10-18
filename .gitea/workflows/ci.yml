@@ -10,6 +10,7 @@ jobs:
     runs-on: docker
     container:
       image: node:22-bookworm
+      options: --init
       volumes:
         - ci-cache:/cache
     env:
