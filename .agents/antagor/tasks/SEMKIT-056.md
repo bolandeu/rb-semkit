@@ -2,7 +2,7 @@
 id: SEMKIT-056
 title: 'Table bricks: use-column switches the working column, sort-rows orders the
   rows by a column'
-status: queue
+status: in_review
 attempts: 1
 blocked: false
 blocked_reason: null
@@ -25,6 +25,7 @@ test_paths:
 - tests/table/
 - tests/steps/areas/table.py
 - tests/steps/fixtures/matches.csv
+- tests/conformance/case_files.py
 docs:
 - src/rb_semkit/data/SKILL.md
 tools: []
