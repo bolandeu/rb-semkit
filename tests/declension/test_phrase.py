@@ -56,3 +56,24 @@ def test_a_compound_a_feminine_adjective_and_an_adjective_in_ne() -> None:
 
     assert _declined(phrases, "genitive") == ["дивана-кровати углового", "большой скидки", "нераскладного дивана"]
     assert _declined(phrases, "prepositional") == ["диване-кровати угловом", "большой скидке", "нераскладном диване"]
+
+
+def test_a_noun_in_the_genitive_after_the_head_noun_stays() -> None:
+    assert _declined(
+        [
+            "импорт продукции",
+            "ввоз на территорию российской федерации",
+            "импорт товаров",
+            "таможенное оформление товаров",
+        ],
+        "genitive",
+    ) == [
+        "импорта продукции",
+        "ввоза на территорию российской федерации",
+        "импорта товаров",
+        "таможенного оформления товаров",
+    ]
+
+
+def test_a_noun_in_the_nominative_plural_after_an_adjective_still_declines() -> None:
+    assert _declined(["красные платья"], "genitive") == ["красных платьев"]
