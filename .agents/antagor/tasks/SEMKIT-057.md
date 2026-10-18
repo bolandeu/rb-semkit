@@ -2,7 +2,7 @@
 id: SEMKIT-057
 title: 'semkit run NAME: named scenarios of semkit''s own steps, bundled or in the
   project, with parameters and help'
-status: in_review
+status: queue
 attempts: 2
 blocked: false
 blocked_reason: null
@@ -99,3 +99,15 @@ commands/read.py and pipeline/ (how a chain of steps is parsed and run: reuse it
 ### Attempt 1: file docstring
 
 - update the docstring of src/rb_semkit/pipeline/group.py: +planned +reported
+
+### Attempt 2: the Architect's verdict
+
+The review found blockers; close each:
+
+- [blocker] C1/C11 CONTEXT.md: the glossary entry **Pipeline** says "never a built-in scenario" and `_Avoid_: scenario, recipe`. The diff names the new object "scenario" in code, help, README, SKILL.md and the TOML files. The glossary was not changed in the diff. Add a **Scenario** term and drop the Avoid line (or choose another word), and write an ADR or note on the change (C2: see the memory/ADR rule on composite steps). The term and the glossary must agree.
+
+Minor remarks of the review: optional, if they do not widen the task:
+
+- [minor] C5 core/scenarios/__init__.py `_step_lines`: the line number of a step is found by "first line at or after `steps =` that contains the step text". A step text that is a substring of an earlier line (e.g. a comment) gives a wrong line in the error. It is a heuristic, not a parse.
+- [minor] C5 commands/run.py: `_command` copies a base command and sets attributes with `# ty: ignore`; it works but is fragile against Typer/Click changes.
+- [minor] [missing] CHANGELOG.md has no entry for SEMKIT-057, while other tasks (SEMKIT-054, -060) have one — «6. run is no longer hidden; the agent guide and README show run intent-synonyms …» (the Architect may add it).
