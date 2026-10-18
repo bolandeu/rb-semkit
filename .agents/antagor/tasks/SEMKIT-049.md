@@ -21,6 +21,10 @@ owns_paths:
 - README.md
 - tests/snapshots/
 - tests/pipeline/
+- src/rb_semkit/cli.py
+- tests/test_cli.py
+- tests/test_help.py
+- tests/steps/test_guide.py
 test_paths:
 - tests/pipeline/
 docs:
