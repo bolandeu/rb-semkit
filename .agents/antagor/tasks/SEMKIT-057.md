@@ -27,6 +27,7 @@ owns_paths:
 - tests/test_help.py
 - src/rb_semkit/core/services.py
 - src/rb_semkit/output/__init__.py
+- CHANGELOG.md
 test_paths:
 - tests/scenarios/
 - tests/test_cli.py
@@ -111,3 +112,15 @@ Minor remarks of the review: optional, if they do not widen the task:
 - [minor] C5 core/scenarios/__init__.py `_step_lines`: the line number of a step is found by "first line at or after `steps =` that contains the step text". A step text that is a substring of an earlier line (e.g. a comment) gives a wrong line in the error. It is a heuristic, not a parse.
 - [minor] C5 commands/run.py: `_command` copies a base command and sets attributes with `# ty: ignore`; it works but is fragile against Typer/Click changes.
 - [minor] [missing] CHANGELOG.md has no entry for SEMKIT-057, while other tasks (SEMKIT-054, -060) have one — «6. run is no longer hidden; the agent guide and README show run intent-synonyms …» (the Architect may add it).
+
+### Architect's note
+
+The review blocker (glossary) is closed by the Architect in main, commit 3869130: CONTEXT.md now has the Scenario term, ADR 0010 records the decision. Do not edit CONTEXT.md or docs/adr. Merge main, keep the word scenario. Add the CHANGELOG.md entry for run NAME / intent-synonyms. The two minor remarks are optional.
+
+### Attempt 2 (not counted): main moved and conflicts with the work
+
+`main` changed since your work began, and merging it conflicts in:
+
+- `CHANGELOG.md`
+
+Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).
