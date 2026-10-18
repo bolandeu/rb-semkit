@@ -20,7 +20,7 @@ Replace `vX.Y.Z` with the latest release tag (install from a tag, never a branch
 
 ## The pipeline
 
-    semkit [--json] [--quiet] [--dry-run] read IN [--column C] [--whole] [--trace FILE] STEP… write OUT [--overwrite]
+    semkit [--json] [--quiet] [--dry-run] read IN [--column C] [--whole] [--trace FILE] STEP… write OUT [--overwrite] [--columns A,B] [--rename OLD=NEW]
     semkit read --text "растаможка авто" synonym-candidates --all
 
 - `IN` is a file of any format dataio reads (csv, xlsx, json, jsonl, parquet, txt…), or `-` for JSONL on stdin (CSV on
@@ -37,8 +37,10 @@ Replace `vX.Y.Z` with the latest release tag (install from a tag, never a branch
   changed; the last line says how many rows were written and where (or that it was a dry run). Every step, every
   option, every file an option names and OUT are checked before the input is read: a wrong value is refused with
   exit 2, naming the step, the option and what to do.
-- `write` comes once, last. An existing `OUT` is refused (exit 2, `OUTPUT_EXISTS`) unless `write OUT --overwrite`.
-  The file is written whole or not at all.
+- `write` comes once, last. An existing `OUT` is refused (exit 2, `OUTPUT_EXISTS`) unless `write OUT --overwrite`. The file is written whole or not at all.
+- `write OUT --columns NAME,NAME --rename OLD=NEW` chooses, orders and renames the output columns (selection first, then
+  rename; both repeat). An unknown name or a clash exits 2 and lists the columns there are. Example:
+  `semkit read phrases.csv nearest --to Q write - --columns phrase,similarity --rename similarity=сходство`.
 - `--dry-run` runs every step and prints the summary, but writes nothing. `--trace FILE` writes every changed cell and
   every dropped row to FILE as JSONL (row, step, column, before, after; row 1 is the first row under the header): use
   it to see what a step did. An existing trace FILE is refused unless `write OUT --overwrite`.

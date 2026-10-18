@@ -95,7 +95,9 @@ lists hold them. `--json`, `--quiet` and `--dry-run` go before the steps: `semki
 `{"ok": true, "output", "rows", "written", "steps"}` (`steps`: one summary per step, with a `note` when the step tells
 more), `--quiet` hides the lines on stderr, `--dry-run` runs the steps and writes nothing (it also keeps `init`, `config set`, `skill install`, `lists add` and `lists rm` from writing).
 `--trace FILE` records every cell a step changed (row 1 is the first row under the header), `write OUT --overwrite`
-replaces an existing file (and an existing trace). `read --text TEXT` (repeatable) takes the phrases from the command
+replaces an existing file (and an existing trace). `write OUT --columns NAME,NAME --rename OLD=NEW` chooses, orders and
+renames the output columns (`… nearest --to Q write - --columns phrase,similarity --rename similarity=сходство`); an
+unknown name or a clash exits 2 and lists the columns there are. `read --text TEXT` (repeatable) takes the phrases from the command
 line instead of IN: a table with the column `phrase`, a row for each `--text`. A pipeline without `write` prints the
 result as a table (every column, every row) in the terminal; with `--json`, or when stdout is not a terminal, it writes
 JSONL to stdout as `write -` does.

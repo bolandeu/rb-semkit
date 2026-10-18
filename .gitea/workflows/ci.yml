@@ -1,5 +1,10 @@
 name: ci
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    paths: &code [src/**, tests/**, scripts/**, pyproject.toml, uv.lock, .gitea/workflows/**]
+  pull_request:
+    paths: *code
+  workflow_dispatch:
 jobs:
   gate:
     runs-on: docker

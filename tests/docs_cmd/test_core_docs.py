@@ -134,7 +134,7 @@ def test_an_option_the_hook_inherits_is_recursive_on_the_parent_and_not_copied_i
 def test_a_hook_cannot_inherit_an_argument() -> None:
     class ArgumentOfGroup(docs.Hook):
         def inherited(self, group) -> list:
-            return [typer.main.get_command(_app()).commands["paint"].params[0]]
+            return [typer.main.get_group(_app()).commands["paint"].params[0]]
 
     with pytest.raises(ValueError, match="options only"):
         _document(ArgumentOfGroup())
