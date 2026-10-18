@@ -2,10 +2,10 @@
 id: SEMKIT-056
 title: 'Table bricks: use-column switches the working column, sort-rows orders the
   rows by a column'
-status: in_progress
+status: queue
 attempts: 0
-blocked: true
-blocked_reason: needs_scope
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -87,3 +87,5 @@ steps/__init__.py (the step kinds) and pipeline/state.py (the working column).
 > Recommended: ё after е
 
 Option 1: ё after е (Russian alphabet order: е, ё, ж). The task text wrongly tied it to sort-words; sort-words stays as it is. Say the order in the sort-rows help.
+
+### Blocked: needs_scope (entries [{'n': 1, 'text': 'SEMKIT-056 says texts sort in the order of sort-words (ё after е), but sort-words orders by character codes (ё after я).\nQuestion: Which text order does sort-rows use?\nOptions:\n1. ё after е\n2. charact'}])
