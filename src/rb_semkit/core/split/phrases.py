@@ -25,6 +25,9 @@ def split_text(data: pd.Series | pd.DataFrame, *, column: str | None = None) -> 
     dropped too: «Склад временного хранения — это место» is one phrase, «г. Краснознаменск» is «г Краснознаменск». A hyphen or
     an apostrophe inside a word and a point or a comma inside a number stay («31.03.2026», «2,5»). The rows of the
     phrases repeat the other columns of their source row and keep its index.
+
+    Example: {cli} read --text "Купить диван недорого. Кресло, стол" split-text write -
+    -> Купить диван недорого; Кресло; стол
     """
     frame = Frame(data, column)
     pieces_of = map_unique(frame.phrases, _phrases)

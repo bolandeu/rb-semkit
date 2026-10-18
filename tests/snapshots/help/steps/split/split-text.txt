@@ -11,10 +11,11 @@
  comma inside a number stay («31.03.2026», «2,5»). The rows of the phrases repeat the other columns
  of their source row and keep its index.
 
+ Example: semkit read --text "Купить диван недорого. Кресло, стол" split-text write -
+ -> Купить диван недорого; Кресло; стол
+
  The step cuts each cell of the working column; the table of the phrases replaces the current one,
  each row keeps the other columns of its source row, and the working column stays.
-
- Example: semkit read core.csv split-text write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --help          Show this message and exit.                                                      │

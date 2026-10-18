@@ -10,7 +10,6 @@ from ..core.html import headings, parse_html
 from ..core.html.parse import COLUMNS, without_html
 from . import Columns, Prepared, Report, Step
 
-
 HTML = "html"
 
 
@@ -40,8 +39,6 @@ def _prepare_headings(options: dict) -> Prepared:
     return lambda table, column: Report(headings(table, column=column, **options))
 
 
-PAGES = "--column html pages.csv"  # the working column of the example is the HTML, not the url
-
 STEPS = [
     Step(
         "parse-html",
@@ -49,7 +46,6 @@ STEPS = [
         "change",
         _prepare_parse,
         "The step reads the working column of HTML and adds the columns right after it; the rows stay.",
-        source=PAGES,
         columns=True,
     ),
     Step(
@@ -58,6 +54,5 @@ STEPS = [
         "report",
         _prepare_headings,
         "The step reads the working column of HTML; the table of the headings replaces the current one.",
-        source=PAGES,
     ),
 ]

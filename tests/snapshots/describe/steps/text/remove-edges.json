@@ -1,6 +1,6 @@
 {
   "name": "remove-edges",
-  "description": "The characters to cut from the edges of each word (remove only).\n\nstart: characters cut from the start of a word, any run of them.\nend: characters cut from the end of a word, any run of them.\n\nCharacters inside a word stay («wi-fi»); a word of only those characters disappears. The result has single spaces, none at the edges.\n\nremove-edges removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-edges --end '!' write out.csv",
+  "description": "The characters to cut from the edges of each word (remove only).\n\nstart: characters cut from the start of a word, any run of them.\nend: characters cut from the end of a word, any run of them.\n\nCharacters inside a word stay («wi-fi»); a word of only those characters disappears. The result has single spaces, none at the edges.\n\nExample: semkit read --text \"!диван! кресло?\" remove-edges --start \"!\" --end \"!?\" write -\n-> диван кресло\n\nremove-edges removes what the matcher finds from the working column.",
   "options": [
     {
       "name": "--start",

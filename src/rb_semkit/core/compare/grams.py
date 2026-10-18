@@ -69,6 +69,9 @@ def compare_grams(
     `words`, rounded to a whole number of occurrences; have, the occurrences in my text; add, need - have (negative:
     remove); med_count, the median number of occurrences in the competitors. Densities are rounded to 4 decimals.
     Sorted by median, biggest first, then ngram. With per_text, the density columns come last.
+
+    Example: {cli} read --whole mine.txt compare-grams competitors.csv -n 3 write -
+    -> диван кожаный диван, 1, 0.3333, 0.0, 0.0476, 0.0, 0.1429, 0.0, within, 0, 0, 0, 0; диван угловой кресло, 1, 0.3333, 0.0, 0.0476, 0.0, 0.1429, 0.0, within, 0, 0, 0, 0; кожаный диван угловой, 1, 0.3333, 0.0, 0.0476, 0.0, 0.1429, 0.0, within, 0, 0, 0, 0; купить диван недорогой, 1, 0.3333, 0.0, 0.0476, 0.0, 0.1429, 0.0, within, 0, 0, 0, 0
     """
     text, others = checked_text(mine), texts_of(competitors, column, "competitors")
     limit, chosen = checked_number(tolerance, "tolerance"), checked_norm(norm)

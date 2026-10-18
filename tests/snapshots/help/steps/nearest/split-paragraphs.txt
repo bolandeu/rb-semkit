@@ -8,11 +8,12 @@
  Spaces at the ends are trimmed; an empty text gives no rows. The columns: url, number (from 1 in
  each text) and paragraph.
 
+ Example: semkit read --whole article.txt split-paragraphs write -
+ -> , 1, Купить диван в Москве. Диван угловой, диван недорогой. Углы дивана и кресла.
+
  A heading line has up to 12 words. The step takes a text file read with --whole, or a table of url
  and text: its working column as the texts (the first other text column when it is the url column)
  and its url column; the report replaces the current table.
-
- Example: semkit read --whole article.txt split-paragraphs write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --help          Show this message and exit.                                                      │

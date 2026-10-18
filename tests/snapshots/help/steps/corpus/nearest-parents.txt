@@ -9,9 +9,11 @@
  Between parents with as many words, the one whose words stand later in the phrase wins («a b c»:
  «b c» before «a c»), then the first in the list. Empty items of the list are skipped.
 
- The step writes its result to a new column <column>_parent.
+ Example: semkit read --text "купить диван" --text "угловой диван" nearest-parents "диван,купить
+ диван" write -
+ -> купить диван, диван; угловой диван, диван
 
- Example: semkit read core.csv nearest-parents 'диван,купить диван' write out.csv
+ The step writes its result to a new column <column>_parent.
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   PARENTS      <str>  the phrases that may be parents; a parent is a phrase whose words all      │

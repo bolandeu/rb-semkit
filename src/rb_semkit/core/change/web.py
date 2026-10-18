@@ -34,20 +34,29 @@ def _without_utm(url: str) -> str:
 def remove_utm(
     data: pd.Series | pd.DataFrame, *, column: str | None = None, inplace: bool = False
 ) -> pd.Series | pd.DataFrame:
-    """The URL without its UTM tags, the parameters whose name starts with «utm_» in any case:
+    """The URL without its UTM tags, the parameters whose name starts with «utm_» in any case.
+
     «https://site.ru/?UTM_Source=ya&utm_medium=cpc&id=5#top» → «https://site.ru/?id=5#top». The rest of the query
-    stays after one «?» and between single «&»; with no parameter left, the «?» goes too."""
+    stays after one «?» and between single «&»; with no parameter left, the «?» goes too.
+
+    Example: {cli} read --text "https://site.ru/?utm_source=ya&utm_medium=cpc&id=5" remove-utm write -
+    -> https://site.ru/?id=5
+    """
     return changed(data, _without_utm, "remove_utm", column, inplace)
 
 
 def extract_utm(
     data: pd.Series | pd.DataFrame, tag: Tag, *, column: str | None = None, inplace: bool = False
 ) -> pd.Series | pd.DataFrame:
-    """The value of a UTM tag of the URL, URL-decoded: «?utm_source=%D0%AF%D0%BD%D0%B4%D0%B5%D0%BA%D1%81» → «Яндекс», «+»
-    as a space. Only the part before «#» is searched; the name counts in any case; the first tag of that name wins; no
-    such tag gives an empty cell.
+    """The value of a UTM tag of the URL, URL-decoded.
+
+    «?utm_source=%D0%AF%D0%BD%D0%B4%D0%B5%D0%BA%D1%81» → «Яндекс», «+» as a space. Only the part before «#» is
+    searched; the name counts in any case; the first tag of that name wins; no such tag gives an empty cell.
 
     tag: the name of the tag without utm_: source, medium, campaign, term or content.
+
+    Example: {cli} read --text "https://site.ru/?utm_source=ya&utm_medium=cpc&id=5" extract-utm medium write -
+    -> cpc
     """
     choice("tag", tag, TAGS)
     pattern = re.compile(rf"(?:^|[?&]){UTM_PREFIX}{tag}=([^&#]*)", re.IGNORECASE)
@@ -62,10 +71,14 @@ def extract_utm(
 def hash_text(
     data: pd.Series | pd.DataFrame, *, algorithm: Algorithm = "md5", column: str | None = None, inplace: bool = False
 ) -> pd.Series | pd.DataFrame:
-    """The hash of the text as lower-case hex, of its UTF-8 bytes. An empty text has a hash too (md5
-    «d41d8cd98f00b204e9800998ecf8427e»).
+    """The hash of the text as lower-case hex, of its UTF-8 bytes.
+
+    An empty text has a hash too (md5 «d41d8cd98f00b204e9800998ecf8427e»).
 
     algorithm: "md5" or "sha256".
+
+    Example: {cli} read --text "купить диван" hash-text write -
+    -> b85908bb0ec978af96f2ce5a66e0b4a3
     """
     choice("algorithm", algorithm, ALGORITHMS)
     return changed(

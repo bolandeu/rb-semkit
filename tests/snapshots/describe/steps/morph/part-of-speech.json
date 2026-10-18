@@ -1,6 +1,6 @@
 {
   "name": "part-of-speech",
-  "description": "The part of speech of each word of a phrase, by space: «купить диван» → «v n».\n\nThe codes are those of the bundled dictionary: n (noun), v (verb), a (adjective), p (participle), advb (adverb), prn (pronoun), prep (preposition), conj (conjunction), prt (particle), nv (as in the dictionary), and unkn for a word no rule gives a part of speech («кляк», «15»), so no code is empty.\n\nThe step writes its result to a new column <column>_pos.\n\nExample: semkit read core.csv part-of-speech write out.csv",
+  "description": "The part of speech of each word of a phrase, joined by a space.\n\nThe codes are those of the bundled dictionary: n (noun), v (verb), a (adjective), p (participle), advb (adverb), prn (pronoun), prep (preposition), conj (conjunction), prt (particle), nv (as in the dictionary), and unkn for a word no rule gives a part of speech («кляк», «15»), so no code is empty.\n\nExample: semkit read --text \"купить диван\" part-of-speech write -\n-> купить диван, v n\n\nThe step writes its result to a new column <column>_pos.",
   "options": [
     {
       "name": "--as",

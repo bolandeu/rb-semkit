@@ -1,6 +1,6 @@
 {
   "name": "first-parents",
-  "description": "The first item of a list that is a parent of the phrase, or an empty cell when none is.\n\nparents: the phrases that may be parents, in the order to try; a parent is a phrase whose words all stand in the phrase. Empty items are skipped.\n\nThe step writes its result to a new column <column>_parent.\n\nExample: semkit read core.csv first-parents 'диван,купить диван' write out.csv",
+  "description": "The first item of a list that is a parent of the phrase, or an empty cell when none is.\n\nparents: the phrases that may be parents, in the order to try; a parent is a phrase whose words all stand in the phrase. Empty items are skipped.\n\nExample: semkit read --text \"купить диван\" --text \"угловой диван\" first-parents \"диван,купить диван\" write -\n-> купить диван, диван; угловой диван, диван\n\nThe step writes its result to a new column <column>_parent.",
   "options": [
     {
       "name": "--parents",

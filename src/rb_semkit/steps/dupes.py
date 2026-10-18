@@ -110,6 +110,5 @@ STEPS = [
         " keeps only the first row of each group. With --kind meaning it also adds the columns dupe_of (the first row"
         " of the group, the phrase kept) and similarity (the cosine to it) next to it.",
         new_column="dupes",
-        example="lemmas --action mark_except_first",
     )
 ]

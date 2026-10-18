@@ -39,6 +39,9 @@ def nearest(
     (in a column named as the working one), match, rank (1 for the nearest), similarity (4 places), and url (of the
     match) when the against table has a url column. A row with no match left (an empty cell, or every match below the
     threshold) keeps one row with an empty match.
+
+    Example: {cli} read --text "кошачий корм" --text "угловой диван" nearest --to "угловой диван" --threshold 0.99 write -
+    -> кошачий корм, , , ; угловой диван, угловой диван, 1, 1.0
     """
     check_top(top)
     texts = Frame(against, against_column, argument="against_column").phrases

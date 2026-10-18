@@ -65,8 +65,11 @@ def test_the_description_of_a_step_has_no_option_line_and_no_example_line(docume
 def test_the_examples_of_a_step_are_in_its_examples_field(document: dict) -> None:
     examples = _command(document, "read", "synonym-candidates")["examples"]
 
-    # The step has no «->» line yet (SEMKIT-055 writes them): its example is the command alone.
-    assert examples == ["semkit read customs.csv synonym-candidates --all --source ruwordnet write out.csv"]
+    assert examples == [
+        'semkit read --text "растаможка" --text "таможенное оформление" synonym-candidates --source ruwordnet write -'
+        "  # -> растаможка, таможенное оформление, ruwordnet, 1.0, true;"
+        " таможенное оформление, растаможка, ruwordnet, 1.0, true"
+    ]
 
 
 def test_an_option_ends_with_its_default_and_allowed_values(document: dict) -> None:

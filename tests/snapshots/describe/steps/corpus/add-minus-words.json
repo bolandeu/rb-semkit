@@ -1,6 +1,6 @@
 {
   "name": "add-minus-words",
-  "description": "Each phrase with the synonyms of its words appended as minus-words: «купить диван» → «купить диван -софа».\n\nunsure: also add the synonyms to check (sure is false); by default only the sure ones. A sure cell read from a file as text counts as sure when it is true (in any case), ИСТИНА or 1.\n\nsynonyms: a file with the columns word and synonyms, as the step `synonyms` gives; the file is read like `read` does.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv add-minus-words --synonyms synonyms.csv write out.csv",
+  "description": "Each phrase with the synonyms of its words appended as minus-words: «купить диван» → «купить диван -софа».\n\nunsure: also add the synonyms to check (sure is false); by default only the sure ones. A sure cell read from a file as text counts as sure when it is true (in any case), ИСТИНА or 1.\n\nExample: semkit read --text \"купить диван\" add-minus-words synonyms.csv write -\n-> купить диван -софа\n\nsynonyms: a file with the columns word and synonyms, as the step `synonyms` gives; the file is read like `read` does.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.",
   "options": [
     {
       "name": "--synonyms",

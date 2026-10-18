@@ -77,6 +77,17 @@ def markers(
     Новгород», not «Нижний Новгород, Новгород»). extract gives them as the list spells them («Москве»; «как сделать»,
     not «как»), in word order. remove keeps the case of the other words.
 
+    Example: {cli} read --text "отели в москве" --text "купить диван" find-markers --lists geo write -
+    -> отели в москве, true; купить диван, false
+    Example: {cli} read --text "отели в москве" remove-markers --lists geo --with-prepositions write -
+    -> отели
+    Example: {cli} read --text "отели в москве" extract-markers --lists geo --with-prepositions write -
+    -> в Москве
+    Example: {cli} read --text "отели в москве" --text "купить диван" keep-markers --lists geo write -
+    -> отели в москве
+    Example: {cli} read --text "отели в москве" --text "купить диван" drop-markers --lists geo write -
+    -> купить диван
+
     ADR 0005: ё = е; split on any whitespace; no double spaces; markers as the list spells them, joined by ', ';
     remove keeps the case of the phrase; with prepositions, the preposition and one list item go as a whole, not only
     the next word («отели в хересе де ла фронтере» → «отели»); extract takes the longest item from a word («как

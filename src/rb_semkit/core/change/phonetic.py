@@ -64,9 +64,14 @@ def _russian(word: str, tables: Tables) -> str:
 def phonetic(
     data: pd.Series | pd.DataFrame, *, column: str | None = None, inplace: bool = False
 ) -> pd.Series | pd.DataFrame:
-    """Each word read as English and written in Russian: «Dreamline» → «Дримлайн», «iphone» → «айфон», «google» →
-    «гугл». A word keeps its case: lower, capitalised or upper («XIAOMI» → «СЯОМИ»); a word of mixed case comes out
-    lower. The words are joined by one space."""
+    """Each word read as English and written in Russian.
+
+    «Dreamline» → «Дримлайн», «iphone» → «айфон», «google» → «гугл». A word keeps its case: lower, capitalised or
+    upper («XIAOMI» → «СЯОМИ»); a word of mixed case comes out lower. The words are joined by one space.
+
+    Example: {cli} read --text "Dreamline" --text "iphone" phonetic write -
+    -> Дримлайн; айфон
+    """
     tables = datastore.once("change/phonetic", _tables)
 
     def change(phrase: str) -> str:

@@ -1,13 +1,15 @@
 
  Usage: semkit read [IN] sort-words [OPTIONS]
 
- The words of the phrase sorted by their character codes, joined by one space: digits, then latin
- capitals, latin small letters, cyrillic capitals, cyrillic small letters; «Ё» before «А» and «ё»
- after «я».
+ The words of the phrase sorted by their character codes, joined by one space.
+
+ The order is digits, then latin capitals, latin small letters, cyrillic capitals, cyrillic small
+ letters; «Ё» goes before «А» and «ё» after «я».
+
+ Example: semkit read --text "москва купить диван" sort-words write -
+ -> диван купить москва
 
  The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
-
- Example: semkit read core.csv sort-words write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --as          NAME  Write the result to a new column NAME and keep the working column as it is.  │

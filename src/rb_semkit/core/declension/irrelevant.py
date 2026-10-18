@@ -53,7 +53,9 @@ def _candidates(words: list[str], governed: Governed, stopwords: frozenset[str])
 
 
 def irrelevant_words(data: pd.Series | pd.DataFrame, word: str, *, column: str | None = None) -> pd.DataFrame:
-    """The candidates for minus-words around a main word: «чехол» in «чехол для телефона» for «телефон».
+    """The candidates for minus-words around a main word.
+
+    The word «чехол» in «чехол для телефона» is a candidate for the main word «телефон».
 
     word: the main word, a noun in the nominative singular.
 
@@ -62,6 +64,9 @@ def irrelevant_words(data: pd.Series | pd.DataFrame, word: str, *, column: str |
     markers are cut first («купить чехол для телефона в москве» → «чехол для телефона»). A table with a row per
     candidate in the order of first use: the columns word (lower case), uses (every phrase counts, repeats too) and
     examples (each distinct «word preposition form», joined by ", ").
+
+    Example: {cli} read --text "купить чехол для телефона" --text "чехол на телефон" irrelevant-words телефон write -
+    -> чехол, 2, чехол для телефона, чехол на телефон
     """
     governed = _governed_forms(_main_word(word))
     phrases = Frame(data, column).phrases

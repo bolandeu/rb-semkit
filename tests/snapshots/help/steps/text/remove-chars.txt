@@ -13,9 +13,10 @@
  кровать»). extract keeps latin, cyrillic and digits with the whitespace between them («120x200» →
  «120200»); for the other kinds it gives the runs joined by a space.
 
- remove-chars removes what the matcher finds from the working column.
+ Example: semkit read --text "диван 120x200" remove-chars digits write -
+ -> диван x
 
- Example: semkit read core.csv remove-chars latin write out.csv
+ remove-chars removes what the matcher finds from the working column.
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <latin|cyrillic|digits|letters_digits|pun  "latin" (A-Z a-z), "cyrillic" (А..ӿ and   │

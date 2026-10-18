@@ -26,12 +26,19 @@ def insert(
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """Text at the start and at the end of the phrase, as given; an empty phrase gets them too.
+    """The phrase with text added at its start and at its end.
+
+    The text goes as given; an empty phrase gets it too.
 
     before: the text at the start («купить » gives «купить диван»).
     after: the text at the end («диван» with « в москве» gives «диван в москве»).
     each_word: round each word of the phrase instead («купить диван» with after "," → «купить, диван,»); the words
     are joined by one space and an empty phrase stays empty.
+
+    Example: {cli} read --text "купить диван" insert --after " в москве" write -
+    -> купить диван в москве
+    Example: {cli} read --text "купить диван" insert --after "," --each-word write -
+    -> купить, диван,
     """
     if not (isinstance(before, str) and isinstance(after, str)):
         raise InvalidArguments(f"before, after: {before!r}, {after!r}; allowed: texts.")
@@ -81,11 +88,18 @@ def move_words(
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """Words found in the phrase moved to its start or end, in the order and the spelling of the list: «диван угловой
-    купить» with купить,угловой → «купить угловой диван». Case and ё do not count; the first word equal to an item moves.
+    """The phrase with the listed words moved to its start or end.
+
+    The words keep the order and the spelling of the list: «диван угловой купить» with купить,угловой → «купить
+    угловой диван». Case and ё do not count; the first word equal to an item moves.
 
     words: the words to move.
     to: where they go: "start" or "end".
+
+    Example: {cli} read --text "диван угловой купить" move-words купить,угловой write -
+    -> купить угловой диван
+    Example: {cli} read --text "диван угловой купить" move-words диван --to end write -
+    -> угловой купить диван
     """
     mover = WordMover(word_list("words", words))
     choice("to", to, PLACES)

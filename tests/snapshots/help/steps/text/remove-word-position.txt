@@ -11,9 +11,10 @@
 
  remove gives the other words.
 
- remove-word-position removes what the matcher finds from the working column.
+ Example: semkit read --text "купить диван недорого" remove-word-position --first 1 write -
+ -> диван недорого
 
- Example: semkit read core.csv remove-word-position --nth 3 write out.csv
+ remove-word-position removes what the matcher finds from the working column.
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --first            <int>  the first or last N words.                                             │

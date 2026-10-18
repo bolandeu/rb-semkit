@@ -11,13 +11,14 @@
  A phrase keeps the spelling of its first occurrence and comes once; the order is the input order.
  Empty cells are never phrases.
 
+ Example: semkit read phrases.csv compare-lists second.csv write -
+ -> купить диван; кресло; диван недорого
+
  against: a file with the second list, one phrase per row; the file is read like `read` does. The
  phrases are in --second-column, by default the first text column of the file.
 
  The step takes the working column as the first list; the phrases it finds replace the current
  table, in a column of the same name.
-
- Example: semkit read phrases.csv compare-lists --against second.csv write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   AGAINST      <str>  a file with the second list, one phrase per row; the file is read like     │

@@ -117,6 +117,17 @@ def phrases(items: Iterable[str], *, lemmatizer: Lemmatizer | None = None) -> Ph
     words, then in characters; a tie keeps the list order), and the words of a taken phrase start no other. remove
     keeps the case of the other words; extract gives the phrases as the list spells them, joined by ', '.
 
+    Example: {cli} read --text "купить угловой диван" --text "диван" find-phrases "угловой диван" write -
+    -> купить угловой диван, true; диван, false
+    Example: {cli} read --text "купить угловой диван" remove-phrases "угловой диван" write -
+    -> купить
+    Example: {cli} read --text "купить угловой диван недорого" extract-phrases "угловой диван" write -
+    -> угловой диван
+    Example: {cli} read --text "купить угловой диван" --text "купить кресло" keep-phrases "угловой диван" write -
+    -> купить угловой диван
+    Example: {cli} read --text "купить угловой диван" --text "купить кресло" drop-phrases "угловой диван" write -
+    -> купить кресло
+
     ADR 0005: ё = е; split on any whitespace; no double spaces; remove keeps the case (the add-in lower-cases the
     cell); extract joins by ', ', not "\\"; extract takes the longest phrase («нижний новгород»), where the add-in
     takes the first in list order found anywhere in the phrase («нижний») and gives a word inside a found phrase its

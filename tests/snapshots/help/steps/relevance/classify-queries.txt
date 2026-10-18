@@ -9,6 +9,9 @@
  when the similarity is at the threshold or above, else no); an empty cell gets none. No row is
  dropped.
 
+ Example: semkit read --text "купить диван" classify-queries --against core.csv write -
+ -> купить диван, купить диван, 1.0, yes
+
  against: a file with the core, one phrase per row, in its first text column; the file is read like
  `read` does.
  model: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or
@@ -17,8 +20,6 @@
 
  The step takes the working column as the queries of a search query report and adds the columns
  nearest_phrase, similarity and target right after it; the rows stay.
-
- Example: semkit read phrases.csv classify-queries --against core.csv write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   AGAINST      <str>  a file with the core, one phrase per row, in its first text column; the    │

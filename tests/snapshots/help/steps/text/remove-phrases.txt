@@ -12,12 +12,13 @@
  of a taken phrase start no other. remove keeps the case of the other words; extract gives the
  phrases as the list spells them, joined by ', '.
 
+ Example: semkit read --text "купить угловой диван" remove-phrases "угловой диван" write -
+ -> купить
+
  lemmas: compare the lemmas of the words (the bundled dictionary): «дешевые диваны» is «дешевый
  диван».
 
  remove-phrases removes what the matcher finds from the working column.
-
- Example: semkit read core.csv remove-phrases @minus/universal write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   ITEMS      <str>  the phrases to find. Items: a comma list 'a,b', @FILE (one item per line, or │

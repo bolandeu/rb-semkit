@@ -12,9 +12,10 @@
  find marks the phrases where the pattern matches; remove cuts out every match; extract gives the
  first match.
 
- remove-regex removes what the matcher finds from the working column.
+ Example: semkit read --text "диван 120x200" remove-regex "\d+x\d+" write -
+ -> диван
 
- Example: semkit read core.csv remove-regex '\d+' write out.csv
+ remove-regex removes what the matcher finds from the working column.
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   PATTERN      <str>  the regular expression; \w, \b and \d take Cyrillic letters too. The same  │

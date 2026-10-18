@@ -1,15 +1,19 @@
 
  Usage: semkit read [IN] split-digits [OPTIONS]
 
- A separator between digits and the text glued to them: «iphone13pro» → «iphone 13 pro». Digits and
- text already apart stay as they are; a size N×M (the x latin or cyrillic, in any case) stays whole
- («диван140х200» → «диван 140х200»).
+ The phrase with a separator between digits and the text glued to them.
+
+ «iphone13pro» → «iphone 13 pro». Digits and text already apart stay as they are; a size N×M (the x
+ latin or cyrillic, in any case) stays whole («диван140х200» → «диван 140х200»).
 
  sep: the separator; with "|" «a1b22» → «a|1|b|22».
 
- The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
+ Example: semkit read --text "iphone13pro" --text "диван140х200" split-digits write -
+ -> iphone 13 pro; диван 140х200
+ Example: semkit read --text "a1b22" split-digits --sep "|" write -
+ -> a|1|b|22
 
- Example: semkit read core.csv split-digits write out.csv
+ The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --sep         <str>  the separator; with "|" «a1b22» → «a|1|b|22». [default:  ]                  │

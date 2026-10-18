@@ -1,16 +1,17 @@
 
  Usage: semkit read [IN] wordforms [OPTIONS] [WORD]
 
- Every wordform of the lemma of a word, alphabetical, each once: «диваны» → «диван», «дивана», …
+ Every wordform of the lemma of a word, alphabetical, each once.
 
  word: the word, in any form. The forms are those of its lemma, in lower case; the word itself is
  not repeated («диван» gives «дивана», «диване», … but not «диван»). A word the dictionary lacks
  gives no forms.
 
+ Example: semkit read --text "диваны" wordforms диваны write -
+ -> диван; дивана; диванам; диванами; диванах; диване; диванов; диваном; дивану
+
  The step ignores the current table: the table of the wordforms replaces it, its column wordform is
  the working one.
-
- Example: semkit read core.csv wordforms диван write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   WORD      <str>  the word, in any form. The forms are those of its lemma, in lower case; the   │

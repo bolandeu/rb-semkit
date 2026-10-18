@@ -89,7 +89,6 @@ STEPS = [
         _prepare,
         "The step takes the working column as the core and adds the columns url, number, paragraph, similarity and"
         " covered (and cluster_covered) right after it; the rows stay.",
-        example="--text article.txt",
         columns=True,
     )
 ]

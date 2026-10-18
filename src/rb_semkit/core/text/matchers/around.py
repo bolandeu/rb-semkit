@@ -59,7 +59,9 @@ class Around(Matcher):
 
 
 def around(pattern: str, *, after: bool = False, include: bool = False, last: bool = False) -> Around:
-    """The part of the phrase before or after the first or the last occurrence of a text. Remove and extract only.
+    """The part of the phrase before or after the first or the last occurrence of a text.
+
+    Remove and extract only.
 
     pattern: the text as typed, found anywhere, also inside a word («в» is found in «диван»); not a regular expression.
     after: the part after the occurrence; by default the part before it.
@@ -68,6 +70,11 @@ def around(pattern: str, *, after: bool = False, include: bool = False, last: bo
 
     remove finds the first occurrence in any case and the last one in the case written; extract matches the case
     written; ё = е. A phrase without the text has no part: remove leaves it, extract gives an empty cell.
+
+    Example: {cli} read --text "купить диван в москве" remove-around " в " --after write -
+    -> купить диван в
+    Example: {cli} read --text "купить диван в москве" extract-around " в " --after write -
+    -> москве
 
     ADR 0005: ё = е; no double spaces in the results, none at the edges.
     """

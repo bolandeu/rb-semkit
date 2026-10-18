@@ -11,9 +11,11 @@
  stopwords: on, the stopwords count; off (--no-stopwords), they are left out of the comparison, and
  a phrase of stopwords only keeps them.
 
- The step writes its result to a new column <column>_basis.
+ Example: semkit read --text "купить диван" --text "диван" --text "диван купить" basis-phrases
+ write -
+ -> купить диван, ; диван, диван; диван купить,
 
- Example: semkit read core.csv basis-phrases write out.csv
+ The step writes its result to a new column <column>_basis.
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --lemmas                               compare the lemmas of the words («диваны» is «диван»).    │

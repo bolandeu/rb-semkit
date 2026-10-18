@@ -1,8 +1,7 @@
 """Every step meets the help standard (docs/help-standard.md), as `semkit docs` shows it.
 
 A summary of one line, one to three examples, every option explained, no option line left in the description, and the
-last line of an option giving its default and allowed values as the signature has them (read from `describe`). A step
-that does not meet the standard yet is in ALLOWLIST; a step in it that meets the standard fails, so the list only shrinks.
+last line of an option giving its default and allowed values as the signature has them (read from `describe`).
 """
 
 from __future__ import annotations
@@ -19,36 +18,6 @@ from rb_semkit.core.docs import ARGUMENT_LINE, argument_names
 
 STEPS = {step.name: step for area in steps.areas().values() for step in area}
 INPUT_OF_READ = 3  # --text, --column, --whole: the options of read that each step carries first
-# The steps whose summary is not the whole first line of the docstring yet (it runs on to the next line).
-# SEMKIT-055 rewrites their docstrings to the standard and empties this list.
-ALLOWLIST = frozenset(
-    {
-        "chpu",
-        "drop-cells",
-        "drop-minus-words",
-        "drop-modifiers",
-        "extract-around",
-        "extract-cells",
-        "extract-complements",
-        "extract-utm",
-        "find-cells",
-        "fix-word-order",
-        "guillemets",
-        "hash-text",
-        "keep-cells",
-        "move-words",
-        "parse-html",
-        "phonetic",
-        "remove-around",
-        "remove-cells",
-        "remove-utm",
-        "replace-words",
-        "similar-chars",
-        "sort-words",
-        "split-digits",
-        "translit",
-    }
-)
 
 
 def _invoke(*args: str) -> dict:
@@ -106,9 +75,4 @@ def _problems(name: str) -> list[str]:
 
 @pytest.mark.parametrize("name", sorted(STEPS))
 def test_a_step_meets_the_help_standard(name: str) -> None:
-    problems = _problems(name)
-
-    if name in ALLOWLIST:
-        assert problems, f"{name} meets the help standard: take it out of ALLOWLIST"
-    else:
-        assert problems == []
+    assert _problems(name) == []

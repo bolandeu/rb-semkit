@@ -65,6 +65,11 @@ def counts(
     "abc" — the class by the cumulative share from the heaviest phrase down: "A" up to 80 %, "B" up to
     95 %, "C" the rest. "share", "share_of_total" and "abc" need `weight`.
     weight: the column of numbers to share (a frequency), for "share", "share_of_total" and "abc".
+
+    Example: {cli} read --text "купить диван недорого" --text "диван" counts words write -
+    -> купить диван недорого, 3, 3; диван, 1, 1
+    Example: {cli} read --text "купить диван" --text "диван" --text "диван" counts count write -
+    -> купить диван, 1, 1; диван, 2, 2; диван, 2, 2
     """
     if what not in WHAT:
         raise InvalidArguments(f"what={what!r}; allowed: {', '.join(repr(item) for item in WHAT)}.")

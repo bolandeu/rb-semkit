@@ -10,10 +10,11 @@
  pairs.
  weight: a column of numbers of the table (a frequency); sum adds its value once per occurrence.
 
+ Example: semkit read --text "купить диван" --text "диван купить" --text "кресло" bigrams write -
+ -> диван+купить, 2, 2
+
  The step counts the working column; the table replaces the current one, its column ngram is the
  working one.
-
- Example: semkit read core.csv bigrams write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --lemmas                                count lemmas of the words («диваны» is «диван»).         │

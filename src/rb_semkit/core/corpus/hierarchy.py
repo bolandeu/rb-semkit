@@ -93,6 +93,9 @@ def nearest_parents(
 
     Between parents with as many words, the one whose words stand later in the phrase wins («a b c»: «b c» before
     «a c»), then the first in the list. Empty items of the list are skipped.
+
+    Example: {cli} read --text "купить диван" --text "угловой диван" nearest-parents "диван,купить диван" write -
+    -> купить диван, диван; угловой диван, диван
     """
     subsets = Subsets(_items("parents", parents))
 
@@ -120,6 +123,9 @@ def first_parents(
 
     parents: the phrases that may be parents, in the order to try; a parent is a phrase whose words all stand in the
     phrase. Empty items are skipped.
+
+    Example: {cli} read --text "купить диван" --text "угловой диван" first-parents "диван,купить диван" write -
+    -> купить диван, диван; угловой диван, диван
     """
     subsets = Subsets(_items("parents", parents))
 
@@ -141,6 +147,9 @@ def first_children(
 
     children: the phrases that may be children, in the order to try; a child is a phrase that holds every word of the
     phrase.
+
+    Example: {cli} read --text "диван" --text "кресло" first-children "купить диван в москве,угловой диван" write -
+    -> диван, купить диван в москве; кресло,
     """
     items = _items("children", children)
     by_words = {item.words: number for number, item in enumerate(items)}
@@ -185,6 +194,9 @@ def basis_phrases(
     stopwords: on, the stopwords count; off (--no-stopwords), they are left out of the comparison, and a phrase of
     stopwords only keeps them.
     lemmatizer: what gives the lemmas.
+
+    Example: {cli} read --text "купить диван" --text "диван" --text "диван купить" basis-phrases write -
+    -> купить диван, ; диван, диван; диван купить,
     """
     frame = Frame(data, column, inplace)
     phrases = frame.phrases

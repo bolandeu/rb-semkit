@@ -54,6 +54,17 @@ def pos(kind: PartOfSpeech, *, lemmatizer: Lemmatizer | None = None) -> Pos:
     capital is looked up in lower case («Быстро» is an adverb, not an adjective).
     lemmatizer: what gives the part of speech and the lemma of a word; not given, the bundled dictionary.
 
+    Example: {cli} read --text "купить диван" --text "купить" find-pos noun write -
+    -> купить диван, true; купить, false
+    Example: {cli} read --text "купить красный диван" remove-pos adj write -
+    -> купить диван
+    Example: {cli} read --text "купить красный диван" extract-pos noun write -
+    -> диван
+    Example: {cli} read --text "купить диван" --text "купить" keep-pos noun write -
+    -> купить диван
+    Example: {cli} read --text "купить диван" --text "купить" drop-pos noun write -
+    -> купить
+
     ADR 0005: split on any whitespace; ё = е in the lookup.
     """
     return Pos(kind, lemmatizer)

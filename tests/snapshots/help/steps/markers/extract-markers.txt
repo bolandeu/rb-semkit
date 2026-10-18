@@ -17,14 +17,16 @@
  extract gives them as the list spells them («Москве»; «как сделать», not «как»), in word order.
  remove keeps the case of the other words.
 
+ Example: semkit read --text "отели в москве" extract-markers --lists geo --with-prepositions write
+ -
+ -> в Москве
+
  lists: the marker lists, comma-separated: a bundled one by its name (geo) or as @markers/geo, or a
  list of your own as @FILE (one phrase per line, or the first column of a table) or @NAME of a word
  list.
 
  extract-markers keeps only what the matcher finds in the working column; an empty cell where it
  finds nothing.
-
- Example: semkit read core.csv extract-markers --lists geo write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   LISTS      <str>  the marker lists, comma-separated: a bundled one by its name (geo) or as     │

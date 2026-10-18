@@ -36,6 +36,9 @@ def spaces(kind: SpaceKind) -> Spaces:
     kind: "all"; "left" and "right" (at that end only); "both" (at both ends); "extra" (runs collapsed to one
     space, none at the ends). "left", "right" and "both" keep the spaces inside.
 
+    Example: {cli} read --text "  купить   диван " remove-spaces extra write -
+    -> купить диван
+
     ADR 0005: whitespace of any kind (tab, nbsp, line break) counts as a space.
     """
     return Spaces(kind)

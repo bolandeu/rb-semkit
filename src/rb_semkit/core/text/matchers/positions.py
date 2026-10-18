@@ -28,6 +28,11 @@ def positions(count: int, *, last: bool = False) -> Positions:
 
     remove gives an empty cell when the phrase has that many characters or fewer; extract then gives the whole phrase.
 
+    Example: {cli} read --text "купить диван" remove-positions 6 write -
+    -> диван
+    Example: {cli} read --text "купить диван" extract-positions 6 write -
+    -> купить
+
     ADR 0005: no double spaces in the results, none at the edges.
     """
     return Positions(count, last=last)

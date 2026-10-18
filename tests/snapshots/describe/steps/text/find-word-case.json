@@ -1,6 +1,6 @@
 {
   "name": "find-word-case",
-  "description": "Words by the case of their letters (find and extract only); digits and punctuation do not count.\n\nkind: \"lower\" (no capital letter: «x5»); \"Capital\" (each run of letters starts with a capital, the rest small: «Москве», not «iPhone» or «Из-за»); \"CAPS\" (no small letter: «BMW», «В»).\n\nfind-word-case marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-word-case Capital write out.csv",
+  "description": "Words by the case of their letters (find and extract only); digits and punctuation do not count.\n\nkind: \"lower\" (no capital letter: «x5»); \"Capital\" (each run of letters starts with a capital, the rest small: «Москве», not «iPhone» or «Из-за»); \"CAPS\" (no small letter: «BMW», «В»).\n\nExample: semkit read --text \"купить IKEA Диван\" --text \"кресло\" find-word-case CAPS write -\n-> купить IKEA Диван, true; кресло, false\n\nfind-word-case marks the rows where the matcher finds something, in a new column <column>_find of true and false.",
   "options": [
     {
       "name": "--kind",

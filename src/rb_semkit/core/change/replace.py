@@ -58,13 +58,17 @@ def replace_words(
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """Whole words and phrases of the phrase replaced by pairs (what to find → its replacement); case and ё do not count.
-    Longer phrases go first: «стиральная машинка» → «стиральная машина» before «машинка» → «машина». Punctuation at the
-    edges of the found words stays around the replacement («диван,» → «софа,»); an empty replacement deletes the words
-    with that punctuation («купить диван, недорого» → «купить недорого»).
+    """The phrase with whole words and phrases replaced by pairs (what to find → its replacement).
+
+    Case and ё do not count. Longer phrases go first: «стиральная машинка» → «стиральная машина» before «машинка» →
+    «машина». Punctuation at the edges of the found words stays around the replacement («диван,» → «софа,»); an empty
+    replacement deletes the words with that punctuation («купить диван, недорого» → «купить недорого»).
 
     case: "new" — the replacement as given; "keep" — in the case of the first word it replaces (lower, capitalised,
     upper; a word of mixed case keeps the replacement as given).
+
+    Example: {cli} read --text "купить диван, недорого" replace-words pairs.csv write -
+    -> купить софа, недорого
     """
     by_length = _by_length(text_pairs("pairs", pairs))
     keep_case = choice("case", case, CASES) == "keep"
@@ -145,6 +149,11 @@ def replace_text(
     - "regex": each match of the pattern (cyrillic letters are word chars) becomes the replacement, with `\\1` and
       `\\g<name>` for the groups.
     first_only: with "regex", only the first match.
+
+    Example: {cli} read --text "купить диван" replace-text pairs.csv write -
+    -> купить софа
+    Example: {cli} read --text "Диван" replace-text pairs.csv --by phrase write -
+    -> Софа
     """
     listed = text_pairs("pairs", pairs)
     choice("by", by, BY)

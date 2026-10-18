@@ -90,7 +90,6 @@ STEPS = [
         _prepare,
         "The step adds the columns cluster, cluster_name and similarity right after the working column; the rows"
         " stay. Its summary names the index it searched: exact, or hnsw above about 300 000 phrases.",
-        example="--freq freq",
         columns=True,
     )
 ]

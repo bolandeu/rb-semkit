@@ -165,7 +165,9 @@ def decline(
     column: str | None = None,
     inplace: bool = False,
 ) -> pd.Series | pd.DataFrame:
-    """Every word of a phrase that declines, to the case: «купить красный диван» genitive → «купить красного дивана».
+    """Every word of a phrase that declines, put in the given case.
+
+    The phrase «купить красный диван» in the genitive is «купить красного дивана».
 
     case: "nominative", "genitive", "dative", "accusative", "instrumental" or "prepositional".
     number: "singular" or "plural"; a phrase in the nominative plural declines in the plural anyway («угловые диваны»
@@ -179,6 +181,11 @@ def decline(
     the genitive («купить рыжего кота»). A word right after a preposition or a possessive pronoun that is not the first
     word stays («чехол для телефон» → «чехла для телефон»; «мой синий стол» → «моего синего стола»). A word in «-ой»
     before a word in another case stays too («с большой скидкой»). A word keeps its capitals.
+
+    Example: {cli} read --text "купить красный диван" decline genitive write -
+    -> купить красного дивана
+    Example: {cli} read --text "угловые диваны" decline genitive --number plural write -
+    -> угловых диванов
     """
     form_index(case, number)  # the case and the number are checked before any phrase
     declined = _Words(case, number)

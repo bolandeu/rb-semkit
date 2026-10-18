@@ -13,6 +13,11 @@
  cluster, cluster_name and similarity (of the phrase to the name of its cluster, 4 places); an
  empty cell gets none. The table tells the index it searched in `attrs["index"]`.
 
+ Example: semkit read --text "купить диван" --text "кошачий корм" --text "купить диван"
+ cluster-meaning write -
+ -> купить диван, 1, купить диван, 1.0; кошачий корм, 2, кошачий корм, 1.0; купить диван, 1, купить
+ диван, 1.0
+
  model: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or
  hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the cluster
  threshold of the model (the threshold of the model when it has none of its own); a hub model has
@@ -23,8 +28,6 @@
 
  The step adds the columns cluster, cluster_name and similarity right after the working column; the
  rows stay. Its summary names the index it searched: exact, or hnsw above about 300 000 phrases.
-
- Example: semkit read core.csv cluster-meaning --freq freq write out.csv
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --threshold        <float>  the similarity from 0 to 1 a phrase needs to the phrase that starts  │

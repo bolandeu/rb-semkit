@@ -1,14 +1,19 @@
 
  Usage: semkit read [IN] similar-chars [OPTIONS] [TO]
 
- The letters that look alike in both alphabets (а a, В B, Н H, р p, с c, у y, х x…) in one
- alphabet. The other letters stay.
+ The phrase with the letters that look alike in both alphabets (а a, В B, Н H, р p, с c, у y, х x…)
+ in one alphabet.
+
+ The other letters stay.
 
  to: the alphabet: "en" — «Москва» → «Mockвa»; "ru" — «CTO» → «СТО».
 
- The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
+ Example: semkit read --text "Москва" similar-chars en write -
+ -> Mockвa
+ Example: semkit read --text "CTO" similar-chars ru write -
+ -> СТО
 
- Example: semkit read core.csv similar-chars en write out.csv
+ The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   TO      <en|ru>  the alphabet: "en" — «Москва» → «Mockвa»; "ru" — «CTO» → «СТО». The same as   │

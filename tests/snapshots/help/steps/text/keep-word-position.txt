@@ -11,9 +11,10 @@
 
  remove gives the other words.
 
- keep-word-position keeps only the rows where the matcher finds something in the working column.
+ Example: semkit read --text "купить диван" --text "кресло" keep-word-position --nth 2 write -
+ -> купить диван
 
- Example: semkit read core.csv keep-word-position --nth 3 write out.csv
+ keep-word-position keeps only the rows where the matcher finds something in the working column.
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --first            <int>  the first or last N words.                                             │

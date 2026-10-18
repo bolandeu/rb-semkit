@@ -1,6 +1,6 @@
 {
   "name": "phonetic",
-  "description": "Each word read as English and written in Russian: «Dreamline» → «Дримлайн», «iphone» → «айфон», «google» → «гугл». A word keeps its case: lower, capitalised or upper («XIAOMI» → «СЯОМИ»); a word of mixed case comes out lower. The words are joined by one space.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv phonetic write out.csv",
+  "description": "Each word read as English and written in Russian.\n\n«Dreamline» → «Дримлайн», «iphone» → «айфон», «google» → «гугл». A word keeps its case: lower, capitalised or upper («XIAOMI» → «СЯОМИ»); a word of mixed case comes out lower. The words are joined by one space.\n\nExample: semkit read --text \"Dreamline\" --text \"iphone\" phonetic write -\n-> Дримлайн; айфон\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.",
   "options": [
     {
       "name": "--as",

@@ -69,6 +69,17 @@ def words(
     ignore_punct: punctuation at the edges of a word does not count («диван,» is «диван»).
     lemmatizer: compare the lemmas it gives («диваны» is «диван»); not given, the words are compared as they are.
 
+    Example: {cli} read --text "купить диван" --text "кресло" find-words диван write -
+    -> купить диван, true; кресло, false
+    Example: {cli} read --text "купить диван недорого" remove-words купить,недорого write -
+    -> диван
+    Example: {cli} read --text "купить диван недорого" extract-words диван,недорого write -
+    -> диван недорого
+    Example: {cli} read --text "купить диван" --text "кресло" keep-words диван write -
+    -> купить диван
+    Example: {cli} read --text "купить диван" --text "кресло" drop-words диван write -
+    -> кресло
+
     ADR 0005: ё = е; split on any whitespace; blank list items are refused.
     """
     return Words(items, mode=mode, where=where, ignore_punct=ignore_punct, lemmatizer=lemmatizer)

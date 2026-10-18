@@ -1,6 +1,6 @@
 {
   "name": "guillemets",
-  "description": "Straight double quotes as «ёлочки», opening and closing in turn: «диван \"Честер\" купить» → «диван «Честер» купить». A phrase with quotes loses the spaces at its edges.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv guillemets write out.csv",
+  "description": "Straight double quotes as «ёлочки», opening and closing in turn.\n\nA phrase with quotes loses the spaces at its edges.\n\nExample: semkit read --text 'диван \"Честер\" купить' guillemets write -\n-> диван «Честер» купить\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.",
   "options": [
     {
       "name": "--as",

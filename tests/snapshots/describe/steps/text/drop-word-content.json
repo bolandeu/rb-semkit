@@ -1,6 +1,6 @@
 {
   "name": "drop-word-content",
-  "description": "Words by what they hold; a word is tested as written, with its punctuation («красный,» does not end in «ный»).\n\nkind: \"starts\", \"ends\", \"contains\" (with pattern); \"only_latin\" (a latin letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); \"has_latin\"; \"only_digits\" (a number: «2», «1,5», «-5»); \"has_digits\"; \"mixed\" (a digit and a letter: «iphone15»).\npattern: for \"starts\", \"ends\" and \"contains\", a word part or a list of them, any one is enough; case and ё do not count.\n\ndrop-word-content drops the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv drop-word-content starts --pattern куп write out.csv",
+  "description": "Words by what they hold; a word is tested as written, with its punctuation («красный,» does not end in «ный»).\n\nkind: \"starts\", \"ends\", \"contains\" (with pattern); \"only_latin\" (a latin letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); \"has_latin\"; \"only_digits\" (a number: «2», «1,5», «-5»); \"has_digits\"; \"mixed\" (a digit and a letter: «iphone15»).\npattern: for \"starts\", \"ends\" and \"contains\", a word part or a list of them, any one is enough; case and ё do not count.\n\nExample: semkit read --text \"диван ikea\" --text \"кресло\" drop-word-content only_latin write -\n-> кресло\n\ndrop-word-content drops the rows where the matcher finds something in the working column.",
   "options": [
     {
       "name": "--kind",

@@ -13,10 +13,11 @@
  кровать»). extract keeps latin, cyrillic and digits with the whitespace between them («120x200» →
  «120200»); for the other kinds it gives the runs joined by a space.
 
+ Example: semkit read --text "диван 120x200" --text "кресло" find-chars digits write -
+ -> диван 120x200, true; кресло, false
+
  find-chars marks the rows where the matcher finds something, in a new column <column>_find of true
  and false.
-
- Example: semkit read core.csv find-chars latin write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   KIND      <latin|cyrillic|digits|letters_digits|pun  "latin" (A-Z a-z), "cyrillic" (А..ӿ and   │

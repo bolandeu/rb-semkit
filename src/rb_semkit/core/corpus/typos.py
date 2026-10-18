@@ -145,6 +145,9 @@ def is_typo(
     dictionary or pymorphy3 knows («москве», «угловые») are never misspelt; a correction starts with the same letter
     as the word.
     provider: what finds the misspelt words: the core itself (the default), or a spelling server (LanguageTool).
+
+    Example: {cli} read core.csv is-typo write -
+    -> Диван-кровать 2 м!, false, 5; купить диван, false, 4; Диван купить, false, 3; купить   диван в москве!, false, 2; углы, false, 1; диван бесплатно, false, 6; диван www.sofa.ru диван, false, 7; отличный диван "Лион", false, 3; диван120см, false, 2; чехол на диван, false, 1; купить диван в москве, false, 2; диавн купить, true, 1; угловой диван, false, 2; диван недорого, false, 1
     """
     frame = Frame(data, column, inplace)
     phrases, found = _misspellings(frame, provider)
@@ -163,6 +166,9 @@ def typo_correction(
     The misspelt words are those of is-typo; the correction is the nearest such word, then the most frequent, starting
     with the same letter. A phrase with no misspelt word, or none that can be corrected, stays as it is.
     provider: what finds the misspelt words, as for is_typo.
+
+    Example: {cli} read core.csv typo-correction write -
+    -> Диван-кровать 2 м!, 5; купить диван, 4; Диван купить, 3; купить   диван в москве!, 2; углы, 1; диван бесплатно, 6; диван www.sofa.ru диван, 7; отличный диван "Лион", 3; диван120см, 2; чехол на диван, 1; купить диван в москве, 2; диван купить, 1; угловой диван, 2; диван недорого, 1
     """
     frame = Frame(data, column, inplace)
     phrases, found = _misspellings(frame, provider)

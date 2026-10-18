@@ -1,6 +1,6 @@
 {
   "name": "extract-word-case",
-  "description": "Words by the case of their letters (find and extract only); digits and punctuation do not count.\n\nkind: \"lower\" (no capital letter: «x5»); \"Capital\" (each run of letters starts with a capital, the rest small: «Москве», not «iPhone» or «Из-за»); \"CAPS\" (no small letter: «BMW», «В»).\n\nextract-word-case keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-word-case Capital write out.csv",
+  "description": "Words by the case of their letters (find and extract only); digits and punctuation do not count.\n\nkind: \"lower\" (no capital letter: «x5»); \"Capital\" (each run of letters starts with a capital, the rest small: «Москве», not «iPhone» or «Из-за»); \"CAPS\" (no small letter: «BMW», «В»).\n\nExample: semkit read --text \"купить Диван в Москве\" extract-word-case Capital write -\n-> Диван Москве\n\nextract-word-case keeps only what the matcher finds in the working column; an empty cell where it finds nothing.",
   "options": [
     {
       "name": "--kind",

@@ -66,7 +66,6 @@ STEPS = [
         "change",
         _prepare_off_topic,
         "The step adds the columns off_topic_score and off_topic right after the working column; the rows stay.",
-        example="--freq freq",
         columns=True,
     ),
     Step(
@@ -76,8 +75,6 @@ STEPS = [
         _prepare_classify_queries,
         "The step takes the working column as the queries of a search query report and adds the columns nearest_phrase,"
         " similarity and target right after it; the rows stay.",
-        source="phrases.csv",
-        example="--against core.csv",
         columns=True,
     ),
     Step(
@@ -87,7 +84,6 @@ STEPS = [
         _prepare_assign_pages,
         f"{PAGE_NOTE}\n\nThe step adds the columns best_page, best_similarity, second_page and second_similarity right"
         " after the working column; the rows stay.",
-        example="--pages page_texts.csv",
         columns=True,
     ),
 ]

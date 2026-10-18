@@ -37,9 +37,12 @@
 
  No norms and no verdicts: the caller sets them.
 
- The step reads the working column and adds the metric columns right after it; the rows stay.
+ Example: semkit read --text "Купить диван в Москве. Диван угловой, диван недорогой." text-stats
+ write -
+ -> Купить диван в Москве. Диван угловой, диван недорогой., 54, 47, 8, 5, 0.125, 1.73, 0.375,
+ диван, 0.7142857142857143, 7.0, 70.9
 
- Example: semkit read core.csv text-stats write out.csv
+ The step reads the working column and adds the metric columns right after it; the rows stay.
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --no-digits               leave out the words with a digit («2026», «15000», «A4») of every      │

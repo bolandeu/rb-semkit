@@ -37,7 +37,6 @@ DICTIONARY_DOC = (
     " the file is read like `read` does."
 )
 # The example of a step whose result grows fast: a real core gives millions of rows.
-LIMIT = "--limit 1000"
 TABLE_NOTE = (
     "The step makes a table of its result; it replaces the current table, its first text column is the working one."
 )
@@ -47,7 +46,7 @@ def _report(function) -> Step:
     def prepare(options: dict) -> Prepared:
         return lambda table, column: Report(function(Frame(table, column).phrases, **options).to_frame(column))
 
-    return Step(slug(function), function, "report", prepare, TABLE_NOTE, example=LIMIT)
+    return Step(slug(function), function, "report", prepare, TABLE_NOTE)
 
 
 def _prepare_split(options: dict) -> Prepared:
@@ -82,16 +81,11 @@ STEPS = [
         "report",
         _prepare_combinations,
         TABLE_NOTE,
-        source="combine.csv",
-        example=LIMIT,
     ),
-    Step("ordered-pairs", ordered_pairs, "report", _prepare_pairs, TABLE_NOTE, example=LIMIT),
+    Step("ordered-pairs", ordered_pairs, "report", _prepare_pairs, TABLE_NOTE),
     _report(permutations),
-    *(
-        change_step(function, new_column="parent", example="'диван,купить диван'")
-        for function in (first_parents, nearest_parents)
-    ),
-    change_step(first_children, new_column="child", example="'купить диван в москве,угловой диван'"),
+    *(change_step(function, new_column="parent") for function in (first_parents, nearest_parents)),
+    change_step(first_children, new_column="child"),
     change_step(basis_phrases, new_column="basis"),
     Step(
         "split-by-words",
@@ -99,10 +93,9 @@ STEPS = [
         "filter",
         _prepare_split,
         "The step keeps only the rows of the part named by --keep.",
-        example="good --good 'купить,диван'",
     ),
     change_step(cluster_by_frequency, new_column="cluster"),
-    Step("synonyms", Adapted(synonyms, {"report": None}), "report", _prepare_synonyms, TABLE_NOTE, source="report.csv"),
+    Step("synonyms", Adapted(synonyms, {"report": None}), "report", _prepare_synonyms, TABLE_NOTE),
     Step(
         "add-minus-words",
         Adapted(add_minus_words, {"table": option("synonyms")}, SYNONYMS_DOC),

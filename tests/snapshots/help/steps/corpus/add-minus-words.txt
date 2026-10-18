@@ -7,12 +7,13 @@
  unsure: also add the synonyms to check (sure is false); by default only the sure ones. A sure cell
  read from a file as text counts as sure when it is true (in any case), ИСТИНА or 1.
 
+ Example: semkit read --text "купить диван" add-minus-words synonyms.csv write -
+ -> купить диван -софа
+
  synonyms: a file with the columns word and synonyms, as the step `synonyms` gives; the file is
  read like `read` does.
 
  The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
-
- Example: semkit read core.csv add-minus-words --synonyms synonyms.csv write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   SYNONYMS      <str>  a file with the columns word and synonyms, as the step `synonyms` gives;  │

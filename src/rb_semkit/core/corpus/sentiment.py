@@ -49,6 +49,9 @@ def sentiment(
     scores: a dictionary word → number («отличный» 5, «плохой» -3); words match in any case and with ё = е, and a word
     repeated in the phrase counts each time.
     what: "mean", "min" or "max" of the scores of the words. A phrase with no scored word gets an empty value.
+
+    Example: {cli} read --text "отличный диван" --text "плохой диван" --text "диван" sentiment dictionary.csv write -
+    -> отличный диван, 5.0; плохой диван, -3.0; диван,
     """
     statistic = STATISTICS[choice("what", what, tuple(STATISTICS))]
     keyed = _scores(scores)

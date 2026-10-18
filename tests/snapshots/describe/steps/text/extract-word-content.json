@@ -1,6 +1,6 @@
 {
   "name": "extract-word-content",
-  "description": "Words by what they hold; a word is tested as written, with its punctuation («красный,» does not end in «ный»).\n\nkind: \"starts\", \"ends\", \"contains\" (with pattern); \"only_latin\" (a latin letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); \"has_latin\"; \"only_digits\" (a number: «2», «1,5», «-5»); \"has_digits\"; \"mixed\" (a digit and a letter: «iphone15»).\npattern: for \"starts\", \"ends\" and \"contains\", a word part or a list of them, any one is enough; case and ё do not count.\n\nextract-word-content keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-word-content starts --pattern куп write out.csv",
+  "description": "Words by what they hold; a word is tested as written, with its punctuation («красный,» does not end in «ный»).\n\nkind: \"starts\", \"ends\", \"contains\" (with pattern); \"only_latin\" (a latin letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); \"has_latin\"; \"only_digits\" (a number: «2», «1,5», «-5»); \"has_digits\"; \"mixed\" (a digit and a letter: «iphone15»).\npattern: for \"starts\", \"ends\" and \"contains\", a word part or a list of them, any one is enough; case and ё do not count.\n\nExample: semkit read --text \"диван ikea\" extract-word-content only_latin write -\n-> ikea\n\nextract-word-content keeps only what the matcher finds in the working column; an empty cell where it finds nothing.",
   "options": [
     {
       "name": "--kind",

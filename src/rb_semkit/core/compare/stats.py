@@ -42,6 +42,9 @@ def compare_stats(
     verdict, «below», «within» or «above», mine against norm x (1 ± tolerance), and when the norm is 0, «within» if
     mine is 0, else «above». Numbers are rounded to 4 decimals; the counts (chars, chars_no_spaces, words, unique) stay
     whole numbers where they are whole.
+
+    Example: {cli} read --whole mine.txt compare-stats competitors.csv write -
+    -> chars, 46, 44, 34.6667, 14, 46, 2, within; chars_no_spaces, 40, 38, 30.3333, 13, 40, 2, within; words, 6, 7, 5.3333, 2, 7, -1, within; unique, 5, 4, 3.6667, 2, 5, 1, within; water, 0.0, 0.1429, 0.0952, 0.0, 0.1429, -0.1429, below; nausea_classic, 1.41, 1.41, 1.38, 1.0, 1.73, 0.0, within; nausea_academic, 0.3333, 0.4286, 0.4048, 0.2857, 0.5, -0.0952, within; ttr, 0.8333, 0.8333, 0.8333, 0.6667, 1.0, 0.0, within; mtld, 10.08, 6.0, 5.36, 0.0, 10.08, 4.08, above; zipf, 70.9, 0.0, 23.6333, 0.0, 70.9, 70.9, above
     """
     text, others = checked_text(mine), texts_of(competitors, column, "competitors")
     limit, chosen = checked_number(tolerance, "tolerance"), checked_norm(norm)

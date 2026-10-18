@@ -156,6 +156,11 @@ def ngrams(
 
     ADR 0005: the add-in has no column docs, a semkit addition, so the conformance cases compare count and sum only;
     stopwords off is the add-in's «Биграмм без учета стоп-слов»; stopwords are found in any case.
+
+    Example: {cli} read --text "купить диван" --text "купить диван недорого" ngrams write -
+    -> диван, 2, 2; купить, 2, 2; недорого, 1, 1
+    Example: {cli} read --text "купить диван" --text "купить диван недорого" ngrams -n 2 write -
+    -> купить диван, 2, 2; диван недорого, 1, 1
     """
     return _tally(
         data,
@@ -184,6 +189,9 @@ def bigrams(
     stopwords: on, every word counts; off (--no-stopwords), only the words that are no stopwords make pairs.
     weight: a column of numbers of the table (a frequency); sum adds its value once per occurrence.
     lemmatizer: what gives the lemmas.
+
+    Example: {cli} read --text "купить диван" --text "диван купить" --text "кресло" bigrams write -
+    -> диван+купить, 2, 2
     """
     return _tally(
         data,

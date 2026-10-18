@@ -78,6 +78,11 @@ def dupes(
     member of a group of 2 or more), drop (keep the first, drop the rest).
     against: other phrases; with them a phrase is a duplicate when it stands among them.
     lemmatizer: what gives the lemmas.
+
+    Example: {cli} read --text "купить диван" --text "диван купить" --text "кресло" dupes lemmas --action mark_except_first write -
+    -> купить диван, false; диван купить, true; кресло, false
+    Example: {cli} read --text "купить диван" --text "диван купить" --text "кресло" dupes implicit --action drop write -
+    -> купить диван; кресло
     """
     key_of = key_function(kind, lemmatizer)
     if action not in ACTIONS:

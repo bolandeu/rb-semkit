@@ -13,11 +13,12 @@
  k1: how fast the score of a term saturates with its count (usually 1.2..2).
  b: how much the length of a text lowers the score, 0..1 (0: not at all).
 
+ Example: semkit read texts.csv bm25 "угловой диван" write -
+ -> Диван угловой и кресло. Купить диван недорого., 0.8806; Кресло и диван, диван кожаный., 0.2784
+
  The step takes each cell of the working column as a text and writes its score for the query to a
  new column <column>_bm25; to rank my text among the competitors, put all the texts in the working
  column.
-
- Example: semkit read core.csv bm25 'купить диван' write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   QUERY      <str>  the query, a phrase. The same as --query QUERY.                              │

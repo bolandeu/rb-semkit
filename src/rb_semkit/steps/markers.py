@@ -57,4 +57,4 @@ class Lists(Adapted):
         return self.__wrapped__(*args, lists=bundled, user=own, **kwargs)
 
 
-STEPS = matcher_steps(Lists(), "--lists geo")
+STEPS = matcher_steps(Lists())

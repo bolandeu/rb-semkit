@@ -163,6 +163,9 @@ def coverage(
     - density: count x words of the phrase / words of all texts, a share from 0 to 1, rounded to 4 decimals;
     - first: the number of the word (1-based, all words of the text counted) where the phrase first starts, in the
       first text that holds it; empty when count is 0.
+
+    Example: {cli} read --text "купить диван" --text "кресло" coverage texts.csv write -
+    -> купить диван, 1, 1, 0.1667, 5; кресло, 2, 2, 0.1667, 4
     """
     _checked_mode(mode)
     _checked_gap(gap, mode)

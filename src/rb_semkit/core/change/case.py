@@ -143,6 +143,8 @@ def change_case(
 ) -> pd.Series | pd.DataFrame:
     """The phrase in another case.
 
+    The word kinds split the phrase on any whitespace and join the words by one space.
+
     kind: the case to give:
     - "lower", "upper": the whole phrase;
     - "title": every word capitalised, the rest lower; a letter after a digit or a sign starts a word too
@@ -157,10 +159,12 @@ def change_case(
       («в москве,» → «в Москве,»), and a hyphen splits a word («ростов-на-дону» → «Ростов-на-Дону»);
     - "abbreviations": a word of 2 to 5 consonants, or 3 to 5 vowels, upper («hp», «ооо»), then each word of the
       bundled abbreviations as the list spells it («спб» → «СПб», «usb» → «USB», «СМ» → «см»).
-
     words: the words for "list_title" and "list_upper".
 
-    The word kinds split the phrase on any whitespace and join the words by one space.
+    Example: {cli} read --text "купить диван" --text "диван ИКЕА" change-case title write -
+    -> Купить Диван; Диван Икеа
+    Example: {cli} read --text "купить диван в москве" change-case list_upper --words диван write -
+    -> купить ДИВАН в москве
     """
     choice("kind", kind, KINDS)
     return changed(data, _change(kind, words), "change_case", column, inplace)

@@ -12,9 +12,12 @@
  up to 95 %, "C" the rest. "share", "share_of_total" and "abc" need `weight`.
  weight: the column of numbers to share (a frequency), for "share", "share_of_total" and "abc".
 
- The step writes the count of each phrase to a new column <column>_count.
+ Example: semkit read --text "купить диван недорого" --text "диван" counts words write -
+ -> купить диван недорого, 3, 3; диван, 1, 1
+ Example: semkit read --text "купить диван" --text "диван" --text "диван" counts count write -
+ -> купить диван, 1, 1; диван, 2, 2; диван, 2, 2
 
- Example: semkit read core.csv counts words write out.csv
+ The step writes the count of each phrase to a new column <column>_count.
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   WHAT      <words|chars|count|number|share|share_of_  "words" and "chars" — the words and the   │

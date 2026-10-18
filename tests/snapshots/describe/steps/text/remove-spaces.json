@@ -1,6 +1,6 @@
 {
   "name": "remove-spaces",
-  "description": "The spaces to remove (remove only).\n\nkind: \"all\"; \"left\" and \"right\" (at that end only); \"both\" (at both ends); \"extra\" (runs collapsed to one space, none at the ends). \"left\", \"right\" and \"both\" keep the spaces inside.\n\nremove-spaces removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-spaces all write out.csv",
+  "description": "The spaces to remove (remove only).\n\nkind: \"all\"; \"left\" and \"right\" (at that end only); \"both\" (at both ends); \"extra\" (runs collapsed to one space, none at the ends). \"left\", \"right\" and \"both\" keep the spaces inside.\n\nExample: semkit read --text \"  купить   диван \" remove-spaces extra write -\n-> купить диван\n\nremove-spaces removes what the matcher finds from the working column.",
   "options": [
     {
       "name": "--kind",

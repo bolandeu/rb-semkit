@@ -7,6 +7,10 @@
  page and its similarity are empty when the table has one page; an empty cell gets none. No row is
  dropped.
 
+ Example: semkit read --text "угловые диваны угловой диван" assign-pages --pages one_page.csv write
+ -
+ -> угловые диваны угловой диван, /uglovye, 1.0, ,
+
  pages: a file with the pages of the site; the file is read like `read` does. Its columns: url, and
  text (the text of the page: its title, H1 and body), and title and h1 when it has them.
  model: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or
@@ -19,8 +23,6 @@
 
  The step adds the columns best_page, best_similarity, second_page and second_similarity right
  after the working column; the rows stay.
-
- Example: semkit read core.csv assign-pages --pages page_texts.csv write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   PAGES      <str>  a file with the pages of the site; the file is read like `read` does. Its    │

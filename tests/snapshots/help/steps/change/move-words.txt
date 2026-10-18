@@ -1,16 +1,20 @@
 
  Usage: semkit read [IN] move-words [OPTIONS] [WORDS]
 
- Words found in the phrase moved to its start or end, in the order and the spelling of the list:
- «диван угловой купить» with купить,угловой → «купить угловой диван». Case and ё do not count; the
- first word equal to an item moves.
+ The phrase with the listed words moved to its start or end.
+
+ The words keep the order and the spelling of the list: «диван угловой купить» with купить,угловой
+ → «купить угловой диван». Case and ё do not count; the first word equal to an item moves.
 
  words: the words to move.
  to: where they go: "start" or "end".
 
- The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
+ Example: semkit read --text "диван угловой купить" move-words купить,угловой write -
+ -> купить угловой диван
+ Example: semkit read --text "диван угловой купить" move-words диван --to end write -
+ -> угловой купить диван
 
- Example: semkit read core.csv move-words @stop/wordstat write out.csv
+ The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   WORDS      <str>  the words to move. Items: a comma list 'a,b', @FILE (one item per line, or   │

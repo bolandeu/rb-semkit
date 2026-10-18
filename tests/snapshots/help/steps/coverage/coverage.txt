@@ -25,13 +25,14 @@
  - first: the number of the word (1-based, all words of the text counted) where the phrase first
  starts, in the first text that holds it; empty when count is 0.
 
+ Example: semkit read --text "купить диван" --text "кресло" coverage texts.csv write -
+ -> купить диван, 1, 1, 0.1667, 5; кресло, 2, 2, 0.1667, 4
+
  against: a file with the texts, one per row; the file is read like `read` does. The texts are in
  --text-column, by default the first text column of the file.
 
  The step takes the working column as the core; the table phrase, count, docs, density and first
  replaces the current one.
-
- Example: semkit read core.csv coverage --against texts.csv write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   AGAINST      <str>  a file with the texts, one per row; the file is read like `read` does. The │

@@ -1,6 +1,6 @@
 {
   "name": "drop-word-case",
-  "description": "Words by the case of their letters (find and extract only); digits and punctuation do not count.\n\nkind: \"lower\" (no capital letter: «x5»); \"Capital\" (each run of letters starts with a capital, the rest small: «Москве», not «iPhone» or «Из-за»); \"CAPS\" (no small letter: «BMW», «В»).\n\ndrop-word-case drops the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv drop-word-case Capital write out.csv",
+  "description": "Words by the case of their letters (find and extract only); digits and punctuation do not count.\n\nkind: \"lower\" (no capital letter: «x5»); \"Capital\" (each run of letters starts with a capital, the rest small: «Москве», not «iPhone» or «Из-за»); \"CAPS\" (no small letter: «BMW», «В»).\n\nExample: semkit read --text \"купить Диван\" --text \"кресло\" drop-word-case Capital write -\n-> кресло\n\ndrop-word-case drops the rows where the matcher finds something in the working column.",
   "options": [
     {
       "name": "--kind",

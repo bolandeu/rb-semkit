@@ -1,6 +1,6 @@
 {
   "name": "drop-minus-words",
-  "description": "The phrase without its minus-words: «купить диван -бесплатно -скачать» → «купить диван». A lone «-» between words is a dash and stays («диван - кровать»). The words are joined by one space.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv drop-minus-words write out.csv",
+  "description": "The phrase without its minus-words.\n\n«купить диван -бесплатно -скачать» → «купить диван». A lone «-» between words is a dash and stays («диван - кровать»). The words are joined by one space.\n\nExample: semkit read --text \"купить диван -бесплатно -скачать\" drop-minus-words write -\n-> купить диван\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.",
   "options": [
     {
       "name": "--as",

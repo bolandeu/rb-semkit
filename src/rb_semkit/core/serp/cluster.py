@@ -142,6 +142,9 @@ def cluster_serp(
 
     One row per phrase: phrase, cluster (1 = the largest), center (the first phrase of the cluster) and common (URLs
     shared with the center; the center gets the size of its own top).
+
+    Example: {cli} read serp.csv cluster-serp write -
+    -> диван купить, 1, диван купить, 3; купить диван, 1, диван купить, 3; кресло, 2, кресло, 3
     """
     _checked(serp, method, common, top)
     tops = _tops(serp, top)

@@ -1,8 +1,9 @@
 
  Usage: semkit read [IN] extract-around [OPTIONS] [PATTERN]
 
- The part of the phrase before or after the first or the last occurrence of a text. Remove and
- extract only.
+ The part of the phrase before or after the first or the last occurrence of a text.
+
+ Remove and extract only.
 
  pattern: the text as typed, found anywhere, also inside a word («в» is found in «диван»); not a
  regular expression.
@@ -14,10 +15,11 @@
  matches the case written; ё = е. A phrase without the text has no part: remove leaves it, extract
  gives an empty cell.
 
+ Example: semkit read --text "купить диван в москве" extract-around " в " --after write -
+ -> москве
+
  extract-around keeps only what the matcher finds in the working column; an empty cell where it
  finds nothing.
-
- Example: semkit read core.csv extract-around ' в ' --after --include write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
 │   PATTERN      <str>  the text as typed, found anywhere, also inside a word («в» is found in     │

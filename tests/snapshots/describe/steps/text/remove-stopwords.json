@@ -1,6 +1,6 @@
 {
   "name": "remove-stopwords",
-  "description": "The function words with no search intent (prepositions, conjunctions, particles); remove only.\n\nA word is compared as written: «и,» with its comma is no stopword. Case and ё do not count.\nextra: your own words, taken together with the bundled list.\n\nremove-stopwords removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-stopwords write out.csv",
+  "description": "The function words with no search intent (prepositions, conjunctions, particles); remove only.\n\nA word is compared as written: «и,» with its comma is no stopword. Case and ё do not count.\nextra: your own words, taken together with the bundled list.\n\nExample: semkit read --text \"купить диван в москве\" remove-stopwords write -\n-> купить диван москве\n\nremove-stopwords removes what the matcher finds from the working column.",
   "options": [
     {
       "name": "--extra",
