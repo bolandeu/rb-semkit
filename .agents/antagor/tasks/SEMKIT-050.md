@@ -41,7 +41,7 @@ budget_usd: null
 epic: null
 spec_refs: []
 checks:
-- uv run pytest
+- uv run --extra vectors pytest
 resident: null
 tool: null
 pr: null
