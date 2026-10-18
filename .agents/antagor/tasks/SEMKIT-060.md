@@ -78,3 +78,16 @@ jobs:
 ## Read first
 
 - `scripts/release.py` — the gate the CI runs
+
+## Feedback
+
+### Answer to question #1
+
+> SEMKIT-060 has the title 'x', the body 'x' and the out-of-scope 'x'; the only owned file is tests/conftest.py and no change is described.
+> Question: What must SEMKIT-060 change in tests/conftest.py?
+> Options:
+> 1. Cancel the task (placeholder created by mistake)
+> 2. Rewrite the task with a real description
+> Recommended: Cancel the task (placeholder created by mistake)
+
+Option 2: the placeholder was replaced by the real task (title, body, owns). Do the task as written now.
