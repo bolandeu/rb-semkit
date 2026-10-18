@@ -14,8 +14,9 @@
  empty cell gets none. The table tells the index it searched in `attrs["index"]`.
 
  model: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or
- hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of
- the model; a hub model has none.
+ hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the cluster
+ threshold of the model (the threshold of the model when it has none of its own); a hub model has
+ none.
  freq: the column of the frequencies of the phrases in the current table; the cluster is named
  after its most frequent phrase. Without it, after the phrase nearest the centre of the cluster
  (the mean of its vectors).
@@ -34,8 +35,9 @@
 │                             vectors).                                                            │
 │ --model            <str>    the encoder, pulled once with `semkit models pull NAME`: e5-small,   │
 │                             bge-m3, potion, or hf:<id> of a model of the Hugging Face hub.       │
-│                             Without --threshold the step takes the threshold of the model; a hub │
-│                             model has none.                                                      │
+│                             Without --threshold the step takes the cluster threshold of the      │
+│                             model (the threshold of the model when it has none of its own); a    │
+│                             hub model has none.                                                  │
 │                             [default: e5-small]                                                  │
 │ --help                      Show this message and exit.                                          │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯

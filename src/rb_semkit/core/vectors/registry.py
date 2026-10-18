@@ -4,7 +4,8 @@
 A model is an encoder (e5-small, bge-m3, potion) or word data (ruwordnet, navec), pulled into the same cache.
 `model(name)` takes a short name or `hf:<id>` of any encoder of the Hugging Face hub; an unknown name is refused with
 the names it takes. `encoder(name)` is the same for a step by meaning: word data is refused there.
-`threshold(model, given)` is the similarity a step by meaning uses.
+`threshold(model, given)` is the similarity a step by meaning uses; `cluster_threshold(model, given)` the same for the
+steps that cluster by meaning.
 """
 
 from __future__ import annotations
@@ -35,7 +36,7 @@ class Model:
     files: the path of each file in the repo and its sha256; an empty checksum is not pinned (a hub model).
     revision: None for a hub model until it is pulled (the hub's latest revision); its runtime is known only then.
     pooling, prefix, max_tokens, threshold: of an encoder. The threshold is None for a hub model: a step needs
-    --threshold.
+    --threshold. cluster_threshold: the default of the steps that cluster by meaning; None takes the threshold.
     """
 
     name: str
@@ -46,6 +47,7 @@ class Model:
     prefix: str = ""
     max_tokens: int = 0
     threshold: float | None = None
+    cluster_threshold: float | None = None
     files: Mapping[str, str] = field(default_factory=dict)
 
     @property
@@ -121,12 +123,21 @@ def encoder(name: str) -> Model:
 
 def threshold(model: Model, given: float | None) -> float:
     """`given`, or the default threshold of the model; a similarity from 0 to 1."""
+    return _checked(model, given, model.threshold)
+
+
+def cluster_threshold(model: Model, given: float | None) -> float:
+    """`given`, or the default threshold of the model for clusters (its threshold when it has none of its own)."""
+    return _checked(model, given, model.threshold if model.cluster_threshold is None else model.cluster_threshold)
+
+
+def _checked(model: Model, given: float | None, default: float | None) -> float:
     if given is None:
-        if model.threshold is None:
+        if default is None:
             raise InvalidArguments(
                 f"threshold: not given, and {model.name} has no default threshold; allowed: a number from 0 to 1."
             )
-        return model.threshold
+        return default
     if not 0 <= given <= 1:
         raise InvalidArguments(f"threshold={given!r}; allowed: a number from 0 to 1.")
     return given

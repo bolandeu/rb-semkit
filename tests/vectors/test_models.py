@@ -7,7 +7,9 @@ import json
 import threading
 from pathlib import Path
 
-from rb_semkit.core.errors import CliError
+import pytest
+
+from rb_semkit.core.errors import CliError, InvalidArguments
 from rb_semkit.core.vectors import cache, registry
 
 from ..pipeline.runner import semkit
@@ -166,3 +168,28 @@ def test_a_copy_at_another_revision_is_not_pulled_and_a_pull_replaces_it(
     assert json.loads(result.stdout)["revision"] == "def456"
     assert [path.name for path in models_dir.iterdir()] == ["e5-small"]
     assert _listed("e5-small")["pulled"] is True
+
+
+def test_e5_small_clusters_at_0975_and_pairs_at_097() -> None:
+    model = registry.model("e5-small")
+
+    assert (registry.cluster_threshold(model, None), registry.threshold(model, None)) == (0.975, 0.97)
+
+
+@pytest.mark.parametrize("name", ["bge-m3", "potion"])
+def test_a_model_without_a_cluster_threshold_clusters_at_its_threshold(name: str) -> None:
+    model = registry.model(name)
+
+    assert registry.cluster_threshold(model, None) == model.threshold
+
+
+def test_a_hub_model_clusters_at_the_threshold_given() -> None:
+    model = registry.model("hf:org/model")
+
+    assert registry.cluster_threshold(model, 0.8) == 0.8
+    with pytest.raises(InvalidArguments, match="threshold"):
+        registry.cluster_threshold(model, None)
+
+
+def test_a_given_threshold_beats_the_cluster_threshold() -> None:
+    assert registry.cluster_threshold(registry.model("e5-small"), 0.9) == 0.9

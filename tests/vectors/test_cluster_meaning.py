@@ -3,11 +3,14 @@ options --model and --threshold and their errors."""
 
 from __future__ import annotations
 
+import dataclasses
 import json
 from pathlib import Path
 
 import pandas as pd
 import pytest
+
+from rb_semkit.core.vectors import registry
 
 from ..pipeline.runner import jsonl, semkit
 from .conftest import LocalSource
@@ -107,3 +110,16 @@ def test_a_model_not_in_the_cache_downloads_nothing_and_gives_the_pull_command(
     assert "semkit models pull e5-small" in error["action"]
     assert hub.downloads == []
     assert not models_dir.exists()
+
+
+def test_the_clusters_take_the_cluster_threshold_of_the_model(
+    phrases_csv: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # "купить диван" and "купить диван недорого" are close (about 0.8): below the threshold, above the cluster threshold.
+    e5 = dataclasses.replace(registry.model("e5-small"), threshold=0.99, cluster_threshold=0.5)
+    changed = dataclasses.replace(registry.bundled(), models={"e5-small": e5})
+    monkeypatch.setattr(registry, "bundled", lambda: changed)
+
+    clusters = {row["phrase"]: row["cluster"] for row in _rows("read", str(phrases_csv), "cluster-meaning")}
+
+    assert clusters["купить диван"] == clusters["купить диван недорого"] != clusters["ремонт телефона"]

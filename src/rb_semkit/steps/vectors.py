@@ -1,10 +1,10 @@
 """The steps by meaning: phrases compared by their phrase vectors (the vectors extra and an encoder pulled once).
 
 The options every step by meaning shares are here: --model (the encoder) and --threshold (the similarity of one
-intent; by default the threshold of the model). `MEANING` adapts them for a step, `by_meaning` gives the encoder and
-the threshold they name, `encoder_of` the encoder alone and `page_encoder_of` the encoder of the page vector; all refuse
-before the input is read. `ENCODER_DOC` tells --model alone, for a step without the threshold of the model;
-`PAGE_NOTE` tells the page vector in the help of the steps that take it.
+intent; by default the threshold of the model, for clusters its cluster threshold). `MEANING` adapts them for a step,
+`by_meaning` gives the encoder and the threshold they name, `encoder_of` the encoder alone and `page_encoder_of` the
+encoder of the page vector; all refuse before the input is read. `ENCODER_DOC` tells --model alone, for a step
+without the threshold of the model; `PAGE_NOTE` tells the page vector in the help of the steps that take it.
 """
 
 from __future__ import annotations
@@ -29,6 +29,10 @@ ENCODER_DOC = (
     " of the Hugging Face hub."
 )
 MODEL_DOC = f"{ENCODER_DOC} Without --threshold the step takes the threshold of the model; a hub model has none."
+CLUSTER_MODEL_DOC = (
+    f"{ENCODER_DOC} Without --threshold the step takes the cluster threshold of the model (the threshold of the model"
+    " when it has none of its own); a hub model has none."
+)
 FREQ_DOC = (
     "freq: the column of the frequencies of the phrases in the current table; the cluster is named after its most"
     " frequent phrase. Without it, after the phrase nearest the centre of the cluster (the mean of its vectors)."
@@ -51,10 +55,11 @@ def page_encoder_of(options: dict) -> PageEncoder:
     return PageEncoder(encoder_of(options), registry.model(options["model"]).max_tokens)
 
 
-def by_meaning(options: dict) -> tuple[Encoder, float]:
-    """The encoder and the threshold the options --model and --threshold name."""
-    threshold = registry.threshold(registry.encoder(options["model"]), options["threshold"])
-    return encoder_of(options), threshold
+def by_meaning(options: dict, *, clusters: bool = False) -> tuple[Encoder, float]:
+    """The encoder and the threshold the options --model and --threshold name; `clusters`: the default threshold is
+    the one for clusters."""
+    pick = registry.cluster_threshold if clusters else registry.threshold
+    return encoder_of(options), pick(registry.encoder(options["model"]), options["threshold"])
 
 
 def frequencies(table: pd.DataFrame, name: str) -> pd.Series:
@@ -67,7 +72,7 @@ def frequencies(table: pd.DataFrame, name: str) -> pd.Series:
 
 
 def _prepare(options: dict) -> Prepared:
-    found_encoder, threshold = by_meaning(options)
+    found_encoder, threshold = by_meaning(options, clusters=True)
 
     def run(table: pd.DataFrame, column: str) -> Columns:
         freq = None if options["freq"] is None else frequencies(table, options["freq"])
@@ -80,7 +85,7 @@ def _prepare(options: dict) -> Prepared:
 STEPS = [
     Step(
         "cluster-meaning",
-        Adapted(cluster_meaning, {**MEANING, "freq": option("freq", str | None, None)}, MODEL_DOC, FREQ_DOC),
+        Adapted(cluster_meaning, {**MEANING, "freq": option("freq", str | None, None)}, CLUSTER_MODEL_DOC, FREQ_DOC),
         "change",
         _prepare,
         "The step adds the columns cluster, cluster_name and similarity right after the working column; the rows"
