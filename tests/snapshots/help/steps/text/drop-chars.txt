@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} drop-chars [OPTIONS] [KIND]
+ Usage: semkit read [IN] drop-chars [OPTIONS] [KIND]
 
  The characters of one type.
 

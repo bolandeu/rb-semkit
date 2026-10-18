@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} replace-text [OPTIONS] [PAIRS]
+ Usage: semkit read [IN] replace-text [OPTIONS] [PAIRS]
 
  The phrase changed by pairs, one after the other (a later pair works on the result of the earlier
  ones).

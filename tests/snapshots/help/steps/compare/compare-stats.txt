@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} compare-stats [OPTIONS] [COMPETITORS]
+ Usage: semkit read [IN] compare-stats [OPTIONS] [COMPETITORS]
 
  The metrics of text-stats, mine against the competitors: a row per metric.
 

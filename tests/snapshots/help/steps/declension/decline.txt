@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} decline [OPTIONS] [CASE]
+ Usage: semkit read [IN] decline [OPTIONS] [CASE]
 
  Every word of a phrase that declines, to the case: «купить красный диван» genitive → «купить
  красного дивана».

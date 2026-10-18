@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} compare-grams [OPTIONS] [COMPETITORS]
+ Usage: semkit read [IN] compare-grams [OPTIONS] [COMPETITORS]
 
  How the grams of my text differ from the competitors' texts: a row per gram met in any competitor.
 

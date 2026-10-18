@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} drop-word-position [OPTIONS]
+ Usage: semkit read [IN] drop-word-position [OPTIONS]
 
  Words by their place in the phrase; exactly one way to pick them is given, N counts from 1.
 

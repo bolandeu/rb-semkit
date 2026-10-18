@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} linear-combinations [OPTIONS]
+ Usage: semkit read [IN] linear-combinations [OPTIONS]
 
  Every combination of one item from each column of the table, one column per list (the Cartesian
  product).

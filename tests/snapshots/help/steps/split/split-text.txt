@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} split-text [OPTIONS]
+ Usage: semkit read [IN] split-text [OPTIONS]
 
  Every cell cut into phrases at sentence ends and clause punctuation; one row per phrase, none for
  an empty cell.

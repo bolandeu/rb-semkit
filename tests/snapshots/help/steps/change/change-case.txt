@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} change-case [OPTIONS] [KIND]
+ Usage: semkit read [IN] change-case [OPTIONS] [KIND]
 
  The phrase in another case.
 

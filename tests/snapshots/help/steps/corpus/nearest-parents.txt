@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} nearest-parents [OPTIONS] [PARENTS]
+ Usage: semkit read [IN] nearest-parents [OPTIONS] [PARENTS]
 
  The parent from a list with the most words for each phrase, or an empty cell when it has none.
 

@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} is-typo [OPTIONS]
+ Usage: semkit read [IN] is-typo [OPTIONS]
 
  true for a phrase with a misspelt word, false for the others.
 

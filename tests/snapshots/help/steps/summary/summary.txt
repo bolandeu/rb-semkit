@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} summary [OPTIONS]
+ Usage: semkit read [IN] summary [OPTIONS]
 
  The count, mean, median, min and max of each numeric column of a table: a row per column.
 

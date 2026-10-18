@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} fix-word-order [OPTIONS]
+ Usage: semkit read [IN] fix-word-order [OPTIONS]
 
  The words of the phrase in the order of a search query: «диван для гостиной раскладной кожаный» →
  «кожаный раскладной диван для гостиной».

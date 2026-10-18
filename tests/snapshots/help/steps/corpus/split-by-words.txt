@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} split-by-words [OPTIONS] [KEEP]
+ Usage: semkit read [IN] split-by-words [OPTIONS] [KEEP]
 
  The core split into good, bad and rest phrases, and the frequency dictionary of the rest.
 

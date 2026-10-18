@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} compare-lists [OPTIONS] [AGAINST]
+ Usage: semkit read [IN] compare-lists [OPTIONS] [AGAINST]
 
  The phrases of two lists, by an operation.
 

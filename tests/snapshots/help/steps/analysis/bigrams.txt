@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} bigrams [OPTIONS]
+ Usage: semkit read [IN] bigrams [OPTIONS]
 
  Pairs of words of a phrase in any order, counted: «купить диван» and «диван купить» both give
  «диван+купить».

@@ -104,8 +104,8 @@ def test_an_unknown_step_is_refused_naming_it(tmp_path: Path) -> None:
     assert "remove-wordz" in payload["error"]["message"]
 
 
-def test_a_pipeline_must_end_with_write(core_csv: Path) -> None:
-    result = semkit("--json", "read", str(core_csv), "remove-words", "--items", "купить")
+def test_write_must_come_once_and_last(core_csv: Path) -> None:
+    result = semkit("--json", "read", str(core_csv), "write", "-", "remove-words", "--items", "купить")
 
     payload = json.loads(result.stdout)
     assert result.exit_code == 2

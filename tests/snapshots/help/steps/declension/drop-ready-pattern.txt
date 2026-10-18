@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} drop-ready-pattern [OPTIONS] [KIND]
+ Usage: semkit read [IN] drop-ready-pattern [OPTIONS] [KIND]
 
  A ready regular expression, found anywhere in a phrase, case-sensitive.
 

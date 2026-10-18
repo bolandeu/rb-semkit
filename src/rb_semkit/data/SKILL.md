@@ -21,10 +21,14 @@ Replace `vX.Y.Z` with the latest release tag (install from a tag, never a branch
 ## The pipeline
 
     semkit [--json] [--quiet] [--dry-run] read IN [--column C] [--whole] [--trace FILE] STEP… write OUT [--overwrite]
+    semkit read --text "растаможка авто" synonym-candidates --all
 
 - `IN` is a file of any format dataio reads (csv, xlsx, json, jsonl, parquet, txt…), or `-` for JSONL on stdin (CSV on
   stdin is refused: give its path). `OUT` is a file (its format by the extension), or `-` for JSONL on stdout. stdout
-  holds data only; the summary and the errors go to stderr. A closed stdout (`| head`) ends quietly with exit 0.
+  holds data only; the summary and the errors go to stderr. `--text TEXT` (repeatable) replaces IN: a table with the
+  column `phrase`, a row for each `--text` (IN and `--text` together exit 2). A pipeline without `write` prints the
+  result as a table in the terminal; with `--json`, or when stdout is not a terminal (an agent's shell), it writes JSONL
+  to stdout as `write -` does. A closed stdout (`| head`) ends quietly with exit 0.
 - Columns keep the types of the file: numbers stay numbers, a text column is text (an empty cell is an empty text). A
   column of numbers with spaces around a cell is numbers too. The steps work on one column, the working column:
   `--column C`, by default the first text column; a column of numbers picked as the working column is text for the

@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} synonyms [OPTIONS]
+ Usage: semkit read [IN] synonyms [OPTIONS]
 
  The synonyms in a search-phrase report: a table word, sure, synonyms (joined by a space).
 

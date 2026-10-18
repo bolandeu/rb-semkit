@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} first-children [OPTIONS] [CHILDREN]
+ Usage: semkit read [IN] first-children [OPTIONS] [CHILDREN]
 
  The first item of a list that is a child of the phrase, or an empty cell when none is; an empty
  phrase has none.

@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} cluster-by-frequency [OPTIONS] [THRESHOLD]
+ Usage: semkit read [IN] cluster-by-frequency [OPTIONS] [THRESHOLD]
 
  The cluster of each phrase: its words that stand in at least a number of phrases of the core.
 

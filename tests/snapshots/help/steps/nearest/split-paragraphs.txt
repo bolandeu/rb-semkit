@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} split-paragraphs [OPTIONS]
+ Usage: semkit read [IN] split-paragraphs [OPTIONS]
 
  Texts into their paragraphs: a report of one row per paragraph.
 

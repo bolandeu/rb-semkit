@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} extract-chars [OPTIONS] [KIND]
+ Usage: semkit read [IN] extract-chars [OPTIONS] [KIND]
 
  The characters of one type.
 

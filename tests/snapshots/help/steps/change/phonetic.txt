@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} phonetic [OPTIONS]
+ Usage: semkit read [IN] phonetic [OPTIONS]
 
  Each word read as English and written in Russian: «Dreamline» → «Дримлайн», «iphone» → «айфон»,
  «google» → «гугл». A word keeps its case: lower, capitalised or upper («XIAOMI» → «СЯОМИ»); a word

@@ -70,6 +70,9 @@ semkit read --whole article.txt split-text ngrams -n 1 --lemmas write words.csv
 # my text against the texts of the competitors
 semkit read --whole mine.txt compare-grams --competitors competitors.csv write verdicts.csv
 
+# a quick try: phrases from the command line, the result as a table in the terminal (no write)
+semkit read --text "растаможка авто" synonym-candidates --all
+
 # which core phrases stand in the texts
 semkit read core.csv coverage --against texts.csv write coverage.csv
 
@@ -87,7 +90,10 @@ lists hold them. `--json`, `--quiet` and `--dry-run` go before the steps: `semki
 `{"ok": true, "output", "rows", "written", "steps"}` (`steps`: one summary per step, with a `note` when the step tells
 more), `--quiet` hides the lines on stderr, `--dry-run` runs the steps and writes nothing (it also keeps `init`, `config set`, `skill install`, `lists add` and `lists rm` from writing).
 `--trace FILE` records every cell a step changed (row 1 is the first row under the header), `write OUT --overwrite`
-replaces an existing file (and an existing trace).
+replaces an existing file (and an existing trace). `read --text TEXT` (repeatable) takes the phrases from the command
+line instead of IN: a table with the column `phrase`, a row for each `--text`. A pipeline without `write` prints the
+result as a table (every column, every row) in the terminal; with `--json`, or when stdout is not a terminal, it writes
+JSONL to stdout as `write -` does.
 
 Your own lists: `SEMKIT_LISTS=DIR` (a relative folder is from the current one) or `semkit config set lists '["DIR"]'`;
 `SEMKIT_LISTS` wins over the config. `semkit lists` shows every list, `semkit lists show @NAME` its items.

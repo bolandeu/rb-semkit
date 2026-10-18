@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} reverse [OPTIONS]
+ Usage: semkit read [IN] reverse [OPTIONS]
 
  The phrase backwards.
 

@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} remove-spaces [OPTIONS] [KIND]
+ Usage: semkit read [IN] remove-spaces [OPTIONS] [KIND]
 
  The spaces to remove (remove only).
 

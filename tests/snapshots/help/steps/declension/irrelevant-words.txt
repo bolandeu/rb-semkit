@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} irrelevant-words [OPTIONS] [WORD]
+ Usage: semkit read [IN] irrelevant-words [OPTIONS] [WORD]
 
  The candidates for minus-words around a main word: «чехол» in «чехол для телефона» for «телефон».
 

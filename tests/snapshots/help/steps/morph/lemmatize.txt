@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} lemmatize [OPTIONS]
+ Usage: semkit read [IN] lemmatize [OPTIONS]
 
  Each word of a phrase replaced by its lemma, in lower case: «купила диваны» → «купить диван».
 

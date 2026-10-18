@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} cluster-serp [OPTIONS]
+ Usage: semkit read [IN] cluster-serp [OPTIONS]
 
  Cluster the phrases of a SERP table (columns phrase, position, url) by the common URLs of their
  tops.

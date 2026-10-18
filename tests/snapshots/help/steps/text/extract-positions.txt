@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} extract-positions [OPTIONS] [COUNT]
+ Usage: semkit read [IN] extract-positions [OPTIONS] [COUNT]
 
  The first characters of a phrase, or the last ones (remove and extract).
 

@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} text-stats [OPTIONS]
+ Usage: semkit read [IN] text-stats [OPTIONS]
 
  The usual SEO metrics of each text, the same numbers each run: a metric column per metric, a row
  per text.

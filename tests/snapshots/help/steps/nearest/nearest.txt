@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} nearest [OPTIONS] [AGAINST]
+ Usage: semkit read [IN] nearest [OPTIONS] [AGAINST]
 
  For each row of the table, the rows of another table nearest it by meaning, in a long report.
 

@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} drop-pos [OPTIONS] [KIND]
+ Usage: semkit read [IN] drop-pos [OPTIONS] [KIND]
 
  Words of one part of speech (a participle is none of them).
 

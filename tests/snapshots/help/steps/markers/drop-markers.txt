@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} drop-markers [OPTIONS] [LISTS]
+ Usage: semkit read [IN] drop-markers [OPTIONS] [LISTS]
 
  Items of marker lists found in a phrase, as whole words, in any case, ё as е; all lists in one
  pass.

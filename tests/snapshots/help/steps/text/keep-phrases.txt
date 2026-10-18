@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} keep-phrases [OPTIONS] [ITEMS]
+ Usage: semkit read [IN] keep-phrases [OPTIONS] [ITEMS]
 
  Phrases of a list, found as whole words («угловой диван» is not in «угловойдиван» or «угловой
  диван,»).

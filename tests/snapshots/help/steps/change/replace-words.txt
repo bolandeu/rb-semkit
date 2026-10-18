@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} replace-words [OPTIONS] [PAIRS]
+ Usage: semkit read [IN] replace-words [OPTIONS] [PAIRS]
 
  Whole words and phrases of the phrase replaced by pairs (what to find → its replacement); case and
  ё do not count. Longer phrases go first: «стиральная машинка» → «стиральная машина» before

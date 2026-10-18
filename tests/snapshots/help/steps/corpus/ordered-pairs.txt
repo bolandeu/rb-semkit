@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} ordered-pairs [OPTIONS]
+ Usage: semkit read [IN] ordered-pairs [OPTIONS]
 
  Every ordered pair of two different items of a list: a table first, second («a», «b» → a b, b a).
 

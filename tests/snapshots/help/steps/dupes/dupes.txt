@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} dupes [OPTIONS] [KIND]
+ Usage: semkit read [IN] dupes [OPTIONS] [KIND]
 
  Duplicates of the phrases, by kind.
 

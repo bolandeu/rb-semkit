@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} parse-html [OPTIONS]
+ Usage: semkit read [IN] parse-html [OPTIONS]
 
  The pages of the column as columns: text, links, all, main, title, description, h1. One row per
  page.

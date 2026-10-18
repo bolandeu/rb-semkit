@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} keep-repeats [OPTIONS]
+ Usage: semkit read [IN] keep-repeats [OPTIONS]
 
  Words that repeat an earlier word of the phrase (find and remove; remove keeps the first one).
 

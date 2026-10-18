@@ -1,7 +1,19 @@
+"""The human output on the terminal: plain text, key-value blocks, check marks and tables.
+
+One rich console for data on stdout and one for errors on stderr, so redirected stdout never holds an error line.
+`render_frame` prints a pipeline result that ends without write.
+"""
+
 from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from rich.console import Console
 from rich.markup import escape
+from rich.table import Table
+
+if TYPE_CHECKING:
+    import pandas as pd
 
 # Data goes to stdout; errors and diagnostics go to stderr, so
 # `<cli> status > out.txt` never captures an "Error: ..." line as data.
@@ -30,3 +42,16 @@ def render_doctor(checks: list[dict]) -> None:
         mark = "[green]✓[/green]" if check["ok"] else "[red]✗[/red]"
         detail = f" ({check['detail']})" if check.get("detail") else ""
         console.print(f"{mark} {escape(check['name'] + detail)}")
+
+
+def is_terminal() -> bool:
+    """Whether stdout is a terminal."""
+    return console.is_terminal
+
+
+def render_frame(frame: pd.DataFrame) -> None:
+    """Every column and every row of `frame` as a table; an empty cell stays empty."""
+    table = Table(*(escape(str(name)) for name in frame.columns))
+    for row in frame.astype(object).where(frame.notna(), "").itertuples(index=False):
+        table.add_row(*(escape(str(cell)) for cell in row))
+    console.print(table)

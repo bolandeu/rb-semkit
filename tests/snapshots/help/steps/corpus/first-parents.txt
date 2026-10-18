@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} first-parents [OPTIONS] [PARENTS]
+ Usage: semkit read [IN] first-parents [OPTIONS] [PARENTS]
 
  The first item of a list that is a parent of the phrase, or an empty cell when none is.
 

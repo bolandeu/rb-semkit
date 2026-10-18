@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} extract-complements [OPTIONS]
+ Usage: semkit read [IN] extract-complements [OPTIONS]
 
  Prepositional complements of a phrase, joined by ", "; extract only: «диван для детей с доставкой»
  → «для детей, с доставкой».

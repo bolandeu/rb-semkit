@@ -1,5 +1,5 @@
 
- Usage: semkit read {IN} classify-queries [OPTIONS] [AGAINST]
+ Usage: semkit read [IN] classify-queries [OPTIONS] [AGAINST]
 
  The nearest phrase of the core for each query of a search query report, by meaning.
 
