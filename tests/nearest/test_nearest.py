@@ -131,3 +131,53 @@ def test_a_wrong_option_is_refused_naming_it(core_csv: Path, arguments: list[str
 
     assert result.exit_code == 2
     assert named in result.stderr
+
+
+def test_to_gives_the_same_report_as_an_against_file_of_one_row(core_csv: Path) -> None:
+    against = _against(core_csv.parent, text=["угловой диван"])
+
+    from_file = _rows(str(core_csv), "nearest", "--against", str(against), "--threshold", "0.5")
+    from_text = _rows(str(core_csv), "nearest", "--to", "угловой диван", "--threshold", "0.5")
+
+    assert from_text == from_file
+    assert list(from_text[0]) == ["phrase", "match", "rank", "similarity"]
+    assert (from_text[0]["phrase"], from_text[0]["match"], from_text[0]["similarity"]) == (
+        "угловой диван",
+        "угловой диван",
+        1.0,
+    )
+
+
+def test_each_to_is_a_text_to_match_and_the_nearest_comes_first(core_csv: Path) -> None:
+    rows = _rows(str(core_csv), "nearest", "--to", "кресло кровать недорого", "--to", "угловой диван", "--top", "2")
+
+    assert len(rows) == 6
+    assert [row["rank"] for row in rows] == [1, 2] * 3
+    assert [row["match"] for row in rows[:2]] == ["угловой диван", "кресло кровать недорого"]
+    assert [row["match"] for row in rows[2:4]] == ["кресло кровать недорого", "угловой диван"]
+    assert all(rows[start]["similarity"] >= rows[start + 1]["similarity"] for start in (0, 2, 4))
+
+
+def test_to_and_against_together_are_refused_naming_both(core_csv: Path) -> None:
+    pages = _against(core_csv.parent, **PAGES)
+
+    result = semkit("read", str(core_csv), "nearest", "--to", "диван", "--against", str(pages), "write", "-")
+
+    assert result.exit_code == 2
+    assert "--to" in result.stderr and "--against" in result.stderr
+
+
+def test_to_and_the_positional_against_together_are_refused_naming_both(core_csv: Path) -> None:
+    pages = _against(core_csv.parent, **PAGES)
+
+    result = semkit("read", str(core_csv), "nearest", str(pages), "--to", "диван", "write", "-")
+
+    assert result.exit_code == 2
+    assert "--to" in result.stderr and "AGAINST" in result.stderr
+
+
+def test_neither_to_nor_against_is_refused(core_csv: Path) -> None:
+    result = semkit("read", str(core_csv), "nearest", "write", "-")
+
+    assert result.exit_code == 2
+    assert "--to" in result.stderr and "AGAINST" in result.stderr
