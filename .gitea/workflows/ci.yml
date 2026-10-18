@@ -1,0 +1,24 @@
+name: ci
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  gate:
+    runs-on: docker
+    container:
+      image: node:22-bookworm
+      volumes:
+        - ci-cache:/cache
+    env:
+      UV_CACHE_DIR: /cache/uv
+      XDG_CACHE_HOME: /cache/xdg
+      UV_PYTHON_INSTALL_DIR: /cache/python
+      UV_LINK_MODE: copy
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # release.py needs tags
+      - name: uv
+        run: |
+          mkdir -p /cache/bin
+          [ -x /cache/bin/uv ] || curl -LsSf --max-time 300 https://astral.sh/uv/install.sh | env UV_INSTALL_DIR=/cache/bin UV_NO_MODIFY_PATH=1 sh
+          echo /cache/bin >> "$GITHUB_PATH"
+      - run: uv run scripts/release.py --check
