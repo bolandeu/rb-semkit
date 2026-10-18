@@ -3,7 +3,7 @@ id: SEMKIT-063
 title: 'Template update: copier update to cli-generator v1.18.2, help snapshots refreshed,
   gate green'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -27,6 +27,7 @@ owns_paths:
 - .gitignore
 - .python-version
 - changelog.d/
+- CODING_STANDARDS.md
 test_paths: []
 docs: none
 tools: []
@@ -69,3 +70,9 @@ cli-generator v1.18.2 is out: the template's tests pass in Gitea Actions (help s
 ## Basis
 
 The cli-builder skill, Update mode; cli-generator v1.18.2 release notes.
+
+## Feedback
+
+### Attempt 1: file docstring
+
+- add a docstring to src/rb_semkit/_distribution.py: what it holds and why
