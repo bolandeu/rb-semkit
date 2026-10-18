@@ -45,7 +45,12 @@ translation: 'synonym-candidates: синоним не зависит от чис
 RuWordNet holds senses of one word and of several words in the same synset: the synset of «растаможка» has растаможивание, растаможить, растамаживать, таможенное оформление, таможенная очистка, таможенное обслуживание, таможенная процедура, таможенное оформление товаров, оформить на таможне. A synonym is a synonym whatever the number of its words: a word may have a phrase as a synonym, a phrase a word, a phrase a phrase. synonym-candidates now skips candidates of several words and looks up single words only, so «таможенное оформление» never shows.
 
 1. The thesaurus candidates are of any number of words, by default (no option): in lower case as the sense names, score 1, source ruwordnet. The vectors (navec) stay one word, as now.
-2. The looked-up units of a phrase are its words and every run of its words that is a sense of the thesaurus, of any length, compared by lemmas (the sense lemma column). A run row has that run as word. A run that is not a sense is no unit: the whole phrase is a unit only when it is a sense itself. A core «таможенное оформление товаров авто» gives the candidates of «таможенное оформление товаров», of «таможенное оформление», and of each word.
+2. The looked-up units of a phrase are a segmentation of it into runs that do not overlap:
+ - a stopword is never a unit by itself; it stays inside a run when the sense holds it («оформить на таможне»), compared by lemmas with the sense lemma column;
+ - of all the segmentations, the one with the most words inside senses of several words wins; on a tie, the one with fewer units (longer senses); on a tie still, the first from the left;
+ - a word in no such sense is a unit by itself (when it is no stopword);
+ - a word inside a found sense gets no candidates of its own («оформление» of «таможенное оформление» does not get «дизайн»).
+ A run row has that run as word. The whole phrase is one unit only when it is a sense itself. «таможенное оформление грузов из индии» (with no sense «таможенное оформление грузов» in the data) gives the units «таможенное оформление», «грузов», «индии».
 3. Each candidate once per unit: the same name with ё/е or a duplicate sense counts once; the unit itself is not its own candidate.
 4. in_core of a candidate of several words: true when the candidate occurs in a phrase of the core as a run of words, by lemmas.
 5. Step help (an example with a phrase synonym) and the agent guide.
@@ -58,6 +63,9 @@ RuWordNet holds senses of one word and of several words in the same synset: the 
 - Given the core «растаможка авто» and «таможенное оформление машины», When synonym-candidates runs without --all, Then «таможенное оформление» is a candidate of растаможка with in_core true [check: tests/word_vectors/test_synonym_candidates.py]
 - Given the core «таможенное оформление транспортного средства» (a run in another case), When synonym-candidates --all runs, Then the unit «таможенное оформление» has the candidate «растаможка» and the unit «транспортного средства» has the candidates of the sense «транспортное средство» (средство передвижения, транспорт) [check: tests/word_vectors/test_synonym_candidates.py]
 - Given the core «растаможка авто» (not a sense of the thesaurus as a whole), When synonym-candidates --all runs, Then no row has word «растаможка авто»: a candidate always replaces only the unit of its row, never the whole phrase [check: tests/word_vectors/test_synonym_candidates.py]
+- Given the core «таможенное оформление грузов из индии», When synonym-candidates --all runs, Then the units are exactly «таможенное оформление», «грузов», «индии»; no row has word «оформление», «таможенное» or «из» [check: tests/word_vectors/test_synonym_candidates.py]
+- Given a fixture where both «a b» and «b c» are senses and the core «a b c», When the step runs, Then the units are «a b» and «c» (the first from the left on a tie) [check: tests/word_vectors/test_synonym_candidates.py]
+- Given the core «оформить на таможне» (a sense with a stopword inside), When the step runs, Then it is one unit [check: tests/word_vectors/test_synonym_candidates.py]
 - Given a synset with the same name twice (растамаживать in two senses), When the step runs, Then the candidate is listed once for the unit [check: tests/word_vectors/test_synonym_candidates.py]
 - Given --as-synonyms, When the step runs, Then the file holds the one-word candidates of the one-word units only, as now, since the steps with --synonyms compare word by word; the help says so [check: tests/word_vectors/test_synonym_candidates.py]
 
