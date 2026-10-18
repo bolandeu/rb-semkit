@@ -39,6 +39,7 @@ epic: null
 spec_refs: []
 checks:
 - uv run --extra vectors pytest
+- uv run scripts/release.py --check
 resident: null
 tool: null
 pr: null
@@ -52,6 +53,7 @@ dataio v0.1.26 (IDEA-241) writes a chosen set of columns, in a chosen order, und
 2. write OUT takes --columns NAME,NAME (comma list, repeatable) and --rename OLD=NEW (repeatable, split on the first '='), passed to dataio as they are; the errors of dataio come out as semkit errors with their exit 2 and message.
 3. The same choice for the output without write (the terminal table, or JSONL to a pipe): not in this task; write - takes the options.
 4. Help of write with an example, the agent guide and README: … nearest --to Q write - --columns phrase,similarity --rename similarity=сходство.
+5. The release gate is red on main at `ty check`: src/rb_semkit/pipeline/tables.py:143 and :156 pass str | None to rb_dataio.read. Fix them here (the same file), so `uv run scripts/release.py --check` is green; CI on the homeserver runs that gate.
 
 ## Acceptance
 
@@ -71,3 +73,7 @@ pipeline/tables.py (the write step and its call of dataio.write); the dataio v0.
 ## Out of scope
 
 - Column choice for the output without write; renaming inside the pipeline (a step).
+
+## Read first
+
+- `scripts/release.py` — the gate: ty check runs there
