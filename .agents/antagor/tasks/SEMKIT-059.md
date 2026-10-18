@@ -2,10 +2,10 @@
 id: SEMKIT-059
 title: 'write --columns and --rename: choose, order and rename the output columns
   (dataio v0.1.26)'
-status: in_progress
+status: queue
 attempts: 0
-blocked: true
-blocked_reason: environment_broken
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -84,3 +84,7 @@ pipeline/tables.py (the write step and its call of dataio.write); the dataio v0.
 ## Read first
 
 - `scripts/release.py` — the gate: ty check runs there
+
+## Feedback
+
+### Blocked: environment_broken (checks ['uv run --extra vectors pytest'])
