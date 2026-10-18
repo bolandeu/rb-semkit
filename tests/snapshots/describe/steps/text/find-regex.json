@@ -1,0 +1,89 @@
+{
+  "name": "find-regex",
+  "description": "What a regular expression matches in a phrase, case-sensitive, searched anywhere.\n\npattern: the regular expression; \\w, \\b and \\d take Cyrillic letters too.\nall_matches: extract gives every match, joined by a space; by default the first.\ninvert: the found part is the text the pattern does not match: remove keeps only the matches, joined with nothing between («диван 120x200» with \\d+ → «120200»); extract gives the text outside the matches («диван x»); find marks the phrases where such text is left.\n\nfind marks the phrases where the pattern matches; remove cuts out every match; extract gives the first match.\n\nfind-regex marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-regex '\\d+' write out.csv",
+  "options": [
+    {
+      "name": "--pattern",
+      "arguments": [
+        {
+          "name": "PATTERN",
+          "required": true
+        }
+      ],
+      "description": "the regular expression; \\w, \\b and \\d take Cyrillic letters too.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--all-matches",
+      "description": "extract gives every match, joined by a space; by default the first.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--invert",
+      "description": "the found part is the text the pattern does not match: remove keeps only the matches, joined with nothing between («диван 120x200» with \\d+ → «120200»); extract gives the text outside the matches («диван x»); find marks the phrases where such text is left.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "PATTERN",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "description": "the regular expression; \\w, \\b and \\d take Cyrillic letters too. The same as --pattern PATTERN.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

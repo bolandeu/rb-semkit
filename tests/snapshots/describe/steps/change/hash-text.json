@@ -1,0 +1,52 @@
+{
+  "name": "hash-text",
+  "description": "The hash of the text as lower-case hex, of its UTF-8 bytes. An empty text has a hash too (md5 «d41d8cd98f00b204e9800998ecf8427e»).\n\nalgorithm: \"md5\" or \"sha256\".\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv hash-text write out.csv",
+  "options": [
+    {
+      "name": "--algorithm",
+      "arguments": [
+        {
+          "name": "ALGORITHM",
+          "required": true,
+          "acceptedValues": [
+            "md5",
+            "sha256"
+          ]
+        }
+      ],
+      "description": "\"md5\" or \"sha256\".",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "md5"
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "linear-combinations",
+  "description": "Every combination of one item from each column of the table, one column per list (the Cartesian product).\n\nThe first column changes slowest: купить, заказать × диван, стол → купить диван, купить стол, заказать диван… The empty cells of a column are skipped, so the lists may differ in length; a column with no items is refused.\nlimit: the most rows the result may hold; a larger result is refused before any is made.\n\nThe step makes a table of its result; it replaces the current table, its first text column is the working one.\n\nExample: semkit read combine.csv linear-combinations --limit 1000 write out.csv",
+  "options": [
+    {
+      "name": "--limit",
+      "arguments": [
+        {
+          "name": "LIMIT",
+          "required": true
+        }
+      ],
+      "description": "the most rows the result may hold; a larger result is refused before any is made.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "int"
+        },
+        {
+          "name": "x-rb-default",
+          "value": 1048576
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "report"
+    }
+  ]
+}

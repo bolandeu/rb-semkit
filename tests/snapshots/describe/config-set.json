@@ -1,0 +1,80 @@
+{
+  "name": "set",
+  "description": "Set a single, non-secret configuration value.\n\nA value of the wrong form is refused with exit 2 and the form the key takes; lists takes a JSON list of folders.\nThe version the project needs is not checked here, so cli.min_version can be lowered.\nWith --dry-run the config is not written.\n\nExample: semkit config set cli.min_version 0.2.0",
+  "options": [
+    {
+      "name": "--json",
+      "description": "Emit machine-readable JSON output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--quiet",
+      "description": "Suppress non-essential output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--dry-run",
+      "description": "Show what would happen without making changes.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "key",
+      "required": true,
+      "arity": {
+        "minimum": 1,
+        "maximum": 1
+      },
+      "description": "Dotted config key, e.g. cli.min_version (see `config list`).",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "value",
+      "required": true,
+      "arity": {
+        "minimum": 1,
+        "maximum": 1
+      },
+      "description": "New value: text for a text key, JSON for any other, as 2 or '[\"/abs/lists\"]'.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ]
+}

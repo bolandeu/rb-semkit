@@ -1,0 +1,51 @@
+{
+  "name": "pull",
+  "description": "Download a model once into the cache, at its pinned revision, and check the checksum of each file.\n\nA model already in the cache is not downloaded again.\nA pull that fails keeps nothing of the model and exits 5; run it again.\nA hub model (hf:<id>) is fetched at its latest revision: an ONNX export with tokenizer.json, or a model2vec model.\n\nExample: semkit models pull e5-small",
+  "options": [
+    {
+      "name": "--json",
+      "description": "Emit machine-readable JSON output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--quiet",
+      "description": "Suppress non-essential output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "name",
+      "required": true,
+      "arity": {
+        "minimum": 1,
+        "maximum": 1
+      },
+      "description": "The model: the encoder e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub; the word data ruwordnet or navec.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ]
+}

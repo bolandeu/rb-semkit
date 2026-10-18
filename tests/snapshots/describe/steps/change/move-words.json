@@ -1,0 +1,85 @@
+{
+  "name": "move-words",
+  "description": "Words found in the phrase moved to its start or end, in the order and the spelling of the list: «диван угловой купить» with купить,угловой → «купить угловой диван». Case and ё do not count; the first word equal to an item moves.\n\nwords: the words to move.\nto: where they go: \"start\" or \"end\".\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv move-words @stop/wordstat write out.csv",
+  "options": [
+    {
+      "name": "--words",
+      "arguments": [
+        {
+          "name": "WORDS",
+          "required": true
+        }
+      ],
+      "description": "the words to move. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--to",
+      "arguments": [
+        {
+          "name": "TO",
+          "required": true,
+          "acceptedValues": [
+            "start",
+            "end"
+          ]
+        }
+      ],
+      "description": "where they go: \"start\" or \"end\".",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "start"
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "WORDS",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "description": "the words to move. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list. The same as --words WORDS.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

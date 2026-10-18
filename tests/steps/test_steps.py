@@ -12,9 +12,11 @@ import rb_semkit as sk
 from rb_semkit import steps
 
 from ..pipeline.runner import jsonl, semkit
-from .areas import AREAS
+from .areas import AREAS, COMMANDS
 
 FIXTURES = Path(__file__).parent / "fixtures"
+# The areas whose steps are written out in tests/pipeline, not in tests/steps/areas.
+PIPELINE_AREAS = {"text", "dupes", "analysis"}
 # Public names of rb_semkit that are no steps, with the reason.
 NOT_STEPS = {
     "CoreSpelling": "a spelling provider, the default of is-typo",
@@ -213,88 +215,8 @@ def test_help_of_a_step_with_a_file_option_names_the_file() -> None:
     assert "--against" in result.output
 
 
-# A command line for each step of the areas written out in tests/steps/areas.py: the file it reads and its words.
-COMMANDS = {
-    "add-minus-words": ["phrases.csv", "add-minus-words", "--synonyms", "synonyms.csv"],
-    "basis-phrases": ["phrases.csv", "basis-phrases"],
-    "bm25": ["phrases.csv", "bm25", "--query", "диван"],
-    "change-case": ["phrases.csv", "change-case", "title"],
-    "chpu": ["phrases.csv", "chpu"],
-    "cluster-by-frequency": ["phrases.csv", "cluster-by-frequency", "--threshold", "1"],
-    "compare-grams": ["--whole", "mine.txt", "compare-grams", "--competitors", "competitors.csv"],
-    "compare-lists": ["phrases.csv", "compare-lists", "--against", "second.csv"],
-    "compare-stats": ["--whole", "mine.txt", "compare-stats", "--competitors", "competitors.csv"],
-    "coverage": ["phrases.csv", "coverage", "--against", "competitors.csv"],
-    "coverage-meaning": ["core.csv", "coverage-meaning", "--text", "article.txt"],
-    "decline": ["phrases.csv", "decline", "genitive"],
-    "decline-adjective": ["phrases.csv", "decline-adjective", "genitive"],
-    "decline-full-name": ["names.csv", "decline-full-name", "genitive"],
-    "decline-noun": ["phrases.csv", "decline-noun", "genitive"],
-    "drop-markers": ["phrases.csv", "drop-markers", "--lists", "sale"],
-    "drop-minus-words": ["phrases.csv", "drop-minus-words"],
-    "drop-modifiers": ["phrases.csv", "drop-modifiers"],
-    "drop-ready-pattern": ["ready.csv", "drop-ready-pattern", "domain"],
-    "extract-complements": ["ready.csv", "extract-complements"],
-    "extract-markers": ["phrases.csv", "extract-markers", "--lists", "sale"],
-    "extract-ready-pattern": ["ready.csv", "extract-ready-pattern", "domain"],
-    "extract-utm": ["urls.csv", "extract-utm", "source"],
-    "find-markers": ["phrases.csv", "find-markers", "--lists", "sale"],
-    "find-ready-pattern": ["ready.csv", "find-ready-pattern", "domain"],
-    "first-children": ["phrases.csv", "first-children", "--children", "диван"],
-    "first-parents": ["phrases.csv", "first-parents", "--parents", "диван"],
-    "fix-word-order": ["phrases.csv", "fix-word-order"],
-    "guillemets": ["phrases.csv", "guillemets"],
-    "headings": ["--column", "html", "pages.csv", "headings"],
-    "hash-text": ["phrases.csv", "hash-text", "--algorithm", "sha256"],
-    "insert": ["phrases.csv", "insert", "--after", "!"],
-    "irrelevant-words": ["ready.csv", "irrelevant-words", "--word", "телефон"],
-    "is-typo": ["phrases.csv", "is-typo"],
-    "keep-markers": ["phrases.csv", "keep-markers", "--lists", "sale"],
-    "keep-ready-pattern": ["ready.csv", "keep-ready-pattern", "domain"],
-    "lemmatize": ["phrases.csv", "lemmatize"],
-    "linear-combinations": ["phrases.csv", "linear-combinations"],
-    "match-type": ["phrases.csv", "match-type", "quotes"],
-    "move-words": ["phrases.csv", "move-words", "недорого"],
-    "nearest-parents": ["phrases.csv", "nearest-parents", "--parents", "диван"],
-    "ordered-pairs": ["phrases.csv", "ordered-pairs"],
-    "parse-html": ["--column", "html", "pages.csv", "parse-html"],
-    "part-of-speech": ["phrases.csv", "part-of-speech"],
-    "permutations": ["phrases.csv", "permutations"],
-    "phonetic": ["phrases.csv", "phonetic"],
-    "remove-markers": ["phrases.csv", "remove-markers", "--lists", "sale"],
-    "remove-phrase-end": ["ready.csv", "remove-phrase-end", "prepositions"],
-    "remove-ready-pattern": ["ready.csv", "remove-ready-pattern", "domain"],
-    "remove-utm": ["urls.csv", "remove-utm"],
-    "replace-text": ["phrases.csv", "replace-text", "--pairs", "pairs.csv"],
-    "replace-words": ["phrases.csv", "replace-words", "--pairs", "pairs.csv"],
-    "reverse": ["phrases.csv", "reverse"],
-    "sentiment": ["phrases.csv", "sentiment", "--dictionary", "dictionary.csv"],
-    "similar-chars": ["phrases.csv", "similar-chars", "--to", "en"],
-    "sort-words": ["phrases.csv", "sort-words"],
-    "split-by-words": ["phrases.csv", "split-by-words", "--keep", "rest"],
-    "split-digits": ["phrases.csv", "split-digits"],
-    "split-text": ["phrases.csv", "split-text"],
-    "summary": ["core.csv", "summary"],
-    "switch-layout": ["phrases.csv", "switch-layout", "--to", "ru"],
-    "synonyms": ["report.csv", "synonyms"],
-    "text-stats": ["phrases.csv", "text-stats"],
-    "translit": ["phrases.csv", "translit", "--to", "en"],
-    "typo-correction": ["phrases.csv", "typo-correction"],
-    "wordforms": ["phrases.csv", "wordforms", "диван"],
-    "cluster-serp": ["serp.csv", "cluster-serp"],
-    "cluster-meaning": ["core.csv", "cluster-meaning"],
-    "ad-groups": ["core.csv", "ad-groups"],
-    "synonym-candidates": ["core.csv", "synonym-candidates"],
-    "assign-pages": ["core.csv", "assign-pages", "--pages", "page_texts.csv"],
-    "classify-queries": ["phrases.csv", "classify-queries", "--against", "core.csv"],
-    "off-topic": ["core.csv", "off-topic", "--threshold", "0.5"],
-    "nearest": ["core.csv", "nearest", "--against", "page_texts.csv", "--top", "2"],
-    "split-paragraphs": ["--whole", "article.txt", "split-paragraphs"],
-}
-
-
-def test_every_step_of_the_areas_has_a_command_line() -> None:
-    assert sorted(COMMANDS) == sorted(name for names in AREAS.values() for name in names)
+def test_every_area_of_the_step_table_has_its_module() -> None:
+    assert set(steps.areas()) - PIPELINE_AREAS == set(AREAS)
 
 
 @pytest.mark.parametrize("step", sorted(COMMANDS))

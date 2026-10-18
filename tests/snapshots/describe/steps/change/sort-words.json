@@ -1,0 +1,28 @@
+{
+  "name": "sort-words",
+  "description": "The words of the phrase sorted by their character codes, joined by one space: digits, then latin capitals, latin small letters, cyrillic capitals, cyrillic small letters; «Ё» before «А» and «ё» after «я».\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv sort-words write out.csv",
+  "options": [
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

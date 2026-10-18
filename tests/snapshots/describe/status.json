@@ -1,0 +1,48 @@
+{
+  "name": "status",
+  "description": "Show the current project's status.\n\nExample: semkit status --json",
+  "options": [
+    {
+      "name": "--json",
+      "description": "Emit machine-readable JSON output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--quiet",
+      "description": "Suppress non-essential output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--verbose",
+      "description": "Emit extra diagnostic output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    }
+  ]
+}

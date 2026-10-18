@@ -1,0 +1,10 @@
+{
+  "name": "summary",
+  "description": "The count, mean, median, min and max of each numeric column of a table: a row per column.\n\nThe columns: column, the name; count, the cells with a number; mean, median, min, max. Numbers are rounded to 4 decimals, as the comparisons round; a column of whole numbers gives whole numbers where they are whole. A column of text and a column of true / false are left out. A table without a numeric column is refused. parse-html, then text-stats, then summary gives the table «all pages: mean, median».\n\nThe step reports on the whole current table, whatever the working column is; its table replaces the current one.\n\nExample: semkit read core.csv summary write out.csv",
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "report"
+    }
+  ]
+}

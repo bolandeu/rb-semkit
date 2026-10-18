@@ -1,0 +1,32 @@
+{
+  "name": "permutations",
+  "description": "Every order of the words of each phrase, the phrases one after another: «a b c» → «a b c», «a c b», «b a c»…\n\nA phrase of n words gives n! phrases, a repeated word too; an empty phrase gives one empty phrase.\nlimit: the most phrases the result may hold; a larger result is refused before any is made.\n\nThe step makes a table of its result; it replaces the current table, its first text column is the working one.\n\nExample: semkit read core.csv permutations --limit 1000 write out.csv",
+  "options": [
+    {
+      "name": "--limit",
+      "arguments": [
+        {
+          "name": "LIMIT",
+          "required": true
+        }
+      ],
+      "description": "the most phrases the result may hold; a larger result is refused before any is made.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "int"
+        },
+        {
+          "name": "x-rb-default",
+          "value": 1048576
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "report"
+    }
+  ]
+}

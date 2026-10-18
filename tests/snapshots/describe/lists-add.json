@@ -1,0 +1,114 @@
+{
+  "name": "add",
+  "description": "Copy a file into a folder of word lists under a name.\n\nAn existing list is refused without --replace.\nA folder that is not searched for lists gets a warning: @NAME finds the list only once the folder is in SEMKIT_LISTS or the config key lists.\nWith --dry-run the file is not copied.\n\nExample: semkit lists add niche/mebel mebel.txt --to project",
+  "options": [
+    {
+      "name": "--to",
+      "arguments": [
+        {
+          "name": "TO",
+          "required": true
+        }
+      ],
+      "description": "Where to put the list: 'project' (the project's .rb_semkit/lists) or the path of a folder of lists; ~ is the home folder.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "project"
+        }
+      ]
+    },
+    {
+      "name": "--replace",
+      "description": "Overwrite the list when the folder has it.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--json",
+      "description": "Emit machine-readable JSON output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--quiet",
+      "description": "Suppress non-essential output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--dry-run",
+      "description": "Show what would happen without making changes.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "name",
+      "required": true,
+      "arity": {
+        "minimum": 1,
+        "maximum": 1
+      },
+      "description": "The name to give the list, as niche/mebel.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "file",
+      "required": true,
+      "arity": {
+        "minimum": 1,
+        "maximum": 1
+      },
+      "description": "The text file to copy: one item per line, a first line '# …' is the description.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "path"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "name": "synonyms",
+  "description": "The synonyms in a search-phrase report: a table word, sure, synonyms (joined by a space).\n\nA row whose condition and matched phrase differ in one word gives a sure synonym; a row with no matched phrase («-») compares the condition with the phrase and gives a synonym to check, unless it is a sure one already. The word is the one of the condition. Words are compared as lemmas, in any case and with ё = е; minus-words, operators (+ ! \" [ ]) and stopwords are left out. The sure rows come first, each part in the order of the report.\n\nThe step makes a table of its result; it replaces the current table, its first text column is the working one.\n\nExample: semkit read report.csv synonyms write out.csv",
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "report"
+    }
+  ]
+}

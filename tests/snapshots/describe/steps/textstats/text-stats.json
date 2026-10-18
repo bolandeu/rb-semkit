@@ -1,0 +1,42 @@
+{
+  "name": "text-stats",
+  "description": "The usual SEO metrics of each text, the same numbers each run: a metric column per metric, a row per text.\n\nA cell is a text; an empty cell gives zeros and an empty top. The metric columns are added right after the column of the texts.\n\nThe words are those of split-text: punctuation at the edges of a word is dropped, a hyphen or an apostrophe inside a word stays («кресло-кровать» is one word), a number with inner points, commas or hyphens is one word («31.03.2026»); case and ё are folded. Stopwords are the bundled list of the n-grams. Lemmas are the words that are no stopwords. A single-letter word, an abbreviation (г, ул, руб, шт, кв, стр…) and a unit (рублей, см, мм, мл, кг) of the bundled word rules are words but no lemmas for top, nausea, ttr, mtld and zipf.\nno_digits: leave out the words with a digit («2026», «15000», «A4») of every count, the words total included, as if the text did not hold them; chars and chars_no_spaces stay those of the text as given.\nexclude: words to leave out the same way, as written, with case and ё folded, not by lemma («года» does not leave out «год»).\n\nThe columns, in this order:\n- chars: all characters of the text; chars_no_spaces: the same without whitespace;\n- words: the words of the text, stopwords, abbreviations and units included;\n- unique: distinct lemmas;\n- water: stopwords / words, 0..1;\n- nausea_classic: the square root of the count of the most frequent lemma (the top), 2 decimals;\n- nausea_academic: that count / words, 0..1;\n- top: that lemma; on a tie, the first in the text;\n- ttr: distinct lemmas / lemmas, 0..1;\n- mtld: Measure of Textual Lexical Diversity (McCarthy and Jarvis 2010), threshold 0.72: read the lemmas forward, each time the running type/token ratio falls to 0.72 or below, count a factor and restart; the last partial run adds (1 - ttr) / (1 - 0.72); do it backward too; mtld = lemmas / mean of the two factor counts, 2 decimals; 0 for under 2 lemmas;\n- zipf: R² x 100, 1 decimal, of the linear regression of log count on log rank over the lemma counts (rank 1 is the biggest count), so f(r) = C / r^s fits; 0 for under 5 distinct lemmas.\n\nNo norms and no verdicts: the caller sets them.\n\nThe step reads the working column and adds the metric columns right after it; the rows stay.\n\nExample: semkit read core.csv text-stats write out.csv",
+  "options": [
+    {
+      "name": "--no-digits",
+      "description": "leave out the words with a digit («2026», «15000», «A4») of every count, the words total included, as if the text did not hold them; chars and chars_no_spaces stay those of the text as given.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--exclude",
+      "arguments": [
+        {
+          "name": "EXCLUDE",
+          "required": true
+        }
+      ],
+      "description": "words to leave out the same way, as written, with case and ё folded, not by lemma («года» does not leave out «год»). Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

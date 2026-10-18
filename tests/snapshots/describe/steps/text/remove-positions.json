@@ -1,0 +1,75 @@
+{
+  "name": "remove-positions",
+  "description": "The first characters of a phrase, or the last ones (remove and extract).\n\ncount: how many characters.\nlast: the last characters; by default the first.\n\nremove gives an empty cell when the phrase has that many characters or fewer; extract then gives the whole phrase.\n\nremove-positions removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-positions 2 write out.csv",
+  "options": [
+    {
+      "name": "--count",
+      "arguments": [
+        {
+          "name": "COUNT",
+          "required": true
+        }
+      ],
+      "description": "how many characters.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "int"
+        }
+      ]
+    },
+    {
+      "name": "--last",
+      "description": "the last characters; by default the first.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "COUNT",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "description": "how many characters. The same as --count COUNT.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "int"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

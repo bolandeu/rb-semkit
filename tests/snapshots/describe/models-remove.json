@@ -1,0 +1,65 @@
+{
+  "name": "remove",
+  "description": "Remove a model from the cache.\n\nA model that is not pulled is refused with exit 2 and the pulled ones.\nWith --dry-run nothing is removed: it says which folder it would remove.\n\nExample: semkit models remove e5-small",
+  "options": [
+    {
+      "name": "--json",
+      "description": "Emit machine-readable JSON output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--quiet",
+      "description": "Suppress non-essential output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--dry-run",
+      "description": "Show what would happen without making changes.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "name",
+      "required": true,
+      "arity": {
+        "minimum": 1,
+        "maximum": 1
+      },
+      "description": "The pulled model to remove, as `models list` names it.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ]
+}

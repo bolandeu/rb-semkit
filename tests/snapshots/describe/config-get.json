@@ -1,0 +1,51 @@
+{
+  "name": "get",
+  "description": "Get a single configuration value, or a whole section (cli).\n\nExample: semkit config get cli.min_version",
+  "options": [
+    {
+      "name": "--json",
+      "description": "Emit machine-readable JSON output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--quiet",
+      "description": "Suppress non-essential output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "key",
+      "required": true,
+      "arity": {
+        "minimum": 1,
+        "maximum": 1
+      },
+      "description": "Dotted config key, e.g. cli.min_version (see `config list`).",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ]
+}

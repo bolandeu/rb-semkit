@@ -1,0 +1,79 @@
+{
+  "name": "ngrams",
+  "description": "Every run of `n` words over all phrases, counted: a table ngram, count, docs, sum and forms.\n\nThe column count holds the occurrences; docs, in how many texts (rows of the input before split-text cut them) the gram occurs at least once; sum, with `weight`, the weight; forms, with `lemmas`, the word forms met for the gram, most frequent first, joined by ', ' («диваны, диван»), for a gram of several words its distinct spellings, at most 5.\n\nThe words are those of split-text: punctuation at the edges of a word is dropped («руб.» is «руб»), a sign such as ★ is no word, a number with inner points, commas or hyphens is one word («31.03.2026»). Sorted by count, biggest first, then by ngram. Words are compared in any case and with ё as е.\nn: how many words in a gram.\nlemmas: count lemmas of the words («диваны» is «диван»).\nstopwords: on, every word counts; off (--no-stopwords), the grams are made of the words that are no stopwords, and a stopword between two of them stays inside the gram («купить диван в москве» gives «купить диван» and «диван в москве»); stopwords are found in any case.\nweight: a column of numbers of the table (a frequency); sum adds its value once per occurrence.\n\nThe step counts the working column; the table replaces the current one, its column ngram is the working one.\n\nExample: semkit read core.csv ngrams write out.csv",
+  "options": [
+    {
+      "name": "-n",
+      "arguments": [
+        {
+          "name": "N",
+          "required": true
+        }
+      ],
+      "description": "how many words in a gram.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "int"
+        },
+        {
+          "name": "x-rb-default",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "--lemmas",
+      "description": "count lemmas of the words («диваны» is «диван»).",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--stopwords",
+      "aliases": [
+        "--no-stopwords"
+      ],
+      "description": "on, every word counts; off (--no-stopwords), the grams are made of the words that are no stopwords, and a stopword between two of them stays inside the gram («купить диван в москве» gives «купить диван» and «диван в москве»); stopwords are found in any case.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": true
+        }
+      ]
+    },
+    {
+      "name": "--weight",
+      "arguments": [
+        {
+          "name": "WEIGHT",
+          "required": true
+        }
+      ],
+      "description": "a column of numbers of the table (a frequency); sum adds its value once per occurrence.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "report"
+    }
+  ]
+}

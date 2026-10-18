@@ -1,0 +1,59 @@
+{
+  "name": "bigrams",
+  "description": "Pairs of words of a phrase in any order, counted: «купить диван» and «диван купить» both give «диван+купить».\n\nPer phrase the words are sorted and a repeated word counts once. The table is that of ngrams.\nlemmas: count lemmas of the words («диваны» is «диван»).\nstopwords: on, every word counts; off (--no-stopwords), only the words that are no stopwords make pairs.\nweight: a column of numbers of the table (a frequency); sum adds its value once per occurrence.\n\nThe step counts the working column; the table replaces the current one, its column ngram is the working one.\n\nExample: semkit read core.csv bigrams write out.csv",
+  "options": [
+    {
+      "name": "--lemmas",
+      "description": "count lemmas of the words («диваны» is «диван»).",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--stopwords",
+      "aliases": [
+        "--no-stopwords"
+      ],
+      "description": "on, every word counts; off (--no-stopwords), only the words that are no stopwords make pairs.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": true
+        }
+      ]
+    },
+    {
+      "name": "--weight",
+      "arguments": [
+        {
+          "name": "WEIGHT",
+          "required": true
+        }
+      ],
+      "description": "a column of numbers of the table (a frequency); sum adds its value once per occurrence.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "report"
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "name": "counts",
+  "description": "One count per phrase, in a new column `<column>_<what>`.\n\nwhat: \"words\" and \"chars\" — the words and the characters of the phrase; \"count\" — how many times the same phrase stands in the core; \"number\" — which occurrence of it this row is (1 for the first). Phrases are the same in any case and with ё as е; an empty cell has no count (an empty value). \"share\" — the cumulative share of the sum of `weight` (0..1) in row order; \"share_of_total\" — the value over the sum; both are rounded to 4 decimals and empty when the sum is 0. \"abc\" — the class by the cumulative share from the heaviest phrase down: \"A\" up to 80 %, \"B\" up to 95 %, \"C\" the rest. \"share\", \"share_of_total\" and \"abc\" need `weight`.\nweight: the column of numbers to share (a frequency), for \"share\", \"share_of_total\" and \"abc\".\n\nThe step writes the count of each phrase to a new column <column>_count.\n\nExample: semkit read core.csv counts words write out.csv",
+  "options": [
+    {
+      "name": "--what",
+      "arguments": [
+        {
+          "name": "WHAT",
+          "required": true,
+          "acceptedValues": [
+            "words",
+            "chars",
+            "count",
+            "number",
+            "share",
+            "share_of_total",
+            "abc"
+          ]
+        }
+      ],
+      "description": "\"words\" and \"chars\" — the words and the characters of the phrase; \"count\" — how many times the same phrase stands in the core; \"number\" — which occurrence of it this row is (1 for the first). Phrases are the same in any case and with ё as е; an empty cell has no count (an empty value). \"share\" — the cumulative share of the sum of `weight` (0..1) in row order; \"share_of_total\" — the value over the sum; both are rounded to 4 decimals and empty when the sum is 0. \"abc\" — the class by the cumulative share from the heaviest phrase down: \"A\" up to 80 %, \"B\" up to 95 %, \"C\" the rest. \"share\", \"share_of_total\" and \"abc\" need `weight`.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    },
+    {
+      "name": "--weight",
+      "arguments": [
+        {
+          "name": "WEIGHT",
+          "required": true
+        }
+      ],
+      "description": "the column of numbers to share (a frequency), for \"share\", \"share_of_total\" and \"abc\".",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "WHAT",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "acceptedValues": [
+        "words",
+        "chars",
+        "count",
+        "number",
+        "share",
+        "share_of_total",
+        "abc"
+      ],
+      "description": "\"words\" and \"chars\" — the words and the characters of the phrase; \"count\" — how many times the same phrase stands in the core; \"number\" — which occurrence of it this row is (1 for the first). Phrases are the same in any case and with ё as е; an empty cell has no count (an empty value). \"share\" — the cumulative share of the sum of `weight` (0..1) in row order; \"share_of_total\" — the value over the sum; both are rounded to 4 decimals and empty when the sum is 0. \"abc\" — the class by the cumulative share from the heaviest phrase down: \"A\" up to 80 %, \"B\" up to 95 %, \"C\" the rest. \"share\", \"share_of_total\" and \"abc\" need `weight`. The same as --what WHAT.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

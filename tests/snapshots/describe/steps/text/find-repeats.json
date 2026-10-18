@@ -1,0 +1,79 @@
+{
+  "name": "find-repeats",
+  "description": "Words that repeat an earlier word of the phrase (find and remove; remove keeps the first one).\n\nmode: \"exact\" — the same word (case and ё do not count, punctuation does: «диван, диван» has no repeat); \"wordforms\" — the same lemma.\nscope: \"all\" words; only \"adjacent\" repeats («диван диван»); only words with a latin (\"en\") or a cyrillic (\"ru\") letter («iphone13», «wi-fi-роутер»); only \"numbers\" («2», «1,5»).\n\nfind-repeats marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-repeats write out.csv",
+  "options": [
+    {
+      "name": "--mode",
+      "arguments": [
+        {
+          "name": "MODE",
+          "required": true,
+          "acceptedValues": [
+            "exact",
+            "wordforms"
+          ]
+        }
+      ],
+      "description": "\"exact\" — the same word (case and ё do not count, punctuation does: «диван, диван» has no repeat); \"wordforms\" — the same lemma.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "exact"
+        }
+      ]
+    },
+    {
+      "name": "--scope",
+      "arguments": [
+        {
+          "name": "SCOPE",
+          "required": true,
+          "acceptedValues": [
+            "all",
+            "adjacent",
+            "en",
+            "ru",
+            "numbers"
+          ]
+        }
+      ],
+      "description": "\"all\" words; only \"adjacent\" repeats («диван диван»); only words with a latin (\"en\") or a cyrillic (\"ru\") letter («iphone13», «wi-fi-роутер»); only \"numbers\" («2», «1,5»).",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "all"
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

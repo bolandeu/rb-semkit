@@ -1,0 +1,59 @@
+{
+  "name": "drop-phrases",
+  "description": "Phrases of a list, found as whole words («угловой диван» is not in «угловойдиван» or «угловой диван,»).\n\nitems: the phrases to find.\n\nWords compare in any case, ё as е; punctuation glued to a word counts. find, remove and extract take the same phrases, as the markers of your own lists: left to right, for each word the longest phrase that starts there (in words, then in characters; a tie keeps the list order), and the words of a taken phrase start no other. remove keeps the case of the other words; extract gives the phrases as the list spells them, joined by ', '.\n\nlemmas: compare the lemmas of the words (the bundled dictionary): «дешевые диваны» is «дешевый диван».\n\ndrop-phrases drops the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv drop-phrases @minus/universal write out.csv",
+  "options": [
+    {
+      "name": "--items",
+      "arguments": [
+        {
+          "name": "ITEMS",
+          "required": true
+        }
+      ],
+      "description": "the phrases to find. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--lemmas",
+      "description": "compare the lemmas of the words (the bundled dictionary): «дешевые диваны» is «дешевый диван».",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "ITEMS",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "description": "the phrases to find. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list. The same as --items ITEMS.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "filter"
+    }
+  ]
+}

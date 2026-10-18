@@ -1,0 +1,138 @@
+{
+  "name": "remove-words",
+  "description": "Whole words of a phrase equal to the items of a list, compared in any case and with ё as е.\n\nitems: the words to find.\nmode: \"any\" — any of the words; \"all\" — only phrases holding every one of them.\nwhere: \"anywhere\", \"start\" (the first word only) or \"end\" (the last word only).\nignore_punct: punctuation at the edges of a word does not count («диван,» is «диван»).\n\nlemmas: compare the lemmas of the words (the bundled dictionary): «дешевые диваны» is «дешевый диван».\n\nremove-words removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-words @stop/wordstat write out.csv",
+  "options": [
+    {
+      "name": "--items",
+      "arguments": [
+        {
+          "name": "ITEMS",
+          "required": true
+        }
+      ],
+      "description": "the words to find. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--mode",
+      "arguments": [
+        {
+          "name": "MODE",
+          "required": true,
+          "acceptedValues": [
+            "any",
+            "all"
+          ]
+        }
+      ],
+      "description": "\"any\" — any of the words; \"all\" — only phrases holding every one of them.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "any"
+        }
+      ]
+    },
+    {
+      "name": "--where",
+      "arguments": [
+        {
+          "name": "WHERE",
+          "required": true,
+          "acceptedValues": [
+            "anywhere",
+            "start",
+            "end"
+          ]
+        }
+      ],
+      "description": "\"anywhere\", \"start\" (the first word only) or \"end\" (the last word only).",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "anywhere"
+        }
+      ]
+    },
+    {
+      "name": "--ignore-punct",
+      "description": "punctuation at the edges of a word does not count («диван,» is «диван»).",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--lemmas",
+      "description": "compare the lemmas of the words (the bundled dictionary): «дешевые диваны» is «дешевый диван».",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "ITEMS",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "description": "the words to find. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list. The same as --items ITEMS.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

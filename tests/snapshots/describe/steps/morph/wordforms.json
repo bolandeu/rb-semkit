@@ -1,0 +1,45 @@
+{
+  "name": "wordforms",
+  "description": "Every wordform of the lemma of a word, alphabetical, each once: «диваны» → «диван», «дивана», …\n\nword: the word, in any form. The forms are those of its lemma, in lower case; the word itself is not repeated («диван» gives «дивана», «диване», … but not «диван»). A word the dictionary lacks gives no forms.\n\nThe step ignores the current table: the table of the wordforms replaces it, its column wordform is the working one.\n\nExample: semkit read core.csv wordforms диван write out.csv",
+  "options": [
+    {
+      "name": "--word",
+      "arguments": [
+        {
+          "name": "WORD",
+          "required": true
+        }
+      ],
+      "description": "the word, in any form. The forms are those of its lemma, in lower case; the word itself is not repeated («диван» gives «дивана», «диване», … but not «диван»). A word the dictionary lacks gives no forms.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "WORD",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "description": "the word, in any form. The forms are those of its lemma, in lower case; the word itself is not repeated («диван» gives «дивана», «диване», … but not «диван»). A word the dictionary lacks gives no forms. The same as --word WORD.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "report"
+    }
+  ]
+}

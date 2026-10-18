@@ -1,0 +1,61 @@
+{
+  "name": "first-parents",
+  "description": "The first item of a list that is a parent of the phrase, or an empty cell when none is.\n\nparents: the phrases that may be parents, in the order to try; a parent is a phrase whose words all stand in the phrase. Empty items are skipped.\n\nThe step writes its result to a new column <column>_parent.\n\nExample: semkit read core.csv first-parents 'диван,купить диван' write out.csv",
+  "options": [
+    {
+      "name": "--parents",
+      "arguments": [
+        {
+          "name": "PARENTS",
+          "required": true
+        }
+      ],
+      "description": "the phrases that may be parents, in the order to try; a parent is a phrase whose words all stand in the phrase. Empty items are skipped. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "PARENTS",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "description": "the phrases that may be parents, in the order to try; a parent is a phrase whose words all stand in the phrase. Empty items are skipped. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list. The same as --parents PARENTS.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "name": "compare-lists",
+  "description": "The phrases of two lists, by an operation.\n\nop: both (the phrases of the first list that are in the second), either (the first list, then the second), first (only in the first list), second (only in the second).\nkind: when two phrases are the same, as for dupes: exact, explicit, implicit or lemmas.\nsecond_column: the column of the phrases of the second list.\n\nA phrase keeps the spelling of its first occurrence and comes once; the order is the input order. Empty cells are never phrases.\n\nagainst: a file with the second list, one phrase per row; the file is read like `read` does. The phrases are in --second-column, by default the first text column of the file.\n\nThe step takes the working column as the first list; the phrases it finds replace the current table, in a column of the same name.\n\nExample: semkit read phrases.csv compare-lists --against second.csv write out.csv",
+  "options": [
+    {
+      "name": "--against",
+      "arguments": [
+        {
+          "name": "AGAINST",
+          "required": true
+        }
+      ],
+      "description": "a file with the second list, one phrase per row; the file is read like `read` does. The phrases are in --second-column, by default the first text column of the file.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--op",
+      "arguments": [
+        {
+          "name": "OP",
+          "required": true,
+          "acceptedValues": [
+            "both",
+            "either",
+            "first",
+            "second"
+          ]
+        }
+      ],
+      "description": "both (the phrases of the first list that are in the second), either (the first list, then the second), first (only in the first list), second (only in the second).",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "both"
+        }
+      ]
+    },
+    {
+      "name": "--kind",
+      "arguments": [
+        {
+          "name": "KIND",
+          "required": true,
+          "acceptedValues": [
+            "exact",
+            "explicit",
+            "implicit",
+            "lemmas"
+          ]
+        }
+      ],
+      "description": "when two phrases are the same, as for dupes: exact, explicit, implicit or lemmas.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "exact"
+        }
+      ]
+    },
+    {
+      "name": "--second-column",
+      "arguments": [
+        {
+          "name": "SECOND_COLUMN",
+          "required": true
+        }
+      ],
+      "description": "the column of the phrases of the second list.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "AGAINST",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "description": "a file with the second list, one phrase per row; the file is read like `read` does. The phrases are in --second-column, by default the first text column of the file. The same as --against AGAINST.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "report"
+    }
+  ]
+}

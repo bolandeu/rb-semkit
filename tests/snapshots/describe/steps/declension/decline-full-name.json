@@ -1,0 +1,75 @@
+{
+  "name": "decline-full-name",
+  "description": "A full name «Фамилия Имя Отчество» declined: «Иванов Сергей Петрович» genitive → «Иванова Сергея Петровича».\n\ncase: \"genitive\", \"dative\", \"accusative\", \"instrumental\" or \"prepositional\".\n\nA full name that ends in «-на» or «-зы» is a woman's («Петрова Анна Ивановна» → «Петровой Анны Ивановны»). The surname declines by its ending («-ов», «-ин», «-ой», «-ская»…), the name and the patronymic as nouns; a surname in «-ых» or «-их» stays («Белых»), a man's surname in «-а» or «-я» declines («Глинка» → «Глинки»). The result has a capital in each word. An empty cell and a value that is not three words stay as they are.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read names.csv decline-full-name genitive write out.csv",
+  "options": [
+    {
+      "name": "--case",
+      "arguments": [
+        {
+          "name": "CASE",
+          "required": true,
+          "acceptedValues": [
+            "genitive",
+            "dative",
+            "accusative",
+            "instrumental",
+            "prepositional"
+          ]
+        }
+      ],
+      "description": "\"genitive\", \"dative\", \"accusative\", \"instrumental\" or \"prepositional\".",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "CASE",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "acceptedValues": [
+        "genitive",
+        "dative",
+        "accusative",
+        "instrumental",
+        "prepositional"
+      ],
+      "description": "\"genitive\", \"dative\", \"accusative\", \"instrumental\" or \"prepositional\". The same as --case CASE.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

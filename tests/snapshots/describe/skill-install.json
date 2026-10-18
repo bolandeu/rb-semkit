@@ -1,0 +1,82 @@
+{
+  "name": "install",
+  "description": "Copy this CLI's bundled SKILL.md into an AI tool's skill directory.\n\nWith --dry-run nothing is written.\n\nExample: semkit skill install --tool claude-code",
+  "options": [
+    {
+      "name": "--tool",
+      "arguments": [
+        {
+          "name": "TOOL",
+          "required": true
+        }
+      ],
+      "description": "Target AI tool: one of claude-code, agents.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "claude-code"
+        }
+      ]
+    },
+    {
+      "name": "--project",
+      "description": "Install into the current project instead of the user-level directory.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--json",
+      "description": "Emit machine-readable JSON output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--quiet",
+      "description": "Suppress non-essential output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--dry-run",
+      "description": "Show what would happen without making changes.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    }
+  ]
+}

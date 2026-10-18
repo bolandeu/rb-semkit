@@ -1,0 +1,52 @@
+{
+  "name": "reverse",
+  "description": "The phrase backwards.\n\nwhat: \"chars\" — its characters («абв 12» → «21 вба»); \"words\" — its words, joined by one space («купить диван москва» → «москва диван купить»).\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv reverse write out.csv",
+  "options": [
+    {
+      "name": "--what",
+      "arguments": [
+        {
+          "name": "WHAT",
+          "required": true,
+          "acceptedValues": [
+            "chars",
+            "words"
+          ]
+        }
+      ],
+      "description": "\"chars\" — its characters («абв 12» → «21 вба»); \"words\" — its words, joined by one space («купить диван москва» → «москва диван купить»).",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "chars"
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

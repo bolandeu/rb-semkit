@@ -1,0 +1,4 @@
+{
+  "name": "models",
+  "description": "Models of the steps by meaning and by words (encoders, word data): pull one once into the cache, list them, remove one. The cache is the system cache, or the folder of the config key models.dir."
+}

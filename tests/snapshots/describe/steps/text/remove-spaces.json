@@ -1,0 +1,75 @@
+{
+  "name": "remove-spaces",
+  "description": "The spaces to remove (remove only).\n\nkind: \"all\"; \"left\" and \"right\" (at that end only); \"both\" (at both ends); \"extra\" (runs collapsed to one space, none at the ends). \"left\", \"right\" and \"both\" keep the spaces inside.\n\nremove-spaces removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-spaces all write out.csv",
+  "options": [
+    {
+      "name": "--kind",
+      "arguments": [
+        {
+          "name": "KIND",
+          "required": true,
+          "acceptedValues": [
+            "all",
+            "left",
+            "right",
+            "both",
+            "extra"
+          ]
+        }
+      ],
+      "description": "\"all\"; \"left\" and \"right\" (at that end only); \"both\" (at both ends); \"extra\" (runs collapsed to one space, none at the ends). \"left\", \"right\" and \"both\" keep the spaces inside.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "KIND",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "acceptedValues": [
+        "all",
+        "left",
+        "right",
+        "both",
+        "extra"
+      ],
+      "description": "\"all\"; \"left\" and \"right\" (at that end only); \"both\" (at both ends); \"extra\" (runs collapsed to one space, none at the ends). \"left\", \"right\" and \"both\" keep the spaces inside. The same as --kind KIND.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

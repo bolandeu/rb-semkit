@@ -1,0 +1,28 @@
+{
+  "name": "remove-utm",
+  "description": "The URL without its UTM tags, the parameters whose name starts with «utm_» in any case: «https://site.ru/?UTM_Source=ya&utm_medium=cpc&id=5#top» → «https://site.ru/?id=5#top». The rest of the query stays after one «?» and between single «&»; with no parameter left, the «?» goes too.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read urls.csv remove-utm write out.csv",
+  "options": [
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "name": "sentiment",
+  "description": "The score of each phrase by the scored words it holds: their mean, min or max.\n\nwhat: \"mean\", \"min\" or \"max\" of the scores of the words. A phrase with no scored word gets an empty value.\n\ndictionary: a file of two columns, a word and its score; the first row is the header, the file is read like `read` does.\n\nThe step writes the scores to a new column <column>_sentiment.\n\nExample: semkit read core.csv sentiment --dictionary dictionary.csv write out.csv",
+  "options": [
+    {
+      "name": "--dictionary",
+      "arguments": [
+        {
+          "name": "DICTIONARY",
+          "required": true
+        }
+      ],
+      "description": "a file of two columns, a word and its score; the first row is the header, the file is read like `read` does.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--what",
+      "arguments": [
+        {
+          "name": "WHAT",
+          "required": true,
+          "acceptedValues": [
+            "mean",
+            "min",
+            "max"
+          ]
+        }
+      ],
+      "description": "\"mean\", \"min\" or \"max\" of the scores of the words. A phrase with no scored word gets an empty value.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "mean"
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "DICTIONARY",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "description": "a file of two columns, a word and its score; the first row is the header, the file is read like `read` does. The same as --dictionary DICTIONARY.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "name": "translit",
+  "description": "Letters of one alphabet written in the other. The other chars stay.\n\nto: \"en\" — «Щука жёлтая» → «Schuka zheltaya», a word in capitals stays in capitals («ЖУК» → «ZHUK»); \"ru\" — by letter groups, «Yandex» → «Яндекс», «Jeep» → «Джееп», «ob'em» → «обэм»: shch is щ, ts is ц, yy is ый («krasnyy» → «красный»), y after a vowel and before no vowel is й («Moy» → «Мой», «dayte» → «дайте»); a word in capitals is read by the groups of small letters and stays in capitals («ZHUK» → «ЖУК»). ь and ъ are dropped in \"en\" and е and ё both give e, so \"ru\" cannot bring them back («den» → «ден»).\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv translit en write out.csv",
+  "options": [
+    {
+      "name": "--to",
+      "arguments": [
+        {
+          "name": "TO",
+          "required": true,
+          "acceptedValues": [
+            "en",
+            "ru"
+          ]
+        }
+      ],
+      "description": "\"en\" — «Щука жёлтая» → «Schuka zheltaya», a word in capitals stays in capitals («ЖУК» → «ZHUK»); \"ru\" — by letter groups, «Yandex» → «Яндекс», «Jeep» → «Джееп», «ob'em» → «обэм»: shch is щ, ts is ц, yy is ый («krasnyy» → «красный»), y after a vowel and before no vowel is й («Moy» → «Мой», «dayte» → «дайте»); a word in capitals is read by the groups of small letters and stays in capitals («ZHUK» → «ЖУК»). ь and ъ are dropped in \"en\" and е and ё both give e, so \"ru\" cannot bring them back («den» → «ден»).",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "TO",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "acceptedValues": [
+        "en",
+        "ru"
+      ],
+      "description": "\"en\" — «Щука жёлтая» → «Schuka zheltaya», a word in capitals stays in capitals («ЖУК» → «ZHUK»); \"ru\" — by letter groups, «Yandex» → «Яндекс», «Jeep» → «Джееп», «ob'em» → «обэм»: shch is щ, ts is ц, yy is ый («krasnyy» → «красный»), y after a vowel and before no vowel is й («Moy» → «Мой», «dayte» → «дайте»); a word in capitals is read by the groups of small letters and stays in capitals («ZHUK» → «ЖУК»). ь and ъ are dropped in \"en\" and е and ё both give e, so \"ru\" cannot bring them back («den» → «ден»). The same as --to TO.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

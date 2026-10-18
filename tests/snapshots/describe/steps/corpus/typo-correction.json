@@ -1,0 +1,28 @@
+{
+  "name": "typo-correction",
+  "description": "Each phrase with its misspelt words replaced by their most likely corrections («купить диавн» → «купить диван»).\n\nThe misspelt words are those of is-typo; the correction is the nearest such word, then the most frequent, starting with the same letter. A phrase with no misspelt word, or none that can be corrected, stays as it is.\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv typo-correction write out.csv",
+  "options": [
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "name": "read",
+  "description": "Read a table, run the steps in the order written, write the result: one pipeline.\n\nEach step works on the current table. A change step rewrites the working column (with --as NAME it writes a new column NAME, which the next steps work on), a filter keeps or drops rows, a report (n-grams) makes its table the current one and its first text column the working one. After each step one line goes to stderr: the step, the rows before and after it, the cells it changed; the last line says how many rows went where. Every step and option is checked before the input is read.\n\nColumns are read with the types of the file: numbers stay numbers, a text column is text and its empty cell an empty text. A column of numbers with spaces around a cell is numbers too. A column of numbers picked as the working column is text for the step and is written back as numbers. An option that takes items takes a comma list 'a,b', @FILE (one item per line, or the first column of a table without its header) or @NAME of a list (@stop/semtools, @minus/cheap…; `semkit lists` shows them all). `semkit read IN STEP --help` shows a step.\n\nExample: semkit read core.csv remove-words --items купить dupes --kind lemmas --action drop write out.csv",
+  "options": [
+    {
+      "name": "--column",
+      "arguments": [
+        {
+          "name": "COLUMN",
+          "required": true
+        }
+      ],
+      "description": "The working column the steps read and change; by default the first text column.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--whole",
+      "description": "Read a text file as one cell of the column text (an article).",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--trace",
+      "arguments": [
+        {
+          "name": "FILE",
+          "required": true
+        }
+      ],
+      "description": "Write every cell a step changes and every row it drops to FILE as JSONL: row (1 is the first row under the header), step, column, before, after. An existing FILE needs --overwrite.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "path"
+        }
+      ]
+    },
+    {
+      "name": "--json",
+      "description": "Emit machine-readable JSON output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--quiet",
+      "description": "Suppress non-essential output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--dry-run",
+      "description": "Read and run every step, print the summary, write nothing.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "IN",
+      "required": true,
+      "arity": {
+        "minimum": 1,
+        "maximum": 1
+      },
+      "description": "The table to read: a file of any format dataio reads, or '-' for JSONL on stdin.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ]
+}

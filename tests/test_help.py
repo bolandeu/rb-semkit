@@ -14,6 +14,8 @@ tested like an API:
   `uv run pytest --snapshot-update`, which puts the new text in the diff.
   A new command fails until its snapshot exists; a removed one leaves an
   orphan file that fails too.
+- the Commands panel of `read --help` lists the steps, so it is not in the snapshot of `read` (a new step would change
+  it); a test checks the panel against the registered steps instead.
 """
 
 from __future__ import annotations
@@ -74,53 +76,67 @@ def help_argv(path: tuple[str, ...]) -> list[str]:
     return [PIPELINE, "IN", *path[1:], "--help"] if in_pipeline else [*path, "--help"]
 
 
-def _snapshot_file(path: tuple[str, ...]) -> Path:
-    """Where the help of `path` is kept, without the extension."""
+def snapshot_name(path: tuple[str, ...]) -> Path:
+    """Where the snapshot of `path` is kept in a snapshot folder, without the extension: a step in its area's folder."""
     if path[0] == PIPELINE and path[-1] in STEP_AREAS:
-        return SNAPSHOT_DIR / "steps" / STEP_AREAS[path[-1]] / path[-1]
-    return SNAPSHOT_DIR / _slug(path)
+        return Path("steps") / STEP_AREAS[path[-1]] / path[-1]
+    return Path(_slug(path))
 
 
 def _render_help(path: tuple[str, ...]) -> str:
     result = CliRunner().invoke(app, help_argv(path), env=HELP_ENV, prog_name=CLI)
     assert result.exit_code == 0, result.output
     # Trailing padding isn't content; keeping it out keeps the diffs readable.
-    return "\n".join(line.rstrip() for line in result.output.splitlines()) + "\n"
+    lines = [line.rstrip() for line in result.output.splitlines()]
+    return "\n".join(_without_commands_panel(lines) if path == (PIPELINE,) else lines) + "\n"
 
 
-class HelpSnapshot(SingleFileSnapshotExtension):
-    """One plain-text file per help page: tests/snapshots/help/<command>.txt."""
+def _commands_panel(lines: list[str]) -> range:
+    """The lines of the Commands panel, its frame included."""
+    start = next(number for number, line in enumerate(lines) if line.startswith("╭─ Commands"))
+    return range(start, next(number for number in range(start, len(lines)) if lines[number].startswith("╰")) + 1)
 
-    _write_mode = WriteMode.TEXT
-    file_extension = "txt"
 
-    @classmethod
-    def dirname(cls, *, test_location) -> str:
-        return str(SNAPSHOT_DIR)
-
-    @classmethod
-    def get_snapshot_name(cls, *, test_location, index=0) -> str:
-        return str(index)
+def _without_commands_panel(lines: list[str]) -> list[str]:
+    panel = _commands_panel(lines)
+    return [line for number, line in enumerate(lines) if number not in panel]
 
 
 @functools.cache
-def _snapshot_in(folder: Path) -> type[HelpSnapshot]:
-    """The snapshot extension of the help pages kept in `folder`."""
+def snapshot_in(folder: Path, extension: str) -> type[SingleFileSnapshotExtension]:
+    """The snapshot extension of the files `.<extension>` kept in `folder`, one file per snapshot."""
     return type(
-        HelpSnapshot.__name__, (HelpSnapshot,), {"dirname": classmethod(lambda cls, *, test_location: str(folder))}
+        "FolderSnapshot",
+        (SingleFileSnapshotExtension,),
+        {
+            "_write_mode": WriteMode.TEXT,
+            "file_extension": extension,
+            "dirname": classmethod(lambda cls, *, test_location: str(folder)),
+            "get_snapshot_name": classmethod(lambda cls, *, test_location, index=0: str(index)),
+        },
     )
 
 
 @pytest.mark.parametrize("path", HELP_PAGES, ids=_slug)
 def test_help_snapshot(path: tuple[str, ...], snapshot) -> None:
-    file = _snapshot_file(path)
-    assert _render_help(path) == snapshot(extension_class=_snapshot_in(file.parent), name=file.name)
+    file = SNAPSHOT_DIR / snapshot_name(path)
+    assert _render_help(path) == snapshot(extension_class=snapshot_in(file.parent, "txt"), name=file.name)
 
 
 def test_no_orphan_help_snapshots() -> None:
-    stored = {p.with_suffix("") for p in SNAPSHOT_DIR.rglob("*.txt")}
-    expected = {_snapshot_file(path) for path in HELP_PAGES}
-    assert stored <= expected, f"snapshots for commands that no longer exist: {sorted(stored - expected)}"
+    stored = {p.relative_to(SNAPSHOT_DIR).with_suffix("") for p in SNAPSHOT_DIR.rglob("*.txt")}
+    expected = {snapshot_name(path) for path in HELP_PAGES}
+    assert stored <= expected, (
+        f"snapshots for commands that no longer exist: {sorted(str(SNAPSHOT_DIR / name) + '.txt' for name in stored - expected)}"
+    )
+
+
+def test_the_commands_panel_of_read_lists_exactly_the_steps() -> None:
+    result = CliRunner().invoke(app, help_argv((PIPELINE,)), env=HELP_ENV, prog_name=CLI)
+    lines = result.output.splitlines()
+    panel = [lines[number] for number in _commands_panel(lines)][1:-1]
+    listed = {line.split()[1] for line in panel if line.startswith("│ ") and line[2] != " "}
+    assert listed == {path[1] for path in COMMANDS if path[0] == PIPELINE and len(path) == 2}
 
 
 @pytest.mark.parametrize("path", sorted(COMMANDS), ids=_slug)

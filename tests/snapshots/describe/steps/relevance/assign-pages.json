@@ -1,0 +1,65 @@
+{
+  "name": "assign-pages",
+  "description": "The best two pages of the site for each phrase of the core, by meaning.\n\nThe columns: best_page, best_similarity, second_page and second_similarity (4 places); the second page and its similarity are empty when the table has one page; an empty cell gets none. No row is dropped.\n\npages: a file with the pages of the site; the file is read like `read` does. Its columns: url, and text (the text of the page: its title, H1 and body), and title and h1 when it has them.\nmodel: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.\n\nA text longer than the input of the model is cut into pieces the model takes whole; its vector is the mean of the vectors of its pieces. When the table of the texts has the columns title and h1, its vector is the weighted mean of the text (weight 1), the title (2) and the h1 (1.5).\n\nThe step adds the columns best_page, best_similarity, second_page and second_similarity right after the working column; the rows stay.\n\nExample: semkit read core.csv assign-pages --pages page_texts.csv write out.csv",
+  "options": [
+    {
+      "name": "--pages",
+      "arguments": [
+        {
+          "name": "PAGES",
+          "required": true
+        }
+      ],
+      "description": "a file with the pages of the site; the file is read like `read` does. Its columns: url, and text (the text of the page: its title, H1 and body), and title and h1 when it has them.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--model",
+      "arguments": [
+        {
+          "name": "MODEL",
+          "required": true
+        }
+      ],
+      "description": "the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "e5-small"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "PAGES",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "description": "a file with the pages of the site; the file is read like `read` does. Its columns: url, and text (the text of the page: its title, H1 and body), and title and h1 when it has them. The same as --pages PAGES.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

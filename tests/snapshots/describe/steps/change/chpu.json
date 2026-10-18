@@ -1,0 +1,28 @@
+{
+  "name": "chpu",
+  "description": "The phrase as a ЧПУ (a human-readable URL part): latin letters and digits in lower case, cyrillic in translit, accented letters as plain ones; the spaces and signs between words become one «-», none at the edges: «Диван-кровать 2 м!» → «divan-krovat-2-m», «Щётка  ёж» → «schetka-ezh».\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv chpu write out.csv",
+  "options": [
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

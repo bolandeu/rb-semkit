@@ -1,0 +1,71 @@
+{
+  "name": "find-word-case",
+  "description": "Words by the case of their letters (find and extract only); digits and punctuation do not count.\n\nkind: \"lower\" (no capital letter: «x5»); \"Capital\" (each run of letters starts with a capital, the rest small: «Москве», not «iPhone» or «Из-за»); \"CAPS\" (no small letter: «BMW», «В»).\n\nfind-word-case marks the rows where the matcher finds something, in a new column <column>_find of true and false.\n\nExample: semkit read core.csv find-word-case Capital write out.csv",
+  "options": [
+    {
+      "name": "--kind",
+      "arguments": [
+        {
+          "name": "KIND",
+          "required": true,
+          "acceptedValues": [
+            "lower",
+            "Capital",
+            "CAPS"
+          ]
+        }
+      ],
+      "description": "\"lower\" (no capital letter: «x5»); \"Capital\" (each run of letters starts with a capital, the rest small: «Москве», not «iPhone» or «Из-за»); \"CAPS\" (no small letter: «BMW», «В»).",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "KIND",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "acceptedValues": [
+        "lower",
+        "Capital",
+        "CAPS"
+      ],
+      "description": "\"lower\" (no capital letter: «x5»); \"Capital\" (each run of letters starts with a capital, the rest small: «Москве», not «iPhone» or «Из-за»); \"CAPS\" (no small letter: «BMW», «В»). The same as --kind KIND.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

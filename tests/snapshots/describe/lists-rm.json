@@ -1,0 +1,85 @@
+{
+  "name": "rm",
+  "description": "Remove a word list from a folder of lists. A bundled list is never removed.\n\nWith --dry-run nothing is removed: it says which file it would remove.\n\nExample: semkit lists rm niche/mebel --from project",
+  "options": [
+    {
+      "name": "--from",
+      "arguments": [
+        {
+          "name": "SOURCE_FOLDER",
+          "required": true
+        }
+      ],
+      "description": "Where the list is: 'project' (the project's .rb_semkit/lists) or the path of a folder of lists; ~ is the home folder.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "project"
+        }
+      ]
+    },
+    {
+      "name": "--json",
+      "description": "Emit machine-readable JSON output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--quiet",
+      "description": "Suppress non-essential output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--dry-run",
+      "description": "Show what would happen without making changes.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "name",
+      "required": true,
+      "arity": {
+        "minimum": 1,
+        "maximum": 1
+      },
+      "description": "The name of the list to remove, as niche/mebel.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ]
+}
