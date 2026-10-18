@@ -3,7 +3,7 @@ id: SEMKIT-050
 title: linear-combinations joins each combination into a phrase column; a step agree
   puts the words of a phrase in agreement
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -25,9 +25,14 @@ owns_paths:
 - tests/declension/
 - tests/corpus/test_combinations.py
 - tests/steps/
+- src/rb_semkit/core/morph/lemmatizer.py
+- src/rb_semkit/pipeline/state.py
 test_paths:
 - tests/declension/
 - tests/corpus/test_combinations.py
+- tests/conformance/areas/corpus.py
+- tests/conformance/case_files.py
+- tests/conformance/test_cases.py
 docs:
 - README.md
 - src/rb_semkit/data/SKILL.md
@@ -88,3 +93,9 @@ core/declension (phrase.py, forms.py) and the decline step for case and animacy;
 ## Out of scope
 
 - A syntax parser; verb government other than the accusative (a dictionary of government); reordering words; changing the meaning-filter steps.
+
+## Feedback
+
+### Attempt 1: file docstring
+
+- update the docstring of src/rb_semkit/core/declension/forms.py: +adjective_case
