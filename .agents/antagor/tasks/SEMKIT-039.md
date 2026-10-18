@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-039
 title: 'coverage-meaning: core phrases a text covers by meaning'
-status: queue
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -17,6 +17,11 @@ owns_paths:
 - src/rb_semkit/steps/coverage_meaning.py
 test_paths:
 - tests/coverage_meaning/
+- tests/snapshots/describe.json
+- tests/snapshots/help/read.txt
+- tests/snapshots/help/steps/coverage_meaning/coverage-meaning.txt
+- tests/steps/areas.py
+- tests/steps/test_steps.py
 docs: none
 tools: []
 worker_args: null
