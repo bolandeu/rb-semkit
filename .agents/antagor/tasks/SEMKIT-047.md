@@ -3,7 +3,7 @@ id: SEMKIT-047
 title: 'A separate default threshold for clusters by meaning: 0.975 for e5-small,
   the pair threshold stays 0.97'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -24,6 +24,7 @@ owns_paths:
 - docs/plans/vectors.md
 - tests/snapshots/
 - tests/conftest.py
+- src/rb_semkit/data/SKILL.md
 test_paths:
 - tests/vectors/
 docs:
@@ -70,3 +71,33 @@ docs/plans/vectors.md (thresholds); my check of 0.97 / 0.975 / 0.98 on the sofa 
 ## Out of scope
 
 - the pair threshold of any model
+
+## Feedback
+
+### Attempt 1: checks failed
+
+- `uv run pytest` (exit 1)
+
+```
+hare/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/collections/__init__.py:453: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12ced0c70>
+  @classmethod
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bolandau/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/collections/__init__.py:453: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12dd6c8b0>
+  @classmethod
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bolandau/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/collections/__init__.py:453: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x129bc84f0>
+  @classmethod
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bolandau/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/collections/__init__.py:453: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12ca96890>
+  @classmethod
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bolandau/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/collections/__init__.py:453: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12c6c64d0>
+  @classmethod
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bolandau/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/collections/__init__.py:453: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12deb9210>
+  @classmethod
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bolandau/Work/tools/semkit.worktrees/SEMKIT-047/.venv/lib/python3.14/site-packages/_pytest/unraisableexception.py:33: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1301f6a70>
+  gc.collect()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+```
