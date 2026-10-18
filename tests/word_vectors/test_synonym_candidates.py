@@ -28,6 +28,18 @@ def _report(core: Path, *options: str) -> list[dict]:
     return jsonl(result.stdout)
 
 
+def _phrases(*texts: str, options: tuple[str, ...] = ()) -> list[dict]:
+    """The report for a core of these phrases."""
+    arguments = [argument for text in texts for argument in ("--text", text)]
+    result = semkit("read", *arguments, "synonym-candidates", *options, "write", "-")
+    assert result.exit_code == 0, result.output
+    return jsonl(result.stdout)
+
+
+def _candidates(rows: list[dict], word: str) -> list[str]:
+    return [row["candidate"] for row in rows if row["word"] == word]
+
+
 def _of(rows: list[dict], word: str) -> list[tuple]:
     return [(row["candidate"], row["source"], row["score"], row["in_core"]) for row in rows if row["word"] == word]
 
@@ -118,3 +130,122 @@ def test_a_top_below_one_is_refused(pulled: Path) -> None:
 
     assert code == 2
     assert "top" in error["message"]
+
+
+def test_a_word_has_a_phrase_as_a_synonym_and_a_phrase_has_a_word(pulled: Path) -> None:
+    rows = _phrases("растаможка авто", options=("--all", "--source", "ruwordnet"))
+
+    found = _candidates(rows, "растаможка")
+    assert "таможенное оформление" in found
+    assert "таможенная очистка" in found
+    assert ("таможенное оформление", "ruwordnet", 1.0, False) in _of(rows, "растаможка")
+    assert "растаможка" in _candidates(
+        _phrases("таможенное оформление авто", options=("--all", "--source", "ruwordnet")), "таможенное оформление"
+    )
+
+
+def test_a_phrase_of_the_thesaurus_is_in_core_when_a_phrase_of_the_core_holds_it_as_a_run(pulled: Path) -> None:
+    rows = _phrases("растаможка авто", "таможенное оформление машины", options=("--source", "ruwordnet"))
+
+    assert ("таможенное оформление", "ruwordnet", 1.0, True) in _of(rows, "растаможка")
+    assert all(row["in_core"] for row in rows)
+
+
+def test_the_unit_is_the_longest_sense_the_phrase_holds(pulled: Path) -> None:
+    rows = _phrases("таможенное оформление товаров", options=("--all", "--source", "ruwordnet"))
+
+    assert "растаможка" in _candidates(rows, "таможенное оформление товаров")
+    assert {row["word"] for row in rows} == {"таможенное оформление товаров"}
+
+
+def test_a_run_in_another_case_is_a_unit_and_a_sense_of_two_words_gives_its_synonyms(pulled: Path) -> None:
+    rows = _phrases("таможенное оформление транспортного средства", options=("--all", "--source", "ruwordnet"))
+
+    assert "растаможка" in _candidates(rows, "таможенное оформление")
+    assert _candidates(rows, "транспортного средства") == ["средство передвижения", "транспорт"]
+
+
+def test_a_phrase_that_is_no_sense_gives_no_row_for_the_whole_phrase(pulled: Path) -> None:
+    rows = _phrases("растаможка авто", options=("--all",))
+
+    assert "растаможка авто" not in {row["word"] for row in rows}
+
+
+def test_the_words_inside_a_run_and_the_stopwords_are_no_units(pulled: Path) -> None:
+    rows = _phrases("таможенное оформление грузов из индии", options=("--all", "--source", "ruwordnet"))
+
+    assert {row["word"] for row in rows}.isdisjoint({"оформление", "таможенное", "из"})
+    assert _candidates(rows, "таможенное оформление") != []
+
+
+def test_a_word_inside_a_run_gets_no_candidates_of_its_own(pulled: Path) -> None:
+    rows = _phrases("таможенное оформление", "оформление", options=("--all", "--source", "ruwordnet"))
+
+    assert _candidates(rows, "оформление") == ["дизайн"]
+    assert "дизайн" not in _candidates(rows, "таможенное оформление")
+
+
+def _slots(*options: str, text: str = "таможенное оформление грузов из индии") -> list[dict]:
+    return _phrases(text, options=("--all", "--as-slots", *options))
+
+
+def test_on_a_tie_the_first_run_from_the_left_wins(pulled: Path) -> None:
+    rows = _slots("--source", "ruwordnet", text="зима лето осень")
+
+    assert rows[0] == {"slot_1": "зима лето", "slot_2": "осень"}
+
+
+def test_a_sense_with_a_stopword_inside_is_one_unit(pulled: Path) -> None:
+    rows = _slots("--source", "ruwordnet", text="оформить на таможне")
+
+    assert rows[0] == {"slot_1": "оформить на таможне"}
+    assert {row["slot_1"] for row in rows[1:]} == {
+        "растаможка",
+        "растаможивание",
+        "растамаживать",
+        "таможенное оформление",
+        "таможенная очистка",
+        "таможенное оформление товаров",
+    }
+
+
+def test_as_slots_gives_a_column_a_unit_with_the_unit_first_and_no_slot_for_a_stopword(pulled: Path) -> None:
+    rows = _slots("--source", "ruwordnet")
+
+    assert list(rows[0]) == ["slot_1", "slot_2", "slot_3"]
+    assert rows[0] == {"slot_1": "таможенное оформление", "slot_2": "грузов", "slot_3": "индии"}
+    assert "растаможка" in [row["slot_1"] for row in rows[1:]]
+    assert {row["slot_2"] for row in rows[1:]} == {""}
+
+
+def test_as_slots_refuses_a_core_of_two_phrases_and_as_synonyms_with_it(pulled: Path) -> None:
+    two = semkit("read", "--text", "диван", "--text", "софа", "synonym-candidates", "--as-slots", "write", "-")
+    both = semkit("read", "--text", "диван", "synonym-candidates", "--as-slots", "--as-synonyms", "write", "-")
+
+    assert two.exit_code == 2
+    assert both.exit_code == 2
+
+
+def test_linear_combinations_takes_one_item_of_each_slot_and_the_first_is_the_phrase(pulled: Path) -> None:
+    result = semkit(
+        "read", "--text", "зима лето осень", "synonym-candidates", "--all", "--as-slots", "--source", "ruwordnet",
+        "linear-combinations", "write", "-",
+    )  # fmt: skip
+    assert result.exit_code == 0, result.output
+
+    rows = jsonl(result.stdout)
+    assert rows[0]["phrase"] == "зима лето осень"
+    assert {row["phrase"] for row in rows} == {"зима лето осень", "весна осень"}
+
+
+def test_a_candidate_is_given_once_for_a_unit_whatever_the_senses(pulled: Path) -> None:
+    rows = _phrases("растаможка", options=("--all", "--source", "ruwordnet"))
+
+    assert _candidates(rows, "растаможка").count("растамаживать") == 1
+
+
+def test_as_synonyms_holds_the_candidates_of_one_word_of_the_units_of_one_word_only(pulled: Path) -> None:
+    rows = _phrases("растаможка", "таможенное оформление", options=("--all", "--source", "ruwordnet", "--as-synonyms"))
+
+    assert {row["word"] for row in rows} == {"растаможка"}
+    assert rows[0]["synonyms"] == "растаможивание растамаживать"

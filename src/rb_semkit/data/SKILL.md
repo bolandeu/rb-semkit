@@ -254,21 +254,37 @@ vectors. It adds `<column>_dupes`, `dupe_of` (the first phrase of the group) and
 
 ### Synonym candidates
 
-`synonym-candidates` proposes synonyms for the words of the core (by lemmas; stopwords and words with digits are
-skipped), for you to pick. It needs two word data, pulled once like an encoder: `semkit models pull ruwordnet` (the
-thesaurus RuWordNet) and `semkit models pull navec` (word vectors); `models list` and `models remove` handle them too.
+`synonym-candidates` proposes synonyms for the units of the core (by lemmas; stopwords and words with digits are never
+units), for you to pick. A synonym has any number of words: a word may have a phrase as a synonym, a phrase a word, a
+phrase a phrase. It needs two word data, pulled once like an encoder: `semkit models pull ruwordnet` (the thesaurus
+RuWordNet) and `semkit models pull navec` (word vectors); `models list` and `models remove` handle them too.
 
 ```bash
 semkit read core.csv synonym-candidates write candidates.csv
-semkit read core.csv synonym-candidates --source ruwordnet --as-synonyms write synonyms.csv
+semkit read --text "растаможка авто" synonym-candidates --all --source ruwordnet write -
+semkit read --text "таможенное оформление грузов из индии" synonym-candidates --all --as-slots write slots.csv
 ```
 
-The report has the columns `word`, `candidate`, `source` (`ruwordnet` or `navec`), `score` (1 for a thesaurus
-synonym, the cosine for navec) and `in_core`. By default only candidates that occur in the core are given; `--all`
-gives every candidate. `--source ruwordnet|navec|both` picks the data, `--top` limits the navec candidates per word.
-`--as-synonyms` gives the file of synonyms instead (`word`, `synonyms`) that `--synonyms` of the steps reads
-(`add-minus-words`): edit it down to the picked words first. A data not pulled is `MODEL_NOT_PULLED` (exit 1, the
-action is the pull command).
+A unit is a word of a phrase, or a run of its words that is a sense of several words of the thesaurus
+(«таможенное оформление»). The phrase is cut into runs that do not overlap: the cut with the most words inside such
+senses wins, then the one with fewer units, then the first from the left. A word inside a run has no candidates of its
+own, and a stopword stays inside a run when the sense holds it («оформить на таможне»). So «таможенное оформление
+грузов из индии» gives the units «таможенное оформление», «грузов», «индии». The thesaurus gives candidates of any
+number of words (in lower case as the sense names, each once for a unit); the vectors give one word, for the units of
+one word.
+
+The report has the columns `word` (the unit), `candidate`, `source` (`ruwordnet` or `navec`), `score` (1 for a
+thesaurus synonym, the cosine for navec) and `in_core` (the candidate occurs in a phrase of the core as a run of words,
+by lemmas). By default only candidates that occur in the core are given; `--all` gives every candidate.
+`--source ruwordnet|navec|both` picks the data, `--top` limits the navec candidates per word. A candidate replaces
+only the unit of its row, never the whole phrase.
+`--as-slots` gives the table of slots for `linear-combinations`, for a core of one phrase (more are refused, exit 2;
+so is `--as-synonyms` with it): one column `slot_1`, `slot_2`… for each unit, in order; the first row holds the units,
+the rows under it their candidates. `linear-combinations` then takes one item of each slot, the first combination is
+the phrase itself. `--as-synonyms` gives the file of synonyms instead (`word`, `synonyms`) that `--synonyms` of the
+steps reads (`add-minus-words`): those steps compare word by word, so it holds candidates of one word of the units of
+one word only; edit it down to the picked words first. A data not pulled is `MODEL_NOT_PULLED` (exit 1, the action is
+the pull command).
 
 ## Errors
 

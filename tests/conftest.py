@@ -57,11 +57,18 @@ def _test_encoder(request: pytest.FixtureRequest, monkeypatch: pytest.MonkeyPatc
 
 @pytest.fixture(autouse=True)
 def _test_word_data(request: pytest.FixtureRequest, monkeypatch: pytest.MonkeyPatch) -> None:
-    """A thesaurus where диван and чехол are synonyms, and word vectors where they are close."""
+    """A thesaurus where диван and чехол are synonyms, and so are растаможка and таможенное оформление, and word vectors where they are close."""
     if request.node.get_closest_marker("real_encoder"):
         return
     words = ["<unk>", "<pad>", "диван", "чехол"]
     codes = np.array([[[0, 0], [0, 0], [1, 0], [0.8, 0.6]]], dtype=np.float32)
     vectors = WordVectors(words, np.arange(len(words), dtype=np.uint8).reshape(-1, 1), codes)
-    monkeypatch.setattr(word_vectors, "open_thesaurus", lambda start: Thesaurus([("1", "ДИВАН"), ("1", "ЧЕХОЛ")]))
+    monkeypatch.setattr(word_vectors, "open_thesaurus", lambda start: Thesaurus(
+            [
+                ("1", "ДИВАН", "ДИВАН"),
+                ("1", "ЧЕХОЛ", "ЧЕХОЛ"),
+                ("2", "РАСТАМОЖКА", "РАСТАМОЖКА"),
+                ("2", "ТАМОЖЕННОЕ ОФОРМЛЕНИЕ", "ТАМОЖЕННЫЙ ОФОРМЛЕНИЕ"),
+            ]
+        ))
     monkeypatch.setattr(word_vectors, "open_word_vectors", lambda start: vectors)

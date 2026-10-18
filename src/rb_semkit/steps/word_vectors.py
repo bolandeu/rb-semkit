@@ -42,6 +42,9 @@ STEPS = [
         "report",
         _prepare,
         "The step makes a table of its result; it replaces the current table, its first text column is the working one."
-        " Its candidates are for the Human to pick; the picked go to --synonyms of the steps that take them.",
+        " Its candidates are for the Human to pick; the picked go to --synonyms of the steps that take them."
+        " A candidate may have several words, and so may a unit; --as-synonyms keeps the words of one word only.",
+        source="customs.csv",
+        example="--all --source ruwordnet",
     )
 ]
