@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.37 — 2026-10-18
+
+### Outside epics
+
+- parse-html keeps the zone names when the HTML column is text; the steps over pages take the column text by default (SEMKIT-048)
+
 ## v0.1.36 — 2026-10-18
 
 ### Outside epics
