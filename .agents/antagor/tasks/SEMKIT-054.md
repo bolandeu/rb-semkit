@@ -3,7 +3,7 @@ id: SEMKIT-054
 title: 'Help standard and semkit docs: a deterministic human document of every command
   and step for InSpectra'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -25,6 +25,8 @@ owns_paths:
 - tests/steps/test_help_standard.py
 - tests/snapshots/
 - tests/test_help.py
+- src/rb_semkit/core/opencli.py
+- src/rb_semkit/pipeline/commands.py
 test_paths:
 - tests/docs_cmd/
 - tests/steps/test_help_standard.py
@@ -92,3 +94,9 @@ core/opencli.py (the Click tree walk: reuse its reading, do not change its outpu
 ## Out of scope
 
 - Rewriting the docstrings of the steps to the standard, and running every example against its result (SEMKIT-055); any change of semkit describe; translating the help; rendering HTML.
+
+## Feedback
+
+### Attempt 1: file docstring
+
+- update the docstring of src/rb_semkit/core/opencli.py: +argument +cleaned +info +jsonable +option
