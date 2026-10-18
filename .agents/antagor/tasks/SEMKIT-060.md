@@ -2,7 +2,7 @@
 id: SEMKIT-060
 title: 'CI on the homeserver runner: .gitea/workflows/ci.yml runs the release gate;
   ruff format fix in tests/conftest.py'
-status: queue
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -93,3 +93,9 @@ jobs:
 Option 2: the placeholder was replaced by the real task (title, body, owns). Do the task as written now.
 
 ### Blocked: aborted
+
+### Answer to finding #2
+
+> SEMKIT-060: release gate fails at 'ty check' on main (not caused by this task): src/rb_semkit/pipeline/tables.py:143 and :156 pass str|None to rb_dataio.read (rb-dataio 0.1.23 resolved by uv.lock/venv); plus 3 deprecated @contextmanager Iterator warnings (steps/__init__.py:59, tests/test_contracts.py:253,276). CI will be red until fixed.
+
+ty errors in pipeline/tables.py go to SEMKIT-059 (owns that file); its checks now include release.py --check.

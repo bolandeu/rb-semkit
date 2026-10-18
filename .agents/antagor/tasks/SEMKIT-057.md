@@ -3,7 +3,7 @@ id: SEMKIT-057
 title: 'semkit run NAME: named scenarios of semkit''s own steps, bundled or in the
   project, with parameters and help'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -25,8 +25,12 @@ owns_paths:
 - tests/scenarios/
 - tests/snapshots/
 - tests/test_help.py
+- src/rb_semkit/core/services.py
+- src/rb_semkit/output/__init__.py
 test_paths:
 - tests/scenarios/
+- tests/test_cli.py
+- tests/test_describe.py
 docs:
 - README.md
 - src/rb_semkit/data/SKILL.md
@@ -50,7 +54,6 @@ translation: 'semkit run NAME: именованные сценарии толь�
   и из папки проекта), параметры --set, справка run --help / run NAME --help и в semkit
   docs; первый встроенный — intent-synonyms.'
 ---
-
 
 A scenario is a named chain of semkit's own steps, kept so that a frequent chain runs by its name. It holds steps of semkit only; a flow that calls other tools is built outside.
 
@@ -90,3 +93,9 @@ commands/read.py and pipeline/ (how a chain of steps is parsed and run: reuse it
 ## Read first
 
 - `docs/plans/vectors.md`
+
+## Feedback
+
+### Attempt 1: file docstring
+
+- update the docstring of src/rb_semkit/pipeline/group.py: +planned +reported
