@@ -8,7 +8,7 @@ import typer
 
 from .. import output
 from ..core import docs as document
-from ..steps import docs_hook
+from ..steps.docs_hook import ReadSteps
 
 
 @output.guard
@@ -20,11 +20,12 @@ def docs(
 ) -> None:  # fmt: skip
     """Write the help of every command and step as one document for people: OpenCLI with the commands at the root.
 
-    The document follows the help standard: each command has its summary, description and examples apart, each option ends with its default and allowed values, and each step shows the input of read. The same version writes the same bytes. A viewer such as InSpectra renders it as HTML.
+    The document follows the help standard: each command has its summary, description and examples apart, each option ends with its default and allowed values, and each step page shows how to give the step its input. The same version writes the same bytes. A viewer such as InSpectra renders it as HTML.
 
     Example: {cli} docs --out docs.json
     """
-    text = document.text(ctx.find_root().command, docs_hook.inherited)
+    root = ctx.find_root().command
+    text = document.text(root, ReadSteps(root))
     if out is None:
         typer.echo(text, nl=False)
         return

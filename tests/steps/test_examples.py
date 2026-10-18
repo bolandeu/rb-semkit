@@ -6,6 +6,7 @@ false, an empty cell as nothing), the rows joined by «; ». So `-> kupit divan`
 
 from __future__ import annotations
 
+import inspect
 import json
 import shlex
 from pathlib import Path
@@ -23,9 +24,16 @@ PROGRAM = "semkit"
 
 
 def _read_examples() -> dict[str, list[str]]:
-    """The examples of each step in `semkit docs`, as the document has them: «<command>  # -> <result>»."""
-    read = next(command for command in json.loads(semkit("docs").stdout)["commands"] if command["name"] == "read")
-    return {command["name"]: command.get("examples", []) for command in read["commands"]}
+    """The examples of each step in its docstring, whole commands: «<command>  # -> <result>» (`semkit docs` keeps the part after the step's name)."""
+    found: dict[str, list[str]] = {}
+    for step in (step for area in steps.areas().values() for step in area):
+        lines = (inspect.getdoc(step.function) or "").replace("{cli}", PROGRAM).splitlines()
+        found[step.name] = [
+            line.removeprefix("Example: ") + (f"  # {after}" if after.startswith("-> ") else "")
+            for line, after in zip(lines, [*lines[1:], ""], strict=True)
+            if line.startswith("Example: ")
+        ]
+    return found
 
 
 EXAMPLES = _read_examples()

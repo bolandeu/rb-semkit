@@ -7,19 +7,24 @@ example lines) and the examples («<command>  # -> <result>»), an option's desc
 allowed values, and an option that does not repeat takes at most one value.
 
 A docstring line «name: text» explains the parameters it names (`ARGUMENT_LINE`); `doc_lines` joins the lines of a
-paragraph but keeps such a line, an item of a list and an example line apart. The hook `Inherited` names the parameters
-of a group that a subcommand also takes: the document then shows them on the subcommand, before its own.
+paragraph but keeps such a line, an item of a list and an example line apart.
+
+An example in the document holds only what follows «<program> <command path>»; the docstring keeps the whole command,
+and an example that does not start with its command path fails the document (`ExampleOutsidePath`). A `Hook` of the
+CLI may bring a docstring example to that form, put a line before a description, and name the options of a group that
+all its subcommands take: the group shows them as recursive, the subcommands do not copy them.
 """
 
 from __future__ import annotations
 
 import json
 import re
-from collections.abc import Callable, Collection, Sequence
+from collections.abc import Collection, Sequence
 from itertools import pairwise
 from typing import Any
 
 from . import opencli
+from .errors import CliError
 from .version import cli_name
 
 # A docstring line that explains arguments of the function: «mode: …», «`action`: …», «core, column: …», «first / last: …».
@@ -32,8 +37,28 @@ EXAMPLE = "Example: "
 RESULT = "-> "  # the line after an example: what it gives
 SENTENCE_END = re.compile(r"(?<=[.!?])\s+")
 
-# The parameters (Click's) of a group that its subcommand of this name also takes.
-Inherited = Callable[[Any, str], Sequence[Any]]
+
+class ExampleOutsidePath(CliError):
+    """An example whose command does not start with its command path: the docstring breaks the help standard."""
+
+    def __init__(self, path: str, example: str) -> None:
+        super().__init__("EXAMPLE_OUTSIDE_PATH", f"The example of '{path}' does not start with it: {example}")
+
+
+class Hook:
+    """What a CLI adds to the document; this base adds nothing. `path` is the names of a command below the root."""
+
+    def inherited(self, group: Any) -> Sequence[Any]:
+        """The options (Click's) of `group` that every subcommand below it also takes; never an argument."""
+        return ()
+
+    def example(self, path: Sequence[str], command: str) -> str:
+        """The command of a docstring example as a command that starts with its command path."""
+        return command
+
+    def lead(self, path: Sequence[str]) -> str:
+        """A line that begins the description of the command at `path`; empty for none."""
+        return ""
 
 
 def doc_lines(paragraph: str, parameters: Collection[str]) -> list[str]:
@@ -66,36 +91,45 @@ def _argument_parts(line: str, parameters: Collection[str]) -> list[str]:
     return [*parts, line[start:]]
 
 
-def text(root: Any, inherited: Inherited | None = None) -> str:
+def text(root: Any, hook: Hook | None = None) -> str:
     """The document as the file holds it: indented JSON, the same bytes for the same code."""
-    return json.dumps(document(root, inherited), ensure_ascii=False, indent=2) + "\n"
+    return json.dumps(document(root, hook), ensure_ascii=False, indent=2) + "\n"
 
 
-def document(root: Any, inherited: Inherited | None = None) -> dict:
-    """The document of the CLI whose root command is `root`; `inherited` adds a group's parameters to its subcommands."""
-    command = _command(cli_name(), root, inherited)
+def document(root: Any, hook: Hook | None = None) -> dict:
+    """The document of the CLI whose root command is `root`; `hook` is what the CLI adds to it."""
+    command = _command(cli_name(), root, hook or Hook(), ())
     shape = {"opencli": opencli.OPENCLI_VERSION, "info": opencli.info()}
     return shape | {key: command.get(key, []) for key in ("commands", "options", "arguments", "examples")}
 
 
-def _command(name: str, cmd: Any, inherited: Inherited | None, extra: Sequence[Any] = ()) -> dict:
-    params = [*extra, *cmd.params]
+def _command(name: str, cmd: Any, hook: Hook, path: tuple[str, ...]) -> dict:
+    params = cmd.params
     names = {param.name for param in params}
     paragraphs = [doc_lines(paragraph, names) for paragraph in opencli.cleaned(cmd.help).split("\n\n")]
     out: dict[str, Any] = {"name": name}
-    if description := _description([_described(lines, names) for lines in paragraphs]):
+    description = [hook.lead(path), _description([_described(lines, names) for lines in paragraphs])]
+    if description := "\n\n".join(part for part in description if part):
         out["description"] = description
     if cmd.hidden:
         out["hidden"] = True
-    out["options"] = [_option(param) for param in params if param.param_type_name == "option"]
+    recursive = _recursive(cmd, hook)
+    out["options"] = [_option(param, param in recursive) for param in params if param.param_type_name == "option"]
     out["arguments"] = [_argument(param) for param in params if param.param_type_name == "argument"]
-    out["examples"] = _examples([line for lines in paragraphs for line in lines])
+    out["examples"] = _examples([line for lines in paragraphs for line in lines], hook, path)
     if (subcommands := getattr(cmd, "commands", None)) is not None:  # a group, in the order of registration
-        out["commands"] = [
-            _command(sub_name, sub, inherited, inherited(cmd, sub_name) if inherited else ())
-            for sub_name, sub in subcommands.items()
-        ]
+        out["commands"] = [_command(sub_name, sub, hook, (*path, sub_name)) for sub_name, sub in subcommands.items()]
     return {key: value for key, value in out.items() if value != []}
+
+
+def _recursive(cmd: Any, hook: Hook) -> Sequence[Any]:
+    """The options of a group that its subcommands take too; an argument there is a mistake of the hook."""
+    if getattr(cmd, "commands", None) is None:
+        return ()
+    found = hook.inherited(cmd)
+    if arguments := [param.name for param in found if param.param_type_name != "option"]:
+        raise ValueError(f"A hook inherits options only, not the arguments {arguments} of '{cmd.name}'")
+    return found
 
 
 def _described(lines: list[str], names: Collection[str]) -> list[str]:
@@ -124,20 +158,31 @@ def _description(paragraphs: list[list[str]]) -> str:
     return "\n\n".join("\n".join(lines) for lines in [[summary], [*rest, *kept[0][1:]], *kept[1:]] if lines)
 
 
-def _examples(lines: list[str]) -> list[str]:
-    """Each example line as one string, with the result line after it: «<command>  # -> <result>»."""
-    found: list[str] = []
+def _examples(lines: list[str], hook: Hook, path: tuple[str, ...]) -> list[str]:
+    """Each example line as one string, without «<program> <command path>», with the result line after it: «<rest>  # -> <result>»."""
+    found: list[list[str]] = []
     for previous, line in pairwise(["", *lines]):
         if line.startswith(EXAMPLE):
-            found.append(line.removeprefix(EXAMPLE))
+            found.append([line.removeprefix(EXAMPLE), ""])
         elif line.startswith(RESULT) and previous.startswith(EXAMPLE):
-            found[-1] += f"  # {line}"
-    return found
+            found[-1][1] = line
+    return [_after_path(hook, path, command, result) for command, result in found]
 
 
-def _option(param: Any) -> dict:
+def _after_path(hook: Hook, path: tuple[str, ...], command: str, result: str) -> str:
+    start = " ".join([cli_name(), *path])
+    full = hook.example(path, command)
+    if full != start and not full.startswith(f"{start} "):
+        raise ExampleOutsidePath(start, command)
+    rest = full.removeprefix(start).strip()
+    return f"{rest}  # {result}".strip() if result else rest
+
+
+def _option(param: Any, recursive: bool) -> dict:
     out = opencli.option(param)
     del out["metadata"]
+    if recursive:
+        out["recursive"] = True
     for value in out.get("arguments", []):
         value["arity"] = {"minimum": 1} if param.multiple else {"minimum": 1, "maximum": 1}
     values = _values(param, out.get("arguments", [{}])[0].get("acceptedValues"))
