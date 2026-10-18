@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-039
 title: 'coverage-meaning: core phrases a text covers by meaning'
-status: in_review
+status: publish
 attempts: 0
 blocked: false
 blocked_reason: null
