@@ -54,7 +54,8 @@ Replace `vX.Y.Z` with the latest release tag (install from a tag, never a branch
 - **change** — rewrites the working column (`chpu`, `lemmatize`, `decline`, `remove-words`). `--as NAME` writes the
   result to a new column NAME (refused when the table has it), keeps the working column, and makes NAME the working
   column of the next steps. Steps that give a value other than a phrase (`dupes`, `find-…`, `counts`, `is-typo`,
-  `sentiment`, `bm25`, `first-parents`) write a new column `<column>_<suffix>` (a second one gets `_2`).
+  `sentiment`, `bm25`, `first-parents`) write a new column `<column>_<suffix>` (a second one gets `_2`). `agree`
+  rewrites the working column (or `--as NAME`) and adds `agree_note` after it.
   `text-stats` and `parse-html` (a column of HTML → text, links, all, main, title, description, h1) add their columns
   after the working column; a text step takes one of them with `semkit read IN --column all`.
 - **filter** — keeps or drops rows (`keep-…`, `drop-…`, `dupes --action drop`, `split-by-words --keep`,
@@ -196,6 +197,19 @@ $ semkit read phrases.csv compare-lists --against second.csv --op second write -
 {"phrase": "диван купить"}
 ```
 
+A core from word variants: `linear-combinations` joins each combination of one item per column into the column
+`phrase`, the working one; `agree` puts the words of each phrase in agreement («растаможить машина» → «растаможить
+машину») and adds `agree_note`, the reason a phrase stays as it is (empty when it agrees). A step by meaning
+(`nearest --against`, see below) then keeps the phrases close to the pages.
+
+```console
+$ semkit read variants.csv linear-combinations agree write -
+{"phrase": "растаможить машину", "agree_note": "", "action": "растаможить", "item": "машина"}
+{"phrase": "растаможить автомобиль", "agree_note": "", "action": "растаможить", "item": "автомобиль"}
+{"phrase": "растаможка машины", "agree_note": "", "action": "растаможка", "item": "машина"}
+{"phrase": "растаможка автомобиля", "agree_note": "", "action": "растаможка", "item": "автомобиль"}
+```
+
 ## Steps by meaning
 
 The steps by meaning (`cluster-meaning`, `dupes --kind meaning`) compare phrases by their phrase vectors: phrases of close meaning get close
@@ -213,6 +227,7 @@ vectors. They need the optional extra `vectors` and an encoder pulled once; a st
 
 ```bash
 semkit read core.csv cluster-meaning --freq freq write clusters.csv
+semkit read variants.csv linear-combinations agree nearest --against page_texts.csv --top 2 write matches.csv
 ```
 
 `--model NAME` names the encoder (default `e5-small`); `--threshold` is the similarity from 0 to 1 of one intent, by

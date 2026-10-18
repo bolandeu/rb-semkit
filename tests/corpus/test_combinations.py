@@ -62,8 +62,24 @@ def test_linear_combinations_are_the_cartesian_product_one_column_per_list() -> 
 
     table = sk.linear_combinations(lists)
 
-    assert table.columns.tolist() == ["action", "item"]
-    assert rows(table) == [("купить", "диван"), ("купить", "стол"), ("заказать", "диван"), ("заказать", "стол")]
+    assert table.columns.tolist() == ["phrase", "action", "item"]
+    assert rows(table[["action", "item"]]) == [
+        ("купить", "диван"),
+        ("купить", "стол"),
+        ("заказать", "диван"),
+        ("заказать", "стол"),
+    ]
+
+
+def test_linear_combinations_join_each_combination_into_a_phrase_in_the_column_order() -> None:
+    lists = pd.DataFrame({"a": ["растаможить", "растаможка"], "b": ["машина", "автомобиль"]})
+
+    assert sk.linear_combinations(lists)["phrase"].tolist() == [
+        "растаможить машина",
+        "растаможить автомобиль",
+        "растаможка машина",
+        "растаможка автомобиль",
+    ]
 
 
 def test_linear_combinations_skip_the_empty_cells_of_a_shorter_list() -> None:
@@ -76,6 +92,13 @@ def test_a_list_with_no_items_is_refused_naming_it() -> None:
     lists = pd.DataFrame({"action": ["купить"], "item": [None]}, dtype=object)
 
     with pytest.raises(sk.InvalidArguments, match="item"):
+        sk.linear_combinations(lists)
+
+
+def test_a_list_named_phrase_is_refused_since_the_result_makes_that_column() -> None:
+    lists = pd.DataFrame({"phrase": ["купить"], "item": ["диван"]})
+
+    with pytest.raises(sk.InvalidArguments, match="phrase"):
         sk.linear_combinations(lists)
 
 

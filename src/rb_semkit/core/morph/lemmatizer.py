@@ -4,8 +4,8 @@ A wordform goes to the bundled dictionary first; a word not in it goes to pymorp
 not know either gets its last four letters replaced by the add-in's `lemmSuf` table. With the fallback "pymorphy",
 every word not in the dictionary takes the best guess of pymorphy3 instead. Lemmas are lower case.
 `looks_like_adjective` is the add-in's adjective rule by the lemma ending; the pos matcher uses it too.
-`noun_parse` is the first noun parse of pymorphy3, from which the declension takes the animacy, the gender and the
-forms of a hyphenated noun.
+`noun_parses` are the noun parses of pymorphy3; the first, `noun_parse`, is the one from which the declension takes the
+animacy, the gender and the forms of a hyphenated noun.
 """
 
 from __future__ import annotations
@@ -75,10 +75,16 @@ def _analyzer() -> pymorphy3.MorphAnalyzer:
     return datastore.once("pymorphy3", pymorphy3.MorphAnalyzer)
 
 
+def noun_parses(word: str) -> list[Parse]:
+    """The parses of pymorphy3 that make the word a noun, the likeliest first (guesses for a word its dictionary
+    lacks). The agreement takes the case and the number from them."""
+    return [parse for parse in _analyzer().parse(word) if parse.tag.POS == "NOUN"]
+
+
 def noun_parse(word: str) -> Parse | None:
-    """The first parse of pymorphy3 that makes the word a noun (a guess for a word its dictionary lacks); None
-    without one. The declension takes the animacy and the gender from it, and the forms of a hyphenated noun."""
-    return next((parse for parse in _analyzer().parse(word) if parse.tag.POS == "NOUN"), None)
+    """The first parse of `noun_parses`; None without one. The declension takes the animacy and the gender from it,
+    and the forms of a hyphenated noun."""
+    return next(iter(noun_parses(word)), None)
 
 
 def _from_pymorphy(word: str, *, guess: bool = False) -> tuple[str, str] | None:

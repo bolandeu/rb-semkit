@@ -16,6 +16,7 @@ from ..text.base import split_words, whole_number
 __all__ = ["linear_combinations", "ordered_pairs", "permutations"]
 
 LIMIT = 1_048_576  # the rows of a spreadsheet
+PHRASE = "phrase"  # the column of the joined combinations
 
 
 def _within(size: int, limit: int) -> None:
@@ -50,14 +51,21 @@ def linear_combinations(lists: pd.DataFrame, *, limit: int = LIMIT) -> pd.DataFr
     """Every combination of one item from each column of the table, one column per list (the Cartesian product).
 
     The first column changes slowest: купить, заказать × диван, стол → купить диван, купить стол, заказать диван…
-    The empty cells of a column are skipped, so the lists may differ in length; a column with no items is refused.
+    The first column of the result, phrase, holds each combination as one phrase: its items joined by one space, in
+    the column order; the columns of the lists follow it.
+    The empty cells of a column are skipped, so the lists may differ in length; a column with no items is refused, and
+    so is a column named phrase.
     limit: the most rows the result may hold; a larger result is refused before any is made.
     """
     if not isinstance(lists, pd.DataFrame) or lists.columns.empty:
         raise InvalidArguments("lists: no table with columns; allowed: a DataFrame, one column per list.")
+    if PHRASE in lists.columns:
+        raise InvalidArguments(f"lists: a column is named {PHRASE!r}, the column of the result; allowed: other names.")
     items = {name: [item for item in values.fillna("").astype(str) if item] for name, values in lists.items()}
     empty = [name for name, values in items.items() if not values]
     if empty:
         raise InvalidArguments(f"lists: the columns {empty!r} hold no items; allowed: columns with at least one item.")
     _within(math.prod(len(values) for values in items.values()), limit)
-    return pd.DataFrame(list(product(*items.values())), columns=list(items), dtype=object)
+    table = pd.DataFrame(list(product(*items.values())), columns=list(items), dtype=object)
+    table.insert(0, PHRASE, [" ".join(combination) for combination in table.itertuples(index=False, name=None)])
+    return table

@@ -1,7 +1,8 @@
 """The corpus area: the functions whose first argument is no column of phrases, and the tables in a call.
 
 - levenshtein: the input is «first | second»;
-- linear_combinations: each input item is one list, its values joined by «, »;
+- linear_combinations: each input item is one list, its values joined by «, »; the result is compared without its
+  column phrase, which the add-in does not make;
 - synonyms: each input item is a report row «phrase / condition / matched»;
 - add_minus_words: `table` in the call is {word: synonyms}, the table word, synonyms;
 - is_typo, typo_correction: `provider` in the call holds the arguments of sk.CoreSpelling.
@@ -37,6 +38,10 @@ INPUTS: dict[str, Callable[[Case], Any]] = {
     "linear_combinations": _lists,
     "synonyms": _report,
 }
+
+
+def outcome(case: Case, result: Any) -> Any:
+    return result.drop(columns="phrase") if case.function == "linear_combinations" else result
 
 
 def arguments(case: Case) -> tuple[Any, dict[str, Any]]:

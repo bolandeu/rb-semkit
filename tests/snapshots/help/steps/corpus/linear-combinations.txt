@@ -5,8 +5,10 @@
  product).
 
  The first column changes slowest: купить, заказать × диван, стол → купить диван, купить стол,
- заказать диван… The empty cells of a column are skipped, so the lists may differ in length; a
- column with no items is refused.
+ заказать диван… The first column of the result, phrase, holds each combination as one phrase: its
+ items joined by one space, in the column order; the columns of the lists follow it. The empty
+ cells of a column are skipped, so the lists may differ in length; a column with no items is
+ refused, and so is a column named phrase.
  limit: the most rows the result may hold; a larger result is refused before any is made.
 
  The step makes a table of its result; it replaces the current table, its first text column is the

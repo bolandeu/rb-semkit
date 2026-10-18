@@ -40,6 +40,28 @@ HOOKS_DIR = Path(__file__).resolve().parent / "areas"
 DEVIATIONS_DIR = ROOT / "docs" / "vba" / "deviations"
 ADR_FILE = ROOT / "docs" / "adr" / "0005-port-vba-fix-defects.md"
 CASE_COLUMNS = ("case_id", "function", "call", "input", "vba", "expected", "rule", "why", "xfail")
+VERBS = ("find", "remove", "extract")
+# A function that is not from the add-in has no conformance case: the report compares semkit with the add-in, and a case
+# without a VBA column to compare would count as «the VBA». Such a function is tested in its own area tests.
+NOT_CASED = {
+    *VERBS,  # the verbs and the pipe run in the cases of every matcher
+    "pipe",
+    "split_text",
+    "coverage",
+    "cluster_serp",  # takes a SERP table and replaces the add-in's method (ADR 0005)
+    "text_stats",
+    "summary",
+    "compare_grams",
+    "compare_stats",
+    "bm25",
+    "compare_lists",
+    "edges",
+    "parse_html",
+    "headings",
+    "ad_groups",  # semkit's own, by vectors: no add-in function
+    "word_list",  # semkit's own: the word lists, not a function of the add-in
+    "agree",  # semkit's own: the add-in does not agree the words of a phrase
+}
 SEP = " | "
 PART_SEP = " || "
 RULE_SEP = "; "

@@ -9,7 +9,7 @@ COMMANDS = {
     "first-children": ["phrases.csv", "first-children", "--children", "диван"],
     "first-parents": ["phrases.csv", "first-parents", "--parents", "диван"],
     "is-typo": ["phrases.csv", "is-typo"],
-    "linear-combinations": ["phrases.csv", "linear-combinations"],
+    "linear-combinations": ["combine.csv", "linear-combinations"],
     "nearest-parents": ["phrases.csv", "nearest-parents", "--parents", "диван"],
     "ordered-pairs": ["phrases.csv", "ordered-pairs"],
     "permutations": ["phrases.csv", "permutations"],

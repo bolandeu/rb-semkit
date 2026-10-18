@@ -63,6 +63,13 @@ def adjective_index(case: str, gender: str, number: str) -> int | None:
     return NEUTER_DIRECT if case in ("nominative", "accusative") else index
 
 
+def adjective_case(case: str, gender: str, number: str, *, animate: bool) -> str:
+    """The case of the adjective form: the genitive for the accusative of a masculine or plural adjective before an
+    animate noun («рыжего кота»), else `case`."""
+    agrees_by_animacy = animate and case == "accusative" and (gender == "masculine" or number == "plural")
+    return "genitive" if agrees_by_animacy else case
+
+
 def _tables() -> dict:
     return datastore.table(TABLES)
 

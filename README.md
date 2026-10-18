@@ -18,6 +18,7 @@ sk.part_of_speech(pd.Series(["москве"]))  # ["n"]
 sk.wordforms("москва")  # [..., "москве", ...]
 sk.decline(pd.Series(["купить красный диван"]), "genitive")  # ["купить красного дивана"]
 sk.decline_full_name(pd.Series(["Петрова Анна Ивановна"]), "accusative")  # ["Петрову Анну Ивановну"]
+sk.agree(pd.Series(["растаможить машина", "легковой машина"]))["agreed"]  # ["растаможить машину", "легковая машина"]
 
 df = pd.DataFrame({"phrase": ["купить диван бу"], "freq": [10]})
 sk.remove(df, sk.words("бу"), column="phrase")  # adds "phrase_remove" right after "phrase"
@@ -81,6 +82,10 @@ semkit read serp.csv cluster-serp --method hard --common 3 write clusters.csv
 
 # the phrases only the second list has
 semkit read first.csv compare-lists --against second.csv --op second write only-second.csv
+
+# a core from word variants (one column per list): combine them into phrases, agree the words, match them to the
+# pages by meaning (the extra vectors)
+semkit read variants.csv linear-combinations agree nearest --against page_texts.csv --top 2 write matches.csv
 ```
 
 Columns keep the types of the file (numbers stay numbers). Every step, option and file an option names is checked
