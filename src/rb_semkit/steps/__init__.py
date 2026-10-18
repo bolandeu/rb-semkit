@@ -75,9 +75,11 @@ def prepared_for() -> Path:
 
 @dataclass(frozen=True)
 class Change:
-    """The new values of a column, with the index of the table."""
+    """The new values of a column, with the index of the table; `added` holds more columns to put right after it
+    (the reason of each value: agree_note)."""
 
     values: pd.Series
+    added: pd.DataFrame | None = None
 
 
 @dataclass(frozen=True)

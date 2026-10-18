@@ -9,7 +9,8 @@ animate; a singular in «-а», «-я» takes the endings table («книгу»)
 («мать»). A hyphenated noun takes the form pymorphy3 gives («дивана-кровати», «интернет-магазина»), else the forms of
 its last part. An adjective has the 11 forms of its own gender and four more:
 the feminine nominative, genitive (also dative, instrumental and prepositional) and accusative and the neuter
-nominative (also accusative); the other neuter cases are the masculine ones. Words are looked up in lower case
+nominative (also accusative); the other neuter cases are the masculine ones. Before an animate noun, a masculine or
+plural adjective takes its genitive for the accusative («рыжего кота»). Words are looked up in lower case
 with ё as е; a form keeps the capitals of its word.
 """
 
@@ -61,6 +62,13 @@ def adjective_index(case: str, gender: str, number: str) -> int | None:
     if gender == "feminine":
         return FEMININE.get(case, FEMININE_OBLIQUE)
     return NEUTER_DIRECT if case in ("nominative", "accusative") else index
+
+
+def adjective_case(case: str, gender: str, number: str, *, animate: bool) -> str:
+    """The case of the adjective form: the genitive for the accusative of a masculine or plural adjective before an
+    animate noun («рыжего кота»), else `case`."""
+    agrees_by_animacy = animate and case == "accusative" and (gender == "masculine" or number == "plural")
+    return "genitive" if agrees_by_animacy else case
 
 
 def _tables() -> dict:

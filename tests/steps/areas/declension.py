@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 COMMANDS = {
+    "agree": ["combinations.csv", "agree"],
     "decline": ["phrases.csv", "decline", "genitive"],
     "decline-adjective": ["phrases.csv", "decline-adjective", "genitive"],
     "decline-full-name": ["names.csv", "decline-full-name", "genitive"],

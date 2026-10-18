@@ -12,6 +12,7 @@ from ..text.base import split_words
 from .forms import (
     Case,
     Number,
+    adjective_case,
     adjective_form,
     adjective_index,
     bundled_words,
@@ -90,8 +91,8 @@ class _Words:
                 return None
             (gender, number), key = found[0], lemma
         number = "plural" if self._number == "plural" else number
-        animate = animate_noun and self._case == "accusative" and (gender == "masculine" or number == "plural")
-        return adjective_form(key, adjective_index("genitive" if animate else self._case, gender, number))
+        case = adjective_case(self._case, gender, number, animate=animate_noun)
+        return adjective_form(key, adjective_index(case, gender, number))
 
     def _noun(self, key: str) -> str | None:
         """The noun form of a word in the nominative, singular or plural; None for a word in another case."""

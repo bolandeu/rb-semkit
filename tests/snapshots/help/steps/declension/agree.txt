@@ -1,0 +1,40 @@
+
+ Usage: semkit read [IN] agree [OPTIONS]
+
+ The words of each phrase put in agreement: «растаможить машина» → «растаможить машину».
+
+ The rules go by neighbouring words, with no syntax parser:
+ - a verb, then a noun group: the group in the accusative, by animacy as decline does («купить
+ рыжий кот» → «купить рыжего кота»);
+ - a noun, then a noun group with no preposition: the group in the genitive («растаможка
+ автомобиль» → «растаможка автомобиля», «таможенное оформление автомобиль» → «таможенное оформление
+ автомобиля»);
+ - an adjective, then a noun: the adjective in the gender, number and case of the noun («легковой
+ машина» → «легковая машина»);
+ - a preposition, then a noun group: из, для, без, до, от, у the genitive («растаможка авто из
+ германия» → «растаможка авто из германии»); к the dative; с the instrumental; в, на the
+ prepositional for a toponym («в москве»), and a word in the accusative or the prepositional
+ already stays («в кредит»);
+ - an indeclinable word («авто», «такси») stays.
+
+ A phrase whose words agree already stays («купить диван»). A phrase stays as it is when a word has
+ no rule («быстро», «машина купить», «по» and other prepositions), an adjective has no noun after
+ it, a noun is in another case («купить машиной»), or в, на stand before a noun that is no toponym
+ («в аптека»).
+
+ The result is a table, a row per phrase: agreed, the phrase with its words in agreement, and
+ agree_note, the reason a phrase stays as it is (empty when it agrees); the two columns go right
+ after the column of the phrases. A core from word variants: linear-combinations, then agree, then
+ a step by meaning (`semkit read variants.csv linear-combinations agree nearest --against
+ page_texts.csv`).
+
+ The step rewrites the working column; with --as NAME it writes the result to a new column NAME.
+ The column agree_note goes right after it.
+
+ Example: semkit read combinations.csv agree write out.csv
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --as          NAME  Write the result to a new column NAME and keep the working column as it is.  │
+│ --help              Show this message and exit.                                                  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

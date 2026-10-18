@@ -2,7 +2,8 @@
 
 A step sees the working column as text; a number column stays numbers in the table, and the values a step writes back
 to it are numbers again when every one of them is a number. A column --as makes becomes the working column; a new
-column of a step (`<column>_find`) that the table has already gets a number (`<column>_find_2`).
+column of a step (`<column>_find`), or a column a change adds next to its result (agree_note), that the table has already
+gets a number (`<column>_find_2`).
 """
 
 from __future__ import annotations
@@ -113,10 +114,12 @@ class State:
         changed = 0
         note = None
         match planned.run(self._as_steps_see_it(), self.column):
-            case Change(values):
+            case Change(values, added):
                 if len(values) < len(self.table):  # a change that also drops rows: remove-cells empty
                     self._keep(planned.step.name, self.table.index.isin(values.index))
                 changed = self._change(planned, values)
+                for name, column in () if added is None else added.items():
+                    self._insert(_free_name(self.table, str(name)), column)
             case Columns(table, note, renamed):
                 if renamed is not None:
                     self._rename(renamed)

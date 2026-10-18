@@ -14,7 +14,7 @@ from pathlib import Path
 import pytest
 
 import rb_semkit as sk
-from tests.conformance.case_files import Case, all_cases, render, run
+from tests.conformance.case_files import NOT_CASED, Case, all_cases, render, run
 
 ROOT = Path(__file__).resolve().parents[2]
 AREAS = ("declension", "patterns")
@@ -23,9 +23,11 @@ CASES = [case for case in all_cases() if case.area in AREAS]
 
 
 def _functions(area: str) -> list[str]:
-    """The public names of the area's modules."""
+    """The public names of the area's modules that have conformance cases."""
     return [
-        name for name in dir(sk) if getattr(getattr(sk, name), "__module__", "").startswith(f"rb_semkit.core.{area}.")
+        name
+        for name in dir(sk)
+        if getattr(getattr(sk, name), "__module__", "").startswith(f"rb_semkit.core.{area}.") and name not in NOT_CASED
     ]
 
 
