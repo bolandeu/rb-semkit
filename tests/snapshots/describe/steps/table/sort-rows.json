@@ -1,0 +1,46 @@
+{
+  "name": "sort-rows",
+  "description": "The rows in the order of a column, numbers as numbers, texts as `sort-words` orders words (ё after е).\n\nEqual rows keep their order, empty cells come last (also with desc). With several columns the first wins and each next one breaks the ties. A column that is not in the table is refused, naming the columns there are.\n\nby: the column to order by; repeat it for each next column.\ndesc: the biggest first, the texts from the end.\n\nExample: semkit read freq.csv sort-rows --by freq write -\n-> кресло, 5; купить диван, 8; диван купить, 10\nExample: semkit read freq.csv sort-rows --by freq --desc write -\n-> диван купить, 10; купить диван, 8; кресло, 5\n\nThe step changes no cell. The working column stays the same.",
+  "options": [
+    {
+      "name": "--by",
+      "arguments": [
+        {
+          "name": "BY",
+          "required": true
+        }
+      ],
+      "description": "the column to order by; repeat it for each next column.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        },
+        {
+          "name": "x-rb-multiple",
+          "value": true
+        }
+      ]
+    },
+    {
+      "name": "--desc",
+      "description": "the biggest first, the texts from the end.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "filter"
+    }
+  ]
+}

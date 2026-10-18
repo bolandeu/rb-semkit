@@ -59,7 +59,7 @@ Replace `vX.Y.Z` with the latest release tag (install from a tag, never a branch
   `text-stats` and `parse-html` (a column of HTML → text, links, all, main, title, description, h1) add their columns
   after the working column; a text step takes one of them with `semkit read IN --column all`.
 - **filter** — keeps or drops rows (`keep-…`, `drop-…`, `dupes --action drop`, `split-by-words --keep`,
-  `remove-cells empty`).
+  `remove-cells empty`), or changes no cell: `sort-rows` and `use-column` (see Table bricks below).
 - **report** — makes a new table the current one, and its first text column the working one (`ngrams`, `split-text`,
   `headings`, `coverage`, `compare-grams`, `cluster-serp`, `compare-lists`, `permutations`, `summary`).
 
@@ -235,6 +235,16 @@ in place of a file (not together with one; exit 2). `--top`, `--threshold` and `
 
 ```bash
 semkit read phrases.csv nearest --to "растаможка авто" --threshold 0.85 write matches.csv
+```
+
+Table bricks work on the whole table, chain-agnostic. `use-column NAME` makes the column NAME the working column of
+the next steps and changes nothing else; a missing column is refused (exit 2) with the columns there are.
+`sort-rows --by COLUMN [--desc]` orders the rows: numbers as numbers, texts like `sort-words` (ё after е), equal rows
+keep their order, empty cells come last; `--by` repeats (the first wins, the next break ties). To keep the phrases that
+have a match, nearest to the best first:
+
+```bash
+semkit read phrases.csv nearest --to "растаможка авто" use-column match drop-cells empty sort-rows --by similarity --desc write matches.csv
 ```
 
 `--model NAME` names the encoder (default `e5-small`); `--threshold` is the similarity from 0 to 1 of one intent, by
