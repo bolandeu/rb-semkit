@@ -76,3 +76,11 @@ matches Miratext within 0.3 % on a page without JavaScript); trafilatura with fa
 JavaScript (di-project: 6 words) has no text in its HTML: the Human gives the rendered HTML.
 
 The Human, 2026-10-18: the copywriter brief (gap 5, templates, targets) is not done: a complex scenario.
+
+## Browser help (the Human and cli-generator, 2026-10-18)
+
+The human help is an HTML page built by InSpectra (Mac only) from an OpenCLI document, by one wrapper shared by all
+the CLIs (clidocs, its home decided in cli-generator). semkit makes the document now (SEMKIT-054 `semkit docs`, SEMKIT-055
+the step docstrings to the standard); describe stays as it is. cli-generator (IDEA-240) takes the shape of SEMKIT-054 as
+the reference: after SEMKIT-054 is accepted, send it a sample of `semkit docs` output; when the template ships its docs
+output, semkit moves to it by copier update and drops its own code.
