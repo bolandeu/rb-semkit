@@ -43,6 +43,7 @@ from pandas.api import types
 from ..core.compare.grams import URL
 from ..core.errors import InvalidArguments
 from ..core.frame import Frame, text_columns
+from ..core.relevance.page import TEXT
 from ..pipeline.tables import STDIO, Source, exists
 
 Kind = Literal["change", "filter", "report"]
@@ -82,10 +83,12 @@ class Change:
 @dataclass(frozen=True)
 class Columns:
     """New columns, with the index of the table, to add right after the working column; `note` goes to the summary of
-    the step (the index a step by meaning searched)."""
+    the step (the index a step by meaning searched). `renamed` is the new name of the working column, when the new
+    columns take its name."""
 
     table: pd.DataFrame
     note: str | None = None
+    renamed: str | None = None
 
 
 @dataclass(frozen=True)
@@ -266,8 +269,11 @@ def first_text(table: pd.DataFrame, option_name: str) -> str:
 
 
 def texts_column(table: pd.DataFrame, option_name: str) -> str:
-    """The first text column that is no url column: a table of pages holds the url before the text."""
-    return next((name for name in text_columns(table) if name != URL), first_text(table, option_name))
+    """The column named text; else the first text column that is no url column: a table of pages holds the url before the text."""
+    found = text_columns(table)
+    if TEXT in found:
+        return TEXT
+    return next((name for name in found if name != URL), first_text(table, option_name))
 
 
 def as_table(table: pd.DataFrame, option_name: str) -> pd.DataFrame:

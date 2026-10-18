@@ -13,8 +13,8 @@
  match.
 
  against: a file with the texts to match, one per row; the file is read like `read` does.
- against_column: the column of the texts in --against; by default its first text column that is no
- url column.
+ against_column: the column of the texts in --against; by default the column text, else its first
+ text column that is no url column.
  model: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or
  hf:<id> of a model of the Hugging Face hub.
 
@@ -33,8 +33,8 @@
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --against               AGAINST  a file with the texts to match, one per row; the file is read   │
 │                                  like `read` does.                                               │
-│ --against-column        <str>    the column of the texts in --against; by default its first text │
-│                                  column that is no url column.                                   │
+│ --against-column        <str>    the column of the texts in --against; by default the column     │
+│                                  text, else its first text column that is no url column.         │
 │ --top                   <int>    the matches of each row, the nearest first: a whole number from │
 │                                  1.                                                              │
 │                                  [default: 1]                                                    │

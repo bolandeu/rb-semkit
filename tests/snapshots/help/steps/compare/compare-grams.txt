@@ -29,8 +29,9 @@
  median number of occurrences in the competitors. Densities are rounded to 4 decimals. Sorted by
  median, biggest first, then ngram. With per_text, the density columns come last.
 
- competitors: a file with the texts of the competitors, one per row, in its first text column; the
- file is read like `read` does. A url column, if the file has one, names the columns of --per-text.
+ competitors: a file with the texts of the competitors, one per row, in its column text, else in
+ its first text column that is no url column; the file is read like `read` does. A url column, if
+ the file has one, names the columns of --per-text.
 
  The step takes the working column as my text (its cells, one per line); the table of the
  comparison replaces the current one.
@@ -38,14 +39,15 @@
  Example: semkit read --whole mine.txt compare-grams --competitors competitors.csv write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
-│   COMPETITORS      <str>  a file with the texts of the competitors, one per row, in its first    │
-│                           text column; the file is read like `read` does. A url column, if the   │
-│                           file has one, names the columns of --per-text. The same as             │
-│                           --competitors COMPETITORS.                                             │
+│   COMPETITORS      <str>  a file with the texts of the competitors, one per row, in its column   │
+│                           text, else in its first text column that is no url column; the file is │
+│                           read like `read` does. A url column, if the file has one, names the    │
+│                           columns of --per-text. The same as --competitors COMPETITORS.          │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --competitors                     COMPETITORS    a file with the texts of the competitors, one   │
-│                                                  per row, in its first text column; the file is  │
+│                                                  per row, in its column text, else in its first  │
+│                                                  text column that is no url column; the file is  │
 │                                                  read like `read` does. A url column, if the     │
 │                                                  file has one, names the columns of --per-text.  │
 │                -n                 <int>          how many words in a gram. [default: 1]          │

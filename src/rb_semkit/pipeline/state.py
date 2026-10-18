@@ -117,7 +117,9 @@ class State:
                 if len(values) < len(self.table):  # a change that also drops rows: remove-cells empty
                     self._keep(planned.step.name, self.table.index.isin(values.index))
                 changed = self._change(planned, values)
-            case Columns(table, note):
+            case Columns(table, note, renamed):
+                if renamed is not None:
+                    self._rename(renamed)
                 changed = sum(self._add(planned.step.name, str(name), values) for name, values in table.items())
             case Keep(rows):
                 self._keep(planned.step.name, rows.to_numpy())
@@ -125,6 +127,13 @@ class State:
                 self.table = table
                 self.column = _working_column(table)
         return Summary(planned.step.name, before, len(self.table), changed, note)
+
+    def _rename(self, name: str) -> None:
+        """The working column under `name`; the columns added after it stay after it."""
+        self.table = self.table.rename(columns={self.column: name})
+        if self.column in self._last_added:
+            self._last_added[name] = self._last_added.pop(self.column)
+        self.column = name
 
     def _as_steps_see_it(self) -> pd.DataFrame:
         """The table with the working column as text."""

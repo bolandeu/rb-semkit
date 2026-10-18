@@ -85,6 +85,24 @@ def test_against_column_names_the_column_of_the_texts(core_csv: Path) -> None:
     assert [row["match"] for row in rows] == ["угловой диван", "кресло кровать недорого", "обеденный стол из дуба"]
 
 
+def test_an_against_table_of_parse_html_output_uses_the_column_text(core_csv: Path) -> None:
+    against = _against(
+        core_csv.parent, html=["<p>x</p>"] * 5, url=PAGES["url"], text=PAGES["text"], title=["ковёр"] * 5
+    )
+
+    rows = _rows(str(core_csv), "nearest", "--against", str(against))
+
+    assert [row["match"] for row in rows] == ["угловой диван", "кресло кровать недорого", "обеденный стол из дуба"]
+
+
+def test_an_against_table_without_a_column_text_takes_the_first_text_column_that_is_no_url(core_csv: Path) -> None:
+    against = _against(core_csv.parent, url=PAGES["url"], body=PAGES["text"])
+
+    rows = _rows(str(core_csv), "nearest", "--against", str(against))
+
+    assert [row["match"] for row in rows] == ["угловой диван", "кресло кровать недорого", "обеденный стол из дуба"]
+
+
 def test_a_phrase_whose_matches_are_all_below_the_threshold_keeps_one_row_with_an_empty_match(core_csv: Path) -> None:
     pages = _against(core_csv.parent, **PAGES)
 

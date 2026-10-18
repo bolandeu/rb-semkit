@@ -98,3 +98,29 @@ def test_the_columns_come_right_after_the_column_of_pages(tmp_path: Path) -> Non
     result = run(tmp_path, {"url": ["https://a.ru/"], "html": [SOFA], "freq": ["5"]}, "parse-html")
 
     assert list(result.rows[0]) == ["url", "html", "text", "links", "all", "main", "title", "description", "h1", "freq"]
+
+
+def test_a_column_of_html_named_text_is_renamed_html_and_the_zones_keep_their_names(tmp_path: Path) -> None:
+    result = run(tmp_path, {"text": [OST_TERM_IMPORT]}, "parse-html", column="text")
+
+    assert result.exit_code == 0, result.output
+    row = result.rows[0]
+    assert list(row) == ["html", "text", "links", "all", "main", "title", "description", "h1"]
+    assert row["html"] == OST_TERM_IMPORT
+    assert 0 < len(row["text"].split()) < len(row["all"].split())
+
+
+def test_a_column_of_html_named_main_is_renamed_html(tmp_path: Path) -> None:
+    result = run(tmp_path, {"main": [SOFA]}, "parse-html", column="main")
+
+    assert result.exit_code == 0, result.output
+    assert result.rows[0]["html"] == SOFA
+    assert result.rows[0]["main"] == "Мы рады: купить диван недорого."
+
+
+def test_a_column_of_html_named_text_with_a_column_html_is_refused_naming_both(tmp_path: Path) -> None:
+    result = run(tmp_path, {"text": [SOFA], "html": [SOFA]}, "parse-html", column="text")
+
+    assert result.exit_code == 2
+    assert "text" in result.output
+    assert "html" in result.output
