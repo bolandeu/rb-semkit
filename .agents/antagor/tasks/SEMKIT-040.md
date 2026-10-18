@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-040
 title: 'ad-groups: small ad groups of one intent'
-status: in_review
+status: publish
 attempts: 1
 blocked: false
 blocked_reason: null
