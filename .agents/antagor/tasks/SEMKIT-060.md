@@ -2,7 +2,7 @@
 id: SEMKIT-060
 title: 'CI on the homeserver runner: .gitea/workflows/ci.yml runs the release gate;
   ruff format fix in tests/conftest.py'
-status: queue
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
