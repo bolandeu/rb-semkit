@@ -44,16 +44,19 @@ def _cli_action(error: rb_dataio.DataioError, action: str) -> str:
 
 
 @contextmanager
-def _dataio(action: str, exit_code: int = 1) -> Generator[None]:
+def _dataio(action: str, exit_code: int = 1, refused_action: str | None = None) -> Generator[None]:
     """A DataioError as a CliError with its code and message; `action` replaces an action in Python terms.
 
-    A wrong argument (`INVALID_ARGUMENTS`) exits 2.
+    A wrong argument (`INVALID_ARGUMENTS`) exits 2, with `refused_action` in place of `action` when given.
     """
     try:
         yield
     except rb_dataio.DataioError as error:
-        code = 2 if error.code == REFUSED else exit_code
-        raise CliError(error.code, error.message, action=_cli_action(error, action), exit_code=code) from None
+        refused = error.code == REFUSED
+        chosen = refused_action if refused and refused_action else action
+        raise CliError(
+            error.code, error.message, action=_cli_action(error, chosen), exit_code=2 if refused else exit_code
+        ) from None
 
 
 def as_text(values: pd.Series) -> pd.Series:
@@ -241,7 +244,7 @@ class Target:
 
     def write(self, table: pd.DataFrame) -> None:
         if self.address == STDIO:
-            with _dataio(WRITE_ACTION):
+            with _dataio(WRITE_ACTION, refused_action=WRITE_REFUSED_ACTION):
                 rb_dataio.write(table, STDIO, format=STREAM_FORMAT, columns=self.columns, rename=self.rename)
             return
         width = len(self.columns) if self.columns else len(table.columns)
@@ -253,12 +256,13 @@ class Target:
         path = Path(self.address)
         with tempfile.TemporaryDirectory(dir=path.parent, prefix=f".{path.name}.") as folder:
             part = Path(folder) / path.name
-            with _dataio(WRITE_ACTION):
+            with _dataio(WRITE_ACTION, refused_action=WRITE_REFUSED_ACTION):
                 rb_dataio.write(table, part, backup=False, columns=self.columns, rename=self.rename)
             os.replace(part, path)
 
 
 WRITE_ACTION = "Check that the folder of OUT is writable and OUT is not open in another program."
+WRITE_REFUSED_ACTION = "Give --columns and --rename the names of the columns the message lists."
 
 
 def read_lines(address: str) -> list[str]:
