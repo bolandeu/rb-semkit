@@ -7,6 +7,7 @@ A test marked `real_encoder` gets the models as semkit opens them: the vectors e
 
 from __future__ import annotations
 
+import os
 import zlib
 from collections.abc import Sequence
 from pathlib import Path
@@ -14,11 +15,19 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from rb_semkit.core.vectors import encoder
-from rb_semkit.core.vectors.registry import Model
-from rb_semkit.core.word_vectors.navec import WordVectors
-from rb_semkit.core.word_vectors.thesaurus import Thesaurus
-from rb_semkit.steps import word_vectors
+PLAIN_HELP_ENV = {"NO_COLOR": "1", "TERM": "dumb", "COLUMNS": "100"}
+CI_ENV_NAMES = ("FORCE_COLOR", "CI", "GITHUB_ACTIONS", "TTY_COMPATIBLE", "TTY_INTERACTIVE")
+
+# The consoles of rb_semkit read the environment when they are built, at import: set it before the imports below.
+os.environ.update(PLAIN_HELP_ENV)
+for _name in CI_ENV_NAMES:
+    os.environ.pop(_name, None)
+
+from rb_semkit.core.vectors import encoder  # noqa: E402
+from rb_semkit.core.vectors.registry import Model  # noqa: E402
+from rb_semkit.core.word_vectors.navec import WordVectors  # noqa: E402
+from rb_semkit.core.word_vectors.thesaurus import Thesaurus  # noqa: E402
+from rb_semkit.steps import word_vectors  # noqa: E402
 
 WORD_DIMENSIONS = 64
 
@@ -42,6 +51,15 @@ class WordEncoder:
 @pytest.fixture(autouse=True)
 def _no_machine_word_lists(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.delenv("SEMKIT_LISTS", raising=False)
+
+
+@pytest.fixture(autouse=True)
+def _plain_help_in_any_environment(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Help renders without colour and at one width, whatever the CI of the machine sets."""
+    for name, value in PLAIN_HELP_ENV.items():
+        monkeypatch.setenv(name, value)
+    for name in CI_ENV_NAMES:
+        monkeypatch.delenv(name, raising=False)
 
 
 @pytest.fixture(autouse=True)
