@@ -3,8 +3,8 @@ id: SEMKIT-060
 title: x
 status: queue
 attempts: 0
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: aborted
 phase: null
 tests_hash: null
 publish_stage: null
