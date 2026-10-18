@@ -2,7 +2,7 @@
 id: SEMKIT-052
 title: 'nearest --to TEXT: the texts to match given on the command line instead of
   a file'
-status: queue
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -19,6 +19,8 @@ owns_paths:
 - src/rb_semkit/data/SKILL.md
 - tests/snapshots/
 - tests/nearest/
+- src/rb_semkit/pipeline/commands.py
+- src/rb_semkit/steps/__init__.py
 test_paths:
 - tests/nearest/test_nearest.py
 docs:
