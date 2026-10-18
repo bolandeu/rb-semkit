@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.44 — 2026-10-18
+
+### Outside epics
+
+- Every step's docstring to the help standard: one-line summary, option lines, short examples with results (SEMKIT-055)
+
 ## v0.1.43 — 2026-10-18
 
 ### Outside epics
