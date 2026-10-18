@@ -33,20 +33,10 @@ from typer.core import TyperCommand
 
 from .. import output
 from ..core import wordlists
+from ..core.docs import ARGUMENT_LINE, LIST_ITEM, argument_names, doc_lines
 from ..core.errors import InvalidArguments
 from ..core.version import cli_name
-from ..steps import (
-    ARGUMENT_LINE,
-    LIST_ITEM,
-    POSITIONAL,
-    REPEATED,
-    Prepared,
-    Step,
-    argument_names,
-    doc_lines,
-    parameter_names,
-    project_start,
-)
+from ..steps import POSITIONAL, REPEATED, Prepared, Step, parameter_names, project_start
 from .items import SYNTAX, items
 from .state import Planned
 
@@ -87,7 +77,9 @@ class StepOption:
     default: Any  # ... when the option is required
     takes_items: bool
     help: str
-    positional: bool = False  # the first required argument, or a marked one: also taken positionally, so neither form is required
+    positional: bool = (
+        False  # the first required argument, or a marked one: also taken positionally, so neither form is required
+    )
     repeated: bool = False  # given once for each item (--to A --to B): a list of the texts as they are
 
     def flag(self) -> str:
@@ -213,7 +205,9 @@ def _option_help(doc: str, name: str, parameters: Collection[str]) -> str:
 
 def _step_option(function: Callable[..., Any], parameter: inspect.Parameter) -> StepOption | None:
     """The option of one argument of `function`; None for an argument the command line does not give."""
-    marks = typing.get_args(parameter.annotation)[1:] if typing.get_origin(parameter.annotation) is typing.Annotated else ()
+    marks = (
+        typing.get_args(parameter.annotation)[1:] if typing.get_origin(parameter.annotation) is typing.Annotated else ()
+    )
     annotation, takes_items = _command_line_type(_resolved(function, parameter.annotation))
     repeated = REPEATED in marks
     if repeated:

@@ -1,0 +1,50 @@
+{
+  "name": "docs",
+  "description": "Write the help of every command and step as one document for people: OpenCLI with the commands at the root.\n\nThe document follows the help standard: each command has its summary, description and examples apart, each option ends with its default and allowed values, and each step shows the input of read. The same version writes the same bytes. A viewer such as InSpectra renders it as HTML.\n\nExample: semkit docs --out docs.json",
+  "options": [
+    {
+      "name": "--out",
+      "arguments": [
+        {
+          "name": "FILE",
+          "required": true
+        }
+      ],
+      "description": "Write the document to FILE (replaced when it exists); by default to stdout.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "path"
+        }
+      ]
+    },
+    {
+      "name": "--json",
+      "description": "Emit machine-readable JSON output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--quiet",
+      "description": "Suppress non-essential output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    }
+  ]
+}

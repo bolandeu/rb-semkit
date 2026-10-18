@@ -1,0 +1,32 @@
+"""`docs`: the help of every command and step as one document for people (`core.docs`), for a viewer such as InSpectra."""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+import typer
+
+from .. import output
+from ..core import docs as document
+from ..steps import docs_hook
+
+
+@output.guard
+def docs(
+    ctx: typer.Context,
+    out: Path = typer.Option(None, "--out", metavar="FILE", help="Write the document to FILE (replaced when it exists); by default to stdout."),
+    json_output: bool = output.JsonOption,
+    quiet: bool = output.QuietOption,
+) -> None:  # fmt: skip
+    """Write the help of every command and step as one document for people: OpenCLI with the commands at the root.
+
+    The document follows the help standard: each command has its summary, description and examples apart, each option ends with its default and allowed values, and each step shows the input of read. The same version writes the same bytes. A viewer such as InSpectra renders it as HTML.
+
+    Example: {cli} docs --out docs.json
+    """
+    text = document.text(ctx.find_root().command, docs_hook.inherited)
+    if out is None:
+        typer.echo(text, nl=False)
+        return
+    out.write_text(text, encoding="utf-8")
+    output.emit_success(ctx, {"path": str(out)}, lambda data: output.human.echo(f"Wrote {data['path']}"))

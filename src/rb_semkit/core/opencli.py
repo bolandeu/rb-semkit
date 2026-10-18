@@ -13,6 +13,10 @@ programs, word lists (`word_lists`) and template version.
 The output is a cross-tool contract like `auth status`: tests/test_describe.py
 validates it against the OpenCLI schema and snapshots it. Changing or removing
 anything in it is a breaking change (conventions.md).
+
+`core.docs` (the help document for people) reuses the reading: `info()` gives the
+document's `info`, `option` and `argument` the entry of a Click option or argument,
+`jsonable` a value as JSON holds it, `cleaned` a help text as the docstring wrote it.
 """
 
 from __future__ import annotations
@@ -54,20 +58,25 @@ def document(root: Any) -> dict:
             "x-rb-lists": word_lists(),
         }
     )
-    info = {"title": cli_name(), "version": installed_version() or DEV_VERSION}
+    return {"opencli": OPENCLI_VERSION, "info": info(), "command": command}
+
+
+def info() -> dict:
+    """The `info` of the document: the name of the CLI, its version and its summary."""
+    found = {"title": cli_name(), "version": installed_version() or DEV_VERSION}
     if summary := package_summary():
-        info["summary"] = summary
-    return {"opencli": OPENCLI_VERSION, "info": info, "command": command}
+        found["summary"] = summary
+    return found
 
 
 def _command(name: str, cmd: Any) -> dict:
     out: dict[str, Any] = {"name": name}
-    if description := _text(cmd.help):
+    if description := cleaned(cmd.help):
         out["description"] = description
     if cmd.hidden:
         out["hidden"] = True
-    options = [_option(p) for p in cmd.params if p.param_type_name == "option"]
-    arguments = [_argument(p) for p in cmd.params if p.param_type_name == "argument"]
+    options = [option(p) for p in cmd.params if p.param_type_name == "option"]
+    arguments = [argument(p) for p in cmd.params if p.param_type_name == "argument"]
     if options:
         out["options"] = options
     if arguments:
@@ -80,7 +89,8 @@ def _command(name: str, cmd: Any) -> dict:
     return out
 
 
-def _option(param: Any) -> dict:
+def option(param: Any) -> dict:
+    """The OpenCLI entry of a Click option."""
     names = sorted(param.opts, key=len, reverse=True)  # the long form is the name
     out: dict[str, Any] = {"name": names[0]}
     if aliases := [*names[1:], *param.secondary_opts]:
@@ -92,7 +102,7 @@ def _option(param: Any) -> dict:
         if choices := _choices(param.type):
             value["acceptedValues"] = choices
         out["arguments"] = [value]
-    if description := _text(param.help):
+    if description := cleaned(param.help):
         out["description"] = description
     if param.hidden:
         out["hidden"] = True
@@ -100,7 +110,8 @@ def _option(param: Any) -> dict:
     return out
 
 
-def _argument(param: Any) -> dict:
+def argument(param: Any) -> dict:
+    """The OpenCLI entry of a Click argument."""
     out: dict[str, Any] = {"name": param.metavar or param.name or "argument"}  # the name --help shows
     out["required"] = param.required
     maximum = None if param.nargs == -1 else param.nargs
@@ -109,7 +120,7 @@ def _argument(param: Any) -> dict:
         out["arity"]["maximum"] = maximum
     if choices := _choices(param.type):
         out["acceptedValues"] = choices
-    if description := _text(getattr(param, "help", None)):  # Typer's arguments carry help
+    if description := cleaned(getattr(param, "help", None)):  # Typer's arguments carry help
         out["description"] = description
     if getattr(param, "hidden", False):
         out["hidden"] = True
@@ -121,7 +132,7 @@ def _param_meta(param: Any, *, multiple: bool) -> list[dict]:
     meta: dict[str, Any] = {"x-rb-type": param.type.name}
     default = param.default
     if default is not None and not callable(default) and default != ():
-        meta["x-rb-default"] = _jsonable(default)
+        meta["x-rb-default"] = jsonable(default)
     if multiple:
         meta["x-rb-multiple"] = True
     return _meta(meta)
@@ -129,16 +140,17 @@ def _param_meta(param: Any, *, multiple: bool) -> list[dict]:
 
 def _choices(param_type: Any) -> list[str] | None:
     choices = getattr(param_type, "choices", None)  # a Choice (or an Enum Typer turned into one)
-    return [str(_jsonable(choice)) for choice in choices] if choices else None
+    return [str(jsonable(choice)) for choice in choices] if choices else None
 
 
-def _jsonable(value: Any) -> Any:
+def jsonable(value: Any) -> Any:
+    """A value as JSON holds it: an Enum by its value, a path as text."""
     if isinstance(value, enum.Enum):
         return value.value
     if isinstance(value, PurePath):
         return str(value)
     if isinstance(value, (list, tuple)):
-        return [_jsonable(item) for item in value]
+        return [jsonable(item) for item in value]
     try:
         json.dumps(value)
     except TypeError:
@@ -146,7 +158,8 @@ def _jsonable(value: Any) -> Any:
     return value
 
 
-def _text(text: str | None) -> str:
+def cleaned(text: str | None) -> str:
+    """A help text as the docstring wrote it."""
     # output.guard escaped `[` for Typer's rich markup; the document wants the docstring itself.
     return inspect.cleandoc(text or "").replace("\\[", "[").strip()
 
