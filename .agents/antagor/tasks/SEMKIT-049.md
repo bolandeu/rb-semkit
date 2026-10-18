@@ -3,7 +3,7 @@ id: SEMKIT-049
 title: 'read --text: phrases from the command line; a pipeline without write prints
   a table'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -73,3 +73,9 @@ commands/read.py and pipeline/tables.py (the '-' reader and the write step); out
 ## Out of scope
 
 - Paging or truncating long tables; reading phrases from a plain-text stdin; any change of a step.
+
+## Feedback
+
+### Attempt 1: file docstring
+
+- add a docstring to src/rb_semkit/output/human.py: what it holds and why
