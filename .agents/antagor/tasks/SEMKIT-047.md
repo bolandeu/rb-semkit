@@ -2,7 +2,7 @@
 id: SEMKIT-047
 title: 'A separate default threshold for clusters by meaning: 0.975 for e5-small,
   the pair threshold stays 0.97'
-status: queue
+status: done
 attempts: 1
 blocked: false
 blocked_reason: null
@@ -101,3 +101,9 @@ ResourceWarning: Enable tracemalloc to get the object allocation traceback
   gc.collect()
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
 ```
+
+### Answer to finding #1
+
+> SEMKIT-047: the sofa core (tests/e2e/fixtures/sofa_core.csv) has no phrase «диван кровать». The quality test checks the pair that 0.97 joins and 0.975 splits: «диван кровать купить в москве» / «диваны купить в москве». At 0.975, 27 clusters still mix «диван кровать X» with «диван X» (e.g. «диван кровать аккордеон купить» with «диван аккордеон купить»). adgroups keeps the pair threshold (its doc: two phrases of one intent).
+
+Accepted as is: 0.975 is better than 0.97, not clean. The remaining mixes (диван кровать X / диван X) go to the Human as a follow-up question.
