@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.35 — 2026-10-18
+
+### Outside epics
+
+- Test snapshots and step lists split by step, so tasks that add steps do not wait for each other (SEMKIT-046)
+
 ## v0.1.34 — 2026-10-18
 
 ### E-006 — Vectors: primitives by meaning for SEO, texts and ads

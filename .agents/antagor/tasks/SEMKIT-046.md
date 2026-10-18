@@ -2,7 +2,7 @@
 id: SEMKIT-046
 title: Test snapshots and step lists split by step, so tasks that add steps do not
   wait for each other
-status: queue
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -22,6 +22,7 @@ owns_paths:
 - tests/conftest.py
 - tests/pipeline/test_discovery.py
 - tests/pipeline/test_project_folder.py
+- CODING_STANDARDS.md
 test_paths:
 - tests/test_describe.py
 - tests/test_help.py
