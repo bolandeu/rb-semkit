@@ -129,5 +129,12 @@ Ads:
 
 Words:
 - Synonym candidates: `synonym-candidates`; the Human picks, the picked go to `--synonyms` of `dupes --kind meaning`.
+- Phrase synonyms of one intent (the Human's first scenario, 2026-10-18; works on v0.1.42):
+  `read --text Q synonym-candidates --all --source ruwordnet --as-slots linear-combinations agree
+  nearest --to Q --threshold 0.85 --model bge-m3`, then the rows with a match, sorted by similarity, and the demand of
+  each by `bukvarix freq` (another tool). On «таможенное оформление импорта»: 112 combinations, 74 above 0.85,
+  4 with demand above 0. Gaps of bricks: no step keeps the rows with a match (`nearest` keeps an empty match for each
+  row below the threshold) and no step sorts by a column, so jq does both now.
+- Saved scenarios: when 2-3 chains repeat, a named chain file run by `semkit run NAME` (now a placeholder); not before.
 
 Order: now IDEA-235 (the help of is-typo) as a task outside the epics, beside E-005; the epic after E-005.
