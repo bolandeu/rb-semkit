@@ -1,0 +1,64 @@
+{
+  "name": "status",
+  "description": "Report every provider's credential: where it comes from and whether it works. Never prints values.\n\nWithout --check only presence is reported (status `unchecked` or `missing`).\nExits 0 when every required provider is ok/unchecked (an optional one may be missing), 3 when any required provider has a problem or any credential is invalid/expired, 2 on a usage error.\nA per-target provider (one credential per site/host/account) gets one entry per stored target, named `<kind>:<target>`.\nThe --json shape is a cross-tool contract: `tool`, `version`, `checked_at`, `credentials[]` with `provider`, `required`, `fields`, `source`, `source_ref`, `status`, `expires_at`, `quota`, `message`.\n\nExample: semkit auth status --check --json",
+  "options": [
+    {
+      "name": "--check",
+      "description": "Also make one cheap read-only call per provider (10 s timeout) to prove each works.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--provider",
+      "arguments": [
+        {
+          "name": "PROVIDER",
+          "required": true
+        }
+      ],
+      "description": "Report only this provider, or one target as <kind>:<target> (default: all).",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--json",
+      "description": "Emit machine-readable JSON output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--quiet",
+      "description": "Suppress non-essential output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    }
+  ]
+}

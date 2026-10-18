@@ -1,0 +1,69 @@
+{
+  "name": "similar-chars",
+  "description": "The letters that look alike in both alphabets (а a, В B, Н H, р p, с c, у y, х x…) in one alphabet. The other letters stay.\n\nto: the alphabet: \"en\" — «Москва» → «Mockвa»; \"ru\" — «CTO» → «СТО».\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv similar-chars en write out.csv",
+  "options": [
+    {
+      "name": "--to",
+      "arguments": [
+        {
+          "name": "TO",
+          "required": true,
+          "acceptedValues": [
+            "en",
+            "ru"
+          ]
+        }
+      ],
+      "description": "the alphabet: \"en\" — «Москва» → «Mockвa»; \"ru\" — «CTO» → «СТО».",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "TO",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "acceptedValues": [
+        "en",
+        "ru"
+      ],
+      "description": "the alphabet: \"en\" — «Москва» → «Mockвa»; \"ru\" — «CTO» → «СТО». The same as --to TO.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

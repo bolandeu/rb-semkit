@@ -1,0 +1,129 @@
+{
+  "name": "remove-cells",
+  "description": "A whole cell is found or not. remove clears a found cell (with \"empty\", it drops the rows); extract keeps the cell, or an empty cell if not found.\n\nkind: \"contains\", \"starts\", \"ends\" (with items: text parts, case and ё do not count; or with prepositions: the first, the last or any word is a bundled preposition, as written, «для,» is none); \"regex\" (with pattern); \"empty\" (no characters at all: a cell of spaces is not empty); by occurrence among the cells, in any case and ё as е: \"unique\" (once), \"repeated\" (more than once), \"first\", \"last\" occurrence. Empty cells are never repeats of each other.\nitems: the text parts for \"contains\", \"starts\" and \"ends\".\npattern: the regular expression for \"regex\".\nprepositions: for \"contains\", \"starts\" and \"ends\", look for a bundled preposition instead of items.\n\nremove-cells removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-cells contains --items бесплатно,скачать write out.csv",
+  "options": [
+    {
+      "name": "--kind",
+      "arguments": [
+        {
+          "name": "KIND",
+          "required": true,
+          "acceptedValues": [
+            "contains",
+            "starts",
+            "ends",
+            "regex",
+            "empty",
+            "unique",
+            "repeated",
+            "first",
+            "last"
+          ]
+        }
+      ],
+      "description": "\"contains\", \"starts\", \"ends\" (with items: text parts, case and ё do not count; or with prepositions: the first, the last or any word is a bundled preposition, as written, «для,» is none); \"regex\" (with pattern); \"empty\" (no characters at all: a cell of spaces is not empty); by occurrence among the cells, in any case and ё as е: \"unique\" (once), \"repeated\" (more than once), \"first\", \"last\" occurrence. Empty cells are never repeats of each other.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    },
+    {
+      "name": "--items",
+      "arguments": [
+        {
+          "name": "ITEMS",
+          "required": true
+        }
+      ],
+      "description": "the text parts for \"contains\", \"starts\" and \"ends\". Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--pattern",
+      "arguments": [
+        {
+          "name": "PATTERN",
+          "required": true
+        }
+      ],
+      "description": "the regular expression for \"regex\".",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--prepositions",
+      "description": "for \"contains\", \"starts\" and \"ends\", look for a bundled preposition instead of items.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "KIND",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "acceptedValues": [
+        "contains",
+        "starts",
+        "ends",
+        "regex",
+        "empty",
+        "unique",
+        "repeated",
+        "first",
+        "last"
+      ],
+      "description": "\"contains\", \"starts\", \"ends\" (with items: text parts, case and ё do not count; or with prepositions: the first, the last or any word is a bundled preposition, as written, «для,» is none); \"regex\" (with pattern); \"empty\" (no characters at all: a cell of spaces is not empty); by occurrence among the cells, in any case and ё as е: \"unique\" (once), \"repeated\" (more than once), \"first\", \"last\" occurrence. Empty cells are never repeats of each other. The same as --kind KIND.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

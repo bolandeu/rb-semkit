@@ -1,0 +1,128 @@
+{
+  "name": "ad-groups",
+  "description": "Small ad groups of one intent: phrases that are duplicates by meaning of each other share a group.\n\nTwo phrases of the same refining words and close vectors (the rule of `dupes_meaning`) are one intent, and a chain of such pairs makes one group. A group of more than `max_size` phrases is split: the first phrase left takes the `max_size` phrases nearest to it, and so on, so the same input gives the same groups. Equal phrases are one phrase. The groups are numbered from 1 in the order of their first rows. The columns: ad_group and ad_group_name; every phrase gets them, an empty cell gets none.\n\nmax_size: the most phrases in an ad group, 1 or more; a larger group is split by vector. Without it no group is split.\nfreq: the column of the frequencies of the phrases in the current table; the ad group is named after its most frequent phrase. Without it, after its first phrase.\nneutral: the Human's non-refining words for --kind meaning, as @FILE or @NAME of a list; they add to the bundled list @meaning/neutral. Words are compared by lemma.\nsynonyms: a file with the columns word and synonyms, as the step `synonyms` gives, for --kind meaning; a word and its synonyms are the same word. The file is read like `read` does.\nhome: the name of the home city for --kind meaning; its word is non-refining, another city's is not.\nthreshold: the similarity from 0 to 1 two phrases need to be one intent, for --kind meaning. Without it the threshold of the model.\nmodel: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.\n\nThe step adds the columns ad_group and ad_group_name right after the working column; the rows stay.\n\nExample: semkit read core.csv ad-groups --max-size 20 --freq freq write out.csv",
+  "options": [
+    {
+      "name": "--threshold",
+      "arguments": [
+        {
+          "name": "THRESHOLD",
+          "required": true
+        }
+      ],
+      "description": "the similarity from 0 to 1 two phrases need to be one intent, for --kind meaning. Without it the threshold of the model.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "float"
+        }
+      ]
+    },
+    {
+      "name": "--max-size",
+      "arguments": [
+        {
+          "name": "MAX_SIZE",
+          "required": true
+        }
+      ],
+      "description": "the most phrases in an ad group, 1 or more; a larger group is split by vector. Without it no group is split.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "int"
+        }
+      ]
+    },
+    {
+      "name": "--freq",
+      "arguments": [
+        {
+          "name": "FREQ",
+          "required": true
+        }
+      ],
+      "description": "the column of the frequencies of the phrases in the current table; the ad group is named after its most frequent phrase. Without it, after its first phrase.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--neutral",
+      "arguments": [
+        {
+          "name": "NEUTRAL",
+          "required": true
+        }
+      ],
+      "description": "the Human's non-refining words for --kind meaning, as @FILE or @NAME of a list; they add to the bundled list @meaning/neutral. Words are compared by lemma. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--synonyms",
+      "arguments": [
+        {
+          "name": "SYNONYMS",
+          "required": true
+        }
+      ],
+      "description": "a file with the columns word and synonyms, as the step `synonyms` gives, for --kind meaning; a word and its synonyms are the same word. The file is read like `read` does.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--home",
+      "arguments": [
+        {
+          "name": "HOME",
+          "required": true
+        }
+      ],
+      "description": "the name of the home city for --kind meaning; its word is non-refining, another city's is not.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--model",
+      "arguments": [
+        {
+          "name": "MODEL",
+          "required": true
+        }
+      ],
+      "description": "the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "e5-small"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

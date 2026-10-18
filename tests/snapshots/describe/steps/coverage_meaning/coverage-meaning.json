@@ -1,0 +1,97 @@
+{
+  "name": "coverage-meaning",
+  "description": "For each core phrase, the paragraph nearest it by meaning, and whether the text covers the phrase.\n\nthreshold: the similarity from 0 to 1 from which a paragraph covers a phrase.\n\nThe report has a row for each phrase, in its order and with its index: url and number (of the paragraph), the paragraph, similarity (4 places) and covered (yes or no); with clusters also cluster_covered. A phrase with no words, or a text with no paragraphs, gives an empty paragraph, no similarity and covered no.\n\ntext: a text file (.txt), or a table of url and text, that is cut into paragraphs like `split-paragraphs` does; the table file is read like `read` does.\ncluster: the column of the clusters of the phrases in the current table (as `cluster-meaning` gives it); every phrase also gets cluster_covered, yes when any phrase of its cluster is covered.\nmodel: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.\n\nThe step takes the working column as the core and adds the columns url, number, paragraph, similarity and covered (and cluster_covered) right after it; the rows stay.\n\nExample: semkit read core.csv coverage-meaning --text article.txt write out.csv",
+  "options": [
+    {
+      "name": "--text",
+      "arguments": [
+        {
+          "name": "TEXT",
+          "required": true
+        }
+      ],
+      "description": "a text file (.txt), or a table of url and text, that is cut into paragraphs like `split-paragraphs` does; the table file is read like `read` does.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--threshold",
+      "arguments": [
+        {
+          "name": "THRESHOLD",
+          "required": true
+        }
+      ],
+      "description": "the similarity from 0 to 1 from which a paragraph covers a phrase.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "float"
+        }
+      ]
+    },
+    {
+      "name": "--model",
+      "arguments": [
+        {
+          "name": "MODEL",
+          "required": true
+        }
+      ],
+      "description": "the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "e5-small"
+        }
+      ]
+    },
+    {
+      "name": "--cluster",
+      "arguments": [
+        {
+          "name": "CLUSTER",
+          "required": true
+        }
+      ],
+      "description": "the column of the clusters of the phrases in the current table (as `cluster-meaning` gives it); every phrase also gets cluster_covered, yes when any phrase of its cluster is covered.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "TEXT",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "description": "a text file (.txt), or a table of url and text, that is cut into paragraphs like `split-paragraphs` does; the table file is read like `read` does. The same as --text TEXT.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

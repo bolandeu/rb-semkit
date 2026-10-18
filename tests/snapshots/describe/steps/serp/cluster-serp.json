@@ -1,0 +1,108 @@
+{
+  "name": "cluster-serp",
+  "description": "Cluster the phrases of a SERP table (columns phrase, position, url) by the common URLs of their tops.\n\nmethod: \"soft\" grows a cluster around its center: a phrase joins when it shares enough URLs with the center; \"hard\" lets a phrase join only when it shares enough URLs with every member of the cluster.\ncommon: how many URLs two phrases must share.\ntop: how many first positions of each phrase count.\n\nOne row per phrase: phrase, cluster (1 = the largest), center (the first phrase of the cluster) and common (URLs shared with the center; the center gets the size of its own top).\n\nfreq: a file with the phrases in its first text column and their frequencies in --freq-column; the file is read like `read` does.\nfreq_column: the column of the frequencies in the --freq file; by default the first column of numbers.\n\nThe step reads the current table, a SERP with the columns phrase, position and url; the table of the clusters replaces it, its column phrase is the working one.\n\nExample: semkit read serp.csv cluster-serp --freq freq.csv write out.csv",
+  "options": [
+    {
+      "name": "--method",
+      "arguments": [
+        {
+          "name": "METHOD",
+          "required": true,
+          "acceptedValues": [
+            "soft",
+            "hard"
+          ]
+        }
+      ],
+      "description": "\"soft\" grows a cluster around its center: a phrase joins when it shares enough URLs with the center; \"hard\" lets a phrase join only when it shares enough URLs with every member of the cluster.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "soft"
+        }
+      ]
+    },
+    {
+      "name": "--common",
+      "arguments": [
+        {
+          "name": "COMMON",
+          "required": true
+        }
+      ],
+      "description": "how many URLs two phrases must share.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "int"
+        },
+        {
+          "name": "x-rb-default",
+          "value": 3
+        }
+      ]
+    },
+    {
+      "name": "--top",
+      "arguments": [
+        {
+          "name": "TOP",
+          "required": true
+        }
+      ],
+      "description": "how many first positions of each phrase count.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "int"
+        },
+        {
+          "name": "x-rb-default",
+          "value": 10
+        }
+      ]
+    },
+    {
+      "name": "--freq",
+      "arguments": [
+        {
+          "name": "FREQ",
+          "required": true
+        }
+      ],
+      "description": "a file with the phrases in its first text column and their frequencies in --freq-column; the file is read like `read` does.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--freq-column",
+      "arguments": [
+        {
+          "name": "FREQ_COLUMN",
+          "required": true
+        }
+      ],
+      "description": "the column of the frequencies in the --freq file; by default the first column of numbers.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "report"
+    }
+  ]
+}

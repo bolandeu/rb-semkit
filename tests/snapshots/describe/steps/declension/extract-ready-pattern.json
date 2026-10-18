@@ -1,0 +1,75 @@
+{
+  "name": "extract-ready-pattern",
+  "description": "A ready regular expression, found anywhere in a phrase, case-sensitive.\n\nkind: \"domain\" (Latin domains with subdomains: «www.example.com»; extract gives all, joined by a space), \"email\" (the first e-mail), \"phone\" (Russian numbers from +7 or 8: «8 (999) 123-45-67»; all, joined by \", \"), \"date_ddmmyyyy\" (the first date as 05.11.2023, 05-11-2023, 05/11/2023 or 05112023) or \"date_yyyymmdd\" (as 2023-11-05 … 20231105). A date has the same separator twice, or none, and is never part of a longer number; its day and month are not checked (39.19.2999 is found).\n\nfind marks where the pattern is; remove cuts out every match; extract keeps what is said above, an empty cell where there is none.\n\nextract-ready-pattern keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-ready-pattern domain write out.csv",
+  "options": [
+    {
+      "name": "--kind",
+      "arguments": [
+        {
+          "name": "KIND",
+          "required": true,
+          "acceptedValues": [
+            "domain",
+            "email",
+            "phone",
+            "date_ddmmyyyy",
+            "date_yyyymmdd"
+          ]
+        }
+      ],
+      "description": "\"domain\" (Latin domains with subdomains: «www.example.com»; extract gives all, joined by a space), \"email\" (the first e-mail), \"phone\" (Russian numbers from +7 or 8: «8 (999) 123-45-67»; all, joined by \", \"), \"date_ddmmyyyy\" (the first date as 05.11.2023, 05-11-2023, 05/11/2023 or 05112023) or \"date_yyyymmdd\" (as 2023-11-05 … 20231105). A date has the same separator twice, or none, and is never part of a longer number; its day and month are not checked (39.19.2999 is found).",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "KIND",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "acceptedValues": [
+        "domain",
+        "email",
+        "phone",
+        "date_ddmmyyyy",
+        "date_yyyymmdd"
+      ],
+      "description": "\"domain\" (Latin domains with subdomains: «www.example.com»; extract gives all, joined by a space), \"email\" (the first e-mail), \"phone\" (Russian numbers from +7 or 8: «8 (999) 123-45-67»; all, joined by \", \"), \"date_ddmmyyyy\" (the first date as 05.11.2023, 05-11-2023, 05/11/2023 or 05112023) or \"date_yyyymmdd\" (as 2023-11-05 … 20231105). A date has the same separator twice, or none, and is never part of a longer number; its day and month are not checked (39.19.2999 is found). The same as --kind KIND.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

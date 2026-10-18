@@ -1,0 +1,10 @@
+{
+  "name": "split-paragraphs",
+  "description": "Texts into their paragraphs: a report of one row per paragraph.\n\nA paragraph is a block between empty lines; the lines of a block are joined by a space. A heading line (a short line without a sentence end: . ! ? …, followed by text) is a paragraph of its own. Spaces at the ends are trimmed; an empty text gives no rows. The columns: url, number (from 1 in each text) and paragraph.\n\nA heading line has up to 12 words. The step takes a text file read with --whole, or a table of url and text: its working column as the texts (the first other text column when it is the url column) and its url column; the report replaces the current table.\n\nExample: semkit read --whole article.txt split-paragraphs write out.csv",
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "report"
+    }
+  ]
+}

@@ -48,7 +48,7 @@
   `Example: {cli} <command> ...` (`output.guard` подставляет `semkit`); у каждого `typer.Option`/`Argument`
   есть `help=`.
 - **Дифф снапшотов — видимое изменение.** После правки: `uv run pytest --snapshot-update` и прочитать дифф
-  `tests/snapshots/help/` и `tests/snapshots/describe.json` (`describe --json` — машинный контракт для каталога
+  `tests/snapshots/help/` и `tests/snapshots/describe/` (`describe --json` — машинный контракт для каталога
   инструментов и платформы).
 - **`src/rb_semkit/data/SKILL.md` не перечисляет команды**, только соглашения. Его меняют, только когда
   меняется соглашение (новый exit-код, новое правило про ключи).

@@ -1,0 +1,97 @@
+{
+  "name": "extract-word-content",
+  "description": "Words by what they hold; a word is tested as written, with its punctuation («красный,» does not end in «ный»).\n\nkind: \"starts\", \"ends\", \"contains\" (with pattern); \"only_latin\" (a latin letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); \"has_latin\"; \"only_digits\" (a number: «2», «1,5», «-5»); \"has_digits\"; \"mixed\" (a digit and a letter: «iphone15»).\npattern: for \"starts\", \"ends\" and \"contains\", a word part or a list of them, any one is enough; case and ё do not count.\n\nextract-word-content keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-word-content starts --pattern куп write out.csv",
+  "options": [
+    {
+      "name": "--kind",
+      "arguments": [
+        {
+          "name": "KIND",
+          "required": true,
+          "acceptedValues": [
+            "starts",
+            "ends",
+            "contains",
+            "only_latin",
+            "has_latin",
+            "only_digits",
+            "has_digits",
+            "mixed"
+          ]
+        }
+      ],
+      "description": "\"starts\", \"ends\", \"contains\" (with pattern); \"only_latin\" (a latin letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); \"has_latin\"; \"only_digits\" (a number: «2», «1,5», «-5»); \"has_digits\"; \"mixed\" (a digit and a letter: «iphone15»).",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    },
+    {
+      "name": "--pattern",
+      "arguments": [
+        {
+          "name": "PATTERN",
+          "required": true
+        }
+      ],
+      "description": "for \"starts\", \"ends\" and \"contains\", a word part or a list of them, any one is enough; case and ё do not count. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "KIND",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "acceptedValues": [
+        "starts",
+        "ends",
+        "contains",
+        "only_latin",
+        "has_latin",
+        "only_digits",
+        "has_digits",
+        "mixed"
+      ],
+      "description": "\"starts\", \"ends\", \"contains\" (with pattern); \"only_latin\" (a latin letter, no digit and no Russian letter: «IKEA», «Wi-Fi»); \"has_latin\"; \"only_digits\" (a number: «2», «1,5», «-5»); \"has_digits\"; \"mixed\" (a digit and a letter: «iphone15»). The same as --kind KIND.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

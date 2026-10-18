@@ -1,0 +1,64 @@
+{
+  "name": "cluster-meaning",
+  "description": "Clusters of phrases by meaning: phrases of close vectors share a cluster; every phrase gets one.\n\nthreshold: the similarity from 0 to 1 a phrase needs to the phrase that starts a cluster to join it.\n\nThe phrase with the most neighbours (phrases at the threshold or above) starts the first cluster and takes its neighbours; of the phrases left, the one with the most neighbours starts the next, and so on; a tie goes to the first row. A phrase without neighbours is a cluster of one. Equal phrases are one phrase. The clusters are numbered in the order of their first rows. The columns: cluster, cluster_name and similarity (of the phrase to the name of its cluster, 4 places); an empty cell gets none. The table tells the index it searched in `attrs[\"index\"]`.\n\nmodel: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.\nfreq: the column of the frequencies of the phrases in the current table; the cluster is named after its most frequent phrase. Without it, after the phrase nearest the centre of the cluster (the mean of its vectors).\n\nThe step adds the columns cluster, cluster_name and similarity right after the working column; the rows stay. Its summary names the index it searched: exact, or hnsw above about 300 000 phrases.\n\nExample: semkit read core.csv cluster-meaning --freq freq write out.csv",
+  "options": [
+    {
+      "name": "--threshold",
+      "arguments": [
+        {
+          "name": "THRESHOLD",
+          "required": true
+        }
+      ],
+      "description": "the similarity from 0 to 1 a phrase needs to the phrase that starts a cluster to join it.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "float"
+        }
+      ]
+    },
+    {
+      "name": "--freq",
+      "arguments": [
+        {
+          "name": "FREQ",
+          "required": true
+        }
+      ],
+      "description": "the column of the frequencies of the phrases in the current table; the cluster is named after its most frequent phrase. Without it, after the phrase nearest the centre of the cluster (the mean of its vectors).",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--model",
+      "arguments": [
+        {
+          "name": "MODEL",
+          "required": true
+        }
+      ],
+      "description": "the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "e5-small"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

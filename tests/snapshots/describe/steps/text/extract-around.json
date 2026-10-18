@@ -1,0 +1,103 @@
+{
+  "name": "extract-around",
+  "description": "The part of the phrase before or after the first or the last occurrence of a text. Remove and extract only.\n\npattern: the text as typed, found anywhere, also inside a word («в» is found in «диван»); not a regular expression.\nafter: the part after the occurrence; by default the part before it.\nlast: the last occurrence; by default the first.\ninclude: the occurrence itself belongs to the part.\n\nremove finds the first occurrence in any case and the last one in the case written; extract matches the case written; ё = е. A phrase without the text has no part: remove leaves it, extract gives an empty cell.\n\nextract-around keeps only what the matcher finds in the working column; an empty cell where it finds nothing.\n\nExample: semkit read core.csv extract-around ' в ' --after --include write out.csv",
+  "options": [
+    {
+      "name": "--pattern",
+      "arguments": [
+        {
+          "name": "PATTERN",
+          "required": true
+        }
+      ],
+      "description": "the text as typed, found anywhere, also inside a word («в» is found in «диван»); not a regular expression.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--after",
+      "description": "the part after the occurrence; by default the part before it.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--include",
+      "description": "the occurrence itself belongs to the part.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--last",
+      "description": "the last occurrence; by default the first.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "PATTERN",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "description": "the text as typed, found anywhere, also inside a word («в» is found in «диван»); not a regular expression. The same as --pattern PATTERN.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "name": "match-type",
+  "description": "The phrase with the operators of a match type.\n\nkind: the match type:\n- \"broad\": «A в Б», every «+», «!», «[», «]» and «\"» taken out;\n- \"plus_every_word\": «+A +в +Б»; \"broad_modifier\": «+A в +Б», the stopwords plain;\n- \"stopword_modifier\": «A +в Б», the modifier (\"+\" or \"!\") on the stopwords only;\n- \"fixed_forms\": «!A !в !Б»; \"quoted_fixed_forms\": «\"!A !в !Б\"»; \"quoted_fixed_order\": «\"[!A !в !Б]\"»;\n- \"brackets\": «[A в Б]»; \"quotes\": «\"A в Б\"»;\n- the exact match is \"quotes\", \"quoted_fixed_forms\" and \"quoted_fixed_order\" for Yandex, \"brackets\" for Google; the phrase match is \"brackets\" for Yandex, \"quotes\" for Google;\n- \"antisemantic\": «[A] в [Б]», each word but the stopwords in brackets.\nmodifier: the operator of \"stopword_modifier\": \"+\" or \"!\".\n\nA word that has an operator keeps it, and no other is added; the minus-words keep their place, and the kinds that wrap the phrase put them after it («\"купить диван\" -бесплатно»). A phrase already in quotes or brackets is not wrapped again: the operators of a word go inside the pair («\"+купить +диван\"»); \"brackets\", \"quotes\" and the quoted kinds put their own wrap in place of the old one («\"купить диван\"» → «[купить диван]»), and \"antisemantic\" drops the old wrap. Stopwords are found in any case. An empty phrase stays empty; the words are joined by one space (\"broad\" keeps the spaces as they are).\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv match-type quotes write out.csv",
+  "options": [
+    {
+      "name": "--kind",
+      "arguments": [
+        {
+          "name": "KIND",
+          "required": true,
+          "acceptedValues": [
+            "broad",
+            "broad_modifier",
+            "plus_every_word",
+            "stopword_modifier",
+            "fixed_forms",
+            "quoted_fixed_forms",
+            "quoted_fixed_order",
+            "brackets",
+            "quotes",
+            "antisemantic"
+          ]
+        }
+      ],
+      "description": "the match type:\n- \"broad\": «A в Б», every «+», «!», «[», «]» and «\"» taken out;\n- \"plus_every_word\": «+A +в +Б»; \"broad_modifier\": «+A в +Б», the stopwords plain;\n- \"stopword_modifier\": «A +в Б», the modifier (\"+\" or \"!\") on the stopwords only;\n- \"fixed_forms\": «!A !в !Б»; \"quoted_fixed_forms\": «\"!A !в !Б\"»; \"quoted_fixed_order\": «\"[!A !в !Б]\"»;\n- \"brackets\": «[A в Б]»; \"quotes\": «\"A в Б\"»;\n- the exact match is \"quotes\", \"quoted_fixed_forms\" and \"quoted_fixed_order\" for Yandex, \"brackets\" for Google; the phrase match is \"brackets\" for Yandex, \"quotes\" for Google;\n- \"antisemantic\": «[A] в [Б]», each word but the stopwords in brackets.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    },
+    {
+      "name": "--modifier",
+      "arguments": [
+        {
+          "name": "MODIFIER",
+          "required": true,
+          "acceptedValues": [
+            "+",
+            "!"
+          ]
+        }
+      ],
+      "description": "the operator of \"stopword_modifier\": \"+\" or \"!\".",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "+"
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "KIND",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "acceptedValues": [
+        "broad",
+        "broad_modifier",
+        "plus_every_word",
+        "stopword_modifier",
+        "fixed_forms",
+        "quoted_fixed_forms",
+        "quoted_fixed_order",
+        "brackets",
+        "quotes",
+        "antisemantic"
+      ],
+      "description": "the match type:\n- \"broad\": «A в Б», every «+», «!», «[», «]» and «\"» taken out;\n- \"plus_every_word\": «+A +в +Б»; \"broad_modifier\": «+A в +Б», the stopwords plain;\n- \"stopword_modifier\": «A +в Б», the modifier (\"+\" or \"!\") on the stopwords only;\n- \"fixed_forms\": «!A !в !Б»; \"quoted_fixed_forms\": «\"!A !в !Б\"»; \"quoted_fixed_order\": «\"[!A !в !Б]\"»;\n- \"brackets\": «[A в Б]»; \"quotes\": «\"A в Б\"»;\n- the exact match is \"quotes\", \"quoted_fixed_forms\" and \"quoted_fixed_order\" for Yandex, \"brackets\" for Google; the phrase match is \"brackets\" for Yandex, \"quotes\" for Google;\n- \"antisemantic\": «[A] в [Б]», each word but the stopwords in brackets. The same as --kind KIND.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "name": "lists",
+  "description": "Word lists: without a command, every list with its source, lines and description.\n\nA step takes a list as @NAME in an option that takes items.\nA name is looked up in this order: the project's lists, then the folders of the variable SEMKIT_LISTS, then the folders of the config key lists, then the bundled lists.\nSEMKIT_LISTS holds folders separated as in PATH; a relative one is from the current folder.\nThe config key lists holds a JSON list of folders; a relative one is from the project.\n\nExample: semkit lists --json",
+  "options": [
+    {
+      "name": "--json",
+      "description": "Emit machine-readable JSON output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--quiet",
+      "description": "Suppress non-essential output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    }
+  ]
+}

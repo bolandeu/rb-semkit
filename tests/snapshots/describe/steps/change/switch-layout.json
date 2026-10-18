@@ -1,0 +1,69 @@
+{
+  "name": "switch-layout",
+  "description": "Text typed in the wrong keyboard layout, retyped on the same keys of the other.\n\nto: \"ru\" — «ghbdtn, vbh» → «приветб мир», «z» → «я»; \"en\" — «привет» → «ghbdtn», a capital on a sign key gives its shifted sign («Б» → «<», «Ё» → «~»). The signs of the Russian layout go to the English keys and back: «.» is «/», «,» is «?», «:» is «^», «;» is «$», «?» is «&», «\"» is «@», «№» is «#», «/» is «|».\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv switch-layout en write out.csv",
+  "options": [
+    {
+      "name": "--to",
+      "arguments": [
+        {
+          "name": "TO",
+          "required": true,
+          "acceptedValues": [
+            "en",
+            "ru"
+          ]
+        }
+      ],
+      "description": "\"ru\" — «ghbdtn, vbh» → «приветб мир», «z» → «я»; \"en\" — «привет» → «ghbdtn», a capital on a sign key gives its shifted sign («Б» → «<», «Ё» → «~»). The signs of the Russian layout go to the English keys and back: «.» is «/», «,» is «?», «:» is «^», «;» is «$», «?» is «&», «\"» is «@», «№» is «#», «/» is «|».",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "TO",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "acceptedValues": [
+        "en",
+        "ru"
+      ],
+      "description": "\"ru\" — «ghbdtn, vbh» → «приветб мир», «z» → «я»; \"en\" — «привет» → «ghbdtn», a capital on a sign key gives its shifted sign («Б» → «<», «Ё» → «~»). The signs of the Russian layout go to the English keys and back: «.» is «/», «,» is «?», «:» is «^», «;» is «$», «?» is «&», «\"» is «@», «№» is «#», «/» is «|». The same as --to TO.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

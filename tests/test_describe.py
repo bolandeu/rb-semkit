@@ -4,13 +4,17 @@
   (github.com/spectreconsole/open-cli, schema.json at 2118553e; spec 0.1);
 - every command Typer registers is in it, and nothing else; every visible option
   it lists shows up in that command's --help;
-- snapshot: tests/snapshots/describe.json (syrupy). A changed contract fails until
-  the snapshot is refreshed with `uv run pytest --snapshot-update`, which puts the
+- snapshots: the document split by command, as the help snapshots are: the root without its commands in
+  tests/snapshots/describe/_root.json, a command without its subcommands in tests/snapshots/describe/<command>.json
+  and a step in tests/snapshots/describe/steps/<area>/<step>.json (syrupy). A changed contract fails until
+  the snapshots are refreshed with `uv run pytest --snapshot-update`, which puts the
   change in the diff — review it like any other breaking change (conventions.md).
+  A new command fails until its snapshot exists; a removed one leaves an orphan file that fails too.
 """
 
 from __future__ import annotations
 
+import copy
 import enum
 import json
 import re
@@ -20,17 +24,18 @@ from pathlib import Path
 import jsonschema
 import pytest
 import typer
-from syrupy.extensions.single_file import SingleFileSnapshotExtension, WriteMode
 from typer.testing import CliRunner
 
 from rb_semkit.cli import app
 from rb_semkit.core import errors, opencli
 
-from .test_help import help_argv
+from .test_help import help_argv, snapshot_in, snapshot_name
 
 CLI = "semkit"
 SCHEMA = json.loads((Path(__file__).parent / "data" / "opencli.schema.json").read_text())
 HELP_ENV = {"COLUMNS": "200", "NO_COLOR": "1", "TERM": "dumb"}
+SNAPSHOT_DIR = Path(__file__).parent / "snapshots" / "describe"
+ROOT = Path("_root")
 runner = CliRunner()
 
 
@@ -106,30 +111,42 @@ def test_root_metadata() -> None:
     assert len(names) == len(set(names))
 
 
-class DescribeSnapshot(SingleFileSnapshotExtension):
-    """tests/snapshots/describe.json, pretty-printed for readable diffs."""
-
-    _write_mode = WriteMode.TEXT
-    file_extension = "json"
-
-    @classmethod
-    def dirname(cls, *, test_location) -> str:
-        return str(Path(__file__).parent / "snapshots")
-
-    @classmethod
-    def get_snapshot_name(cls, *, test_location, index=0) -> str:
-        return "describe"
+def _rendered(document: dict) -> str:
+    return json.dumps(document, ensure_ascii=False, indent=2) + "\n"
 
 
-def test_describe_snapshot(snapshot) -> None:
-    document = json.loads(json.dumps(DOCUMENT))
+def _without_commands(command: dict) -> dict:
+    return {key: value for key, value in command.items() if key != "commands"}
+
+
+def _root_snapshot() -> str:
+    document = copy.deepcopy(DOCUMENT)
     # Versions move with every release and template update — not a contract change.
     document["info"]["version"] = "<version>"
     for item in document["command"]["metadata"]:
         if item["name"] == "x-rb-template-version":
             item["value"] = "<template-version>"
-    rendered = json.dumps(document, ensure_ascii=False, indent=2) + "\n"
-    assert rendered == snapshot(extension_class=DescribeSnapshot)
+    document["command"] = _without_commands(document["command"])
+    return _rendered(document)
+
+
+def test_root_snapshot(snapshot) -> None:
+    assert _root_snapshot() == snapshot(extension_class=snapshot_in(SNAPSHOT_DIR, "json"), name=ROOT.name)
+
+
+@pytest.mark.parametrize("path", sorted(COMMANDS), ids="-".join)
+def test_command_snapshot(path: tuple[str, ...], snapshot) -> None:
+    file = SNAPSHOT_DIR / snapshot_name(path)
+    rendered = _rendered(_without_commands(COMMANDS[path]))
+    assert rendered == snapshot(extension_class=snapshot_in(file.parent, "json"), name=file.name)
+
+
+def test_no_orphan_describe_snapshots() -> None:
+    stored = {p.relative_to(SNAPSHOT_DIR).with_suffix("") for p in SNAPSHOT_DIR.rglob("*.json")}
+    expected = {ROOT, *(snapshot_name(path) for path in COMMANDS)}
+    assert stored <= expected, (
+        f"snapshots for commands that no longer exist: {sorted(str(SNAPSHOT_DIR / name) + '.json' for name in stored - expected)}"
+    )
 
 
 class Color(enum.Enum):

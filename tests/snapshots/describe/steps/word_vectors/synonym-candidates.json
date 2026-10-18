@@ -1,0 +1,85 @@
+{
+  "name": "synonym-candidates",
+  "description": "Synonym candidates for the words of the core, from a thesaurus (RuWordNet) and word vectors (navec).\n\nA candidate is a proposal for the Human to pick, not a synonym: the thesaurus gives the words of the same synset (score 1), the word vectors the nearest words (the score is the cosine, 4 places). The step works on lemmas; stopwords and words with digits are skipped, and so are candidates of several words. The report has one row for each candidate: word, candidate, source, score and in_core (whether the candidate is a word of the core), words in the order of the core, each with the candidates of the thesaurus first, then of the vectors from the nearest.\ntop: how many of the nearest words the word vectors give for each word.\nall: give every candidate. By default only the candidates that occur in the core.\nas_synonyms: the report as the file the steps with `--synonyms` read: the columns word and synonyms (the candidates of a word joined by a space), one row for each word that has some.\n\nsource: the data to take candidates from, pulled once with `semkit models pull NAME`: ruwordnet (the thesaurus), navec (the word vectors) or both.\n\nThe step makes a table of its result; it replaces the current table, its first text column is the working one. Its candidates are for the Human to pick; the picked go to --synonyms of the steps that take them.\n\nExample: semkit read core.csv synonym-candidates write out.csv",
+  "options": [
+    {
+      "name": "--top",
+      "arguments": [
+        {
+          "name": "TOP",
+          "required": true
+        }
+      ],
+      "description": "how many of the nearest words the word vectors give for each word.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "int"
+        },
+        {
+          "name": "x-rb-default",
+          "value": 10
+        }
+      ]
+    },
+    {
+      "name": "--all",
+      "description": "give every candidate. By default only the candidates that occur in the core.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--as-synonyms",
+      "description": "the report as the file the steps with `--synonyms` read: the columns word and synonyms (the candidates of a word joined by a space), one row for each word that has some.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--source",
+      "arguments": [
+        {
+          "name": "SOURCE",
+          "required": true,
+          "acceptedValues": [
+            "ruwordnet",
+            "navec",
+            "both"
+          ]
+        }
+      ],
+      "description": "the data to take candidates from, pulled once with `semkit models pull NAME`: ruwordnet (the thesaurus), navec (the word vectors) or both.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "both"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "report"
+    }
+  ]
+}

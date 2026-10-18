@@ -1,0 +1,90 @@
+{
+  "name": "drop-word-position",
+  "description": "Words by their place in the phrase; exactly one way to pick them is given, N counts from 1.\n\nfirst / last: the first or last N words.\nnth: the N-th word.\nto_middle / at_most: the leading words while they hold half the characters of the phrase at most, or N characters at most, and always the first word («купить диван недорого», 12 characters at most → «купить диван»).\n\nremove gives the other words.\n\ndrop-word-position drops the rows where the matcher finds something in the working column.\n\nExample: semkit read core.csv drop-word-position --nth 3 write out.csv",
+  "options": [
+    {
+      "name": "--first",
+      "arguments": [
+        {
+          "name": "FIRST",
+          "required": true
+        }
+      ],
+      "description": "the first or last N words.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "int"
+        }
+      ]
+    },
+    {
+      "name": "--last",
+      "arguments": [
+        {
+          "name": "LAST",
+          "required": true
+        }
+      ],
+      "description": "the first or last N words.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "int"
+        }
+      ]
+    },
+    {
+      "name": "--nth",
+      "arguments": [
+        {
+          "name": "NTH",
+          "required": true
+        }
+      ],
+      "description": "the N-th word.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "int"
+        }
+      ]
+    },
+    {
+      "name": "--to-middle",
+      "description": "the leading words while they hold half the characters of the phrase at most, or N characters at most, and always the first word («купить диван недорого», 12 characters at most → «купить диван»).",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--at-most",
+      "arguments": [
+        {
+          "name": "AT_MOST",
+          "required": true
+        }
+      ],
+      "description": "the leading words while they hold half the characters of the phrase at most, or N characters at most, and always the first word («купить диван недорого», 12 characters at most → «купить диван»).",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "int"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "filter"
+    }
+  ]
+}

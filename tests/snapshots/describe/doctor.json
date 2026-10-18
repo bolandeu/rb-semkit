@@ -1,0 +1,48 @@
+{
+  "name": "doctor",
+  "description": "Run diagnostic checks and report readiness.\n\nThe report is printed whether or not a check fails; `healthy` says whether every check passed.\nExits 0 when healthy, 1 (UNHEALTHY) when any check failed.\n\nExample: semkit doctor --json",
+  "options": [
+    {
+      "name": "--json",
+      "description": "Emit machine-readable JSON output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--quiet",
+      "description": "Suppress non-essential output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--verbose",
+      "description": "Emit extra diagnostic output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    }
+  ]
+}

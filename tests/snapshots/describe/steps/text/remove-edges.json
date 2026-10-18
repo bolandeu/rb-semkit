@@ -1,0 +1,68 @@
+{
+  "name": "remove-edges",
+  "description": "The characters to cut from the edges of each word (remove only).\n\nstart: characters cut from the start of a word, any run of them.\nend: characters cut from the end of a word, any run of them.\n\nCharacters inside a word stay («wi-fi»); a word of only those characters disappears. The result has single spaces, none at the edges.\n\nremove-edges removes what the matcher finds from the working column.\n\nExample: semkit read core.csv remove-edges --end '!' write out.csv",
+  "options": [
+    {
+      "name": "--start",
+      "arguments": [
+        {
+          "name": "START",
+          "required": true
+        }
+      ],
+      "description": "characters cut from the start of a word, any run of them.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        },
+        {
+          "name": "x-rb-default",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "name": "--end",
+      "arguments": [
+        {
+          "name": "END",
+          "required": true
+        }
+      ],
+      "description": "characters cut from the end of a word, any run of them.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        },
+        {
+          "name": "x-rb-default",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

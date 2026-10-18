@@ -1,0 +1,48 @@
+{
+  "name": "describe",
+  "description": "Print this CLI's machine-readable contract: an OpenCLI document (opencli.org).\n\nCommands, options, arguments, exit codes, plus `x-rb-*` metadata: env vars, tables, v1 views, data files, external programs.\nWith --json it is the bare document on one line (no {\"ok\": ...} envelope); without, the same indented.\n\nExample: semkit describe --json",
+  "options": [
+    {
+      "name": "--json",
+      "description": "Emit machine-readable JSON output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--quiet",
+      "description": "Suppress non-essential output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--verbose",
+      "description": "Emit extra diagnostic output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    }
+  ]
+}

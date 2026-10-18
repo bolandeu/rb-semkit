@@ -1,0 +1,101 @@
+{
+  "name": "decline-noun",
+  "description": "Each word of a phrase, a noun in the nominative singular, declined: «диван» genitive → «дивана».\n\ncase: \"nominative\", \"genitive\", \"dative\", \"accusative\", \"instrumental\" or \"prepositional\".\nnumber: \"singular\" or \"plural\" (12 forms in all; the nominative singular is the word itself).\n\nEvery word is taken as a noun; for a phrase of mixed words use decline. A word with a capital keeps it («Москва» → «Москвы»); an indeclinable word («кафе»), an abbreviation («МТС») and a word the tables lack stay. The accusative goes by animacy: an inanimate noun takes its nominative («диван» → «диван»), an animate one its genitive («кот» → «кота»), a singular in «-а» or «-я» the form of the tables («книга» → «книгу»). A hyphenated noun declines whole («диван-кровать» instrumental → «диваном-кроватью»).\n\nThe step rewrites the working column; with --as NAME it writes the result to a new column NAME.\n\nExample: semkit read core.csv decline-noun nominative write out.csv",
+  "options": [
+    {
+      "name": "--case",
+      "arguments": [
+        {
+          "name": "CASE",
+          "required": true,
+          "acceptedValues": [
+            "nominative",
+            "genitive",
+            "dative",
+            "accusative",
+            "instrumental",
+            "prepositional"
+          ]
+        }
+      ],
+      "description": "\"nominative\", \"genitive\", \"dative\", \"accusative\", \"instrumental\" or \"prepositional\".",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    },
+    {
+      "name": "--number",
+      "arguments": [
+        {
+          "name": "NUMBER",
+          "required": true,
+          "acceptedValues": [
+            "singular",
+            "plural"
+          ]
+        }
+      ],
+      "description": "\"singular\" or \"plural\" (12 forms in all; the nominative singular is the word itself).",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "singular"
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "CASE",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "acceptedValues": [
+        "nominative",
+        "genitive",
+        "dative",
+        "accusative",
+        "instrumental",
+        "prepositional"
+      ],
+      "description": "\"nominative\", \"genitive\", \"dative\", \"accusative\", \"instrumental\" or \"prepositional\". The same as --case CASE.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "name": "first-children",
+  "description": "The first item of a list that is a child of the phrase, or an empty cell when none is; an empty phrase has none.\n\nchildren: the phrases that may be children, in the order to try; a child is a phrase that holds every word of the phrase.\n\nThe step writes its result to a new column <column>_child.\n\nExample: semkit read core.csv first-children 'купить диван в москве,угловой диван' write out.csv",
+  "options": [
+    {
+      "name": "--children",
+      "arguments": [
+        {
+          "name": "CHILDREN",
+          "required": true
+        }
+      ],
+      "description": "the phrases that may be children, in the order to try; a child is a phrase that holds every word of the phrase. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--as",
+      "arguments": [
+        {
+          "name": "NAME",
+          "required": true
+        }
+      ],
+      "description": "Write the result to a new column NAME and keep the working column as it is.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "CHILDREN",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "description": "the phrases that may be children, in the order to try; a child is a phrase that holds every word of the phrase. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list. The same as --children CHILDREN.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}
