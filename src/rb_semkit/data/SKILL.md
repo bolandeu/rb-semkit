@@ -47,6 +47,24 @@ Replace `vX.Y.Z` with the latest release tag (install from a tag, never a branch
   "rows_after", "cells_changed"}` per step, and `"note"` after them when the step tells more, as `index: exact`); with
   `write -` stdout is the JSONL of the rows. `--quiet` hides the lines on stderr, never the result.
 
+## Scenarios
+
+    semkit run NAME [IN | --text TEXT…] [--set NAME=VALUE…] [write OUT [--overwrite]]
+    semkit run intent-synonyms --text "растаможка авто"
+
+- A scenario is a named chain of semkit's own steps: a frequent chain that runs by its name. `semkit run --help` lists
+  the scenarios with their descriptions; `semkit run NAME --help` shows the parameters with their defaults and the
+  steps. The input, write and the output are those of read.
+- `--set NAME=VALUE` fills a parameter (every parameter has a default); `--set STEP.OPTION=VALUE` replaces an option of
+  a step of the scenario, or adds it (`--set nearest.model=e5-small`). An unknown parameter, step or option exits 2 and
+  names the ones there are.
+- A scenario with one chain for each phrase (intent-synonyms) gives a first column `input`: the phrase each row comes
+  from, the phrases in the order of the input. One phrase gives the same columns as many.
+- A project adds its own scenarios as `.rb_semkit/scenarios/NAME.toml` (`description`, `per_phrase`, `steps` one a
+  line with `{name}` placeholders, `[parameters.NAME]` with `default` and `help`); one of the same name overrides the
+  bundled one. A file with a step or an option that does not exist, or a parameter without a default, exits 2 and
+  names the file and the line.
+
 ## Step kinds
 
 `semkit describe --json` gives each step its kind (`x-rb-kind`) and each option its accepted values.

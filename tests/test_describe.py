@@ -27,7 +27,7 @@ import typer
 from typer.testing import CliRunner
 
 from rb_semkit.cli import app
-from rb_semkit.core import errors, opencli
+from rb_semkit.core import errors, opencli, scenarios
 
 from .test_help import help_argv, snapshot_in, snapshot_name
 
@@ -56,6 +56,9 @@ def _walk(command: dict, path: tuple[str, ...] = ()) -> Iterator[tuple[tuple[str
 
 
 def _registered(group: typer.Typer, prefix: tuple[str, ...] = ()) -> Iterator[tuple[str, ...]]:
+    """The commands Typer registers, and the scenarios under run (found, not registered)."""
+    if prefix == ("run",):
+        yield from (("run", name) for name in scenarios.find(Path.cwd()))
     for info in group.registered_commands:
         assert info.callback is not None
         yield (*prefix, info.name or getattr(info.callback, "__name__", "").replace("_", "-"))

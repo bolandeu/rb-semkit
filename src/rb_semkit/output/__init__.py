@@ -20,6 +20,7 @@ from pathlib import Path
 import typer
 from rich.markup import escape
 from typer._click.core import Context as ClickContext
+from typer.core import TyperGroup
 
 from ..core import services
 from ..core.errors import Aborted, CliError, InvalidArguments
@@ -100,9 +101,9 @@ def help_if_no_command(ctx: typer.Context) -> None:
     raise typer.Exit()
 
 
-def group(help_text: str) -> typer.Typer:
-    """Create a command group (`<cli> config ...`) with help-on-no-args behavior."""
-    app = typer.Typer(help=escape(help_text))  # rich would eat `[...]` in the help text
+def group(help_text: str, cls: type[TyperGroup] | None = None) -> typer.Typer:
+    """Create a command group (`<cli> config ...`) with help-on-no-args behavior; `cls` is its Click class."""
+    app = typer.Typer(cls=cls, help=escape(help_text))  # rich would eat `[...]` in the help text
 
     @app.callback(invoke_without_command=True)
     def _default(ctx: typer.Context) -> None:

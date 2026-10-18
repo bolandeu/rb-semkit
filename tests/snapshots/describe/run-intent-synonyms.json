@@ -1,0 +1,122 @@
+{
+  "name": "intent-synonyms",
+  "description": "Phrase synonyms of one intent: every variation of the phrase by the thesaurus, scored by meaning against it.\n\nParameters, set with --set NAME=VALUE:\n- threshold (default 0): the similarity from 0 to 1 a variation needs to stay: 0 keeps every variation, 0.85 drops the ones below.\n- model (default bge-m3): the encoder that scores each variation against the phrase, pulled once with `semkit models pull NAME`.\n- source (default ruwordnet): the word data the synonyms come from: ruwordnet, navec or both.\n\nSteps, as read takes them:\n- synonym-candidates --all --source {source} --as-slots\n- linear-combinations\n- agree\n- nearest --to {text} --threshold {threshold} --model {model}\n- use-column match\n- drop-cells empty\n- sort-rows --by similarity --desc\n\nThe chain runs once for each phrase of the input, {text} being that phrase; the parts are joined in the order of the input under a first column input. An option of a step is set with --set STEP.OPTION=VALUE: it replaces the value of the option in that step, or adds the option.\n\nExample: semkit run intent-synonyms core.csv write out.csv",
+  "options": [
+    {
+      "name": "--text",
+      "arguments": [
+        {
+          "name": "TEXT",
+          "required": true
+        }
+      ],
+      "description": "A phrase from the command line, repeatable, as read takes it. IN is then left out.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        },
+        {
+          "name": "x-rb-multiple",
+          "value": true
+        }
+      ]
+    },
+    {
+      "name": "--set",
+      "arguments": [
+        {
+          "name": "NAME=VALUE",
+          "required": true
+        }
+      ],
+      "description": "A value of a parameter of the scenario (NAME=VALUE), or of an option of one of its steps (STEP.OPTION=VALUE); repeatable.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        },
+        {
+          "name": "x-rb-multiple",
+          "value": true
+        }
+      ]
+    },
+    {
+      "name": "--overwrite",
+      "description": "Replace OUT when it exists.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--json",
+      "description": "Emit machine-readable JSON output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--quiet",
+      "description": "Suppress non-essential output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--dry-run",
+      "description": "Read and run every step, print the summary, write nothing.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "[IN] [write OUT]",
+      "required": false,
+      "arity": {
+        "minimum": 0
+      },
+      "description": "The table to read, as read takes it ('-' for JSONL on stdin; left out with --text), then 'write OUT': the file to write, '-' for JSONL on stdout.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        },
+        {
+          "name": "x-rb-multiple",
+          "value": true
+        }
+      ]
+    }
+  ]
+}
