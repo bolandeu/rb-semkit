@@ -52,3 +52,26 @@ def test_the_share_of_right_proposals_is_not_below_the_measured_one(
 
     assert len(made) > 0
     assert made["label"].mean() >= MEASURED[source] - MARGIN
+
+
+def test_the_real_thesaurus_gives_phrases_both_ways_and_cuts_a_phrase_into_its_senses() -> None:
+    try:
+        thesaurus = open_thesaurus(Path.cwd())
+    except CliError as error:
+        pytest.skip(f"the word data is not in the cache ({error.code}): run '{error.action}'.")
+
+    def found(phrase: str) -> pd.DataFrame:
+        return synonym_candidates(pd.Series([phrase]), thesaurus=thesaurus, word_vectors=None, all=True)
+
+    customs = found("растаможка авто")
+    assert {"таможенное оформление", "таможенная очистка"} <= set(
+        customs.loc[customs["word"] == "растаможка", "candidate"]
+    )
+    assert "растаможка" in set(
+        found("таможенное оформление авто").query("word == 'таможенное оформление'")["candidate"]
+    )
+    assert list(
+        synonym_candidates(
+            pd.Series(["оформить на таможне"]), thesaurus=thesaurus, word_vectors=None, all=True, as_slots=True
+        ).iloc[0]
+    ) == ["оформить на таможне"]

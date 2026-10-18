@@ -1,6 +1,7 @@
 """The word data tests: a small RuWordNet and a small navec, written here and served as the pulled files.
 
-The thesaurus: диван and софа (and тахта, and a phrase) are one synset; кресло is another. The word vectors have two
+The thesaurus: диван and софа (and тахта, and a phrase) are one synset; кресло is another; the customs senses are
+there for the phrases (a sense is the synset, the name and, when it differs, the lemma). The word vectors have two
 numbers a word, of length 1: диван (1, 0), софа and софы (0.8, 0.6), тахта (0.6, 0.8), кресло (0, 1), so the cosine of
 диван and софа is 0.8, of диван and тахта 0.6, of диван and кресло 0.
 """
@@ -23,12 +24,30 @@ from rb_semkit.core.vectors import registry, source
 
 from ..vectors.conftest import LocalSource, models_dir  # noqa: F401  (a fixture the tests use)
 
-SENSES = [
+SENSES: list[tuple[str, ...]] = [
     ("1-N", "ДИВАН"),
     ("1-N", "СОФА"),
     ("1-N", "ТАХТА"),
     ("1-N", "МЯГКАЯ МЕБЕЛЬ"),
     ("2-N", "КРЕСЛО"),
+    ("3-N", "РАСТАМОЖКА"),
+    ("3-N", "РАСТАМОЖИВАНИЕ"),
+    ("3-N", "РАСТАМАЖИВАТЬ"),
+    ("3-N", "ТАМОЖЕННОЕ ОФОРМЛЕНИЕ", "ТАМОЖЕННЫЙ ОФОРМЛЕНИЕ"),
+    ("3-N", "ТАМОЖЕННАЯ ОЧИСТКА", "ТАМОЖЕННЫЙ ОЧИСТКА"),
+    ("3-N", "ТАМОЖЕННОЕ ОФОРМЛЕНИЕ ТОВАРОВ", "ТАМОЖЕННЫЙ ОФОРМЛЕНИЕ ТОВАР"),
+    ("3-N", "ОФОРМИТЬ НА ТАМОЖНЕ", "ОФОРМИТЬ НА ТАМОЖНЯ"),
+    ("5-N", "РАСТАМОЖКА"),
+    ("5-N", "РАСТАМАЖИВАТЬ"),
+    ("6-N", "ТРАНСПОРТНОЕ СРЕДСТВО", "ТРАНСПОРТНЫЙ СРЕДСТВО"),
+    ("6-N", "СРЕДСТВО ПЕРЕДВИЖЕНИЯ", "СРЕДСТВО ПЕРЕДВИЖЕНИЕ"),
+    ("6-N", "ТРАНСПОРТ"),
+    ("7-N", "ДИЗАЙН"),
+    ("7-N", "ОФОРМЛЕНИЕ"),
+    ("8-N", "ЗИМА ЛЕТО"),
+    ("8-N", "ВЕСНА"),
+    ("9-N", "ЛЕТО ОСЕНЬ"),
+    ("9-N", "ЗАКАТ"),
 ]
 VECTORS = {
     "<unk>": (0.0, 0.0),
@@ -50,7 +69,11 @@ def thesaurus_bytes(directory: Path) -> bytes:
         connection.execute("CREATE TABLE sense (id VARCHAR, name VARCHAR, lemma VARCHAR, synset_id VARCHAR)")
         connection.executemany(
             "INSERT INTO sense VALUES (?, ?, ?, ?)",
-            [(f"{synset}-{number}", lemma, lemma, synset) for number, (synset, lemma) in enumerate(SENSES)],
+            [
+                (f"{synset}-{number}", name, lemma, synset)
+                for number, (synset, name, *lemma) in enumerate(SENSES)
+                for lemma in [lemma[0] if lemma else name]
+            ],
         )
     connection.close()
     return path.read_bytes()
