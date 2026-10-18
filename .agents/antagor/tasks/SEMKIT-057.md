@@ -2,7 +2,7 @@
 id: SEMKIT-057
 title: 'semkit run NAME: named scenarios of semkit''s own steps, bundled or in the
   project, with parameters and help'
-status: publish
+status: done
 attempts: 2
 blocked: false
 blocked_reason: null

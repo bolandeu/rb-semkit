@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.48 — 2026-10-18
+
+### Outside epics
+
+- semkit run NAME: named scenarios of semkit's own steps, bundled or in the project, with parameters and help (SEMKIT-057)
+
 ## Unreleased
 
 ### Outside epics
