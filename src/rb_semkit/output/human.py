@@ -1,3 +1,9 @@
+"""The human output on the terminal: plain text, key-value blocks, check marks and tables.
+
+One rich console for data on stdout and one for errors on stderr, so redirected stdout never holds an error line.
+`render_frame` prints a pipeline result that ends without write.
+"""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
