@@ -2,7 +2,7 @@
 id: SEMKIT-048
 title: parse-html keeps the zone names when the HTML column is text; the steps over
   pages take the column text by default
-status: queue
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -21,10 +21,12 @@ owns_paths:
 - src/rb_semkit/steps/compare.py
 - src/rb_semkit/steps/coverage_meaning.py
 - tests/snapshots/
+- src/rb_semkit/pipeline/state.py
 test_paths:
 - tests/html/
 - tests/steps/
 - tests/vectors/
+- tests/nearest/test_nearest.py
 docs: none
 tools: []
 worker_args: null
