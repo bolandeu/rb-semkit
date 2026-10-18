@@ -2,7 +2,7 @@
 id: SEMKIT-059
 title: 'write --columns and --rename: choose, order and rename the output columns
   (dataio v0.1.26)'
-status: queue
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
