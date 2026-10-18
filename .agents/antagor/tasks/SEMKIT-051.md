@@ -53,7 +53,8 @@ RuWordNet holds senses of one word and of several words in the same synset: the 
  A run row has that run as word. The whole phrase is one unit only when it is a sense itself. «таможенное оформление грузов из индии» (with no sense «таможенное оформление грузов» in the data) gives the units «таможенное оформление», «грузов», «индии».
 3. Each candidate once per unit: the same name with ё/е or a duplicate sense counts once; the unit itself is not its own candidate.
 4. in_core of a candidate of several words: true when the candidate occurs in a phrase of the core as a run of words, by lemmas.
-5. Step help (an example with a phrase synonym) and the agent guide.
+5. --as-slots: the result as a table of slots for linear-combinations: one column per unit of the phrase, in their order, named slot_1, slot_2…; the first row holds the units themselves, the rows under them their candidates (each column as long as its list, the rest empty). Stopwords give no slot. It needs a core of one phrase; more phrases are refused with exit 2. --as-slots and --as-synonyms together are refused with exit 2.
+6. Step help (an example with a phrase synonym) and the agent guide.
 
 ## Acceptance
 
@@ -66,6 +67,9 @@ RuWordNet holds senses of one word and of several words in the same synset: the 
 - Given the core «таможенное оформление грузов из индии», When synonym-candidates --all runs, Then the units are exactly «таможенное оформление», «грузов», «индии»; no row has word «оформление», «таможенное» or «из» [check: tests/word_vectors/test_synonym_candidates.py]
 - Given a fixture where both «a b» and «b c» are senses and the core «a b c», When the step runs, Then the units are «a b» and «c» (the first from the left on a tie) [check: tests/word_vectors/test_synonym_candidates.py]
 - Given the core «оформить на таможне» (a sense with a stopword inside), When the step runs, Then it is one unit [check: tests/word_vectors/test_synonym_candidates.py]
+- Given the core «таможенное оформление грузов из индии», When synonym-candidates --all --as-slots runs, Then the columns are slot_1, slot_2, slot_3; the first row is «таможенное оформление», «грузов», «индии»; slot_1 holds «растаможка» below; there is no slot for «из» [check: tests/word_vectors/test_synonym_candidates.py]
+- Given --as-slots on a core of two phrases, When the step runs, Then it is refused with exit 2 [check: tests/word_vectors/test_synonym_candidates.py]
+- Given the --as-slots output, When linear-combinations runs on it, Then each combination takes one item of each slot and the first combination is the units of the phrase [check: tests/word_vectors/test_synonym_candidates.py]
 - Given a synset with the same name twice (растамаживать in two senses), When the step runs, Then the candidate is listed once for the unit [check: tests/word_vectors/test_synonym_candidates.py]
 - Given --as-synonyms, When the step runs, Then the file holds the one-word candidates of the one-word units only, as now, since the steps with --synonyms compare word by word; the help says so [check: tests/word_vectors/test_synonym_candidates.py]
 
