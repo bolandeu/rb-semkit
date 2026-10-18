@@ -178,6 +178,9 @@
 │                        «v n».                                                                    │
 │ wordforms              Every wordform of the lemma of a word, alphabetical, each once: «диваны»  │
 │                        → «диван», «дивана», …                                                    │
+│ nearest                For each row of the table, the rows of another table nearest it by        │
+│                        meaning, in a long report.                                                │
+│ split-paragraphs       Texts into their paragraphs: a report of one row per paragraph.           │
 │ off-topic              The distance of each phrase of the core from the centre of the core, by   │
 │                        meaning.                                                                  │
 │ classify-queries       The nearest phrase of the core for each query of a search query report,   │

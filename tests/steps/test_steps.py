@@ -285,6 +285,8 @@ COMMANDS = {
     "assign-pages": ["core.csv", "assign-pages", "--pages", "page_texts.csv"],
     "classify-queries": ["phrases.csv", "classify-queries", "--against", "core.csv"],
     "off-topic": ["core.csv", "off-topic", "--threshold", "0.5"],
+    "nearest": ["core.csv", "nearest", "--against", "page_texts.csv", "--top", "2"],
+    "split-paragraphs": ["--whole", "article.txt", "split-paragraphs"],
 }
 
 

@@ -2,7 +2,9 @@
 
 The options every step by meaning shares are here: --model (the encoder) and --threshold (the similarity of one
 intent; by default the threshold of the model). `MEANING` adapts them for a step, `by_meaning` gives the encoder and
-the threshold they name, `encoder_of` the encoder alone; all refuse before the input is read.
+the threshold they name, `encoder_of` the encoder alone and `page_encoder_of` the encoder of the page vector; all refuse
+before the input is read. `ENCODER_DOC` tells --model alone, for a step without the threshold of the model;
+`PAGE_NOTE` tells the page vector in the help of the steps that take it.
 """
 
 from __future__ import annotations
@@ -11,6 +13,7 @@ import pandas as pd
 
 from ..core.errors import InvalidArguments
 from ..core.frame import Frame
+from ..core.relevance.page import HEADINGS, TEXT, PageEncoder, settings
 from ..core.vectors import encoder, registry
 from ..core.vectors.cluster import cluster_meaning
 from ..core.vectors.encoder import Encoder
@@ -21,19 +24,31 @@ MEANING = {
     "threshold": option("threshold", float | None, None),
     "model": option("model", str, registry.default_name()),
 }
-MODEL_DOC = (
+ENCODER_DOC = (
     "model: the encoder, pulled once with `semkit models pull NAME`: e5-small, bge-m3, potion, or hf:<id> of a model"
-    " of the Hugging Face hub. Without --threshold the step takes the threshold of the model; a hub model has none."
+    " of the Hugging Face hub."
 )
+MODEL_DOC = f"{ENCODER_DOC} Without --threshold the step takes the threshold of the model; a hub model has none."
 FREQ_DOC = (
     "freq: the column of the frequencies of the phrases in the current table; the cluster is named after its most"
     " frequent phrase. Without it, after the phrase nearest the centre of the cluster (the mean of its vectors)."
 )
 
+PAGE_NOTE = (
+    "A text longer than the input of the model is cut into pieces the model takes whole; its vector is the mean of the"
+    " vectors of its pieces. When the table of the texts has the columns title and h1, its vector is the weighted mean"
+    " of the text (weight {text}), the title ({title}) and the h1 ({h1})."
+).format(**{name: f"{settings().weights[name]:g}" for name in (TEXT, *HEADINGS)})
+
 
 def encoder_of(options: dict) -> Encoder:
     """The encoder the option --model names."""
     return encoder.encoder_for(registry.model(options["model"]), prepared_for())
+
+
+def page_encoder_of(options: dict) -> PageEncoder:
+    """The encoder of the page vector of the model the option --model names."""
+    return PageEncoder(encoder_of(options), registry.model(options["model"]).max_tokens)
 
 
 def by_meaning(options: dict) -> tuple[Encoder, float]:
