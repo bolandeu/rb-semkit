@@ -2,7 +2,7 @@
 id: SEMKIT-049
 title: 'read --text: phrases from the command line; a pipeline without write prints
   a table'
-status: in_review
+status: publish
 attempts: 2
 blocked: false
 blocked_reason: null
