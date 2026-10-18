@@ -74,3 +74,16 @@ steps/__init__.py (the step kinds) and pipeline/state.py (the working column).
 ## Out of scope
 
 - semkit run and saved scenarios (the next task); filters by a numeric threshold.
+
+## Feedback
+
+### Answer to question #1
+
+> SEMKIT-056 says texts sort in the order of sort-words (ё after е), but sort-words orders by character codes (ё after я).
+> Question: Which text order does sort-rows use?
+> Options:
+> 1. ё after е
+> 2. character codes, as sort-words
+> Recommended: ё after е
+
+Option 1: ё after е (Russian alphabet order: е, ё, ж). The task text wrongly tied it to sort-words; sort-words stays as it is. Say the order in the sort-rows help.
