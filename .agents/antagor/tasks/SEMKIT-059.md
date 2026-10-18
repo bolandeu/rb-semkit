@@ -16,13 +16,13 @@ type: feature
 owns_paths:
 - pyproject.toml
 - uv.lock
-- src/rb_semkit/pipeline/tables.py
 - src/rb_semkit/pipeline/
 - src/rb_semkit/commands/read.py
 - src/rb_semkit/data/SKILL.md
 - README.md
 - tests/pipeline/
 - tests/snapshots/
+- .gitea/workflows/ci.yml
 test_paths:
 - tests/pipeline/
 docs:
@@ -54,6 +54,7 @@ dataio v0.1.26 (IDEA-241) writes a chosen set of columns, in a chosen order, und
 3. The same choice for the output without write (the terminal table, or JSONL to a pipe): not in this task; write - takes the options.
 4. Help of write with an example, the agent guide and README: … nearest --to Q write - --columns phrase,similarity --rename similarity=сходство.
 5. The release gate is red on main at `ty check`: src/rb_semkit/pipeline/tables.py:143 and :156 pass str | None to rb_dataio.read. Fix them here (the same file), so `uv run scripts/release.py --check` is green; CI on the homeserver runs that gate.
+6. .gitea/workflows/ci.yml runs on code changes only: `push` and `pull_request` get `paths: [src/**, tests/**, scripts/**, pyproject.toml, uv.lock, .gitea/workflows/**]`; `workflow_dispatch` stays (a manual run). A commit with `[skip ci]` skips it (Gitea's own rule, nothing to add).
 
 ## Acceptance
 
