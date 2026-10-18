@@ -2,7 +2,7 @@
 id: SEMKIT-050
 title: linear-combinations joins each combination into a phrase column; a step agree
   puts the words of a phrase in agreement
-status: queue
+status: in_review
 attempts: 1
 blocked: false
 blocked_reason: null
