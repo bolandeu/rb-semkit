@@ -2,7 +2,7 @@
 id: SEMKIT-055
 title: 'Every step''s docstring to the help standard: one-line summary, option lines,
   short examples with results'
-status: ideas
+status: queue
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -10,7 +10,7 @@ phase: null
 tests_hash: null
 publish_stage: null
 created_by: architect
-approved_by: null
+approved_by: human
 worker: claude-code
 type: docs
 owns_paths:
@@ -42,7 +42,6 @@ translation: 'Привести docstring каждого шага к станда
   — что даёт шаг, строки опций, 1–3 коротких примера с результатом на русских фразах;
   поведение не меняется; список исключений теста опустеет.'
 ---
-
 
 SEMKIT-054 writes docs/help-standard.md and a test with an allowlist of the steps that do not meet it. This task brings every step to it and empties the allowlist.
 
