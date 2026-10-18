@@ -135,6 +135,8 @@ Words:
   each by `bukvarix freq` (another tool). On «таможенное оформление импорта»: 112 combinations, 74 above 0.85,
   4 with demand above 0. Gaps of bricks: no step keeps the rows with a match (`nearest` keeps an empty match for each
   row below the threshold) and no step sorts by a column, so jq does both now.
-- Saved scenarios: when 2-3 chains repeat, a named chain file run by `semkit run NAME` (now a placeholder); not before.
+- Saved scenarios live outside semkit (the Human, 2026-10-18): they call other CLIs too (bukvarix, wordstat, serp) and
+  turn parts on by a flag (frequency → sort by it), so they belong to a runner over all the tools (just, Task,
+  Windmill — to choose), not to `semkit run`. semkit stays bricks.
 
 Order: now IDEA-235 (the help of is-typo) as a task outside the epics, beside E-005; the epic after E-005.
