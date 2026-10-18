@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.49 — 2026-10-18
+
+### Outside epics
+
+- write --columns and --rename: choose, order and rename the output columns (dataio v0.1.26) (SEMKIT-059)
+
 ## v0.1.48 — 2026-10-18
 
 ### Outside epics
