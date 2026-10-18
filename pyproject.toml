@@ -83,7 +83,7 @@ dev = [
 # External (non-Python) dependencies — every CLI this tool runs (require_cli,
 # shutil.which, subprocess with a literal program, npx). The gate checks this
 # list against the code both ways; doctor and require_cli read it at runtime;
-# the tools/ root builds docs/external-deps.md from it (standard §12).
+# the tools catalog reads it (standard §12).
 # [[tool.rb.external]]
 # name = "ffmpeg"
 # required = true               # false: the tool works without it (doctor stays healthy)

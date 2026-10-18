@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "DICTIONARY",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "a file of two columns, a word and its score; the first row is the header, the file is read like `read` does.",
@@ -24,6 +27,9 @@
         {
           "name": "WHAT",
           "required": true,
+          "arity": {
+            "maximum": 1
+          },
           "acceptedValues": [
             "mean",
             "min",
@@ -48,7 +54,10 @@
       "arguments": [
         {
           "name": "NAME",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "Write the result to a new column NAME and keep the working column as it is.",

@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "LIMIT",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the most pairs the result may hold; a larger result is refused before any is made.",

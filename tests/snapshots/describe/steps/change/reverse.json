@@ -8,6 +8,9 @@
         {
           "name": "WHAT",
           "required": true,
+          "arity": {
+            "maximum": 1
+          },
           "acceptedValues": [
             "chars",
             "words"
@@ -31,7 +34,10 @@
       "arguments": [
         {
           "name": "NAME",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "Write the result to a new column NAME and keep the working column as it is.",

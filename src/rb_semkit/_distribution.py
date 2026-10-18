@@ -1,3 +1,9 @@
+"""The names of this project that cannot be found at runtime: distribution name, tool name, template version.
+
+Copier renders them from the answers in `.copier-answers.yml`. They are written down because an editable install
+or a bare source run cannot map the import package to its distribution.
+"""
+
 # Rendered by copier from the `dist_name` answer: the [project] name in
 # pyproject.toml (standard §10: `rb-<slug>`), which may differ from this
 # import package's name. importlib.metadata finds this package's version,
@@ -17,4 +23,4 @@ DIST_NAME_LEGACY: str | None = None
 TOOL = "semkit"
 # The cli-generator release this project was generated or last updated from
 # (copier's `_commit`), for `describe --json`; None for a project not made by copier.
-TEMPLATE_VERSION: str | None = "v1.15.0"
+TEMPLATE_VERSION: str | None = "v1.18.2"

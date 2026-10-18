@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "TOOL",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "Target AI tool: one of claude-code, agents.",

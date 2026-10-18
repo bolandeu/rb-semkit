@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "AGAINST",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "a file with the texts, one per row; the file is read like `read` does. The texts are in --text-column, by default the first text column of the file.",
@@ -24,6 +27,9 @@
         {
           "name": "MODE",
           "required": true,
+          "arity": {
+            "maximum": 1
+          },
           "acceptedValues": [
             "exact",
             "lemmas",
@@ -48,7 +54,10 @@
       "arguments": [
         {
           "name": "GAP",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "how many words may stand between each two neighbouring words of the phrase in 'exact' and 'lemmas' («купить недорогие пластиковые окна» is «купить пластиковые окна» with gap 1); the order stays and a gap never crosses a sentence end; 0 allows none. It does not apply to 'any_order', where the words are already anywhere in one piece.",
@@ -68,7 +77,10 @@
       "arguments": [
         {
           "name": "TEXT_COLUMN",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the column of the texts.",

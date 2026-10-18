@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "TOP",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "how many of the nearest words the word vectors give for each word.",
@@ -70,6 +73,9 @@
         {
           "name": "SOURCE",
           "required": true,
+          "arity": {
+            "maximum": 1
+          },
           "acceptedValues": [
             "ruwordnet",
             "navec",

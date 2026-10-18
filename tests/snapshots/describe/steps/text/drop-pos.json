@@ -8,6 +8,9 @@
         {
           "name": "KIND",
           "required": true,
+          "arity": {
+            "maximum": 1
+          },
           "acceptedValues": [
             "noun",
             "adj",

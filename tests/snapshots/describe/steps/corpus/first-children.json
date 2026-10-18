@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "CHILDREN",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the phrases that may be children, in the order to try; a child is a phrase that holds every word of the phrase. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",
@@ -23,7 +26,10 @@
       "arguments": [
         {
           "name": "NAME",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "Write the result to a new column NAME and keep the working column as it is.",

@@ -8,6 +8,9 @@
         {
           "name": "METHOD",
           "required": true,
+          "arity": {
+            "maximum": 1
+          },
           "acceptedValues": [
             "soft",
             "hard"
@@ -31,7 +34,10 @@
       "arguments": [
         {
           "name": "COMMON",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "how many URLs two phrases must share.",
@@ -51,7 +57,10 @@
       "arguments": [
         {
           "name": "TOP",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "how many first positions of each phrase count.",
@@ -71,7 +80,10 @@
       "arguments": [
         {
           "name": "FREQ",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "a file with the phrases in its first text column and their frequencies in --freq-column; the file is read like `read` does.",
@@ -87,7 +99,10 @@
       "arguments": [
         {
           "name": "FREQ_COLUMN",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the column of the frequencies in the --freq file; by default the first column of numbers.",

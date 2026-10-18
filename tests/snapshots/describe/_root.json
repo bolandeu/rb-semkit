@@ -13,7 +13,10 @@
         "arguments": [
           {
             "name": "PROJECT",
-            "required": true
+            "required": true,
+            "arity": {
+              "maximum": 1
+            }
           }
         ],
         "description": "Path to the project root.",

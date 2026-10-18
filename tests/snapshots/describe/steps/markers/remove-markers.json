@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "LISTS",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the marker lists, comma-separated: a bundled one by its name (geo) or as @markers/geo, or a list of your own as @FILE (one phrase per line, or the first column of a table) or @NAME of a word list.",
@@ -37,7 +40,10 @@
       "arguments": [
         {
           "name": "SEP",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "what joins the markers extract gives.",
@@ -57,7 +63,10 @@
       "arguments": [
         {
           "name": "NAME",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "Write the result to a new column NAME and keep the working column as it is.",

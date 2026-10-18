@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "COMPETITORS",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "a file with the texts of the competitors, one per row, in its column text, else in its first text column that is no url column; the file is read like `read` does. A url column, if the file has one, names the columns of --per-text.",
@@ -23,7 +26,10 @@
       "arguments": [
         {
           "name": "N",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "how many words in a gram.",
@@ -74,7 +80,10 @@
       "arguments": [
         {
           "name": "TOLERANCE",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "how far from the norm a density is still within, a share of the norm (0.3 is ±30 %).",
@@ -95,6 +104,9 @@
         {
           "name": "NORM",
           "required": true,
+          "arity": {
+            "maximum": 1
+          },
           "acceptedValues": [
             "mean",
             "median"
@@ -118,7 +130,10 @@
       "arguments": [
         {
           "name": "WORDS",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the size of the text to recommend occurrences for, in words; by default the words of my text.",
@@ -162,7 +177,10 @@
       "arguments": [
         {
           "name": "EXCLUDE",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "words to leave out of every count the same way, as written, with case and ё folded, not by lemma. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",

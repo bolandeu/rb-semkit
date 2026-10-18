@@ -64,6 +64,21 @@ def runs_dir() -> Path:
     return base / tool_name() / "runs"
 
 
+def _zombie(pid: int) -> bool:
+    """Exited but not reaped by its parent (state Z). Where PID 1 never reaps (`tail -f /dev/null` in a CI job), a killed run stays one."""
+    try:
+        stat = Path(f"/proc/{pid}/stat").read_text()
+        return (
+            stat.rpartition(")")[2].split()[0] == "Z"
+        )  # after the last ')': the command name may hold spaces and parentheses
+    except (OSError, IndexError):
+        pass
+    with contextlib.suppress(OSError):  # macOS has no /proc
+        ps = subprocess.run(["ps", "-o", "stat=", "-p", str(pid)], capture_output=True, text=True, check=False)
+        return ps.stdout.strip().startswith("Z")
+    return False
+
+
 def _alive(pid: int) -> bool:
     try:
         os.kill(pid, 0)
@@ -71,7 +86,7 @@ def _alive(pid: int) -> bool:
         return False
     except PermissionError:
         return True
-    return True
+    return not _zombie(pid)
 
 
 def _pid(runs: Path, label: str) -> int | None:

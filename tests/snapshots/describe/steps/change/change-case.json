@@ -8,6 +8,9 @@
         {
           "name": "KIND",
           "required": true,
+          "arity": {
+            "maximum": 1
+          },
           "acceptedValues": [
             "lower",
             "upper",
@@ -36,7 +39,10 @@
       "arguments": [
         {
           "name": "WORDS",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the words for \"list_title\" and \"list_upper\". Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",
@@ -52,7 +58,10 @@
       "arguments": [
         {
           "name": "NAME",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "Write the result to a new column NAME and keep the working column as it is.",

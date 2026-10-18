@@ -8,6 +8,9 @@
         {
           "name": "CASE",
           "required": true,
+          "arity": {
+            "maximum": 1
+          },
           "acceptedValues": [
             "nominative",
             "genitive",
@@ -32,6 +35,9 @@
         {
           "name": "GENDER",
           "required": true,
+          "arity": {
+            "maximum": 1
+          },
           "acceptedValues": [
             "masculine",
             "feminine",
@@ -57,6 +63,9 @@
         {
           "name": "NUMBER",
           "required": true,
+          "arity": {
+            "maximum": 1
+          },
           "acceptedValues": [
             "singular",
             "plural"
@@ -80,7 +89,10 @@
       "arguments": [
         {
           "name": "NAME",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "Write the result to a new column NAME and keep the working column as it is.",

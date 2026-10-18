@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "FILE",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "Write the document to FILE (replaced when it exists); by default to stdout.",
@@ -35,6 +38,20 @@
     {
       "name": "--quiet",
       "description": "Suppress non-essential output.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    },
+    {
+      "name": "--verbose",
+      "description": "Emit extra diagnostic output.",
       "metadata": [
         {
           "name": "x-rb-type",

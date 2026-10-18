@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "QUERY",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the query, a phrase.",
@@ -23,7 +26,10 @@
       "arguments": [
         {
           "name": "K1",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "how fast the score of a term saturates with its count (usually 1.2..2).",
@@ -43,7 +49,10 @@
       "arguments": [
         {
           "name": "B",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "how much the length of a text lowers the score, 0..1 (0: not at all).",
@@ -63,7 +72,10 @@
       "arguments": [
         {
           "name": "NAME",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "Write the result to a new column NAME and keep the working column as it is.",

@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "N",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "how many words in a gram.",
@@ -58,7 +61,10 @@
       "arguments": [
         {
           "name": "WEIGHT",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "a column of numbers of the table (a frequency); sum adds its value once per occurrence.",

@@ -7,7 +7,10 @@
       "arguments": [
         {
           "name": "PATTERN",
-          "required": true
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
         }
       ],
       "description": "the regular expression; \\w, \\b and \\d take Cyrillic letters too.",
