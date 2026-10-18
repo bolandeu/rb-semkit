@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.41 — 2026-10-18
+
+### Outside epics
+
+- synonym-candidates: synonyms of any number of words, both ways (a word, a phrase), from the thesaurus (SEMKIT-051)
+
 ## v0.1.40 — 2026-10-18
 
 ### Outside epics

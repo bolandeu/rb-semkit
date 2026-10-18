@@ -2,7 +2,7 @@
 id: SEMKIT-051
 title: 'synonym-candidates: synonyms of any number of words, both ways (a word, a
   phrase), from the thesaurus'
-status: queue
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -21,6 +21,8 @@ owns_paths:
 - tests/word_vectors/
 test_paths:
 - tests/word_vectors/test_synonym_candidates.py
+- tests/conftest.py
+- tests/steps/fixtures/customs.csv
 docs:
 - src/rb_semkit/data/SKILL.md
 tools: []
