@@ -104,3 +104,9 @@ ERROR tests/word_vectors/test_synonym_candidates.py::test_a_top_below_one_is_ref
   result = tuple_new(cls, iterable)
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
 ```
+
+### Answer to finding #1
+
+> Task check 'uv run pytest' runs without the gate extras ([tool.cli-generator] gate_extras = vectors). In a fresh worktree venv faiss is missing, so ~56 vector tests fail (VECTORS_NOT_INSTALLED). Attempt 2 of SEMKIT-049 failed only for this reason. Fix: make the check 'uv run --extra vectors pytest', or sync the worktree with the gate extras.
+
+Checks of SEMKIT-050..052 changed to 'uv run --extra vectors pytest'; the 049 worktree synced with the extra.
