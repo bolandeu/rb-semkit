@@ -1,10 +1,10 @@
 """The steps by meaning: phrases compared by their phrase vectors (the vectors extra and an encoder pulled once).
 
 The options every step by meaning shares are here: --model (the encoder) and --threshold (the similarity of one
-intent; by default the threshold of the model, for clusters its cluster threshold). `MEANING` adapts them for a step, `by_meaning` gives the encoder and
-the threshold they name, `encoder_of` the encoder alone and `page_encoder_of` the encoder of the page vector; all refuse
-before the input is read. `ENCODER_DOC` tells --model alone, for a step without the threshold of the model;
-`PAGE_NOTE` tells the page vector in the help of the steps that take it.
+intent; by default the threshold of the model, for clusters its cluster threshold). `MEANING` adapts them for a step,
+`by_meaning` gives the encoder and the threshold they name, `encoder_of` the encoder alone and `page_encoder_of` the
+encoder of the page vector; all refuse before the input is read. `ENCODER_DOC` tells --model alone, for a step
+without the threshold of the model; `PAGE_NOTE` tells the page vector in the help of the steps that take it.
 """
 
 from __future__ import annotations
