@@ -2,10 +2,10 @@
 id: SEMKIT-059
 title: 'write --columns and --rename: choose, order and rename the output columns
   (dataio v0.1.26)'
-status: queue
+status: in_progress
 attempts: 0
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: environment_broken
 phase: null
 tests_hash: null
 publish_stage: null
@@ -24,8 +24,10 @@ owns_paths:
 - tests/snapshots/
 - .gitea/workflows/ci.yml
 - .python-version
+- .gitignore
 test_paths:
 - tests/pipeline/
+- tests/docs_cmd/test_core_docs.py
 docs:
 - README.md
 - src/rb_semkit/data/SKILL.md
