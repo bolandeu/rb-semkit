@@ -20,6 +20,8 @@ owns_paths:
 - tests/steps/areas.py
 - tests/steps/test_steps.py
 - tests/conftest.py
+- tests/pipeline/test_discovery.py
+- tests/pipeline/test_project_folder.py
 test_paths:
 - tests/test_describe.py
 - tests/test_help.py
