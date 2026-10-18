@@ -2,7 +2,7 @@
 id: SEMKIT-063
 title: 'Template update: copier update to cli-generator v1.18.2, help snapshots refreshed,
   gate green'
-status: queue
+status: in_review
 attempts: 1
 blocked: false
 blocked_reason: null
