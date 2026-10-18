@@ -61,6 +61,8 @@ NOT_CASED = {
     "ad_groups",  # semkit's own, by vectors: no add-in function
     "word_list",  # semkit's own: the word lists, not a function of the add-in
     "agree",  # semkit's own: the add-in does not agree the words of a phrase
+    "use_column",  # semkit's own: a brick of the pipeline over the whole table, no add-in function
+    "sort_rows",  # semkit's own: a brick of the pipeline over the whole table, no add-in function
 }
 SEP = " | "
 PART_SEP = " || "
