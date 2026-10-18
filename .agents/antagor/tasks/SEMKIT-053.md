@@ -2,7 +2,7 @@
 id: SEMKIT-053
 title: 'decline: a noun already in the genitive inside a group is declined again (продукции
   → продукций)'
-status: queue
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
