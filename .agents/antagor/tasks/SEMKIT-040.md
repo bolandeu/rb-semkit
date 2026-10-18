@@ -2,7 +2,7 @@
 id: SEMKIT-040
 title: 'ad-groups: small ad groups of one intent'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -103,3 +103,8 @@ SEMKIT-036, SEMKIT-041 finished; your kept work on src/rb_semkit/core/vectors/cl
 - `tests/steps/test_steps.py`
 
 Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).
+
+### Attempt 1: file docstring
+
+- update the docstring of src/rb_semkit/core/vectors/cluster.py: +frequencies
+- update the docstring of src/rb_semkit/steps/dupes.py: +refining_options
