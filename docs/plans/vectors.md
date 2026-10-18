@@ -65,7 +65,9 @@ Second epic, built on the same base (not to be forgotten):
 5. `assign-pages`: `--pages` table (url + text); the best page, its similarity, the second page and its similarity.
 6. `--model` takes short names (e5-small default, bge-m3, potion) and `hf:<id>`.
 7. Exact search up to about 300k phrases, HNSW above, chosen by size and named in the step summary; deterministic.
-8. `cluster-meaning`: one `--threshold`; a phrase without neighbours is a cluster of one; the cluster's name is its
+8. `cluster-meaning`: one `--threshold`, by default the `cluster_threshold` of the model (e5-small 0.975: at the pair
+   threshold 0.97 the sofa core joins «диван кровать» with «купить диван», at 0.98 one intent splits; a model without
+   it uses its `threshold`; the pair steps keep `threshold`); a phrase without neighbours is a cluster of one; the cluster's name is its
    most frequent phrase (`--freq`) or the one nearest its centre.
 9. `off-topic`: distance from the core's centre weighted by frequency, or from `--seed` phrases; a 0–1 score and a
    flag by threshold.

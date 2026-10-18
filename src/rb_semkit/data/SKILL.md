@@ -212,7 +212,7 @@ semkit read core.csv cluster-meaning --freq freq write clusters.csv
 ```
 
 `--model NAME` names the encoder (default `e5-small`); `--threshold` is the similarity from 0 to 1 of one intent, by
-default the threshold of the model (a hub model has none: give it). The steps add columns and drop no row: their
+default the threshold of the model (a hub model has none: give it); `cluster-meaning` takes the cluster threshold of the model (e5-small 0.975) and, without one, its threshold. The steps add columns and drop no row: their
 columns are candidates, the user decides. `cluster-meaning` gives every phrase a `cluster`, a `cluster_name` (its most
 frequent phrase with `--freq COLUMN`, else the phrase nearest its centre) and the `similarity` of the phrase to that
 name; a phrase without close phrases is a cluster of one. The summary line of the step names the vector index it

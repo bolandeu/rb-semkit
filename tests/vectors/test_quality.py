@@ -14,6 +14,7 @@ import pytest
 
 from rb_semkit.core.errors import CliError
 from rb_semkit.core.vectors import encoder, registry
+from rb_semkit.core.vectors.cluster import cluster_meaning
 
 pytestmark = pytest.mark.real_encoder
 
@@ -55,3 +56,17 @@ def test_the_default_threshold_is_the_best_f1_threshold(similarities: tuple[np.n
     best = max(np.unique(scores), key=lambda threshold: _f1(scores >= threshold, labels))
 
     assert abs(registry.model(MODEL).threshold - best) <= 0.01
+
+
+def test_the_default_clusters_keep_intents_of_the_sofa_core_apart() -> None:
+    phrases = pd.Series(["диван кровать", "купить диван", "диван-кровать", "купить диван недорого", "угловой диван"])
+    model = registry.model(MODEL)
+    found = cluster_meaning(
+        phrases,
+        encoder=encoder.encoder_for(model, Path.cwd()),
+        threshold=registry.cluster_threshold(model, None),
+    )
+    cluster = dict(zip(phrases, found["cluster"], strict=True))
+
+    assert registry.cluster_threshold(model, None) == 0.975
+    assert cluster["диван кровать"] != cluster["купить диван"]
