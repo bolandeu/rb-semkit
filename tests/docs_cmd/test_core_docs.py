@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import enum
 
+import pytest
 import typer
 
 from rb_semkit.core import docs
@@ -36,10 +37,10 @@ def _app() -> typer.Typer:
         coats: how many coats each target gets.
         tag: a tag of the job.
 
-        Example: probe paint wall --name Ann
+        Example: semkit paint wall --name Ann
         -> wall: red, 2 coats
 
-        Example: probe paint door --name Ann --color blue
+        Example: semkit paint door --name Ann --color blue
         """
 
     group = typer.Typer()
@@ -56,8 +57,8 @@ def _app() -> typer.Typer:
     return probe
 
 
-def _document(inherited: docs.Inherited | None = None) -> dict:
-    return docs.document(typer.main.get_command(_app()), inherited)
+def _document(hook: docs.Hook | None = None) -> dict:
+    return docs.document(typer.main.get_command(_app()), hook)
 
 
 def _commands(document: dict) -> dict:
@@ -91,8 +92,8 @@ def test_an_example_is_one_string_with_its_result() -> None:
     paint = _commands(_document())["paint"]
 
     assert paint["examples"] == [
-        "probe paint wall --name Ann  # -> wall: red, 2 coats",
-        "probe paint door --name Ann --color blue",
+        "wall --name Ann  # -> wall: red, 2 coats",
+        "door --name Ann --color blue",
     ]
 
 
@@ -114,10 +115,68 @@ def test_an_option_that_does_not_repeat_takes_at_most_one_value() -> None:
     assert options["--color"]["arguments"][0]["acceptedValues"] == ["red", "blue"]
 
 
-def test_the_hook_gives_a_subcommand_the_parameters_of_its_group() -> None:
-    def inherited(group, name: str) -> list:
-        return [param for param in group.params if param.name == "level"] if name == "brush" else []
+class OptionOfGroup(docs.Hook):
+    """A hook that gives the subcommands of a group the option --level of that group."""
 
-    [brush] = _commands(_document(inherited))["tools"]["commands"]
+    def inherited(self, group) -> list:
+        return [param for param in group.params if param.name == "level"]
 
-    assert [option["name"] for option in brush["options"]] == ["--level", "--size"]
+
+def test_an_option_the_hook_inherits_is_recursive_on_the_parent_and_not_copied_into_the_subcommands() -> None:
+    tools = _commands(_document(OptionOfGroup()))["tools"]
+    [brush] = tools["commands"]
+
+    assert _options(tools)["--level"]["recursive"] is True
+    assert [option["name"] for option in brush["options"]] == ["--size"]
+    assert "recursive" not in _options(brush)["--size"]
+
+
+def test_a_hook_cannot_inherit_an_argument() -> None:
+    class ArgumentOfGroup(docs.Hook):
+        def inherited(self, group) -> list:
+            return [typer.main.get_command(_app()).commands["paint"].params[0]]
+
+    with pytest.raises(ValueError, match="options only"):
+        _document(ArgumentOfGroup())
+
+
+def test_the_hook_may_bring_an_example_to_the_form_that_starts_with_its_command_path() -> None:
+    class Short(docs.Hook):
+        def example(self, path, command: str) -> str:
+            return command.replace("semkit paint wall", "semkit paint") if path == ("paint",) else command
+
+    paint = _commands(_document(Short()))["paint"]
+
+    assert paint["examples"][0] == "--name Ann  # -> wall: red, 2 coats"
+
+
+def test_an_example_that_does_not_start_with_its_command_path_fails_with_the_command_and_the_example() -> None:
+    probe = typer.Typer(add_completion=False)
+
+    @probe.command()
+    def paint() -> None:
+        """Paint.
+
+        Example: semkit wall --name Ann
+        """
+
+    @probe.command()
+    def other() -> None:
+        """Other."""
+
+    with pytest.raises(docs.ExampleOutsidePath) as caught:
+        docs.document(typer.main.get_command(probe))
+
+    assert caught.value.exit_code == 1
+    assert "'semkit paint'" in caught.value.message
+    assert "semkit wall --name Ann" in caught.value.message
+
+
+def test_the_hook_puts_a_line_before_the_description_of_a_command() -> None:
+    class Lead(docs.Hook):
+        def lead(self, path) -> str:
+            return "Lead line." if path == ("paint",) else ""
+
+    paint = _commands(_document(Lead()))["paint"]
+
+    assert paint["description"].split("\n\n")[:2] == ["Lead line.", "Paint the targets in one color."]
