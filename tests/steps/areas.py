@@ -15,6 +15,7 @@ AREAS = {
         "synonyms", "typo-correction",
     ],
     "coverage": ["coverage"],
+    "coverage_meaning": ["coverage-meaning"],
     "declension": [
         "decline", "decline-adjective", "decline-full-name", "decline-noun", "drop-ready-pattern", "extract-complements",
         "extract-ready-pattern", "find-ready-pattern", "irrelevant-words", "keep-ready-pattern", "remove-phrase-end",
