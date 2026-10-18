@@ -136,12 +136,10 @@ Words:
   4 with demand above 0. Gaps of bricks: no step keeps the rows with a match (`nearest` keeps an empty match for each
   row below the threshold) and no step sorts by a column, so jq does both now.
 - Intent synonyms with demand (the Human, 2026-10-18, checked on «таможенное оформление импорта» and «растаможка авто»):
-  outside semkit. 1) `semkit run intent-synonyms` with no threshold; 2) `bukvarix freq` gives the demand and the form of
-  the phrase as people search it (word order and number are its own: «растаможивание автомобиля» -> «…автомобилей»);
-  merge by that form; 3) keep a row when its demand is above 0 or its similarity is at least the threshold. The
-  threshold drops only phrases with no demand: on «растаможка авто» 0.85 would cut «таможенная очистка авто» (0.80,
-  demand 3). Duplicates by word order or lemmas inside semkit remove almost nothing here (112 -> 110, 72 -> 72): the
-  variations differ by synonyms, and only bukvarix knows the real form.
+  `semkit run intent-synonyms` with no threshold, then the demand from a source outside semkit (the Human picks it);
+  keep a row when its demand is above 0 or its similarity is at least the threshold. The threshold drops only phrases
+  with no demand: on «растаможка авто» 0.85 would cut «таможенная очистка авто» (0.80, demand 3). Duplicates by word
+  order or lemmas inside semkit remove almost nothing here (112 -> 110, 72 -> 72): the variations differ by synonyms.
 - Saved scenarios (the Human, 2026-10-18): `semkit run NAME` runs a named chain of semkit's own steps only (a bundled
   one or one in the project folder), seen in `run --help` and in `semkit docs`. A flow that calls other CLIs too
   (bukvarix, wordstat, serp) is built outside semkit, in a shell or a runner over all the tools.
