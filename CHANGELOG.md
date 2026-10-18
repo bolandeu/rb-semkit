@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.51 — 2026-10-18
+
+### Outside epics
+
+- write: a refused --columns/--rename gets its own action line, not the 'folder is writable' one (SEMKIT-062)
+
 ## v0.1.50 — 2026-10-18
 
 ### Outside epics

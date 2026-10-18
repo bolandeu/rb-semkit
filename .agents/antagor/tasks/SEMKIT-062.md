@@ -2,7 +2,7 @@
 id: SEMKIT-062
 title: 'write: a refused --columns/--rename gets its own action line, not the ''folder
   is writable'' one'
-status: publish
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
