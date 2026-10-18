@@ -1,6 +1,7 @@
 """The duplicates step: marks the duplicates in a new column, or with `--action drop` drops them (a filter).
 
 `--kind meaning` is a step by meaning (the vectors extra): it adds the columns dupes, dupe_of and similarity.
+`refining_options` gives the non-refining words and the synonyms its options name; `ad-groups` reuses them.
 """
 
 from __future__ import annotations

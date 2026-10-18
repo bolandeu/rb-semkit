@@ -1,4 +1,7 @@
-"""cluster_meaning: phrases grouped by the similarity of their phrase vectors, with no SERP."""
+"""cluster_meaning: phrases grouped by the similarity of their phrase vectors, with no SERP.
+
+`frequencies` gives the frequency of each distinct phrase; `ad_groups` reuses it.
+"""
 
 from __future__ import annotations
 
