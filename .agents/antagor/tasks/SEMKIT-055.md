@@ -2,7 +2,7 @@
 id: SEMKIT-055
 title: 'Every step''s docstring to the help standard: one-line summary, option lines,
   short examples with results'
-status: queue
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -19,9 +19,12 @@ owns_paths:
 - tests/snapshots/
 - tests/steps/test_help_standard.py
 - tests/steps/test_examples.py
+- src/rb_semkit/pipeline/commands.py
 test_paths:
 - tests/steps/test_help_standard.py
 - tests/steps/test_examples.py
+- tests/docs_cmd/test_docs_cmd.py
+- tests/steps/fixtures/one_page.csv
 docs: none
 tools: []
 worker_args: null
