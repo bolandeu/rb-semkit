@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.36 — 2026-10-18
+
+### Outside epics
+
+- A separate default threshold for clusters by meaning: 0.975 for e5-small, the pair threshold stays 0.97 (SEMKIT-047)
+
 ## v0.1.35 — 2026-10-18
 
 ### Outside epics

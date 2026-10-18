@@ -2,7 +2,7 @@
 id: SEMKIT-047
 title: 'A separate default threshold for clusters by meaning: 0.975 for e5-small,
   the pair threshold stays 0.97'
-status: publish
+status: done
 attempts: 1
 blocked: false
 blocked_reason: null
