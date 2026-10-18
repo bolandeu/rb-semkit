@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.52 — 2026-10-18
+
+### Outside epics
+
+- Template update: copier update to cli-generator v1.18.2, help snapshots refreshed, gate green (SEMKIT-063)
+
 ## v0.1.51 — 2026-10-18
 
 ### Outside epics
