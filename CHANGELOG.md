@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.50 — 2026-10-18
+
+### Outside epics
+
+- CI green on the homeserver runner: tests render help without CI colour and width; container --init for test_detach (SEMKIT-061)
+
 ## v0.1.49 — 2026-10-18
 
 ### Outside epics
