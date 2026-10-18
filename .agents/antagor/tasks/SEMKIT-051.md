@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-051
-title: 'synonym-candidates --phrases: thesaurus candidates of several words, and lookups
-  of several-word senses'
+title: 'synonym-candidates: synonyms of any number of words, both ways (a word, a
+  phrase), from the thesaurus'
 status: queue
 attempts: 0
 blocked: false
@@ -37,31 +37,35 @@ checks:
 resident: null
 tool: null
 pr: null
-translation: 'synonym-candidates --phrases: синонимы-словосочетания из RuWordNet (таможенное
-  оформление, таможенная очистка…) и поиск по словосочетаниям ядра.'
+translation: 'synonym-candidates: синоним не зависит от числа слов — слово ↔ фраза
+  ↔ фраза (растаможка = таможенное оформление = таможенное оформление товаров), по
+  умолчанию, без опции.'
 ---
 
-RuWordNet holds several-word senses in the same synset as single words: the synset of «растаможка» has растаможивание, растаможить, растамаживать, таможенное оформление, таможенная очистка, таможенное обслуживание, таможенная процедура, оформить на таможне. synonym-candidates skips candidates of several words, so the user never sees the phrase synonyms.
+RuWordNet holds senses of one word and of several words in the same synset: the synset of «растаможка» has растаможивание, растаможить, растамаживать, таможенное оформление, таможенная очистка, таможенное обслуживание, таможенная процедура, таможенное оформление товаров, оформить на таможне. A synonym is a synonym whatever the number of its words: a word may have a phrase as a synonym, a phrase a word, a phrase a phrase. synonym-candidates now skips candidates of several words and looks up single words only, so «таможенное оформление» never shows.
 
-1. --phrases (off by default, so the output without it stays as now): the thesaurus also gives candidates of several words, in lower case as the sense names, score 1, source ruwordnet. The vectors (navec) stay one word.
-2. With --phrases, a run of words of the core that is a sense of the thesaurus (2-4 words, compared by lemmas) is looked up too: its row has that run as word. A core «таможенное оформление авто» gives the candidates of «таможенное оформление» as well as of each word.
-3. Each candidate once per word: the same name with ё/е or a duplicate sense counts once.
-4. Step help (an example with --phrases) and the agent guide.
+1. The thesaurus candidates are of any number of words, by default (no option): in lower case as the sense names, score 1, source ruwordnet. The vectors (navec) stay one word, as now.
+2. The looked-up units of a phrase are its words and every run of its words that is a sense of the thesaurus, of any length, compared by lemmas (the sense lemma column). A run row has that run as word. A core «таможенное оформление товаров авто» gives the candidates of «таможенное оформление товаров», of «таможенное оформление», and of each word.
+3. Each candidate once per unit: the same name with ё/е or a duplicate sense counts once; the unit itself is not its own candidate.
+4. in_core of a candidate of several words: true when the candidate occurs in a phrase of the core as a run of words, by lemmas.
+5. Step help (an example with a phrase synonym) and the agent guide.
 
 ## Acceptance
 
-- Given the core «растаможка авто», When synonym-candidates --all --phrases --source ruwordnet runs, Then the candidates of растаможка include «таможенное оформление» and «таможенная очистка» [check: tests/word_vectors/test_synonym_candidates.py]
-- Given the core «таможенное оформление авто», When synonym-candidates --all --phrases runs, Then there are rows with word «таможенное оформление» and candidate «растаможка» [check: tests/word_vectors/test_synonym_candidates.py]
-- Given the same core without --phrases, When the step runs, Then the output is as before (no candidate of several words) [check: tests/word_vectors/test_synonym_candidates.py]
-- Given a synset with the same name twice (растамаживать in two senses), When the step runs, Then the candidate is listed once for the word [check: tests/word_vectors/test_synonym_candidates.py]
+- Given the core «растаможка авто», When synonym-candidates --all --source ruwordnet runs, Then the candidates of растаможка include «таможенное оформление» and «таможенная очистка» [check: tests/word_vectors/test_synonym_candidates.py]
+- Given the core «таможенное оформление авто», When synonym-candidates --all runs, Then there are rows with word «таможенное оформление» and candidate «растаможка» [check: tests/word_vectors/test_synonym_candidates.py]
+- Given the core «таможенное оформление товаров», When synonym-candidates --all runs, Then the unit «таможенное оформление товаров» has the candidate «растаможка» [check: tests/word_vectors/test_synonym_candidates.py]
+- Given the core «растаможка авто» and «таможенное оформление машины», When synonym-candidates runs without --all, Then «таможенное оформление» is a candidate of растаможка with in_core true [check: tests/word_vectors/test_synonym_candidates.py]
+- Given a synset with the same name twice (растамаживать in two senses), When the step runs, Then the candidate is listed once for the unit [check: tests/word_vectors/test_synonym_candidates.py]
+- Given --as-synonyms, When the step runs, Then a candidate of several words stays whole in the synonyms cell, so the file reads back by the steps with --synonyms (their separator chosen so that a phrase is not split) [check: tests/word_vectors/test_synonym_candidates.py]
 
 ## How to test
 
-Integration through the semkit CLI runner with the RuWordNet fixture the word-vector tests use (skip when the data is not pulled, as those tests do).
+Integration through the semkit CLI runner with the RuWordNet fixture the word-vector tests use (add the senses of the examples to the fixture); the real data test as the existing real-data tests do.
 
 ## Basis
 
-core/word_vectors/thesaurus.py (the synset lookup) and candidates.py; the sense table has name and lemma columns.
+core/word_vectors/thesaurus.py (the synset lookup) and candidates.py; the sense table has name and lemma columns; the reader of --synonyms files for item 6.
 
 ## Read first
 
@@ -69,4 +73,4 @@ core/word_vectors/thesaurus.py (the synset lookup) and candidates.py; the sense 
 
 ## Out of scope
 
-- Other synonym sources (YARN, Wiktionary, dictionaries); vectors of phrases; hypernyms or related relations.
+- Other synonym sources (YARN, Wiktionary, dictionaries); vectors of phrases; hypernyms or related relations; an option to turn the phrase candidates off.
