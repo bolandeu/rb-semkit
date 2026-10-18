@@ -1,14 +1,23 @@
 
- Usage: semkit run [OPTIONS]
+ Usage: semkit run [OPTIONS] COMMAND [ARGS]...
 
- Not implemented yet, and hidden from the help: it changes nothing and says so.
+ Run a scenario: a named chain of semkit's own steps, kept so that a frequent chain runs by its
+ name.
 
- Example: semkit run --dry-run
+ The scenarios are the commands below: the bundled ones and the project's own, a file NAME.toml in
+ .rb_semkit/scenarios/ (one of the same name overrides the bundled one). 'run NAME [IN | --text
+ TEXT…] [--set NAME=VALUE…] [write OUT]' reads the input as read does, runs the steps of the
+ scenario as one read pipeline and writes the result; without write it prints a table, as read
+ does. --set NAME=VALUE fills a parameter of the scenario, --set STEP.OPTION=VALUE an option of one
+ of its steps. 'run NAME --help' shows its parameters with their defaults and its steps.
+
+ Example: semkit run intent-synonyms --text "растаможка авто"
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --json             Emit machine-readable JSON output.                                            │
-│ --quiet            Suppress non-essential output.                                                │
-│ --dry-run          Show what would happen without making changes.                                │
-│ --help             Show this message and exit.                                                   │
+│ --help          Show this message and exit.                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Commands ───────────────────────────────────────────────────────────────────────────────────────╮
+│ intent-synonyms  Phrase synonyms of one intent: every variation of the phrase by the thesaurus,  │
+│                  scored by meaning against it.                                                   │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 

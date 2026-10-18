@@ -100,6 +100,19 @@ line instead of IN: a table with the column `phrase`, a row for each `--text`. A
 result as a table (every column, every row) in the terminal; with `--json`, or when stdout is not a terminal, it writes
 JSONL to stdout as `write -` does.
 
+A frequent chain runs by its name: `semkit run NAME` runs a scenario, a named chain of semkit's own steps, as one read
+pipeline. `semkit run --help` lists the scenarios, `semkit run NAME --help` shows the parameters with their defaults
+and the steps. A project adds its own as `.rb_semkit/scenarios/NAME.toml` (one of the same name overrides the bundled
+one).
+
+```bash
+# phrase synonyms of one intent: every variation of the phrase by the thesaurus, scored by meaning against it
+semkit run intent-synonyms --text "растаможка авто"
+
+# a parameter, and an option of one of the steps
+semkit run intent-synonyms core.csv --set threshold=0.85 --set nearest.model=e5-small write synonyms.csv
+```
+
 Your own lists: `SEMKIT_LISTS=DIR` (a relative folder is from the current one) or `semkit config set lists '["DIR"]'`;
 `SEMKIT_LISTS` wins over the config. `semkit lists` shows every list, `semkit lists show @NAME` its items.
 

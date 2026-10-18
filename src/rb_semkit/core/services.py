@@ -1,5 +1,5 @@
-"""The project: where it is (the folder with `.rb_semkit/`), its config file and its own word-list folder, and the
-config's load, save and check against the installed CLI version.
+"""The project: where it is (the folder with `.rb_semkit/`), its config file, its own folders of word lists and
+scenarios, and the config's load, save and check against the installed CLI version.
 
 `check_project_compat` is the version gate of `output.guard` (all commands but `output.UNGATED`): the project at or
 above a folder must not need a newer CLI than the installed one.
@@ -24,6 +24,7 @@ _PACKAGE_NAME = __name__.split(".")[0]
 PROJECT_DIR_NAME = f".{_PACKAGE_NAME}"
 CONFIG_FILE_NAME = "config.toml"
 LISTS_DIR_NAME = "lists"
+SCENARIOS_DIR_NAME = "scenarios"
 
 
 def find_project_root(start: Path) -> Path | None:
@@ -48,6 +49,11 @@ def config_path(project_root: Path) -> Path:
 def project_lists_dir(project_root: Path) -> Path:
     """The folder of the project's own word lists (`semkit lists add` puts them here)."""
     return project_root / PROJECT_DIR_NAME / LISTS_DIR_NAME
+
+
+def project_scenarios_dir(project_root: Path) -> Path:
+    """The folder of the project's own scenarios (`semkit run NAME`)."""
+    return project_root / PROJECT_DIR_NAME / SCENARIOS_DIR_NAME
 
 
 def check_cli_compat(config: ProjectConfig) -> None:

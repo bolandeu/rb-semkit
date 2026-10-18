@@ -1,0 +1,24 @@
+# The scenario of `semkit run intent-synonyms` (core/scenarios explains the keys).
+description = "Phrase synonyms of one intent: every variation of the phrase by the thesaurus, scored by meaning against it."
+per_phrase = true
+steps = """
+synonym-candidates --all --source {source} --as-slots
+linear-combinations
+agree
+nearest --to {text} --threshold {threshold} --model {model}
+use-column match
+drop-cells empty
+sort-rows --by similarity --desc
+"""
+
+[parameters.threshold]
+default = 0
+help = "the similarity from 0 to 1 a variation needs to stay: 0 keeps every variation, 0.85 drops the ones below."
+
+[parameters.model]
+default = "bge-m3"
+help = "the encoder that scores each variation against the phrase, pulled once with `semkit models pull NAME`."
+
+[parameters.source]
+default = "ruwordnet"
+help = "the word data the synonyms come from: ruwordnet, navec or both."

@@ -26,7 +26,7 @@ from .run import SHAPE, run
 
 
 @contextmanager
-def _reported(ctx: Context) -> Generator[None]:
+def reported(ctx: Context) -> Generator[None]:
     """A usage error as the CliError INVALID_ARGUMENTS, its message led by the name of the step."""
     try:
         yield
@@ -60,7 +60,7 @@ class PipelineGroup(TyperGroup):
                 ),
             )
         end = _end(self, args, self.commands)
-        with _reported(ctx):
+        with reported(ctx):
             Command.parse_args(self, ctx, args[:end])
             if ctx.args:  # a word after IN that names no step: Typer's «No such command», with suggestions
                 self.resolve_command(ctx, ctx.args)
@@ -72,15 +72,20 @@ class PipelineGroup(TyperGroup):
         with ctx:
             source = Command.invoke(self, ctx)
             steps = []
-            with _reported(ctx):
+            with reported(ctx):
                 while chain:
                     name, command, rest = self.resolve_command(ctx, chain)  # a UsageError for an unknown name
                     command = cast(Command, command)
                     end = _end(command, rest, self.commands)
                     steps.append(command.make_context(name, rest[:end], parent=ctx))
                     chain = rest[end:]
-            planned = []
-            for step in steps:
-                with step:
-                    planned.append(step.command.invoke(step))
-            return run(ctx, source, planned)
+            return run(ctx, source, planned(steps))
+
+
+def planned(steps: list[Context]) -> list[Any]:
+    """The step of each parsed context, checked: a `Planned`, or the `Target` of write."""
+    found = []
+    for step in steps:
+        with step:
+            found.append(step.command.invoke(step))
+    return found
