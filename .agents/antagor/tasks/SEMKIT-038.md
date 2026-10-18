@@ -112,3 +112,9 @@ The step table and the report steps; the option of a step that names another tab
 ### Blocked: scope_held (holders ['SEMKIT-040', 'SEMKIT-041'], paths ['src/rb_semkit/steps/vectors.py', 'tests/snapshots/describe.json', 'tests/snapshots/help/read.txt', 'tests/steps/areas.py', 'tests/steps/test_steps.py'])
 
 SEMKIT-040, SEMKIT-041 finished; your kept work on src/rb_semkit/steps/vectors.py, tests/snapshots/describe.json, tests/snapshots/help/read.txt, tests/steps/areas.py, tests/steps/test_steps.py is back in the worktree; main is merged into your branch where it merges clean
+
+### Answer to finding #1
+
+> nearest --against and compare-grams --competitors take by default the first text column that is no url column (steps.texts_column). On a table of parse-html (html, url, text, ..., title, h1) or of url,title,h1,text that is html or title, not text; the user needs --against-column text. A rule that prefers a column named text would fix both steps; it changes compare-grams, so it is outside SEMKIT-038.
+
+Taken as SEMKIT-048 (default column text).
