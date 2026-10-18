@@ -2,7 +2,7 @@
 id: SEMKIT-061
 title: 'CI green on the homeserver runner: tests render help without CI colour and
   width; container --init for test_detach'
-status: in_review
+status: publish
 attempts: 0
 blocked: false
 blocked_reason: null
