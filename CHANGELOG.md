@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.38 — 2026-10-18
+
+### Outside epics
+
+- read --text: phrases from the command line; a pipeline without write prints a table (SEMKIT-049)
+
 ## v0.1.37 — 2026-10-18
 
 ### Outside epics
