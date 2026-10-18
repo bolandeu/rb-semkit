@@ -3,7 +3,7 @@ id: SEMKIT-057
 title: 'semkit run NAME: named scenarios of semkit''s own steps, bundled or in the
   project, with parameters and help'
 status: in_review
-attempts: 1
+attempts: 2
 blocked: false
 blocked_reason: null
 phase: null
