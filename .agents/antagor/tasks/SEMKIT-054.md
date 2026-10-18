@@ -2,7 +2,7 @@
 id: SEMKIT-054
 title: 'Help standard and semkit docs: a deterministic human document of every command
   and step for InSpectra'
-status: queue
+status: done
 attempts: 1
 blocked: false
 blocked_reason: null
