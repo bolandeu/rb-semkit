@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-038
 title: nearest, the page vector and split-paragraphs
-status: in_progress
+status: queue
 attempts: 0
-blocked: true
-blocked_reason: scope_held
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -106,3 +106,9 @@ The step table and the report steps; the option of a step that names another tab
 - coverage-meaning, ad-groups, synonym-candidates (other tasks)
 - the scenarios of the vectors plan (gaps, competing pages, links)
 - fetching page texts
+
+## Feedback
+
+### Blocked: scope_held (holders ['SEMKIT-040', 'SEMKIT-041'], paths ['src/rb_semkit/steps/vectors.py', 'tests/snapshots/describe.json', 'tests/snapshots/help/read.txt', 'tests/steps/areas.py', 'tests/steps/test_steps.py'])
+
+SEMKIT-040, SEMKIT-041 finished; your kept work on src/rb_semkit/steps/vectors.py, tests/snapshots/describe.json, tests/snapshots/help/read.txt, tests/steps/areas.py, tests/steps/test_steps.py is back in the worktree; main is merged into your branch where it merges clean
