@@ -94,6 +94,16 @@ class _Words:
         case = adjective_case(self._case, gender, number, animate=animate_noun)
         return adjective_form(key, adjective_index(case, gender, number))
 
+    def genitive_singular(self, word: str) -> bool:
+        """The word is a noun whose form is also the genitive singular of its lemma («продукции»)."""
+        key = word.lower()
+        lemma = BUNDLED.lemma(key)
+        return (
+            BUNDLED.pos(key) == NOUN
+            and not _same(lemma, key)
+            and _same(noun_form(lemma, form_index("genitive", "singular")), key)
+        )
+
     def _noun(self, key: str) -> str | None:
         """The noun form of a word in the nominative, singular or plural; None for a word in another case."""
         lemma = BUNDLED.lemma(key)
@@ -117,6 +127,17 @@ def _animate_nouns(words: list[str], case: str) -> list[bool]:
     return found
 
 
+def _complement(words: list[str], place: int) -> bool:
+    """The word follows a noun, with only adjectives between: it is the complement of that noun («импорт продукции»)."""
+    for before in reversed(words[:place]):
+        pos = BUNDLED.pos(before.lower())
+        if pos == NOUN:
+            return True
+        if pos in NOT_DECLINED:
+            return False
+    return False
+
+
 def _phrase(words: list[str], declined: _Words, case: str) -> str:
     result = []
     animate_nouns = _animate_nouns(words, case)
@@ -126,7 +147,12 @@ def _phrase(words: list[str], declined: _Words, case: str) -> str:
         # «мой синий стол» declines as a whole
         governed = place > 1 and table_key(words[place - 1]) in bundled_words("governing")
         before_inflected = word.lower().endswith("ой") and after is not None and declined.inflected(after)
-        form = None if governed or before_inflected else declined.form(word, animate_noun=animate_nouns[place])
+        complement = declined.genitive_singular(word) and _complement(words, place)
+        form = (
+            None
+            if governed or before_inflected or complement
+            else declined.form(word, animate_noun=animate_nouns[place])
+        )
         result.append(word if form is None else form)
     return " ".join(result)
 
