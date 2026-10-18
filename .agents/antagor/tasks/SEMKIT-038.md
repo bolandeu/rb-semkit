@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-038
 title: nearest, the page vector and split-paragraphs
-status: publish
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
