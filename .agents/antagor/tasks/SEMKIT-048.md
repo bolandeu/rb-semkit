@@ -2,7 +2,7 @@
 id: SEMKIT-048
 title: parse-html keeps the zone names when the HTML column is text; the steps over
   pages take the column text by default
-status: in_review
+status: publish
 attempts: 0
 blocked: false
 blocked_reason: null
