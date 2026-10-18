@@ -82,8 +82,13 @@ Prose to analyse (an article, a review); a table of one cell, cut into phrases b
 One operation of the CLI over the current table: one library function with its arguments.
 
 **Pipeline** (конвейер):
-One command line: read, then any steps in the order written, then write. Built from steps, never a built-in scenario.
-_Avoid_: scenario, recipe (a saved pipeline is the Human's shell line, not a semkit object)
+One command line: read, then any steps in the order written, then write. Built from steps.
+_Avoid_: recipe
+
+**Scenario** (сценарий):
+A named, saved pipeline of semkit's own steps with parameters and their defaults, run by `semkit run NAME`;
+bundled or in the project folder (ADR 0010). It records a chain, it is not a step: each of its steps runs alone too.
+_Avoid_: composite step, flow (a flow over other CLIs is built outside semkit)
 
 **Word list** (список слов, список):
 A named list of words or phrases (minus-words, stopwords, items to combine, a niche list), one per line; bundled,
