@@ -27,10 +27,10 @@ def test_a_pipeline_without_write_prints_the_table_in_a_terminal(terminal: None)
     assert [cell.strip() for cell in lines[1].strip("┃│ ").split("┃")] == ["ngram", "count", "docs"]
     body = [line for line in lines if "│" in line]
     assert [[cell.strip() for cell in line.strip("│ ").split("│")] for line in body] == [
-        ["растаможка", "1", "1"],
         ["авто", "1", "1"],
-        ["купить", "1", "1"],
         ["диван", "1", "1"],
+        ["купить", "1", "1"],
+        ["растаможка", "1", "1"],
     ]
 
 
