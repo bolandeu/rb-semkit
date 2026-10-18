@@ -13,7 +13,7 @@ from ..core.frame import Frame
 from . import Adapted, Change, Prepared, Report, Step, joined, option, slug, table_of, texts_column
 
 COMPETITORS_DOC = (
-    "competitors: a file with the texts of the competitors, one per row, in its first text column;"
+    "competitors: a file with the texts of the competitors, one per row, in its column text, else in its first text column that is no url column;"
     " the file is read like `read` does. A url column, if the file has one, names the columns of --per-text."
 )
 NOTE = (

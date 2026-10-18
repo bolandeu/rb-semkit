@@ -1,6 +1,6 @@
 {
   "name": "compare-stats",
-  "description": "The metrics of text-stats, mine against the competitors: a row per metric.\n\ntolerance: how far from the norm a metric is still within, a share of the norm (0.3 is ±30 %).\nnorm: «median» (the default) or «mean»: what delta and the verdict are against.\nno_digits: leave out the words with a digit of every count, as text-stats does.\nexclude: words to leave out of every count, as text-stats does.\n\nThe columns: metric; mine; median, mean, min, max, the metric over the competitors; delta, mine - the norm; verdict, «below», «within» or «above», mine against norm x (1 ± tolerance), and when the norm is 0, «within» if mine is 0, else «above». Numbers are rounded to 4 decimals; the counts (chars, chars_no_spaces, words, unique) stay whole numbers where they are whole.\n\ncompetitors: a file with the texts of the competitors, one per row, in its first text column; the file is read like `read` does. A url column, if the file has one, names the columns of --per-text.\n\nThe step takes the working column as my text (its cells, one per line); the table of the comparison replaces the current one.\n\nExample: semkit read --whole mine.txt compare-stats --competitors competitors.csv write out.csv",
+  "description": "The metrics of text-stats, mine against the competitors: a row per metric.\n\ntolerance: how far from the norm a metric is still within, a share of the norm (0.3 is ±30 %).\nnorm: «median» (the default) or «mean»: what delta and the verdict are against.\nno_digits: leave out the words with a digit of every count, as text-stats does.\nexclude: words to leave out of every count, as text-stats does.\n\nThe columns: metric; mine; median, mean, min, max, the metric over the competitors; delta, mine - the norm; verdict, «below», «within» or «above», mine against norm x (1 ± tolerance), and when the norm is 0, «within» if mine is 0, else «above». Numbers are rounded to 4 decimals; the counts (chars, chars_no_spaces, words, unique) stay whole numbers where they are whole.\n\ncompetitors: a file with the texts of the competitors, one per row, in its column text, else in its first text column that is no url column; the file is read like `read` does. A url column, if the file has one, names the columns of --per-text.\n\nThe step takes the working column as my text (its cells, one per line); the table of the comparison replaces the current one.\n\nExample: semkit read --whole mine.txt compare-stats --competitors competitors.csv write out.csv",
   "options": [
     {
       "name": "--competitors",
@@ -10,7 +10,7 @@
           "required": true
         }
       ],
-      "description": "a file with the texts of the competitors, one per row, in its first text column; the file is read like `read` does. A url column, if the file has one, names the columns of --per-text.",
+      "description": "a file with the texts of the competitors, one per row, in its column text, else in its first text column that is no url column; the file is read like `read` does. A url column, if the file has one, names the columns of --per-text.",
       "metadata": [
         {
           "name": "x-rb-type",
@@ -101,7 +101,7 @@
         "minimum": 0,
         "maximum": 1
       },
-      "description": "a file with the texts of the competitors, one per row, in its first text column; the file is read like `read` does. A url column, if the file has one, names the columns of --per-text. The same as --competitors COMPETITORS.",
+      "description": "a file with the texts of the competitors, one per row, in its column text, else in its first text column that is no url column; the file is read like `read` does. A url column, if the file has one, names the columns of --per-text. The same as --competitors COMPETITORS.",
       "metadata": [
         {
           "name": "x-rb-type",

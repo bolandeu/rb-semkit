@@ -13,8 +13,9 @@
  norm is 0, «within» if mine is 0, else «above». Numbers are rounded to 4 decimals; the counts
  (chars, chars_no_spaces, words, unique) stay whole numbers where they are whole.
 
- competitors: a file with the texts of the competitors, one per row, in its first text column; the
- file is read like `read` does. A url column, if the file has one, names the columns of --per-text.
+ competitors: a file with the texts of the competitors, one per row, in its column text, else in
+ its first text column that is no url column; the file is read like `read` does. A url column, if
+ the file has one, names the columns of --per-text.
 
  The step takes the working column as my text (its cells, one per line); the table of the
  comparison replaces the current one.
@@ -22,16 +23,16 @@
  Example: semkit read --whole mine.txt compare-stats --competitors competitors.csv write out.csv
 
 ╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
-│   COMPETITORS      <str>  a file with the texts of the competitors, one per row, in its first    │
-│                           text column; the file is read like `read` does. A url column, if the   │
-│                           file has one, names the columns of --per-text. The same as             │
-│                           --competitors COMPETITORS.                                             │
+│   COMPETITORS      <str>  a file with the texts of the competitors, one per row, in its column   │
+│                           text, else in its first text column that is no url column; the file is │
+│                           read like `read` does. A url column, if the file has one, names the    │
+│                           columns of --per-text. The same as --competitors COMPETITORS.          │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
 │ --competitors        COMPETITORS    a file with the texts of the competitors, one per row, in    │
-│                                     its first text column; the file is read like `read` does. A  │
-│                                     url column, if the file has one, names the columns of        │
-│                                     --per-text.                                                  │
+│                                     its column text, else in its first text column that is no    │
+│                                     url column; the file is read like `read` does. A url column, │
+│                                     if the file has one, names the columns of --per-text.        │
 │ --tolerance          <float>        how far from the norm a metric is still within, a share of   │
 │                                     the norm (0.3 is ±30 %).                                     │
 │                                     [default: 0.3]                                               │

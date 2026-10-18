@@ -18,7 +18,7 @@ from .vectors import ENCODER_DOC, PAGE_NOTE, page_encoder_of
 
 AGAINST_DOC = "against: a file with the texts to match, one per row; the file is read like `read` does."
 AGAINST_COLUMN_DOC = (
-    "against_column: the column of the texts in --against; by default its first text column that is no url column."
+    "against_column: the column of the texts in --against; by default the column text, else its first text column that is no url column."
 )
 
 

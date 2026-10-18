@@ -276,3 +276,25 @@ def test_the_new_options_of_the_comparisons_reach_the_functions() -> None:
     assert "диван" not in {row["ngram"] for row in grams.rows}
     assert stats.exit_code == 0, stats.output
     assert "mean" in stats.rows[0]
+
+
+def test_compare_grams_takes_the_column_text_of_the_competitors_by_default(tmp_path: Path) -> None:
+    competitors = tmp_path / "pages.csv"
+    competitors.write_text("url,title,h1,text\na.ru,ковёр,ковёр,диван стол\nb.ru,ковёр,ковёр,диван\n", encoding="utf-8")
+
+    result = run("--whole", "mine.txt", "compare-grams", "--competitors", str(competitors), "write", "-")
+
+    assert result.exit_code == 0, result.output
+    grams = {row["ngram"] for row in result.rows}
+    assert "диван" in grams
+    assert "ковёр" not in grams
+
+
+def test_compare_grams_without_a_column_text_takes_the_first_text_column_that_is_no_url(tmp_path: Path) -> None:
+    competitors = tmp_path / "pages.csv"
+    competitors.write_text("url,body\na.ru,диван стол\nb.ru,диван\n", encoding="utf-8")
+
+    result = run("--whole", "mine.txt", "compare-grams", "--competitors", str(competitors), "write", "-")
+
+    assert result.exit_code == 0, result.output
+    assert "диван" in {row["ngram"] for row in result.rows}
