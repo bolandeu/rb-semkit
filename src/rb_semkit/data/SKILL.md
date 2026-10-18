@@ -239,7 +239,7 @@ semkit read phrases.csv nearest --to "растаможка авто" --threshold
 
 Table bricks work on the whole table, chain-agnostic. `use-column NAME` makes the column NAME the working column of
 the next steps and changes nothing else; a missing column is refused (exit 2) with the columns there are.
-`sort-rows --by COLUMN [--desc]` orders the rows: numbers as numbers, texts like `sort-words` (ё after е), equal rows
+`sort-rows --by COLUMN [--desc]` orders the rows: numbers as numbers, texts in the alphabet order (ё after е), equal rows
 keep their order, empty cells come last; `--by` repeats (the first wins, the next break ties). To keep the phrases that
 have a match, nearest to the best first:
 

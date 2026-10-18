@@ -1,8 +1,7 @@
 
  Usage: semkit read [IN] sort-rows [OPTIONS]
 
- The rows in the order of a column, numbers as numbers, texts as `sort-words` orders words (ё after
- е).
+ The rows in the order of a column, numbers as numbers, texts in the alphabet order (ё after е).
 
  Equal rows keep their order, empty cells come last (also with desc). With several columns the
  first wins and each next one breaks the ties. A column that is not in the table is refused, naming

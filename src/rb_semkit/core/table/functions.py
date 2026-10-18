@@ -49,7 +49,7 @@ def _ranks(column: pd.Series, *, desc: bool) -> list[np.ndarray]:
 
 
 def sort_rows(data: pd.DataFrame, *, by: list[str] | None = None, desc: bool = False) -> pd.DataFrame:
-    """The rows in the order of a column, numbers as numbers, texts as `sort-words` orders words (ё after е).
+    """The rows in the order of a column, numbers as numbers, texts in the alphabet order (ё after е).
 
     Equal rows keep their order, empty cells come last (also with desc). With several columns the first wins and
     each next one breaks the ties. A column that is not in the table is refused, naming the columns there are.
