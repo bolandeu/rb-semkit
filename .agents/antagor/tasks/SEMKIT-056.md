@@ -2,7 +2,7 @@
 id: SEMKIT-056
 title: 'Table bricks: use-column switches the working column, sort-rows orders the
   rows by a column'
-status: publish
+status: done
 attempts: 1
 blocked: false
 blocked_reason: null

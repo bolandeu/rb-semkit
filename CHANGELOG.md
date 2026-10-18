@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.45 — 2026-10-18
+
+### Outside epics
+
+- Table bricks: use-column switches the working column, sort-rows orders the rows by a column (SEMKIT-056)
+
 ## v0.1.44 — 2026-10-18
 
 ### Outside epics
