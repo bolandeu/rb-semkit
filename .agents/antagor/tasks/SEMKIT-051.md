@@ -57,7 +57,7 @@ RuWordNet holds senses of one word and of several words in the same synset: the 
 - Given the core «таможенное оформление товаров», When synonym-candidates --all runs, Then the unit «таможенное оформление товаров» has the candidate «растаможка» [check: tests/word_vectors/test_synonym_candidates.py]
 - Given the core «растаможка авто» and «таможенное оформление машины», When synonym-candidates runs without --all, Then «таможенное оформление» is a candidate of растаможка with in_core true [check: tests/word_vectors/test_synonym_candidates.py]
 - Given a synset with the same name twice (растамаживать in two senses), When the step runs, Then the candidate is listed once for the unit [check: tests/word_vectors/test_synonym_candidates.py]
-- Given --as-synonyms, When the step runs, Then a candidate of several words stays whole in the synonyms cell, so the file reads back by the steps with --synonyms (their separator chosen so that a phrase is not split) [check: tests/word_vectors/test_synonym_candidates.py]
+- Given --as-synonyms, When the step runs, Then the file holds the one-word candidates of the one-word units only, as now, since the steps with --synonyms compare word by word; the help says so [check: tests/word_vectors/test_synonym_candidates.py]
 
 ## How to test
 
@@ -65,7 +65,7 @@ Integration through the semkit CLI runner with the RuWordNet fixture the word-ve
 
 ## Basis
 
-core/word_vectors/thesaurus.py (the synset lookup) and candidates.py; the sense table has name and lemma columns; the reader of --synonyms files for item 6.
+core/word_vectors/thesaurus.py (the synset lookup) and candidates.py; the sense table has name and lemma columns.
 
 ## Read first
 
@@ -73,4 +73,4 @@ core/word_vectors/thesaurus.py (the synset lookup) and candidates.py; the sense 
 
 ## Out of scope
 
-- Other synonym sources (YARN, Wiktionary, dictionaries); vectors of phrases; hypernyms or related relations; an option to turn the phrase candidates off.
+- Other synonym sources (YARN, Wiktionary, dictionaries); vectors of phrases; hypernyms or related relations; an option to turn the phrase candidates off; synonyms of several words in the steps with --synonyms (dupes, ad-groups).
