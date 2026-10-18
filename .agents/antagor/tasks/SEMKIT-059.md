@@ -25,6 +25,7 @@ owns_paths:
 - .gitea/workflows/ci.yml
 - .python-version
 - .gitignore
+- CHANGELOG.md
 test_paths:
 - tests/pipeline/
 - tests/docs_cmd/test_core_docs.py
@@ -59,6 +60,7 @@ dataio v0.1.26 (IDEA-241) writes a chosen set of columns, in a chosen order, und
 5. The release gate is red on main at `ty check`: src/rb_semkit/pipeline/tables.py:143 and :156 pass str | None to rb_dataio.read. Fix them here (the same file), so `uv run scripts/release.py --check` is green; CI on the homeserver runs that gate.
 6. .gitea/workflows/ci.yml runs on code changes only: `push` and `pull_request` get `paths: [src/**, tests/**, scripts/**, pyproject.toml, uv.lock, .gitea/workflows/**]`; `workflow_dispatch` stays (a manual run). A commit with `[skip ci]` skips it (Gitea's own rule, nothing to add).
 7. One Python for the Mac and CI: add `.python-version` with `3.14` (uv on the runner installs it into the shared cache). The ty errors of item 5 show on 3.13 (CI took the only cached Python) and not on 3.14: narrow `self.address` to str before rb_dataio.read anyway, the None case is a real gap.
+8. CHANGELOG.md holds a stray hand-written `## Unreleased` block with a duplicate SEMKIT-057 line (below v0.1.48): delete that block. Do not add entries yourself: `antagor publish` writes the changelog.
 
 ## Acceptance
 
