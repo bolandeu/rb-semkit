@@ -4,8 +4,8 @@ title: 'CI on the homeserver runner: .gitea/workflows/ci.yml runs the release ga
   ruff format fix in tests/conftest.py'
 status: queue
 attempts: 0
-blocked: true
-blocked_reason: aborted
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -91,3 +91,5 @@ jobs:
 > Recommended: Cancel the task (placeholder created by mistake)
 
 Option 2: the placeholder was replaced by the real task (title, body, owns). Do the task as written now.
+
+### Blocked: aborted
