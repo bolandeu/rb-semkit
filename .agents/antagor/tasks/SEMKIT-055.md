@@ -43,14 +43,15 @@ translation: 'Привести docstring каждого шага к станда
   поведение не меняется; список исключений теста опустеет.'
 ---
 
+
 SEMKIT-054 writes docs/help-standard.md and a test with an allowlist of the steps that do not meet it. This task brings every step to it and empties the allowlist.
 
-For each step's docstring (the library function or the Adapted wrapper): a first sentence that says in one line what the step gives; the paragraphs of what it does, plain and short; one «name: text» line per option; one to three Example lines of a real short command, each followed by a «→» line with a short result on Russian SEO phrases («купить диван» → …). The meaning of a step and its options do not change; only the text.
+For each step's docstring (the library function or the Adapted wrapper): a first sentence that says in one line what the step gives; the paragraphs of what it does, plain and short; one «name: text» line per option; one to three Example lines of a real short command, each followed by a «-> result» line (ASCII arrow, the format of docs/help-standard.md) with a short result on Russian SEO phrases («купить диван» → …). The meaning of a step and its options do not change; only the text.
 
 ## Acceptance
 
 - Given the help standard test, When it runs, Then the allowlist is empty and every step passes [check: tests/steps/test_help_standard.py]
-- Given every Example of every step, When the examples test runs them, Then each runs and its result matches its «→» line [check: tests/steps/test_examples.py]
+- Given every Example of every step, When the examples test runs them, Then each runs and its result matches its «->» line; the runner that checks the result is built here (SEMKIT-054 leaves it out) [check: tests/steps/test_examples.py]
 - Given semkit docs, When it runs, Then no step description repeats an option line [check: tests/steps/test_help_standard.py]
 
 ## How to test
