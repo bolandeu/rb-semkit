@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.55 — 2026-10-19
+
+### Outside epics
+
+- Timed tests leave the default test run: the gate does not fail under load (SEMKIT-067)
+
 ## v0.1.54 — 2026-10-19
 
 ### Main
