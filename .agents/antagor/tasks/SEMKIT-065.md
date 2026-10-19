@@ -24,6 +24,7 @@ owns_paths:
 - .copier-answers.yml
 - .gitleaks.toml
 - README.md
+- AGENTS.md
 - CHANGELOG.md
 - .gitignore
 - .python-version
