@@ -162,3 +162,21 @@ def test_core_docs_names_no_module_step_or_command_of_semkit(document: dict) -> 
     assert "semkit" not in source
     assert [module for module in imported if module and module.split(".")[0] in {"steps", "commands", "pipeline"}] == []
     assert texts & names == set()
+
+
+def test_out_reports_the_written_file(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.chdir(tmp_path)  # a short path: the terminal would wrap a long one
+
+    result = _docs("--out", "d.json")
+
+    assert result.stdout == ""
+    assert result.stderr.strip() == "Wrote d.json"
+    assert json.loads((tmp_path / "d.json").read_text())["info"]
+
+
+def test_out_with_json_prints_the_success_envelope_with_the_path(tmp_path: Path) -> None:
+    out = tmp_path / "d.json"
+
+    result = _docs("--out", str(out), "--json")
+
+    assert json.loads(result.stdout) == {"ok": True, "path": str(out)}

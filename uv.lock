@@ -2344,9 +2344,25 @@ wheels = [
 ]
 
 [[package]]
+name = "rb-cli-core"
+version = "0.1.3"
+source = { registry = "https://homeserver.tailee01ab.ts.net:3000/api/packages/bolandeu/pypi/simple" }
+dependencies = [
+    { name = "packaging" },
+    { name = "platformdirs" },
+    { name = "pydantic" },
+    { name = "rich" },
+    { name = "tomli-w" },
+    { name = "typer" },
+]
+wheels = [
+    { url = "https://homeserver.tailee01ab.ts.net:3000/api/packages/bolandeu/pypi/files/rb-cli-core/0.1.3/rb_cli_core-0.1.3-py3-none-any.whl", hash = "sha256:193aed4ba5cce692186c374e1160d9e08cf10798ef7f13a1be4c7a4b8f0b385b" },
+]
+
+[[package]]
 name = "rb-dataio"
 version = "0.1.26"
-source = { git = "https://homeserver.tailee01ab.ts.net:3000/bolandeu/dataio.git?tag=v0.1.26#a401d5b06bfd575e0595d657ffd94048680e8b14" }
+source = { registry = "https://homeserver.tailee01ab.ts.net:3000/api/packages/bolandeu/pypi/simple" }
 dependencies = [
     { name = "duckdb" },
     { name = "google-auth", extra = ["requests"] },
@@ -2362,6 +2378,9 @@ dependencies = [
     { name = "rich" },
     { name = "tomli-w" },
     { name = "typer" },
+]
+wheels = [
+    { url = "https://homeserver.tailee01ab.ts.net:3000/api/packages/bolandeu/pypi/files/rb-dataio/0.1.26/rb_dataio-0.1.26-py3-none-any.whl", hash = "sha256:7acfa0e128224df21a7c2e607473b454d950247e803b38d41052d532d9e9d7d8" },
 ]
 
 [[package]]
@@ -2399,6 +2418,7 @@ dev = [
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pyyaml" },
+    { name = "rb-cli-core" },
     { name = "ruff" },
     { name = "syrupy" },
     { name = "ty" },
@@ -2420,7 +2440,7 @@ requires-dist = [
     { name = "pyahocorasick", specifier = ">=2.3.1" },
     { name = "pydantic", specifier = ">=2.6" },
     { name = "pymorphy3", specifier = ">=2.0.6" },
-    { name = "rb-dataio", git = "https://homeserver.tailee01ab.ts.net:3000/bolandeu/dataio.git?tag=v0.1.26" },
+    { name = "rb-dataio", specifier = ">=0.1.26,<0.2", index = "https://homeserver.tailee01ab.ts.net:3000/api/packages/bolandeu/pypi/simple" },
     { name = "rich", specifier = ">=13.7" },
     { name = "selectolax", specifier = ">=1.0.1" },
     { name = "tokenizers", marker = "extra == 'vectors'", specifier = ">=0.23" },
@@ -2437,6 +2457,7 @@ dev = [
     { name = "pytest", specifier = ">=8.0" },
     { name = "pytest-cov", specifier = ">=5.0" },
     { name = "pyyaml", specifier = ">=6.0" },
+    { name = "rb-cli-core", specifier = ">=0.1.2,<0.2", index = "https://homeserver.tailee01ab.ts.net:3000/api/packages/bolandeu/pypi/simple" },
     { name = "ruff", specifier = ">=0.6" },
     { name = "syrupy", specifier = ">=4.8" },
     { name = "ty", specifier = ">=0.0.80" },

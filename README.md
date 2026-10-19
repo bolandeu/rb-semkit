@@ -123,15 +123,16 @@ Your own lists: `SEMKIT_LISTS=DIR` (a relative folder is from the current one) o
 ```bash
 uv sync
 uv run semkit --help
-uv run scripts/release.py --check   # the full gate (run before every commit; CI runs it too)
+uv run rb-release check   # the full gate (run before every commit; CI runs it too)
 uv run pytest --snapshot-update  # after changing a command's help; review tests/snapshots/help/
 ```
 
 `pytest` fails below the coverage floor in `pyproject.toml`; `ruff` includes
-the security (`S`) rules; the gate also scans `uv.lock` for known
-vulnerabilities when `osv-scanner` is installed (`brew install osv-scanner`),
-and says it skipped the scan otherwise. CI is optional and only repeats
-`release.py --check`.
+the security (`S`) rules; the gate also scans the git history for committed
+secrets when `gitleaks` is installed (`brew install gitleaks`) and `uv.lock`
+for known vulnerabilities when `osv-scanner` is installed (`brew install
+osv-scanner`), and says it skipped a scan otherwise. CI is optional and only repeats
+`rb-release check`.
 
 ## Release
 
@@ -154,32 +155,22 @@ root tools agent. Nobody tags or pushes by hand.
 uv tool install .
 ```
 
-**On any other machine (any OS), once this repo is pushed to GitHub — no
-PyPI publish needed:**
+**From the Gitea registry** (the package is released there):
 
 ```bash
-uv tool install "rb-semkit @ git+https://github.com/bolandeu/rb-semkit.git@vX.Y.Z"
+uv tool install rb-semkit --index https://homeserver.tailee01ab.ts.net:3000/api/packages/bolandeu/pypi/simple
+```
+
+**Or from the git tag, on any other machine (any OS):**
+
+```bash
+uv tool install "rb-semkit @ git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/semkit.git@vX.Y.Z"
 ```
 
 Replace `vX.Y.Z` with the latest release tag (a tag cut by
 `antagor publish`; never install a branch). This is also how an AI agent
 bootstraps this CLI on a fresh machine/sandbox where it isn't installed
 yet — see `src/rb_semkit/data/SKILL.md`.
-
-**Private repo?** The command above is unchanged — `uv` runs git under the
-hood, so it authenticates the same way `git clone` does. On a machine
-where the install is refused with an auth error, do one of these once:
-
-```bash
-gh auth login          # interactive login also sets up git's credential helper
-gh auth setup-git      # only needed if gh was logged in with --with-token / in CI
-```
-
-or use the SSH form instead of HTTPS:
-
-```bash
-uv tool install "rb-semkit @ git+ssh://git@github.com/bolandeu/rb-semkit.git@vX.Y.Z"
-```
 
 **Update** an installed copy to the latest commit:
 
