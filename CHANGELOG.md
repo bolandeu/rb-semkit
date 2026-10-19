@@ -5,6 +5,15 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.54 — 2026-10-19
+
+### Main
+
+- Reapply "chore(antagor): checks call the gate from rb-cli-core (release.py is gone)"
+- Revert "chore(antagor): checks call the gate from rb-cli-core (release.py is gone)"
+- chore(antagor): checks call the gate from rb-cli-core (release.py is gone)
+
+
 ## v0.1.53 — 2026-10-19
 
 ### Outside epics
