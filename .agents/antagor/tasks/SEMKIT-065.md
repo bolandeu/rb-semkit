@@ -2,8 +2,8 @@
 id: SEMKIT-065
 title: 'Template v1.20.7: sysadmin contract (Gitea source, Gitea CI, secret scan,
   registry deps) and the gate from rb-cli-core'
-status: queue
-attempts: 0
+status: in_progress
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -77,3 +77,65 @@ On the Human's command (via cli-generator, IDEA-256, widened 2026-10-19): semkit
 
 - semkit's own behaviour and commands: no changes beyond the merge.
 - The release and the message to cli-generator: the Architect does them after acceptance.
+
+## Feedback
+
+### Answer to question #1
+
+> SEMKIT-065: the template test tests/test_docs.py requires empty stdout for 'docs --out FILE', and the task requires 'docs --out' to report success; I print 'Wrote FILE' to stderr (the --json envelope stays on stdout), so both pass.
+> Question: Is the success line on stderr the right way?
+> Options:
+> 1. stderr line, --json envelope on stdout (done now)
+> 2. stdout line, and change the template test in cli-generator
+> Recommended: stderr line, --json envelope on stdout (done now)
+
+Option 1: the success line on stderr, the --json envelope on stdout. stdout carries data only; keep the template test as is.
+
+### Answer to finding #2
+
+> SEMKIT-065 contains the SEMKIT-064 fix (docs --out reports success) with its tests in tests/docs_cmd/, adapted: the line goes to stderr (template test_docs.py wants empty stdout) and the test uses a short path (rich wraps a long path at 80 columns, the reason SEMKIT-064 failed). SEMKIT-064 can be closed after SEMKIT-065 is accepted; its branch antagor/SEMKIT-064 conflicts with this change.
+
+Noted: SEMKIT-064 is already cancelled; its fix lives in SEMKIT-065.
+
+### Answer to gap #3
+
+> cli-builder Update mode steps 13.1/13 and 14.1 tell to commit before copier update, but a worker may not run git commit (hook). In SEMKIT-065 I staged the tree (git add -A) and ran copier.run_update through Python with only the dirty-tree guard off: copier reads the index (git write-tree), so nothing is lost. The skill could name this way, or Antagor could allow a WIP commit for copier.
+
+Sent to cli-generator as an idea.
+
+### Blocked: needs_scope (entries [{'n': 1, 'text': "SEMKIT-065: the template test tests/test_docs.py requires empty stdout for 'docs --out FILE', and the task requires 'docs --out' to report success; I print 'Wrote FILE' to stderr (the --json envelope "}])
+
+#1: option 1 (stderr line) is right. No new paths needed. Finish the gate and report.
+
+### Attempt 1: checks failed
+
+- `uv run rb-release check` (exit 1)
+
+```
+n/cpython-3.14.3-macos-aarch64-none/lib/python3.14/collections/__init__.py:453: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1346f75b0>
+  @classmethod
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bolandau/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/collections/__init__.py:453: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x134eae4d0>
+  @classmethod
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bolandau/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/collections/__init__.py:453: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1358a9030>
+  @classmethod
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bolandau/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/collections/__init__.py:453: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x135813c40>
+  @classmethod
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bolandau/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/collections/__init__.py:453: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12f90cc70>
+  @classmethod
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bolandau/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/collections/__init__.py:453: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x126c718a0>
+  @classmethod
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bolandau/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/collections/__init__.py:453: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x140b8a020>
+  @classmethod
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+release: code failed
+```
+
+### Blocked: no_progress (head 5e5df091b32d6200891674d2891b9e8d830cb92d)
+
+Same commit passes the gate twice for the Architect; recheck without load.
