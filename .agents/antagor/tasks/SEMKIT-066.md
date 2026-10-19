@@ -1,8 +1,8 @@
 ---
 id: SEMKIT-066
 title: 'Antagor checks call the gate from rb-cli-core: the old release script is gone'
-status: in_progress
-attempts: 0
+status: queue
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -53,3 +53,9 @@ SEMKIT-065 removed the old release script, but `checks` in .agents/antagor/antag
 ## Out of scope
 
 - Any other file: the template merge is done (SEMKIT-065).
+
+## Feedback
+
+### Attempt 1: no file changed
+
+Your work changed no file of the project. Do the task's work. If the task needs no change, do not finish: ask the Architect a question that says why (see 'Need more than the task?').
