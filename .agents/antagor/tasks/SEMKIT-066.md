@@ -32,12 +32,16 @@ tool: null
 pr: null
 ---
 
-x
+y
 
 ## Read first
 
 - `.agents/antagor/antagor.toml`
 
+## Acceptance
+
+- Given a, When b, Then c [check: uv run rb-release check]
+
 ## Out of scope
 
-- x
+- z
