@@ -41,17 +41,16 @@ budget_usd: null
 epic: null
 spec_refs: []
 checks:
-- python3 scripts/check_command_docstrings.py
-- uv run scripts/release.py --check
+- uv run rb-release check
 resident: null
 tool: null
 pr: null
 ---
 
-On the Human's command (via cli-generator, IDEA-256): semkit is the first package to cross the sysadmin contract (/Users/bolandau/Work/tools/cli-generator/docs/contracts/sysadmin.md). semkit is on template v1.18.2, source `gh:bolandeu/cli-generator`. Follow the cli-generator:cli-builder skill, Update mode, step 13, sub-steps 1–9. Do not do step 14 (adopt_core stays false).
+On the Human's command (via cli-generator, IDEA-256, widened 2026-10-19): semkit is the first package to cross the sysadmin contract (/Users/bolandau/Work/tools/cli-generator/docs/contracts/sysadmin.md) and to take the gate from rb-cli-core. semkit is on template v1.18.2, source `gh:bolandeu/cli-generator`. Target: template v1.20.7. Follow the cli-generator:cli-builder skill (/Users/bolandau/Work/tools/cli-generator/skills/cli-builder/SKILL.md), Update mode: step 13, sub-steps 1–9, then step 14.
 
 1. Template source: in `.copier-answers.yml` set `_src_path: https://homeserver.tailee01ab.ts.net:3000/bolandeu/cli-generator.git` and `repository_url: https://homeserver.tailee01ab.ts.net:3000/bolandeu/semkit`. Commit `chore(copier): template source Gitea`.
-2. `uvx copier update --trust --defaults --pretend` must say "Updating to template version …" (the latest tag, v1.20.3 or newer). Then `uvx copier update --trust --defaults`. Resolve conflicts hunk by hunk: keep semkit's behaviour, take the template's fix.
+2. `uvx copier update --trust --defaults --vcs-ref v1.20.7 --pretend` must say "Updating to template version v1.20.7". Then `uvx copier update --trust --defaults --vcs-ref v1.20.7`. Resolve conflicts hunk by hunk: keep semkit's behaviour, take the template's fix.
    - tests/conftest.py: semkit's fixtures (test encoder, word data, plain help env) stay.
    - core/docs.py, commands/docs.py: `docs --out` must still report success (the SEMKIT-064 regression from the v1.18.2 merge must not come back); semkit's hook steps/docs_hook.py stays.
    - .gitea/workflows/ci.yml: keep semkit's `paths` filter, `options: --init` and the ci-cache volume; take the template's new gate steps (gitleaks, registry index).
@@ -60,16 +59,17 @@ On the Human's command (via cli-generator, IDEA-256): semkit is the first packag
 5. `.env` and `.env.*` in `.gitignore` (`grep -n '^\.env' .gitignore`). No tracked env file.
 6. Registry deps: in `[tool.uv.sources]` replace the `rb-dataio` git+tag source with `rb-dataio = { index = "gitea" }`; the `rb-dataio>=…` line in `dependencies` stays. `uv lock`.
 7. Shared keys / new keys: semkit reads no provider keys today; confirm with a grep and say so in the report. No ticket needed if none.
-8. Gate: `uv run --extra vectors pytest --snapshot-update`, read the snapshot diff (only rendering changes, no lost options or text), then `uv run scripts/release.py --check` green.
+8. Commit the step-13 state. Then step 14: `uvx copier update --trust --defaults --vcs-ref v1.20.7 --data adopt_core=true`, conflicts hunk by hunk. `scripts/release.py` goes away (`test ! -e scripts/release.py`). The gate is `uv run rb-release check` (rb-cli-core>=0.1.2,<0.2 from the gitea index). CI, antagor.toml and the docs call it; `grep -rn 'release\.py' .` finds nothing live (CHANGELOG history and .agents/ excepted). Edit the gate command in README.md by hand (copier skips it).
+9. Gate: `uv lock`, `uv run --extra vectors pytest --snapshot-update`, read the snapshot diff (only rendering changes, no lost options or text), then `uv run rb-release check` ends with "release: gate passed".
 
 ## Acceptance
 
-- `.copier-answers.yml` has the Gitea `_src_path` and `_commit` v1.20.3 or newer. [check: uv run scripts/release.py --check]
-- `.github/` is gone; `.gitea/workflows/ci.yml` keeps the paths filter and `--init`. [check: uv run scripts/release.py --check]
-- `rb-dataio` comes from the `gitea` index in pyproject.toml and uv.lock. [check: uv run scripts/release.py --check]
-- `semkit docs --out <dir>` reports success. [check: uv run scripts/release.py --check]
+- `.copier-answers.yml` has the Gitea `_src_path`, `_commit: v1.20.7` and `adopt_core: true`; `scripts/release.py` is gone. [check: uv run rb-release check]
+- `.github/` is gone; `.gitea/workflows/ci.yml` keeps the paths filter and `--init` and calls `uv run rb-release check`. [check: uv run rb-release check]
+- `rb-dataio` and `rb-cli-core` come from the `gitea` index in pyproject.toml and uv.lock. [check: uv run rb-release check]
+- `semkit docs --out <dir>` reports success. [check: uv run rb-release check]
 
 ## Out of scope
 
-- Step 14 of Update mode: the gate from rb-cli-core (adopt_core).
+- semkit's own behaviour and commands: no changes beyond the merge.
 - The release and the message to cli-generator: the Architect does them after acceptance.
