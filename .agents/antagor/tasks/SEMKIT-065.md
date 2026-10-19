@@ -77,3 +77,16 @@ On the Human's command (via cli-generator, IDEA-256, widened 2026-10-19): semkit
 
 - semkit's own behaviour and commands: no changes beyond the merge.
 - The release and the message to cli-generator: the Architect does them after acceptance.
+
+## Feedback
+
+### Answer to question #1
+
+> SEMKIT-065: the template test tests/test_docs.py requires empty stdout for 'docs --out FILE', and the task requires 'docs --out' to report success; I print 'Wrote FILE' to stderr (the --json envelope stays on stdout), so both pass.
+> Question: Is the success line on stderr the right way?
+> Options:
+> 1. stderr line, --json envelope on stdout (done now)
+> 2. stdout line, and change the template test in cli-generator
+> Recommended: stderr line, --json envelope on stdout (done now)
+
+Option 1: the success line on stderr, the --json envelope on stdout. stdout carries data only; keep the template test as is.
