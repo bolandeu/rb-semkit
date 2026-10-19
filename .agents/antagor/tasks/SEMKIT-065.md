@@ -4,8 +4,8 @@ title: 'Template v1.20.7: sysadmin contract (Gitea source, Gitea CI, secret scan
   registry deps) and the gate from rb-cli-core'
 status: in_progress
 attempts: 1
-blocked: true
-blocked_reason: no_progress
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -135,3 +135,7 @@ ResourceWarning: Enable tracemalloc to get the object allocation traceback
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
 release: code failed
 ```
+
+### Blocked: no_progress (head 5e5df091b32d6200891674d2891b9e8d830cb92d)
+
+Same commit passes the gate twice for the Architect; recheck without load.
