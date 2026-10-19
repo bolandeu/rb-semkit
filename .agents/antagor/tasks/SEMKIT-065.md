@@ -2,10 +2,10 @@
 id: SEMKIT-065
 title: 'Template v1.20.7: sysadmin contract (Gitea source, Gitea CI, secret scan,
   registry deps) and the gate from rb-cli-core'
-status: in_progress
+status: queue
 attempts: 0
-blocked: true
-blocked_reason: needs_scope
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -102,3 +102,7 @@ Noted: SEMKIT-064 is already cancelled; its fix lives in SEMKIT-065.
 > cli-builder Update mode steps 13.1/13 and 14.1 tell to commit before copier update, but a worker may not run git commit (hook). In SEMKIT-065 I staged the tree (git add -A) and ran copier.run_update through Python with only the dirty-tree guard off: copier reads the index (git write-tree), so nothing is lost. The skill could name this way, or Antagor could allow a WIP commit for copier.
 
 Sent to cli-generator as an idea.
+
+### Blocked: needs_scope (entries [{'n': 1, 'text': "SEMKIT-065: the template test tests/test_docs.py requires empty stdout for 'docs --out FILE', and the task requires 'docs --out' to report success; I print 'Wrote FILE' to stderr (the --json envelope "}])
+
+#1: option 1 (stderr line) is right. No new paths needed. Finish the gate and report.
