@@ -6,12 +6,14 @@ import time
 
 import numpy as np
 import pandas as pd
+import pytest
 
 import rb_semkit as sk
 
 LIMIT_SECONDS = 20
 
 
+@pytest.mark.speed
 def test_ten_thousand_phrases_over_a_hundred_thousand_words() -> None:
     rng = np.random.default_rng(1)
     vocabulary = [f"слово{i}" for i in range(3000)]
@@ -25,6 +27,7 @@ def test_ten_thousand_phrases_over_a_hundred_thousand_words() -> None:
     assert len(table) == core.nunique()
 
 
+@pytest.mark.speed
 def test_a_gap_of_two_over_a_hundred_thousand_words() -> None:
     rng = np.random.default_rng(2)
     vocabulary = [f"слово{i}" for i in range(3000)]

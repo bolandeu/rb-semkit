@@ -138,6 +138,7 @@ def test_wrong_arguments_raise_invalid_arguments_naming_the_argument(call, argum
         call()
 
 
+@pytest.mark.speed
 def test_one_text_against_twenty_competitors_of_five_thousand_words_runs_fast() -> None:
     words = [f"слово{i}" for i in range(300)]
     texts = [" ".join(words[(i + j) % 300] for j in range(5000)) for i in range(21)]
