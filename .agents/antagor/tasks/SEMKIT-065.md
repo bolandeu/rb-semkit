@@ -96,3 +96,9 @@ Option 1: the success line on stderr, the --json envelope on stdout. stdout carr
 > SEMKIT-065 contains the SEMKIT-064 fix (docs --out reports success) with its tests in tests/docs_cmd/, adapted: the line goes to stderr (template test_docs.py wants empty stdout) and the test uses a short path (rich wraps a long path at 80 columns, the reason SEMKIT-064 failed). SEMKIT-064 can be closed after SEMKIT-065 is accepted; its branch antagor/SEMKIT-064 conflicts with this change.
 
 Noted: SEMKIT-064 is already cancelled; its fix lives in SEMKIT-065.
+
+### Answer to gap #3
+
+> cli-builder Update mode steps 13.1/13 and 14.1 tell to commit before copier update, but a worker may not run git commit (hook). In SEMKIT-065 I staged the tree (git add -A) and ran copier.run_update through Python with only the dirty-tree guard off: copier reads the index (git write-tree), so nothing is lost. The skill could name this way, or Antagor could allow a WIP commit for copier.
+
+Sent to cli-generator as an idea.
