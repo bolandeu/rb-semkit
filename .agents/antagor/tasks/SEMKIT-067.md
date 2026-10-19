@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-067
 title: 'Timed tests leave the default test run: the gate does not fail under load'
-status: in_progress
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
