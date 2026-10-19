@@ -90,3 +90,9 @@ On the Human's command (via cli-generator, IDEA-256, widened 2026-10-19): semkit
 > Recommended: stderr line, --json envelope on stdout (done now)
 
 Option 1: the success line on stderr, the --json envelope on stdout. stdout carries data only; keep the template test as is.
+
+### Answer to finding #2
+
+> SEMKIT-065 contains the SEMKIT-064 fix (docs --out reports success) with its tests in tests/docs_cmd/, adapted: the line goes to stderr (template test_docs.py wants empty stdout) and the test uses a short path (rich wraps a long path at 80 columns, the reason SEMKIT-064 failed). SEMKIT-064 can be closed after SEMKIT-065 is accepted; its branch antagor/SEMKIT-064 conflicts with this change.
+
+Noted: SEMKIT-064 is already cancelled; its fix lives in SEMKIT-065.
