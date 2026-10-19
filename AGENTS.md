@@ -6,7 +6,7 @@
 - Решения и почему так: `docs/adr/` (формат — `docs/adr/README.md`).
 - Правила кода для ревью: `CODING_STANDARDS.md`.
 - Тикеты и сценарии ведёт Antagor: `.agents/antagor/`.
-- Гейт перед коммитом: `uv run scripts/release.py --check`.
+- Гейт перед коммитом: `uv run rb-release check`.
 - Выпуски (временно, до отмены Человеком): Архитектор принимает задачи и делает `antagor publish` (push) сам,
   без подтверждения, после своей проверки (гейт + просмотр изменений с прошлого тега); о выпуске сообщает после; затем обновляет глобальную установку:
   `uv tool install --force "rb-semkit @ git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/semkit.git@<тег>"`.

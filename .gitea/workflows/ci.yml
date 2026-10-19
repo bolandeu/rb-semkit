@@ -21,10 +21,28 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # release.py needs tags
+          fetch-depth: 0   # tags: the build's version comes from them
       - name: uv
         run: |
           mkdir -p /cache/bin
           [ -x /cache/bin/uv ] || curl -LsSf --max-time 300 https://astral.sh/uv/install.sh | env UV_INSTALL_DIR=/cache/bin UV_NO_MODIFY_PATH=1 sh
           echo /cache/bin >> "$GITHUB_PATH"
-      - run: uv run scripts/release.py --check
+      # Scanners the gate runs when present; pinned, cached per version
+      # (a new pin downloads anew), linked onto PATH under the plain name.
+      - name: osv-scanner and gitleaks
+        run: |
+          mkdir -p /cache/bin
+          osv=/cache/bin/osv-scanner-2.7.0
+          [ -x $osv ] || { curl -LsSf --max-time 300 -o $osv https://github.com/google/osv-scanner/releases/download/v2.7.0/osv-scanner_linux_amd64 && chmod +x $osv; }
+          gitleaks=/cache/bin/gitleaks-8.30.1
+          [ -x $gitleaks ] || { curl -LsSf --max-time 300 https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz | tar -xzO gitleaks > $gitleaks && chmod +x $gitleaks; }
+          ln -sf $osv /usr/local/bin/osv-scanner
+          ln -sf $gitleaks /usr/local/bin/gitleaks
+      # Lowest Python allowed by requires-python (">=3.11" -> 3.11), so CI tests
+      # the oldest interpreter users may have, not whatever is newest.
+      - name: Lowest supported Python
+        run: echo "UV_PYTHON=$(grep -m1 '^requires-python' pyproject.toml | grep -oE '[0-9]+\.[0-9]+' | head -1)" >> "$GITHUB_ENV"
+      # A project without scripts/release.py takes the gate from rb-cli-core.
+      - name: Gate
+        run: |
+          if [ -f scripts/release.py ]; then uv run scripts/release.py --check; else uv run rb-release check; fi

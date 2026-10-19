@@ -5,6 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import typer
+from rich.markup import escape
 
 from .. import output
 from ..core import docs as document
@@ -35,3 +36,7 @@ def docs(
         out.write_text(text, encoding="utf-8")
     except OSError as exc:
         raise InvalidArguments(f"Cannot write {out}: {exc.strerror}.") from exc
+    # stdout stays empty without --json (the document's bytes go to FILE only): the report goes to stderr.
+    output.emit_success(
+        ctx, {"path": str(out)}, lambda data: output.human.err_console.print(escape(f"Wrote {data['path']}"))
+    )

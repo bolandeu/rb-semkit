@@ -1,6 +1,7 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: v1.18.2
-_src_path: gh:bolandeu/cli-generator
+_commit: v1.20.7
+_src_path: https://homeserver.tailee01ab.ts.net:3000/bolandeu/cli-generator.git
+adopt_core: true
 antagor_prefix: SMK
 author_name: net.paradox
 cli_name: semkit
@@ -12,6 +13,8 @@ include_auth: false
 include_ci: false
 include_db: false
 include_providers: false
+install_homeserver_users: rbtools
+install_mac: true
 package_name: rb_semkit
 project_name: semkit
-repository_url: https://github.com/bolandeu/rb-semkit
+repository_url: https://homeserver.tailee01ab.ts.net:3000/bolandeu/semkit

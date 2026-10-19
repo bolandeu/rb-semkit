@@ -7,6 +7,7 @@ from pathlib import Path
 
 import pytest
 import typer
+import yaml
 from typer.testing import CliRunner
 
 from rb_semkit import output
@@ -62,6 +63,21 @@ def test_distribution_name_matches_pyproject() -> None:
     """_distribution.DIST_NAME is how importlib.metadata finds this package; it must equal [project] name."""
     pyproject = tomllib.loads((Path(__file__).resolve().parents[1] / "pyproject.toml").read_text())
     assert pyproject["project"]["name"] == DIST_NAME
+
+
+def test_install_section_matches_copier_answers() -> None:
+    """[tool.rb.install] is rendered from the copier answers: users split on commas, mac as a bool.
+
+    extras is not a copier answer: a hand-added one only has to be a list of strings.
+    """
+    root = Path(__file__).resolve().parents[1]
+    install = tomllib.loads((root / "pyproject.toml").read_text())["tool"]["rb"]["install"]
+    answers = yaml.safe_load((root / ".copier-answers.yml").read_text())
+    users = [name.strip() for name in answers["install_homeserver_users"].split(",") if name.strip()]
+    assert install["homeserver"] == users
+    assert install["mac"] is answers["install_mac"]
+    extras = install.get("extras", [])
+    assert isinstance(extras, list) and all(isinstance(extra, str) for extra in extras)
 
 
 # --- help-on-no-args -------------------------------------------------------

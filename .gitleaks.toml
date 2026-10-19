@@ -1,0 +1,29 @@
+# Secret scan config, read by `gitleaks` from the repo root (release gate, architecture.md §8).
+# The default rules stay on. The allowlist holds only fake test values, one exact string each:
+# never a path, a rule id or a broad pattern. A real key is a leak — revoke it, never list it here.
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "fake test values (tests/test_auth.py; templates up to v1.20.1 committed them without gitleaks:allow)"
+regexes = [
+    '''^good-secret-123$''',
+    '''^bad-secret-456$''',
+]
+
+[[allowlists]]
+description = "SHA-256 checksums of the pinned encoder files (src/rb_semkit/data/vectors/models.toml, tests/vectors/conftest.py)"
+regexes = [
+    '''^0b44a9d7b51c3c62626640cda0e2c2f70fdacdc25bbbd68038369d14ebdf4c39$''',
+    '''^19f1909063da3cfe3bd83a782381f040dccea475f4816de11116444a73e1b6a1$''',
+    '''^3e657ddc9bb3a7425f881e701aedfee5911936be4d6f4efde8a2bc557eb34844$''',
+    '''^c51e455b41df6c017327e16001dd064b8b6733faeaa69b23d9bd79c8079237d5$''',
+]
+
+[[allowlists]]
+description = "public client-side widget ids of a saved third-party shop page (tests/html/fixtures/megagroup-base-shop.html): served to every visitor, not our keys"
+regexes = [
+    '''^9da893b1b6582945d810301df6de1c45$''',
+    '''^f0298e5a0d1bac9ba2d23c4219ef8575$''',
+    '''^rctRLwWwI6IMYbBjpojLPQ6tezGM1Sia$''',
+]

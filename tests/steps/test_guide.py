@@ -66,12 +66,14 @@ def _commands(command: dict) -> list[dict]:
 
 def test_every_flag_command_and_exit_code_of_the_guide_exists(tmp_path: Path) -> None:
     guide = semkit("--ai").stdout
+    # The install commands run uv, not semkit: their flags are uv's.
+    semkit_text = "\n".join(line for line in guide.splitlines() if not line.startswith("uv "))
     cli = _describe()
     flags = {option["name"] for command in _commands(cli) for option in command.get("options", [])}
     commands = {command["name"] for command in cli["commands"]}
     codes = {code["code"] for code in cli["exitCodes"]}
 
-    assert set(re.findall(r"(?<![\w-])--[a-z][a-z-]*", guide)) - {"--help"} <= flags
+    assert set(re.findall(r"(?<![\w-])--[a-z][a-z-]*", semkit_text)) - {"--help"} <= flags
     assert set(re.findall(r"(?:`|→ )semkit ([a-z]+)", guide)) <= commands
     assert {int(code) for code in re.findall(r"^    (\d)  ", guide, re.MULTILINE)} == codes
     assert "-q" not in re.findall(r"(?<![\w-])-[a-z]\b", guide)
