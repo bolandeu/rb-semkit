@@ -120,6 +120,7 @@ def test_edges_need_strings() -> None:
         sk.edges(start=["+"])
 
 
+@pytest.mark.speed
 def test_a_million_rows_run_in_seconds() -> None:
     first = pd.Series([f"слово{i % 400_000} фраза" for i in range(1_000_000)])
     second = pd.Series([f"фраза слово{i % 300_000}" for i in range(1_000_000)])

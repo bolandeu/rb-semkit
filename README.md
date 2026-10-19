@@ -124,6 +124,7 @@ Your own lists: `SEMKIT_LISTS=DIR` (a relative folder is from the current one) o
 uv sync
 uv run semkit --help
 uv run rb-release check   # the full gate (run before every commit; CI runs it too)
+uv run pytest -m speed    # the timed tests, left out of the gate: run on an idle machine
 uv run pytest --snapshot-update  # after changing a command's help; review tests/snapshots/help/
 ```
 

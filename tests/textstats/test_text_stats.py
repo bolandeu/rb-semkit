@@ -118,6 +118,7 @@ def test_nausea_classic_has_two_decimals() -> None:
     assert one("а1 " * 5 + "б2", lemmatizer=Identity())["nausea_classic"] == round(math.sqrt(5), 2)
 
 
+@pytest.mark.speed
 def test_thousand_texts_of_two_thousand_words_run_fast() -> None:
     words = [f"слово{i}" for i in range(300)]
     texts = pd.Series([" ".join(words[(i + j) % 300] for j in range(2000)) for i in range(1000)])

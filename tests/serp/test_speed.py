@@ -13,6 +13,7 @@ import rb_semkit as sk
 LIMIT_SECONDS = 20
 
 
+@pytest.mark.speed
 @pytest.mark.parametrize("method", ["soft", "hard"])
 def test_twenty_thousand_phrases(method: str) -> None:
     rng = np.random.default_rng(1)
