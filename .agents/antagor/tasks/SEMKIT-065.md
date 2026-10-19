@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-065
-title: 'Template v1.20.3: Gitea source, Gitea CI, secret scan, registry deps (first
-  package for the Renovate check)'
+title: 'Template v1.20.7: sysadmin contract (Gitea source, Gitea CI, secret scan,
+  registry deps) and the gate from rb-cli-core'
 status: ideas
 attempts: 0
 blocked: false
@@ -45,6 +45,9 @@ checks:
 resident: null
 tool: null
 pr: null
+translation: 'Обновить шаблон до v1.20.7: контракт sysadmin (источник Gitea, CI в
+  Gitea, gitleaks, .env, rb-dataio из реестра gitea) и гейт из rb-cli-core (adopt_core=true,
+  scripts/release.py удалён, гейт — uv run rb-release check).'
 ---
 
 On the Human's command (via cli-generator, IDEA-256, widened 2026-10-19): semkit is the first package to cross the sysadmin contract (/Users/bolandau/Work/tools/cli-generator/docs/contracts/sysadmin.md) and to take the gate from rb-cli-core. semkit is on template v1.18.2, source `gh:bolandeu/cli-generator`. Target: template v1.20.7. Follow the cli-generator:cli-builder skill (/Users/bolandau/Work/tools/cli-generator/skills/cli-builder/SKILL.md), Update mode: step 13, sub-steps 1–9, then step 14.
