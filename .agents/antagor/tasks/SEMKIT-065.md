@@ -3,7 +3,7 @@ id: SEMKIT-065
 title: 'Template v1.20.7: sysadmin contract (Gitea source, Gitea CI, secret scan,
   registry deps) and the gate from rb-cli-core'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -106,3 +106,32 @@ Sent to cli-generator as an idea.
 ### Blocked: needs_scope (entries [{'n': 1, 'text': "SEMKIT-065: the template test tests/test_docs.py requires empty stdout for 'docs --out FILE', and the task requires 'docs --out' to report success; I print 'Wrote FILE' to stderr (the --json envelope "}])
 
 #1: option 1 (stderr line) is right. No new paths needed. Finish the gate and report.
+
+### Attempt 1: checks failed
+
+- `uv run rb-release check` (exit 1)
+
+```
+n/cpython-3.14.3-macos-aarch64-none/lib/python3.14/collections/__init__.py:453: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1346f75b0>
+  @classmethod
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bolandau/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/collections/__init__.py:453: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x134eae4d0>
+  @classmethod
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bolandau/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/collections/__init__.py:453: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1358a9030>
+  @classmethod
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bolandau/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/collections/__init__.py:453: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x135813c40>
+  @classmethod
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bolandau/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/collections/__init__.py:453: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12f90cc70>
+  @classmethod
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bolandau/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/collections/__init__.py:453: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x126c718a0>
+  @classmethod
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bolandau/.local/share/uv/python/cpython-3.14.3-macos-aarch64-none/lib/python3.14/collections/__init__.py:453: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x140b8a020>
+  @classmethod
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+release: code failed
+```
