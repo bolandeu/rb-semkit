@@ -2,7 +2,7 @@
 id: SEMKIT-065
 title: 'Template v1.20.7: sysadmin contract (Gitea source, Gitea CI, secret scan,
   registry deps) and the gate from rb-cli-core'
-status: in_review
+status: publish
 attempts: 1
 blocked: false
 blocked_reason: null
