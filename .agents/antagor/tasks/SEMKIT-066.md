@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-066
 title: 'Antagor checks call the gate from rb-cli-core: the old release script is gone'
-status: in_progress
+status: cancelled
 attempts: 1
-blocked: true
-blocked_reason: no_progress
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
