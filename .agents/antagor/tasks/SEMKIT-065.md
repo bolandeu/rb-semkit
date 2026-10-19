@@ -68,10 +68,10 @@ On the Human's command (via cli-generator, IDEA-256, widened 2026-10-19): semkit
 
 ## Acceptance
 
-- `.copier-answers.yml` has the Gitea `_src_path`, `_commit: v1.20.7` and `adopt_core: true`; `scripts/release.py` is gone. [check: uv run rb-release check]
-- `.github/` is gone; `.gitea/workflows/ci.yml` keeps the paths filter and `--init` and calls `uv run rb-release check`. [check: uv run rb-release check]
-- `rb-dataio` and `rb-cli-core` come from the `gitea` index in pyproject.toml and uv.lock. [check: uv run rb-release check]
-- `semkit docs --out <dir>` reports success. [check: uv run rb-release check]
+- Given the updated repo, When the gate runs, Then `.copier-answers.yml` has the Gitea `_src_path`, `_commit: v1.20.7`, `adopt_core: true`, `scripts/release.py` is gone, and the gate ends with "release: gate passed" [check: uv run rb-release check]
+- Given the updated repo, When tests/test_ci.py runs, Then `.github/` is gone and `.gitea/workflows/ci.yml` keeps the paths filter and `--init` and calls `uv run rb-release check` [check: uv run rb-release check]
+- Given pyproject.toml and uv.lock, When `uv lock` runs, Then `rb-dataio` and `rb-cli-core` come from the `gitea` index [check: uv run rb-release check]
+- Given an empty dir, When `semkit docs --out <dir>` runs, Then it writes the docs and reports success [check: uv run rb-release check]
 
 ## Out of scope
 
