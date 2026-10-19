@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.53 — 2026-10-19
+
+### Outside epics
+
+- Template v1.20.7: sysadmin contract (Gitea source, Gitea CI, secret scan, registry deps) and the gate from rb-cli-core (SEMKIT-065)
+
 ## v0.1.52 — 2026-10-18
 
 ### Outside epics
