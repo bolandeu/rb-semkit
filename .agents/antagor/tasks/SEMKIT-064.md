@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-064
 title: docs --out reports success again (lost in the v1.18.2 template merge)
-status: queue
+status: cancelled
 attempts: 1
-blocked: true
-blocked_reason: aborted
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
