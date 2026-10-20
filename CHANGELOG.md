@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.58 — 2026-10-20
+
+### Outside epics
+
+- Rename scenario to workflow: code, help, bundled folder and the project folder .rb_semkit/workflows/ (SEMKIT-069)
+
 ## v0.1.57 — 2026-10-20
 
 ### Main
