@@ -3,7 +3,7 @@ id: SEMKIT-068
 title: 'Template update to the newest tag (v1.23.1+): the gate through uvx from cli-generator,
   rb-cli-core gone'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -97,3 +97,7 @@ Option 1: cli-generator changes the gate (IDEA-297): --json from the root's help
 ### Blocked: idea_wait (idea IDEA-297, idea_state IDEA-297 is new, was needs_scope, note needs the gate fix and template tag from cli-generator)
 
 CG-045 is released: template tag v1.23.1. Update with --vcs-ref v1.23.1; the gate now counts the root's --json and probes 'semkit --json read STEP --unknown', so the pipeline steps need no change.
+
+### Attempt 1: file docstring
+
+- update the docstring of src/rb_semkit/output/__init__.py: +RootGroup
