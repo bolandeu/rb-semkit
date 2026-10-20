@@ -5,7 +5,7 @@
 
 ## Гейт и тесты
 
-- **Гейт проходит перед каждым коммитом.** `uvx --from "git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/cli-generator.git@v1.23.0#subdirectory=gate" rb-release check`: `uv lock --check`, ruff, ty,
+- **Гейт проходит перед каждым коммитом.** `uvx --from "git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/cli-generator.git@v1.23.1#subdirectory=gate" rb-release check`: `uv lock --check`, ruff, ty,
   pytest (порог покрытия, контракт `--help` и снапшоты, форма `auth status`), контракты потребителей
   (`tests/contracts/`), список изменённых существующих тестов, сборка wheel и `semkit --version` из неё.
   Упавший шаг чинят, а не пропускают. CI, если он есть, гоняет ровно это.
