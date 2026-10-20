@@ -78,3 +78,17 @@ The `adopt_core` answer and the dev dependency `rb-cli-core` are gone. The gate 
 
 - The timed tests (marker speed): they stay out of the default run.
 - The release and the message to cli-generator: the Architect does them after acceptance.
+
+## Feedback
+
+### Answer to question #1
+
+> The v1.23.0 gate fails 'standard: json' (Standard, section Output) and 'standard: errors' (section Errors) on the 145 pipeline steps under 'semkit read': the gate lists them as commands, but a step is a part of one pipeline command, and --json is a global option before the steps ('semkit --json read IN STEP'), so a step's --help has no --json and 'semkit read STEP --json --x' reports 'No such option: --json' without the envelope. Every other gate step passes (osv audit checked by hand: no issues).
+> Question: How do we make the gate pass for the pipeline steps?
+> Options:
+> 1. cli-generator changes the gate: rules json and errors skip the subcommands of a chained group (Click chain=True), or probe the group itself ('semkit read --json')
+> 2. semkit adds --json to every step's options (a copy of the global flag) and turns a usage error after any --json into the error envelope
+> 3. the Standard gets a declared exception (a pyproject key) for the pipeline steps of semkit
+> Recommended: cli-generator changes the gate: rules json and errors skip the subcommands of a chained group (Click chain=True), or probe the group itself ('semkit read --json')
+
+Option 1: cli-generator changes the gate (IDEA-297): --json from the root's help counts; errors probe 'semkit --json read STEP --unknown'. semkit changes nothing for these rules. When the task returns, update to the new template tag (the Architect names it).
