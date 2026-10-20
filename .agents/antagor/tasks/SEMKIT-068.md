@@ -2,10 +2,10 @@
 id: SEMKIT-068
 title: 'Template update to the newest tag (v1.23.1+): the gate through uvx from cli-generator,
   rb-cli-core gone'
-status: in_progress
+status: queue
 attempts: 0
-blocked: true
-blocked_reason: idea_wait
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -93,3 +93,7 @@ The `adopt_core` answer and the dev dependency `rb-cli-core` are gone. The gate 
 > Recommended: cli-generator changes the gate: rules json and errors skip the subcommands of a chained group (Click chain=True), or probe the group itself ('semkit read --json')
 
 Option 1: cli-generator changes the gate (IDEA-297): --json from the root's help counts; errors probe 'semkit --json read STEP --unknown'. semkit changes nothing for these rules. When the task returns, update to the new template tag (the Architect names it).
+
+### Blocked: idea_wait (idea IDEA-297, idea_state IDEA-297 is new, was needs_scope, note needs the gate fix and template tag from cli-generator)
+
+CG-045 is released: template tag v1.23.1. Update with --vcs-ref v1.23.1; the gate now counts the root's --json and probes 'semkit --json read STEP --unknown', so the pipeline steps need no change.
