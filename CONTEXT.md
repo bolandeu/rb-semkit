@@ -85,10 +85,12 @@ One operation of the CLI over the current table: one library function with its a
 One command line: read, then any steps in the order written, then write. Built from steps.
 _Avoid_: recipe
 
-**Scenario** (сценарий):
+**Workflow** (воркфлоу):
 A named, saved pipeline of semkit's own steps with parameters and their defaults, run by `semkit run NAME`;
-bundled or in the project folder (ADR 0010). It records a chain, it is not a step: each of its steps runs alone too.
-_Avoid_: workflow, run (as a noun: `run` is the command), composite step, flow (a flow over other CLIs is built outside semkit)
+bundled or in the folder `.rb_semkit/workflows/` where semkit runs (ADR 0010, the name: ADR 0011). It records a chain,
+it is not a step: each of its steps runs alone too.
+_Avoid_: scenario (сценарий), run (as a noun: `run` is the command), composite step, flow (a chain over other CLIs is
+built outside semkit)
 
 **Word list** (список слов, список):
 A named list of words or phrases (minus-words, stopwords, items to combine, a niche list), one per line; bundled,
