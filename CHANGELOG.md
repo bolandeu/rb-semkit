@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.56 — 2026-10-20
+
+### Outside epics
+
+- Template update to the newest tag (v1.23.1+): the gate through uvx from cli-generator, rb-cli-core gone (SEMKIT-068)
+
 ## v0.1.55 — 2026-10-19
 
 ### Outside epics
