@@ -5,6 +5,13 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.57 — 2026-10-20
+
+### Main
+
+- chore(antagor): checks call the gate through uvx at template v1.23.1
+
+
 ## v0.1.56 — 2026-10-20
 
 ### Outside epics
