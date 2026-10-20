@@ -2,7 +2,7 @@
 id: SEMKIT-068
 title: 'Template update to the newest tag (v1.23.1+): the gate through uvx from cli-generator,
   rb-cli-core gone'
-status: in_review
+status: publish
 attempts: 1
 blocked: false
 blocked_reason: null
