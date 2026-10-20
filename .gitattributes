@@ -5,3 +5,5 @@ src/rb_semkit/data/markers/** linguist-generated
 src/rb_semkit/data/change/** linguist-generated
 src/rb_semkit/data/declension/** linguist-generated
 src/rb_semkit/data/wordlists/** linguist-generated
+# Help and describe snapshots, written by pytest --snapshot-update and read in review as a diff: Antagor counts them by file.
+tests/snapshots/** linguist-generated
