@@ -1,4 +1,4 @@
-"""`semkit run NAME`: a named scenario of semkit's own steps, bundled or in the project, run as one read pipeline.
+"""`semkit run NAME`: a named workflow of semkit's own steps, bundled or in the project, run as one read pipeline.
 
 The steps by meaning get the test encoder and the thesaurus of the shared fixtures (растаможка and таможенное
 оформление are synonyms), so the bundled intent-synonyms runs offline.
@@ -89,12 +89,12 @@ def project(tmp_path: Path) -> Path:
     root = tmp_path / "project"
     root.mkdir()
     services.init_project(root, "demo")
-    (root / ".rb_semkit" / "scenarios").mkdir()
+    (root / ".rb_semkit" / "workflows").mkdir()
     return root
 
 
-def _scenario(project: Path, name: str, text: str) -> Path:
-    path = project / ".rb_semkit" / "scenarios" / f"{name}.toml"
+def _workflow(project: Path, name: str, text: str) -> Path:
+    path = project / ".rb_semkit" / "workflows" / f"{name}.toml"
     path.write_text(text, encoding="utf-8")
     return path
 
@@ -145,7 +145,7 @@ def test_set_step_option_replaces_or_adds_the_option_of_that_step(models_opened:
 
 
 @pytest.mark.parametrize("setting", ["nosuchstep.x=1", "nearest.nosuch=1"])
-def test_set_of_a_step_or_option_the_scenario_lacks_is_refused_naming_the_steps_and_their_options(setting) -> None:
+def test_set_of_a_step_or_option_the_workflow_lacks_is_refused_naming_the_steps_and_their_options(setting) -> None:
     error = _refused("run", "intent-synonyms", "--text", PHRASE, "--set", setting)
 
     assert error["message"].startswith(f"run intent-synonyms: --set {setting}:")
@@ -158,7 +158,7 @@ def test_set_of_a_step_or_option_the_scenario_lacks_is_refused_naming_the_steps_
 def test_set_of_an_unknown_parameter_is_refused_naming_the_parameters() -> None:
     error = _refused("run", "intent-synonyms", "--text", PHRASE, "--set", "nosuch=1")
 
-    assert error["message"] == "run intent-synonyms: --set nosuch=1: the scenario has no parameter nosuch."
+    assert error["message"] == "run intent-synonyms: --set nosuch=1: the workflow has no parameter nosuch."
     assert "threshold, model, source" in error["action"]
 
 
@@ -197,8 +197,8 @@ def test_write_out_writes_the_file(tmp_path: Path) -> None:
     assert pd.read_csv(out).to_dict("records") == _run("intent-synonyms", "--text", PHRASE)
 
 
-def test_a_scenario_without_per_phrase_runs_once_over_the_whole_table(project: Path) -> None:
-    _scenario(project, "upper", 'description = "Upper case."\nsteps = """\nchange-case --kind {case}\n"""\n'
+def test_a_workflow_without_per_phrase_runs_once_over_the_whole_table(project: Path) -> None:
+    _workflow(project, "upper", 'description = "Upper case."\nsteps = """\nchange-case --kind {case}\n"""\n'
               '[parameters.case]\ndefault = "upper"\nhelp = "the case"\n')  # fmt: skip
 
     rows = _run("upper", "--text", "a b", "--text", "c", project=project)
@@ -207,21 +207,32 @@ def test_a_scenario_without_per_phrase_runs_once_over_the_whole_table(project: P
 
 
 def test_set_replaces_an_option_the_step_takes_positionally(project: Path) -> None:
-    _scenario(project, "lower", 'description = "Lower case."\nsteps = "change-case lower"\n')
+    _workflow(project, "lower", 'description = "Lower case."\nsteps = "change-case lower"\n')
 
     rows = _run("lower", "--text", "Ab", "--set", "change-case.kind=upper", project=project)
 
     assert rows == [{"phrase": "AB"}]
 
 
-def test_a_project_scenario_overrides_the_bundled_one_of_the_same_name(project: Path) -> None:
-    _scenario(project, "intent-synonyms", 'description = "Project one."\nsteps = """\nchange-case upper\n"""\n')
+def test_a_project_workflow_overrides_the_bundled_one_of_the_same_name(project: Path) -> None:
+    _workflow(project, "intent-synonyms", 'description = "Project one."\nsteps = """\nchange-case upper\n"""\n')
 
     assert _run("intent-synonyms", "--text", PHRASE, project=project) == [{"phrase": "РАСТАМОЖКА АВТО"}]
 
 
+def test_a_file_in_the_former_scenarios_folder_still_runs_and_workflows_wins_over_it(project: Path) -> None:
+    old = project / ".rb_semkit" / "scenarios"
+    old.mkdir()
+    (old / "only-old.toml").write_text('description = "Old."\nsteps = "change-case upper"\n', encoding="utf-8")
+    (old / "both.toml").write_text('description = "Old."\nsteps = "change-case lower"\n', encoding="utf-8")
+    _workflow(project, "both", 'description = "New."\nsteps = "change-case upper"\n')
+
+    assert _run("only-old", "--text", "ab", project=project) == [{"phrase": "AB"}]
+    assert _run("both", "--text", "ab", project=project) == [{"phrase": "AB"}]
+
+
 def test_a_parameter_without_a_default_is_refused_naming_the_file_and_the_parameter(project: Path) -> None:
-    path = _scenario(
+    path = _workflow(
         project, "broken", 'description = "x"\nsteps = "change-case upper"\n[parameters.mode]\nhelp = "m"\n'
     )
 
@@ -235,7 +246,7 @@ def test_a_parameter_without_a_default_is_refused_naming_the_file_and_the_parame
     [("no-such-step --x 1", "no step no-such-step"), ("change-case --nosuch 1", "No such option: --nosuch")],
 )
 def test_a_step_or_option_that_does_not_exist_is_refused_naming_the_file_and_the_line(project, line, found) -> None:
-    path = _scenario(project, "broken", f'description = "x"\nsteps = """\nchange-case upper\n{line}\n"""\n')
+    path = _workflow(project, "broken", f'description = "x"\nsteps = """\nchange-case upper\n{line}\n"""\n')
 
     for args in (("run", "--help"), ("run", "broken", "--text", PHRASE)):
         error = _refused("--project", str(project), *args)
@@ -247,14 +258,14 @@ def test_a_step_or_option_that_does_not_exist_is_refused_naming_the_file_and_the
     ("text", "reason"),
     [
         ("description = ", "no TOML: "),
-        ('steps = "agree"\n', "a scenario needs the texts description and steps."),
+        ('steps = "agree"\n', "a workflow needs the texts description and steps."),
         ('description = "x"\nsteps = "change-case {case}"\n', "change-case {case}: {case} is no parameter;"),
         ('description = "x"\nsteps = "nearest --to {text}"\n', "nearest --to {text}: {text} is the phrase of"),
         ('description = "x"\nsteps = "change-case \'upper"\n', "change-case 'upper: No closing quotation."),
     ],
 )
-def test_a_file_that_is_no_scenario_is_refused_naming_the_file(project: Path, text: str, reason: str) -> None:
-    path = _scenario(project, "broken", text)
+def test_a_file_that_is_no_workflow_is_refused_naming_the_file(project: Path, text: str, reason: str) -> None:
+    path = _workflow(project, "broken", text)
 
     error = _refused("--project", str(project), "run", "broken", "--text", PHRASE)
 
@@ -264,8 +275,8 @@ def test_a_file_that_is_no_scenario_is_refused_naming_the_file(project: Path, te
 @pytest.mark.parametrize(
     ("args", "message"),
     [
-        (("a.csv", "b.csv"), "run intent-synonyms: a.csv b.csv: a scenario runs as"),
-        (("--text", PHRASE, "write"), "run intent-synonyms: write: a scenario runs as"),
+        (("a.csv", "b.csv"), "run intent-synonyms: a.csv b.csv: a workflow runs as"),
+        (("--text", PHRASE, "write"), "run intent-synonyms: write: a workflow runs as"),
         (("--text", PHRASE, "--set", "threshold"), "run intent-synonyms: --set threshold: no '='."),
     ],
 )
@@ -275,13 +286,13 @@ def test_a_command_line_of_another_shape_is_refused(args: tuple[str, ...], messa
     assert error["message"].startswith(message)
 
 
-def test_run_help_lists_the_scenarios_with_their_descriptions() -> None:
+def test_run_help_lists_the_workflows_with_their_descriptions() -> None:
     rows = [line.split(None, 1) for line in _help("run")]
 
     assert ["intent-synonyms", DESCRIPTION] in rows
 
 
-def test_the_help_of_a_scenario_shows_its_parameters_with_defaults_and_its_steps() -> None:
+def test_the_help_of_a_workflow_shows_its_parameters_with_defaults_and_its_steps() -> None:
     lines = _help("run", "intent-synonyms")
 
     for parameter in ("- threshold (default 0):", "- model (default bge-m3):", "- source (default ruwordnet):"):
@@ -298,11 +309,11 @@ def test_the_help_of_a_scenario_shows_its_parameters_with_defaults_and_its_steps
     assert [line for line in lines if line.removeprefix("- ") in steps] == [f"- {step}" for step in steps]
 
 
-def test_docs_lists_each_scenario_under_run(tmp_path: Path) -> None:
+def test_docs_lists_each_workflow_under_run(tmp_path: Path) -> None:
     out = tmp_path / "docs.json"
     assert semkit("docs", "--out", str(out)).exit_code == 0
 
     document = json.loads(out.read_text(encoding="utf-8"))
     run = next(command for command in document["commands"] if command["name"] == "run")
-    scenario = next(command for command in run["commands"] if command["name"] == "intent-synonyms")
-    assert scenario["description"].startswith(f"{DESCRIPTION}\n\nParameters, set with --set NAME=VALUE:\n")
+    workflow = next(command for command in run["commands"] if command["name"] == "intent-synonyms")
+    assert workflow["description"].startswith(f"{DESCRIPTION}\n\nParameters, set with --set NAME=VALUE:\n")

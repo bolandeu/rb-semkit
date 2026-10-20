@@ -1,7 +1,7 @@
 """Running a pipeline: check its shape, OUT, IN and the trace, read, run the steps in order with a line each on stderr,
 write, and end with one line that says what was written.
 
-`run_each` runs a chain once for each phrase of the input (a scenario with per_phrase) and joins the parts.
+`run_each` runs a chain once for each phrase of the input (a workflow with per_phrase) and joins the parts.
 """
 
 from __future__ import annotations
