@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-068
 title: 'Template v1.23.0: the gate through uvx from cli-generator, rb-cli-core gone'
-status: ideas
+status: queue
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -9,7 +9,7 @@ phase: null
 tests_hash: null
 publish_stage: null
 created_by: architect
-approved_by: null
+approved_by: human
 worker: claude-code
 type: chore
 owns_paths:
