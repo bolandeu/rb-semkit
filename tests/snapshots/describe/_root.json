@@ -726,6 +726,15 @@
             "description": "Стоп-слова Яндекс Вордстата"
           }
         ]
+      },
+      {
+        "name": "x-rb-skills",
+        "value": [
+          {
+            "name": "semkit",
+            "description": "Drive the semkit CLI from an agent — one pipeline command that reads a semantic core or a text, runs library steps (clean, lemmas, n-grams, comparison, SERP clusters) and writes the table. Invoke when a task processes search phrases or SEO texts."
+          }
+        ]
       }
     ]
   }

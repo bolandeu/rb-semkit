@@ -33,7 +33,7 @@ from typing import Any
 import platformdirs
 
 from .._distribution import DIST_NAME, TEMPLATE_VERSION, TOOL
-from . import data_files, deps
+from . import data_files, deps, skills
 from .errors import EXIT_CODES
 from .version import DEV_VERSION, cli_name, installed_version, module_exists, package_summary
 
@@ -56,6 +56,7 @@ def document(root: Any) -> dict:
             "x-rb-data": data(),
             "x-rb-external": [asdict(spec) for spec in deps.declared().values()],
             "x-rb-lists": word_lists(),
+            "x-rb-skills": [{"name": s.name, "description": s.description} for s in skills.bundled()],
         }
     )
     return {"opencli": OPENCLI_VERSION, "info": info(), "command": command}

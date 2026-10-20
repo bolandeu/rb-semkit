@@ -1,6 +1,6 @@
 {
   "name": "install",
-  "description": "Copy this CLI's bundled SKILL.md into an AI tool's skill directory.\n\nWith --dry-run nothing is written.\n\nExample: semkit skill install --tool claude-code",
+  "description": "Copy this CLI's bundled skills into an AI tool's skill directory.\n\nThe conventions skill and every extra skill the package ships, each into its own directory.\n\nWith --dry-run nothing is written.\n\nExample: semkit skill install --tool claude-code",
   "options": [
     {
       "name": "--tool",
@@ -36,6 +36,25 @@
         {
           "name": "x-rb-default",
           "value": false
+        }
+      ]
+    },
+    {
+      "name": "--skill",
+      "arguments": [
+        {
+          "name": "SKILL",
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
+        }
+      ],
+      "description": "Install only this bundled skill (see `skill list`); by default all.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
         }
       ]
     },

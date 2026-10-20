@@ -123,7 +123,8 @@ Your own lists: `SEMKIT_LISTS=DIR` (a relative folder is from the current one) o
 ```bash
 uv sync
 uv run semkit --help
-uv run rb-release check   # the full gate (run before every commit; CI runs it too)
+# the full gate (run before every commit; CI runs it too), at the template tag of .copier-answers.yml
+uvx --from "git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/cli-generator.git@v1.23.1#subdirectory=gate" rb-release check
 uv run pytest -m speed    # the timed tests, left out of the gate: run on an idle machine
 uv run pytest --snapshot-update  # after changing a command's help; review tests/snapshots/help/
 ```

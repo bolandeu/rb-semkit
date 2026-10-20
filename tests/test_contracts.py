@@ -48,7 +48,7 @@ from rb_semkit.core.version import DEV_VERSION, cli_name, installed_version
 CONTRACTS = Path(__file__).parent / "contracts"
 SCHEMA = json.loads((CONTRACTS / "schema.json").read_text())
 FIXTURES = CONTRACTS / "fixtures.yaml"
-# The version the gate is building (release.py sets it), else the installed one.
+# The version the gate is building, when set, else the installed one.
 VERSION_ENV = "RB_PROVIDER_VERSION"
 PG_URL = os.environ.get("TEST_DATABASE_URL")
 LOCAL_HOSTS = ("localhost", "127.0.0.1", "::1")

@@ -52,7 +52,6 @@ fallback-version = "0.0.0"
 [tool.uv.sources]
 # The CLI reads and writes every table through dataio (docs/plan.md §3, ADR 0001).
 rb-dataio = { index = "gitea" }
-rb-cli-core = { index = "gitea" }  # the release gate: `uv run rb-release check`
 
 [tool.uv]
 # Rebuild the editable install when a commit or tag moves, so `--version` follows the tag.
@@ -87,7 +86,6 @@ dev = [
     "pytest>=8.0",
     "pyyaml>=6.0",  # tests/contracts/*.yaml
     "pytest-cov>=5.0",
-    "rb-cli-core>=0.1.2,<0.2",  # the release gate: `uv run rb-release check`
     "ruff>=0.6",
     "syrupy>=4.8",
     "ty>=0.0.80",
@@ -120,7 +118,7 @@ mac = true
 # Where scripts/check_command_docstrings.py (called by the project's checks)
 # looks for commands: a glob or a list of globs, relative to the repo root.
 commands = ["src/rb_semkit/commands/*.py"]
-# scripts/release.py: extras to install before ruff/ty/pytest in the gate.
+# rb-release check (the gate): extras to install before ruff/ty/pytest.
 gate_extras = ["vectors"]
 
 [tool.pytest.ini_options]

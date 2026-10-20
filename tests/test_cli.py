@@ -13,7 +13,7 @@ from typer.testing import CliRunner
 from rb_semkit import output
 from rb_semkit._distribution import DIST_NAME
 from rb_semkit.cli import app
-from rb_semkit.core import services
+from rb_semkit.core import services, skills
 from rb_semkit.core.errors import InvalidArguments
 
 runner = CliRunner()
@@ -296,6 +296,26 @@ def test_human_error_goes_to_stderr(tmp_path: Path) -> None:
     assert "Error:" in result.stderr
 
 
+@pytest.mark.parametrize(
+    "args",
+    [("status", "--json", "--no-such-option"), ("--json", "--no-such-option"), ("--json", "config", "get")],
+)
+def test_usage_error_under_json_is_the_error_envelope(args: tuple[str, ...]) -> None:
+    """An unknown option or a missing argument (Click's usage errors) under --json: the envelope on stdout, exit 2."""
+    result = invoke(*args)
+    assert result.exit_code == 2
+    payload = json.loads(result.stdout)
+    assert (payload["ok"], payload["error"]["code"]) == (False, "INVALID_ARGUMENTS")
+    assert payload["error"]["message"]
+
+
+def test_usage_error_without_json_stays_on_stderr() -> None:
+    result = invoke("status", "--no-such-option")
+    assert result.exit_code == 2
+    assert result.stdout == ""
+    assert "--no-such-option" in result.stderr
+
+
 def test_require_confirmation_blocks_non_interactive_without_confirm() -> None:
     def destroy(ctx: typer.Context, confirm: bool = output.ConfirmOption) -> None:
         output.require_confirmation(ctx, "Delete everything", confirm=confirm)
@@ -334,6 +354,83 @@ def test_skill_install_writes_to_project_dir(tmp_path: Path, monkeypatch: pytest
     assert installed.is_file()
     assert "name: semkit" in installed.read_text()
     assert payload["path"] == str(installed)
+
+
+def test_skill_install_without_extra_skills_writes_only_the_conventions_skill(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.chdir(tmp_path)
+    code, payload = invoke_json("skill", "install", "--tool", "claude-code", "--project")
+    assert code == 0
+    assert set(payload) == {"ok", "tool", "scope", "path", "dry_run"}
+    assert [p.parent.name for p in (tmp_path / ".claude" / "skills").glob("*/SKILL.md")] == ["semkit"]
+
+
+@pytest.fixture
+def extra_skills(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
+    """A package data dir holding the conventions skill and two extra skills."""
+    data = tmp_path / "pkgdata"
+    data.mkdir()
+    (data / "SKILL.md").write_text("---\nname: semkit\ndescription: Conventions.\n---\n")
+    for name, description in {"og-image": "Make og images.", "video": "Make videos."}.items():
+        (data / "skills" / name).mkdir(parents=True)
+        (data / "skills" / name / "SKILL.md").write_text(f"---\nname: semkit-{name}\ndescription: {description}\n---\n")
+    monkeypatch.setattr(skills, "_data", lambda: data)
+    return data
+
+
+def test_skill_install_writes_every_bundled_skill_into_its_own_directory(
+    extra_skills: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    work = tmp_path / "work"
+    work.mkdir()
+    monkeypatch.chdir(work)
+    code, payload = invoke_json("skill", "install", "--tool", "claude-code", "--project")
+    assert code == 0
+    names = ("semkit", "semkit-og-image", "semkit-video")
+    expected = [work / ".claude" / "skills" / name / "SKILL.md" for name in names]
+    assert all(path.is_file() for path in expected)
+    assert payload["paths"] == [str(path) for path in expected]
+    assert payload["path"] == str(expected[0])
+
+
+def test_skill_install_one_skill_by_short_or_full_name(
+    extra_skills: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    work = tmp_path / "work"
+    work.mkdir()
+    monkeypatch.chdir(work)
+    for wanted in ("video", "semkit-video"):
+        code, payload = invoke_json("skill", "install", "--project", "--skill", wanted)
+        assert code == 0
+        assert "paths" not in payload
+    assert [p.parent.name for p in (work / ".claude" / "skills").glob("*/SKILL.md")] == ["semkit-video"]
+
+
+def test_skill_install_unknown_skill_names_the_bundled_ones(
+    extra_skills: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.chdir(tmp_path)
+    code, payload = invoke_json("skill", "install", "--project", "--skill", "nope")
+    assert code == 2
+    assert payload["error"]["code"] == "INVALID_ARGUMENTS"
+    assert "semkit, semkit-og-image, semkit-video" in payload["error"]["message"]
+
+
+def test_skill_list_and_describe_show_the_same_skills(extra_skills: Path) -> None:
+    expected = [
+        {"name": "semkit", "description": "Conventions."},
+        {"name": "semkit-og-image", "description": "Make og images."},
+        {"name": "semkit-video", "description": "Make videos."},
+    ]
+    code, payload = invoke_json("skill", "list")
+    assert code == 0
+    assert payload["skills"] == expected
+    human = invoke("skill", "list").stdout
+    assert "semkit-video: Make videos." in human
+    described = json.loads(invoke("describe", "--json").stdout)
+    meta = {item["name"]: item["value"] for item in described["command"]["metadata"]}
+    assert meta["x-rb-skills"] == expected
 
 
 # --- auth status without credentials (standard §8: every CLI has it) ----------

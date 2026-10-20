@@ -1,7 +1,6 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: v1.20.7
+_commit: v1.23.1
 _src_path: https://homeserver.tailee01ab.ts.net:3000/bolandeu/cli-generator.git
-adopt_core: true
 antagor_prefix: SMK
 author_name: net.paradox
 cli_name: semkit
