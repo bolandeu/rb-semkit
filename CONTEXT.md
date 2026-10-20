@@ -88,7 +88,7 @@ _Avoid_: recipe
 **Scenario** (сценарий):
 A named, saved pipeline of semkit's own steps with parameters and their defaults, run by `semkit run NAME`;
 bundled or in the project folder (ADR 0010). It records a chain, it is not a step: each of its steps runs alone too.
-_Avoid_: composite step, flow (a flow over other CLIs is built outside semkit)
+_Avoid_: workflow, run (as a noun: `run` is the command), composite step, flow (a flow over other CLIs is built outside semkit)
 
 **Word list** (список слов, список):
 A named list of words or phrases (minus-words, stopwords, items to combine, a niche list), one per line; bundled,
