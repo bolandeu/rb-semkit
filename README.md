@@ -102,9 +102,9 @@ line instead of IN: a table with the column `phrase`, a row for each `--text`. A
 result as a table (every column, every row) in the terminal; with `--json`, or when stdout is not a terminal, it writes
 JSONL to stdout as `write -` does.
 
-A frequent chain runs by its name: `semkit run NAME` runs a scenario, a named chain of semkit's own steps, as one read
-pipeline. `semkit run --help` lists the scenarios, `semkit run NAME --help` shows the parameters with their defaults
-and the steps. A project adds its own as `.rb_semkit/scenarios/NAME.toml` (one of the same name overrides the bundled
+A frequent chain runs by its name: `semkit run NAME` runs a workflow, a named chain of semkit's own steps, as one read
+pipeline. `semkit run --help` lists the workflows, `semkit run NAME --help` shows the parameters with their defaults
+and the steps. A project adds its own as `.rb_semkit/workflows/NAME.toml` (one of the same name overrides the bundled
 one).
 
 ```bash

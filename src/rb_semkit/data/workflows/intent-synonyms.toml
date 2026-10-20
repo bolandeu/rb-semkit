@@ -1,4 +1,4 @@
-# The scenario of `semkit run intent-synonyms` (core/scenarios explains the keys).
+# The workflow of `semkit run intent-synonyms` (core/workflows explains the keys).
 description = "Phrase synonyms of one intent: every variation of the phrase by the thesaurus, scored by meaning against it."
 per_phrase = true
 steps = """
