@@ -21,7 +21,8 @@ From the git tag instead:
 uv tool install "rb-semkit @ git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/semkit.git@vX.Y.Z"
 ```
 
-Replace `vX.Y.Z` with the latest release tag (install from a tag, never a branch).
+Replace `vX.Y.Z` with the latest release tag (install from a tag, never a
+branch: [the Standard](https://homeserver.tailee01ab.ts.net:3000/bolandeu/cli-generator/src/branch/main/skills/cli-builder/reference/standard.md), Install).
 
 ## The pipeline
 

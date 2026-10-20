@@ -16,6 +16,7 @@ import sys
 import weakref
 from collections.abc import Callable
 from pathlib import Path
+from typing import NoReturn, cast
 
 import typer
 from rich.markup import escape
@@ -34,6 +35,7 @@ __all__ = [
     "JsonOption",
     "NonInteractiveOption",
     "QuietOption",
+    "RootGroup",
     "VerboseOption",
     "configure_logging",
     "done",
@@ -52,6 +54,9 @@ __all__ = [
 ]
 
 _CLI_NAME = cli_name()
+# Click's UsageError (unknown option, missing argument, bad value): recent Typer ships its own copy of Click,
+# so it is taken from Typer's BadParameter, never imported from the `click` package.
+_UsageError = cast("type[Exception]", typer.BadParameter.__bases__[0])
 _GUARDED: weakref.WeakSet[Callable] = weakref.WeakSet()
 # The commands the CLI version gate lets through: they read or repair the project config itself (`config set
 # cli.min_version` lowers the version, `init --force` rewrites the config), or report the mismatch (`doctor`).
@@ -110,6 +115,40 @@ def group(help_text: str, cls: type[TyperGroup] | None = None) -> typer.Typer:
         help_if_no_command(ctx)
 
     return app
+
+
+class RootGroup(TyperGroup):
+    """The CLI's root group: a usage error (unknown option, missing argument) under --json is the error envelope.
+
+    Click reports a usage error while it parses the arguments, before any
+    command runs, so `guard` never sees it. The root's own arguments fail in
+    `make_context`, a subcommand's inside `invoke`; both end here.
+    """
+
+    def make_context(self, info_name, args, parent=None, **extra):
+        argv = list(args)  # Click consumes `args` while it parses
+        try:
+            ctx = super().make_context(info_name, args, parent, **extra)
+        except _UsageError as exc:
+            _usage_error(exc, argv)
+        ctx.meta["argv"] = argv
+        return ctx
+
+    def invoke(self, ctx):
+        try:
+            return super().invoke(ctx)
+        except _UsageError as exc:
+            _usage_error(exc, ctx.meta["argv"])
+
+
+def _usage_error(exc: Exception, argv: list[str]) -> NoReturn:
+    """Under --json: INVALID_ARGUMENTS on stdout, exit 2. Otherwise Click's own usage message."""
+    options = argv[: argv.index("--")] if "--" in argv else argv
+    if "--json" not in options:
+        raise exc
+    error = InvalidArguments(str(exc))
+    json_output.emit({"ok": False, "error": error.to_dict()})
+    raise typer.Exit(code=error.exit_code)
 
 
 def emit_success(ctx: typer.Context, payload: dict, render_human: Callable[[dict], None]) -> None:

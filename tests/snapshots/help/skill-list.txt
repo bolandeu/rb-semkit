@@ -1,0 +1,13 @@
+
+ Usage: semkit skill list [OPTIONS]
+
+ List the agent skills this CLI bundles: name and description.
+
+ Example: semkit skill list
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --json           Emit machine-readable JSON output.                                              │
+│ --quiet          Suppress non-essential output.                                                  │
+│ --help           Show this message and exit.                                                     │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

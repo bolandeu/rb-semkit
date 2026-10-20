@@ -8,22 +8,21 @@ from __future__ import annotations
 
 import importlib
 import pkgutil
-from importlib import resources
 from types import ModuleType
 
 import typer
 
 from . import commands, output
+from .core import skills
 from .core.version import DEV_VERSION, cli_name, installed_version, package_summary
-
-_PACKAGE_NAME = __name__.split(".")[0]
 
 # A bare `<cli>` is the discovery entry point for humans and agents alike:
 # name + version + description, then every command with the first line of
 # its docstring. No `no_args_is_help` (that exits 2) — main_options() below
 # prints this and exits 0. Shell completion stays enabled.
 app = typer.Typer(
-    help=f"{cli_name()} {installed_version() or DEV_VERSION} — {package_summary() or 'project-aware automation CLI'}"
+    cls=output.RootGroup,  # a usage error under --json is the error envelope
+    help=f"{cli_name()} {installed_version() or DEV_VERSION} — {package_summary() or 'project-aware automation CLI'}",
 )
 
 
@@ -60,7 +59,7 @@ def _ai_callback(value: bool) -> None:
     """
     if not value:
         return
-    content = resources.files(f"{_PACKAGE_NAME}.data").joinpath("SKILL.md").read_text()
+    content = skills.conventions().text
     sections = [module.ai_section() for module in COMMAND_MODULES if hasattr(module, "ai_section")]
     typer.echo("\n".join([content, *sections]))
     raise typer.Exit()
