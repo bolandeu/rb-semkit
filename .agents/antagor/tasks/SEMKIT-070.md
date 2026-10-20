@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-070
 title: 'Help and describe snapshots are generated files: tests/snapshots/** linguist-generated'
-status: queue
+status: in_progress
 attempts: 0
 blocked: false
 blocked_reason: null
