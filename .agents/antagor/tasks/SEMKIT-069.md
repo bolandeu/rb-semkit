@@ -2,7 +2,7 @@
 id: SEMKIT-069
 title: 'Rename scenario to workflow: code, help, bundled folder and the project folder
   .rb_semkit/workflows/'
-status: ideas
+status: queue
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -10,7 +10,7 @@ phase: null
 tests_hash: null
 publish_stage: null
 created_by: architect
-approved_by: null
+approved_by: human
 worker: claude-code
 type: chore
 owns_paths:
