@@ -4,7 +4,7 @@ title: 'Template v1.23.0: the gate through uvx from cli-generator, rb-cli-core g
 status: in_progress
 attempts: 0
 blocked: true
-blocked_reason: needs_scope
+blocked_reason: idea_wait
 phase: null
 tests_hash: null
 publish_stage: null
