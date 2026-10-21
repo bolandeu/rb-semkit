@@ -2,7 +2,7 @@
 id: SEMKIT-073
 title: 'Template v1.25.8: the gate with the CI colour fix on Python 3.11'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -76,3 +76,11 @@ cli-generator (2026-10-21): the gate of template v1.25.8 runs on Python >=3.11 a
 ## Basis
 
 Follow SEMKIT-068 (the last template update): the same steps and the same things to keep.
+
+## Feedback
+
+### Attempt 1: file docstring
+
+- update the docstring of src/rb_semkit/commands/describe.py: +register
+- update the docstring of src/rb_semkit/commands/skill.py: +register
+- update the docstring of src/rb_semkit/core/version.py: +optional_module
