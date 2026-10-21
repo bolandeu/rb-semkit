@@ -3,7 +3,7 @@
 All of it comes from the installed distribution's metadata (pyproject.toml as installed), so no other module
 repeats a value that pyproject.toml holds: error actions and help name the command by `cli_name`, `describe` and
 `doctor` read the version, and the vectors extra builds its install command from `repository_url`.
-`module_exists` probes an optional module of the CLI without importing it.
+`module_exists` probes an optional module of the CLI without importing it, and `optional_module` imports it when it exists.
 """
 
 from __future__ import annotations

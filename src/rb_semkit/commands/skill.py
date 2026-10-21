@@ -1,6 +1,7 @@
 """`skill install`: copy the bundled skills into the skill folder of an AI tool (user or project level); `skill list`.
 
 An agent then finds the guide of this CLI without `--ai`; --dry-run writes nothing.
+`register` adds the `skill` group and the global `--ai` to the root (the skill part).
 """
 
 from __future__ import annotations

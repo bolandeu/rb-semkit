@@ -1,6 +1,6 @@
 """`describe`: the machine-readable contract of the CLI as an OpenCLI document (`core.opencli`).
 
-Agents read it to learn every command, option, accepted value and exit code without parsing the help.
+Agents read it to learn every command, option, accepted value and exit code without parsing the help. `register` adds the command to the root (the describe part).
 """
 
 from __future__ import annotations
