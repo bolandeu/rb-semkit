@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.61 — 2026-10-21
+
+### Outside epics
+
+- Comments, docstrings, README and help name no cli-generator internal file and no numbered Standard section (SEMKIT-071)
+
 ## v0.1.60 — 2026-10-21
 
 ### Outside epics

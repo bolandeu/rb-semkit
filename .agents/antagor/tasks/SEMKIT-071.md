@@ -2,7 +2,7 @@
 id: SEMKIT-071
 title: Comments, docstrings, README and help name no cli-generator internal file and
   no numbered Standard section
-status: publish
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
