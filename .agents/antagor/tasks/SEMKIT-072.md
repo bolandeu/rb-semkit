@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-072
 title: Standard section names in comments are the Standard's real headings
-status: queue
+status: cancelled
 attempts: 1
 blocked: false
 blocked_reason: null
