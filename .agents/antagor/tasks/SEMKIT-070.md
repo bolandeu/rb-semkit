@@ -1,8 +1,8 @@
 ---
 id: SEMKIT-070
 title: 'Help and describe snapshots are generated files: tests/snapshots/** linguist-generated'
-status: in_progress
-attempts: 0
+status: queue
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -14,7 +14,8 @@ worker: claude-code
 type: chore
 owns_paths:
 - .gitattributes
-test_paths: []
+test_paths:
+- tests/markers/test_build_markers.py
 docs: none
 tools: []
 worker_args: null
@@ -53,3 +54,40 @@ The Human's rule (2026-10-20): generated files go to .gitattributes as linguist-
 ## Out of scope
 
 - The snapshots themselves.
+
+## Feedback
+
+### Attempt 1: checks failed
+
+- `sh -c 'uvx --from "git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/cli-generator.git@$(sed -n "s/^_commit: //p" .copier-answers.yml)#subdirectory=gate" rb-release check'` (exit 3)
+
+```
+-version` = 0.1.58.post4.dev0+dd3faff; `semkit --help` ok)
+release: standard: commands ... ok (156 commands and 7 groups answer --help)
+release: standard: json ... ok (156 commands accept --json (the root lists it))
+release: standard: errors ... ok (an unknown option: exit 2 and the error envelope, in 156 commands)
+release: standard: health ... ok (doctor --json and auth status --json give the envelope)
+release: standard: docs ... ok (README.md, AGENTS.md)
+release: standard: ci ... ok (.gitea/workflows/ci.yml runs rb-release check)
+release: vulnerability audit ... FAILED
+   Updating https://homeserver.tailee01ab.ts.net:3000/bolandeu/cli-generator.git (v1.23.1)
+    Updated https://homeserver.tailee01ab.ts.net:3000/bolandeu/cli-generator.git (8fa0241305775587de2c6c03822d880715219ff2)
+
+release: gate step 'vulnerability audit' failed:
+$ /opt/homebrew/bin/osv-scanner --lockfile=uv.lock
+Starting filesystem walk for root: /
+Scanned /Users/bolandau/Work/tools/semkit.worktrees/SEMKIT-070/uv.lock file and found 120 packages
+End status: 0 dirs visited, 1 inodes visited, 1 Extract calls, 13.555459ms elapsed, 13.556ms wall time
+Filtered 1 local/unscannable package/s from the scan.
+
+Total 1 package affected by 1 known vulnerability (1 Critical, 0 High, 0 Medium, 0 Low, 0 Unknown) from 1 ecosystem.
+1 vulnerability can be fixed.
+
++-------------------------------------+------+-----------+---------+-----------+---------------+---------+
+| OSV URL                             | CVSS | ECOSYSTEM | PACKAGE | VERSION   | FIXED VERSION | SOURCE  |
++-------------------------------------+------+-----------+---------+-----------+---------------+---------+
+| https://osv.dev/PYSEC-2026-4320     | 9.1  | PyPI      | certifi | 2026.7.22 | 2026.10.19    | uv.lock |
+| https://osv.dev/GHSA-6q48-6c7w-9gw2 |      |           |         |           |               |         |
++-------------------------------------+------+-----------+---------+-----------+---------------+---------+
+release: audit failed
+```
