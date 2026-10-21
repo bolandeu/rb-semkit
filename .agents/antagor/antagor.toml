@@ -14,6 +14,8 @@ required_types = ["feature", "bugfix"]  # chore and docs: the short path without
 versioning = "semver"
 changelog = "CHANGELOG.md"
 deploy_command = "sh scripts/deploy.sh"
+gate = "remote"  # the release gate runs on Gitea CI before the tag (in force after the Human's remote-gate-accept)
+gate_status_url = "https://homeserver.tailee01ab.ts.net:3000/api/v1/repos/bolandeu/semkit/commits/{commit}/status"
 
 [connector]
 webhook_secret = "PLANE_WEBHOOK_SECRET_TOOLS"
