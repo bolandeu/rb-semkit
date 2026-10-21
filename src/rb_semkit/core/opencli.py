@@ -12,7 +12,7 @@ programs, word lists (`word_lists`) and template version.
 
 The output is a cross-tool contract like `auth status`: tests/test_describe.py
 validates it against the OpenCLI schema and snapshots it. Changing or removing
-anything in it is a breaking change (conventions.md).
+anything in it is a breaking change.
 
 `core.docs` (the help document for people) reuses the reading: `info()` gives the
 document's `info`, `option` and `argument` the entry of a Click option or argument,

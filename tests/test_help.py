@@ -4,7 +4,7 @@ Help text is rendered from command docstrings and `typer.Option`/`Argument`
 `help=` strings — it's the documentation agents and humans read, so it's
 tested like an API:
 
-- the help standard (skills/cli-builder/reference/help-standard.md) on every command, walked from the app's
+- the help standard on every command, walked from the app's
   registry so a new command is covered automatically: a one-line summary, one to three `Example:` lines that
   parse against the command tree, help on every parameter, no parameter help repeated in the description.
   A command not yet brought to the standard is listed in tests/help_allowlist.txt (one command path per line,

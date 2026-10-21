@@ -181,8 +181,7 @@ uv tool upgrade rb-semkit
 ```
 
 After install, the command `semkit` is available globally, on
-macOS, Linux and Windows alike (see `architecture.md` in the cli-generator
-plugin for why: no shelling out, no hardcoded POSIX paths).
+macOS, Linux and Windows alike (no shelling out, no hardcoded POSIX paths).
 
 To pick up later architecture changes from the `cli-generator` template
 itself, run `copier update` in this repo (requires this repo and the

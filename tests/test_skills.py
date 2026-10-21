@@ -1,5 +1,5 @@
 """Every bundled agent skill: frontmatter present, name = <cli>-<dir name> (<cli> for the conventions skill),
-and no skill lists the CLI's commands (standard §9: the help is the list)."""
+and no skill lists the CLI's commands (the help is the list)."""
 
 from __future__ import annotations
 

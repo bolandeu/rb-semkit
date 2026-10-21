@@ -95,7 +95,7 @@ dev = [
 # External (non-Python) dependencies — every CLI this tool runs (require_cli,
 # shutil.which, subprocess with a literal program, npx). The gate checks this
 # list against the code both ways; doctor and require_cli read it at runtime;
-# the tools catalog reads it (standard §12).
+# the tools catalog reads it (the Standard, Tools catalog).
 # [[tool.rb.external]]
 # name = "ffmpeg"
 # required = true               # false: the tool works without it (doctor stays healthy)
@@ -127,7 +127,7 @@ testpaths = ["tests"]
 # The timed tests (marker speed) leave the default run: a busy machine fails them.
 addopts = "--cov --cov-report=term-missing:skip-covered -m 'not speed'"
 # tests/test_help.py keeps help snapshots at tests/snapshots/help/<command>.txt
-# (standard §7), not in syrupy's own `__snapshots__/<test file>/` layout, so
+# (the Standard, Tests), not in syrupy's own `__snapshots__/<test file>/` layout, so
 # syrupy warns it "can not relate" each file to its test. It can — by name.
 filterwarnings = ["ignore:(?s).*Can not relate snapshot:UserWarning"]
 markers = [
