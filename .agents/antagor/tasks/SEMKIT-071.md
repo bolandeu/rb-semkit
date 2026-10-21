@@ -5,7 +5,7 @@ title: Comments, docstrings, README and help name no cli-generator internal file
 status: publish
 attempts: 0
 blocked: true
-blocked_reason: environment_broken
+blocked_reason: idea_wait
 phase: null
 tests_hash: null
 publish_stage: gate
