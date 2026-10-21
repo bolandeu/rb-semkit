@@ -124,7 +124,7 @@ Your own lists: `SEMKIT_LISTS=DIR` (a relative folder is from the current one) o
 uv sync
 uv run semkit --help
 # the full gate (run before every commit; CI runs it too), at the template tag of .copier-answers.yml
-uvx --from "git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/cli-generator.git@v1.23.1#subdirectory=gate" rb-release check
+uvx --from "git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/cli-generator.git@v1.26.3#subdirectory=gate" rb-release check
 uv run pytest -m speed    # the timed tests, left out of the gate: run on an idle machine
 uv run pytest --snapshot-update  # after changing a command's help; review tests/snapshots/help/
 ```
@@ -139,15 +139,7 @@ osv-scanner`), and says it skipped a scan otherwise. CI is optional and only rep
 ## Release
 
 The version is the git tag (`vX.Y.Z`) — `pyproject.toml` has no `version =`.
-Work goes through Antagor tickets (`.agents/antagor/`); a release (run by the Human) is
-
-```bash
-antagor publish --bump   # SemVer; at 0.x: patch = fix/feature, minor = breaking
-```
-
-It tags the release, builds `CHANGELOG.md` from the ticket titles and runs
-`scripts/deploy.sh`: push `main` with tags, then report the release to the
-root tools agent. Nobody tags or pushes by hand.
+Work and releases go through Antagor. Nobody tags or pushes by hand.
 
 ## Install
 
@@ -169,8 +161,7 @@ uv tool install rb-semkit --index https://homeserver.tailee01ab.ts.net:3000/api/
 uv tool install "rb-semkit @ git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/semkit.git@vX.Y.Z"
 ```
 
-Replace `vX.Y.Z` with the latest release tag (a tag cut by
-`antagor publish`; never install a branch). This is also how an AI agent
+Replace `vX.Y.Z` with the latest release tag (never install a branch). This is also how an AI agent
 bootstraps this CLI on a fresh machine/sandbox where it isn't installed
 yet — see `src/rb_semkit/data/SKILL.md`.
 
