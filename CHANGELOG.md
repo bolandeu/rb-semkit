@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.62 — 2026-10-21
+
+### Outside epics
+
+- Template v1.26.3: package docs keep no retelling of Antagor's process (SEMKIT-074)
+
 ## v0.1.61 — 2026-10-21
 
 ### Outside epics
