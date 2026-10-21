@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-073
 title: 'Template v1.25.8: the gate with the CI colour fix on Python 3.11'
-status: in_review
+status: publish
 attempts: 1
 blocked: false
 blocked_reason: null
