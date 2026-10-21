@@ -5,10 +5,9 @@ name: ci
 # Gitea Actions runs this one job on the runner labelled `docker`, on the lowest
 # supported Python, repeating the gate on a clean machine. include_ci=false drops it.
 on:
-  push:
-    paths: &code [src/**, tests/**, scripts/**, pyproject.toml, uv.lock, .gitea/workflows/**]
+  push:  # every candidate of a release (Antagor's gate before the tag) and main; no paths filter
+    branches: [main, 'antagor/publish-*']
   pull_request:
-    paths: *code
   workflow_dispatch:
 jobs:
   gate:
