@@ -2,7 +2,7 @@
 id: SEMKIT-072
 title: Standard section names in comments are the Standard's real headings
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -60,3 +60,7 @@ SEMKIT-071 replaced references with Standard section names, but some names do no
 ## Feedback
 
 ### Blocked: aborted
+
+### Attempt 1: no file changed
+
+Your work changed no file of the project. Do the task's work. If the task needs no change, do not finish: ask the Architect a question that says why (see 'Need more than the task?').
