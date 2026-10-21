@@ -201,7 +201,7 @@ Typos: Levenshtein in the library; spelling check through LanguageTool on homese
 - Started on demand: cold start ~15 s → client timeout ≥ 60 s.
 - Limits: batches of ~1000 lines, at most 2 parallel requests, retry with backoff on 5xx/timeouts
   (`HttpProvider` does it). 1000 phrases ≈ 5 s → 1M ≈ 80+ min.
-- Do not rely on a version bump (sitegen pins it). More throughput → a ticket to sysadmin with volume and frequency.
+- Do not rely on a version bump (sitegen pins it). More throughput → a request to sysadmin with volume and frequency.
 - Open: for 1M phrases a local dictionary check (hunspell-style) may be much faster; decide in the API design.
 
 ## 3b. CLI shape (the Human, 2026-10-17)
