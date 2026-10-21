@@ -116,7 +116,7 @@ def test_a_missing_xlsx_exits_naming_it(tmp_path: Path) -> None:
 def test_gitattributes_marks_all_built_data_as_generated() -> None:
     lines = (ROOT / ".gitattributes").read_text().splitlines()
 
-    marked = {line.split()[0] for line in lines if line.endswith("linguist-generated")}
+    marked = {line.split()[0] for line in lines if line.endswith("linguist-generated")} - {"tests/snapshots/**"}
     parts = (ROOT / "scripts" / "build_parts").glob("[!_]*.py")  # one data folder per build part
     assert marked == {f"src/rb_semkit/data/{part.stem}/**" for part in parts}
     assert "ADR 0002" in lines[0]
