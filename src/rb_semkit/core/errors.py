@@ -18,8 +18,8 @@ from .version import cli_name
 _CLI = cli_name()
 _DIST = DIST_NAME
 
-# Every exit code a generated CLI uses and what it means — the same table in
-# conventions.md, and `describe --json`'s `exitCodes`. tests/test_describe.py
+# Every exit code a generated CLI uses and what it means — the same table as in
+# the Standard, Errors, and `describe --json`'s `exitCodes`. tests/test_describe.py
 # fails when a CliError below uses a code that isn't listed here.
 EXIT_CODES: dict[int, str] = {
     0: "Success",
@@ -92,7 +92,7 @@ class DependencyTooOld(CliError):
     """Another CLI this one calls is missing or older than required (core/deps.py).
 
     `dist` is its distribution name — what `uv tool` knows it by (`rb-serp`
-    for the `serp` command, standard §10). With `install_url` the action is a
+    for the `serp` command). With `install_url` the action is a
     pinned, runnable install; without it, what to install and no fake URL.
     """
 

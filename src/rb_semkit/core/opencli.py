@@ -12,7 +12,7 @@ programs, word lists (`word_lists`) and template version.
 
 The output is a cross-tool contract like `auth status`: tests/test_describe.py
 validates it against the OpenCLI schema and snapshots it. Changing or removing
-anything in it is a breaking change (conventions.md).
+anything in it is a breaking change.
 
 `core.docs` (the help document for people) reuses the reading: `info()` gives the
 document's `info`, `option` and `argument` the entry of a Click option or argument,
@@ -33,9 +33,9 @@ from typing import Any
 import platformdirs
 
 from .._distribution import DIST_NAME, TEMPLATE_VERSION, TOOL
-from . import data_files, deps, skills
+from . import data_files, deps
 from .errors import EXIT_CODES
-from .version import DEV_VERSION, cli_name, installed_version, module_exists, package_summary
+from .version import DEV_VERSION, cli_name, installed_version, module_exists, optional_module, package_summary
 
 OPENCLI_VERSION = "0.1"
 _PACKAGE_NAME = __name__.split(".")[0]
@@ -56,10 +56,16 @@ def document(root: Any) -> dict:
             "x-rb-data": data(),
             "x-rb-external": [asdict(spec) for spec in deps.declared().values()],
             "x-rb-lists": word_lists(),
-            "x-rb-skills": [{"name": s.name, "description": s.description} for s in skills.bundled()],
+            "x-rb-skills": _bundled_skills(),
         }
     )
     return {"opencli": OPENCLI_VERSION, "info": info(), "command": command}
+
+
+def _bundled_skills() -> list[dict]:
+    """The agent skills the package ships (the package skill part, copier's include_skill); none without it."""
+    skills = optional_module(f"{_PACKAGE_NAME}.core.skills")
+    return [{"name": s.name, "description": s.description} for s in skills.bundled()] if skills else []
 
 
 def info() -> dict:

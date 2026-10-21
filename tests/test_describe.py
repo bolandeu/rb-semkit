@@ -8,7 +8,7 @@
   tests/snapshots/describe/_root.json, a command without its subcommands in tests/snapshots/describe/<command>.json
   and a step in tests/snapshots/describe/steps/<area>/<step>.json (syrupy). A changed contract fails until
   the snapshots are refreshed with `uv run pytest --snapshot-update`, which puts the
-  change in the diff — review it like any other breaking change (conventions.md).
+  change in the diff — review it like any other breaking change.
   A new command fails until its snapshot exists; a removed one leaves an orphan file that fails too.
 """
 

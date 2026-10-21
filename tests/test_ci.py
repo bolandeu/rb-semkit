@@ -1,11 +1,10 @@
-"""The Gitea Actions workflow, when the project has one (include_ci=true)."""
+"""The Gitea Actions workflow: every package has one (the Standard, CI)."""
 
 from __future__ import annotations
 
 import re
 from pathlib import Path
 
-import pytest
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,8 +23,6 @@ def test_no_github_workflow() -> None:
 
 
 def test_workflow_runs_the_gate_on_the_docker_runner() -> None:
-    if not WORKFLOW.exists():
-        pytest.skip("include_ci=false: no workflow")
     job = yaml.safe_load(WORKFLOW.read_text())["jobs"]["gate"]
     assert job["runs-on"] == "docker"
     assert "ci-cache:/cache" in job["container"]["volumes"]
@@ -39,8 +36,6 @@ def _steps() -> list[dict]:
 
 
 def test_scanners_are_installed_before_the_gate_at_pinned_versions() -> None:
-    if not WORKFLOW.exists():
-        pytest.skip("include_ci=false: no workflow")
     steps = _steps()
     gate = next(i for i, step in enumerate(steps) if str(step.get("run", "")).strip() == GATE)
     scripts = [step["run"] for step in steps[:gate] if "run" in step]
@@ -53,8 +48,6 @@ def test_scanners_are_installed_before_the_gate_at_pinned_versions() -> None:
 
 
 def test_scanners_are_cached_per_pinned_version() -> None:
-    if not WORKFLOW.exists():
-        pytest.skip("include_ci=false: no workflow")
     script = next(step["run"] for step in _steps() if "gitleaks" in step.get("run", ""))
     lines = script.splitlines()
     for tool, version in (("osv-scanner", "2.7.0"), ("gitleaks", "8.30.1")):

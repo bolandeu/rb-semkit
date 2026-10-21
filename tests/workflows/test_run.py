@@ -11,6 +11,7 @@ from pathlib import Path
 
 import pandas as pd
 import pytest
+import typer.rich_utils
 from typer.testing import CliRunner
 
 from rb_semkit.cli import app
@@ -27,6 +28,12 @@ DESCRIPTION = (
     "Phrase synonyms of one intent: every variation of the phrase by the thesaurus, scored by meaning against it."
 )
 HELP_ENV = {"COLUMNS": "200", "NO_COLOR": "1", "TERM": "dumb"}
+
+
+@pytest.fixture(autouse=True)
+def _plain_help(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Typer reads GITHUB_ACTIONS / FORCE_COLOR / PY_COLORS once, at import, and then forces terminal output (CI)."""
+    monkeypatch.setattr(typer.rich_utils, "FORCE_TERMINAL", False)
 
 
 def _chain(text: str, *, threshold: str = "0", model: str = "bge-m3", top: tuple[str, ...] = ()) -> list[str]:

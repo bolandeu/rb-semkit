@@ -1,20 +1,20 @@
-"""The root command: the global options, --version, --ai, and every module of the commands package as a command.
+"""The root command: the global options, --version, and every module of the commands package as a command.
 
-A module of the commands package is registered by its name, so a new command needs no edit here. --ai prints the
-bundled SKILL.md and then the section each command module gives by `ai_section()` (the pipeline steps).
+A module of the commands package is registered by its name, so a new command needs no edit here. `--ai` (the skill
+part) prints the bundled SKILL.md and then the section each command module gives by `ai_section()` (the pipeline steps).
 """
 
 from __future__ import annotations
 
-import importlib
-import pkgutil
-from types import ModuleType
-
 import typer
 
 from . import commands, output
-from .core import skills
-from .core.version import DEV_VERSION, cli_name, installed_version, package_summary
+from .core.version import DEV_VERSION, cli_name, installed_version, optional_module, package_summary
+
+_PACKAGE_NAME = __name__.split(".")[0]
+# Optional parts (copier questions, dropped by _exclude): each one ships a module that registers its
+# commands and global options. Probed at runtime, so this file needs no template logic.
+PARTS = ("project", "skill", "describe", "db")
 
 # A bare `<cli>` is the discovery entry point for humans and agents alike:
 # name + version + description, then every command with the first line of
@@ -25,19 +25,21 @@ app = typer.Typer(
     help=f"{cli_name()} {installed_version() or DEV_VERSION} — {package_summary() or 'project-aware automation CLI'}",
 )
 
+for part in PARTS:
+    if module := optional_module(f"{_PACKAGE_NAME}.commands.{part}"):
+        module.register(app)
 
-def _command_modules() -> list[ModuleType]:
-    """Every module of the commands package, by name: a new command module needs no edit here."""
-    names = sorted(info.name for info in pkgutil.iter_modules(commands.__path__))
-    return [importlib.import_module(f"{commands.__name__}.{name}") for name in names]
-
-
-COMMAND_MODULES = _command_modules()
+_registered = {typer_command.name for typer_command in app.registered_commands} | {
+    group.name for group in app.registered_groups
+}
 
 # A module is a command group when it exposes a Typer `app` (`auth status` in every CLI), else a command when it has
-# a function of its own name (`init.init`). `HIDDEN = True` in a module keeps its command out of the help.
-for module in COMMAND_MODULES:
+# a function of its own name (`init.init`). `HIDDEN = True` in a module keeps its command out of the help. A command
+# a part registered above is not added again.
+for module in commands.modules():
     name = module.__name__.rsplit(".", 1)[-1]
+    if name in _registered:
+        continue
     if isinstance(getattr(module, "app", None), typer.Typer):
         app.add_typer(module.app, name=name)
     elif callable(getattr(module, name, None)):
@@ -50,41 +52,17 @@ def _show_version(ctx: typer.Context) -> None:
     raise typer.Exit()
 
 
-def _ai_callback(value: bool) -> None:
-    """Print the bundled agent skill doc to stdout, then the section each command module gives by `ai_section()`.
-
-    For agents that can execute this CLI but cannot read files from disk
-    (e.g. a sandboxed shell with no access to a SKILL.md on the filesystem),
-    this is the fallback way to get full usage guidance.
-    """
-    if not value:
-        return
-    content = skills.conventions().text
-    sections = [module.ai_section() for module in COMMAND_MODULES if hasattr(module, "ai_section")]
-    typer.echo("\n".join([content, *sections]))
-    raise typer.Exit()
-
-
 @app.callback(invoke_without_command=True)
 def main_options(
     ctx: typer.Context,
-    project: str = typer.Option(None, "--project", help="Path to the project root."),
     json_output: bool = typer.Option(False, "--json", help="Emit machine-readable JSON output."),
     quiet: bool = typer.Option(False, "--quiet", help="Suppress non-essential output."),
     verbose: bool = typer.Option(False, "--verbose", help="Emit extra diagnostic output."),
     non_interactive: bool = typer.Option(False, "--non-interactive", help="Never prompt; fail instead."),
     dry_run: bool = typer.Option(False, "--dry-run", help="Show what would happen without making changes."),
     version: bool = typer.Option(False, "--version", help="Show the version and exit."),
-    ai: bool = typer.Option(
-        False,
-        "--ai",
-        callback=_ai_callback,
-        is_eager=True,
-        help="Print AI-oriented usage documentation (the bundled skill doc) and exit.",
-    ),
 ) -> None:
-    ctx.ensure_object(dict)
-    ctx.obj["project"] = project
+    ctx.ensure_object(dict)  # a part's global option (--project) may have put its value here already
     ctx.obj["json"] = json_output
     ctx.obj["quiet"] = quiet
     ctx.obj["verbose"] = verbose

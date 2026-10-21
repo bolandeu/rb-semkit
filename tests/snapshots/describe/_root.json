@@ -9,25 +9,6 @@
     "name": "semkit",
     "options": [
       {
-        "name": "--project",
-        "arguments": [
-          {
-            "name": "PROJECT",
-            "required": true,
-            "arity": {
-              "maximum": 1
-            }
-          }
-        ],
-        "description": "Path to the project root.",
-        "metadata": [
-          {
-            "name": "x-rb-type",
-            "value": "str"
-          }
-        ]
-      },
-      {
         "name": "--json",
         "description": "Emit machine-readable JSON output.",
         "metadata": [
@@ -108,6 +89,25 @@
           {
             "name": "x-rb-default",
             "value": false
+          }
+        ]
+      },
+      {
+        "name": "--project",
+        "arguments": [
+          {
+            "name": "TEXT",
+            "required": true,
+            "arity": {
+              "maximum": 1
+            }
+          }
+        ],
+        "description": "Path to the project root.",
+        "metadata": [
+          {
+            "name": "x-rb-type",
+            "value": "str"
           }
         ]
       },

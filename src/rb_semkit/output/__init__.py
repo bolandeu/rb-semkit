@@ -17,12 +17,12 @@ import sys
 import weakref
 from collections.abc import Callable
 from pathlib import Path
-from typing import NoReturn, cast
+from typing import ClassVar, NoReturn, cast
 
 import typer
 from rich.markup import escape
 from typer._click.core import Context as ClickContext
-from typer.core import TyperGroup
+from typer.core import TyperGroup, TyperOption
 
 from ..core import services
 from ..core.errors import Aborted, CliError, InvalidArguments
@@ -124,7 +124,15 @@ class RootGroup(TyperGroup):
     Click reports a usage error while it parses the arguments, before any
     command runs, so `guard` never sees it. The root's own arguments fail in
     `make_context`, a subcommand's inside `invoke`; both end here.
+
+    An optional part adds its global options (`--project`, `--ai`) to `part_options`
+    when it registers; they reach no callback argument (`expose_value=False`).
     """
+
+    part_options: ClassVar[list[TyperOption]] = []
+
+    def __init__(self, *, params=None, **kwargs):
+        super().__init__(params=[*(params or []), *self.part_options], **kwargs)
 
     def make_context(self, info_name, args, parent=None, **extra):
         argv = list(args)  # Click consumes `args` while it parses

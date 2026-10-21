@@ -1,23 +1,29 @@
-"""Every bundled agent skill: frontmatter present, name = <cli>-<dir name> (<cli> for the conventions skill),
-and no skill lists the CLI's commands (standard §9: the help is the list)."""
+"""The package skill part (copier's include_skill): `skill install`, `skill list`, --ai, and every bundled agent
+skill: frontmatter present, name = <cli>-<dir name> (<cli> for the conventions skill), and no skill lists the
+CLI's commands (the Standard, Package skill: the help is the list)."""
 
 from __future__ import annotations
 
 import re
 from pathlib import Path
 
+import pytest
+import typer.core
 import typer.main
 
 from rb_semkit.cli import app
-from rb_semkit.core import opencli, skills
+from rb_semkit.core import skills
 from rb_semkit.core.version import cli_name
+
+from .test_cli import invoke, invoke_json
 
 DATA = Path(skills.__file__).resolve().parents[1] / "data"
 
 
 def _command_names() -> list[str]:
-    document = opencli.document(typer.main.get_command(app))
-    return sorted(command["name"] for command in document["command"]["commands"])
+    root = typer.main.get_command(app)
+    assert isinstance(root, typer.core.TyperGroup)
+    return sorted(root.commands)
 
 
 def _problems(data: Path) -> list[str]:
@@ -67,3 +73,107 @@ def test_frontmatter_of_text_without_it_is_empty() -> None:
     assert skills.frontmatter("# title\n") == {}
     assert skills.frontmatter("---\nname: a\n") == {}
     assert skills.frontmatter("---\nname: a\ndescription: b: c\n---\nbody") == {"name": "a", "description": "b: c"}
+
+
+def test_skill_install_writes_to_project_dir(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.chdir(tmp_path)
+    code, payload = invoke_json("skill", "install", "--tool", "claude-code", "--project")
+    assert code == 0
+    installed = tmp_path / ".claude" / "skills" / "semkit" / "SKILL.md"
+    assert installed.is_file()
+    assert "name: semkit" in installed.read_text()
+    assert payload["path"] == str(installed)
+
+
+def test_skill_install_without_extra_skills_writes_only_the_conventions_skill(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.chdir(tmp_path)
+    code, payload = invoke_json("skill", "install", "--tool", "claude-code", "--project")
+    assert code == 0
+    assert set(payload) == {"ok", "tool", "scope", "path", "dry_run"}
+    assert [p.parent.name for p in (tmp_path / ".claude" / "skills").glob("*/SKILL.md")] == ["semkit"]
+
+
+@pytest.fixture
+def extra_skills(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
+    """A package data dir holding the conventions skill and two extra skills."""
+    data = tmp_path / "pkgdata"
+    data.mkdir()
+    (data / "SKILL.md").write_text("---\nname: semkit\ndescription: Conventions.\n---\n")
+    for name, description in {"og-image": "Make og images.", "video": "Make videos."}.items():
+        (data / "skills" / name).mkdir(parents=True)
+        (data / "skills" / name / "SKILL.md").write_text(f"---\nname: semkit-{name}\ndescription: {description}\n---\n")
+    monkeypatch.setattr(skills, "_data", lambda: data)
+    return data
+
+
+def test_skill_install_writes_every_bundled_skill_into_its_own_directory(
+    extra_skills: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    work = tmp_path / "work"
+    work.mkdir()
+    monkeypatch.chdir(work)
+    code, payload = invoke_json("skill", "install", "--tool", "claude-code", "--project")
+    assert code == 0
+    names = ("semkit", "semkit-og-image", "semkit-video")
+    expected = [work / ".claude" / "skills" / name / "SKILL.md" for name in names]
+    assert all(path.is_file() for path in expected)
+    assert payload["paths"] == [str(path) for path in expected]
+    assert payload["path"] == str(expected[0])
+
+
+def test_skill_install_one_skill_by_short_or_full_name(
+    extra_skills: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    work = tmp_path / "work"
+    work.mkdir()
+    monkeypatch.chdir(work)
+    for wanted in ("video", "semkit-video"):
+        code, payload = invoke_json("skill", "install", "--project", "--skill", wanted)
+        assert code == 0
+        assert "paths" not in payload
+    assert [p.parent.name for p in (work / ".claude" / "skills").glob("*/SKILL.md")] == ["semkit-video"]
+
+
+def test_skill_install_unknown_skill_names_the_bundled_ones(
+    extra_skills: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.chdir(tmp_path)
+    code, payload = invoke_json("skill", "install", "--project", "--skill", "nope")
+    assert code == 2
+    assert payload["error"]["code"] == "INVALID_ARGUMENTS"
+    assert "semkit, semkit-og-image, semkit-video" in payload["error"]["message"]
+
+
+EXPECTED_SKILLS = [
+    {"name": "semkit", "description": "Conventions."},
+    {"name": "semkit-og-image", "description": "Make og images."},
+    {"name": "semkit-video", "description": "Make videos."},
+]
+
+
+def test_skill_list_shows_every_bundled_skill(extra_skills: Path) -> None:
+    code, payload = invoke_json("skill", "list")
+    assert code == 0
+    assert payload["skills"] == EXPECTED_SKILLS
+    human = invoke("skill", "list").stdout
+    assert "semkit-video: Make videos." in human
+
+
+def test_describe_lists_the_same_skills(extra_skills: Path) -> None:
+    _, described = invoke_json("describe")
+    meta = {item["name"]: item["value"] for item in described["command"]["metadata"]}
+    assert meta["x-rb-skills"] == EXPECTED_SKILLS
+
+
+def test_bare_skill_group_shows_help_and_exits_zero() -> None:
+    result = invoke("skill")
+    assert result.exit_code == 0
+    assert "Usage:" in result.output
+
+
+def test_ai_prints_the_conventions_skill_first() -> None:
+    result = invoke("--ai")
+    assert result.exit_code == 0
+    assert result.stdout.startswith(skills.conventions().text + "\n")
