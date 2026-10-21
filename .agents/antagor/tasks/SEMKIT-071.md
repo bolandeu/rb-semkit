@@ -2,13 +2,13 @@
 id: SEMKIT-071
 title: Comments, docstrings, README and help name no cli-generator internal file and
   no numbered Standard section
-status: publish
+status: queue
 attempts: 0
-blocked: true
-blocked_reason: merge_conflict
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
-publish_stage: merge
+publish_stage: null
 created_by: architect
 approved_by: human
 worker: claude-code
@@ -68,3 +68,39 @@ From cli-generator (the Human asked for it, 2026-10-21): semkit is a product wit
 ## Basis
 
 Template v1.25.2 of cli-generator removed the same references from the template; follow its wording where semkit's file came from the template.
+
+## Feedback
+
+### Blocked: merge_conflict (stage merge)
+
+`main` changed since your work began, and merging it conflicts in:
+
+- `.gitleaks.toml`
+- `pyproject.toml`
+- `scripts/check_command_docstrings.py`
+- `src/rb_semkit/_distribution.py`
+- `src/rb_semkit/commands/auth.py`
+- `src/rb_semkit/core/deps.py`
+- `src/rb_semkit/core/errors.py`
+- `tests/contracts/schema.json`
+- `tests/test_contracts.py`
+- `tests/test_help.py`
+- `tests/test_skills.py`
+
+Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).
+
+`main` changed since your work began, and merging it conflicts in:
+
+- `.gitleaks.toml`
+- `pyproject.toml`
+- `scripts/check_command_docstrings.py`
+- `src/rb_semkit/_distribution.py`
+- `src/rb_semkit/commands/auth.py`
+- `src/rb_semkit/core/deps.py`
+- `src/rb_semkit/core/errors.py`
+- `tests/contracts/schema.json`
+- `tests/test_contracts.py`
+- `tests/test_help.py`
+- `tests/test_skills.py`
+
+Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).
