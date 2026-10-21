@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.60 — 2026-10-21
+
+### Outside epics
+
+- Template v1.25.8: the gate with the CI colour fix on Python 3.11 (SEMKIT-073)
+
 ## v0.1.59 — 2026-10-21
 
 ### Outside epics
