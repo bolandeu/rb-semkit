@@ -3,8 +3,8 @@ id: SEMKIT-072
 title: Standard section names in comments are the Standard's real headings
 status: queue
 attempts: 0
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: aborted
 phase: null
 tests_hash: null
 publish_stage: null
