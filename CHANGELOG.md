@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.59 — 2026-10-21
+
+### Outside epics
+
+- Help and describe snapshots are generated files: tests/snapshots/** linguist-generated (SEMKIT-070)
+
 ## v0.1.58 — 2026-10-20
 
 ### Outside epics
