@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-072
 title: Standard section names in comments are the Standard's real headings
-status: ideas
+status: queue
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -9,7 +9,7 @@ phase: null
 tests_hash: null
 publish_stage: null
 created_by: architect
-approved_by: null
+approved_by: human
 worker: claude-code
 type: chore
 owns_paths:
@@ -24,7 +24,8 @@ worker_args: null
 class: mechanical
 decision: false
 visual: null
-depends_on: []
+depends_on:
+- SEMKIT-071
 budget_usd: null
 epic: null
 spec_refs: []
@@ -55,3 +56,7 @@ SEMKIT-071 replaced references with Standard section names, but some names do no
 ## Out of scope
 
 - Any text outside these references.
+
+## Feedback
+
+### Blocked: aborted

@@ -2,7 +2,7 @@
 
 The contracts are written by the consumers (through dev), not by this tool:
 `tests/contracts/<consumer>/<provider>.yaml`, format `contract: 1`
-(`tests/contracts/schema.json`). The source of
+(`tests/contracts/schema.json`; the Standard, Consumer contracts). The source of
 truth is the consumer's repo; this repo keeps a copy and runs it in its gate.
 
 - `static` — against `describe --json`: commands (path, arguments, options), root

@@ -1,4 +1,4 @@
-"""The install lines of the readme and the bundled skill fit the repository_url of the project."""
+"""The install lines of the readme and of the bundled skill, if any, fit the repository_url of the project."""
 
 from pathlib import Path
 
@@ -6,10 +6,8 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 REGISTRY = "--index https://homeserver.tailee01ab.ts.net:3000/api/packages/bolandeu/pypi/simple"
-DOCS = {
-    "readme": ROOT / "README.md",
-    "skill": next(ROOT.glob("src/*/data/SKILL.md")),
-}
+DOCS = {"readme": ROOT / "README.md"}
+DOCS.update(("skill", path) for path in ROOT.glob("src/*/data/SKILL.md"))  # the package skill is an optional part
 
 
 def _repository_url() -> str:

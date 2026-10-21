@@ -5,7 +5,7 @@ or a bare source run cannot map the import package to its distribution.
 """
 
 # Rendered by copier from the `dist_name` answer: the [project] name in
-# pyproject.toml (`rb-<slug>`), which may differ from this
+# pyproject.toml (`rb-<slug>`, the Standard, Technology), which may differ from this
 # import package's name. importlib.metadata finds this package's version,
 # summary and console script by it; an editable install (`uv sync`) can't be
 # mapped from package to distribution at runtime, so it is written down here.
@@ -23,4 +23,4 @@ DIST_NAME_LEGACY: str | None = None
 TOOL = "semkit"
 # The cli-generator release this project was generated or last updated from
 # (copier's `_commit`), for `describe --json`; None for a project not made by copier.
-TEMPLATE_VERSION: str | None = "v1.23.1"
+TEMPLATE_VERSION: str | None = "v1.25.8"

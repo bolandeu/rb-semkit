@@ -3,14 +3,16 @@
 All of it comes from the installed distribution's metadata (pyproject.toml as installed), so no other module
 repeats a value that pyproject.toml holds: error actions and help name the command by `cli_name`, `describe` and
 `doctor` read the version, and the vectors extra builds its install command from `repository_url`.
-`module_exists` probes an optional module of the CLI without importing it.
+`module_exists` probes an optional module of the CLI without importing it, and `optional_module` imports it when it exists.
 """
 
 from __future__ import annotations
 
 import functools
+import importlib
 import importlib.util
 from importlib.metadata import Distribution, PackageNotFoundError, distribution
+from types import ModuleType
 
 from .._distribution import DIST_NAME, DIST_NAME_LEGACY
 
@@ -41,6 +43,11 @@ def module_exists(name: str) -> bool:
         return importlib.util.find_spec(name) is not None
     except ModuleNotFoundError:  # a parent package is missing entirely
         return False
+
+
+def optional_module(name: str) -> ModuleType | None:
+    """Module `name` (dotted) of an optional part, or None when the package was generated without that part."""
+    return importlib.import_module(name) if module_exists(name) else None
 
 
 @functools.cache

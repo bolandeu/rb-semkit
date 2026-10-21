@@ -8,7 +8,7 @@ pinned by tag) can't rely on the lock file, so it checks at runtime:
 
 A missing or too old CLI fails with DEPENDENCY_TOO_OLD (exit 1) naming what is
 installed, what is needed and how to fix it — not with a confusing error from
-deep inside the other tool. See the Standard, Dependencies.
+deep inside the other tool. See the Standard, Technology.
 """
 
 from __future__ import annotations
@@ -34,7 +34,7 @@ _PACKAGE_NAME = __name__.split(".")[0]
 
 @dataclass(frozen=True)
 class External:
-    """One non-Python dependency, declared in pyproject.toml `[[tool.rb.external]]` (the Standard, Tools catalog)."""
+    """One non-Python dependency, declared in pyproject.toml `[[tool.rb.external]]` (the Standard, Technology)."""
 
     name: str
     required: bool
@@ -139,8 +139,7 @@ def require_cli(name: str, min_version: str | None = None, *, install_url: str |
     (the gate checks). A repo URL (`install_url` or the entry's `url`, e.g.
     "https://github.com/bolandeu/serp") makes the error's `action` a runnable
     `uv tool install "<dist> @ git+<url>.git@v<min_version>" --force`, where
-    `dist` is the entry's `dist` or, for one of our tools, `rb-<name>`
-    (the Standard, Install); without a URL the action says what to install, never a
+    `dist` is the entry's `dist` or, for one of our tools, `rb-<name>`; without a URL the action says what to install, never a
     placeholder URL.
 
     A dev build of the other tool (version `0.0.0…`, no release tag in reach)

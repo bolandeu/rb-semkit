@@ -1,4 +1,4 @@
-# Secret scan config, read by `gitleaks` from the repo root (release gate).
+# Secret scan config, read by `gitleaks` from the repo root (release gate, the Standard, Credentials).
 # The default rules stay on. The allowlist holds only fake test values, one exact string each:
 # never a path, a rule id or a broad pattern. A real key is a leak — revoke it, never list it here.
 [extend]

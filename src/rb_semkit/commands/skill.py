@@ -1,6 +1,7 @@
 """`skill install`: copy the bundled skills into the skill folder of an AI tool (user or project level); `skill list`.
 
 An agent then finds the guide of this CLI without `--ai`; --dry-run writes nothing.
+`register` adds the `skill` group and the global `--ai` to the root (the skill part).
 """
 
 from __future__ import annotations
@@ -8,11 +9,42 @@ from __future__ import annotations
 from pathlib import Path
 
 import typer
+from typer.core import TyperOption
 
 from .. import output
 from ..core import skills
+from . import ai_sections
 
 app = output.group("Install this CLI's agent skill for AI tools.")
+
+
+def _print_skill(ctx: typer.Context, _param: object, value: bool) -> None:
+    """Print the bundled agent skill doc to stdout, then the section each command module gives to `--ai`.
+
+    For agents that can execute this CLI but cannot read files from disk
+    (e.g. a sandboxed shell with no access to a SKILL.md on the filesystem),
+    this is the fallback way to get full usage guidance.
+    """
+    if not value:
+        return
+    typer.echo("\n".join([skills.conventions().text, *ai_sections()]))
+    raise typer.Exit()
+
+
+def register(root: typer.Typer) -> None:
+    """Add the `skill` group and the global --ai to the CLI's root (the package skill part, copier's include_skill)."""
+    root.add_typer(app, name="skill")
+    output.RootGroup.part_options.append(
+        TyperOption(
+            param_decls=["--ai"],
+            is_flag=True,
+            default=False,
+            is_eager=True,
+            expose_value=False,
+            callback=_print_skill,
+            help="Print AI-oriented usage documentation (the bundled skill doc) and exit.",
+        )
+    )
 
 
 # Where each AI tool looks for personal (user-level) and project-level skills.
