@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-074
 title: 'Template v1.26.3: package docs keep no retelling of Antagor''s process'
-status: in_review
+status: publish
 attempts: 0
 blocked: false
 blocked_reason: null
