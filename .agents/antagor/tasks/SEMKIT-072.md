@@ -25,7 +25,7 @@ class: mechanical
 decision: false
 visual: null
 depends_on:
-- SEMKIT-073
+- SEMKIT-071
 budget_usd: null
 epic: null
 spec_refs: []
