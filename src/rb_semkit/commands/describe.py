@@ -1,6 +1,6 @@
 """`describe`: the machine-readable contract of the CLI as an OpenCLI document (`core.opencli`).
 
-Agents read it to learn every command, option, accepted value and exit code without parsing the help.
+Agents read it to learn every command, option, accepted value and exit code without parsing the help. `register` adds the command to the root (the describe part).
 """
 
 from __future__ import annotations
@@ -29,3 +29,8 @@ def describe(
     """
     document = opencli.document(ctx.find_root().command)
     typer.echo(json.dumps(document, ensure_ascii=False, indent=None if ctx.obj.get("json") else 2))
+
+
+def register(root: typer.Typer) -> None:
+    """Add `describe` to the CLI's root (the describe part, copier's include_describe)."""
+    root.command(name="describe")(describe)

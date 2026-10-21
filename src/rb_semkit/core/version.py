@@ -3,14 +3,16 @@
 All of it comes from the installed distribution's metadata (pyproject.toml as installed), so no other module
 repeats a value that pyproject.toml holds: error actions and help name the command by `cli_name`, `describe` and
 `doctor` read the version, and the vectors extra builds its install command from `repository_url`.
-`module_exists` probes an optional module of the CLI without importing it.
+`module_exists` probes an optional module of the CLI without importing it, and `optional_module` imports it when it exists.
 """
 
 from __future__ import annotations
 
 import functools
+import importlib
 import importlib.util
 from importlib.metadata import Distribution, PackageNotFoundError, distribution
+from types import ModuleType
 
 from .._distribution import DIST_NAME, DIST_NAME_LEGACY
 
@@ -43,6 +45,11 @@ def module_exists(name: str) -> bool:
         return False
 
 
+def optional_module(name: str) -> ModuleType | None:
+    """Module `name` (dotted) of an optional part, or None when the package was generated without that part."""
+    return importlib.import_module(name) if module_exists(name) else None
+
+
 @functools.cache
 def cli_name() -> str:
     """The command users type: this package's console script (`[project.scripts]`, copier's `cli_name`).
@@ -52,7 +59,7 @@ def cli_name() -> str:
     actions, `{cli}` in docstrings, `auth status`'s `tool` — uses this, while
     the keychain service, env var prefix and `.<package>/` project dir keep
     the package name. A bare source run (nothing installed) falls back to it.
-    The distribution (`DIST_NAME`, standard §10 `rb-<slug>`) is a third,
+    The distribution (`DIST_NAME`, `rb-<slug>`) is a third,
     separate name: what `uv tool install/upgrade` and dependencies use.
     """
     try:
