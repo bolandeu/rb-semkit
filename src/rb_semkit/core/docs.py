@@ -1,6 +1,6 @@
 """The help of this CLI as one document for people: OpenCLI 0.1 with the commands at the root, as InSpectra reads it.
 
-Built from the Click tree with no hand step, by the help standard (docs/help-standard.md), so the same code gives the
+Built from the Click tree with no hand step, by the help standard, so the same code gives the
 same document byte for byte. The entries of options and arguments are those of `core.opencli`; on top of them a
 command's docstring is split into the description (the summary, then the paragraphs without the option lines and the
 example lines) and the examples («<command>  # -> <result>»), an option's description ends with its default and

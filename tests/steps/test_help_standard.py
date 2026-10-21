@@ -1,4 +1,4 @@
-"""Every step meets the help standard (docs/help-standard.md), as `semkit docs` shows it.
+"""Every step meets the help standard, as `semkit docs` shows it.
 
 A summary of one line, one to three examples, every option explained, no option line left in the description, and the
 last line of an option giving its default and allowed values as the signature has them (read from `describe`).

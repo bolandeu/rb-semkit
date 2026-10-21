@@ -1,4 +1,4 @@
-"""core.docs on a small Typer app with no code of this CLI: the help standard (docs/help-standard.md) applied."""
+"""core.docs on a small Typer app with no code of this CLI: the help standard applied."""
 
 from __future__ import annotations
 

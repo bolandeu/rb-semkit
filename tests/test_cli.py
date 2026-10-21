@@ -357,7 +357,7 @@ def test_skill_list_and_describe_show_the_same_skills(extra_skills: Path) -> Non
     assert meta["x-rb-skills"] == expected
 
 
-# --- auth status without credentials (standard §8: every CLI has it) ----------
+# --- auth status without credentials (every CLI has it) ----------
 
 
 def test_auth_status_without_credentials_is_empty_and_healthy() -> None:
