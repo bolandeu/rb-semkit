@@ -16,6 +16,7 @@ changelog = "CHANGELOG.md"
 deploy_command = "sh scripts/deploy.sh"
 gate = "remote"  # the release gate runs on Gitea CI before the tag (in force after the Human's remote-gate-accept)
 gate_status_url = "https://homeserver.tailee01ab.ts.net:3000/api/v1/repos/bolandeu/semkit/commits/{commit}/status"
+gate_timeout_minutes = 30  # the CI may queue several minutes for the runner, then the gate itself takes ~8 min
 
 [connector]
 webhook_secret = "PLANE_WEBHOOK_SECRET_TOOLS"
