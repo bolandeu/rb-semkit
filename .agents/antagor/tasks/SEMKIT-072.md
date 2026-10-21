@@ -24,7 +24,8 @@ worker_args: null
 class: mechanical
 decision: false
 visual: null
-depends_on: []
+depends_on:
+- SEMKIT-073
 budget_usd: null
 epic: null
 spec_refs: []
