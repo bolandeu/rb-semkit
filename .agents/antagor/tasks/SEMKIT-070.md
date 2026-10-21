@@ -14,6 +14,8 @@ worker: claude-code
 type: chore
 owns_paths:
 - .gitattributes
+- tests/markers/test_build_markers.py
+- uv.lock
 test_paths:
 - tests/markers/test_build_markers.py
 docs: none
