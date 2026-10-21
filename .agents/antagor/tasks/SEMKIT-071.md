@@ -4,8 +4,8 @@ title: Comments, docstrings, README and help name no cli-generator internal file
   no numbered Standard section
 status: publish
 attempts: 0
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: idea_wait
 phase: null
 tests_hash: null
 publish_stage: null
