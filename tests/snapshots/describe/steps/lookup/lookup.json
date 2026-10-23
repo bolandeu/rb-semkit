@@ -1,0 +1,130 @@
+{
+  "name": "lookup",
+  "description": "The table with the columns of the lookup table added, row by row, by a key phrase.\n\nA row takes the cells of the first row of the lookup table whose key is the same by the kind. A row with no match keeps empty cells; with matched_only it is dropped. The rows keep their order. A lookup column whose name the table has gets the suffix _lookup. The attribute repeated_keys of the result counts the keys that stand in the lookup table more than once. A column that is not in a table is refused, naming the columns there are.\n\non: the key column, or MAIN=LOOKUP when the lookup table calls it differently; without it, the first text column of each table.\nkind: how two keys are the same: exact (the same text), explicit (the same in any case, with ё as е and any spaces), implicit (the same words in another order) or lemmas (the same lemmas in any order).\ntake: the column of the lookup table to add; repeat it for each next column; without it, every other column.\nmatched_only: drop the rows that have no match.\n\nExample: semkit read phrases.csv lookup lookup/urls.csv --take url --matched-only write -\n-> купить диван, /buy-divan; кресло, /kreslo\n\nfile: the lookup table; the file is read like `read` does. The key is --on, by default the working column of the table and the first text column of the lookup table.\n\nThe step adds the columns after the last column of the table; the working column stays the same. The report (stderr and --json) says how many keys repeat in the lookup table: the first row of each wins.",
+  "options": [
+    {
+      "name": "--file",
+      "arguments": [
+        {
+          "name": "FILE",
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
+        }
+      ],
+      "description": "the lookup table; the file is read like `read` does. The key is --on, by default the working column of the table and the first text column of the lookup table.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--on",
+      "arguments": [
+        {
+          "name": "ON",
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
+        }
+      ],
+      "description": "the key column, or MAIN=LOOKUP when the lookup table calls it differently; without it, the first text column of each table.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--kind",
+      "arguments": [
+        {
+          "name": "KIND",
+          "required": true,
+          "arity": {
+            "maximum": 1
+          },
+          "acceptedValues": [
+            "exact",
+            "explicit",
+            "implicit",
+            "lemmas"
+          ]
+        }
+      ],
+      "description": "how two keys are the same: exact (the same text), explicit (the same in any case, with ё as е and any spaces), implicit (the same words in another order) or lemmas (the same lemmas in any order).",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "choice"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "exact"
+        }
+      ]
+    },
+    {
+      "name": "--take",
+      "arguments": [
+        {
+          "name": "TAKE",
+          "required": true
+        }
+      ],
+      "description": "the column of the lookup table to add; repeat it for each next column; without it, every other column.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        },
+        {
+          "name": "x-rb-multiple",
+          "value": true
+        }
+      ]
+    },
+    {
+      "name": "--matched-only",
+      "description": "drop the rows that have no match.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "boolean"
+        },
+        {
+          "name": "x-rb-default",
+          "value": false
+        }
+      ]
+    }
+  ],
+  "arguments": [
+    {
+      "name": "FILE",
+      "required": false,
+      "arity": {
+        "minimum": 0,
+        "maximum": 1
+      },
+      "description": "the lookup table; the file is read like `read` does. The key is --on, by default the working column of the table and the first text column of the lookup table. The same as --file FILE.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "filter"
+    }
+  ]
+}

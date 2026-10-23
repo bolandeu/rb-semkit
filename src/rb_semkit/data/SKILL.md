@@ -85,7 +85,7 @@ branch: [the Standard](https://homeserver.tailee01ab.ts.net:3000/bolandeu/cli-ge
   `text-stats` and `parse-html` (a column of HTML → text, links, all, main, title, description, h1) add their columns
   after the working column; a text step takes one of them with `semkit read IN --column all`.
 - **filter** — keeps or drops rows (`keep-…`, `drop-…`, `dupes --action drop`, `split-by-words --keep`,
-  `remove-cells empty`), or changes no cell: `sort-rows`, `use-column`, `sample-rows`, `shuffle-rows`, `fill-down`, `group-rows`, `split-rows`, `unpivot` (see Table bricks below).
+  `remove-cells empty`), or changes no cell: `sort-rows`, `use-column`, `sample-rows`, `shuffle-rows`, `fill-down`, `group-rows`, `split-rows`, `unpivot`, `lookup` (see Table bricks below).
 - **report** — makes a new table the current one, and its first text column the working one (`ngrams`, `split-text`,
   `headings`, `coverage`, `compare-grams`, `cluster-serp`, `compare-lists`, `permutations`, `summary`).
 
@@ -114,7 +114,8 @@ bundled lists. The first required argument of a step may be given without its fl
 
 A step that needs a second input reads it from a file, like `read` does (any format; `-` is refused here):
 
-- `--against FILE`: `coverage` (the texts), `compare-lists` (the second list).
+- `--against FILE`: `coverage` (the texts), `compare-lists` (the second list). `lookup FILE` takes its lookup table as an
+  argument.
 - `--competitors FILE`: `compare-grams`, `compare-stats` (the texts of the competitors, one per row, in the first
   text column).
 - `--freq FILE`: `cluster-serp` (the phrases and their frequencies; `--freq-column` names the column of numbers).
@@ -223,6 +224,16 @@ $ semkit read phrases.csv compare-lists --against second.csv --op second write -
 {"phrase": "диван купить"}
 ```
 
+Frequencies from another export, joined by phrase (the order of the words does not matter; a phrase the export lacks
+keeps an empty `freq`):
+
+```console
+$ semkit read phrases.csv lookup lookup/urls.csv --kind implicit --take freq write -
+{"phrase": "купить диван", "freq": 10}
+{"phrase": "кресло", "freq": 5}
+{"phrase": "диван недорого", "freq": ""}
+```
+
 A core from word variants: `linear-combinations` joins each combination of one item per column into the column
 `phrase`, the working one; `agree` puts the words of each phrase in agreement («растаможить машина» → «растаможить
 машину») and adds `agree_note`, the reason a phrase stays as it is (empty when it agrees). A step by meaning
@@ -294,6 +305,13 @@ row, the other columns are copied; a cell without the separator, or an empty one
 name goes to `--name-column` (default `column`), the cell to `--value-column` (default `value`), which is the working
 column after the step. Wrong input (a missing column, a `--sum` cell that is no number, an empty `--sep`, `--keep` with
 every column, a `--name-column` or `--value-column` that a kept column has) is refused before any row is written (exit 2).
+`lookup FILE [--on KEY | MAIN=LOOKUP] [--kind K] [--take C]… [--matched-only]` adds the columns of the lookup table FILE
+to each row, by a key phrase: the key is the working column and the first text column of FILE, or `--on`; `--kind` is
+as in `dupes` (`exact` by default; with `implicit`, «купить диван» finds «диван купить»). A row takes the cells of the
+first row of FILE with its key; a key that repeats in FILE gives its first row, and the summary line says how many keys
+repeat (the `note` with `--json`). A row with no match keeps empty cells (`--matched-only` drops it); the rows keep their
+order. A column of FILE that the table has gets the suffix `_lookup`. Wrong input (a FILE that cannot be read, a key
+column or a `--take` column that is missing, an unknown `--kind`) is refused before any row is written (exit 2).
 To keep the phrases that have a match, nearest to the best first:
 
 ```bash
