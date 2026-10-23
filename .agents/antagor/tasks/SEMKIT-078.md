@@ -2,10 +2,10 @@
 id: SEMKIT-078
 title: 'Table steps: fill-down counts the filled cells; lookup leaves unmatched cells
   empty and names its FILE'
-status: in_progress
+status: queue
 attempts: 1
-blocked: true
-blocked_reason: needs_scope
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -107,3 +107,5 @@ ci / gate (push): failure — Canceled after 5m35s https://homeserver.tailee01ab
 > Recommended: I submit the branch as it is (merge commit only), and Antagor re-runs the remote CI
 
 Option 1: submit the branch as it is (with the merge of main); Antagor re-runs the CI at publish. No code change.
+
+### Blocked: needs_scope (entries [{'n': 1, 'text': 'SEMKIT-078 attempt 2: I merged main into the branch; the local gate (rb-release check) and check_command_docstrings.py pass; the CI failure was a cancelled runner, and no code change is needed.\nQuesti'}])
