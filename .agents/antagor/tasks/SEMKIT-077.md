@@ -33,6 +33,7 @@ decision: false
 visual: null
 depends_on:
 - SEMKIT-075
+- SEMKIT-076
 budget_usd: null
 epic: E-008
 spec_refs: []
