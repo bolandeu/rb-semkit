@@ -96,3 +96,16 @@ The project's full check fails with this task merged into main, and passes witho
 CI status: failure
 ci / gate (push): failure — Canceled after 5m35s https://homeserver.tailee01ab.ts.net:3000/bolandeu/semkit/actions/runs/477/jobs/665
 ```
+
+### Answer to question #1
+
+> SEMKIT-078 attempt 2: I merged main into the branch; the local gate (rb-release check) and check_command_docstrings.py pass; the CI failure was a cancelled runner, and no code change is needed.
+> Question: How do I finish the task with no code change?
+> Options:
+> 1. I submit the branch as it is (merge commit only), and Antagor re-runs the remote CI
+> 2. The Architect re-runs the CI on the previous commit, and I do not submit
+> Recommended: I submit the branch as it is (merge commit only), and Antagor re-runs the remote CI
+
+Option 1: submit the branch as it is (with the merge of main); Antagor re-runs the CI at publish. No code change.
+
+### Blocked: needs_scope (entries [{'n': 1, 'text': 'SEMKIT-078 attempt 2: I merged main into the branch; the local gate (rb-release check) and check_command_docstrings.py pass; the CI failure was a cancelled runner, and no code change is needed.\nQuesti'}])
