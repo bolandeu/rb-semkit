@@ -2,7 +2,7 @@
 id: SEMKIT-075
 title: Row steps fill-down, sample-rows, shuffle-rows, and the frame of the table
   steps
-status: ideas
+status: queue
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -10,7 +10,7 @@ phase: null
 tests_hash: null
 publish_stage: null
 created_by: architect
-approved_by: null
+approved_by: human
 worker: claude-code
 type: feature
 owns_paths:
