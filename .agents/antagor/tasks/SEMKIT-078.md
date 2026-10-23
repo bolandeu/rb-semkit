@@ -4,11 +4,11 @@ title: 'Table steps: fill-down counts the filled cells; lookup leaves unmatched 
   empty and names its FILE'
 status: publish
 attempts: 0
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: gate_failed
 phase: null
 tests_hash: null
-publish_stage: null
+publish_stage: gate
 created_by: architect
 approved_by: human
 worker: claude-code
