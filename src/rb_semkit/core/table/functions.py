@@ -1,4 +1,5 @@
-"""`use_column` and `sort_rows`: the working column of the next steps, and the order of the rows."""
+"""`require_column`, `use_column` and `sort_rows`: the refusal of a missing column, the working column of the next
+steps, and the order of the rows."""
 
 from __future__ import annotations
 
