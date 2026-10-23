@@ -1,4 +1,5 @@
-"""`use_column` and `sort_rows`: the working column of the next steps, and the order of the rows."""
+"""`require_column`, `use_column` and `sort_rows`: the refusal of a missing column, the working column of the next
+steps, and the order of the rows."""
 
 from __future__ import annotations
 
@@ -9,7 +10,7 @@ from pandas.api import types
 from ..errors import InvalidArguments
 
 
-def _require(table: pd.DataFrame, argument: str, name: str) -> None:
+def require_column(table: pd.DataFrame, argument: str, name: str) -> None:
     if name not in table.columns:
         listed = ", ".join(repr(column) for column in table.columns) or "none"
         raise InvalidArguments(f"{argument}: {name!r} is not in the table; allowed: {listed}.")
@@ -25,7 +26,7 @@ def use_column(data: pd.DataFrame, name: str) -> pd.DataFrame:
     Example: {cli} read matches.csv use-column match drop-cells empty write -
     -> купить диван, диван купить, 0.95; стол, столик, 0.9
     """
-    _require(data, "name", name)
+    require_column(data, "name", name)
     return data
 
 
@@ -65,6 +66,6 @@ def sort_rows(data: pd.DataFrame, *, by: list[str] | None = None, desc: bool = F
     if not by:
         raise InvalidArguments("by: not given; allowed: a column of the table, repeated for each next one.")
     for name in by:
-        _require(data, "by", name)
+        require_column(data, "by", name)
     keys = [rank for name in by for rank in _ranks(data[name], desc=desc)]
     return data.iloc[np.lexsort(keys[::-1])]

@@ -1,0 +1,31 @@
+{
+  "name": "shuffle-rows",
+  "description": "The same rows in a random order.\n\nThe same seed gives the same order each run; without a seed each run orders anew.\n\nseed: a whole number that makes the order the same each run.\n\nExample: semkit read freq.csv shuffle-rows --seed 3 write -\n-> кресло, 5; купить диван, 8; диван купить, 10\n\nThe step changes no cell. The working column stays the same.",
+  "options": [
+    {
+      "name": "--seed",
+      "arguments": [
+        {
+          "name": "SEED",
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
+        }
+      ],
+      "description": "a whole number that makes the order the same each run.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "int"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "filter"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+
+ Usage: semkit read [IN] sample-rows [OPTIONS]
+
+ N rows of the table, or a share of them, chosen at random; the rows keep their order.
+
+ A share is rounded to the nearest whole number of rows. An n larger than the table keeps every
+ row. The same seed chooses the same rows each run; without a seed each run chooses anew. Give n or
+ share, one of them.
+
+ n: how many rows to keep.
+ share: the share of the rows to keep, above 0 up to 1.
+ seed: a whole number that makes the choice the same each run.
+
+ Example: semkit read freq.csv sample-rows --n 2 --seed 1 write -
+ -> диван купить, 10; купить диван, 8
+
+ The step changes no cell. The working column stays the same.
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --n            <int>    how many rows to keep.                                                   │
+│ --share        <float>  the share of the rows to keep, above 0 up to 1.                          │
+│ --seed         <int>    a whole number that makes the choice the same each run.                  │
+│ --help                  Show this message and exit.                                              │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

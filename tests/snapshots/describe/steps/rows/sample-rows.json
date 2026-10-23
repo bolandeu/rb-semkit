@@ -1,0 +1,69 @@
+{
+  "name": "sample-rows",
+  "description": "N rows of the table, or a share of them, chosen at random; the rows keep their order.\n\nA share is rounded to the nearest whole number of rows. An n larger than the table keeps every row. The same seed chooses the same rows each run; without a seed each run chooses anew. Give n or share, one of them.\n\nn: how many rows to keep.\nshare: the share of the rows to keep, above 0 up to 1.\nseed: a whole number that makes the choice the same each run.\n\nExample: semkit read freq.csv sample-rows --n 2 --seed 1 write -\n-> диван купить, 10; купить диван, 8\n\nThe step changes no cell. The working column stays the same.",
+  "options": [
+    {
+      "name": "--n",
+      "arguments": [
+        {
+          "name": "N",
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
+        }
+      ],
+      "description": "how many rows to keep.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "int"
+        }
+      ]
+    },
+    {
+      "name": "--share",
+      "arguments": [
+        {
+          "name": "SHARE",
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
+        }
+      ],
+      "description": "the share of the rows to keep, above 0 up to 1.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "float"
+        }
+      ]
+    },
+    {
+      "name": "--seed",
+      "arguments": [
+        {
+          "name": "SEED",
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
+        }
+      ],
+      "description": "a whole number that makes the choice the same each run.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "int"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "filter"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+
+ Usage: semkit read [IN] fill-down [OPTIONS]
+
+ The table where, in each named column, an empty cell takes the value of the nearest filled cell
+ above it.
+
+ A cell that holds only spaces is empty too. Empty cells before the first filled cell stay as they
+ are. The other columns do not change. A column that is not in the table is refused, naming the
+ columns there are.
+
+ column: the column to fill; repeat it for each next column.
+
+ Example: semkit read rows/groups.csv fill-down --column group write -
+ -> , 0; A, 1; A, 2; A, 3; B, 4; B, 5
+
+ The step changes the cells of the named columns only. Without --column it fills the working
+ column, which stays the same.
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --column        <str>  the column to fill; repeat it for each next column.                       │
+│ --help                 Show this message and exit.                                               │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

@@ -1,0 +1,32 @@
+{
+  "name": "fill-down",
+  "description": "The table where, in each named column, an empty cell takes the value of the nearest filled cell above it.\n\nA cell that holds only spaces is empty too. Empty cells before the first filled cell stay as they are. The other columns do not change. A column that is not in the table is refused, naming the columns there are.\n\ncolumn: the column to fill; repeat it for each next column.\n\nExample: semkit read rows/groups.csv fill-down --column group write -\n-> , 0; A, 1; A, 2; A, 3; B, 4; B, 5\n\nThe step changes the cells of the named columns only. Without --column it fills the working column, which stays the same.",
+  "options": [
+    {
+      "name": "--column",
+      "arguments": [
+        {
+          "name": "COLUMN",
+          "required": true
+        }
+      ],
+      "description": "the column to fill; repeat it for each next column.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        },
+        {
+          "name": "x-rb-multiple",
+          "value": true
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "filter"
+    }
+  ]
+}
