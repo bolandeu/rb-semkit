@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-077
 title: 'Step lookup: columns of a lookup table by a key phrase'
-status: in_review
+status: publish
 attempts: 0
 blocked: false
 blocked_reason: null
