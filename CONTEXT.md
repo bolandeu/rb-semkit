@@ -97,6 +97,10 @@ A named list of words or phrases (minus-words, stopwords, items to combine, a ni
 or the Human's own in any folder the config names.
 _Avoid_: dictionary (a dictionary is the lemma data)
 
+**Lookup table** (справочная таблица):
+Another table whose columns the step `lookup` adds to the current table, row by row, by a key phrase (ADR 0012).
+_Avoid_: reference, dictionary
+
 <!-- Формат термина:
 
 **Термин**:
