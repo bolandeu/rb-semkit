@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-077
 title: 'Step lookup: columns of a lookup table by a key phrase'
-status: queue
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -21,6 +21,8 @@ owns_paths:
 - tests/snapshots/help/steps/lookup/
 - tests/snapshots/describe/steps/lookup/
 - src/rb_semkit/data/SKILL.md
+- src/rb_semkit/pipeline/state.py
+- src/rb_semkit/steps/__init__.py
 test_paths:
 - tests/lookup/
 - tests/steps/
