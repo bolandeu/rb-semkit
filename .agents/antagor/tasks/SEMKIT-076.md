@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-076
 title: Shape steps group-rows, split-rows, unpivot
-status: in_review
+status: publish
 attempts: 0
 blocked: false
 blocked_reason: null
