@@ -85,7 +85,7 @@ branch: [the Standard](https://homeserver.tailee01ab.ts.net:3000/bolandeu/cli-ge
   `text-stats` and `parse-html` (a column of HTML → text, links, all, main, title, description, h1) add their columns
   after the working column; a text step takes one of them with `semkit read IN --column all`.
 - **filter** — keeps or drops rows (`keep-…`, `drop-…`, `dupes --action drop`, `split-by-words --keep`,
-  `remove-cells empty`), or changes no cell: `sort-rows`, `use-column`, `sample-rows`, `shuffle-rows`, `fill-down`, `group-rows`, `split-rows`, `unpivot`, `lookup` (see Table bricks below).
+  `remove-cells empty`), or changes no cell of the input: `sort-rows`, `use-column`, `sample-rows`, `shuffle-rows`, `group-rows`, `split-rows`, `unpivot`, `lookup`; `fill-down` fills cells and reports how many (see Table bricks below).
 - **report** — makes a new table the current one, and its first text column the working one (`ngrams`, `split-text`,
   `headings`, `coverage`, `compare-grams`, `cluster-serp`, `compare-lists`, `permutations`, `summary`).
 
@@ -231,7 +231,7 @@ keeps an empty `freq`):
 $ semkit read phrases.csv lookup lookup/urls.csv --kind implicit --take freq write -
 {"phrase": "купить диван", "freq": 10}
 {"phrase": "кресло", "freq": 5}
-{"phrase": "диван недорого", "freq": ""}
+{"phrase": "диван недорого", "freq": null}
 ```
 
 A core from word variants: `linear-combinations` joins each combination of one item per column into the column
@@ -291,7 +291,7 @@ the next steps and changes nothing else; a missing column is refused (exit 2) wi
 `sort-rows --by COLUMN [--desc]` orders the rows: numbers as numbers, texts in the alphabet order (ё after е), equal rows
 keep their order, empty cells come last; `--by` repeats (the first wins, the next break ties).
 `fill-down [--column C]…` gives an empty cell (or one of spaces) the value of the nearest filled cell above it, in the
-named columns (default: the working column); empty cells before the first filled one stay empty.
+named columns (default: the working column); empty cells before the first filled one stay empty. The summary line counts the cells it filled.
 `sample-rows --n N | --share S [--seed K]` keeps N rows (more than the table: all), or the share S, above 0 up to 1,
 rounded to a whole number of rows; the rows keep their order. `shuffle-rows [--seed K]` puts the rows in random order.
 Without `--seed` each run chooses anew; with it every run gives the same result. Wrong input (a missing column, `--n`
@@ -309,7 +309,7 @@ every column, a `--name-column` or `--value-column` that a kept column has) is r
 to each row, by a key phrase: the key is the working column and the first text column of FILE, or `--on`; `--kind` is
 as in `dupes` (`exact` by default; with `implicit`, «купить диван» finds «диван купить»). A row takes the cells of the
 first row of FILE with its key; a key that repeats in FILE gives its first row, and the summary line says how many keys
-repeat (the `note` with `--json`). A row with no match keeps empty cells (`--matched-only` drops it); the rows keep their
+repeat (the `note` with `--json`). A row with no match keeps empty cells (null in JSON; `--matched-only` drops it); the rows keep their
 order. A column of FILE that the table has gets the suffix `_lookup`. Wrong input (a FILE that cannot be read, a key
 column or a `--take` column that is missing, an unknown `--kind`) is refused before any row is written (exit 2).
 To keep the phrases that have a match, nearest to the best first:

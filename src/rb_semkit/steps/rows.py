@@ -17,7 +17,9 @@ def _prepare_fill_down(options: dict) -> Prepared:
     def run(table: pd.DataFrame, column: str) -> View:
         names = named or [column]
         fill_down(table.iloc[:0], column=names)  # a missing column is refused before the cells are read
-        return View(fill_down(table, column=names), column)
+        filled = fill_down(table, column=names)
+        changed = sum(int((filled[name].astype(str) != table[name].astype(str)).sum()) for name in names)
+        return View(filled, column, cells_changed=changed)
 
     return run
 

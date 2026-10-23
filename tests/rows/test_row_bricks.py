@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import pytest
@@ -101,3 +102,14 @@ def test_a_wrong_input_exits_2_naming_the_value_before_writing(
     assert result.exit_code == 2
     assert all(text in result.output for text in named)
     assert not out.exists()
+
+
+def test_fill_down_reports_the_cells_it_filled(tmp_path: Path) -> None:
+    source = table(tmp_path, [{"cluster": "диван"}, {"cluster": ""}, {"cluster": "кресло"}, {"cluster": ""}])
+    steps = ("read", source, "fill-down", "--column", "cluster", "write")
+
+    plain = semkit(*steps, str(tmp_path / "plain.csv"))
+    as_json = semkit("--json", *steps, str(tmp_path / "json.csv"))
+
+    assert "fill-down: 4 → 4 rows, 2 cells changed" in plain.stderr
+    assert json.loads(as_json.stdout)["steps"][0]["cells_changed"] == 2
