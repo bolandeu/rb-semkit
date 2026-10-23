@@ -109,10 +109,12 @@ class Report:
 
 @dataclass(frozen=True)
 class View:
-    """The same cells of the table, maybe in another order of rows, and the working column of the next steps."""
+    """The table the step gives (the same cells in another order, fewer rows or more columns), the working column of the
+    next steps, and what else the step tells (`note`)."""
 
     table: pd.DataFrame
     column: str
+    note: str | None = None
 
 
 Outcome = Change | Columns | Keep | View | Report

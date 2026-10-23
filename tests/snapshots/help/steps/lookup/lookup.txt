@@ -1,0 +1,58 @@
+
+ Usage: semkit read [IN] lookup [OPTIONS] [FILE]
+
+ The table with the columns of the lookup table added, row by row, by a key phrase.
+
+ A row takes the cells of the first row of the lookup table whose key is the same by the kind. A
+ row with no match keeps empty cells; with matched_only it is dropped. The rows keep their order. A
+ lookup column whose name the table has gets the suffix _lookup. The attribute repeated_keys of the
+ result counts the keys that stand in the lookup table more than once. A column that is not in a
+ table is refused, naming the columns there are.
+
+ on: the key column, or MAIN=LOOKUP when the lookup table calls it differently; without it, the
+ first text column of each table.
+ kind: how two keys are the same: exact (the same text), explicit (the same in any case, with ё as
+ е and any spaces), implicit (the same words in another order) or lemmas (the same lemmas in any
+ order).
+ take: the column of the lookup table to add; repeat it for each next column; without it, every
+ other column.
+ matched_only: drop the rows that have no match.
+
+ Example: semkit read phrases.csv lookup lookup/urls.csv --take url --matched-only write -
+ -> купить диван, /buy-divan; кресло, /kreslo
+
+ file: the lookup table; the file is read like `read` does. The key is --on, by default the working
+ column of the table and the first text column of the lookup table.
+
+ The step adds the columns after the last column of the table; the working column stays the same.
+ The report (stderr and --json) says how many keys repeat in the lookup table: the first row of
+ each wins.
+
+╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────╮
+│   FILE      <str>  the lookup table; the file is read like `read` does. The key is --on, by      │
+│                    default the working column of the table and the first text column of the      │
+│                    lookup table. The same as --file FILE.                                        │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --file                FILE                              the lookup table; the file is read like  │
+│                                                         `read` does. The key is --on, by default │
+│                                                         the working column of the table and the  │
+│                                                         first text column of the lookup table.   │
+│ --on                  <str>                             the key column, or MAIN=LOOKUP when the  │
+│                                                         lookup table calls it differently;       │
+│                                                         without it, the first text column of     │
+│                                                         each table.                              │
+│ --kind                <exact|explicit|implicit|lemmas>  how two keys are the same: exact (the    │
+│                                                         same text), explicit (the same in any    │
+│                                                         case, with ё as е and any spaces),       │
+│                                                         implicit (the same words in another      │
+│                                                         order) or lemmas (the same lemmas in any │
+│                                                         order).                                  │
+│                                                         [default: exact]                         │
+│ --take                <str>                             the column of the lookup table to add;   │
+│                                                         repeat it for each next column; without  │
+│                                                         it, every other column.                  │
+│ --matched-only                                          drop the rows that have no match.        │
+│ --help                                                  Show this message and exit.              │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
