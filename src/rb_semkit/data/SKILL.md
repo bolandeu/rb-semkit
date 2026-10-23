@@ -85,7 +85,7 @@ branch: [the Standard](https://homeserver.tailee01ab.ts.net:3000/bolandeu/cli-ge
   `text-stats` and `parse-html` (a column of HTML → text, links, all, main, title, description, h1) add their columns
   after the working column; a text step takes one of them with `semkit read IN --column all`.
 - **filter** — keeps or drops rows (`keep-…`, `drop-…`, `dupes --action drop`, `split-by-words --keep`,
-  `remove-cells empty`), or changes no cell: `sort-rows` and `use-column` (see Table bricks below).
+  `remove-cells empty`), or changes no cell: `sort-rows`, `use-column`, `sample-rows`, `shuffle-rows`, `fill-down` (see Table bricks below).
 - **report** — makes a new table the current one, and its first text column the working one (`ngrams`, `split-text`,
   `headings`, `coverage`, `compare-grams`, `cluster-serp`, `compare-lists`, `permutations`, `summary`).
 
@@ -266,8 +266,14 @@ semkit read phrases.csv nearest --to "растаможка авто" --threshold
 Table bricks work on the whole table, chain-agnostic. `use-column NAME` makes the column NAME the working column of
 the next steps and changes nothing else; a missing column is refused (exit 2) with the columns there are.
 `sort-rows --by COLUMN [--desc]` orders the rows: numbers as numbers, texts in the alphabet order (ё after е), equal rows
-keep their order, empty cells come last; `--by` repeats (the first wins, the next break ties). To keep the phrases that
-have a match, nearest to the best first:
+keep their order, empty cells come last; `--by` repeats (the first wins, the next break ties).
+`fill-down [--column C]…` gives an empty cell (or one of spaces) the value of the nearest filled cell above it, in the
+named columns (default: the working column); empty cells before the first filled one stay empty.
+`sample-rows --n N | --share S [--seed K]` keeps N rows (more than the table: all), or the share S, above 0 up to 1,
+rounded to a whole number of rows; the rows keep their order. `shuffle-rows [--seed K]` puts the rows in random order.
+Without `--seed` each run chooses anew; with it every run gives the same result. Wrong input (a missing column, `--n`
+with `--share` or neither, a negative `--n`, a `--share` out of range) is refused before any row is written (exit 2).
+To keep the phrases that have a match, nearest to the best first:
 
 ```bash
 semkit read phrases.csv nearest --to "растаможка авто" use-column match drop-cells empty sort-rows --by similarity --desc write matches.csv

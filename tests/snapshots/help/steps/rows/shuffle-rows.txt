@@ -1,0 +1,19 @@
+
+ Usage: semkit read [IN] shuffle-rows [OPTIONS]
+
+ The same rows in a random order.
+
+ The same seed gives the same order each run; without a seed each run orders anew.
+
+ seed: a whole number that makes the order the same each run.
+
+ Example: semkit read freq.csv shuffle-rows --seed 3 write -
+ -> кресло, 5; купить диван, 8; диван купить, 10
+
+ The step changes no cell. The working column stays the same.
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --seed        <int>  a whole number that makes the order the same each run.                      │
+│ --help               Show this message and exit.                                                 │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

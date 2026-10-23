@@ -63,6 +63,13 @@ NOT_CASED = {
     "agree",  # semkit's own: the add-in does not agree the words of a phrase
     "use_column",  # semkit's own: a brick of the pipeline over the whole table, no add-in function
     "sort_rows",  # semkit's own: a brick of the pipeline over the whole table, no add-in function
+    "fill_down",  # semkit's own table bricks of the epic E-008: no add-in function
+    "sample_rows",
+    "shuffle_rows",
+    "group_rows",
+    "split_rows",
+    "unpivot",
+    "lookup",
 }
 SEP = " | "
 PART_SEP = " || "

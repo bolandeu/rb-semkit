@@ -35,7 +35,7 @@ from ..core import wordlists
 from ..core.docs import ARGUMENT_LINE, EXAMPLE, LIST_ITEM, argument_names, doc_lines
 from ..core.errors import InvalidArguments
 from ..core.version import cli_name
-from ..steps import POSITIONAL, REPEATED, Prepared, Step, parameter_names, project_start
+from ..steps import LONG, POSITIONAL, REPEATED, Prepared, Step, parameter_names, project_start
 from .items import SYNTAX, items
 from .state import Planned
 
@@ -60,10 +60,11 @@ class StepOption:
         False  # the first required argument, or a marked one: also taken positionally, so neither form is required
     )
     repeated: bool = False  # given once for each item (--to A --to B): a list of the texts as they are
+    long: bool = False  # a one-letter name is taken as --n, not -n
 
     def flag(self) -> str:
         name = self.name.replace("_", "-")
-        if len(name) == 1:
+        if len(name) == 1 and not self.long:
             return f"-{name}"
         return f"--{name}/--no-{name}" if self.annotation is bool and self.default is True else f"--{name}"
 
@@ -179,14 +180,16 @@ def _step_option(function: Callable[..., Any], parameter: inspect.Parameter) -> 
     if repeated:
         annotation, takes_items = list[str] | None, False
     required = parameter.default is inspect.Parameter.empty
-    if parameter.name in TABLE_ARGUMENTS or (annotation is None and not required):
+    if (parameter.name in TABLE_ARGUMENTS and not repeated) or (annotation is None and not required):
         return None
     if annotation is None:
         raise TypeError(f"{function!r}: the required argument {parameter.name!r} has no command-line form")
     text = _option_help(inspect.getdoc(function) or "", parameter.name, parameter_names(function)) or MISSING_HELP
     help_text = f"{text} {SYNTAX}" if takes_items else text
     default = ... if required else parameter.default
-    return StepOption(parameter.name, annotation, default, takes_items, help_text, POSITIONAL in marks, repeated)
+    return StepOption(
+        parameter.name, annotation, default, takes_items, help_text, POSITIONAL in marks, repeated, LONG in marks
+    )
 
 
 def step_options(function: Callable[..., Any]) -> list[StepOption]:

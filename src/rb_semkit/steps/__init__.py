@@ -51,6 +51,8 @@ Kind = Literal["change", "filter", "report"]
 # Markers for `Annotated` in the annotation of `option`: a repeatable option (--to A --to B) and a positional one that is not required.
 REPEATED = "repeated"
 POSITIONAL = "positional"
+# A mark for an option with a one-letter name that the command line spells in full (--n); a repeated option may be named column.
+LONG = "long"
 # The folder the project of the CLI is looked up from while a step is prepared: the --project option, else the current folder.
 _PROJECT_START: ContextVar[Path | None] = ContextVar("project_start", default=None)
 DIGIT_GROUPS = r"(?<=\d)[ \u00a0\u202f](?=\d{3}\b)"  # the spaces between groups of digits: «1 000»
