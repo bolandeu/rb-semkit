@@ -3,7 +3,7 @@ id: SEMKIT-078
 title: 'Table steps: fill-down counts the filled cells; lookup leaves unmatched cells
   empty and names its FILE'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -83,3 +83,16 @@ The steps of E-008 (SEMKIT-075, SEMKIT-077): steps/rows.py, steps/lookup.py; the
 ## Out of scope
 
 - The shape steps' counts (group-rows, split-rows, unpivot), the lookup note text, other steps' messages
+
+## Feedback
+
+### Attempt 1: the project's full check failed after the merge
+
+The project's full check fails with this task merged into main, and passes without it: your change broke something elsewhere. Merge main into your branch and fix it within the task, or say what is outside it with `antagor inbox add`.
+
+- `the project's CI (https://homeserver.tailee01ab.ts.net:3000/api/v1/repos/bolandeu/semkit/commits/{commit}/status)`
+
+```
+CI status: failure
+ci / gate (push): failure — Canceled after 5m35s https://homeserver.tailee01ab.ts.net:3000/bolandeu/semkit/actions/runs/477/jobs/665
+```
