@@ -2,7 +2,7 @@
 id: SEMKIT-078
 title: 'Table steps: fill-down counts the filled cells; lookup leaves unmatched cells
   empty and names its FILE'
-status: in_review
+status: publish
 attempts: 1
 blocked: false
 blocked_reason: null
