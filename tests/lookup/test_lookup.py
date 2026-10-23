@@ -32,7 +32,7 @@ def test_rows_get_the_columns_of_the_first_matching_row_and_unmatched_rows_get_e
     assert jsonl(result.stdout) == [
         {"phrase": "купить диван", "freq": 10, "url": "/d"},
         {"phrase": "кресло", "freq": 3, "url": "/k"},
-        {"phrase": "стол", "freq": "", "url": ""},
+        {"phrase": "стол", "freq": None, "url": None},
     ]
 
 
@@ -53,7 +53,7 @@ def test_kind_implicit_matches_the_same_words_in_another_order_and_exact_does_no
     exact = semkit("read", source, "lookup", other, "write", "-")
     implicit = semkit("read", source, "lookup", other, "--kind", "implicit", "write", "-")
 
-    assert jsonl(exact.stdout) == [{"phrase": "купить диван", "freq": ""}]
+    assert jsonl(exact.stdout) == [{"phrase": "купить диван", "freq": None}]
     assert jsonl(implicit.stdout) == [{"phrase": "купить диван", "freq": 7}]
 
 
@@ -65,7 +65,7 @@ def test_a_key_that_repeats_gives_its_first_row_and_the_report_counts_it(tmp_pat
     result = semkit("--json", "read", table(tmp_path, PHRASES), "lookup", other, "write", str(out))
 
     summary = json.loads(result.stdout)["steps"][0]
-    assert [row["freq"] for row in jsonl(out.read_text(encoding="utf-8"))] == ["", 3, ""]
+    assert [row["freq"] for row in jsonl(out.read_text(encoding="utf-8"))] == [None, 3, None]
     assert summary["rows_after"] == 3
     assert summary["note"] == "lookup keys that repeat: 1"
 
@@ -83,7 +83,7 @@ def test_on_main_equals_lookup_matches_differently_named_key_columns(tmp_path: P
 
     result = semkit("read", table(tmp_path, PHRASES), "lookup", other, "--on", "phrase=query", "write", "-")
 
-    assert [row["freq"] for row in jsonl(result.stdout)] == ["", 3, ""]
+    assert [row["freq"] for row in jsonl(result.stdout)] == [None, 3, None]
 
 
 @pytest.mark.parametrize(
@@ -124,3 +124,27 @@ def test_a_missing_key_column_of_the_lookup_table_names_its_columns(tmp_path: Pa
 
     assert "'x' is not in the lookup table" in result.output
     assert "'phrase', 'freq', 'url'" in result.output
+
+
+def test_an_unmatched_cell_is_empty_so_a_number_column_stays_numbers_and_csv_has_an_empty_cell(tmp_path: Path) -> None:
+    source = table(tmp_path, [{"phrase": "купить диван"}, {"phrase": "кресло"}])
+    other = lookup_table(tmp_path, [{"phrase": "купить диван", "freq": 99}])
+    out = tmp_path / "out.csv"
+
+    jsonl_result = semkit("read", source, "lookup", other, "--on", "phrase", "write", "-")
+    csv_result = semkit("read", source, "lookup", other, "--on", "phrase", "write", str(out))
+
+    assert jsonl(jsonl_result.stdout) == [{"phrase": "купить диван", "freq": 99}, {"phrase": "кресло", "freq": None}]
+    assert csv_result.exit_code == 0, csv_result.output
+    assert out.read_text(encoding="utf-8").splitlines()[1:] == ["купить диван,99", "кресло,"]
+
+
+def test_a_missing_lookup_file_is_refused_naming_the_file_argument(tmp_path: Path) -> None:
+    missing = tmp_path / "missing.csv"
+
+    result = semkit("--json", "read", table(tmp_path, PHRASES), "lookup", str(missing), "write", "-")
+
+    assert result.exit_code == 2, result.output
+    error = json.loads(result.stdout)["error"]
+    assert error["message"] == f"lookup: FILE {missing} does not exist."
+    assert error["action"] == "Give FILE a file that exists."

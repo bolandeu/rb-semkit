@@ -56,7 +56,7 @@ def lookup(
     """The table with the columns of the lookup table added, row by row, by a key phrase.
 
     A row takes the cells of the first row of the lookup table whose key is the same by the kind. A row with no match
-    keeps empty cells; with matched_only it is dropped. The rows keep their order. A lookup column whose name the table
+    keeps empty cells (null); with matched_only it is dropped. The rows keep their order. A lookup column whose name the table
     has gets the suffix _lookup. The attribute repeated_keys of the result counts the keys that stand in the lookup
     table more than once. A column that is not in a table is refused, naming the columns there are.
 
@@ -82,10 +82,10 @@ def lookup(
     rows = positions.fillna(0).astype(int).to_numpy()
     added = {}
     for name in names:
-        cells = other[name].iloc[rows] if len(other) else pd.Series([""] * len(data), dtype=object)
+        cells = other[name].iloc[rows] if len(other) else pd.Series([None] * len(data), dtype=object)
         cells = cells.set_axis(data.index)
         added[name + SUFFIX if name in data.columns else name] = (
-            cells if matched.all() else cells.astype(object).where(matched, "")
+            cells if matched.all() else cells.astype(object).where(matched, None)
         )
     joined = data.assign(**added)
     joined.attrs[REPEATED_KEYS] = int((keys[keys != ""].value_counts() > 1).sum())

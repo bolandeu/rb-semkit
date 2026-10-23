@@ -126,10 +126,11 @@ class State:
                 changed = sum(self._add(planned.step.name, str(name), values) for name, values in table.items())
             case Keep(rows):
                 self._keep(planned.step.name, rows.to_numpy())
-            case View(table, column, view_note):
+            case View(table, column, view_note, view_changed):
                 self.table = table
                 self.column = column
                 note = view_note
+                changed = view_changed
             case Report(table):
                 self.table = table
                 self.column = _working_column(table)

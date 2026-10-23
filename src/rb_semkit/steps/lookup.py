@@ -14,7 +14,7 @@ FILE_DOC = (
 
 
 def _prepare(options: dict) -> Prepared:
-    other = table_of(options["file"], "file")
+    other = table_of(options["file"], "file", positional=True)
 
     def run(table, column):
         on = options["on"] or f"{column}={first_text(other, 'file')}"

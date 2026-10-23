@@ -115,6 +115,7 @@ class View:
     table: pd.DataFrame
     column: str
     note: str | None = None
+    cells_changed: int = 0
 
 
 Outcome = Change | Columns | Keep | View | Report
@@ -233,19 +234,17 @@ def flag(name: str) -> str:
     return "--" + name.replace("_", "-")
 
 
-def table_of(path: str, option_name: str) -> pd.DataFrame:
+def table_of(path: str, option_name: str, *, positional: bool = False) -> pd.DataFrame:
     """The table in the file `path`, read as `read` does (types inferred, text columns text).
 
-    '-' is the pipeline's input, so refused; so is a file that does not exist.
+    '-' is the pipeline's input, so refused; so is a file that does not exist. A `positional` argument is named in the
+    messages as the command line takes it (FILE), not as an option.
     """
+    name = option_name.upper() if positional else flag(option_name)
     if path == STDIO:
-        raise InvalidArguments(
-            f"{flag(option_name)} -: '-' is the input of the pipeline.", action=f"Give {flag(option_name)} a file."
-        )
+        raise InvalidArguments(f"{name} -: '-' is the input of the pipeline.", action=f"Give {name} a file.")
     if not exists(path):
-        raise InvalidArguments(
-            f"{flag(option_name)} {path} does not exist.", action=f"Give {flag(option_name)} a file that exists."
-        )
+        raise InvalidArguments(f"{name} {path} does not exist.", action=f"Give {name} a file that exists.")
     return Source(path).read()
 
 
