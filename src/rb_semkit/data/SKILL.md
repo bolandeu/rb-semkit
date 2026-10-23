@@ -85,7 +85,7 @@ branch: [the Standard](https://homeserver.tailee01ab.ts.net:3000/bolandeu/cli-ge
   `text-stats` and `parse-html` (a column of HTML → text, links, all, main, title, description, h1) add their columns
   after the working column; a text step takes one of them with `semkit read IN --column all`.
 - **filter** — keeps or drops rows (`keep-…`, `drop-…`, `dupes --action drop`, `split-by-words --keep`,
-  `remove-cells empty`), or changes no cell: `sort-rows`, `use-column`, `sample-rows`, `shuffle-rows`, `fill-down` (see Table bricks below).
+  `remove-cells empty`), or changes no cell: `sort-rows`, `use-column`, `sample-rows`, `shuffle-rows`, `fill-down`, `group-rows`, `split-rows`, `unpivot` (see Table bricks below).
 - **report** — makes a new table the current one, and its first text column the working one (`ngrams`, `split-text`,
   `headings`, `coverage`, `compare-grams`, `cluster-serp`, `compare-lists`, `permutations`, `summary`).
 
@@ -236,6 +236,18 @@ $ semkit read variants.csv linear-combinations agree write -
 {"phrase": "растаможка автомобиля", "agree_note": "", "action": "растаможка", "item": "автомобиль"}
 ```
 
+A cluster as one row: `cluster-by-frequency` names the cluster of each phrase (a word in at least 2 phrases), then
+`group-rows` makes one row of each cluster, with its phrases, their count and the sum of their frequencies (the
+working column `phrase` holds the joined phrases).
+
+```console
+$ semkit read core.csv cluster-by-frequency --threshold 2 group-rows --by phrase_cluster --sum freq write -
+{"phrase_cluster": "", "phrase": "Диван-кровать 2 м!, углы, диван120см", "count": 3, "freq": 8}
+{"phrase_cluster": "диван купить", "phrase": "купить диван, Диван купить, купить   диван в москве!, купить диван в москве", "count": 4, "freq": 11}
+{"phrase_cluster": "диван", "phrase": "диван бесплатно, диван www.sofa.ru диван, отличный диван \"Лион\", чехол на диван, угловой диван, диван недорого", "count": 6, "freq": 20}
+{"phrase_cluster": "купить", "phrase": "диавн купить", "count": 1, "freq": 1}
+```
+
 ## Steps by meaning
 
 The steps by meaning (`cluster-meaning`, `dupes --kind meaning`) compare phrases by their phrase vectors: phrases of close meaning get close
@@ -273,6 +285,15 @@ named columns (default: the working column); empty cells before the first filled
 rounded to a whole number of rows; the rows keep their order. `shuffle-rows [--seed K]` puts the rows in random order.
 Without `--seed` each run chooses anew; with it every run gives the same result. Wrong input (a missing column, `--n`
 with `--share` or neither, a negative `--n`, a `--share` out of range) is refused before any row is written (exit 2).
+`group-rows --by C… [--sum N…] [--sep TEXT]` makes one row of each group (the order of the first row of each): the `--by`
+columns, the working column with its cells joined by `--sep` (default `", "`, empty cells left out), `count` (the rows of
+the group) and the sum of each `--sum` column («5,5» is 5.5); the other columns are dropped. `split-rows [--sep TEXT]`
+cuts each cell of the working column by `--sep` (default `,`) into rows: the parts are trimmed, an empty part makes no
+row, the other columns are copied; a cell without the separator, or an empty one, stays one row. `unpivot --keep C…
+[--name-column N] [--value-column V]` keeps the `--keep` columns and turns every other column into rows: the column
+name goes to `--name-column` (default `column`), the cell to `--value-column` (default `value`), which is the working
+column after the step. Wrong input (a missing column, a `--sum` cell that is no number, an empty `--sep`, `--keep` with
+every column, a `--name-column` or `--value-column` that a kept column has) is refused before any row is written (exit 2).
 To keep the phrases that have a match, nearest to the best first:
 
 ```bash

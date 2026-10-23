@@ -1,0 +1,78 @@
+{
+  "name": "unpivot",
+  "description": "The kept columns stay; every other column turns into rows.\n\nEach kept row gives one row for each other column: the kept cells, the name of the column in name_column and its cell in value_column, in the order of the columns. A column that is not in the table is refused, naming the columns there are; so is keep with every column, and a name_column or value_column that a kept column has already.\n\nkeep: the column to keep; repeat it for each next column.\nname_column: the column that holds the name of the unpivoted column.\nvalue_column: the column that holds the cell of the unpivoted column.\n\nExample: semkit read reshape/regions.csv unpivot --keep phrase write -\n-> диван, msk, 10; диван, spb, 4\n\nThe step makes the value column the working column.",
+  "options": [
+    {
+      "name": "--keep",
+      "arguments": [
+        {
+          "name": "KEEP",
+          "required": true
+        }
+      ],
+      "description": "the column to keep; repeat it for each next column.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        },
+        {
+          "name": "x-rb-multiple",
+          "value": true
+        }
+      ]
+    },
+    {
+      "name": "--name-column",
+      "arguments": [
+        {
+          "name": "NAME_COLUMN",
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
+        }
+      ],
+      "description": "the column that holds the name of the unpivoted column.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "column"
+        }
+      ]
+    },
+    {
+      "name": "--value-column",
+      "arguments": [
+        {
+          "name": "VALUE_COLUMN",
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
+        }
+      ],
+      "description": "the column that holds the cell of the unpivoted column.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        },
+        {
+          "name": "x-rb-default",
+          "value": "value"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "filter"
+    }
+  ]
+}
