@@ -2,7 +2,7 @@
 id: SEMKIT-075
 title: Row steps fill-down, sample-rows, shuffle-rows, and the frame of the table
   steps
-status: queue
+status: done
 attempts: 1
 blocked: false
 blocked_reason: null
@@ -99,3 +99,9 @@ Follow the table area: core/table (use_column, sort_rows) and steps/table.py (St
 ### Attempt 1: file docstring
 
 - update the docstring of src/rb_semkit/core/table/functions.py: +require_column
+
+### Answer to finding #1
+
+> SEMKIT-075: the spec flags --n and --column clashed with pipeline/commands.py: a one-letter name made -n, and 'column' is a reserved table argument. I added the mark LONG (steps/__init__.py) for --n and let a REPEATED option be named column; existing steps unchanged. Check if you want another way.
+
+Accepted: the LONG mark and a repeated option named column are the right way; existing steps unchanged.
