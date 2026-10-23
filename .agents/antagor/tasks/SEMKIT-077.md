@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-077
 title: 'Step lookup: columns of a lookup table by a key phrase'
-status: ideas
+status: queue
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -9,7 +9,7 @@ phase: null
 tests_hash: null
 publish_stage: null
 created_by: architect
-approved_by: null
+approved_by: human
 worker: claude-code
 type: feature
 owns_paths:
