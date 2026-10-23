@@ -3,7 +3,7 @@ id: SEMKIT-075
 title: Row steps fill-down, sample-rows, shuffle-rows, and the frame of the table
   steps
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -23,6 +23,9 @@ owns_paths:
 - tests/snapshots/describe/steps/rows/
 - tests/conformance/case_files.py
 - src/rb_semkit/data/SKILL.md
+- src/rb_semkit/core/table/functions.py
+- src/rb_semkit/pipeline/commands.py
+- src/rb_semkit/steps/__init__.py
 test_paths:
 - tests/rows/
 - tests/steps/
@@ -90,3 +93,9 @@ Follow the table area: core/table (use_column, sort_rows) and steps/table.py (St
 
 - group-rows, split-rows, unpivot and lookup themselves: other tasks of the epic (only their names in NOT_CASED here)
 - read/write changes, several input files
+
+## Feedback
+
+### Attempt 1: file docstring
+
+- update the docstring of src/rb_semkit/core/table/functions.py: +require_column
