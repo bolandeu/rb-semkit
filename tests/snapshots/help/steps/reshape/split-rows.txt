@@ -1,0 +1,21 @@
+
+ Usage: semkit read [IN] split-rows [OPTIONS]
+
+ One row for each part of the cells of the working column, cut by sep.
+
+ The spaces at the edges of a part are trimmed, an empty part makes no row. The other columns are
+ copied to each new row. A cell with no sep stays one row, an empty cell stays one row with an
+ empty cell. A column that is not in the table is refused, naming the columns there are.
+
+ sep: the text that cuts a cell.
+
+ Example: semkit read reshape/cells.csv split-rows --sep ";" write -
+ -> диван, 7; софа, 7; кресло, 3
+
+ The step changes no other column. The working column stays the same.
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --sep         <str>  the text that cuts a cell. [default: ,]                                     │
+│ --help               Show this message and exit.                                                 │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

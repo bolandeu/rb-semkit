@@ -1,0 +1,35 @@
+{
+  "name": "split-rows",
+  "description": "One row for each part of the cells of the working column, cut by sep.\n\nThe spaces at the edges of a part are trimmed, an empty part makes no row. The other columns are copied to each new row. A cell with no sep stays one row, an empty cell stays one row with an empty cell. A column that is not in the table is refused, naming the columns there are.\n\nsep: the text that cuts a cell.\n\nExample: semkit read reshape/cells.csv split-rows --sep \";\" write -\n-> диван, 7; софа, 7; кресло, 3\n\nThe step changes no other column. The working column stays the same.",
+  "options": [
+    {
+      "name": "--sep",
+      "arguments": [
+        {
+          "name": "SEP",
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
+        }
+      ],
+      "description": "the text that cuts a cell.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        },
+        {
+          "name": "x-rb-default",
+          "value": ","
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "filter"
+    }
+  ]
+}

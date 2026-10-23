@@ -1,0 +1,27 @@
+
+ Usage: semkit read [IN] group-rows [OPTIONS]
+
+ One row for each group of rows that hold the same cells in the columns of by.
+
+ The groups come in the order of the first row of each. The row holds the group columns, the cells
+ of the working column joined by sep (empty cells left out), count (the rows of the group) and the
+ sum of each column of sum. The other columns are dropped. The sum columns hold numbers: «5,5»
+ counts as 5.5. A column that is not in the table is refused, naming the columns there are.
+
+ by: the column to group by; repeat it for each next column.
+ sep: the text between the joined phrases.
+ sum: the column of numbers to add up in each group; repeat it for each next column.
+
+ Example: semkit read reshape/clusters.csv group-rows --by cluster --sum freq write -
+ -> диван, купить диван, диван недорого, 2, 15; кресло, кресло, 1, 3
+
+ The step drops the other columns. The working column stays the same: it holds the joined phrases.
+
+╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
+│ --by          <str>  the column to group by; repeat it for each next column.                     │
+│ --sep         <str>  the text between the joined phrases. [default: , ]                          │
+│ --sum         <str>  the column of numbers to add up in each group; repeat it for each next      │
+│                      column.                                                                     │
+│ --help               Show this message and exit.                                                 │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
