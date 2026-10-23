@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.66 — 2026-10-23
+
+### Outside epics
+
+- Table steps: fill-down counts the filled cells; lookup leaves unmatched cells empty and names its FILE (SEMKIT-078)
+
 ## v0.1.65 — 2026-10-23
 
 ### E-008 — Table steps of the pipeline: group, split, lookup, fill down, sample, shuffle, unpivot
