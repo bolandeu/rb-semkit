@@ -1,10 +1,10 @@
 ---
 id: SEMKIT-079
 title: 'Tests: run pytest in parallel with pytest-xdist'
-status: in_progress
+status: queue
 attempts: 0
-blocked: true
-blocked_reason: needs_scope
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -70,3 +70,5 @@ pytest-xdist (`-n auto`) with pytest-cov's built-in xdist support; existing fixt
 > Recommended: Fix the gate parser upstream in cli-generator (accept xdist lines); until then the line shows 0 cases
 
 Option 2: in tests/conftest.py switch xdist off (numprocesses=0) when the run targets only tests/test_contracts.py; the gate line must say '4 cases from 3 consumers'. I report the parser to cli-generator myself; do not wait for it. setuptools GHSA-xmj3-9gf7-h52w: if a fixed version exists, bump it in uv.lock (uv lock --upgrade-package setuptools); if none exists, say so in the result and go on.
+
+### Blocked: needs_scope (entries [{'n': 1, 'text': "With -n auto in addopts, the gate's contract step prints '0 cases' instead of '4 cases from 3 consumers': its regex '::test_contract\\[x\\] PASSED' does not match xdist -vv lines '[gw0] [ 50%] PASSED te"}])
