@@ -86,6 +86,7 @@ dev = [
     "pytest>=8.0",
     "pyyaml>=6.0",  # .copier-answers.yml, the CI workflow, tests/contracts/*.yaml
     "pytest-cov>=5.0",
+    "pytest-xdist>=3.6",
     "ruff>=0.6",
     "syrupy>=4.8",
     "ty>=0.0.80",
@@ -125,7 +126,7 @@ gate_extras = ["vectors"]
 # Only tests/: mutmut leaves a copy of the tree in mutants/.
 testpaths = ["tests"]
 # The timed tests (marker speed) leave the default run: a busy machine fails them.
-addopts = "--cov --cov-report=term-missing:skip-covered -m 'not speed'"
+addopts = "-n auto --cov --cov-report=term-missing:skip-covered -m 'not speed'"
 # tests/test_help.py keeps help snapshots at tests/snapshots/help/<command>.txt
 # (the Standard, Commands), not in syrupy's own `__snapshots__/<test file>/` layout, so
 # syrupy warns it "can not relate" each file to its test. It can — by name.
@@ -138,7 +139,7 @@ markers = [
 [tool.mutmut]
 source_paths = ["src/rb_semkit"]
 also_copy = ["scripts/", "pyproject.toml"]  # tests read them (test_scripts.py, the distribution checks)
-pytest_add_cli_args = ["--no-cov"]  # fail_under would kill every mutant
+pytest_add_cli_args = ["--no-cov", "-p", "no:xdist"]  # fail_under would kill every mutant; mutmut runs serial
 # only_mutate = ["*/core/normalize.py"]  # one module at a time on a big tool
 
 [tool.coverage.run]

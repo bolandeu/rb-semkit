@@ -17,6 +17,8 @@ from pathlib import Path
 import numpy as np
 import pytest
 
+CONTRACT_TESTS = "test_contracts.py"
+
 PLAIN_HELP_ENV = {"NO_COLOR": "1", "TERM": "dumb", "COLUMNS": "100"}
 CI_ENV_NAMES = ("FORCE_COLOR", "CI", "GITHUB_ACTIONS", "TTY_COMPATIBLE", "TTY_INTERACTIVE")
 
@@ -115,3 +117,13 @@ def same_in_ci(request: pytest.FixtureRequest) -> Callable[[str], None]:
         assert result.returncode == 0, result.stdout[-3000:]
 
     return run
+
+
+@pytest.hookimpl(tryfirst=True)
+def pytest_configure(config: pytest.Config) -> None:
+    """A run of the contract tests alone stays serial: the gate reads their `-vv` lines, and xdist prints them in
+    another shape (`[gw0] [ 50%] PASSED tests/...`), so it would count no case."""
+    args = [Path(arg.split("::")[0]).name for arg in config.args]
+    if args and set(args) == {CONTRACT_TESTS}:
+        config.option.numprocesses = 0
+        config.option.dist = "no"
