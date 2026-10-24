@@ -5,6 +5,12 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.1.67 — 2026-10-24
+
+### Outside epics
+
+- Tests: run pytest in parallel with pytest-xdist (SEMKIT-079)
+
 ## v0.1.66 — 2026-10-23
 
 ### Outside epics
