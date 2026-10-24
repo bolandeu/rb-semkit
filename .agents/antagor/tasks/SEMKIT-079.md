@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-079
 title: 'Tests: run pytest in parallel with pytest-xdist'
-status: in_review
+status: publish
 attempts: 0
 blocked: false
 blocked_reason: null
