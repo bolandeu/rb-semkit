@@ -2,7 +2,7 @@
 id: SEMKIT-084
 title: 'relate-phrases --synonyms: groups of synonyms of the caller, items of several
   words'
-status: in_review
+status: publish
 attempts: 0
 blocked: false
 blocked_reason: null
