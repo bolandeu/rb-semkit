@@ -14,9 +14,8 @@ approved_by: null
 worker: claude-code
 type: feature
 owns_paths:
-- src/rb_semkit/core/relate/
-- src/rb_semkit/steps/relate.py
-- tests/relate/
+- src/rb_semkit/core/relate/sources/own_links.py
+- tests/relate/test_own_links.py
 - tests/snapshots/
 test_paths:
 - tests/relate/test_own_links.py
@@ -44,10 +43,11 @@ translation: 'Свои связи для relate-phrases: --synonyms FILE с гр
 
 Add the links of the caller to relate-phrases: `--synonyms FILE` with groups of synonyms, where an item may be several words. Windmill makes the file per run (the LLM grouping and the right column of Wordstat); nothing of it is bundled.
 
+- The link source «synonyms», one new module in the package of sources that SEMKIT-081 made (found by itself; do not edit the step module or any other shared file). It adds the option `--synonyms` through the options of a source.
 - The file is a table read like the other steps read their tables. Two shapes: (A) a column `synonyms`, one group per row, the items split by `|` (an item may be several words): `стиральная машина | стиралка | стиральная машинка`, `ремонт | починка | ремонтировать | починить`. (B) the columns `word` and `synonyms` of `dupes --synonyms` (the synonyms split by spaces): a group of the word and its synonyms. A file with neither shape is refused with a message that names the missing column; an unreadable file is refused with its path; a group of one item is ignored.
-- Items are compared by lemmas, as runs of words. An item of several words is a run the cut of a phrase knows (through the runs the link sources give), so «стиральная машина» in a phrase is one unit that links to «стиралка».
-- A link source «synonyms»: the items of one group are linked to each other. No chain across groups: if a ~ b in one group and b ~ c in another, a and c are not linked. A word in two groups links through both. `reason` names it: `починить~ремонт (synonyms)`.
-- The help of the step documents the option and the two shapes with an example.
+- Items are compared by lemmas, as runs of words. An item of several words is a run the cut of a phrase knows (the source gives it as a run), so «стиральная машина» in a phrase is one unit that links to «стиралка».
+- The items of one group are linked to each other. No chain across groups: if a ~ b in one group and b ~ c in another, a and c are not linked. A word in two groups links through both. `reason` names it: `починить~ремонт (synonyms)`.
+- The help of the step documents the option and the two shapes with an example; the help snapshot is updated.
 
 ## Acceptance
 
@@ -63,7 +63,7 @@ level: integration through the pipeline plus unit tests of the reader; seam: sem
 
 ## Basis
 
-Follow how dupes reads its --synonyms table (src/rb_semkit/steps/dupes.py: refining_options, as_table, table_of) and the link interface of SEMKIT-081; the module and one line where the step lists its sources
+Follow how dupes reads its --synonyms table (src/rb_semkit/steps/dupes.py: refining_options, as_table, table_of) and the interface of the link sources that SEMKIT-081 made; one new module, found by itself
 
 ## Read first
 
