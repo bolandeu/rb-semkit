@@ -1,4 +1,8 @@
-"""The one-to-one pairing of the units of a phrase with the units of a base: equal units first, then linked ones."""
+"""The one-to-one pairing of the units of a phrase with the units of a base: equal units first, then linked ones.
+
+A phrase may have several cuts into units (runs that overlap); `best_pairing` pairs every cut of a phrase with every
+cut of its base and keeps the `Pairing` that explains the most words.
+"""
 
 from __future__ import annotations
 

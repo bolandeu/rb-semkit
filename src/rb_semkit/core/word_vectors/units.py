@@ -1,7 +1,8 @@
 """The looked-up units of a phrase: a segmentation of it into runs of words that do not overlap.
 
 A run is a sense of several words of the thesaurus (found by lemmas); a word in no such sense is a unit by itself. A
-stopword is no unit by itself, and stays inside a run when the sense holds it.
+stopword is no unit by itself, and stays inside a run when the sense holds it. `segment` gives the one segmentation
+that covers the most words; `cuts` gives every segmentation that leaves no run out, for runs that overlap.
 """
 
 from __future__ import annotations
