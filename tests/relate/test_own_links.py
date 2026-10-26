@@ -30,7 +30,8 @@ def test_an_item_of_a_group_makes_a_variation_with_the_reason_of_the_pair(tmp_pa
     )
 
 
-def test_an_item_of_several_words_is_matched_as_a_run(tmp_path: Path) -> None:
+def test_an_item_of_several_words_is_matched_as_a_run(tmp_path: Path, use_senses) -> None:
+    use_senses([])  # the dictionary links стиралка too, and its reason would come first
     phrases = ["ремонт стиральных машин", "ремонт стиралки", "ремонт стиральной машинки"]
 
     found = relate(tmp_path, phrases, "--synonyms", _groups(tmp_path, MACHINE))
