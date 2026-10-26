@@ -5,7 +5,8 @@ name = "semkit"
 worker = "claude-code"
 parallel = 3
 stall_minutes = 25  # the gate runs up to 17 min under load; its pytest step is silent for minutes
-checks = ["python3 scripts/check_command_docstrings.py", 'uvx --from "git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/cli-generator.git@v1.26.3#subdirectory=gate" rb-release check']
+checks = ["python3 scripts/check_command_docstrings.py"]
+heavy = ["rb-release check"]
 
 [review]
 required_types = ["feature", "bugfix"]  # chore and docs: the short path without review
