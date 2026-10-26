@@ -63,10 +63,11 @@ CORE = ["диван", "софа", "кресло"]
 
 
 def thesaurus_bytes(directory: Path) -> bytes:
-    """A RuWordNet file with the senses `SENSES`."""
+    """A RuWordNet file with the senses `SENSES` and no POS-synonymy pairs."""
     path = directory / "ruwordnet.db"
     with sqlite3.connect(path) as connection:
         connection.execute("CREATE TABLE sense (id VARCHAR, name VARCHAR, lemma VARCHAR, synset_id VARCHAR)")
+        connection.execute("CREATE TABLE pos_synonymy_relation (left_id VARCHAR, right_id VARCHAR)")
         connection.executemany(
             "INSERT INTO sense VALUES (?, ?, ?, ?)",
             [
