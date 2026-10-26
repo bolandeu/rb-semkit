@@ -33,9 +33,11 @@ class: standard
 decision: false
 visual: null
 depends_on:
+- SEMKIT-081
 - SEMKIT-082
 - SEMKIT-083
 - SEMKIT-084
+- SEMKIT-087
 budget_usd: null
 epic: E-009
 spec_refs: []
