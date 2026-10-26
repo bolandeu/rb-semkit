@@ -2,7 +2,7 @@
 id: SEMKIT-087
 title: 'relate-phrases: a link source knows every word of the table, so the order
   of the rows does not change a refinement'
-status: ideas
+status: queue
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -10,7 +10,7 @@ phase: null
 tests_hash: null
 publish_stage: null
 created_by: architect
-approved_by: null
+approved_by: human
 worker: claude-code
 type: bugfix
 owns_paths:
