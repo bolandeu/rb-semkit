@@ -2,7 +2,7 @@
 id: SEMKIT-081
 title: 'relate-phrases core: classes, of, group and reason over lemmas, the step,
   the link seam'
-status: publish
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
