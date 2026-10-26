@@ -15,7 +15,6 @@ type: feature
 owns_paths:
 - src/rb_semkit/core/relate/sources/latin.py
 - tests/relate/test_latin.py
-- tests/snapshots/
 test_paths:
 - tests/relate/test_latin.py
 docs: none
