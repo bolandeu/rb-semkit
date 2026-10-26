@@ -69,7 +69,9 @@ def relate_phrases(
     -> угловой диван, refinement, диван, угловой диван, +угловой; кресло, other, , кресло, unlinked: кресло | диван
     """
     reader = Reader(links, [*wordlists.resolve(QUESTIONS), *(keep or [])], lemmatizer)
-    phrases = [reader.phrase(row, text) for row, text in enumerate(data.fillna("").astype(str))]
+    texts = data.fillna("").astype(str).tolist()
+    reader.learn([*texts, *([] if to is None else [to])])
+    phrases = [reader.phrase(row, text) for row, text in enumerate(texts)]
     table = _Table(phrases, reader, None if to is None else _base(reader, to))
     rows = [table.columns(phrase) for phrase in phrases]
     return pd.DataFrame(rows, index=data.index, columns=COLUMNS, dtype=object)

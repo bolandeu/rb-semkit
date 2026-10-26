@@ -69,6 +69,12 @@ class Reader:
         self.link = functools.cache(self._link)
         self.linked = functools.cache(self._linked)
 
+    def learn(self, texts: Iterable[str]) -> None:
+        """Gives every source the lemmas of all the words of the table, before the first lookup."""
+        words = {self._token(word).lemma for text in texts for word in map(norm_phrase, split_words(text)) if word}
+        for source in self._links:
+            source.learn(words)
+
     def phrase(self, row: int, text: str) -> Phrase:
         words = [self._token(word) for word in map(norm_phrase, split_words(text)) if word]
         runs = frozenset(
