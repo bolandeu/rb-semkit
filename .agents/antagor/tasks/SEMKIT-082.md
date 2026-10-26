@@ -17,10 +17,10 @@ owns_paths:
 - src/rb_semkit/core/word_vectors/
 - src/rb_semkit/steps/word_vectors.py
 - tests/word_vectors/
-- src/rb_semkit/core/relate/
-- src/rb_semkit/steps/relate.py
-- tests/relate/
-- tests/snapshots/
+- src/rb_semkit/core/relate/sources/dictionary.py
+- tests/relate/conftest.py
+- tests/relate/test_dictionary.py
+- tests/relate/test_thesaurus_relations.py
 test_paths:
 - tests/relate/test_dictionary.py
 - tests/relate/test_thesaurus_relations.py
@@ -55,9 +55,9 @@ Facts of the real file (the pulled model `ruwordnet`, one SQLite file), checked 
 
 What to build:
 - The thesaurus reader also reads the POS-synonymy pairs of the same file; what it gives today does not change.
-- relate-phrases opens RuWordNet before it reads the input (as synonym-candidates does) and refuses, with the command `semkit models pull ruwordnet`, when it is not pulled. No other download.
-- A link source «dictionary»: two units are linked when their lemmas belong to senses of one synset, or of two synsets that make a POS-synonymy pair (either direction). A link is one step: a link of a link is no link. A word with several senses links through any of them; `reason` names the link: `создание~создать (pos_synonymy)`, `сайт~веб-сайт (synset)`.
-- Units of any length: every run of adjacent words (a bigram, a trigram, … up to the longest sense) that the thesaurus knows as one sense is a candidate unit, found by the lemmas of the words, or hyphenated, or glued («веб сайт» → веб-сайт, вебсайт). All the ways to cut a phrase into units are tried and the pairing that explains the most words wins, so a run that overlaps another one is not lost by a fixed order of cuts.
+- The link source «dictionary», one new module in the package of sources that SEMKIT-081 made (found by itself; do not edit the step module or any other shared file). Its preparing hook opens RuWordNet before the input is read (as synonym-candidates does) and refuses, with the command `semkit models pull ruwordnet`, when it is not pulled. No other download.
+- Two units are linked when their lemmas belong to senses of one synset, or of two synsets that make a POS-synonymy pair (either direction). A link is one step: a link of a link is no link. A word with several senses links through any of them; `reason` names the link: `создание~создать (pos_synonymy)`, `сайт~веб-сайт (synset)`.
+- Units of any length: every run of adjacent words (a bigram, a trigram, … up to the longest sense) that the thesaurus knows as one sense is a candidate unit, found by the lemmas of the words, or hyphenated, or glued («веб сайт» → веб-сайт, вебсайт). The lookup also tries the other forms of a word that other sources offer (the Latin reading). All the ways to cut a phrase into units are tried and the pairing that explains the most words wins, so a run that overlaps another one is not lost by a fixed order of cuts.
 
 ## Acceptance
 
@@ -74,7 +74,7 @@ level: unit tests of the thesaurus loader on a small SQLite file, integration th
 
 ## Basis
 
-Follow the Thesaurus class and the way synonym-candidates finds runs of words by lemmas (src/rb_semkit/core/word_vectors/thesaurus.py, units.py); plug into the link interface that SEMKIT-081 made, add the module and one line where the step lists its sources
+Follow the Thesaurus class and the way synonym-candidates finds runs of words by lemmas (src/rb_semkit/core/word_vectors/thesaurus.py, units.py), and the interface of the link sources that SEMKIT-081 made; one new module, found by itself
 
 ## Read first
 
