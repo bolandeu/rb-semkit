@@ -96,4 +96,4 @@ Follow the Thesaurus class and the way synonym-candidates finds runs of words by
 
 ### Blocked: scope_held (holders ['SEMKIT-081'], paths ['src/rb_semkit/core/relate/functions.py', 'src/rb_semkit/core/relate/pairing.py', 'src/rb_semkit/core/relate/phrases.py', 'tests/relate/test_classes.py'])
 
-SEMKIT-081, SEMKIT-083 and SEMKIT-084 are merged into main (v0.1.69): the files of the core are free now; take main into your branch and go on.
+SEMKIT-081 finished; your kept work on src/rb_semkit/core/relate/functions.py, src/rb_semkit/core/relate/pairing.py, src/rb_semkit/core/relate/phrases.py, tests/relate/test_classes.py is back in the worktree; main is merged into your branch where it merges clean
