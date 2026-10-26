@@ -2,7 +2,7 @@
 id: SEMKIT-081
 title: 'relate-phrases core: classes, of, group and reason over lemmas, the step,
   the link seam'
-status: queue
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -26,6 +26,9 @@ test_paths:
 - tests/relate/test_classes.py
 - tests/relate/test_links_seam.py
 - tests/relate/test_step.py
+- tests/conformance/case_files.py
+- tests/conformance/data_manifest/wordlists.json
+- tests/steps/areas/relate.py
 docs: none
 tools: []
 worker_args: null

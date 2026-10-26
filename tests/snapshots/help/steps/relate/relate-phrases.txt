@@ -29,16 +29,32 @@
  -> угловой диван, refinement, диван, угловой диван, +угловой; кресло, other, , кресло, unlinked:
  кресло | диван
 
+ synonyms: a file of the groups of synonyms of the topic, read like `read` does; the items of a
+ group are linked to each other (no chain across groups) and are compared by lemmas. Two shapes: a
+ column synonyms, one group per row, the items split by | and an item may be several words
+ (стиральная машина | стиралка | стиральная машинка); or the columns word and synonyms of `dupes
+ --synonyms`, a word and its synonyms split by spaces. A group of one item is ignored. Example:
+ --synonyms groups.csv, a file with the column synonyms and the row ремонт | починка | починить.
+
  The step adds the columns class, of, group and reason right after the working column; the rows
  stay. The caller gives the phrases in its order (by frequency): the first phrase of a group is the
  one kept.
 
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --to          <str>  compare every phrase only with this one; of is this phrase or empty.        │
-│ --keep        <str>  more words a phrase never drops, as the question words. Items: a comma list │
-│                      'a,b', @FILE (one item per line, or the first column of a table) or @NAME   │
-│                      of a list.                                                                  │
-│ --help               Show this message and exit.                                                 │
+│ --to              <str>  compare every phrase only with this one; of is this phrase or empty.    │
+│ --keep            <str>  more words a phrase never drops, as the question words. Items: a comma  │
+│                          list 'a,b', @FILE (one item per line, or the first column of a table)   │
+│                          or @NAME of a list.                                                     │
+│ --synonyms        <str>  a file of the groups of synonyms of the topic, read like `read` does;   │
+│                          the items of a group are linked to each other (no chain across groups)  │
+│                          and are compared by lemmas. Two shapes: a column synonyms, one group    │
+│                          per row, the items split by | and an item may be several words          │
+│                          (стиральная машина | стиралка | стиральная машинка); or the columns     │
+│                          word and synonyms of `dupes --synonyms`, a word and its synonyms split  │
+│                          by spaces. A group of one item is ignored. Example: --synonyms          │
+│                          groups.csv, a file with the column synonyms and the row ремонт |        │
+│                          починка | починить.                                                     │
+│ --help                   Show this message and exit.                                             │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 
  Lists for @NAME: @combine/kiev-region-towns, @combine/leningrad-region-villages,
