@@ -70,6 +70,7 @@ NOT_CASED = {
     "split_rows",
     "unpivot",
     "lookup",
+    "relate_phrases",  # semkit's own, by lemmas and link sources: no add-in function
 }
 SEP = " | "
 PART_SEP = " || "

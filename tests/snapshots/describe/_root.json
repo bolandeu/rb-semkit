@@ -618,6 +618,12 @@
             "description": "Неуточняющие слова: недорого, распродажа, от производителя, с доставкой, цены"
           },
           {
+            "name": "meaning/question",
+            "source": "bundled",
+            "lines": 17,
+            "description": "Вопросительные слова: как, где, сколько, почему, можно"
+          },
+          {
             "name": "minus/abusive",
             "source": "bundled",
             "lines": 363,

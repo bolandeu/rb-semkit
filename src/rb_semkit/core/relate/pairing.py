@@ -1,0 +1,38 @@
+"""The one-to-one pairing of the units of a phrase with the units of a base: equal units first, then linked ones."""
+
+from __future__ import annotations
+
+from collections.abc import Callable, Sequence
+
+from ..word_vectors.thesaurus import Lemmas
+from ..word_vectors.units import Unit
+
+Link = Callable[[Lemmas, Lemmas], str | None]
+
+
+def pair(units: Sequence[Unit], base: Sequence[Unit], link: Link) -> dict[int, int]:
+    """The most units of `base` paired one to one with units of `units`, each with an equal unit or a linked one.
+
+    Maps the place of a unit of `base` to the place of its unit of `units`; an equal unit is tried before a linked one.
+    """
+    edges = [_edges(units, other, link) for other in base]
+    owner: dict[int, int] = {}  # the place of a unit of `units` → the place of its unit of `base`
+
+    def augment(other: int, seen: set[int]) -> bool:
+        for unit in edges[other]:
+            if unit not in seen:
+                seen.add(unit)
+                if unit not in owner or augment(owner[unit], seen):
+                    owner[unit] = other
+                    return True
+        return False
+
+    for other in range(len(base)):
+        augment(other, set())
+    return {other: unit for unit, other in owner.items()}
+
+
+def _edges(units: Sequence[Unit], other: Unit, link: Link) -> list[int]:
+    equal = [place for place, unit in enumerate(units) if unit.lemmas == other.lemmas]
+    linked = [place for place, unit in enumerate(units) if place not in equal and link(unit.lemmas, other.lemmas)]
+    return equal + linked

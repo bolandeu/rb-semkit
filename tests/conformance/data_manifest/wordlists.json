@@ -5559,6 +5559,13 @@
   "dropped": [],
   "added": []
  },
+ "wordlists/meaning/question.txt.gz": {
+  "source": "semkit/meaning/question.txt",
+  "source_items": 17,
+  "bundled_items": 17,
+  "dropped": [],
+  "added": []
+ },
  "wordlists/minus/abusive.txt.gz": {
   "source": "bukvarix/minus/Abusive.txt",
   "source_items": 364,

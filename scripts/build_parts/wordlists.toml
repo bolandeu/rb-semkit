@@ -8,6 +8,7 @@
 
 lists = [
   { name = "meaning/neutral", description = "Неуточняющие слова: недорого, распродажа, от производителя, с доставкой, цены", source = "semkit", file = "wordlists/meaning/neutral.txt.gz", own = "meaning/neutral.txt" },
+  { name = "meaning/question", description = "Вопросительные слова: как, где, сколько, почему, можно", source = "semkit", file = "wordlists/meaning/question.txt.gz", own = "meaning/question.txt" },
   { name = "minus/universal", description = "Универсальные минус-слова: скачать, бесплатно, онлайн и подобные", source = "Bukvarix", file = "wordlists/minus/universal.txt.gz", origin = "minus/Universal.txt", drop = { "купить" = "a commercial core is a core of buying: a minus-word «купить» drops it whole" } },
   { name = "minus/computer", description = "Минус-слова компьютерной тематики: игры, программы, моды", source = "Bukvarix", file = "wordlists/minus/computer.txt.gz", origin = "minus/Computer.txt" },
   { name = "minus/free", description = "Слова про бесплатность: бесплатно, подарок, даром", source = "Bukvarix", file = "wordlists/minus/free.txt.gz", origin = "minus/Free.txt" },
