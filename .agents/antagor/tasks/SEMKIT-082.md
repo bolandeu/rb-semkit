@@ -16,7 +16,6 @@ type: feature
 owns_paths:
 - src/rb_semkit/core/word_vectors/
 - src/rb_semkit/steps/word_vectors.py
-- tests/conftest.py
 - tests/word_vectors/
 - src/rb_semkit/core/relate/
 - src/rb_semkit/steps/relate.py
