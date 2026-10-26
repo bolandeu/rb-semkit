@@ -1,3 +1,7 @@
+"""Tests of the CLI as a whole: the distribution name, root and group help, the output layer's errors and exit codes,
+and the built-in commands.
+"""
+
 from __future__ import annotations
 
 import json
@@ -101,6 +105,12 @@ def test_bare_group_shows_help_and_exits_zero() -> None:
     assert "Missing command" not in result.output
 
 
+def test_init_help_names_the_project_folder_by_the_package() -> None:
+    result = invoke("init", "--help")
+    assert result.exit_code == 0
+    assert ".rb_semkit/config.toml" in result.output
+
+
 # --- doctor ------------------------------------------------------------------
 
 
@@ -139,6 +149,24 @@ def _app_with(command):
 
     test_app.command("cmd")(output.guard(command))
     return test_app
+
+
+def test_error_message_and_action_in_square_brackets_reach_stderr_whole() -> None:
+    def fail(ctx: typer.Context) -> None:
+        raise errors.CliError("PATH_NOT_FOUND", "[library] path not found", action="use [a-z0-9-]")
+
+    result = runner.invoke(_app_with(fail), ["cmd"])
+    assert result.exit_code == 1
+    assert "[library] path not found" in plain(result.stderr)
+    assert "use [a-z0-9-]" in plain(result.stderr)
+
+
+def test_verbose_line_in_square_brackets_reaches_stderr_whole() -> None:
+    def progress(ctx: typer.Context) -> None:
+        output.vecho(ctx, "step [1/3] of [a-z0-9-]")
+
+    result = runner.invoke(_app_with(progress), ["--verbose", "cmd"])
+    assert "step [1/3] of [a-z0-9-]" in plain(result.stderr)
 
 
 @pytest.mark.parametrize(

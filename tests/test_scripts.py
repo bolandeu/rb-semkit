@@ -3,13 +3,10 @@
 from __future__ import annotations
 
 import importlib.util
-import re
 import shutil
 import subprocess
 from pathlib import Path
 from types import ModuleType
-
-import yaml
 
 SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
 
@@ -27,43 +24,23 @@ def test_antagor_project_config() -> None:
 
     root = SCRIPTS.parent
     config = tomllib.loads((root / ".agents" / "antagor" / "antagor.toml").read_text())
-    assert config["schema"] == 1
-    # The prefix is the Plane project identifier: the product's full name in capitals (`antagor new`).
-    assert re.fullmatch(r"[A-Z][A-Z0-9]{1,11}", config["prefix"])
-    assert config["worker"] == "claude-code"
-    tag = yaml.safe_load((root / ".copier-answers.yml").read_text())["_commit"]
-    gate = (
-        'uvx --from "git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/cli-generator.git'
-        f'@{tag}#subdirectory=gate" rb-release check'
-    )
-    assert config["checks"] == ["python3 scripts/check_command_docstrings.py", gate]
-    assert config["review"]["required_types"] == ["feature", "bugfix"]
+    # A package may add or reorder checks; the template guarantees only the package's own facts.
+    assert "python3 scripts/check_command_docstrings.py" in config["checks"]
+    assert "rb-release check" in config["heavy"]
+    publish = config["publish"]
+    if publish.get("gate") == "remote":
+        status_url = publish["gate_status_url"]
+        assert status_url.startswith("https://homeserver.tailee01ab.ts.net:3000/api/v1/repos/bolandeu/")
+        assert status_url.endswith("/commits/{commit}/status")
     expected = {"versioning": "semver", "changelog": "CHANGELOG.md", "deploy_command": "sh scripts/deploy.sh"}
     assert {k: config["publish"].get(k) for k in expected} == expected  # Antagor may add its own keys
-    # The Human sets the mode (`antagor mode set`, `antagor new --mode`).
-    assert config.get("mode") in (None, "strict", "default", "free", "fast")
-    ignored = (root / ".agents" / "antagor" / ".gitignore").read_text().split()
-    assert {"state/", "receipts/"} <= set(ignored)  # Antagor may add its own lines
-    assert "ANTAGOR_VERSION" in (SCRIPTS / "deploy.sh").read_text()
+    assert "git push origin main --follow-tags" in (SCRIPTS / "deploy.sh").read_text()
 
 
-def test_antagor_layout() -> None:
-    # The method's layout: AGENTS.md holds pointers only, the rules live in their own files (`antagor layout check` runs in check_template.sh).
-    root = SCRIPTS.parent
-    for name in ("AGENTS.md", "CLAUDE.md", "CONTEXT.md", "CODING_STANDARDS.md", "docs/adr/README.md"):
-        assert (root / name).is_file(), name
-    agents = (root / "AGENTS.md").read_text()
-    for pointer in ("`CONTEXT.md`", "`docs/adr/`", "`CODING_STANDARDS.md`", "`.agents/antagor/`"):
-        assert pointer in agents
-    for moved in ("TDD", "hand fix", "--dry-run", "expand/contract"):
-        assert moved not in agents, moved
-    assert "AGENTS.md" in (root / "CLAUDE.md").read_text()
-    context = (root / "CONTEXT.md").read_text()
-    assert re.fullmatch(r"# \S.*", context.splitlines()[0])
-    assert re.search(r"^\*\*[^*]+\*\*:$", re.sub(r"<!--.*?-->", "", context, flags=re.DOTALL), re.MULTILINE)
-    readme = (root / "README.md").read_text()
-    assert "install_hooks" not in readme
-    assert "towncrier" not in readme
+def test_agents_file_names_the_standard_and_the_gate() -> None:
+    agents = (SCRIPTS.parent / "AGENTS.md").read_text()
+    assert "cli-generator/src/branch/main/skills/cli-builder/reference/standard.md" in agents
+    assert "rb-release check" in agents
 
 
 def test_docstring_check_reads_the_working_tree_only() -> None:

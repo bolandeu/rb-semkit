@@ -23,4 +23,4 @@ DIST_NAME_LEGACY: str | None = None
 TOOL = "semkit"
 # The cli-generator release this project was generated or last updated from
 # (copier's `_commit`), for `describe --json`; None for a project not made by copier.
-TEMPLATE_VERSION: str | None = "v1.26.3"
+TEMPLATE_VERSION: str | None = "v1.27.3"
