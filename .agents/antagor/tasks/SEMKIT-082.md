@@ -3,7 +3,7 @@ id: SEMKIT-082
 title: 'relate-phrases dictionary links: synsets, POS-synonymy and runs of words as
   units'
 status: queue
-attempts: 0
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -29,6 +29,7 @@ test_paths:
 - tests/relate/test_thesaurus_relations.py
 - tests/conftest.py
 - tests/relate/test_classes.py
+- tests/relate/test_own_links.py
 docs: none
 tools: []
 worker_args: null
@@ -97,3 +98,8 @@ Follow the Thesaurus class and the way synonym-candidates finds runs of words by
 ### Blocked: scope_held (holders ['SEMKIT-081'], paths ['src/rb_semkit/core/relate/functions.py', 'src/rb_semkit/core/relate/pairing.py', 'src/rb_semkit/core/relate/phrases.py', 'tests/relate/test_classes.py'])
 
 SEMKIT-081 finished; your kept work on src/rb_semkit/core/relate/functions.py, src/rb_semkit/core/relate/pairing.py, src/rb_semkit/core/relate/phrases.py, tests/relate/test_classes.py is back in the worktree; main is merged into your branch where it merges clean
+
+### Attempt 1: file docstring
+
+- update the docstring of src/rb_semkit/core/relate/pairing.py: +Pairing +best_pairing
+- update the docstring of src/rb_semkit/core/word_vectors/units.py: +cuts
