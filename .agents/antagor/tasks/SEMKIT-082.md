@@ -2,10 +2,10 @@
 id: SEMKIT-082
 title: 'relate-phrases dictionary links: synsets, POS-synonymy and runs of words as
   units'
-status: queue
+status: in_progress
 attempts: 0
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: scope_held
 phase: null
 tests_hash: null
 publish_stage: null
@@ -21,9 +21,14 @@ owns_paths:
 - tests/relate/conftest.py
 - tests/relate/test_dictionary.py
 - tests/relate/test_thesaurus_relations.py
+- src/rb_semkit/core/relate/functions.py
+- src/rb_semkit/core/relate/pairing.py
+- src/rb_semkit/core/relate/phrases.py
 test_paths:
 - tests/relate/test_dictionary.py
 - tests/relate/test_thesaurus_relations.py
+- tests/conftest.py
+- tests/relate/test_classes.py
 docs: none
 tools: []
 worker_args: null
