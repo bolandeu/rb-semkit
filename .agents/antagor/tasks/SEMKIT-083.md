@@ -13,9 +13,8 @@ approved_by: null
 worker: claude-code
 type: feature
 owns_paths:
-- src/rb_semkit/core/relate/
-- src/rb_semkit/steps/relate.py
-- tests/relate/
+- src/rb_semkit/core/relate/sources/latin.py
+- tests/relate/test_latin.py
 - tests/snapshots/
 test_paths:
 - tests/relate/test_latin.py
