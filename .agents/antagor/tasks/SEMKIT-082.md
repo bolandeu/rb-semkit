@@ -2,10 +2,10 @@
 id: SEMKIT-082
 title: 'relate-phrases dictionary links: synsets, POS-synonymy and runs of words as
   units'
-status: in_progress
+status: queue
 attempts: 0
-blocked: true
-blocked_reason: scope_held
+blocked: false
+blocked_reason: null
 phase: null
 tests_hash: null
 publish_stage: null
@@ -91,3 +91,9 @@ Follow the Thesaurus class and the way synonym-candidates finds runs of words by
 ## Out of scope
 
 - The Latin reading, --synonyms, speed and the 200-pair precision check: other tasks. The derivation table. DerivBase.Ru, DeriNet.RU and any new download. A change of synonym-candidates.
+
+## Feedback
+
+### Blocked: scope_held (holders ['SEMKIT-081'], paths ['src/rb_semkit/core/relate/functions.py', 'src/rb_semkit/core/relate/pairing.py', 'src/rb_semkit/core/relate/phrases.py', 'tests/relate/test_classes.py'])
+
+SEMKIT-081, SEMKIT-083 and SEMKIT-084 are merged into main (v0.1.69): the files of the core are free now; take main into your branch and go on.
