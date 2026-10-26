@@ -2,7 +2,7 @@
 id: SEMKIT-082
 title: 'relate-phrases dictionary links: synsets, POS-synonymy and runs of words as
   units'
-status: queue
+status: in_review
 attempts: 1
 blocked: false
 blocked_reason: null
