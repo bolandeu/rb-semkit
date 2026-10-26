@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-080
 title: 'Template v1.27.3: update from v1.26.3'
-status: publish
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
