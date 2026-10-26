@@ -51,8 +51,11 @@ A phrase: lowercase, ё = е, lemmas from the bundled lemmatizer. Prepositions, 
 (the list `stop/semtools`), except the question words (3.1). A Latin word is read as Cyrillic (the `translit` table
 en→ru; ш and щ count as one sound: bosch → «бощ» = «бош»; web → веб; wordpress → вордпресс).
 
-A **unit** is a word, or two adjacent words that RuWordNet knows as one sense when joined with a hyphen or glued
-(«веб сайт» → веб-сайт, «интернет сайт» → интернет-сайт). Two units are **linked** when their lemmas are equal, or
+A **unit** is a word, or a run of adjacent words (a bigram, a trigram, … up to the longest sense of RuWordNet) that
+RuWordNet knows as one sense: by the lemmas of the run («стиральная машина», «ремонтные работы»), or joined with a
+hyphen or glued («веб сайт» → веб-сайт, «интернет сайт» → интернет-сайт). Every n-gram of a phrase is looked up, as
+`synonym-candidates` does; all the ways to cut a phrase into units are tried and the pairing that explains the most
+words wins. Two units are **linked** when their lemmas are equal, or
 they share a synset, or their synsets are a POS-synonymy pair, or they read the same in Cyrillic, or `--synonyms`
 lists them. No chains: one link, never a link of a link (no polysemy drift).
 
@@ -99,6 +102,8 @@ lemmatizer's, not run by hand; the Latin reading was run with `translit`. "H" is
 | разработка сайтов | разработка интернет сайтов | variation | unit «интернет сайт» = интернет-сайт, one synset with сайт |
 | разработка веб сайтов | разработка web сайтов | variation | web reads веб |
 | разработка сайтов | разработка web сайтов | variation | web reads веб, then the unit as above |
+| ремонт стиральных машин | ремонтные работы стиральных машин | variation | the bigram «ремонтные работы» is a sense in the synset of ремонт |
+| ремонт стиральных машин | ремонт стиралок | variation | стиралка is in the synset of the bigram «стиральная машина» (checked) |
 | ремонт стиральных машин бош | ремонт стиральных машин bosch | variation | bosch reads «бощ» = бош |
 | ремонт стиральных машин | ремонт стиральных машин bosch | refinement | +bosch |
 | сделать сайт | как сделать сайт | refinement | +как (question word) |
@@ -118,6 +123,19 @@ lemmatizer's, not run by hand; the Latin reading was run with `translit`. "H" is
 - «веб сайт» as two words is not a RuWordNet sense; the unit rule (hyphen or glued) covers it.
 - Latin words that read differently from the spelling (hyundai → хендай, xiaomi → сяоми) are not matched by the
   reading; they go to `--synonyms` or to a small bundled list.
+
+Looked for another dictionary that joins them (2026-10-26); none does, and they are not synonyms without context:
+- RuWordNet at the level of phrases: it has the sense «разработка веб-сайта» (synset: разработка веб-сайта,
+  веб-разработка) and no «создание сайта» anywhere. «разработка X» and «создание X» share a synset only for other
+  objects (бренд, вооружения). The unit rule catches such phrase senses by itself, but not for сайт.
+- The synset of «сделать» holds делать, выполнить, реализовать, изготовить, произвести… not «создать».
+- The word vectors (navec, `synonym-candidates`): сделать → деланный, нужный; создать → формируть, создавая;
+  починить → отремонтировать 0.79, ремонтировать 0.60; ремонт → капитальный, … починка 0.48. Only починить helps, and
+  a vector is a candidate, not a link.
+- No open file of the synonym dictionary of Abramov or similar was found (the old 1911 edition in mythes format with
+  dated words; the modern ones are printed or sold).
+- Linguistically «сделать сайт» = «создать сайт» holds in this collocation only («сделать ремонт» ≠ «создать ремонт»):
+  a link of intent, not of the dictionary. The caller's SERP check decides it; a confirmed pair goes to the own list.
 
 A small bundled list of the Human's domain links (сделать = создать, починить = ремонт, …) is the cheap fix; it is the
 same table as `--synonyms`, kept in `scripts/build_parts` like the lemma fixes.
