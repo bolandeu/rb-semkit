@@ -43,8 +43,8 @@ translation: 'Чтение латиницы для relate-phrases: латинс�
 Add the Latin reading to relate-phrases: a word in Latin letters and a word in Cyrillic letters that sound the same are linked, so `web = веб`, `wordpress = вордпресс`, `bosch = бош`.
 
 - A Latin word has a Cyrillic reading, made with the translit table en→ru of the change area (reuse it; do not change it). ш and щ are one sound: bosch reads «бощ», and it equals «бош». Words with digits, words in Cyrillic and words of other scripts have no reading.
-- A link source «latin»: a Latin word and a Cyrillic word are linked when the reading of the first equals the second after the same folding (щ as ш, ё as е, lower case). `reason` names it: `bosch~бош (latin)`. A Latin word that no Cyrillic word of the table matches stays an extra unit (a refinement: «ремонт iphone» at «ремонт»).
-- A source may offer other forms of a word to the lookups of other sources (the reading to a run lookup): add that to the link interface of SEMKIT-081, with a test source. The dictionary of SEMKIT-082 will use it in the last task of the epic; do not depend on that task.
+- The link source «latin», one new module in the package of sources that SEMKIT-081 made (found by itself; do not edit the step module or any other shared file): a Latin word and a Cyrillic word are linked when the reading of the first equals the second after the same folding (щ as ш, ё as е, lower case). `reason` names it: `bosch~бош (latin)`. A Latin word that no Cyrillic word of the table matches stays an extra unit (a refinement: «ремонт iphone» at «ремонт»).
+- The source gives the reading as another form of the word, so that the dictionary lookup of SEMKIT-082 finds the run «веб сайт» for «web сайт». Test it with a test source that looks a run up; the join with the real dictionary is tested in the last task of the epic.
 
 ## Acceptance
 
@@ -60,7 +60,7 @@ level: unit tests of the reading and integration through the pipeline; seam: sem
 
 ## Basis
 
-Follow the translit of the change area (src/rb_semkit/core/change/chars.py) and the link interface of SEMKIT-081; the module and one line where the step lists its sources
+Follow the translit of the change area (src/rb_semkit/core/change/chars.py) and the interface of the link sources that SEMKIT-081 made; one new module, found by itself
 
 ## Read first
 
