@@ -58,13 +58,20 @@ def test_scanners_are_cached_per_pinned_version() -> None:
         assert f"ln -sf ${var} /usr/local/bin/{tool}" in lines
 
 
-def test_project_files_name_the_gate_of_the_template_tag() -> None:
+def test_only_the_workflow_writes_the_gate_command_and_the_files_point_to_it() -> None:
     import tomllib
 
-    checks = tomllib.loads((ROOT / ".agents" / "antagor" / "antagor.toml").read_text())["checks"]
-    assert GATE in checks
-    assert GATE in (ROOT / "AGENTS.md").read_text()
-    assert GATE in (ROOT / "CODING_STANDARDS.md").read_text()
+    config = tomllib.loads((ROOT / ".agents" / "antagor" / "antagor.toml").read_text())
+    assert "python3 scripts/check_command_docstrings.py" in config["checks"]
+    assert not any("rb-release" in check for check in config["checks"])
+    publish = config["publish"]
+    if publish.get("gate") == "remote":
+        assert publish["gate_status_url"].endswith("/commits/{commit}/status")
+    for name in ("AGENTS.md", "CODING_STANDARDS.md"):
+        text = (ROOT / name).read_text()
+        assert ".gitea/workflows/ci.yml" in text
+        assert "rb-release check" in text
+        assert "uvx --from" not in text
     # README.md is the project's own (copier skips it on update): not checked here.
     assert not (ROOT / "scripts" / "release.py").exists()
 

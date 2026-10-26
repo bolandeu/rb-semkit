@@ -55,6 +55,7 @@ __all__ = [
 ]
 
 _CLI_NAME = cli_name()
+_PACKAGE_NAME = __name__.split(".")[0]
 # Click's UsageError (unknown option, missing argument, bad value): recent Typer ships its own copy of Click,
 # so it is taken from Typer's BadParameter, never imported from the `click` package.
 _UsageError = cast("type[Exception]", typer.BadParameter.__bases__[0])
@@ -186,10 +187,11 @@ def emit_report(
     if ctx.obj.get("json"):
         json_output.emit({"ok": False, "error": problem.to_dict(), **payload})
     else:
-        render_human(payload)
-        human.err_console.print(f"[red]Error:[/red] {problem.message}")
+        if not ctx.obj.get("quiet"):
+            render_human(payload)
+        human.err_console.print(f"[red]Error:[/red] {escape(problem.message)}")
         if problem.action:
-            human.err_console.print(f"[dim]{problem.action}[/dim]")
+            human.err_console.print(f"[dim]{escape(problem.action)}[/dim]")
     raise typer.Exit(code=problem.exit_code)
 
 
@@ -197,9 +199,9 @@ def emit_error(ctx: typer.Context, error: CliError) -> None:
     if ctx.obj.get("json"):
         json_output.emit({"ok": False, "error": error.to_dict()})
     else:
-        human.err_console.print(f"[red]Error:[/red] {error.message}")
+        human.err_console.print(f"[red]Error:[/red] {escape(error.message)}")
         if error.action:
-            human.err_console.print(f"[dim]{error.action}[/dim]")
+            human.err_console.print(f"[dim]{escape(error.action)}[/dim]")
     raise typer.Exit(code=error.exit_code)
 
 
@@ -233,7 +235,7 @@ def vecho(ctx: typer.Context, message: str) -> None:
     `logging.getLogger(__name__).debug(...)` instead — see configure_logging.
     """
     if ctx.obj.get("verbose") and not ctx.obj.get("json") and not ctx.obj.get("quiet"):
-        human.err_console.print(f"[dim]{message}[/dim]")
+        human.err_console.print(f"[dim]{escape(message)}[/dim]")
 
 
 def require_confirmation(ctx: typer.Context, description: str, confirm: bool) -> None:
@@ -320,10 +322,12 @@ def guard(func: Callable) -> Callable:
             )
 
     # Docstrings are the --help text; `{cli}` in their `Example:` lines becomes
-    # this CLI's name, so template-born commands need no Jinja rendering.
+    # this CLI's name and `{package}` the package's (the project folder's name),
+    # so template-born commands need no Jinja rendering.
     # Escaped because Typer renders help as rich markup, which silently drops
     # anything in brackets (`[[tool.rb.external]]`, `[x]`).
-    wrapper.__doc__ = escape((func.__doc__ or "").replace("{cli}", _CLI_NAME)) or None
+    doc = (func.__doc__ or "").replace("{cli}", _CLI_NAME).replace("{package}", _PACKAGE_NAME)
+    wrapper.__doc__ = escape(doc) or None
     _GUARDED.add(wrapper)
     return wrapper
 

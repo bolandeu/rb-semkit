@@ -1,7 +1,8 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: v1.26.3
+_commit: v1.27.3
 _src_path: https://homeserver.tailee01ab.ts.net:3000/bolandeu/cli-generator.git
-antagor_prefix: SMK
+antagor_name: semkit
+antagor_prefix: SEMKIT
 author_name: net.paradox
 cli_name: semkit
 description: 'Обработка семантического ядра: чтение и запись фраз в любом формате,
