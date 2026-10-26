@@ -3,11 +3,11 @@ id: SEMKIT-083
 title: 'relate-phrases Latin reading: web = веб, bosch = бош'
 status: publish
 attempts: 0
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: environment_broken
 phase: null
 tests_hash: null
-publish_stage: null
+publish_stage: gate
 created_by: architect
 approved_by: human
 worker: claude-code
