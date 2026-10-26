@@ -1,7 +1,7 @@
 # T320: `relate-phrases` — the linguistic class of each phrase of a topic
 
-Design on paper, 2026-10-26. No code until the go of marketer (the Human agreed to the shape: one new step, no
-workflow). Asked by marketer (T320, S319); the Human's rules: deterministic only (dictionaries and lemmas), nothing
+Design of 2026-10-26; the go came the same day (the Human approved, through marketer), with the answers of section 6.
+Asked by marketer (T320, S319); the Human's rules: deterministic only (dictionaries and lemmas), nothing
 leaves the machine at run time, no vector thresholds, no LLM.
 
 semkit gives only the class of a phrase and the phrase it belongs to. Not here: SERP, roles, frequencies, the choice
@@ -13,15 +13,21 @@ One new step. Not a `dupes --kind`: it has four classes, not "duplicate or not".
 
     semkit read topic.csv relate-phrases [--column COL] [--to PHRASE] [--synonyms FILE] [--keep WORDS] write out.csv
 
-- Rows are read in order; each phrase is compared with every EARLIER phrase. The first phrase is the one kept.
+- Rows are read in order and the order is the caller's (by frequency, not by nesting). The first phrase of a group is
+  the one kept. A phrase is compared with every other phrase of the table.
 - `--to PHRASE`: compare every row only with this phrase (as `nearest --to`); answers "X at Y" questions directly.
-- `--synonyms FILE`: extra word links of the Human, the same table as `dupes --synonyms` (columns word, synonyms).
+- `--synonyms FILE`: the links of the topic, given per run by the caller (no bundled list). A table, read like
+  `read` does, with the column `synonyms`: one group of synonyms per row, the items split by `|`, an item may be
+  several words («стиральная машина | стиралка | стиральная машинка», «ремонт | починка | ремонтировать |
+  починить»). Items are compared by lemmas, as runs of words. A table with the columns `word` and `synonyms` (the
+  shape of `dupes --synonyms`, the synonyms split by spaces) is read too: a group of the word and its synonyms.
 - `--keep WORDS`: extra words that are never dropped, as @FILE or @NAME of a list (see 3.1).
-- Adds three columns:
+- Adds four columns:
   - `class`: `same`, `variation`, `refinement` or `other`.
-  - `of`: the earlier phrase it is compared with; empty for `other`.
+  - `of`: the phrase it is `same`, a `variation` or a `refinement` of; empty for `other`.
+  - `group`: the first (kept) phrase of its group (section 3).
   - `reason`: the rule and the words: `lemmas`; `создание~создать (pos_synonymy)`, `сайт~веб-сайт (synset)`,
-    `web~веб (latin)`; `+москва`, `+как`; for `other`: `unlinked: разработка | создание`, or `earlier has more: как`.
+    `web~веб (latin)`; `+москва`, `+как`; for `other`: `unlinked: разработка | создание`, or `base of: как сделать сайт`.
 - Data: RuWordNet, already a semkit model (`semkit models pull ruwordnet` once on the prod worker). Same SQLite file,
   new tables read; no new download. No vectors extra needed for the step itself (to check on the worker).
 
@@ -59,18 +65,26 @@ words wins. Two units are **linked** when their lemmas are equal, or
 they share a synset, or their synsets are a POS-synonymy pair, or they read the same in Cyrillic, or `--synonyms`
 lists them. No chains: one link, never a link of a link (no polysemy drift).
 
-Class of phrase C at an earlier phrase H, the first rule that fits:
+Class of phrase C at another phrase H, the first rule that fits:
 
 1. `same`: the same lemmas in any order (case, number, word order).
 2. `variation`: every unit of C pairs one-to-one with a unit of H, equal or linked, at least one pair linked.
 3. `refinement`: every unit of H pairs with a unit of C (equal or linked) and C has units left over: C = H (or a
    variation of H) plus more words.
-4. `other`: H has a unit that C does not explain (a different word, or a word C lacks).
+4. `other`: no phrase of the table gives C one of the three.
 
-C takes the best class over all earlier phrases (same, variation, refinement), the earliest phrase on a tie, so
-«…bosch» goes to «…бош» as a variation, not to «…машин» as a refinement. No earlier phrase fits → `other`, and
-`reason` names the nearest earlier phrase and the unlinked words. The relation has a direction: a shorter phrase after
-a longer one is `other` (`earlier has more: как`); the caller sorts.
+`same` and `variation` look only at EARLIER rows: the later phrase is the duplicate of the kept one. `refinement`
+looks at all rows and decides by words, not by order: a longer phrase that holds all units of a shorter one is a
+refinement of it even when it comes earlier («как сделать сайт» may be more frequent than «сделать сайт»).
+
+C takes the best relation over the table: `same`, then `variation`, then `refinement`; among phrases of the same
+class, for a refinement the base with most units (the closest), then the earliest row. So «…bosch» goes to «…бош» as
+a variation, not to «…машин» as a refinement. No relation → `other`, `of` is empty, and `reason` names the nearest
+phrase and the unlinked words (`unlinked: разработка | создание`) or what hangs on it (`base of: как сделать сайт`).
+Every relation points to a phrase that is before it by (the number of units, the row), so the chains of `of` end.
+
+`group`: the phrases whose chains of `of` end in the same phrase make a group; `group` is the first row of it. The
+phrase at the end of a chain is `other`, and its `group` is the first row among the phrases that end in it.
 
 ### 3.1 Question words
 
@@ -108,12 +122,13 @@ lemmatizer's, not run by hand; the Latin reading was run with `translit`. "H" is
 | ремонт стиральных машин | ремонт стиральных машин bosch | refinement | +bosch |
 | сделать сайт | как сделать сайт | refinement | +как (question word) |
 | разработка сайтов | разработка сайтов москва | refinement | +москва |
+| (row 1) как сделать сайт | (row 2) сделать сайт | row 1: refinement of row 2, group row 1; row 2: other, group row 1 | order does not matter: the longer phrase refines the shorter |
 | разработка сайтов | разработка сайтов под ключ | refinement | +ключ («под» is dropped) |
 | создание сайтов | разработка сайтов | other | разработка ≁ создание: RuWordNet has no link |
 | ремонт стиральных машин | починить стиральную машину | other | починить ≁ ремонт, ремонтировать, починка ≁ ремонт: none (see 5) |
 | как создать сайт на wordpress | как создать сайт на вордпресс | variation | wordpress reads вордпресс |
 | как создать сайт на wordpress | как создать сайт на wordpress в москве | refinement | +москва («в» is dropped) |
-| как создать сайт на wordpress | сайт на wordpress в москве | other | earlier has more: как, создать |
+| как создать сайт на wordpress | сайт на wordpress в москве | other | no phrase explains it: unlinked как, создать |
 
 ## 5. Gaps of the dictionary (checked, not guessed)
 
@@ -137,19 +152,17 @@ Looked for another dictionary that joins them (2026-10-26); none does, and they 
 - Linguistically «сделать сайт» = «создать сайт» holds in this collocation only («сделать ремонт» ≠ «создать ремонт»):
   a link of intent, not of the dictionary. The caller's SERP check decides it; a confirmed pair goes to the own list.
 
-A small bundled list of the Human's domain links (сделать = создать, починить = ремонт, …) is the cheap fix; it is the
-same table as `--synonyms`, kept in `scripts/build_parts` like the lemma fixes.
+The links of a topic that the dictionaries lack come with each run in `--synonyms` (from Windmill: the LLM grouping and
+the right column of Wordstat); no list is bundled (marketer, 2026-10-26).
 
-## 6. Questions
+## 6. Answers of marketer (2026-10-26)
 
-1. Direction: a shorter phrase after a longer one is `other` with `earlier has more: …`. Enough, or a fifth value?
-2. `other` has an empty `of` and starts a new group (the reason names the nearest earlier phrase). Does Windmill want
-   `of` = that nearest phrase instead?
-3. `of` is the earlier phrase that explains C best, not always the first phrase of the group (a variation of a
-   variation points at its own earlier phrase). Does the caller need the first phrase of the group in a column too?
-4. The three gaps of section 5 (сделать/создать, починить/ремонт, разработка/создание): start the bundled link list
-   with сделать = создать and починить = ремонтировать? (разработка ≁ создание stays `other` by the acceptance.)
-5. The question-word list in 3.1: any word to add (сколько стоит, чем отличается)? A multi-word item is possible.
+1. Refinement is decided by words, not by order (section 3).
+2. `of` stays empty for `other`.
+3. The column `group` is added: the first (kept) phrase of the group.
+4. No bundled link list; the links of a topic come per run in `--synonyms`, groups of synonyms with items of several
+   words (the shape is in section 1).
+5. The question-word list (3.1) is enough.
 
 ## 7. Tests (when the go comes)
 
