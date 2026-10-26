@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-083
 title: 'relate-phrases Latin reading: web = веб, bosch = бош'
-status: queue
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
