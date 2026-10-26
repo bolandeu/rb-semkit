@@ -1,0 +1,50 @@
+{
+  "name": "relate-phrases",
+  "description": "The class of each phrase at the other phrases of the table, the phrase it belongs to, its group and the reason.\n\nA phrase is its words as lemmas; a preposition, a conjunction or a particle is dropped, except the question words (the bundled list @meaning/question) and the words to keep. A word with digits stays as it is. A unit is a word, or a run of words that a link source knows as one; two units are linked when a link source links them. The class: same (the same lemmas in any order, at an earlier row), variation (every unit pairs one to one with a unit of an earlier row, equal or linked, at least one pair linked), refinement (every unit of another phrase, of any row, pairs with a unit of this one, and this one has units left over) or other. A phrase takes the best relation: same, then variation, then refinement; for a refinement the closest base (the most units), then the earliest row. The columns: class; of (the phrase it is same, a variation or a refinement of; empty for other); group (the first row among the phrases whose chains of `of` end in the same phrase); reason (lemmas; the links of the units; +word for each unit left over; for other the phrases that are its refinements, «base of: …», or the units unlinked to the nearest phrase, «unlinked: …»). An empty cell is other, with an empty group.\nto: compare every phrase only with this one; of is this phrase or empty.\nkeep: more words a phrase never drops, as the question words.\n\nExample: semkit read --text \"разработка сайтов\" --text \"сайт разработка\" --text \"разработка сайтов под ключ\" relate-phrases write -\n-> разработка сайтов, other, , разработка сайтов, base of: сайт разработка | разработка сайтов под ключ; сайт разработка, same, разработка сайтов, разработка сайтов, lemmas; разработка сайтов под ключ, refinement, разработка сайтов, разработка сайтов, +ключ\nExample: semkit read --text \"угловой диван\" --text \"кресло\" relate-phrases --to \"диван\" write -\n-> угловой диван, refinement, диван, угловой диван, +угловой; кресло, other, , кресло, unlinked: кресло | диван\n\nThe step adds the columns class, of, group and reason right after the working column; the rows stay. The caller gives the phrases in its order (by frequency): the first phrase of a group is the one kept.",
+  "options": [
+    {
+      "name": "--to",
+      "arguments": [
+        {
+          "name": "TO",
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
+        }
+      ],
+      "description": "compare every phrase only with this one; of is this phrase or empty.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    },
+    {
+      "name": "--keep",
+      "arguments": [
+        {
+          "name": "KEEP",
+          "required": true,
+          "arity": {
+            "maximum": 1
+          }
+        }
+      ],
+      "description": "more words a phrase never drops, as the question words. Items: a comma list 'a,b', @FILE (one item per line, or the first column of a table) or @NAME of a list.",
+      "metadata": [
+        {
+          "name": "x-rb-type",
+          "value": "str"
+        }
+      ]
+    }
+  ],
+  "metadata": [
+    {
+      "name": "x-rb-kind",
+      "value": "change"
+    }
+  ]
+}

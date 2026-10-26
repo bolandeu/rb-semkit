@@ -33,7 +33,7 @@ def test_lists_json_holds_the_bundled_lists(home: Path) -> None:
     cheap = lists["minus/cheap"]
     assert cheap["source"] == "bundled" and cheap["lines"] > 0 and cheap["description"]
     assert {"stop/wordstat", "combine/tourism/turkey", "stop/semtools", "markers/geo"} <= set(lists)
-    assert len(lists) == 86
+    assert len(lists) == 87
 
 
 def test_lists_in_human_form_shows_a_table(home: Path) -> None:
