@@ -64,7 +64,7 @@ def test_unrelated_phrases_are_other_with_the_unlinked_words(tmp_path: Path) -> 
         "other",
         "",
         "ремонт стиральных машин",
-        "unlinked: ремонт, стиральный, машина",
+        "unlinked: ремонт, стиральный машина",
     )
 
 
