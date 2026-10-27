@@ -16,6 +16,8 @@ type: bugfix
 owns_paths:
 - src/rb_semkit/core/relate/
 - src/rb_semkit/core/word_vectors/units.py
+- src/rb_semkit/core/word_vectors/candidates.py
+- src/rb_semkit/steps/relate.py
 - tests/relate/
 - tests/word_vectors/
 - tests/snapshots/
