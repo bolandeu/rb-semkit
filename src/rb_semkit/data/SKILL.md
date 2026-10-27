@@ -421,6 +421,11 @@ The limits: the dictionary has gaps, and a gap is `other`. «сделать са
 `--synonyms`; a pair you are unsure of, check by SERP (`cluster-serp`) first. A variation and an `other` phrase are
 also for the SERP check. A Latin word that reads differently from its spelling (hyundai ≠ хендай) needs `--synonyms`.
 
+A second limit: prepositions are dropped, so two phrases with the same lemmas are `same` even when the preposition
+swaps the head noun: «купить диван с ортопедическим матрасом» / «купить ортопедический матрас на диван», «диван на
+ножках купить» / «ножки для дивана купить» (2 of 200 labelled pairs). A `same` phrase is glued without a SERP check,
+so check such a pair by hand or by SERP (`cluster-serp`) before you glue it.
+
 ## Errors
 
 Error envelope with `--json`: `{"ok": false, "error": {"code", "message", "action"}}`. Read the exit code, then
