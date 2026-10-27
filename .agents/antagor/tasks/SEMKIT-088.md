@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-088
 title: 'Tests: cap xdist workers and load the real models once'
-status: in_review
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null

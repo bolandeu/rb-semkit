@@ -5,6 +5,16 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.2.0 — 2026-10-27
+
+### E-009 — relate-phrases: the class of each phrase of a topic (same, variation, refinement, other)
+
+One step, relate-phrases, gives each phrase of a topic its class (same, variation, refinement or other), the phrase it belongs to (of), the first phrase of its group (group) and the reason (the rule and the word link), by dictionaries and lemmas only: no network, no vectors, no LLM at run time. About 1000 phrases run in seconds. The caller sorts the phrases (by frequency) and checks the variations and the other phrases by SERP.
+Time: 15.5h since the epic was approved
+
+- relate-phrases acceptance: the table end to end, precision on 200 pairs, speed, documents (SEMKIT-085)
+- Tests: cap xdist workers and load the real models once (SEMKIT-088)
+
 ## v0.1.70 — 2026-10-27
 
 ### E-009 — relate-phrases: the class of each phrase of a topic (same, variation, refinement, other)

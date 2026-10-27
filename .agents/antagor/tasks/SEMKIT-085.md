@@ -2,7 +2,7 @@
 id: SEMKIT-085
 title: 'relate-phrases acceptance: the table end to end, precision on 200 pairs, speed,
   documents'
-status: publish
+status: done
 attempts: 1
 blocked: false
 blocked_reason: null
