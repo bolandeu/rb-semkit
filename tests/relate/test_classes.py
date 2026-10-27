@@ -81,3 +81,9 @@ def test_a_copy_an_empty_cell_and_a_single_row(tmp_path: Path) -> None:
     assert found[1] == ("same", "диван", "диван", "lemmas")
     assert found[2][:3] == ("other", "", "")
     assert single[0][:3] == ("other", "", "диван")
+
+
+def test_two_letters_apart_are_an_abbreviation_and_stay_in_the_phrase(tmp_path: Path) -> None:
+    found = rows(tmp_path, ["купить диван в москве недорого", "купить диван б у в москве недорого"])
+
+    assert found[1] == ("refinement", "купить диван в москве недорого", "купить диван в москве недорого", "+б +у")

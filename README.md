@@ -88,6 +88,21 @@ semkit read first.csv compare-lists --against second.csv --op second write only-
 semkit read variants.csv linear-combinations agree nearest --against page_texts.csv --top 2 write matches.csv
 ```
 
+A topic's phrases get a class at each other (`relate-phrases`): `same`, `variation` (another word of the same meaning),
+`refinement` (the phrase of another plus more words) or `other`, with `of` (the phrase it belongs to), `group` (the
+first phrase of its group) and `reason` (the rule and the link). It works by lemmas and the dictionary
+(`semkit models pull ruwordnet` once), with no network and no vectors; 1000 phrases run in seconds. `--synonyms FILE`
+adds the links of your topic: a column `synonyms`, a group in each row, items split by `|`
+(`ремонт | починка | починить`), or the columns `word` and `synonyms` (split by spaces) as `dupes --synonyms` has.
+The dictionary has gaps, and a gap is `other` (сделать ≁ создать, починить ≁ ремонт): the file fills them.
+
+```bash
+semkit read --text "купить диван" --text "диван купить" --text "купить угловой диван" --text "диван" relate-phrases write -
+# купить диван: refinement of диван (+купить); диван купить: same as купить диван (lemmas);
+# купить угловой диван: refinement of купить диван (+угловой); диван: other, group купить диван
+semkit read topic.csv relate-phrases --synonyms links.csv write classes.csv
+```
+
 Columns keep the types of the file (numbers stay numbers). Every step, option and file an option names is checked
 before the input is read; a refusal exits 2 and names the step and the option. `--as NAME` writes a change to a new
 column NAME, which the next steps work on. `--lemmas` on a words or phrases step compares lemmas, as the bundled

@@ -374,6 +374,53 @@ steps reads (`add-minus-words`): those steps compare word by word, so it holds c
 one word only; edit it down to the picked words first. A data not pulled is `MODEL_NOT_PULLED` (exit 1, the action is
 the pull command).
 
+### Relate phrases
+
+`relate-phrases` gives each phrase of a topic its class at the other phrases of the table, by dictionaries and lemmas
+only (no network, no vectors, no LLM). The caller sorts the phrases (by frequency): the first phrase of a group is the
+one kept. About 1000 phrases run in seconds. It needs the thesaurus once: `semkit models pull ruwordnet` (no vectors
+extra).
+
+```console
+$ semkit read --text "купить диван" --text "диван купить" --text "купить угловой диван" --text "диван" relate-phrases write -
+{"phrase": "купить диван", "class": "refinement", "of": "диван", "group": "купить диван", "reason": "+купить"}
+{"phrase": "диван купить", "class": "same", "of": "купить диван", "group": "купить диван", "reason": "lemmas"}
+{"phrase": "купить угловой диван", "class": "refinement", "of": "купить диван", "group": "купить диван", "reason": "+угловой"}
+{"phrase": "диван", "class": "other", "of": "", "group": "купить диван", "reason": "base of: купить диван"}
+```
+
+The columns, right after the working column:
+
+- `class`: `same` (the same lemmas in any order; an earlier row is the base), `variation` (every word pairs with a word
+  of an earlier phrase, equal or linked, at least one linked: «создание сайтов» → «создать сайт»), `refinement` (the
+  phrase holds every word of another phrase of any row, plus more: «диван» → «купить диван»; the question words
+  «как», «где», «сколько»… count as words), `other` (no phrase gives it one of the three).
+- `of`: the phrase it is `same`, a `variation` or a `refinement` of; empty for `other`.
+- `group`: the first (kept) phrase of its group: the phrases whose chains of `of` end in the same phrase.
+- `reason`: the rule and the link: `lemmas`; `создать~создание (pos_synonymy)` or `веб-сайт~сайт (synset)` (the
+  dictionary), `bosch~бош (latin)` (a Latin word read as Cyrillic), `починить~ремонт (synonyms)` (your file); `+москва`
+  for a word left over; for `other` `unlinked: …` (the words no phrase explains) or `base of: …` (the phrases that
+  refine it).
+
+Options: `--to PHRASE` compares every row only with this phrase («X at Y»); `--keep WORDS` (`@FILE`, `@NAME` or
+`a,b`) names more words that are never dropped; `--synonyms FILE` gives the links of the topic. A link is one step:
+no chain of links. A word of the dictionary with two senses links through both (купить ~ подкупить).
+
+`--synonyms FILE` is a table read as `read` does, in one of two shapes. Groups: a column `synonyms`, a group in each
+row, items split by `|`, an item may have several words; items compare by lemmas. Or `word` and `synonyms` (as
+`dupes --synonyms`, the synonyms split by spaces): a group of the word and its synonyms.
+
+```csv
+synonyms
+ремонт | починка | ремонтировать | починить
+стиральная машина | стиралка | стиральная машинка
+```
+
+The limits: the dictionary has gaps, and a gap is `other`. «сделать сайт» is not «создать сайт» (сделать ≁ создать),
+«починить машину» is not «ремонт машины» (починить ≁ ремонт), «разработка» is not «создание». Fill them with
+`--synonyms`; a pair you are unsure of, check by SERP (`cluster-serp`) first. A variation and an `other` phrase are
+also for the SERP check. A Latin word that reads differently from its spelling (hyundai ≠ хендай) needs `--synonyms`.
+
 ## Errors
 
 Error envelope with `--json`: `{"ok": false, "error": {"code", "message", "action"}}`. Read the exit code, then

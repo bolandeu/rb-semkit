@@ -1,7 +1,7 @@
 """A phrase of relate-phrases as its units, and the links between units that the sources give.
 
 A word is its lemma (case and ё folded); a preposition, a conjunction or a particle is dropped, except the question
-words and the words to keep; a word with digits stays as it is. The units are the cut of the words into runs that a
+words and the words to keep; a word with digits stays as it is, and so do the letters of an abbreviation («б у»). The units are the cut of the words into runs that a
 source knows, as `synonym-candidates` cuts them; every other word is a unit by itself. When two such runs overlap,
 the phrase keeps every cut, and a comparison takes the one that explains the most words.
 """
@@ -21,6 +21,7 @@ from ..word_vectors.units import Token, Unit, cuts
 from .sources import Links
 
 DROPPED = frozenset({"prep", "conj", "prt"})  # the parts of speech of the lemmatizer that a phrase drops
+ABBREVIATIONS = frozenset({("б", "у")})  # the words that spell one word apart, as a phrase has them
 
 
 @dataclass(frozen=True)
@@ -56,6 +57,16 @@ class Phrase:
         return (len(self.units), self.row) < (len(other.units), other.row)
 
 
+def _with_abbreviations(words: list[Token]) -> list[Token]:
+    """The words, with the letters of an abbreviation kept: «б у» is used, not a preposition and a particle."""
+    abbreviated = {place + shift for place in range(len(words) - 1) if _spelled(words[place:place + 2]) in ABBREVIATIONS for shift in (0, 1)}  # fmt: skip
+    return [token._replace(counts=True) if place in abbreviated else token for place, token in enumerate(words)]
+
+
+def _spelled(words: list[Token]) -> tuple[str, ...]:
+    return tuple(token.word for token in words)
+
+
 class Reader:
     """Reads the phrases into units and asks the sources for the links of the units; each lookup is done once."""
 
@@ -76,7 +87,7 @@ class Reader:
             source.learn(words)
 
     def phrase(self, row: int, text: str) -> Phrase:
-        words = [self._token(word) for word in map(norm_phrase, split_words(text)) if word]
+        words = _with_abbreviations([self._token(word) for word in map(norm_phrase, split_words(text)) if word])
         runs = frozenset(
             run
             for size in range(2, self._longest + 1)
