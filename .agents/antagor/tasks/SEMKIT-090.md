@@ -2,7 +2,7 @@
 id: SEMKIT-090
 title: 'relate-phrases: a refinement even when a multi-word unit takes a word of the
   base phrase'
-status: queue
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -21,6 +21,7 @@ owns_paths:
 - tests/relate/
 - tests/word_vectors/
 - tests/snapshots/
+- docs/plans/relate-phrases.md
 test_paths:
 - tests/relate/test_refinement_units.py
 - tests/relate/test_acceptance.py
