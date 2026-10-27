@@ -2,8 +2,8 @@
 id: SEMKIT-085
 title: 'relate-phrases acceptance: the table end to end, precision on 200 pairs, speed,
   documents'
-status: publish
-attempts: 0
+status: queue
+attempts: 1
 blocked: false
 blocked_reason: null
 phase: null
@@ -86,3 +86,16 @@ Follow the tests of SEMKIT-081 to SEMKIT-084 and the examples of the existing st
 ## Out of scope
 
 - New classes, new link sources, vectors, a bundled list of links, SERP. A change of the labelled pairs. The glossary CONTEXT.md and the docs/adr: the Architect's.
+
+## Feedback
+
+### Attempt 1: the project's full check failed after the merge
+
+The project's full check fails with this task merged into main, and passes without it: your change broke something elsewhere. Merge main into your branch and fix it within the task, or say what is outside it with `antagor inbox add`.
+
+- `the project's CI (https://homeserver.tailee01ab.ts.net:3000/api/v1/repos/bolandeu/semkit/commits/{commit}/status)`
+
+```
+CI status: failure
+ci / gate (push): failure — Failing after 17s https://homeserver.tailee01ab.ts.net:3000/bolandeu/semkit/actions/runs/643/jobs/831
+```
