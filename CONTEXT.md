@@ -48,6 +48,22 @@ case, ё→е, spaces), implicit (same words in another order), implicit by word
 non-refining words or synonyms).
 _Avoid_: double, повтор (a repeat is a word repeated inside one phrase)
 
+**Phrase class** (класс фразы):
+What a phrase of a topic is at the other phrases of the table (step `relate-phrases`): same (the same lemmas in any
+order), variation (every word pairs with a word of an earlier phrase, equal or linked, at least one linked),
+refinement (it holds every word of another phrase and has more), other (none of these). Each phrase also has `of`
+(the phrase it belongs to), `group` and `reason`.
+_Avoid_: type, category, cluster (a cluster comes from a SERP or from meaning)
+
+**Unit** (единица):
+A word, or a run of adjacent words that a link source knows as one sense («стиральная машина»); the part of a phrase
+that `relate-phrases` pairs with a unit of another phrase.
+_Avoid_: token, chunk
+
+**Group** (группа):
+The phrases whose chains of `of` end in the same phrase; its first row is the phrase the caller keeps.
+_Avoid_: cluster, topic
+
 **Phrase vector** (вектор фразы, эмбеддинг):
 A list of numbers a language model gives a phrase; phrases of close meaning get close vectors. The ground of the
 steps by meaning; they give candidates, the Human decides.
