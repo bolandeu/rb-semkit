@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-088
 title: 'Tests: cap xdist workers and load the real models once'
-status: publish
+status: in_review
 attempts: 0
 blocked: false
 blocked_reason: null
@@ -70,3 +70,19 @@ Follow the existing real_encoder marker and the autouse fixtures of tests/confte
 ## Out of scope
 
 - What any test asserts. The speed (marker speed) tests. The Antagor config. The CI workflow file.
+
+## Feedback
+
+### Blocked: merge_conflict (stage merge)
+
+`main` changed since your work began, and merging it conflicts in:
+
+- `tests/conftest.py`
+
+Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).
+
+`main` changed since your work began, and merging it conflicts in:
+
+- `tests/conftest.py`
+
+Merge it into your branch (`git merge main`), resolve each file keeping both behaviours, `git add` it and run the checks; do not commit: Antagor commits the merge with your work when the round ends (IDEA-201).
