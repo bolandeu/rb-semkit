@@ -1,6 +1,6 @@
 """Shared fixtures: a test sees only the word lists it sets up, never the ones of the machine it runs on; the steps by
-meaning get a small deterministic encoder in place of the real models, and the step by words a small thesaurus and
-small word vectors, so no test downloads or loads a real one.
+meaning get a small deterministic encoder in place of the real models, and the steps by words (synonym-candidates,
+relate-phrases) a small thesaurus and small word vectors, so no test downloads or loads a real one.
 
 A test marked `real_encoder` gets the models as semkit opens them: the vectors extra, the cache, the model files. Those
 tests share one xdist group, so one worker holds the models, and each model is opened once per worker.
@@ -32,7 +32,6 @@ from rb_semkit.core.vectors import encoder  # noqa: E402
 from rb_semkit.core.vectors.registry import Model  # noqa: E402
 from rb_semkit.core.word_vectors import navec, thesaurus  # noqa: E402
 from rb_semkit.core.word_vectors.navec import WordVectors  # noqa: E402
-from rb_semkit.core.word_vectors.thesaurus import Thesaurus  # noqa: E402
 from rb_semkit.steps import word_vectors  # noqa: E402
 
 # Typer reads these once, at import, and then forces terminal output — what a CI runner sets.
@@ -122,9 +121,9 @@ def _test_word_data(request: pytest.FixtureRequest, monkeypatch: pytest.MonkeyPa
     codes = np.array([[[0, 0], [0, 0], [1, 0], [0.8, 0.6]]], dtype=np.float32)
     vectors = WordVectors(words, np.arange(len(words), dtype=np.uint8).reshape(-1, 1), codes)
     monkeypatch.setattr(
-        word_vectors,
+        thesaurus,
         "open_thesaurus",
-        lambda start: Thesaurus(
+        lambda start: thesaurus.Thesaurus(
             [
                 ("1", "ДИВАН", "ДИВАН"),
                 ("1", "ЧЕХОЛ", "ЧЕХОЛ"),

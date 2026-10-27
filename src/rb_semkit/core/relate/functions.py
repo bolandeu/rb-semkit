@@ -13,7 +13,8 @@ from ..errors import InvalidArguments
 from ..morph import Lemmatizer
 from ..morph.functions import BUNDLED
 from ..word_vectors.thesaurus import Lemmas
-from .pairing import pair
+from ..word_vectors.units import Unit
+from .pairing import Pairing, best_pairing
 from .phrases import Phrase, Reader
 from .sources import Links
 
@@ -68,7 +69,9 @@ def relate_phrases(
     -> угловой диван, refinement, диван, угловой диван, +угловой; кресло, other, , кресло, unlinked: кресло | диван
     """
     reader = Reader(links, [*wordlists.resolve(QUESTIONS), *(keep or [])], lemmatizer)
-    phrases = [reader.phrase(row, text) for row, text in enumerate(data.fillna("").astype(str))]
+    texts = data.fillna("").astype(str).tolist()
+    reader.learn([*texts, *([] if to is None else [to])])
+    phrases = [reader.phrase(row, text) for row, text in enumerate(texts)]
     table = _Table(phrases, reader, None if to is None else _base(reader, to))
     rows = [table.columns(phrase) for phrase in phrases]
     return pd.DataFrame(rows, index=data.index, columns=COLUMNS, dtype=object)
@@ -127,7 +130,7 @@ class _Table:
         found = [
             relation
             for base in self._candidates(phrase)
-            if base.before(phrase) and (base.lemmas == phrase.lemmas or base.keys <= reach)
+            if base.before(phrase) and (base.lemmas == phrase.lemmas or base.within(reach))
             if (relation := self._relate(phrase, base)) is not None
         ]
         return min(found, key=Relation.rank, default=None)
@@ -136,17 +139,19 @@ class _Table:
         earlier = base.row < phrase.row
         if earlier and base.lemmas == phrase.lemmas:
             return Relation(SAME, base, LEMMAS)
-        pairs = pair(phrase.units, base.units, self._reader.link)
-        if len(pairs) < len(base.units):
+        pairing = best_pairing(phrase.cuts, base.cuts, self._reader.link)
+        if len(pairing.pairs) < len(pairing.base):
             return None
-        links = self._links(phrase, base, pairs)
-        if extra := _unpaired(phrase, pairs.values()):
+        links = self._links(pairing)
+        if extra := _unpaired(pairing.units, pairing.pairs.values()):
             return Relation(REFINEMENT, base, "; ".join([" ".join(f"+{name}" for name in extra), *links]))
         return Relation(VARIATION, base, "; ".join(links)) if earlier and links else None
 
-    def _links(self, phrase: Phrase, base: Phrase, pairs: dict[int, int]) -> list[str]:
+    def _links(self, pairing: Pairing) -> list[str]:
         """The reasons of the links of the pairs that are not equal, in the order of the units of the base."""
-        units = [(phrase.units[unit].lemmas, base.units[other].lemmas) for other, unit in sorted(pairs.items())]
+        units = [
+            (pairing.units[unit].lemmas, pairing.base[other].lemmas) for other, unit in sorted(pairing.pairs.items())
+        ]
         return [self._reader.link(unit, other) or "" for unit, other in units if unit != other]
 
     def _first_rows(self) -> dict[int, int]:
@@ -166,9 +171,10 @@ class _Table:
         if dependents := self._dependents.get(phrase.row):
             return "base of: " + " | ".join(dependent.text for dependent in dependents)
         if (base := self._nearest(phrase)) is None:
-            return "unlinked: " + ", ".join(_unpaired(phrase, ()))
-        pairs = pair(phrase.units, base.units, self._reader.link)
-        return f"unlinked: {', '.join(_unpaired(phrase, pairs.values()))} | {', '.join(_unpaired(base, pairs))}"
+            return "unlinked: " + ", ".join(_unpaired(phrase.units, ()))
+        pairing = best_pairing(phrase.cuts, base.cuts, self._reader.link)
+        own, others = _unpaired(pairing.units, pairing.pairs.values()), _unpaired(pairing.base, pairing.pairs)
+        return f"unlinked: {', '.join(own)} | {', '.join(others)}"
 
     def _nearest(self, phrase: Phrase) -> Phrase | None:
         """The phrase that the most units of `phrase` reach, then the earliest; with --to, that phrase."""
@@ -178,6 +184,6 @@ class _Table:
         return self._by_row[max(hits, key=lambda row: (hits[row], -row))]
 
 
-def _unpaired(phrase: Phrase, paired: Collection[int]) -> list[str]:
-    """The units of a phrase whose places are not `paired`, each as its lemmas."""
-    return [" ".join(unit.lemmas) for place, unit in enumerate(phrase.units) if place not in paired]
+def _unpaired(units: Sequence[Unit], paired: Collection[int]) -> list[str]:
+    """The units of a cut whose places are not `paired`, each as its lemmas."""
+    return [" ".join(unit.lemmas) for place, unit in enumerate(units) if place not in paired]

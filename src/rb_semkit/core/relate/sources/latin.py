@@ -53,15 +53,18 @@ def _single(unit: Lemmas, other: Lemmas) -> tuple[str, str] | None:
 
 
 class _Latin(Links):
-    """The links of the words by sound. It remembers the words it was asked about, because the other script of a
-    word is known only by the words of the table."""
+    """The links of the words by sound. It remembers the words of the table (`learn`), because the other script of a
+    word is known only by them."""
 
     def __init__(self) -> None:
         self._by_sound: defaultdict[str, set[str]] = defaultdict(set)
 
+    def learn(self, words: Iterable[str]) -> None:
+        for word in words:
+            if (sound := _sound(word)) is not None:
+                self._by_sound[sound].add(word)
+
     def forms(self, word: str) -> Iterable[str]:
-        if (sound := _sound(word)) is not None:
-            self._by_sound[sound].add(word)
         reading = _reading(word)
         return [] if reading is None else [reading]
 

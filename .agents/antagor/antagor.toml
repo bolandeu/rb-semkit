@@ -6,7 +6,7 @@ worker = "claude-code"
 parallel = 3
 stall_minutes = 25  # the gate runs up to 17 min under load; its pytest step is silent for minutes
 checks = ["python3 scripts/check_command_docstrings.py"]
-heavy = ["rb-release check"]
+heavy = ["rb-release check", "pytest"]  # a worker's pytest runs 10 xdist workers (-n auto); three at once took the Mac down on 2026-10-26
 
 [review]
 required_types = ["feature", "bugfix"]  # chore and docs: the short path without review

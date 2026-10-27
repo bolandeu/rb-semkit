@@ -8,9 +8,9 @@ from __future__ import annotations
 import pandas as pd
 
 from ..core.frame import Frame
+from ..core.word_vectors import thesaurus
 from ..core.word_vectors.candidates import Source, synonym_candidates
 from ..core.word_vectors.navec import open_word_vectors
-from ..core.word_vectors.thesaurus import open_thesaurus
 from . import Adapted, Prepared, Report, Step, option, prepared_for
 
 SOURCE_DOC = (
@@ -22,7 +22,7 @@ SOURCE_DOC = (
 def _prepare(options: dict) -> Prepared:
     source, start = options["source"], prepared_for()
     given = {name: value for name, value in options.items() if name != "source"}
-    given["thesaurus"] = open_thesaurus(start) if source in ("ruwordnet", "both") else None
+    given["thesaurus"] = thesaurus.open_thesaurus(start) if source in ("ruwordnet", "both") else None
     given["word_vectors"] = open_word_vectors(start) if source in ("navec", "both") else None
 
     def run(table: pd.DataFrame, column: str) -> Report:
