@@ -1,7 +1,7 @@
 ---
 id: SEMKIT-086
 title: 'Bench tests: the load limit holds on the CI runner'
-status: publish
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
