@@ -3,7 +3,7 @@
 A source is a module of this package with a list `SOURCES`; `sources()` finds the modules, so a new source is one new
 module and no edit here. A source declares the options it adds to the step and prepares its links from the options
 and the folder of the project (`prepare`): it may refuse before the input is read, and it gives None when its options
-leave it off. The prepared `Links` give the runs of words the source knows as one unit, whether two units are linked
+leave it off. The prepared `Links` learn every word of the table before the first lookup, and give the runs of words the source knows as one unit, whether two units are linked
 and why, the units linked to a unit (to find the candidate phrases through an index), and other forms of a word that
 the lookups of every source try too. A unit is the tuple of the lemmas of its words.
 """
@@ -34,6 +34,9 @@ class Links:
     """What a prepared source knows; by default nothing, so a source gives only what it overrides."""
 
     longest = 1  # the most words of a run it knows
+
+    def learn(self, words: Iterable[str]) -> None:
+        """Gets every word (lemma) of the table before any lookup, whatever the order of the rows."""
 
     def knows(self, run: Lemmas) -> bool:
         """Whether the run of words is one unit."""

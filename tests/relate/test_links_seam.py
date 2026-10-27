@@ -52,6 +52,24 @@ class Web(Links):
         return {("веб",): [("интернет",)], ("интернет",): [("веб",)]}.get(unit, [])
 
 
+class Seen(Links):
+    """Links веб with интернет, but answers only for the words it was given by `learn`."""
+
+    def __init__(self) -> None:
+        self.words: set[str] = set()
+
+    def learn(self, words: Iterable[str]) -> None:
+        self.words.update(words)
+
+    def link(self, unit: Unit, other: Unit) -> str | None:
+        known = {("веб",), ("интернет",)} <= {(word,) for word in self.words}
+        return "веб~интернет (test)" if known and {unit, other} == {("веб",), ("интернет",)} else None
+
+    def linked(self, unit: Unit) -> Iterable[Unit]:
+        pair = {("веб",), ("интернет",)}
+        return [other for other in pair - {unit} if unit in pair and pair <= {(word,) for word in self.words}]
+
+
 def _found(phrases: list[str], *links: Links) -> dict[str, tuple[str, str, str]]:
     table = relate_phrases(pd.Series(phrases), links=links)
     found = table.to_dict("records")
@@ -90,6 +108,17 @@ def test_the_lookups_of_a_source_try_the_forms_another_source_gives() -> None:
 
     assert found["web студия"] == ("variation", "интернет студия", "веб~интернет (test)")
     assert alone["web студия"][0] == "other"
+
+
+def test_a_source_that_knows_only_the_words_it_was_given_finds_the_same_in_any_order() -> None:
+    phrases = ["разработка веб", "разработка интернет сайтов"]
+
+    forward = _found(phrases, Seen())
+    backward = _found(phrases[::-1], Seen())
+
+    expected = ("refinement", "разработка веб", "+сайт; веб~интернет (test)")
+    assert forward["разработка интернет сайтов"] == expected
+    assert backward["разработка интернет сайтов"] == expected
 
 
 def test_a_module_of_the_package_of_sources_with_a_list_sources_is_found(

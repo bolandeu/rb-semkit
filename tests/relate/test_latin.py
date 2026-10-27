@@ -102,6 +102,16 @@ def test_the_reading_is_a_form_that_the_lookup_of_a_run_by_another_source_tries(
     assert found["разработка web сайтов"][:2] == ("variation", "разработка интернет сайтов")
 
 
+def test_the_order_of_the_rows_does_not_change_a_refinement() -> None:
+    reason = "+сайт; web~веб (latin)"
+
+    forward = _found(["разработка веб", "разработка web сайтов"])
+    backward = _found(["разработка web сайтов", "разработка веб"])
+
+    assert forward["разработка web сайтов"] == ("refinement", "разработка веб", reason)
+    assert backward["разработка web сайтов"] == ("refinement", "разработка веб", reason)
+
+
 def test_the_step_links_the_latin_word_by_itself(tmp_path: Path) -> None:
     found = relate(tmp_path, ["ремонт стиральных машин бош", "ремонт стиральных машин bosch"])
 
