@@ -126,7 +126,8 @@ gate_extras = ["vectors"]
 # Only tests/: mutmut leaves a copy of the tree in mutants/.
 testpaths = ["tests"]
 # The timed tests (marker speed) leave the default run: a busy machine fails them.
-addopts = "-n auto --cov --cov-report=term-missing:skip-covered -m 'not speed'"
+# -n auto: tests/conftest.py caps the workers; loadgroup keeps the tests of the real models on one worker.
+addopts = "-n auto --dist loadgroup --cov --cov-report=term-missing:skip-covered -m 'not speed'"
 # tests/test_help.py keeps help snapshots at tests/snapshots/help/<command>.txt
 # (the Standard, Commands), not in syrupy's own `__snapshots__/<test file>/` layout, so
 # syrupy warns it "can not relate" each file to its test. It can — by name.

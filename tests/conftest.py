@@ -2,7 +2,8 @@
 meaning get a small deterministic encoder in place of the real models, and the steps by words (synonym-candidates,
 relate-phrases) a small thesaurus and small word vectors, so no test downloads or loads a real one.
 
-A test marked `real_encoder` gets the models as semkit opens them: the vectors extra, the cache, the model files.
+A test marked `real_encoder` gets the models as semkit opens them: the vectors extra, the cache, the model files. Those
+tests share one xdist group, so one worker holds the models, and each model is opened once per worker.
 """
 
 from __future__ import annotations
@@ -11,7 +12,7 @@ import os
 import subprocess
 import sys
 import zlib
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Iterator, Sequence
 from pathlib import Path
 
 import numpy as np
@@ -29,7 +30,7 @@ for _name in CI_ENV_NAMES:
 
 from rb_semkit.core.vectors import encoder  # noqa: E402
 from rb_semkit.core.vectors.registry import Model  # noqa: E402
-from rb_semkit.core.word_vectors import thesaurus  # noqa: E402
+from rb_semkit.core.word_vectors import navec, thesaurus  # noqa: E402
 from rb_semkit.core.word_vectors.navec import WordVectors  # noqa: E402
 from rb_semkit.steps import word_vectors  # noqa: E402
 
@@ -37,6 +38,11 @@ from rb_semkit.steps import word_vectors  # noqa: E402
 CI_ENV = {"GITHUB_ACTIONS": "true", "FORCE_COLOR": "1", "PY_COLORS": "1"}
 
 WORD_DIMENSIONS = 64
+
+# The most xdist workers: the real models are ~2.4 GB and a gate may run beside other gates on a 16 GB machine.
+MAX_WORKERS = 3
+WORKERS_ENV = "PYTEST_XDIST_AUTO_NUM_WORKERS"
+REAL_MODELS_GROUP = "real_models"
 
 
 class WordEncoder:
@@ -53,6 +59,32 @@ class WordEncoder:
                 vectors[row] += np.random.default_rng(zlib.crc32(word.encode())).standard_normal(WORD_DIMENSIONS)
         lengths = np.linalg.norm(vectors, axis=1, keepdims=True)
         return vectors / np.where(lengths == 0, 1, lengths)
+
+
+def _once(name: str, opened: Callable, cache: dict, folder_at: int) -> Callable:
+    """`opened` that returns the object it made for the same folder (its argument number `folder_at`) instead of
+    opening it again."""
+
+    def cached(*arguments):
+        key = (name, arguments[folder_at])
+        if key not in cache:
+            cache[key] = opened(*arguments)
+        return cache[key]
+
+    return cached
+
+
+@pytest.fixture(scope="session", autouse=True)
+def _real_models_opened_once() -> Iterator[None]:
+    """The real encoders, the thesaurus and the word vectors are opened once per worker, whichever test asks, by the
+    folder they are read from: a model pulled into another folder is another object."""
+    opened: dict = {}
+    with pytest.MonkeyPatch.context() as patch:
+        patch.setattr(navec, "load", _once("navec", navec.load, opened, 0))
+        patch.setattr(thesaurus, "load", _once("thesaurus", thesaurus.load, opened, 0))
+        runtimes = {name: _once(name, runtime, opened, 1) for name, runtime in encoder.RUNTIMES.items()}
+        patch.setattr(encoder, "RUNTIMES", runtimes)
+        yield
 
 
 @pytest.fixture(autouse=True)
@@ -127,3 +159,18 @@ def pytest_configure(config: pytest.Config) -> None:
     if args and set(args) == {CONTRACT_TESTS}:
         config.option.numprocesses = 0
         config.option.dist = "no"
+
+
+@pytest.hookimpl(optionalhook=True)
+def pytest_xdist_auto_num_workers(config: pytest.Config) -> int:
+    """`-n auto` runs at most MAX_WORKERS workers, and fewer when the environment asks for fewer (Antagor sets the
+    variable so that parallel runs share the machine)."""
+    asked = os.environ.get(WORKERS_ENV)
+    return min(MAX_WORKERS, int(asked)) if asked else MAX_WORKERS
+
+
+def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
+    """The tests that open the real models share one xdist group (`--dist loadgroup`): one worker holds the models."""
+    for item in items:
+        if item.get_closest_marker("real_encoder"):
+            item.add_marker(pytest.mark.xdist_group(REAL_MODELS_GROUP))
