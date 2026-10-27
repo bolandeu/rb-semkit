@@ -5,6 +5,13 @@ All notable changes to this project are documented here. Versions follow
 
 The changelog is written by `antagor publish`; don't edit it by hand.
 
+## v0.2.1 — 2026-10-27
+
+### Outside epics
+
+- Agent guide: the preposition limit of relate-phrases (SEMKIT-089)
+- relate-phrases: a refinement even when a multi-word unit takes a word of the base phrase (SEMKIT-090)
+
 ## v0.2.0 — 2026-10-27
 
 ### E-009 — relate-phrases: the class of each phrase of a topic (same, variation, refinement, other)

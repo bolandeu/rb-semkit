@@ -2,7 +2,7 @@
 id: SEMKIT-090
 title: 'relate-phrases: a refinement even when a multi-word unit takes a word of the
   base phrase'
-status: publish
+status: done
 attempts: 0
 blocked: false
 blocked_reason: null
