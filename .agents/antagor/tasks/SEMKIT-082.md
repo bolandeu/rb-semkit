@@ -4,11 +4,11 @@ title: 'relate-phrases dictionary links: synsets, POS-synonymy and runs of words
   units'
 status: publish
 attempts: 1
-blocked: false
-blocked_reason: null
+blocked: true
+blocked_reason: gate_failed
 phase: null
 tests_hash: null
-publish_stage: null
+publish_stage: gate
 created_by: architect
 approved_by: human
 worker: claude-code
