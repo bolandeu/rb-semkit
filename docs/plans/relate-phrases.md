@@ -70,7 +70,8 @@ Class of phrase C at another phrase H, the first rule that fits:
 1. `same`: the same lemmas in any order (case, number, word order).
 2. `variation`: every unit of C pairs one-to-one with a unit of H, equal or linked, at least one pair linked.
 3. `refinement`: every unit of H pairs with a unit of C (equal or linked) and C has units left over: C = H (or a
-   variation of H) plus more words.
+   variation of H) plus more words. The cuts into single words take part here, and only here: a run of C can take a
+   word of H («мастер по ремонту» takes «ремонт»), or hold the words of H apart («стиральных и посудомоечных машин»).
 4. `other`: no phrase of the table gives C one of the three.
 
 `same` and `variation` look only at EARLIER rows: the later phrase is the duplicate of the kept one. `refinement`

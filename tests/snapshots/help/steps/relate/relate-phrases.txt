@@ -9,14 +9,14 @@
  stays as it is. A unit is a word, or a run of words that a link source knows as one; two units are
  linked when a link source links them. The class: same (the same lemmas in any order, at an earlier
  row), variation (every unit pairs one to one with a unit of an earlier row, equal or linked, at
- least one pair linked), refinement (every unit of another phrase, of any row, pairs with a unit of
- this one, and this one has units left over) or other. A phrase takes the best relation: same, then
- variation, then refinement; for a refinement the closest base (the most units), then the earliest
- row. The columns: class; of (the phrase it is same, a variation or a refinement of; empty for
- other); group (the first row among the phrases whose chains of `of` end in the same phrase);
- reason (lemmas; the links of the units; +word for each unit left over; for other the phrases that
- are its refinements, «base of: …», or the units unlinked to the nearest phrase, «unlinked: …»). An
- empty cell is other, with an empty group.
+ least one pair linked), refinement (every unit of another phrase, of any row, pairs with a unit or
+ a word of this one, and this one has units left over) or other. A phrase takes the best relation:
+ same, then variation, then refinement; for a refinement the closest base (the most units), then
+ the earliest row. The columns: class; of (the phrase it is same, a variation or a refinement of;
+ empty for other); group (the first row among the phrases whose chains of `of` end in the same
+ phrase); reason (lemmas; the links of the units; +word for each unit left over; for other the
+ phrases that are its refinements, «base of: …», or the units unlinked to the nearest phrase,
+ «unlinked: …»). An empty cell is other, with an empty group.
  to: compare every phrase only with this one; of is this phrase or empty.
  keep: more words a phrase never drops, as the question words.
 

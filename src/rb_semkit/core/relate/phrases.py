@@ -3,7 +3,8 @@
 A word is its lemma (case and ё folded); a preposition, a conjunction or a particle is dropped, except the question
 words and the words to keep; a word with digits stays as it is, and so do the letters of an abbreviation («б у»). The units are the cut of the words into runs that a
 source knows, as `synonym-candidates` cuts them; every other word is a unit by itself. When two such runs overlap,
-the phrase keeps every cut, and a comparison takes the one that explains the most words.
+the phrase keeps every cut, and a comparison takes the one that explains the most words. A phrase also keeps its cut
+into single words, for a refinement by words: a run can take a word of the base («мастер по ремонту» takes «ремонт»).
 """
 
 from __future__ import annotations
@@ -17,7 +18,7 @@ from ..morph import Lemmatizer
 from ..normalize import norm_phrase
 from ..text.base import split_words
 from ..word_vectors.thesaurus import Lemmas
-from ..word_vectors.units import Token, Unit, cuts
+from ..word_vectors.units import Token, Unit, cuts, single_words
 from .sources import Links
 
 DROPPED = frozenset({"prep", "conj", "prt"})  # the parts of speech of the lemmatizer that a phrase drops
@@ -26,12 +27,13 @@ ABBREVIATIONS = frozenset({("б", "у")})  # the words that spell one word apart
 
 @dataclass(frozen=True)
 class Phrase:
-    """A row of the table: its place (`row`; -1 for the phrase of --to), its cell and its cuts into units, the cut of
-    `synonym-candidates` first."""
+    """A row of the table: its place (`row`; -1 for the phrase of --to), its cell, its cuts into units (the cut of
+    `synonym-candidates` first) and its cut into single words."""
 
     row: int
     text: str
     cuts: tuple[tuple[Unit, ...], ...]
+    words: tuple[Unit, ...]
 
     @property
     def units(self) -> tuple[Unit, ...]:
@@ -45,12 +47,12 @@ class Phrase:
 
     @functools.cached_property
     def keys(self) -> frozenset[Lemmas]:
-        """The units of all its cuts."""
-        return frozenset(unit.lemmas for cut in self.cuts for unit in cut)
+        """The units of all its cuts and its single words."""
+        return frozenset(unit.lemmas for cut in (*self.cuts, self.words) for unit in cut)
 
     def within(self, reach: frozenset[Lemmas]) -> bool:
-        """Whether every unit of one of its cuts is in `reach`."""
-        return any(all(unit.lemmas in reach for unit in cut) for cut in self.cuts)
+        """Whether every unit of one of its cuts, or every single word, is in `reach`."""
+        return any(all(unit.lemmas in reach for unit in cut) for cut in (*self.cuts, self.words))
 
     def before(self, other: Phrase) -> bool:
         """Whether a relation of `other` may point to it: fewer units, or as many and an earlier row."""
@@ -94,7 +96,7 @@ class Reader:
             for start in range(len(words) - size + 1)
             if self._known(run := tuple(token.lemma for token in words[start : start + size]))
         )
-        return Phrase(row, text, tuple(map(tuple, cuts(words, runs, self._longest))))
+        return Phrase(row, text, tuple(map(tuple, cuts(words, runs, self._longest))), tuple(single_words(words)))
 
     def _token_of(self, word: str) -> Token:
         if any(char.isdigit() for char in word):

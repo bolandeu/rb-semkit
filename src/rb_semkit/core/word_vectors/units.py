@@ -2,7 +2,8 @@
 
 A run is a sense of several words of the thesaurus (found by lemmas); a word in no such sense is a unit by itself. A
 stopword is no unit by itself, and stays inside a run when the sense holds it. `segment` gives the one segmentation
-that covers the most words; `cuts` gives every segmentation that leaves no run out, for runs that overlap.
+that covers the most words; `cuts` gives every segmentation that leaves no run out, for runs that overlap;
+`single_words` gives the cut with no run at all.
 """
 
 from __future__ import annotations
@@ -68,6 +69,11 @@ def cuts(words: list[Token], phrases: frozenset[Lemmas], longest: int) -> list[l
         if (units := _units(words, chosen)) not in found:
             found.append(units)
     return found
+
+
+def single_words(words: list[Token]) -> list[Unit]:
+    """The cut of a phrase into single words: every word that counts as a unit by itself, and no run."""
+    return _units(words, [])
 
 
 Run = tuple[int, int]  # the place of the first word of a run and the place after its last word

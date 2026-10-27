@@ -52,8 +52,9 @@ def relate_phrases(
     or a run of words that a link source knows as one; two units are linked when a link source links them. The class:
     same (the same lemmas in any order, at an earlier row), variation (every unit pairs one to one with a unit of an
     earlier row, equal or linked, at least one pair linked), refinement (every unit of another phrase, of any row,
-    pairs with a unit of this one, and this one has units left over) or other. A phrase takes the best relation:
-    same, then variation, then refinement; for a refinement the closest base (the most units), then the earliest row.
+    pairs with a unit or a word of this one, and this one has units left over) or other. A phrase takes the
+    best relation: same, then variation, then refinement; for a refinement the closest base (the most units), then the
+    earliest row.
     The columns: class; of (the phrase it is same, a variation or a refinement of; empty for other); group (the first
     row among the phrases whose chains of `of` end in the same phrase); reason (lemmas; the links of the units; +word
     for each unit left over; for other the phrases that are its refinements, «base of: …», or the units unlinked to
@@ -140,12 +141,20 @@ class _Table:
         if earlier and base.lemmas == phrase.lemmas:
             return Relation(SAME, base, LEMMAS)
         pairing = best_pairing(phrase.cuts, base.cuts, self._reader.link)
-        if len(pairing.pairs) < len(pairing.base):
-            return None
+        if len(pairing.pairs) < len(pairing.base):  # a refinement by words; never a variation
+            words = best_pairing((*phrase.cuts, phrase.words), (*base.cuts, base.words), self._reader.link)
+            return self._refinement(base, words)
+        if refinement := self._refinement(base, pairing):
+            return refinement
         links = self._links(pairing)
-        if extra := _unpaired(pairing.units, pairing.pairs.values()):
-            return Relation(REFINEMENT, base, "; ".join([" ".join(f"+{name}" for name in extra), *links]))
         return Relation(VARIATION, base, "; ".join(links)) if earlier and links else None
+
+    def _refinement(self, base: Phrase, pairing: Pairing) -> Relation | None:
+        """A refinement of `base` when the pairing pairs every unit of its cut and leaves units of the phrase over."""
+        extra = _unpaired(pairing.units, pairing.pairs.values())
+        if len(pairing.pairs) < len(pairing.base) or not extra:
+            return None
+        return Relation(REFINEMENT, base, "; ".join([" ".join(f"+{name}" for name in extra), *self._links(pairing)]))
 
     def _links(self, pairing: Pairing) -> list[str]:
         """The reasons of the links of the pairs that are not equal, in the order of the units of the base."""
