@@ -3,7 +3,8 @@ mode = "fast"
 prefix = "SEMKIT"
 name = "semkit"
 worker = "claude-code"
-parallel = 3
+# the workserver, 48 cores (the Human 28.10: at least four tasks at once); heavy checks queue on the machine; was 3
+parallel = 4
 stall_minutes = 25  # the gate runs up to 17 min under load; its pytest step is silent for minutes
 checks = ["python3 scripts/check_command_docstrings.py"]
 heavy = ["rb-release check", "pytest"]  # a worker's pytest runs 10 xdist workers (-n auto); three at once took the Mac down on 2026-10-26
