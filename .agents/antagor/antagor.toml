@@ -15,9 +15,9 @@ required_types = ["feature", "bugfix"]  # chore and docs: the short path without
 versioning = "semver"
 changelog = "CHANGELOG.md"
 deploy_command = "sh scripts/deploy.sh"
-gate = "remote"  # the release gate runs on Gitea CI before the tag (in force after the Human's remote-gate-accept)
-gate_status_url = "https://homeserver.tailee01ab.ts.net:3000/api/v1/repos/bolandeu/semkit/commits/{commit}/status"
-gate_timeout_minutes = 60  # the shared runner may queue 30+ min behind other repos, then the gate takes ~8 min
+gate = "local"
+gate_command = 'uvx --from "git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/cli-generator.git@v1.27.3#subdirectory=gate" rb-release check'
+env = { UV_PYTHON = "3.11" }
 
 [connector]
 webhook_secret = "PLANE_WEBHOOK_SECRET_TOOLS"
