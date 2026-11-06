@@ -2,13 +2,14 @@ schema = 1
 mode = "fast"
 prefix = "SEMKIT"
 name = "semkit"
-worker = "claude-code"
+worker = "pi"
 parallel = 3
 stall_minutes = 25  # the gate runs up to 17 min under load; its pytest step is silent for minutes
 checks = ["python3 scripts/check_command_docstrings.py"]
 heavy = ["rb-release check", "pytest"]  # a worker's pytest runs 10 xdist workers (-n auto); three at once took the Mac down on 2026-10-26
 
 [review]
+worker = "pi-glm"  # another model than the author (the Human, 6.11)
 required_types = ["feature", "bugfix"]  # chore and docs: the short path without review
 
 [publish]
@@ -43,3 +44,7 @@ enabled = true
 max_lines = 4000
 max_files = 150
 max_prompt_tokens = 60000
+
+[workers.pi-glm]  # the reviewer: kind pi, model from [model_policy.pi-glm]
+kind = "pi"
+args = []
