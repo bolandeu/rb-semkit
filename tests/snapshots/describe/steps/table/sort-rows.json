@@ -17,6 +17,10 @@
           "value": "str"
         },
         {
+          "name": "x-rb-default",
+          "value": null
+        },
+        {
           "name": "x-rb-multiple",
           "value": true
         }

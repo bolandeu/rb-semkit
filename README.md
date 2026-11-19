@@ -139,7 +139,7 @@ Your own lists: `SEMKIT_LISTS=DIR` (a relative folder is from the current one) o
 uv sync
 uv run semkit --help
 # the full gate (run before every commit; CI runs it too), at the template tag of .copier-answers.yml
-uvx --from "git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/cli-generator.git@v1.27.3#subdirectory=gate" rb-release check
+uvx --from "git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/cli-generator.git@v1.27.3#subdirectory=gate" gate check
 uv run pytest -m speed    # the timed tests, left out of the gate: run on an idle machine
 uv run pytest --snapshot-update  # after changing a command's help; review tests/snapshots/help/
 ```
@@ -149,7 +149,7 @@ the security (`S`) rules; the gate also scans the git history for committed
 secrets when `gitleaks` is installed (`brew install gitleaks`) and `uv.lock`
 for known vulnerabilities when `osv-scanner` is installed (`brew install
 osv-scanner`), and says it skipped a scan otherwise. CI is optional and only repeats
-`rb-release check`.
+`gate check`.
 
 ## Release
 

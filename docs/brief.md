@@ -7,7 +7,7 @@ Read this file first. It is the hand-off from the session that created this repo
 
 ## Decided
 1. Library first; a CLI comes after the API settles.
-2. I/O goes through the sibling tool `dataio` (`~/Work/tools/dataio`): it reads any source into a `pandas.DataFrame` and writes any target. semkit does not read or write files itself.
+2. I/O goes through the sibling tool `dataio` (`~/Work/tools/rb-dataio`): it reads any source into a `pandas.DataFrame` and writes any target. semkit does not read or write files itself.
 3. Out of scope: LLM features, Excel-only features (fonts, sheets, pictures), SEO APIs. Bukvarix stays in its own package `bukvarix`.
 4. Morphology lives inside semkit (no separate package). Everything is bundled in the package, no download:
    - lemma dictionary → marisa-trie (wordform → lemma, POS; plus lemma → wordforms). Measured: 5.8 MB, instant open (mmap), 2.7 µs per lookup;

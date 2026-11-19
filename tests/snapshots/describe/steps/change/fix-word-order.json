@@ -47,6 +47,10 @@
         {
           "name": "x-rb-type",
           "value": "str"
+        },
+        {
+          "name": "x-rb-default",
+          "value": null
         }
       ]
     },
@@ -83,6 +87,10 @@
         {
           "name": "x-rb-type",
           "value": "str"
+        },
+        {
+          "name": "x-rb-default",
+          "value": null
         }
       ]
     }

@@ -18,6 +18,10 @@
         {
           "name": "x-rb-type",
           "value": "int"
+        },
+        {
+          "name": "x-rb-default",
+          "value": null
         }
       ]
     }
