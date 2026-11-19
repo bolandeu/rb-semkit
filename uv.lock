@@ -2367,8 +2367,8 @@ wheels = [
 
 [[package]]
 name = "rb-dataio"
-version = "0.1.26"
-source = { registry = "https://homeserver.tailee01ab.ts.net:3000/api/packages/bolandeu/pypi/simple" }
+version = "0.1.35"
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "duckdb" },
     { name = "google-auth", extra = ["requests"] },
@@ -2385,8 +2385,9 @@ dependencies = [
     { name = "tomli-w" },
     { name = "typer" },
 ]
+sdist = { url = "https://files.pythonhosted.org/packages/81/e5/8898ecaccf663c42aa114a9d3f0471d8860cfe2f29e4e3d21ca19d1d4ee5/rb_dataio-0.1.35.tar.gz", hash = "sha256:8074862aeb554c975b0c874c317f69ad11c2364744524771cbf430c3e9dadee2", size = 220069, upload-time = "2026-11-19T13:37:54.597Z" }
 wheels = [
-    { url = "https://homeserver.tailee01ab.ts.net:3000/api/packages/bolandeu/pypi/files/rb-dataio/0.1.26/rb_dataio-0.1.26-py3-none-any.whl", hash = "sha256:7acfa0e128224df21a7c2e607473b454d950247e803b38d41052d532d9e9d7d8" },
+    { url = "https://files.pythonhosted.org/packages/3c/de/cd710e4c9ee1b05294f415d897855c55dab7175650fb007c8aea0a5b2dee/rb_dataio-0.1.35-py3-none-any.whl", hash = "sha256:199ccf0c0a4fac591fb7b8f535432b323e10aaaa49861d3c6589fe557226c383", size = 142425, upload-time = "2026-11-19T13:37:53.326Z" },
 ]
 
 [[package]]
@@ -2446,7 +2447,7 @@ requires-dist = [
     { name = "pyahocorasick", specifier = ">=2.3.1" },
     { name = "pydantic", specifier = ">=2.6" },
     { name = "pymorphy3", specifier = ">=2.0.6" },
-    { name = "rb-dataio", specifier = ">=0.1.26,<0.2", index = "https://homeserver.tailee01ab.ts.net:3000/api/packages/bolandeu/pypi/simple" },
+    { name = "rb-dataio", specifier = ">=0.1.26,<0.2" },
     { name = "rich", specifier = ">=13.7" },
     { name = "selectolax", specifier = ">=1.0.1" },
     { name = "tokenizers", marker = "extra == 'vectors'", specifier = ">=0.23" },

@@ -3,7 +3,7 @@
   "info": {
     "title": "semkit",
     "version": "<version>",
-    "summary": "Обработка семантического ядра: чтение и запись фраз в любом формате, леммы, n-граммы, дубли"
+    "summary": "Semantic core processing: read and write phrases in any format, lemmas, n-grams, duplicates."
   },
   "command": {
     "name": "semkit",

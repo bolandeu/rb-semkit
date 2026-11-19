@@ -167,7 +167,6 @@ uv tool install .
 **From the Gitea registry** (the package is released there):
 
 ```bash
-uv tool install rb-semkit --index https://homeserver.tailee01ab.ts.net:3000/api/packages/bolandeu/pypi/simple
 ```
 
 **Or from the git tag, on any other machine (any OS):**
