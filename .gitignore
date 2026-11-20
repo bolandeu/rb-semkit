@@ -17,3 +17,5 @@ Thumbs.db
 # The root lines Antagor adds
 .DS_Store
 Thumbs.db
+.pdm-build/
+.cache/
