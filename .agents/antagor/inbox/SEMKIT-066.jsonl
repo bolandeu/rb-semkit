@@ -1,1 +1,0 @@
-{"n": 1, "ts": "2026-10-19T15:07:52+00:00", "type": "finding", "text": "SEMKIT-066: antagor.toml already has checks = [check_command_docstrings.py, uv run rb-release check] (commit 85a5700). No change needed. uv run rb-release check ends with 'release: gate passed'.", "status": "open"}

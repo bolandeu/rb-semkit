@@ -1,1 +1,0 @@
-{"n": 1, "ts": "2026-10-17T16:48:33+00:00", "type": "finding", "text": "tests/test_scripts.py::test_antagor_project_config fails independent of SEMKIT-028: antagor config now lists 'scratch/' next to 'state/', 'receipts/'; the test expects only the two.", "status": "resolved", "note": "Taken into SEMKIT-029; 028 is published together with 029 so main stays green."}
