@@ -11,8 +11,8 @@
 │ *    name      <str>  The name of the list to remove, as niche/mebel. [required]                 │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --from           <str>  Where the list is: 'project' (the project's .rb_semkit/lists) or the     │
-│                         path of a folder of lists; ~ is the home folder.                         │
+│ --from           <str>  Where the list is: 'project' (the project's .semkit/lists) or the path   │
+│                         of a folder of lists; ~ is the home folder.                              │
 │                         [default: project]                                                       │
 │ --json                  Emit machine-readable JSON output.                                       │
 │ --quiet                 Suppress non-essential output.                                           │

@@ -1,4 +1,4 @@
-"""The project config as a model (`.rb_semkit/config.toml`): the name, the provider, the output, the CLI version it needs,
+"""The project config as a model (`.{package}/config.toml`): the name, the provider, the output, the CLI version it needs,
 `lists`, the folders of the Human's word lists, and `models.dir`, the folder of the encoders. A field has a default, so
 an old config still loads.
 

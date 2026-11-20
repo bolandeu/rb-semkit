@@ -1,7 +1,7 @@
 
  Usage: semkit init [OPTIONS]
 
- Initialize a project: creates .rb_semkit/config.toml in the target directory.
+ Initialize a project: creates .semkit/config.toml in the target directory.
 
  An initialized project is left as it is without --force.
  With --dry-run nothing is written.

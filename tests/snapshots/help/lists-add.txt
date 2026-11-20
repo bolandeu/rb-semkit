@@ -17,7 +17,7 @@
 │                        [required]                                                                │
 ╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ────────────────────────────────────────────────────────────────────────────────────────╮
-│ --to             <str>  Where to put the list: 'project' (the project's .rb_semkit/lists) or the │
+│ --to             <str>  Where to put the list: 'project' (the project's .semkit/lists) or the    │
 │                         path of a folder of lists; ~ is the home folder.                         │
 │                         [default: project]                                                       │
 │ --replace               Overwrite the list when the folder has it.                               │

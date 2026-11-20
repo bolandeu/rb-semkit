@@ -13,7 +13,7 @@
           }
         }
       ],
-      "description": "Where to put the list: 'project' (the project's .rb_semkit/lists) or the path of a folder of lists; ~ is the home folder.",
+      "description": "Where to put the list: 'project' (the project's .semkit/lists) or the path of a folder of lists; ~ is the home folder.",
       "metadata": [
         {
           "name": "x-rb-type",

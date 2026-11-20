@@ -1,4 +1,4 @@
-"""`init`: make the folder a project: `.rb_semkit/config.toml` in it (`core.services`).
+"""`init`: make the folder a project: `.{package}/config.toml` in it (`core.services`).
 
 An existing project is kept unless --force; --dry-run writes nothing.
 """
@@ -31,7 +31,7 @@ def init(
     verbose: bool = output.VerboseOption,
     dry_run: bool = output.DryRunOption,
 ) -> None:
-    """Initialize a project: creates .rb_semkit/config.toml in the target directory.
+    """Initialize a project: creates .{package}/config.toml in the target directory.
 
     An initialized project is left as it is without --force.
     With --dry-run nothing is written.

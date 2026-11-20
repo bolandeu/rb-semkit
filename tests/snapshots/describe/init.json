@@ -1,6 +1,6 @@
 {
   "name": "init",
-  "description": "Initialize a project: creates .rb_semkit/config.toml in the target directory.\n\nAn initialized project is left as it is without --force.\nWith --dry-run nothing is written.\n\nExample: semkit init --name demo",
+  "description": "Initialize a project: creates .semkit/config.toml in the target directory.\n\nAn initialized project is left as it is without --force.\nWith --dry-run nothing is written.\n\nExample: semkit init --name demo",
   "options": [
     {
       "name": "--name",

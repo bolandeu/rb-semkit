@@ -96,12 +96,12 @@ def project(tmp_path: Path) -> Path:
     root = tmp_path / "project"
     root.mkdir()
     services.init_project(root, "demo")
-    (root / ".rb_semkit" / "workflows").mkdir()
+    (root / ".semkit" / "workflows").mkdir()
     return root
 
 
 def _workflow(project: Path, name: str, text: str) -> Path:
-    path = project / ".rb_semkit" / "workflows" / f"{name}.toml"
+    path = project / ".semkit" / "workflows" / f"{name}.toml"
     path.write_text(text, encoding="utf-8")
     return path
 
@@ -228,7 +228,7 @@ def test_a_project_workflow_overrides_the_bundled_one_of_the_same_name(project: 
 
 
 def test_a_file_in_the_former_scenarios_folder_still_runs_and_workflows_wins_over_it(project: Path) -> None:
-    old = project / ".rb_semkit" / "scenarios"
+    old = project / ".semkit" / "scenarios"
     old.mkdir()
     (old / "only-old.toml").write_text('description = "Old."\nsteps = "change-case upper"\n', encoding="utf-8")
     (old / "both.toml").write_text('description = "Old."\nsteps = "change-case lower"\n', encoding="utf-8")
