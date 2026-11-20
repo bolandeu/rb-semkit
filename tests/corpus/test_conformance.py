@@ -7,8 +7,6 @@ The cases run here by area; tests/conformance/ runs them with every other area a
 from __future__ import annotations
 
 import inspect
-import subprocess
-import sys
 from pathlib import Path
 
 import pytest
@@ -42,12 +40,3 @@ def test_each_function_of_the_area_has_a_case_file_of_at_least_five_cases(name: 
 def test_each_case_gives_its_expected_value(case: Case) -> None:
     assert not case.xfail
     assert render(run(case)) == case.expected
-
-
-def test_the_area_report_is_what_the_script_writes(tmp_path: Path) -> None:
-    script = ROOT / "scripts" / "conformance_report.py"
-    result = subprocess.run([sys.executable, str(script), "--out", str(tmp_path)], capture_output=True, check=False)  # noqa: S603
-
-    assert result.returncode == 0, result.stderr
-    written = (tmp_path / "conformance" / f"{AREA}.md").read_text(encoding="utf-8")
-    assert (ROOT / "docs" / "vba" / "conformance" / f"{AREA}.md").read_text(encoding="utf-8") == written

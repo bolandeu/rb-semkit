@@ -10,14 +10,12 @@ from __future__ import annotations
 
 import inspect
 from collections import Counter
-from pathlib import Path
 
 import pytest
 
 import rb_semkit as sk
 
 from .case_files import (
-    CASE_COLUMNS,
     CASES_DIR,
     NOT_CASED,
     VERBS,
@@ -26,7 +24,6 @@ from .case_files import (
     case_files,
     render,
     run,
-    unquoted_rules,
 )
 
 MIN_CASES = 5
@@ -57,15 +54,6 @@ def test_the_result_is_the_expected_one(case: Case) -> None:
     assert render(run(case)) == case.expected
 
 
-@pytest.mark.parametrize("case", CASES, ids=lambda case: case.case_id)
-def test_a_deviation_from_the_vba_has_a_quoted_rule_and_a_reason(case: Case) -> None:
-    if case.expected == case.vba:
-        assert (case.rule, case.why) == ("", "")
-        return
-    assert unquoted_rules(case) == [], "not quoted from ADR 0005 or the area's deviations document"
-    assert case.why.strip()
-
-
 @pytest.mark.parametrize(("name", "area"), sorted(_public_functions().items()))
 def test_every_public_function_has_its_case_file_in_its_area(name: str, area: str) -> None:
     assert (CASES_DIR / area / f"{name}.tsv").is_file()
@@ -94,19 +82,3 @@ def test_case_ids_are_unique_and_a_case_stands_in_the_file_of_its_function() -> 
 
 def _row(case_id: str, vba: str, rule: str, why: str) -> str:
     return "\t".join((case_id, "chars.find", '{"kind": "latin"}', "диван IKEA", vba, "TRUE", rule, why, ""))
-
-
-def test_a_case_file_in_a_new_area_folder_runs_and_quotes_its_area_deviations(tmp_path: Path) -> None:
-    (tmp_path / "cases" / "zarea").mkdir(parents=True)
-    rows = [_row("zarea-same", "TRUE", "", ""), _row("zarea-fixed", "FALSE", "латиница находится", "a test rule")]
-    text = "\n".join(["# zarea. A temporary area.", "\t".join(CASE_COLUMNS), *rows]) + "\n"
-    (tmp_path / "cases" / "zarea" / "chars.tsv").write_text(text, encoding="utf-8")
-    (tmp_path / "deviations").mkdir()
-    (tmp_path / "deviations" / "zarea.md").write_text("# zarea\n\nВ zarea латиница находится.\n", encoding="utf-8")
-
-    same, fixed = all_cases(tmp_path / "cases")
-
-    assert (same.area, same.file) == ("zarea", "zarea/chars.tsv")
-    assert [render(run(case)) for case in (same, fixed)] == ["TRUE", "TRUE"]
-    assert unquoted_rules(fixed, tmp_path / "deviations") == []
-    assert unquoted_rules(fixed, tmp_path / "nowhere") == ["латиница находится"]

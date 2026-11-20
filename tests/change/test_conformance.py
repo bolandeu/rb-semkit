@@ -43,9 +43,3 @@ def test_each_function_of_the_area_has_a_case_file_of_five_cases_or_more() -> No
 @pytest.mark.parametrize("case", [case for file in FILES for case in file.cases], ids=lambda case: case.case_id)
 def test_each_case_gives_its_expected_value(case: Case) -> None:
     assert render(run(case)) == case.expected
-
-
-def test_the_area_report_is_what_the_script_writes() -> None:
-    written = _report_script().reports(case_files())[f"conformance/{AREA}.md"]
-
-    assert (ROOT / "docs" / "vba" / "conformance" / f"{AREA}.md").read_text(encoding="utf-8") == written

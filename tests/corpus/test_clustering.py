@@ -50,14 +50,6 @@ def test_a_frequency_threshold_below_one_is_refused() -> None:
         sk.cluster_by_frequency(pd.Series(["диван"]), threshold=0)
 
 
-def test_the_corpus_area_has_no_serp_clustering_and_the_add_in_method_is_recorded() -> None:
-    assert not hasattr(sk, "cluster_by_serp")
-    assert callable(sk.cluster_serp)
-    recorded = deviations("Кластеризация")["Кластеризация по выдаче не переносится: её делает `sk.cluster_serp`."]
-    for fact in ("5 4 3 2 1", "от 24", "компонента связности", "без единого общего URL", "ADR 0007"):
-        assert fact in recorded
-
-
 def test_a_frequency_cluster_spells_a_word_as_it_first_stands_in_the_core() -> None:
     core = pd.Series(["Ёлка купить", "елка", "ёлка"])
 

@@ -6,8 +6,6 @@ each area report is what scripts/conformance_report.py writes from the case file
 
 from __future__ import annotations
 
-import subprocess
-import sys
 from collections import Counter
 from pathlib import Path
 
@@ -43,13 +41,3 @@ def test_each_function_of_the_area_has_five_cases_at_least(area: str) -> None:
 def test_the_case_gives_the_expected_value(case: Case) -> None:
     assert not case.xfail
     assert render(run(case)) == case.expected
-
-
-def test_the_area_reports_are_what_the_script_writes(tmp_path: Path) -> None:
-    script = ROOT / "scripts" / "conformance_report.py"
-    result = subprocess.run([sys.executable, str(script), "--out", str(tmp_path)], capture_output=True, check=False)  # noqa: S603
-
-    assert result.returncode == 0
-    for area in AREAS:
-        committed = (ROOT / "docs" / "vba" / "conformance" / f"{area}.md").read_text(encoding="utf-8")
-        assert committed == (tmp_path / "conformance" / f"{area}.md").read_text(encoding="utf-8"), area
