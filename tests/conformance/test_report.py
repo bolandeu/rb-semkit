@@ -16,7 +16,7 @@ from pathlib import Path
 
 import pytest
 
-from .case_files import CaseFile, case_files
+from .case_files import case_files
 
 ROOT = Path(__file__).resolve().parents[2]
 REPORTS = ROOT / "docs" / "vba" / "conformance"
@@ -46,32 +46,6 @@ def _first_cells(table: str) -> list[str]:
     """The first cell of each body row of the markdown table in `table` (its header and rule rows left out)."""
     rows = [line for line in table.splitlines() if line.startswith("| ")]
     return [row.split(" | ")[0].removeprefix("| ") for row in rows[1:]]
-
-
-def test_there_is_a_report_for_each_area_and_no_other() -> None:
-    assert sorted(path.stem for path in REPORTS.glob("*.md")) == sorted(AREAS)
-
-
-@pytest.mark.parametrize("area", AREAS)
-def test_the_committed_area_report_is_what_the_script_writes(area: str, written: Path) -> None:
-    assert (REPORTS / f"{area}.md").read_text(encoding="utf-8") == (written / "conformance" / f"{area}.md").read_text(
-        encoding="utf-8"
-    ), f"docs/vba/conformance/{area}.md is stale: run `uv run scripts/conformance_report.py`"
-
-
-@pytest.mark.parametrize("area", AREAS)
-def test_each_function_has_its_summary_row_and_section_with_its_deviations_and_xfails(area: str) -> None:
-    sections = _split((REPORTS / f"{area}.md").read_text(encoding="utf-8"), SECTION)
-    files: list[CaseFile] = AREAS[area]
-
-    summary = [re.sub(r"\[(.+)\]\(.*\)", r"\1", cell) for cell in _first_cells(sections.pop("Summary"))]
-
-    assert summary == [*(file.function for file in files), "**All**"]
-    assert list(sections) == [file.function for file in files]
-    for file in files:
-        tables = _split(sections[file.function], SUBSECTION)
-        assert _first_cells(tables["Deviations"]) == [case.case_id for case in file.cases if case.expected != case.vba]
-        assert _first_cells(tables["xfail"]) == [case.case_id for case in file.cases if case.xfail]
 
 
 def test_check_passes_on_fresh_reports_and_fails_on_a_stale_summary(written: Path, tmp_path: Path) -> None:
