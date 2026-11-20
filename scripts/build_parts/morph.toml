@@ -3,6 +3,7 @@
 # why: what lemms.tsv gives. A wordform is in one line only.
 
 corrections = [
+  { lemma = "китай", pos = "n", wordforms = ["китае", "китаев", "китаем", "китай", "китаю", "китая"], why = "lemms.tsv: the lemma китаев (the country)" },
   { lemma = "кафе", pos = "n", wordforms = ["кафе"], why = "lemms.tsv: the lemma кафа (the town Kaffa)" },
   { lemma = "купе", pos = "n", wordforms = ["купе"], why = "lemms.tsv: the lemma купа" },
   { lemma = "мини", pos = "n", wordforms = ["мини"], why = "lemms.tsv: the lemma минь" },

@@ -721,6 +721,30 @@
     "reason": "a corrected wordform: its line of morph.toml replaces it"
    },
    {
+    "item": "китаев\tкитае",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "китаев\tкитаев",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "китаев\tкитаем",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "китаев\tкитай",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "китаев\tкитаю",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "китаев\tкитая",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
     "item": "купа\tкупе",
     "reason": "a corrected wordform: its line of morph.toml replaces it"
    },
@@ -1029,6 +1053,30 @@
    {
     "item": "кафе\tкафе",
     "reason": "lemms.tsv: the lemma кафа (the town Kaffa)"
+   },
+   {
+    "item": "китай\tкитае",
+    "reason": "lemms.tsv: the lemma китаев (the country)"
+   },
+   {
+    "item": "китай\tкитаев",
+    "reason": "lemms.tsv: the lemma китаев (the country)"
+   },
+   {
+    "item": "китай\tкитаем",
+    "reason": "lemms.tsv: the lemma китаев (the country)"
+   },
+   {
+    "item": "китай\tкитай",
+    "reason": "lemms.tsv: the lemma китаев (the country)"
+   },
+   {
+    "item": "китай\tкитаю",
+    "reason": "lemms.tsv: the lemma китаев (the country)"
+   },
+   {
+    "item": "китай\tкитая",
+    "reason": "lemms.tsv: the lemma китаев (the country)"
    },
    {
     "item": "купе\tкупе",
@@ -2958,6 +3006,30 @@
     "reason": "a corrected wordform: its line of morph.toml replaces it"
    },
    {
+    "item": "китае\tкитаев\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "китаев\tкитаев\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "китаем\tкитаев\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "китай\tкитаев\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "китаю\tкитаев\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
+    "item": "китая\tкитаев\tn",
+    "reason": "a corrected wordform: its line of morph.toml replaces it"
+   },
+   {
     "item": "купе\tкупа\tn",
     "reason": "a corrected wordform: its line of morph.toml replaces it"
    },
@@ -3298,6 +3370,30 @@
    {
     "item": "кафе\tкафе\tn",
     "reason": "lemms.tsv: the lemma кафа (the town Kaffa)"
+   },
+   {
+    "item": "китае\tкитай\tn",
+    "reason": "lemms.tsv: the lemma китаев (the country)"
+   },
+   {
+    "item": "китаев\tкитай\tn",
+    "reason": "lemms.tsv: the lemma китаев (the country)"
+   },
+   {
+    "item": "китаем\tкитай\tn",
+    "reason": "lemms.tsv: the lemma китаев (the country)"
+   },
+   {
+    "item": "китай\tкитай\tn",
+    "reason": "lemms.tsv: the lemma китаев (the country)"
+   },
+   {
+    "item": "китаю\tкитай\tn",
+    "reason": "lemms.tsv: the lemma китаев (the country)"
+   },
+   {
+    "item": "китая\tкитай\tn",
+    "reason": "lemms.tsv: the lemma китаев (the country)"
    },
    {
     "item": "купе\tкупе\tn",
