@@ -2366,9 +2366,31 @@ wheels = [
 ]
 
 [[package]]
+name = "rb-credentials"
+source = { editable = "../rb-credentials" }
+dependencies = [
+    { name = "pydantic" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "keyring", marker = "extra == 'keyring'", specifier = ">=25.0" },
+    { name = "pydantic", specifier = ">=2.10,<3" },
+]
+provides-extras = ["keyring"]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "keyring", specifier = ">=25.0" },
+    { name = "pytest", specifier = ">=8.0" },
+    { name = "pytest-cov", specifier = ">=5.0" },
+    { name = "ruff", specifier = ">=0.6" },
+    { name = "ty" },
+]
+
+[[package]]
 name = "rb-dataio"
-version = "0.1.35"
-source = { registry = "https://pypi.org/simple" }
+source = { editable = "../rb-dataio" }
 dependencies = [
     { name = "duckdb" },
     { name = "google-auth", extra = ["requests"] },
@@ -2381,14 +2403,42 @@ dependencies = [
     { name = "platformdirs" },
     { name = "pydantic" },
     { name = "python-calamine" },
+    { name = "rb-credentials" },
     { name = "rich" },
     { name = "tomli-w" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/81/e5/8898ecaccf663c42aa114a9d3f0471d8860cfe2f29e4e3d21ca19d1d4ee5/rb_dataio-0.1.35.tar.gz", hash = "sha256:8074862aeb554c975b0c874c317f69ad11c2364744524771cbf430c3e9dadee2", size = 220069, upload-time = "2026-11-19T13:37:54.597Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/3c/de/cd710e4c9ee1b05294f415d897855c55dab7175650fb007c8aea0a5b2dee/rb_dataio-0.1.35-py3-none-any.whl", hash = "sha256:199ccf0c0a4fac591fb7b8f535432b323e10aaaa49861d3c6589fe557226c383", size = 142425, upload-time = "2026-11-19T13:37:53.326Z" },
+
+[package.metadata]
+requires-dist = [
+    { name = "duckdb", specifier = ">=1.1" },
+    { name = "google-auth", extras = ["requests"], specifier = ">=2.20" },
+    { name = "gspread", specifier = ">=6.1" },
+    { name = "httpx", specifier = ">=0.27" },
+    { name = "keyring", specifier = ">=25.0" },
+    { name = "openpyxl", specifier = ">=3.1.5" },
+    { name = "packaging", specifier = ">=24.0" },
+    { name = "pandas", specifier = ">=3.0" },
+    { name = "platformdirs", specifier = ">=4.2" },
+    { name = "pydantic", specifier = ">=2.6" },
+    { name = "python-calamine", specifier = ">=0.9.0" },
+    { name = "rb-credentials", editable = "../rb-credentials" },
+    { name = "rich", specifier = ">=13.7" },
+    { name = "tomli-w", specifier = ">=1.0" },
+    { name = "typer", specifier = ">=0.27,<0.29" },
 ]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "jsonschema", specifier = ">=4.23" },
+    { name = "pytest", specifier = ">=8.0" },
+    { name = "pytest-cov", specifier = ">=5.0" },
+    { name = "pyyaml", specifier = ">=6.0" },
+    { name = "ruff", specifier = ">=0.6" },
+    { name = "syrupy", specifier = ">=4.8" },
+    { name = "ty", specifier = ">=0.0.80" },
+]
+mutation = [{ name = "mutmut", specifier = ">=3.3" }]
 
 [[package]]
 name = "rb-semkit"
@@ -2447,7 +2497,7 @@ requires-dist = [
     { name = "pyahocorasick", specifier = ">=2.3.1" },
     { name = "pydantic", specifier = ">=2.6" },
     { name = "pymorphy3", specifier = ">=2.0.6" },
-    { name = "rb-dataio", specifier = ">=0.1.26,<0.2" },
+    { name = "rb-dataio", editable = "../rb-dataio" },
     { name = "rich", specifier = ">=13.7" },
     { name = "selectolax", specifier = ">=1.0.1" },
     { name = "tokenizers", marker = "extra == 'vectors'", specifier = ">=0.23" },
