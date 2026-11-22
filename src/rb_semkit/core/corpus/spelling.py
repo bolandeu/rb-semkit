@@ -4,6 +4,7 @@ phrases themselves; LanguageTool asks a LanguageTool server."""
 from __future__ import annotations
 
 import json
+import os
 import time
 import tomllib
 from bisect import bisect_right
@@ -21,6 +22,8 @@ from ..errors import InvalidArguments, ProviderError
 __all__ = ["LanguageTool", "LanguageToolSettings", "Misspelling", "SpellingProvider"]
 
 SETTINGS = "corpus/languagetool.toml"
+# The server is not ours to bake in: a package ships no address of somebody's machine, the caller names one.
+ENV_VAR = "SEMKIT_LANGUAGETOOL_URL"
 
 
 class Misspelling(NamedTuple):
@@ -58,11 +61,18 @@ class LanguageToolSettings:
 
     @classmethod
     def bundled(cls) -> LanguageToolSettings:
+        """The bundled settings, with the address taken from `SEMKIT_LANGUAGETOOL_URL` unless the file names one.
+
+        A package carries no address of somebody's server: without the variable and without `url` in the file the
+        provider refuses to work and says what to set, instead of inventing a default or failing later on a timeout.
+        """
         path = datastore.DATA_DIR / SETTINGS
         values = tomllib.loads(path.read_text(encoding="utf-8"))
-        missing = [field.name for field in fields(cls) if field.name not in values]
+        values["url"] = values.get("url") or os.environ.get(ENV_VAR, "")
+        missing = [field.name for field in fields(cls) if not values.get(field.name)]
         if missing:
-            raise InvalidArguments(f"{path}: no settings {missing!r}; allowed: a file with every LanguageTool setting.")
+            hint = f" set {ENV_VAR}=https://<host>/v2/check for the address;" if "url" in missing else ""
+            raise InvalidArguments(f"{path}: no settings {missing!r};{hint} every LanguageTool setting is required.")
         return cls(**{field.name: values[field.name] for field in fields(cls)})
 
 

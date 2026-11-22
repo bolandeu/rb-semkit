@@ -1,5 +1,5 @@
-# The LanguageTool spelling server of sk.LanguageTool (docs/plan.md §3a): tailnet only, no auth, owner sysadmin.
-url = "https://homeserver.tailee01ab.ts.net:8010/v2/check"
+# The address of the LanguageTool server is not shipped: it is the caller's (SEMKIT_LANGUAGETOOL_URL, e.g.
+# https://host/v2/check). Everything below is how to talk to any server of that kind.
 language = "ru-RU"
 rules = "MORFOLOGIK_RULE_RU_RU"
 # Seconds to wait for an answer: the server starts on demand, its cold start takes about 15 s.

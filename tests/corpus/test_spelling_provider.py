@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import dataclasses
 import json
+import os
 import threading
 import time
 from collections.abc import Callable, Iterator
@@ -58,6 +59,8 @@ class FakeServer:
 @pytest.fixture
 def serve() -> Iterator[Callable[[Answer], tuple[FakeServer, sk.LanguageTool]]]:
     servers: list[ThreadingHTTPServer] = []
+    # the package ships no address: the fixture names a throwaway one, as every caller must
+    os.environ.setdefault("SEMKIT_LANGUAGETOOL_URL", "http://127.0.0.1:1/v2/check")
 
     def start(answer: Answer) -> tuple[FakeServer, sk.LanguageTool]:
         fake = FakeServer(answer)
@@ -164,7 +167,15 @@ def test_the_bundled_settings_wait_a_minute_for_a_cold_server_and_send_1000_line
 
     assert settings.timeout >= 60
     assert (settings.batch_lines, settings.parallel) == (1000, 2)
-    assert settings.url.startswith("https://")
+
+
+def test_the_address_comes_from_the_environment_and_is_not_shipped(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("SEMKIT_LANGUAGETOOL_URL", "https://lt.example/v2/check")
+    assert sk.LanguageToolSettings.bundled().url == "https://lt.example/v2/check"
+
+    monkeypatch.delenv("SEMKIT_LANGUAGETOOL_URL")
+    with pytest.raises(sk.InvalidArguments, match="SEMKIT_LANGUAGETOOL_URL"):
+        sk.LanguageToolSettings.bundled()
 
 
 def test_an_answer_that_is_no_check_result_raises_a_provider_error(serve) -> None:
