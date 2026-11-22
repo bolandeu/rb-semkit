@@ -172,7 +172,7 @@ uv tool install .
 **Or from the git tag, on any other machine (any OS):**
 
 ```bash
-uv tool install "rb-semkit @ git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/semkit.git@vX.Y.Z"
+uv tool install "rb-semkit @ git+https://github.com/bolandeu/rb-semkit.git@vX.Y.Z"
 ```
 
 Replace `vX.Y.Z` with the latest release tag (never install a branch). This is also how an AI agent

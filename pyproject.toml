@@ -28,7 +28,7 @@ dependencies = [
 semkit = "rb_semkit.cli:main"
 
 [project.urls]
-Repository = "https://homeserver.tailee01ab.ts.net:3000/bolandeu/semkit"
+Repository = "https://github.com/bolandeu/rb-semkit"
 
 [project.optional-dependencies]
 vectors = [

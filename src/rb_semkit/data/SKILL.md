@@ -12,13 +12,12 @@ a pipeline of steps. `semkit --ai` prints this guide followed by every step with
 ## Install (if `semkit --version` fails)
 
 ```bash
-uv tool install rb-semkit --index https://homeserver.tailee01ab.ts.net:3000/api/packages/bolandeu/pypi/simple
 ```
 
 From the git tag instead:
 
 ```bash
-uv tool install "rb-semkit @ git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/semkit.git@vX.Y.Z"
+uv tool install "rb-semkit @ git+https://github.com/bolandeu/rb-semkit.git@vX.Y.Z"
 ```
 
 Replace `vX.Y.Z` with the latest release tag (install from a tag, never a

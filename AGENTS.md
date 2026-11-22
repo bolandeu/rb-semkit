@@ -7,4 +7,4 @@
 
 A worker does not need this section: Antagor cuts it from the worker's brief.
 
-- Releases (until the Human cancels it): the Architect accepts tasks and runs `antagor publish` without asking, after its own check (the gate and a read of the changes since the last tag), and reports the release after. Then it updates the global install: `uv tool install --force "rb-semkit[vectors] @ git+https://homeserver.tailee01ab.ts.net:3000/bolandeu/semkit.git@<tag>"`.
+- Releases (until the Human cancels it): the Architect accepts tasks and runs `antagor publish` without asking, after its own check (the gate and a read of the changes since the last tag), and reports the release after. Then it updates the global install: `uv tool install --force "rb-semkit[vectors] @ git+https://github.com/bolandeu/rb-semkit.git@<tag>"`.
